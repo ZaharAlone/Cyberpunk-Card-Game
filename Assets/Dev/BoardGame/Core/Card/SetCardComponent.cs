@@ -15,9 +15,9 @@ namespace BoardGame.Core
                 Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
                 Price = stats.Price,
                 Type = (CardType)System.Enum.Parse(typeof(CardType), stats.Type),
-                Primary = stats.Primary,
-                Ally = stats.Ally,
-                Scrap = stats.Scrap
+                Ability = stats.Ability,
+                FractionsAbility = stats.FractionsAbility,
+                DropAbility = stats.DropAbility
             };
 
             return component;

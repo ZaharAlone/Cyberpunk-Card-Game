@@ -13,8 +13,8 @@ namespace BoardGame.Core
         public int Price;
         public CardType Type;
 
-        public CurrencyCard Primary;
-        public CurrencyCard Ally;
-        public CurrencyCard Scrap;
+        public AbilityCard Ability;
+        public AbilityCard FractionsAbility;
+        public AbilityCard DropAbility;
     }
 }

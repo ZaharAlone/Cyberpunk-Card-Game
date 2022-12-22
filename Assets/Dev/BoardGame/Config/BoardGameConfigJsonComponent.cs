@@ -5,11 +5,13 @@ using Newtonsoft.Json;
 
 namespace BoardGame
 {
+    [System.Serializable]
     public struct BoardGameConfigJsonComponent
     {
         public List<CardStats> CardConfig;
     }
 
+    [System.Serializable]
     public struct CardStats
     {
         [JsonProperty("name")]
@@ -32,15 +34,16 @@ namespace BoardGame
         [JsonProperty("type")]
         public string Type;
 
-        [JsonProperty("primary")]
-        public CurrencyCard Primary;
-        [JsonProperty("ally")]
-        public CurrencyCard Ally;
-        [JsonProperty("scrap")]
-        public CurrencyCard Scrap;
+        [JsonProperty("ability")]
+        public AbilityCard Ability;
+        [JsonProperty("fractions_ability")]
+        public AbilityCard FractionsAbility;
+        [JsonProperty("drop_ability")]
+        public AbilityCard DropAbility;
     }
 
-    public struct CurrencyCard
+    [System.Serializable]
+    public struct AbilityCard
     {
         [JsonProperty("type")]
         public string Type;

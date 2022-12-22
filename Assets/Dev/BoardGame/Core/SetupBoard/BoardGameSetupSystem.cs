@@ -113,20 +113,45 @@ namespace BoardGame.Core
         //Отрисовываем вьюху кард
         private void SetViewCard(CardMono card, CardStats stats)
         {
+            _boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var cardImage);
 
+            if (stats.Nations != "Neutral")
+            {
+                _boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var nationsImage);
+                card.SetViewCard(cardImage, stats.Header, stats.Price, nationsImage);
+            }
+            else
+                card.SetViewCard(cardImage, stats.Header, stats.Price);
+
+            if (stats.Ability.Type != null)
+            {
+                _boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type, out var currencyImage);
+                card.SetAbility(currencyImage, stats.Ability.Value);
+            }
+
+            if (stats.FractionsAbility.Type != null)
+            {
+                Debug.Log("Enter Fractions");
+                _boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type, out var currencyImage);
+                _boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var nationsImage);
+                card.SetFractionAbiltity(nationsImage, currencyImage, stats.FractionsAbility.Value);
+            }
+
+            if (stats.DropAbility.Type != null)
+            {
+                _boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type, out var currencyImage);
+                card.SetAbility(currencyImage, stats.DropAbility.Value);
+            }
+
+            //card.CardOnBack();
         }
 
         //Тупой копи пастный код который сортирует карты во всех трех колодах.
         #region
         private void SortingShopCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardCloseComponent>()
-                             .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardCloseComponent>()
-                                  .Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardCloseComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardCloseComponent>().Count();
 
             var sorting = SortingCard.Sorting(count);
             var index = 0;
@@ -137,13 +162,8 @@ namespace BoardGame.Core
 
         private void SortingPlayerCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardPlayerComponent>()
-                             .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardPlayerComponent>()
-                                  .Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Count();
 
             var sorting = SortingCard.Sorting(count);
             var index = 0;
@@ -154,13 +174,8 @@ namespace BoardGame.Core
 
         private void SortingEnemyCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardEnemyComponent>()
-                             .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardEnemyComponent>()
-                                  .Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Count();
 
             var sorting = SortingCard.Sorting(count);
             var index = 0;
@@ -173,6 +188,7 @@ namespace BoardGame.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
+
         }
 
         public void Destroy()
