@@ -1,6 +1,6 @@
 namespace BoardGame.Core
 {
-    public struct CardCloseComponent
+    public struct CardSortingIndexComponent
     {
         public int Index;
     }

@@ -44,5 +44,95 @@
       "type": "attack",
       "value": 1
     }
+  },
+  {
+    "name": "corporates_twins",
+    "header": "BoardGameCard/$bgc_corporates_twins",
+    "descr_mini": NaN,
+    "image": "card_corporates_twins",
+    "nations": "Corporates",
+    "price": 1,
+    "count": 3,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 2,
+      "parameter": "discard_opponent_card"
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_engineer",
+    "header": "BoardGameCard/$bgc_corporates_engineer",
+    "descr_mini": NaN,
+    "image": "card_corporates_engineer",
+    "nations": "Corporates",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 1,
+      "parameter": "draw_card"
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_sergeant",
+    "header": "BoardGameCard/$bgc_corporates_sergeant",
+    "descr_mini": NaN,
+    "image": "card_corporates_sergeant",
+    "nations": "Corporates",
+    "price": 3,
+    "count": 3,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 4,
+      "parameter": "discard_opponent_card"
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_head_hunter",
+    "header": "BoardGameCard/$bgc_corporates_head_hunter",
+    "descr_mini": NaN,
+    "image": "card_corporates_head_hunter",
+    "nations": "Corporates",
+    "price": 7,
+    "count": 1,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 7,
+      "parameter": "draw_card"
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 5
+    }
+  },
+  {
+    "name": "guns_pirate",
+    "header": "BoardGameCard/$bgc_guns_pirate",
+    "descr_mini": NaN,
+    "image": "card_guns_pirate",
+    "nations": "Guns",
+    "price": 4,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 5
+    }
   }
 ]

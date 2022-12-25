@@ -4,8 +4,11 @@ namespace BoardGame.Core
 {
     public struct CardComponent
     {
+        public string GUID;
+        public RectTransform RectTransform;
         public GameObject GO;
         public Transform Transform;
+        public CardMono CardMono;
         public CardStats Stats;
 
         public string Key;

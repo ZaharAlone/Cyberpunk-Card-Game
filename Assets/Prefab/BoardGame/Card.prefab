@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640881827990488687}
   - component: {fileID: 397128050539189007}
+  - component: {fileID: 7182529653037277118}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -45,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2e776735923844cbf6e83c8c7fa6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractiveCard: {fileID: 7182529653037277118}
+  RectTransform: {fileID: 0}
   CardFace: {fileID: 640881829316425771}
   CardBack: {fileID: 640881828278170010}
   ImageCard: {fileID: 640881829916318398}
@@ -68,6 +71,19 @@ MonoBehaviour:
     ImageCurrency: {fileID: 5605113342284874901}
     TextCurrency: {fileID: 2109920075357144351}
     TextAbility: {fileID: 723255553825249575}
+--- !u!114 &7182529653037277118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640881827990488686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69837bdff36bc494890f0b29b792b2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GUID: 
 --- !u!1 &640881828186700860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,9 +2188,9 @@ RectTransform:
   m_Father: {fileID: 2016406600983604098}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 102, y: -7.48815}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 204, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1345565396245217456

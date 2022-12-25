@@ -3,10 +3,10 @@ namespace BoardGame
     public enum CardNations
     {
         Neutral,
-        Vikings,
-        Gods,
-        England,
-        Scotland
+        Guns,
+        Corporates,
+        Rebels,
+        Nomads
     }
 
     public enum CardType

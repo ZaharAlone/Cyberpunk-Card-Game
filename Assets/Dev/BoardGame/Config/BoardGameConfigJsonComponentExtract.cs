@@ -15,11 +15,12 @@ namespace BoardGame
     [EcsSystem(typeof(BoardGameModule))]
     public class BoardGameConfigJsonComponentExtract : IPreInitSystem
     {
-        private BoardGameData _boardGameData;
+        private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            var dictionary = JsonConvert.DeserializeObject<List<CardStats>>(_boardGameData.BoardGameConfig.CardConfigJson.text);
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var dictionary = JsonConvert.DeserializeObject<List<CardStats>>(boardGameData.BoardGameConfig.CardConfigJson.text);
             var entity = EcsWorldContainer.World.NewEntity();
 
             var component = new BoardGameConfigJsonComponent();

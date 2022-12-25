@@ -4,13 +4,16 @@ namespace BoardGame.Core
 {
     public static class SetCardComponent
     {
-        public static CardComponent Set(GameObject go, CardStats stats)
+        public static CardComponent Set(GameObject go, CardStats stats, CardMono cardMono)
         {
             var component = new CardComponent
             {
+                GUID = System.Guid.NewGuid().ToString(),
+                RectTransform = cardMono.RectTransform,
                 GO = go,
                 Transform = go.transform,
                 Stats = stats,
+                CardMono = cardMono,
                 Key = stats.Name,
                 Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
                 Price = stats.Price,
@@ -19,6 +22,8 @@ namespace BoardGame.Core
                 FractionsAbility = stats.FractionsAbility,
                 DropAbility = stats.DropAbility
             };
+
+            component.CardMono.InteractiveCard.GUID = component.GUID;
 
             return component;
         }

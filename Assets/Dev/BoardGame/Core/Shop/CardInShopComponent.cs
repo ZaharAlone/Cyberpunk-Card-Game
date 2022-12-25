@@ -1,7 +1,9 @@
+using UnityEngine;
+
 namespace BoardGame.Core
 {
     public struct CardInShopComponent
     {
-        public int Positions;
+        public Vector3 Positions;
     }
 }

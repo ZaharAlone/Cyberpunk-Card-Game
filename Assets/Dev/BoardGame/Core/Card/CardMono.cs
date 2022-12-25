@@ -9,6 +9,9 @@ namespace BoardGame.Core
 {
     public class CardMono : MonoBehaviour
     {
+        public InteractiveCard InteractiveCard;
+        public RectTransform RectTransform;
+
         [Header("Card")]
         public RectTransform CardFace;  
         public RectTransform CardBack;
@@ -26,6 +29,8 @@ namespace BoardGame.Core
         public Image FractionImage;
         public CardAbilityView FractionAbility;
         public CardAbilityView TrashAbility;
+
+        private bool _cardIsBack;
 
         public void SetViewCard(Sprite imageCard, string header, int price = 0, Sprite imageNations = null)
         {
@@ -86,12 +91,21 @@ namespace BoardGame.Core
         {
             CardFace.gameObject.SetActive(false);
             CardBack.gameObject.SetActive(true);
+            _cardIsBack = true;
         }
 
         public void CardOnFace()
         {
+            _cardIsBack = false;
             CardFace.gameObject.SetActive(true);
             CardBack.gameObject.SetActive(false);
+        }
+
+        public void SwitchFaceCard()
+        {
+            CardFace.gameObject.SetActive(_cardIsBack);
+            CardBack.gameObject.SetActive(!_cardIsBack);
+            _cardIsBack = !_cardIsBack;
         }
     }
 }
