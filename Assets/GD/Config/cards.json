@@ -1,153 +1,138 @@
 [
   {
-    "name": "base_drakkar",
-    "header": "BoardGameCard/$bgc_drakkar_header",
-    "descr_mini": "BoardGameCard/$bgc_neutral_mini_desc",
-    "image": "card_drakkar",
-    "nations": "Neutral",
-    "price": 0,
-    "count": 4,
-    "type": "Ship",
-    "primary": {
-      "type": "attack",
-      "value": 1
-    }
-  },
-  {
-    "name": "base_knorr",
-    "header": "BoardGameCard/$bgc_knorr_header",
-    "descr_mini": "BoardGameCard/$bgc_neutral_mini_desc",
-    "image": "card_kronn",
-    "nations": "Neutral",
-    "price": 2,
-    "count": 10,
-    "type": "Ship",
-    "primary": {
-      "type": "trade",
-      "value": 2
-    },
-    "scrap": {
-      "type": "attack",
-      "value": 2
-    }
-  },
-  {
-    "name": "base_fishing_boat",
-    "header": "BoardGameCard/$bgc_fishing_boat_header",
-    "descr_mini": "BoardGameCard/$bgc_neutral_mini_desc",
-    "image": "card_fishing_boat",
+    "name": "base_scout",
+    "header": "BoardGameCard/$bgc_scout_name",
+    "descr_mini": NaN,
+    "image": "card_scout",
     "nations": "Neutral",
     "price": 0,
     "count": 16,
     "type": "Ship",
-    "primary": {
+    "ability": {
       "type": "trade",
       "value": 1
     }
   },
   {
-    "name": "viking_rollo",
-    "header": "BoardGameCard/$bgc_viking_rollo_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_rollo",
-    "nations": "Vikings",
+    "name": "base_explorer",
+    "header": "BoardGameCard/$bgc_explorer_name",
+    "descr_mini": NaN,
+    "image": "card_explorer",
+    "nations": "Neutral",
+    "price": 2,
+    "count": 10,
+    "type": "Ship",
+    "ability": {
+      "type": "trade",
+      "value": 2
+    },
+    "drop_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "base_hunter",
+    "header": "BoardGameCard/$bgc_hunter_name",
+    "descr_mini": NaN,
+    "image": "card_hunter",
+    "nations": "Neutral",
+    "price": 0,
+    "count": 4,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 1
+    }
+  },
+  {
+    "name": "corporates_twins",
+    "header": "BoardGameCard/$bgc_corporates_twins",
+    "descr_mini": NaN,
+    "image": "card_corporates_twins",
+    "nations": "Corporates",
     "price": 1,
     "count": 3,
     "type": "Ship",
-    "primary": {
+    "ability": {
+      "type": "attack",
+      "value": 2,
+      "parameter": "discard_opponent_card"
+    },
+    "fractions_ability": {
       "type": "attack",
       "value": 2
     }
   },
   {
-    "name": "viking_harald",
-    "header": "BoardGameCard/$bgc_viking_harald_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_harald",
-    "nations": "Vikings",
+    "name": "corporates_engineer",
+    "header": "BoardGameCard/$bgc_corporates_engineer",
+    "descr_mini": NaN,
+    "image": "card_corporates_engineer",
+    "nations": "Corporates",
     "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "attack",
+      "value": 1,
+      "parameter": "draw_card"
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_sergeant",
+    "header": "BoardGameCard/$bgc_corporates_sergeant",
+    "descr_mini": NaN,
+    "image": "card_corporates_sergeant",
+    "nations": "Corporates",
+    "price": 3,
     "count": 3,
     "type": "Ship",
-    "primary": {
-      "type": "trade",
-      "value": 3
-    },
-    "ally": {
-      "type": "attack",
-      "value": 2
-    }
-  },
-  {
-    "name": "viking_ragnar",
-    "header": "BoardGameCard/$bgc_viking_ragnar_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_ragnar",
-    "nations": "Vikings",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "primary": {
+    "ability": {
       "type": "attack",
       "value": 4,
-      "parameter": "destroy_trade_card"
+      "parameter": "discard_opponent_card"
     },
-    "ally": {
+    "fractions_ability": {
       "type": "attack",
       "value": 2
     }
   },
   {
-    "name": "viking_bjorn",
-    "header": "BoardGameCard/$bgc_viking_bjorn_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_bjorn",
-    "nations": "Vikings",
-    "price": 3,
-    "count": 2,
+    "name": "corporates_head_hunter",
+    "header": "BoardGameCard/$bgc_corporates_head_hunter",
+    "descr_mini": NaN,
+    "image": "card_corporates_head_hunter",
+    "nations": "Corporates",
+    "price": 7,
+    "count": 1,
     "type": "Ship",
-    "primary": {
+    "ability": {
+      "type": "attack",
+      "value": 7,
+      "parameter": "draw_card"
+    },
+    "fractions_ability": {
       "type": "attack",
       "value": 5
-    },
-    "ally": {
-      "type": "attack",
-      "value": 2
-    },
-    "scrap": {
-      "type": "trade",
-      "value": 3
     }
   },
   {
-    "name": "viking_sigurd",
-    "header": "BoardGameCard/$bgc_viking_sigurd_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_sigurd",
-    "nations": "Vikings",
+    "name": "guns_pirate",
+    "header": "BoardGameCard/$bgc_guns_pirate",
+    "descr_mini": NaN,
+    "image": "card_guns_pirate",
+    "nations": "Guns",
     "price": 4,
     "count": 2,
     "type": "Ship",
-    "primary": {
+    "ability": {
       "type": "attack",
-      "value": 6
-    }
-  },
-  {
-    "name": "viking_lagertha",
-    "header": "BoardGameCard/$bgc_viking_lagertha_header",
-    "descr_mini": "BoardGameCard/$bgc_viking_warrior_mini_desc",
-    "image": "card_viking_lagertha",
-    "nations": "Vikings",
-    "price": 6,
-    "count": 1,
-    "type": "Ship",
-    "primary": {
-      "type": "attack",
-      "value": 8
-    },
-    "scrap": {
-      "type": "attack",
-      "value": 4
+      "value": 5
     }
   }
 ]

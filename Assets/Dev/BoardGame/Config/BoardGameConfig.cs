@@ -24,6 +24,7 @@ namespace BoardGame
         public Vector2 PositionsCardDeskPlayerOne = new Vector2(-1050, 500);
         public Vector2 PositionsCardDeskPlayerTwo = new Vector2(1050, -500);
 
+        public Vector2 PositionsShopDeckCard = new Vector2(-700, 0);
         public Vector2 PositionsShopFirstCard = new Vector2(-700, 0);
         public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
     }

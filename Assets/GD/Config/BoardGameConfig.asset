@@ -13,19 +13,267 @@ MonoBehaviour:
   m_Name: BoardGameConfig
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 01010c0000004e006100740069006f006e00730049006d006100670065002f000000000179000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d002c005b0055006e0069007400790045006e00670069006e0065002e005300700072006900740065002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f010000000159000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00470065006e00650072006900630045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b00530079007300740065006d002e0053007400720069006e0067002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000100000005060000000000000000070501010d000000430075007200720065006e006300790049006d0061006700650030000000000200000009010800000063006f006d0070006100720065007200010000000600000000000000000705010109000000430061007200640049006d0061006700650030000000000300000009010800000063006f006d0070006100720065007200010000000600000000000000000705
-    ReferencedUnityObjects: []
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: a686c011e13e02c4bb21fa2c65f75304, type: 3}
+    - {fileID: 21300000, guid: a792e0e5b42f8644981310bee60ec643, type: 3}
+    - {fileID: 21300000, guid: 0e9e63021f6bf7f46a408c2d4d6455d6, type: 3}
+    - {fileID: 21300000, guid: 6626fe5e11c6869478c4440dc0d720d6, type: 3}
+    - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
+    - {fileID: 21300000, guid: fbb0e82ae7f1c494a9eab82ebb8efdee, type: 3}
+    - {fileID: 21300000, guid: 0b4e8bc197be4fe40927330126fcddd0, type: 3}
+    - {fileID: 21300000, guid: f3cab4d2747f63b42b3694a1f8c69ab5, type: 3}
+    - {fileID: 21300000, guid: aebacf4ed3f20f143a7d1a6abcdf27f6, type: 3}
+    - {fileID: 21300000, guid: bfea836db7ab14241854c523e9c97a91, type: 3}
+    - {fileID: 21300000, guid: 95bf6280311d3a64481a45901c814c49, type: 3}
+    - {fileID: 21300000, guid: 74fb007300fc47045b608e50aaf3f2b7, type: 3}
+    - {fileID: 21300000, guid: 4b9f2990f45d8f74c86fee8185668eb9, type: 3}
+    - {fileID: 21300000, guid: 51bb0f6d394ebdd4ca1546265857d213, type: 3}
+    - {fileID: 21300000, guid: 4309aac1de757e245a794500c4895668, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: NationsImage
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Guns
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Corporates
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Rebels
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Nomads
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CurrencyImage
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: attack
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: trade
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: influence
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CardImage
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_scout
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_explorer
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_hunter
+    - Name: $v
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_twins
+    - Name: $v
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_engineer
+    - Name: $v
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_sergeant
+    - Name: $v
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_head_hunter
+    - Name: $v
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_pirate
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   TablePrefab: {fileID: 5185846423585439056, guid: 6f4a5c9a6b1bbd247922d63c41470cea,
     type: 3}
   CardMono: {fileID: 397128050539189007, guid: e52fb57fcd59ce8478e09352bf232527, type: 3}
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
-  PositionsCardDeskPlayerOne: {x: -1050, y: 500}
-  PositionsCardDeskPlayerTwo: {x: 1050, y: -500}
-  PositionsShopFirstCard: {x: -700, y: 0}
-  PositionsShopNeutralCard: {x: -1050, y: 0}
+  PositionsCardDeskPlayerOne: {x: 830, y: -350}
+  PositionsCardDeskPlayerTwo: {x: -830, y: 350}
+  PositionsShopDeckCard: {x: -605, y: 0}
+  PositionsShopFirstCard: {x: -410, y: 0}
+  PositionsShopNeutralCard: {x: -830, y: 0}

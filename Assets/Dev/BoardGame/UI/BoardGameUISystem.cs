@@ -1,18 +1,25 @@
-using System.Collections;
+using EcsCore;
+using ModulesFramework.Attributes;
+using ModulesFramework.Data;
+using ModulesFramework.Systems;
+using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISystem : MonoBehaviour
+namespace BoardGame.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    [EcsSystem(typeof(BoardGameModule))]
+    public class BoardGameUISystem : IInitSystem
     {
-        
-    }
+        private DataWorld _dataWorld;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Init()
+        {
+            var gameUI = _dataWorld.GetOneData<BoardGameUIComponent>().GetData();
+            var camera = _dataWorld.GetOneData<BoardGameCameraComponent>().GetData();
+
+            var canvas = gameUI.UIGO.GetComponent<Canvas>();
+            canvas.worldCamera = camera.MainCamera;
+        }
     }
 }

@@ -4,8 +4,11 @@ namespace BoardGame.Core
 {
     public struct CardComponent
     {
+        public string GUID;
+        public RectTransform RectTransform;
         public GameObject GO;
         public Transform Transform;
+        public CardMono CardMono;
         public CardStats Stats;
 
         public string Key;
@@ -13,8 +16,8 @@ namespace BoardGame.Core
         public int Price;
         public CardType Type;
 
-        public CurrencyCard Primary;
-        public CurrencyCard Ally;
-        public CurrencyCard Scrap;
+        public AbilityCard Ability;
+        public AbilityCard FractionsAbility;
+        public AbilityCard DropAbility;
     }
 }
