@@ -2,9 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BoardGame.Core
 {
@@ -15,7 +12,7 @@ namespace BoardGame.Core
 
         public void Init()
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
             var countCardInShop = _dataWorld.Select<CardComponent>()
                              .With<CardInShopComponent>()
                              .Count();
@@ -23,34 +20,23 @@ namespace BoardGame.Core
             if (countCardInShop == boardGameData.BoardGameRule.OpenCardInShop)
                 return;
 
-            Entity selectEntity = new Entity();
-            var minIndex = Mathf.Infinity;
-
-            for (int i = countCardInShop; i < boardGameData.BoardGameRule.OpenCardInShop; i++)
+            for (var i = countCardInShop; i < boardGameData.BoardGameRule.OpenCardInShop; i++)
             {
-                var cardInDeckEntities = _dataWorld.Select<CardComponent>()
+                var entities = _dataWorld.Select<CardComponent>()
                                                      .With<CardInDeckComponent>()
                                                      .With<CardSortingIndexComponent>()
                                                      .GetEntities();
 
-                foreach (var entity in cardInDeckEntities)
-                {
-                    ref var cardComponent = ref entity.GetComponent<CardSortingIndexComponent>();
-                    if (cardComponent.Index <= minIndex)
-                    {
-                        minIndex = cardComponent.Index;
-                        selectEntity = entity;
-                    }
-                }
-                AddShopCard(selectEntity, countCardInShop);
-                minIndex++;
+                var id = SortingCard.SelectCard(entities);
+                AddShopCard(id, countCardInShop);
                 countCardInShop++;
             }
         }
 
-        private void AddShopCard(Entity entity, int countCardInShop)
+        private void AddShopCard(int entityId, int countCardInShop)
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var entity = _dataWorld.GetEntity(entityId);
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
             entity.RemoveComponent<CardInDeckComponent>();
             var pos = boardGameData.BoardGameConfig.PositionsShopFirstCard;
             pos.x += 20 + countCardInShop * 225;
@@ -60,6 +46,5 @@ namespace BoardGame.Core
             cardComponent.Transform.position = pos;
             cardComponent.CardMono.CardOnFace();
         }
-
     }
 }

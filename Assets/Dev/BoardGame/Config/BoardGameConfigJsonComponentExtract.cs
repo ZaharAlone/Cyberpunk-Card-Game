@@ -21,11 +21,7 @@ namespace BoardGame
         {
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             var dictionary = JsonConvert.DeserializeObject<List<CardStats>>(boardGameData.BoardGameConfig.CardConfigJson.text);
-            var entity = EcsWorldContainer.World.NewEntity();
-
-            var component = new BoardGameConfigJsonComponent();
-            component.CardConfig = dictionary;
-            entity.AddComponent(component);
+            _dataWorld.CreateOneData(new BoardGameConfigJson { CardConfig = dictionary });
         }
     }
 }
