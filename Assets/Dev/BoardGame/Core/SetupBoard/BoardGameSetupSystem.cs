@@ -35,16 +35,13 @@ namespace BoardGame.Core
         //Инициализируем все карты
         private void SetupCard()
         {
-            if (!_dataWorld.Select<BoardGameConfigJsonComponent>().Any())
-                return;
-
-            _dataWorld.TrySelectFirst<BoardGameConfigJsonComponent>(out var component);
+            var json = _dataWorld.OneData<BoardGameConfigJson>();
 
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             var cards = Object.Instantiate(new GameObject());
             cards.name = "Cards";
 
-            foreach (var card in component.CardConfig)
+            foreach (var card in json.CardConfig)
             {
                 for (var i = 0; i < card.Count; i++)
                 {

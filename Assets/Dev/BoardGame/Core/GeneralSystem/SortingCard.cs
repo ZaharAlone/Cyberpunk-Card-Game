@@ -1,4 +1,5 @@
 using ModulesFramework.Data.Enumerators;
+using UnityEngine;
 
 namespace BoardGame.Core
 {
@@ -39,6 +40,22 @@ namespace BoardGame.Core
             }
 
             return sorting;
+        }
+
+        public static int SelectCard(EntitiesEnumerable entities)
+        {
+            var id = 0;
+            var minIndex = Mathf.Infinity;
+            foreach (var entity in entities)
+            {
+                ref var cardComponent = ref entity.GetComponent<CardSortingIndexComponent>();
+                if (cardComponent.Index < minIndex)
+                {
+                    minIndex = cardComponent.Index;
+                    id = entity.Id;
+                }
+            }
+            return id;
         }
     }
 }

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace BoardGame
 {
     [System.Serializable]
-    public struct BoardGameConfigJsonComponent
+    public struct BoardGameConfigJson
     {
         public List<CardStats> CardConfig;
     }
@@ -49,7 +49,7 @@ namespace BoardGame
         public string Type;
         [JsonProperty("value")]
         public int Value;
-        //[JsonProperty("parameter")]
-        //public string Parameter;
+        [JsonProperty("parameter")]
+        public string Parameter;
     }
 }
