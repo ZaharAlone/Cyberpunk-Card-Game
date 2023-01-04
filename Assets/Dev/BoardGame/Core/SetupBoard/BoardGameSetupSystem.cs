@@ -115,6 +115,9 @@ namespace BoardGame.Core
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var cardImage);
 
+            if (cardImage == null)
+                Debug.Log($"Card is name: {stats.ImageKey}");
+
             if (stats.Nations != "Neutral")
             {
                 boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);

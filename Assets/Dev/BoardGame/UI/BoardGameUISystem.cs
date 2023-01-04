@@ -6,7 +6,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(BoardGameModule))]
     public class BoardGameUISystem : IInitSystem
