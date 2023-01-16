@@ -38,8 +38,7 @@ namespace BoardGame.Core
             var json = _dataWorld.OneData<BoardGameConfigJson>();
 
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
-            var cards = Object.Instantiate(new GameObject());
-            cards.name = "Cards";
+            var cards = new GameObject { name = "Cards" };
 
             foreach (var card in json.CardConfig)
             {

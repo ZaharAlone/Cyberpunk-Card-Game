@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
+using BoardGame.Core.UI;
 
 namespace BoardGame.Core
 {
@@ -27,7 +28,6 @@ namespace BoardGame.Core
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
-                    Debug.Log("Get Card");
                     var playerEntities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Without<CardInDropComponent>().Without<CardInHandComponent>().GetEntities();
                     var id = SortingCard.SelectCard(playerEntities);
                     AddCard(id);
@@ -35,15 +35,22 @@ namespace BoardGame.Core
             }
             else
             {
-
+                for (int i = 0; i < eventValue.Count; i++)
+                {
+                    var enemyEntities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Without<CardInDropComponent>().Without<CardInHandComponent>().GetEntities();
+                    var id = SortingCard.SelectCard(enemyEntities);
+                    AddCard(id);
+                }
             }
+
+            _dataWorld.CreateOneFrame().AddComponent(new EventUpdateHandUI());
         }
         
         private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
             entity.AddComponent(new CardInHandComponent());
-            var pos = new Vector2(0, -250);
+            var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.Transform.position = pos;

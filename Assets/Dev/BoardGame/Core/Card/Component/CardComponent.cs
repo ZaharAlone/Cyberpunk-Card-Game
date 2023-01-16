@@ -5,7 +5,7 @@ namespace BoardGame.Core
     public struct CardComponent
     {
         public string GUID;
-        public RectTransform RectTransform;
+        public Canvas Canvas;
         public GameObject GO;
         public Transform Transform;
         public CardMono CardMono;

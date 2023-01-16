@@ -28,6 +28,8 @@ namespace BoardGame
         public Vector2 PositionsShopFirstCard = new Vector2(-700, 0);
         public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
 
+        public Vector2 PlayerHandPosition = new Vector2(0, -330);
+
         [Header("Size")]
         public float SizeCardInPlayer = 0.5f;
         public float SizeCardInPlayerTable = 0.5f;
