@@ -1,3 +1,4 @@
+using BoardGame.Core.UI;
 using EcsCore;
 using Input;
 using ModulesFramework.Attributes;
@@ -19,15 +20,12 @@ namespace BoardGame.Core
 
         private void InteractiveCard(bool isActive, string guid, string key)
         {
-            var entities = _dataWorld.Select<CardComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().Where<CardComponent>(card => card.GUID == guid).GetEntities();
 
             foreach (var entity in entities)
             {
-                if (entity.GetComponent<CardComponent>().GUID == guid)
-                {
-                    Interactive(isActive, entity, key);
-                    break;
-                }
+                Interactive(isActive, entity, key);
+                break;
             }
         }
 
@@ -77,16 +75,23 @@ namespace BoardGame.Core
 
         private void CheckEndPosition(Entity entity)
         {
-            var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
+            var componentMove = entity.GetComponent<InteractiveMoveComponent>();
+            var componentCard = entity.GetComponent<CardComponent>();
+            var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
 
-            if (moveComponent.StartCardPosition.y > 150)
+            if (distance > 150)
             {
-
+                entity.RemoveComponent<CardInHandComponent>();
+                entity.AddComponent(new CardInDeckComponent());
+                _dataWorld.CreateOneFrame().AddComponent(new EventUpdateBoardCardUI());
             }
             else
             {
-
+                var card = entity.GetComponent<CardComponent>();
+                var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
+                card.Transform.position = pos;
             }
+            _dataWorld.CreateOneFrame().AddComponent(new EventUpdateHandUI());
         }
 
         public void Destroy()

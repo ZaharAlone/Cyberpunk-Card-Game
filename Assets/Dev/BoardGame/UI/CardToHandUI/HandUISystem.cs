@@ -24,6 +24,14 @@ namespace BoardGame.Core.UI
             var countCardInPlayerHand = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().Count();
             var entities = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
 
+            foreach (var entity in entities)
+            {
+                var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
+                ref var card = ref entity.GetComponent<CardComponent>();
+                card.Transform.rotation = Quaternion.identity;
+                card.Transform.position = pos;
+            }
+
             var stepAngle = 10f;
             var stepPosX = 170f;
             var angle = (float)(countCardInPlayerHand - 1) / 2 * (stepAngle);

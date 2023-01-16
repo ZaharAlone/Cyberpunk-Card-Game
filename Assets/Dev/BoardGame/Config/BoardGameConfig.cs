@@ -29,10 +29,11 @@ namespace BoardGame
         public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
 
         public Vector2 PlayerHandPosition = new Vector2(0, -330);
+        public Vector2 PlayerCardPositionInPlay = new Vector2(0, -120);
 
         [Header("Size")]
         public float SizeCardInPlayer = 0.5f;
-        public float SizeCardInPlayerTable = 0.5f;
+        public float SizeCardInPlayerDeck = 0.5f;
         public float SizeCardInNeutralShop = 0.8f;
     }
 }

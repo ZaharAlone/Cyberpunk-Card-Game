@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Sirenix.OdinInspector.Editor;
 
 namespace BoardGame.Core.UI
 {
@@ -16,5 +15,6 @@ namespace BoardGame.Core.UI
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
+        public Transform ContainerForCard;
     }
 }
