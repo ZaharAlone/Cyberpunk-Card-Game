@@ -15,6 +15,5 @@ namespace BoardGame.Core.UI
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
-        public Transform ContainerForCard;
     }
 }

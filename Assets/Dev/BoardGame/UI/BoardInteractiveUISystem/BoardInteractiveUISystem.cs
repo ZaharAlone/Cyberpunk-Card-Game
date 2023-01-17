@@ -42,18 +42,25 @@ namespace BoardGame.Core.UI
 
         private void UpdateUI()
         {
+            var countCard = _dataWorld.Select<CardPlayerComponent>().With<CardComponent>().With<CardInDeckComponent>().Count();
             var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var ui = _dataWorld.OneData<BoardGameUIComponent>();
+
+            Debug.Log(countCard);
+            var width = (204 + 30) * (countCard - 1);
+            var start_point = width / -2;
+            Debug.Log(start_point);
 
             foreach (var entity in entities)
             {
                 ref var card = ref entity.GetComponent<CardComponent>();
                 card.Transform.rotation = Quaternion.identity;
                 card.Transform.position = config.PlayerCardPositionInPlay;
+                var pos = card.Transform.position;
+                pos.x = start_point;
+                card.Transform.position = pos;
 
-                //card.Transform.localScale = new Vector3(config.SizeCardInPlayerDeck, config.SizeCardInPlayerDeck, config.SizeCardInPlayerDeck);
-                card.Transform.SetParent(ui.UIMono.InteractiveZoneImage.transform);
+                start_point += (204 + 30);
             }
         }
     }
