@@ -137,7 +137,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: attack
+      Data: Attack
     - Name: $v
       Entry: 10
       Data: 4
@@ -149,7 +149,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: trade
+      Data: Trade
     - Name: $v
       Entry: 10
       Data: 5
@@ -161,7 +161,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: influence
+      Data: Influence
     - Name: $v
       Entry: 10
       Data: 6
@@ -508,10 +508,11 @@ MonoBehaviour:
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
   PositionsCardDeskPlayerOne: {x: 830, y: 400}
   PositionsCardDeskPlayerTwo: {x: 830, y: -100}
-  PositionsShopDeckCard: {x: -605, y: 140}
-  PositionsShopFirstCard: {x: -410, y: 140}
+  PositionsShopDeckCard: {x: -605, y: 250}
+  PositionsShopFirstCard: {x: -410, y: 250}
   PositionsShopNeutralCard: {x: -830, y: 140}
-  PlayerHandPosition: {x: 0, y: -330}
+  PlayerHandPosition: {x: 0, y: -420}
+  PlayerCardPositionInPlay: {x: 0, y: -120}
   SizeCardInPlayer: 0.5
-  SizeCardInPlayerTable: 0.5
+  SizeCardInPlayerDeck: 0.5
   SizeCardInNeutralShop: 0.8

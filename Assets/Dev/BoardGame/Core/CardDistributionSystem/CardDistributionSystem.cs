@@ -2,28 +2,24 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using UnityEngine;
 using BoardGame.Core.UI;
 
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class CardDistributionSystem : IPostRunSystem
+    public class CardDistributionSystem : IPostRunEventSystem<EventDistributionCard>
     {
         private DataWorld _dataWorld;
 
-        public void PostRun()
+        public void PostRunEvent(EventDistributionCard value)
         {
-            var countEvent = _dataWorld.Select<EventDistributionCard>().Count();
-
-            if (countEvent > 0)
-                DistributionCard();                
+            DistributionCard(value);
         }
 
-        private void DistributionCard()
+        private void DistributionCard(EventDistributionCard eventValue)
         {
-            _dataWorld.TrySelectFirst<EventDistributionCard>(out var eventValue);
-
             if (eventValue.Target == PlayerEnum.Player)
             {
                 for (int i = 0; i < eventValue.Count; i++)
@@ -43,7 +39,7 @@ namespace BoardGame.Core
                 }
             }
 
-            _dataWorld.CreateOneFrame().AddComponent(new EventUpdateHandUI());
+            _dataWorld.RiseEvent(new EventUpdateHandUI());
         }
         
         private void AddCard(int entityId)

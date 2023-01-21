@@ -20,7 +20,10 @@ namespace BoardGame.Core
 
         private void InteractiveCard(bool isActive, string guid, string key)
         {
-            var entities = _dataWorld.Select<CardComponent>().Where<CardComponent>(card => card.GUID == guid).GetEntities();
+            var entities = _dataWorld.Select<CardComponent>()
+                .With<CardInHandComponent>()
+                .Where<CardComponent>(card => card.GUID == guid)
+                .GetEntities();
 
             foreach (var entity in entities)
             {
@@ -83,7 +86,7 @@ namespace BoardGame.Core
             {
                 entity.RemoveComponent<CardInHandComponent>();
                 entity.AddComponent(new CardInDeckComponent());
-                _dataWorld.CreateOneFrame().AddComponent(new EventUpdateBoardCardUI());
+                _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else
             {
@@ -91,7 +94,7 @@ namespace BoardGame.Core
                 var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
                 card.Transform.position = pos;
             }
-            _dataWorld.CreateOneFrame().AddComponent(new EventUpdateHandUI());
+            _dataWorld.RiseEvent(new EventUpdateHandUI());
         }
 
         public void Destroy()

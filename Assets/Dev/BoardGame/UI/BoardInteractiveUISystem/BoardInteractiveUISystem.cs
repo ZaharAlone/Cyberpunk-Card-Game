@@ -2,6 +2,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class BoardInteractiveSystem : IRunSystem, IPostRunSystem
+    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>
     {
         private DataWorld _dataWorld;
 
@@ -32,13 +33,7 @@ namespace BoardGame.Core.UI
             }
         }
 
-        public void PostRun()
-        {
-            var updateUI = _dataWorld.Select<EventUpdateBoardCardUI>().Count();
-
-            if (updateUI > 0)
-                UpdateUI();
-        }
+        public void PostRunEvent(EventUpdateBoardCard _) => UpdateUI();
 
         private void UpdateUI()
         {
@@ -46,10 +41,8 @@ namespace BoardGame.Core.UI
             var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            Debug.Log(countCard);
             var width = (204 + 30) * (countCard - 1);
             var start_point = width / -2;
-            Debug.Log(start_point);
 
             foreach (var entity in entities)
             {

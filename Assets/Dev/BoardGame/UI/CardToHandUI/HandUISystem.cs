@@ -2,22 +2,17 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using UnityEngine;
 
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class HandUISystem : IPostRunSystem
+    public class HandUISystem : IPostRunEventSystem<EventUpdateHandUI>
     {
         private DataWorld _dataWorld;
 
-        public void PostRun()
-        {
-            var updateUI = _dataWorld.Select<EventUpdateHandUI>().Count();
-
-            if (updateUI > 0)
-                UpdateUI();
-        }
+        public void PostRunEvent(EventUpdateHandUI _) => UpdateUI();
 
         private void UpdateUI()
         {

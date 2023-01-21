@@ -2,20 +2,21 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using UnityEngine;
 
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class RoundSystem : IInitSystem, IPostRunSystem
+    public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void Activate()
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = PlayerEnum.Player });
-            _dataWorld.CreateOneFrame().AddComponent(new EventDistributionCard { Target = PlayerEnum.Player, Count = rules.CardInHandFirstPlayerOneRound });
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player, Count = rules.CardInHandFirstPlayerOneRound });
         }
         //¬ключать когда подготовлю сервер, выбор первого игрока
         private PlayerEnum SelectFirstTurn()
@@ -27,11 +28,7 @@ namespace BoardGame.Core
                 return PlayerEnum.Enemy;
         }
 
-        public void PostRun()
-        {
-            if (_dataWorld.Select<EventEndCurrentTurn>().Count() > 0)
-                SwitchRound();
-        }
+        public void PostRunEvent(EventEndCurrentTurn _) => SwitchRound();
 
         private void SwitchRound()
         {
@@ -50,7 +47,7 @@ namespace BoardGame.Core
                 roundData.CurrentPlayer = PlayerEnum.Player;
 
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.CreateOneFrame().AddComponent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.BaseCountDropCard });
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.BaseCountDropCard });
         }
     }
 }

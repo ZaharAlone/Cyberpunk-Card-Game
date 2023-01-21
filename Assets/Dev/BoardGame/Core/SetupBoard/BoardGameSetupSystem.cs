@@ -125,22 +125,22 @@ namespace BoardGame.Core
             else
                 card.SetViewCard(cardImage, stats.Header, stats.Price);
 
-            if (stats.Ability.Type != null)
+            if (stats.Ability.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type.ToString(), out var currencyImage);
                 card.SetAbility(currencyImage, stats.Ability.Value);
             }
 
-            if (stats.FractionsAbility.Type != null)
+            if (stats.FractionsAbility.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type.ToString(), out var currencyImage);
                 boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
                 card.SetFractionAbiltity(nationsImage, currencyImage, stats.FractionsAbility.Value);
             }
 
-            if (stats.DropAbility.Type != null)
+            if (stats.DropAbility.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type.ToString(), out var currencyImage);
                 card.SetAbility(currencyImage, stats.DropAbility.Value);
             }
 

@@ -15,5 +15,11 @@ namespace BoardGame.Core.UI
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
+
+        public void SetInteractiveValue(int attackValue, int tradeValue)
+        {
+            ValueAttackText.text = attackValue.ToString();
+            ValueTradeText.text = tradeValue.ToString();
+        }
     }
 }
