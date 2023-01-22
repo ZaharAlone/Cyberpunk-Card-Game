@@ -21,5 +21,20 @@ namespace BoardGame.Core.UI
             ValueAttackText.text = attackValue.ToString();
             ValueTradeText.text = tradeValue.ToString();
         }
+
+        public void SetInteractiveButton(string text)
+        {
+            ActionButtonText.text = text;
+        }
+
+        public void ShowInteractiveButton()
+        {
+            ActionButton.SetActive(true);
+        }
+
+        public void HideInteractiveButton()
+        {
+            ActionButton.SetActive(false);
+        }
     }
 }

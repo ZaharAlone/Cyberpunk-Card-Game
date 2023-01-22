@@ -4,7 +4,6 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using UnityEngine;
-using BoardGame.Core.UI;
 
 namespace BoardGame.Core
 {
@@ -45,7 +44,7 @@ namespace BoardGame.Core
                 }
             }
 
-            _dataWorld.RiseEvent(new EventBoardGameUIUpdate());
+            _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
         private void ClearTotalData()

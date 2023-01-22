@@ -196,7 +196,6 @@ namespace BoardGame.Core
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsShopNeutralCard;
                 component.CardMono.CardOnFace();
             }
-
         }
 
         public void Destroy()

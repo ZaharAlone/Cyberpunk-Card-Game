@@ -2,12 +2,13 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using UnityEngine;
 
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class CardShopSystem : IInitSystem
+    public class CardShopSystem : IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
@@ -46,6 +47,30 @@ namespace BoardGame.Core
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.Transform.position = pos;
             cardComponent.CardMono.CardOnFace();
+        }
+
+        public void PostRunEvent(EventBoardGameUpdate _)
+        {
+            ClearComponentInShop();
+
+            var enteties = _dataWorld.Select<CardInShopComponent>().GetEntities();
+            var action = _dataWorld.OneData<ActionData>();
+            var tradePoint = action.TotalTrade - action.SpendTrade;
+
+            foreach (var entity in enteties)
+            {
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+
+                if (cardComponent.Stats.Price <= tradePoint)
+                    entity.AddComponent(new CardInFreeToBuyComponent());
+            }
+        }
+
+        private void ClearComponentInShop()
+        {
+            var enteties = _dataWorld.Select<CardInFreeToBuyComponent>().GetEntities();
+            foreach (var entity in enteties)
+                entity.RemoveComponent<CardInFreeToBuyComponent>();
         }
     }
 }

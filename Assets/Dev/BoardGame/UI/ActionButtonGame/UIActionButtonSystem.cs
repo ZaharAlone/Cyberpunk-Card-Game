@@ -16,21 +16,47 @@ namespace BoardGame.Core.UI
         public void Run()
         {
             var round = _dataWorld.OneData<RoundData>();
-            if (round.CurrentPlayer != PlayerEnum.Player)
-                return;
+            var ui = _dataWorld.OneData<BoardGameUIComponent>();
 
+            if (round.CurrentPlayer != PlayerEnum.Player)
+            {
+                ui.UIMono.HideInteractiveButton();
+                return;
+            }
+
+            var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            var actionPlayer = _dataWorld.OneData<ActionData>();
             var cardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().Count();
+
+            ui.UIMono.ShowInteractiveButton();
 
             if (cardInHand > 0)
             {
-                //Status button action - выложить карты
+                ui.UIMono.SetInteractiveButton(config.ActionPlayAll);
+            }
+            else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
+            {
+                ui.UIMono.SetInteractiveButton(config.ActionAttack);
             }
             else
             {
-                //Если есть атака, и атаковать возможно - атаковать
+                ui.UIMono.SetInteractiveButton(config.ActionEndTurn);
             }
+        }
 
-            //закончить ход
+        private void PlayAll()
+        {
+
+        }
+
+        private void Attack()
+        {
+
+        }
+
+        private void EndTurn()
+        {
+
         }
     }
 }

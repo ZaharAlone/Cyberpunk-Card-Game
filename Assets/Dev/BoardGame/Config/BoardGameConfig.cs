@@ -20,6 +20,9 @@ namespace BoardGame
         public Dictionary<string, Sprite> CurrencyImage;
         public Dictionary<string, Sprite> CardImage;
 
+        [Header("View Card")]
+        public GameObject ViewCardCanvas;
+
         [Header("Positions")]
         public Vector2 PositionsCardDeskPlayerOne = new Vector2(-1050, 500);
         public Vector2 PositionsCardDeskPlayerTwo = new Vector2(1050, -500);

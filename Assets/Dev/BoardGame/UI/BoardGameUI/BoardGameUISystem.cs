@@ -10,7 +10,7 @@ using UnityEngine;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class BoardGameUISystem : IInitSystem, IPostRunEventSystem<EventBoardGameUIUpdate>
+    public class BoardGameUISystem : IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
@@ -23,7 +23,7 @@ namespace BoardGame.Core.UI
             canvas.worldCamera = camera.MainCamera;
         }
 
-        public void PostRunEvent(EventBoardGameUIUpdate _) => UpdateUI();
+        public void PostRunEvent(EventBoardGameUpdate _) => UpdateUI();
 
         private void UpdateUI()
         {

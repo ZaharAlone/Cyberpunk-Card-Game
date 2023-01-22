@@ -8,20 +8,23 @@ namespace BoardGame.Core
     {
         public string GUID;
 
-        private bool _isMoveStarted;
         public Vector2 CurrentPointerPos { get; private set; }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _isMoveStarted = true;
+            if (eventData.button != PointerEventData.InputButton.Left)
+                return;
+
             CurrentPointerPos = eventData.pressPosition;
-            InteractiveActionCard.InteractiveCard?.Invoke(_isMoveStarted, GUID, eventData.button.ToString());
+            InteractiveActionCard.StartInteractiveCard?.Invoke(GUID);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _isMoveStarted = false;
-            InteractiveActionCard.InteractiveCard?.Invoke(_isMoveStarted, GUID, eventData.button.ToString());
+            if (eventData.button != PointerEventData.InputButton.Left)
+                return;
+
+            InteractiveActionCard.EndInteractiveCard?.Invoke();
         }
     }
 }
