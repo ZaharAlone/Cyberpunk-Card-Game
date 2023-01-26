@@ -11,6 +11,7 @@ namespace BoardGame.Core
     {
         public InteractiveCard InteractiveCard;
         public Canvas Canvas;
+        public GameObject VFXIsInteractiveCard;
 
         [Header("Card")]
         public RectTransform CardFace;  
@@ -109,6 +110,12 @@ namespace BoardGame.Core
             CardFace.gameObject.SetActive(_cardIsBack);
             CardBack.gameObject.SetActive(!_cardIsBack);
             _cardIsBack = !_cardIsBack;
+        }
+
+        public void SetStatusInteractiveVFX(bool status)
+        {
+            Debug.Log($"Set status VFX {status}");
+            VFXIsInteractiveCard.SetActive(status);
         }
     }
 }
