@@ -127,7 +127,6 @@ namespace BoardGame.Core.UI
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
-            await Task.Delay(5);
             _dataWorld.RiseEvent(new EventEndCurrentTurn());
         }
     }
