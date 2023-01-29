@@ -14,7 +14,12 @@ namespace BoardGame.Core.UI
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventUpdateBoardCard _) => UpdateVFX();
+        public void PostRunEvent(EventUpdateBoardCard _)
+        {
+            var roundData = _dataWorld.OneData<RoundData>();
+            if (roundData.CurrentPlayer == PlayerEnum.Player)
+                UpdateVFX();
+        }
 
         private void UpdateVFX()
         {
@@ -27,28 +32,24 @@ namespace BoardGame.Core.UI
 
             foreach (var entity in entitiesCardInHand)
             {
-                Debug.Log("Enter card in hand");
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(true);
             }
             
             foreach (var entity in entitiesCardInDeck)
             {
-                Debug.Log("Enter card in hand");
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
             
             foreach (var entity in entitiesCardInDrop)
             {
-                Debug.Log("Enter card in hand");
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
             
             foreach (var entity in entitiesCardInShop)
             {
-                Debug.Log("Enter card in hand");
                 ref var component = ref entity.GetComponent<CardComponent>();
                 if (component.Price <= valueTrade)
                     component.CardMono.SetStatusInteractiveVFX(true);

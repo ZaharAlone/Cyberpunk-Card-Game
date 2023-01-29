@@ -1,18 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+using EcsCore;
+using ModulesFramework.Attributes;
+using ModulesFramework.Data;
+using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using UnityEngine;
+using System;
+using System.Threading.Tasks;
 
-public class EnemyAISystem : MonoBehaviour
+namespace BoardGame.Core.Enemy
 {
-    // Start is called before the first frame update
-    void Start()
+    [EcsSystem(typeof(BoardGameModule))]
+    public class EnemyAISystem : IPostRunEventSystem<EventEndCurrentTurn>
     {
-        
-    }
+        private DataWorld _dataWorld;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void PostRunEvent(EventEndCurrentTurn value)
+        {
+            var roundData = _dataWorld.OneData<RoundData>();
+
+            if (roundData.CurrentPlayer == PlayerEnum.Enemy)
+                StartTurn();
+        }
+
+        private async void StartTurn()
+        {
+            Debug.Log("Enter Start Turn Enemy");
+            await Task.Delay(2000);
+            PlayAll();
+            await Task.Delay(2000);
+            SelectTradeCard();
+            await Task.Delay(2000);
+            _dataWorld.RiseEvent(new EventActionAttack());
+            await Task.Delay(2000);
+            _dataWorld.RiseEvent(new EventActionEndTurn());
+        }
+
+        private void PlayAll()
+        {
+            Debug.Log("Enemy Play All Card");
+            var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardHandComponent>().GetEntities();
+
+            foreach (var entity in entities)
+            {
+                entity.RemoveComponent<CardHandComponent>();
+                entity.AddComponent(new CardDeckComponent());
+            }
+
+            _dataWorld.RiseEvent(new EventUpdateBoardCard());
+        }
+
+        private void SelectTradeCard()
+        {
+
+        }
     }
 }

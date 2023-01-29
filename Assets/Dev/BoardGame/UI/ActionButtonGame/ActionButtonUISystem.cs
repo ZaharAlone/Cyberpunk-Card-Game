@@ -2,14 +2,16 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class ActionButtonUISystem : IInitSystem, IRunSystem
+    public class ActionButtonUISystem : IInitSystem, IRunSystem, IPostRunEventSystem<EventActionAttack>, IPostRunEventSystem<EventActionEndTurn>
     {
         private DataWorld _dataWorld;
 
@@ -52,6 +54,9 @@ namespace BoardGame.Core.UI
             }
         }
 
+        public void PostRunEvent(EventActionAttack _) => Attack();
+        public void PostRunEvent(EventActionEndTurn _) => EndTurn();
+
         private void ClickButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
@@ -84,18 +89,28 @@ namespace BoardGame.Core.UI
 
         private void Attack()
         {
-            ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
-            ref var enemyStats = ref _dataWorld.OneData<EnemyStatsData>();
-            var valueAttack = actionPlayer.TotalAttack - actionPlayer.SpendAttack;
+            ref var actionData = ref _dataWorld.OneData<ActionData>();
+            var roundData = _dataWorld.OneData<RoundData>();
+            var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
 
-            enemyStats.Influence -= valueAttack;
-            actionPlayer.SpendAttack += valueAttack;
+            if (roundData.CurrentPlayer == PlayerEnum.Player)
+            {
+                ref var enemyStats = ref _dataWorld.OneData<EnemyStatsData>();
+                enemyStats.Influence -= valueAttack;
+            }
+            else
+            {
+                ref var playerStats = ref _dataWorld.OneData<PlayerStatsData>();
+                playerStats.Influence -= valueAttack;
+            }
+
+            actionData.SpendAttack += valueAttack;
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
-        private void EndTurn()
+        private async void EndTurn()
         {
-            var cardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+            var cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in cardInHand)
             {
@@ -103,7 +118,7 @@ namespace BoardGame.Core.UI
                 entity.AddComponent(new CardDiscardComponent());
             }
 
-            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
+            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
 
             foreach (var entity in cardInDeck)
             {
@@ -111,6 +126,8 @@ namespace BoardGame.Core.UI
                 entity.AddComponent(new CardDiscardComponent());
             }
 
+            _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            await Task.Delay(5);
             _dataWorld.RiseEvent(new EventEndCurrentTurn());
         }
     }

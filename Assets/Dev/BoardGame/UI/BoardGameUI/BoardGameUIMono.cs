@@ -8,6 +8,8 @@ namespace BoardGame.Core.UI
 {
     public class BoardGameUIMono : MonoBehaviour
     {
+        public RectTransform UIRect;
+
         public TextMeshProUGUI ValueAttackText;
         public TextMeshProUGUI ValueTradeText;
         public Image InteractiveZoneImage;

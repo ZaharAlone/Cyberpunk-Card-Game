@@ -26,7 +26,7 @@ namespace BoardGame.Core.UI
         public void PostRunEvent(EventBoardGameUpdate _)
         {
             UpdatePlayerCurrency();
-            UpdateStatsPlayer();
+            UpdateStatsPlayers();
         }
 
         private void UpdatePlayerCurrency()
@@ -40,7 +40,7 @@ namespace BoardGame.Core.UI
             gameUI.UIMono.SetInteractiveValue(attackValue, tradeValue);
         }
 
-        private void UpdateStatsPlayer()
+        private void UpdateStatsPlayers()
         {
             ref var playerStats = ref _dataWorld.OneData<PlayerStatsData>();
             ref var enemyStats = ref _dataWorld.OneData<EnemyStatsData>();

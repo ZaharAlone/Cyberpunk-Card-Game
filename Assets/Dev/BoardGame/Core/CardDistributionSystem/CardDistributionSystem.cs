@@ -24,35 +24,122 @@ namespace BoardGame.Core
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
-                    var playerEntities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Without<CardDiscardComponent>().Without<CardHandComponent>().GetEntities();
+                    var countPlayerEntities = _dataWorld.Select<CardComponent>()
+                               .With<CardPlayerComponent>()
+                               .Without<CardDiscardComponent>()
+                               .Without<CardHandComponent>()
+                               .Count();
+
+                    if (countPlayerEntities == 0)
+                        SortingDiscardPlayer();
+
+                    var playerEntities = _dataWorld.Select<CardComponent>()
+                                                   .With<CardPlayerComponent>()
+                                                   .Without<CardDiscardComponent>()
+                                                   .Without<CardHandComponent>()
+                                                   .GetEntities();
+
                     var id = SortingCard.SelectCard(playerEntities);
-                    AddCard(id);
+                    AddCard(id, PlayerEnum.Player);
                 }
             }
             else
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
-                    var enemyEntities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Without<CardDiscardComponent>().Without<CardHandComponent>().GetEntities();
+                    var countEnemyEntities = _dataWorld.Select<CardComponent>()
+                              .With<CardEnemyComponent>()
+                              .Without<CardDiscardComponent>()
+                              .Without<CardHandComponent>()
+                              .Count();
+
+                    if (countEnemyEntities == 0)
+                        SortingDiscardEnemy();
+
+                    var enemyEntities = _dataWorld.Select<CardComponent>()
+                                                  .With<CardEnemyComponent>()
+                                                  .Without<CardDiscardComponent>()
+                                                  .Without<CardHandComponent>()
+                                                  .GetEntities();
+
                     var id = SortingCard.SelectCard(enemyEntities);
-                    AddCard(id);
+                    AddCard(id, PlayerEnum.Enemy);
                 }
             }
 
             _dataWorld.RiseEvent(new EventUpdateHandUI());
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
-        
-        private void AddCard(int entityId)
+
+        private void AddCard(int entityId, PlayerEnum targetPlayer)
         {
             var entity = _dataWorld.GetEntity(entityId);
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             entity.AddComponent(new CardHandComponent());
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            cardComponent.Transform.position = config.PlayerHandPosition;
-            cardComponent.Transform.localScale = config.NormalSize;
-            cardComponent.CardMono.CardOnFace();
+            if (targetPlayer == PlayerEnum.Player)
+            {
+                cardComponent.Transform.position = config.PlayerHandPosition;
+                cardComponent.Transform.localScale = config.NormalSize;
+                cardComponent.CardMono.CardOnFace();
+            }
+            else
+            {
+                cardComponent.Transform.position = config.PlayerHandPosition;
+            }
+        }
+
+        private void SortingDiscardPlayer()
+        {
+            var discardCard = _dataWorld.Select<CardComponent>()
+                                        .With<CardPlayerComponent>()
+                                        .With<CardDiscardComponent>()
+                                        .GetEntities();
+
+            foreach (var entity in discardCard)
+                entity.RemoveComponent<CardDiscardComponent>();
+
+            var deckCard = _dataWorld.Select<CardComponent>()
+                                     .With<CardPlayerComponent>()
+                                     .Without<CardDiscardComponent>()
+                                     .Without<CardHandComponent>()
+                                     .GetEntities();
+
+            var count = _dataWorld.Select<CardComponent>()
+                                  .With<CardPlayerComponent>()
+                                  .Without<CardDiscardComponent>()
+                                  .Without<CardHandComponent>()
+                                  .Count();
+
+            SortingCard.FirstSorting(count, deckCard);
+            _dataWorld.RiseEvent(new EventUpdateStackCard());
+        }
+
+        private void SortingDiscardEnemy()
+        {
+            var discardCard = _dataWorld.Select<CardComponent>()
+                                        .With<CardEnemyComponent>()
+                                        .With<CardDiscardComponent>()
+                                        .GetEntities();
+
+            foreach (var entity in discardCard)
+                entity.RemoveComponent<CardDiscardComponent>();
+
+            var deckCard = _dataWorld.Select<CardComponent>()
+                                     .With<CardEnemyComponent>()
+                                     .Without<CardDiscardComponent>()
+                                     .Without<CardHandComponent>()
+                                     .GetEntities();
+
+            var count = _dataWorld.Select<CardComponent>()
+                                  .With<CardEnemyComponent>()
+                                  .Without<CardDiscardComponent>()
+                                  .Without<CardHandComponent>()
+                                  .Count();
+
+            SortingCard.FirstSorting(count, deckCard);
+            _dataWorld.RiseEvent(new EventUpdateStackCard());
         }
     }
 }

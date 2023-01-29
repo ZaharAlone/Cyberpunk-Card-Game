@@ -183,7 +183,7 @@ namespace BoardGame.Core
             foreach (var entity in entitiesPlayer)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayerOne;
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
                 component.Transform.localScale = targetSizeDeckCard;
             }
 
@@ -191,7 +191,7 @@ namespace BoardGame.Core
             foreach (var entity in entitiesEnemy)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayerTwo;
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
                 component.Transform.localScale = targetSizeDeckCard;
             }
 

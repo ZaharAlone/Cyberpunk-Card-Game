@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
+using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 
 namespace BoardGame.Core.UI
@@ -16,21 +17,36 @@ namespace BoardGame.Core.UI
 
         private void UpdateUI()
         {
-            var countCardInPlayerHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
-            var entities = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+            var round = _dataWorld.OneData<RoundData>();
+            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var uiRect = _dataWorld.OneData<BoardGameUIComponent>().UIMono.UIRect;
 
+            if (round.CurrentPlayer == PlayerEnum.Player)
+            {
+                var countCardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
+                var entities = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+                var position = new Vector2(0, -uiRect.rect.height / 2 + 142);
+                UpdateView(entities, countCardInHand, position, config.StepPosXPlayer);
+            }
+            else
+            {
+                var countCardInHand = _dataWorld.Select<CardEnemyComponent>().With<CardHandComponent>().Count();
+                var entities = _dataWorld.Select<CardEnemyComponent>().With<CardHandComponent>().GetEntities();
+                var position = new Vector2(0, uiRect.rect.height / 2 - 142 * config.SizeCardEnemy.y);
+                UpdateView(entities, countCardInHand, position, config.StepPosXEnemy);
+            }
+        }
+
+        private void UpdateView(EntitiesEnumerable entities, int countCardInHand, Vector2 position, float stepX)
+        {
             foreach (var entity in entities)
             {
-                var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
                 ref var card = ref entity.GetComponent<CardComponent>();
                 card.Transform.rotation = Quaternion.identity;
-                card.Transform.position = pos;
+                card.Transform.position = position;
             }
 
-            var stepAngle = 10f;
-            var stepPosX = 170f;
-            var angle = (float)(countCardInPlayerHand - 1) / 2 * (stepAngle);
-            var posX = (float)(countCardInPlayerHand - 1) / 2 * (-stepPosX);
+            var posX = (float)(countCardInHand - 1) / 2 * (-stepX);
 
             var index = 0;
             foreach (var entity in entities)
@@ -40,15 +56,10 @@ namespace BoardGame.Core.UI
                 cardComponent.Transform.position = new Vector3(cardComponent.Transform.position.x + posX,
                                                                cardComponent.Transform.position.y,
                                                                cardComponent.Transform.position.z);
-
-                cardComponent.Transform.eulerAngles = new Vector3(cardComponent.Transform.eulerAngles.x,
-                                                                  cardComponent.Transform.eulerAngles.y,
-                                                                  cardComponent.Transform.eulerAngles.z + angle);
                 cardComponent.Canvas.sortingOrder = 2 + index;
                 index++;
 
-                posX += stepPosX;
-                angle -= stepAngle;
+                posX += stepX;
             }
         }
     }

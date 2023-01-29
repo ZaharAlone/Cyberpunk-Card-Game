@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class ActionSystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
+    public class ActionSystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventEndCurrentTurn>
     {
         private DataWorld _dataWorld;
 
@@ -18,13 +18,14 @@ namespace BoardGame.Core
         }
 
         public void PostRunEvent(EventUpdateBoardCard _) => CalculateValueCard();
+        public void PostRunEvent(EventEndCurrentTurn _) => ClearAction();
 
         private void CalculateValueCard()
         {
             ClearTotalData();
 
             ref var actionData = ref _dataWorld.OneData<ActionData>();
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
@@ -52,6 +53,17 @@ namespace BoardGame.Core
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             actionData.TotalAttack = 0;
             actionData.TotalTrade = 0;
+            actionData.TotalInfluence = 0;
+        }
+
+        private void ClearAction()
+        {
+            ref var actionData = ref _dataWorld.OneData<ActionData>();
+            actionData.TotalAttack = 0;
+            actionData.TotalTrade = 0;
+            actionData.TotalInfluence = 0;
+            actionData.SpendAttack = 0;
+            actionData.SpendTrade = 0;
             actionData.TotalInfluence = 0;
         }
     }
