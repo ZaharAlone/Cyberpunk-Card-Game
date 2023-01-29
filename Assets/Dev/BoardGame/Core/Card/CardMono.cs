@@ -117,5 +117,15 @@ namespace BoardGame.Core
             Debug.Log($"Set status VFX {status}");
             VFXIsInteractiveCard.SetActive(status);
         }
+
+        public void HideCard()
+        {
+            Canvas.gameObject.SetActive(false);
+        }
+
+        public void ShowCard()
+        {
+            Canvas.gameObject.SetActive(true);
+        }
     }
 }

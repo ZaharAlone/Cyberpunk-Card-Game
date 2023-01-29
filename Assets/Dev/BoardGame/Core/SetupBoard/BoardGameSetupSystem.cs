@@ -54,7 +54,7 @@ namespace BoardGame.Core
 
                     if (card.Nations != "Neutral")
                     {
-                        entity.AddComponent(new CardDeckComponent());
+                        entity.AddComponent(new CardTradeDeckComponent());
                     }
                     else
                     {
@@ -151,8 +151,8 @@ namespace BoardGame.Core
         #region
         private void SortingShopCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().Count();
             SortingCard.FirstSorting(count, entities);
         }
 
@@ -176,21 +176,31 @@ namespace BoardGame.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
+            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeckAndDrop;
+
             var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
             foreach (var entity in entitiesPlayer)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsCardDeskPlayerOne;
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayerOne;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
 
             var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
             foreach (var entity in entitiesEnemy)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsCardDeskPlayerTwo;
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayerTwo;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
 
-            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
+            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
             foreach (var entity in entitiesDeck)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsShopDeckCard;
+                entity.GetComponent<CardComponent>().CardMono.HideCard();
 
-            var entitiesNeytral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
-            foreach (var entity in entitiesNeytral)
+            var entitiesNeutral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
+            foreach (var entity in entitiesNeutral)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsShopNeutralCard;

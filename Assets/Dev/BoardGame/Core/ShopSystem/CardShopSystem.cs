@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BoardGame.Core
@@ -17,6 +18,12 @@ namespace BoardGame.Core
             CheckPoolShopCard();
         }
 
+        public void PostRunEvent(EventBoardGameUpdate _)
+        {
+            CheckPoolShopCard();
+            SelectCardFreeToBuy();
+        }
+
         private void CheckPoolShopCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
@@ -27,40 +34,59 @@ namespace BoardGame.Core
             if (countCardInShop == boardGameData.BoardGameRule.OpenCardInShop)
                 return;
 
-            for (var i = countCardInShop; i < boardGameData.BoardGameRule.OpenCardInShop; i++)
+            var freeCell = GetFreeSlotInTradeRow();
+
+            for (var i = 0; i < freeCell.Count; i++)
             {
                 var entities = _dataWorld.Select<CardComponent>()
-                                                     .With<CardDeckComponent>()
+                                                     .With<CardTradeDeckComponent>()
                                                      .With<CardSortingIndexComponent>()
-                                                     .Without<CardPlayerComponent>()
-                                                     .Without<CardEnemyComponent>()
                                                      .GetEntities();
 
                 var id = SortingCard.SelectCard(entities);
-                Debug.Log(id);
-                AddShopCard(id, countCardInShop);
-                countCardInShop++;
+                AddTradeRowCard(id, freeCell[i]);
             }
+
+            _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
-        private void AddShopCard(int entityId, int countCardInShop)
+        private List<int> GetFreeSlotInTradeRow()
+        {
+            var entitiesCardInTradeRow = _dataWorld.Select<CardComponent>()
+                 .With<CardTradeRowComponent>()
+                 .GetEntities();
+
+            var fullIndex = new List<int>();
+            foreach (var entity in entitiesCardInTradeRow)
+            {
+                ref var component = ref entity.GetComponent<CardTradeRowComponent>();
+                fullIndex.Add(component.Index);
+            }
+
+            var correctCell = new List<int> { 0, 1, 2, 3, 4 };
+
+            foreach (var index in fullIndex)
+            {
+                correctCell.Remove(index);
+            }
+
+            return correctCell;
+        }
+
+        private void AddTradeRowCard(int entityId, int indexPositionCard)
         {
             var entity = _dataWorld.GetEntity(entityId);
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            entity.RemoveComponent<CardDeckComponent>();
+            entity.RemoveComponent<CardTradeDeckComponent>();
+
             var pos = boardGameData.BoardGameConfig.PositionsShopFirstCard;
-            pos.x += 20 + countCardInShop * 225;
-            entity.AddComponent(new CardTradeRowComponent { Positions = pos });
+            pos.x += 20 + indexPositionCard * 225;
+            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard, Positions = pos });
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.Transform.position = pos;
+            cardComponent.CardMono.ShowCard();
             cardComponent.CardMono.CardOnFace();
-        }
-
-        public void PostRunEvent(EventBoardGameUpdate _)
-        {
-            CheckPoolShopCard();
-            SelectCardFreeToBuy();
         }
 
         private void SelectCardFreeToBuy()

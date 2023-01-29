@@ -64,12 +64,21 @@ namespace BoardGame.Core.UI
         private void UpdateDrop()
         {
             var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
-            var targetPos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerCardDropPosition;
+            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var targetPos = config.PlayerCardDiscardPosition;
+            var targetSize = config.SizeCardInDeckAndDrop;
 
             foreach (var entity in entities)
             {
-                ref var component = ref entity.GetComponent<CardComponent>();
-                component.GO.transform.position = targetPos;
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                ref var discardCard = ref entity.GetComponent<CardDiscardComponent>();
+                cardComponent.GO.transform.position = targetPos;
+                cardComponent.GO.transform.localScale = targetSize;
+
+                if (discardCard.IsLast)
+                    cardComponent.CardMono.Canvas.sortingOrder = 3;
+                else
+                    cardComponent.CardMono.Canvas.sortingOrder = 2;
             }
         }
     }

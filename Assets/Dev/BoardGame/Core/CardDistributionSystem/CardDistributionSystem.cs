@@ -46,11 +46,12 @@ namespace BoardGame.Core
         private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
+            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             entity.AddComponent(new CardHandComponent());
-            var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            cardComponent.Transform.position = pos;
+            cardComponent.Transform.position = config.PlayerHandPosition;
+            cardComponent.Transform.localScale = config.NormalSize;
             cardComponent.CardMono.CardOnFace();
         }
     }

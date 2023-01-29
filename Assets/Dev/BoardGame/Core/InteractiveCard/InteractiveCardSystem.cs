@@ -164,7 +164,8 @@ namespace BoardGame.Core
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
                 entity.AddComponent(new CardPlayerComponent());
-                entity.AddComponent(new CardDiscardComponent());
+                ClearViewDropItem();
+                entity.AddComponent(new CardDiscardComponent { IsLast = true });
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else
@@ -174,6 +175,16 @@ namespace BoardGame.Core
             }
 
             entity.RemoveComponent<InteractiveMoveComponent>();
+        }
+
+        private void ClearViewDropItem()
+        {
+            var entitiesCard = _dataWorld.Select<CardDiscardComponent>().With<CardPlayerComponent>().GetEntities();
+            foreach (var entity in entitiesCard)
+            {
+                ref var component = ref entity.GetComponent<CardDiscardComponent>();
+                component.IsLast = false;
+            }
         }
 
         public void Destroy()
