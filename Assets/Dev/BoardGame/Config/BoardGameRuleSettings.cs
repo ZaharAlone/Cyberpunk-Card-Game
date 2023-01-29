@@ -11,6 +11,7 @@ namespace BoardGame
         [Header ("Базовые параметры игрока")]
         public List<Cards> BasePoolCard = new List<Cards>();
         public int BaseInfluenceCount = 50;
+        public int BaseCyberpsychosisCount = 0;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]

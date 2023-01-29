@@ -33,6 +33,7 @@ namespace BoardGame
 
         public Vector2 PlayerHandPosition = new Vector2(0, -330);
         public Vector2 PlayerCardPositionInPlay = new Vector2(0, -120);
+        public Vector2 PlayerCardDropPosition;
 
         [Header("Size")]
         public float SizeCardInPlayer = 0.5f;

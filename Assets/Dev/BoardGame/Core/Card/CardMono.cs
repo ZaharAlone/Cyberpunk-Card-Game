@@ -9,7 +9,7 @@ namespace BoardGame.Core
 {
     public class CardMono : MonoBehaviour
     {
-        public InteractiveCard InteractiveCard;
+        public InteractiveCardMono InteractiveCard;
         public Canvas Canvas;
         public GameObject VFXIsInteractiveCard;
 

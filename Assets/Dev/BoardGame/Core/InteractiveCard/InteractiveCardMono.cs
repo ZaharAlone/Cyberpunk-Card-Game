@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace BoardGame.Core
 {
-    public class InteractiveCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class InteractiveCardMono : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         public string GUID;
 

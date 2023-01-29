@@ -162,8 +162,10 @@ namespace BoardGame.Core
             {
                 ref var actionValue = ref _dataWorld.OneData<ActionData>();
                 actionValue.SpendTrade += componentCard.Price;
+                entity.RemoveComponent<CardInShopComponent>();
+                entity.AddComponent(new CardPlayerComponent());
+                entity.AddComponent(new CardInDropComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
-                Debug.Log("Buy Card");
             }
             else
             {

@@ -40,6 +40,7 @@ namespace BoardGame.Core
             }
 
             _dataWorld.RiseEvent(new EventUpdateHandUI());
+            _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
         
         private void AddCard(int entityId)

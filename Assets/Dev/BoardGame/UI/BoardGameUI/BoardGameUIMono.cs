@@ -12,6 +12,10 @@ namespace BoardGame.Core.UI
         public TextMeshProUGUI ValueTradeText;
         public Image InteractiveZoneImage;
 
+        [Header("Stats Players")]
+        public TextMeshProUGUI PlayerStats;
+        public TextMeshProUGUI EnemyStats;
+
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
@@ -20,6 +24,16 @@ namespace BoardGame.Core.UI
         {
             ValueAttackText.text = attackValue.ToString();
             ValueTradeText.text = tradeValue.ToString();
+        }
+
+        public void SetPlayerStats(int influenceValue)
+        {
+            PlayerStats.text = influenceValue.ToString();
+        }
+
+        public void SetEnemyStats(int influenceValue)
+        {
+            EnemyStats.text = influenceValue.ToString();
         }
 
         public void SetInteractiveButton(string text)
@@ -35,6 +49,11 @@ namespace BoardGame.Core.UI
         public void HideInteractiveButton()
         {
             ActionButton.SetActive(false);
+        }
+
+        public void OnClickActionButton()
+        {
+            ActionButtonEvent.ClickActionButton?.Invoke();
         }
     }
 }

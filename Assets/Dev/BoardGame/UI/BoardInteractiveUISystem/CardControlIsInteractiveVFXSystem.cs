@@ -18,14 +18,12 @@ namespace BoardGame.Core.UI
 
         private void UpdateVFX()
         {
-            Debug.Log("UPdateVFX");
             var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
-            //var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
-            //var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardInShopComponent>().GetEntities();
-            //var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDropComponent>().GetEntities();
-            //var actionValue = _dataWorld.OneData<ActionData>();
-            //var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
-
+            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
+            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDropComponent>().GetEntities();
+            var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardInShopComponent>().GetEntities();
+            var actionValue = _dataWorld.OneData<ActionData>();
+            var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)
             {
@@ -33,7 +31,7 @@ namespace BoardGame.Core.UI
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(true);
             }
-            /*
+            
             foreach (var entity in entitiesCardInDeck)
             {
                 Debug.Log("Enter card in hand");
@@ -47,6 +45,7 @@ namespace BoardGame.Core.UI
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
+            
             foreach (var entity in entitiesCardInShop)
             {
                 Debug.Log("Enter card in hand");
@@ -56,7 +55,6 @@ namespace BoardGame.Core.UI
                 else
                     component.CardMono.SetStatusInteractiveVFX(false);
             }
-            */
         }
     }
 }

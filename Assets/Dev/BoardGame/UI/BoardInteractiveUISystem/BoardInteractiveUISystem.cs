@@ -33,9 +33,13 @@ namespace BoardGame.Core.UI
             }
         }
 
-        public void PostRunEvent(EventUpdateBoardCard _) => UpdateUI();
+        public void PostRunEvent(EventUpdateBoardCard _)
+        {
+            UpdateDeck();
+            UpdateDrop();
+        }
 
-        private void UpdateUI()
+        private void UpdateDeck()
         {
             var countCard = _dataWorld.Select<CardPlayerComponent>().With<CardComponent>().With<CardInDeckComponent>().Count();
             var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
@@ -54,6 +58,18 @@ namespace BoardGame.Core.UI
                 card.Transform.position = pos;
 
                 start_point += (204 + 30);
+            }
+        }
+
+        private void UpdateDrop()
+        {
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDropComponent>().GetEntities();
+            var targetPos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerCardDropPosition;
+
+            foreach (var entity in entities)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.GO.transform.position = targetPos;
             }
         }
     }

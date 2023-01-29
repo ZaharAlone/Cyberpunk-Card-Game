@@ -11,5 +11,7 @@ namespace BoardGame.Core
         public int SpendAttack;
         public int SpendTrade;
         public int SpendInfluence;
+
+        public ActionType CurrentAction;
     }
 }

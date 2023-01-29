@@ -23,9 +23,13 @@ namespace BoardGame.Core.UI
             canvas.worldCamera = camera.MainCamera;
         }
 
-        public void PostRunEvent(EventBoardGameUpdate _) => UpdateUI();
+        public void PostRunEvent(EventBoardGameUpdate _)
+        {
+            UpdatePlayerCurrency();
+            UpdateStatsPlayer();
+        }
 
-        private void UpdateUI()
+        private void UpdatePlayerCurrency()
         {
             ref var actionValue = ref _dataWorld.OneData<ActionData>();
             ref var gameUI = ref _dataWorld.OneData<BoardGameUIComponent>();
@@ -34,6 +38,16 @@ namespace BoardGame.Core.UI
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
             gameUI.UIMono.SetInteractiveValue(attackValue, tradeValue);
+        }
+
+        private void UpdateStatsPlayer()
+        {
+            ref var playerStats = ref _dataWorld.OneData<PlayerStatsData>();
+            ref var enemyStats = ref _dataWorld.OneData<EnemyStatsData>();
+            ref var gameUI = ref _dataWorld.OneData<BoardGameUIComponent>().UIMono;
+
+            gameUI.SetPlayerStats(playerStats.Influence);
+            gameUI.SetEnemyStats(enemyStats.Influence);
         }
     }
 }

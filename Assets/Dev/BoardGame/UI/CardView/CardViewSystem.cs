@@ -38,7 +38,7 @@ namespace BoardGame.Core.UI
             rect.anchoredPosition = Vector3.zero;
             canvasCard.transform.rotation = Quaternion.identity;
             canvasCard.transform.localScale = new Vector3(2, 2, 1);
-            var cardMono = canvasCard.GetComponent<InteractiveCard>();
+            var cardMono = canvasCard.GetComponent<InteractiveCardMono>();
             Component.Destroy(cardMono);
 
             var newEntity = EcsWorldContainer.World.NewEntity();
