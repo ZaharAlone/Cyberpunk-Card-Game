@@ -25,13 +25,13 @@ namespace BoardGame.Core.Enemy
         private async void StartTurn()
         {
             Debug.Log("Enter Start Turn Enemy");
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             PlayAll();
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             SelectTradeCard();
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             _dataWorld.RiseEvent(new EventActionAttack());
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             _dataWorld.RiseEvent(new EventActionEndTurn());
         }
 

@@ -69,18 +69,12 @@ namespace BoardGame.Core.UI
         private void UpdateDiscardHub()
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var round = _dataWorld.OneData<RoundData>();
-            
-            if (round.CurrentPlayer == PlayerEnum.Player)
-            {
-                var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
-                UpdateDiscardView(entities, config.PlayerCardDiscardPosition, config.SizeCardInDeckAndDrop, false);
-            }
-            else
-            {
-                var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardDiscardComponent>().GetEntities();
-                UpdateDiscardView(entities, config.EnemyCardDiscardPosition, config.SizeCardEnemy, true);
-            }
+
+            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
+            UpdateDiscardView(entitiesPlayer, config.PlayerCardDiscardPosition, config.SizeCardInDeckAndDrop, false);
+
+            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardDiscardComponent>().GetEntities();
+            UpdateDiscardView(entitiesEnemy, config.EnemyCardDiscardPosition, config.SizeCardEnemy, true);
         }
 
         private void UpdateDiscardView(EntitiesEnumerable entities, Vector2 position, Vector3 size, bool isEnemy)
