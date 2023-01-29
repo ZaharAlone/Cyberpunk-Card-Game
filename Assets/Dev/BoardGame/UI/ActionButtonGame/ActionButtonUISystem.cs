@@ -31,7 +31,7 @@ namespace BoardGame.Core.UI
 
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
-            var cardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().Count();
+            var cardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
 
             ui.UIMono.ShowInteractiveButton();
 
@@ -71,12 +71,12 @@ namespace BoardGame.Core.UI
 
         private void PlayAll()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
-                entity.RemoveComponent<CardInHandComponent>();
-                entity.AddComponent(new CardInDeckComponent());
+                entity.RemoveComponent<CardHandComponent>();
+                entity.AddComponent(new CardDeckComponent());
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
@@ -95,20 +95,20 @@ namespace BoardGame.Core.UI
 
         private void EndTurn()
         {
-            var cardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
+            var cardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in cardInHand)
             {
-                entity.RemoveComponent<CardInHandComponent>();
-                entity.AddComponent(new CardInDropComponent());
+                entity.RemoveComponent<CardHandComponent>();
+                entity.AddComponent(new CardDiscardComponent());
             }
 
-            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
+            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
 
             foreach (var entity in cardInDeck)
             {
-                entity.RemoveComponent<CardInDeckComponent>();
-                entity.AddComponent(new CardInDropComponent());
+                entity.RemoveComponent<CardDeckComponent>();
+                entity.AddComponent(new CardDiscardComponent());
             }
 
             _dataWorld.RiseEvent(new EventEndCurrentTurn());

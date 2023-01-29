@@ -24,7 +24,7 @@ namespace BoardGame.Core
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
-                    var playerEntities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Without<CardInDropComponent>().Without<CardInHandComponent>().GetEntities();
+                    var playerEntities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Without<CardDiscardComponent>().Without<CardHandComponent>().GetEntities();
                     var id = SortingCard.SelectCard(playerEntities);
                     AddCard(id);
                 }
@@ -33,7 +33,7 @@ namespace BoardGame.Core
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
-                    var enemyEntities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Without<CardInDropComponent>().Without<CardInHandComponent>().GetEntities();
+                    var enemyEntities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Without<CardDiscardComponent>().Without<CardHandComponent>().GetEntities();
                     var id = SortingCard.SelectCard(enemyEntities);
                     AddCard(id);
                 }
@@ -46,7 +46,7 @@ namespace BoardGame.Core
         private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
-            entity.AddComponent(new CardInHandComponent());
+            entity.AddComponent(new CardHandComponent());
             var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();

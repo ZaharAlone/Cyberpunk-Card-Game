@@ -8,15 +8,20 @@ using UnityEngine;
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class CardShopSystem : IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class CardShopSystem : IActivateSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void Activate()
+        {
+            CheckPoolShopCard();
+        }
+
+        private void CheckPoolShopCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var countCardInShop = _dataWorld.Select<CardComponent>()
-                             .With<CardInShopComponent>()
+                             .With<CardTradeRowComponent>()
                              .Count();
 
             if (countCardInShop == boardGameData.BoardGameRule.OpenCardInShop)
@@ -25,11 +30,14 @@ namespace BoardGame.Core
             for (var i = countCardInShop; i < boardGameData.BoardGameRule.OpenCardInShop; i++)
             {
                 var entities = _dataWorld.Select<CardComponent>()
-                                                     .With<CardInDeckComponent>()
+                                                     .With<CardDeckComponent>()
                                                      .With<CardSortingIndexComponent>()
+                                                     .Without<CardPlayerComponent>()
+                                                     .Without<CardEnemyComponent>()
                                                      .GetEntities();
 
                 var id = SortingCard.SelectCard(entities);
+                Debug.Log(id);
                 AddShopCard(id, countCardInShop);
                 countCardInShop++;
             }
@@ -39,10 +47,10 @@ namespace BoardGame.Core
         {
             var entity = _dataWorld.GetEntity(entityId);
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            entity.RemoveComponent<CardInDeckComponent>();
+            entity.RemoveComponent<CardDeckComponent>();
             var pos = boardGameData.BoardGameConfig.PositionsShopFirstCard;
             pos.x += 20 + countCardInShop * 225;
-            entity.AddComponent(new CardInShopComponent { Positions = pos });
+            entity.AddComponent(new CardTradeRowComponent { Positions = pos });
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.Transform.position = pos;
@@ -51,9 +59,15 @@ namespace BoardGame.Core
 
         public void PostRunEvent(EventBoardGameUpdate _)
         {
+            CheckPoolShopCard();
+            SelectCardFreeToBuy();
+        }
+
+        private void SelectCardFreeToBuy()
+        {
             ClearComponentInShop();
 
-            var enteties = _dataWorld.Select<CardInShopComponent>().GetEntities();
+            var enteties = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
             var action = _dataWorld.OneData<ActionData>();
             var tradePoint = action.TotalTrade - action.SpendTrade;
 
@@ -62,15 +76,15 @@ namespace BoardGame.Core
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
                 if (cardComponent.Stats.Price <= tradePoint)
-                    entity.AddComponent(new CardInFreeToBuyComponent());
+                    entity.AddComponent(new CardFreeToBuyComponent());
             }
         }
 
         private void ClearComponentInShop()
         {
-            var enteties = _dataWorld.Select<CardInFreeToBuyComponent>().GetEntities();
+            var enteties = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
             foreach (var entity in enteties)
-                entity.RemoveComponent<CardInFreeToBuyComponent>();
+                entity.RemoveComponent<CardFreeToBuyComponent>();
         }
     }
 }

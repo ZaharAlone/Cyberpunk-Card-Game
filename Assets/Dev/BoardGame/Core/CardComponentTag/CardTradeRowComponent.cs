@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BoardGame.Core
 {
-    public struct CardInShopComponent
+    public struct CardTradeRowComponent
     {
         public Vector3 Positions;
     }

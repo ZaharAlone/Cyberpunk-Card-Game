@@ -29,7 +29,7 @@ namespace BoardGame.Core
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
 
-            if (entity.HasComponent<CardInHandComponent>() || entity.HasComponent<CardInFreeToBuyComponent>())
+            if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
                 ref var inputData = ref _dataWorld.OneData<InputData>();
                 entity.AddComponent(new InteractiveSelectCardComponent { StartMousePositions = inputData.MousePosition });
@@ -125,7 +125,7 @@ namespace BoardGame.Core
 
             if (entity.HasComponent<CardPlayerComponent>())
                 EndMovePlayerCard(entity);
-            else if (entity.HasComponent<CardInShopComponent>())
+            else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
         }
 
@@ -137,8 +137,8 @@ namespace BoardGame.Core
 
             if (distance > 150)
             {
-                entity.RemoveComponent<CardInHandComponent>();
-                entity.AddComponent(new CardInDeckComponent());
+                entity.RemoveComponent<CardHandComponent>();
+                entity.AddComponent(new CardDeckComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else
@@ -162,9 +162,9 @@ namespace BoardGame.Core
             {
                 ref var actionValue = ref _dataWorld.OneData<ActionData>();
                 actionValue.SpendTrade += componentCard.Price;
-                entity.RemoveComponent<CardInShopComponent>();
+                entity.RemoveComponent<CardTradeRowComponent>();
                 entity.AddComponent(new CardPlayerComponent());
-                entity.AddComponent(new CardInDropComponent());
+                entity.AddComponent(new CardDiscardComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else

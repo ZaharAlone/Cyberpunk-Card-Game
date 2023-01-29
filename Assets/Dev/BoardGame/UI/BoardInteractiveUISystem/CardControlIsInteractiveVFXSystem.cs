@@ -18,10 +18,10 @@ namespace BoardGame.Core.UI
 
         private void UpdateVFX()
         {
-            var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
-            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
-            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDropComponent>().GetEntities();
-            var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardInShopComponent>().GetEntities();
+            var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
+            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
+            var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
 

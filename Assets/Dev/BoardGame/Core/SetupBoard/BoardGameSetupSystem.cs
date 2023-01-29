@@ -54,7 +54,7 @@ namespace BoardGame.Core
 
                     if (card.Nations != "Neutral")
                     {
-                        entity.AddComponent(new CardInDeckComponent());
+                        entity.AddComponent(new CardDeckComponent());
                     }
                     else
                     {
@@ -151,8 +151,8 @@ namespace BoardGame.Core
         #region
         private void SortingShopCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().Count();
             SortingCard.FirstSorting(count, entities);
         }
 
@@ -185,7 +185,7 @@ namespace BoardGame.Core
             foreach (var entity in entitiesEnemy)
                 entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsCardDeskPlayerTwo;
 
-            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().GetEntities();
+            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
             foreach (var entity in entitiesDeck)
                 entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsShopDeckCard;
 

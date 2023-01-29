@@ -41,8 +41,8 @@ namespace BoardGame.Core.UI
 
         private void UpdateDeck()
         {
-            var countCard = _dataWorld.Select<CardPlayerComponent>().With<CardComponent>().With<CardInDeckComponent>().Count();
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDeckComponent>().GetEntities();
+            var countCard = _dataWorld.Select<CardPlayerComponent>().With<CardComponent>().With<CardDeckComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var width = (204 + 30) * (countCard - 1);
@@ -63,7 +63,7 @@ namespace BoardGame.Core.UI
 
         private void UpdateDrop()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardInDropComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
             var targetPos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerCardDropPosition;
 
             foreach (var entity in entities)

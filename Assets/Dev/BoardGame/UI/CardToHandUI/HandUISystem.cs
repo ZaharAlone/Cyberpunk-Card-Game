@@ -16,8 +16,8 @@ namespace BoardGame.Core.UI
 
         private void UpdateUI()
         {
-            var countCardInPlayerHand = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().Count();
-            var entities = _dataWorld.Select<CardPlayerComponent>().With<CardInHandComponent>().GetEntities();
+            var countCardInPlayerHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
+            var entities = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
