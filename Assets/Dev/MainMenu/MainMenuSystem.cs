@@ -16,11 +16,13 @@ namespace BoardGame.Meta
     public class MainMenuSystem : IInitSystem
     {
         private DataWorld _dataWorld;
+        public TCP Tcp;
 
         public void Init()
         {
+            Tcp = new TCP();
             MainMenuMono.ButtonStartGame += StartGame;
-            MainMenuMono.ButtonConnectServer += ConnectServer;
+            MainMenuMono.ButtonConnectServer += ConnectToServer;
         }
 
         private void StartGame()
@@ -30,13 +32,19 @@ namespace BoardGame.Meta
             EcsWorldContainer.World.InitModule<BoardGameModule>(true);
         }
 
+        private void ConnectToServer()
+        {
+            Tcp.Connect();
+            Debug.Log("Is Connect");
+        }
+
         private async void ConnectServer()
         {
             foreach (var a in Dns.GetHostAddresses("localhost"))
                 Debug.Log(a.ToString());
 
             var addresses = Dns.GetHostAddresses("localhost");
-            var ipAddress = addresses[0];
+            var ipAddress = addresses[1];
             var endPoint = new IPEndPoint(ipAddress, 8701);
             using Socket sock = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             Debug.Log($"Try to connect to {endPoint}");

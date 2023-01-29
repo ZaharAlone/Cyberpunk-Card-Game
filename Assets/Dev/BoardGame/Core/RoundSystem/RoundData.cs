@@ -8,6 +8,6 @@ namespace BoardGame.Core
     {
         public int CurrentRound;
         public int CurrentTurn;
-        public PlayerEnum FirstTurn;
+        public PlayerEnum CurrentPlayer;
     }
 }

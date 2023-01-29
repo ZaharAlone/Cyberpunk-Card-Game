@@ -9,8 +9,9 @@ namespace BoardGame.Core
 {
     public class CardMono : MonoBehaviour
     {
-        public InteractiveCard InteractiveCard;
-        public RectTransform RectTransform;
+        public InteractiveCardMono InteractiveCard;
+        public Canvas Canvas;
+        public GameObject VFXIsInteractiveCard;
 
         [Header("Card")]
         public RectTransform CardFace;  
@@ -24,6 +25,7 @@ namespace BoardGame.Core
         public TextMeshProUGUI PriceText;
 
         [Header("Bottom")]
+        public VerticalLayoutGroup LayoutGroup;
         public TextMeshProUGUI Header;
         public CardAbilityView Ability;
         public Image FractionImage;
@@ -46,6 +48,8 @@ namespace BoardGame.Core
                 PriceText.text = price.ToString();
             else
                 PriceGO.SetActive(false);
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)LayoutGroup.transform);
         }
 
         public void SetAbility(Sprite currency = null, int currency_value = 0, string ability_parameters = "")
@@ -106,6 +110,22 @@ namespace BoardGame.Core
             CardFace.gameObject.SetActive(_cardIsBack);
             CardBack.gameObject.SetActive(!_cardIsBack);
             _cardIsBack = !_cardIsBack;
+        }
+
+        public void SetStatusInteractiveVFX(bool status)
+        {
+            Debug.Log($"Set status VFX {status}");
+            VFXIsInteractiveCard.SetActive(status);
+        }
+
+        public void HideCard()
+        {
+            Canvas.gameObject.SetActive(false);
+        }
+
+        public void ShowCard()
+        {
+            Canvas.gameObject.SetActive(true);
         }
     }
 }

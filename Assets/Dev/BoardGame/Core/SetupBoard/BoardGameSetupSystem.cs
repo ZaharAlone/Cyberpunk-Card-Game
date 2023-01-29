@@ -38,8 +38,7 @@ namespace BoardGame.Core
             var json = _dataWorld.OneData<BoardGameConfigJson>();
 
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
-            var cards = Object.Instantiate(new GameObject());
-            cards.name = "Cards";
+            var cards = new GameObject { name = "Cards" };
 
             foreach (var card in json.CardConfig)
             {
@@ -55,7 +54,7 @@ namespace BoardGame.Core
 
                     if (card.Nations != "Neutral")
                     {
-                        entity.AddComponent(new CardInDeckComponent());
+                        entity.AddComponent(new CardTradeDeckComponent());
                     }
                     else
                     {
@@ -115,6 +114,9 @@ namespace BoardGame.Core
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var cardImage);
 
+            if (cardImage == null)
+                Debug.Log($"Card is name: {stats.ImageKey}");
+
             if (stats.Nations != "Neutral")
             {
                 boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
@@ -123,22 +125,22 @@ namespace BoardGame.Core
             else
                 card.SetViewCard(cardImage, stats.Header, stats.Price);
 
-            if (stats.Ability.Type != null)
+            if (stats.Ability.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type.ToString(), out var currencyImage);
                 card.SetAbility(currencyImage, stats.Ability.Value);
             }
 
-            if (stats.FractionsAbility.Type != null)
+            if (stats.FractionsAbility.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type.ToString(), out var currencyImage);
                 boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
                 card.SetFractionAbiltity(nationsImage, currencyImage, stats.FractionsAbility.Value);
             }
 
-            if (stats.DropAbility.Type != null)
+            if (stats.DropAbility.Type != AbilityType.None)
             {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type, out var currencyImage);
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type.ToString(), out var currencyImage);
                 card.SetAbility(currencyImage, stats.DropAbility.Value);
             }
 
@@ -149,8 +151,8 @@ namespace BoardGame.Core
         #region
         private void SortingShopCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().Count();
             SortingCard.FirstSorting(count, entities);
         }
 
@@ -174,27 +176,36 @@ namespace BoardGame.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
+            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeckAndDrop;
+
             var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
             foreach (var entity in entitiesPlayer)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsCardDeskPlayerOne;
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
 
             var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
             foreach (var entity in entitiesEnemy)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsCardDeskPlayerTwo;
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
 
-            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardInDeckComponent>().GetEntities();
+            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
             foreach (var entity in entitiesDeck)
-                entity.GetComponent<CardComponent>().Transform.position = boardGameData.BoardGameConfig.PositionsShopDeckCard;
+                entity.GetComponent<CardComponent>().CardMono.HideCard();
 
-            var entitiesNeytral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
-            foreach (var entity in entitiesNeytral)
+            var entitiesNeutral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
+            foreach (var entity in entitiesNeutral)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsShopNeutralCard;
                 component.CardMono.CardOnFace();
             }
-
         }
 
         public void Destroy()

@@ -46,10 +46,19 @@ namespace BoardGame
     public struct AbilityCard
     {
         [JsonProperty("type")]
-        public string Type;
+        public AbilityType Type;
         [JsonProperty("value")]
         public int Value;
         [JsonProperty("parameter")]
         public string Parameter;
+    }
+
+    [System.Serializable]
+    public enum AbilityType
+    {
+        None,
+        Attack,
+        Trade,
+        Influence
     }
 }

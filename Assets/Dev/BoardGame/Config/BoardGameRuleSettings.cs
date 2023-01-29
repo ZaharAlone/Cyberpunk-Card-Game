@@ -1,6 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using I2.Loc;
 
 namespace BoardGame
 {
@@ -10,18 +11,23 @@ namespace BoardGame
         [Header ("Ѕазовые параметры игрока")]
         public List<Cards> BasePoolCard = new List<Cards>();
         public int BaseInfluenceCount = 50;
+        public int BaseCyberpsychosisCount = 0;
 
         [Header("ѕараметры игры")]
-        [Tooltip(" ол-во открытых кард в магазине")]
+        [Tooltip(" ол-во открытых карт в магазине")]
         public int OpenCardInShop = 5;
 
         [Tooltip(" акие карты присутсвуют в магазине кроме общей колоды")]
         public string KeyCardsInShopAdd;
 
-        [Tooltip("—колько кард первый игрок получает в руку в первый ход")]
+        [Tooltip("—колько карт первый игрок получает в руку в первый ход")]
         public int CardInHandFirstPlayerOneRound = 3;
-        [Tooltip("—колько кард обычно игрок получает в руку в ход")]
+        [Tooltip("—колько карт обычно игрок получает в руку в ход")]
         public int BaseCountDropCard = 5;
+
+        public LocalizedString ActionPlayAll;
+        public LocalizedString ActionAttack;
+        public LocalizedString ActionEndTurn;
     }
     
     [System.Serializable]

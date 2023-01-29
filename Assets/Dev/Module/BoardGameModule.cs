@@ -10,6 +10,7 @@ using BoardGame.Core;
 using ModulesFramework.Modules;
 using ModulesFrameworkUnity;
 using ModulesFramework.Data;
+using BoardGame.Core.UI;
 
 namespace EcsCore
 {
@@ -32,7 +33,7 @@ namespace EcsCore
             var cameraObject = Object.Instantiate(camera.Result);
             var uiObject = Object.Instantiate(ui.Result);
             world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
-            world.CreateOneData(new BoardGameUIComponent { UIGO = uiObject });
+            world.CreateOneData(new BoardGameUIComponent { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
             world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
 
             _resource.Add(cameraObject);
@@ -44,6 +45,15 @@ namespace EcsCore
             var task = Addressables.LoadAssetAsync<T>(name).Task;
             tasks.Add(task);
             return task;
+        }
+
+        protected override Dictionary<Type, int> GetSystemsOrder()
+        {
+            return new Dictionary<Type, int>
+            {
+                { typeof(CardDistributionSystem), -10 },
+                { typeof(HandUISystem), 0}
+            };
         }
 
         public override void OnDeactivate()

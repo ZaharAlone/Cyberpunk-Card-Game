@@ -20,12 +20,31 @@ namespace BoardGame
         public Dictionary<string, Sprite> CurrencyImage;
         public Dictionary<string, Sprite> CardImage;
 
-        [Header("Positions")]
-        public Vector2 PositionsCardDeskPlayerOne = new Vector2(-1050, 500);
-        public Vector2 PositionsCardDeskPlayerTwo = new Vector2(1050, -500);
+        [Header("View Card")]
+        public GameObject ViewCardCanvas;
 
-        public Vector2 PositionsShopDeckCard = new Vector2(-700, 0);
+        public float StepPosXPlayer = 210f;
+        public float StepPosXEnemy = 170f;
+
+        [Header("Positions Player")]
+        public Vector2 PositionsCardDeckPlayer = new Vector2(830, 400);
+        public Vector2 PlayerHandPosition = new Vector2(0, -330);
+        public Vector2 PlayerCardDiscardPosition;
+
+        public Vector2 PlayerCardPositionInPlay = new Vector2(0, -120);
+
+        [Header("Positions Enemy")]
+        public Vector2 PositionsCardDeckEnemy = new Vector2(830, -100);
+        public Vector2 EnemyHandPosition = new Vector2(0, 330);
+        public Vector2 EnemyCardDiscardPosition = new Vector3(610, -100);
+        public Vector3 SizeCardEnemy = new Vector3(0.5f, 0.5f, 1f);
+
+        [Header("Positions Trade")]
         public Vector2 PositionsShopFirstCard = new Vector2(-700, 0);
         public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
+
+        [Header("Size")]
+        public Vector3 SizeCardInDeckAndDrop = new Vector3(0.8f, 0.8f, 1f);
+        public Vector3 NormalSize = Vector3.one;
     }
 }

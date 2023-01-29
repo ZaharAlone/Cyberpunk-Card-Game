@@ -1,5 +1,6 @@
 using ModulesFramework.Data.Enumerators;
 using UnityEngine;
+using System;
 
 namespace BoardGame.Core
 {

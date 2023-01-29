@@ -9,7 +9,7 @@
     "count": 16,
     "type": "Ship",
     "ability": {
-      "type": "trade",
+      "type": "Trade",
       "value": 1
     }
   },
@@ -23,11 +23,11 @@
     "count": 10,
     "type": "Ship",
     "ability": {
-      "type": "trade",
+      "type": "Trade",
       "value": 2
     },
     "drop_ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 2
     }
   },
@@ -41,7 +41,7 @@
     "count": 4,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 1
     }
   },
@@ -55,12 +55,12 @@
     "count": 3,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 2,
       "parameter": "discard_opponent_card"
     },
     "fractions_ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 2
     }
   },
@@ -74,12 +74,12 @@
     "count": 2,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 1,
       "parameter": "draw_card"
     },
     "fractions_ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 2
     }
   },
@@ -93,12 +93,12 @@
     "count": 3,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 4,
       "parameter": "discard_opponent_card"
     },
     "fractions_ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 2
     }
   },
@@ -112,18 +112,18 @@
     "count": 1,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 7,
       "parameter": "draw_card"
     },
     "fractions_ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 5
     }
   },
   {
     "name": "guns_pirate",
-    "header": "BoardGameCard/$bgc_guns_pirate",
+    "header": "BoardGameCard/$bgc_guns_pirate_name",
     "descr_mini": NaN,
     "image": "card_guns_pirate",
     "nations": "Guns",
@@ -131,8 +131,314 @@
     "count": 2,
     "type": "Ship",
     "ability": {
-      "type": "attack",
+      "type": "Attack",
       "value": 5
+    }
+  },
+  {
+    "name": "rebels_boy",
+    "header": "BoardGameCard/$bgc_rebels_boy_name",
+    "descr_mini": NaN,
+    "image": "card_rebels_boy",
+    "nations": "Rebels",
+    "price": 1,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Attack",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Trade",
+      "value": 3
+    }
+  },
+  {
+    "name": "rebels_thief",
+    "header": "BoardGameCard/$bgc_rebels_thief_name",
+    "descr_mini": NaN,
+    "image": "card_rebels_thief",
+    "nations": "Rebels",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Attack",
+      "value": 1
+    },
+    "fractions_ability": {
+      "type": "Influence",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_administrator",
+    "header": "BoardGameCard/$bgc_corporates_administrator_name",
+    "descr_mini": NaN,
+    "image": "card_corporates_administrator",
+    "nations": "Corporates",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 3
+    },
+    "fractions_ability": {
+      "type": "Trade",
+      "value": 2
+    }
+  },
+  {
+    "name": "rebels_networker",
+    "header": "BoardGameCard/$bgc_rebels_networker_name",
+    "descr_mini": NaN,
+    "image": "card_rebels_networker",
+    "nations": "Rebels",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Attack",
+      "value": 3
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 5
+    }
+  },
+  {
+    "name": "rebels_cracker",
+    "header": "BoardGameCard/$bgc_rebels_cracker_name",
+    "descr_mini": NaN,
+    "image": "card_rebels_cracker",
+    "nations": "Rebels",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "guns_killer",
+    "header": "BoardGameCard/$bgc_guns_killer_name",
+    "descr_mini": NaN,
+    "image": "card_guns_killer",
+    "nations": "Guns",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "guns_chimney",
+    "header": "BoardGameCard/$bgc_guns_chimney_name",
+    "descr_mini": NaN,
+    "image": "card_guns_chimney",
+    "nations": "Guns",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "guns_russian",
+    "header": "BoardGameCard/$bgc_guns_russian_name",
+    "descr_mini": NaN,
+    "image": "card_guns_russian",
+    "nations": "Guns",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "nomads_valkyrie",
+    "header": "BoardGameCard/$bgc_nomads_valkyrie_name",
+    "descr_mini": NaN,
+    "image": "card_nomads_valkyrie",
+    "nations": "Nomads",
+    "price": 1,
+    "count": 3,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Influence",
+      "value": 4
+    }
+  },
+  {
+    "name": "nomads_racer",
+    "header": "BoardGameCard/$bgc_nomads_racer_name",
+    "descr_mini": NaN,
+    "image": "card_nomads_racer",
+    "nations": "Nomads",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "Attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "nomads_doctor",
+    "header": "BoardGameCard/$bgc_nomads_doctor_name",
+    "descr_mini": NaN,
+    "image": "card_nomads_doctor",
+    "nations": "Nomads",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_pathfinder",
+    "header": "BoardGameCard/$bgc_corporates_pathfinder_name",
+    "descr_mini": NaN,
+    "image": "card_corporates_pathfinder",
+    "nations": "Corporates",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "guns_reckless",
+    "header": "BoardGameCard/$bgc_guns_reckless_name",
+    "descr_mini": NaN,
+    "image": "card_guns_reckless",
+    "nations": "Guns",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "nomads_samurai",
+    "header": "BoardGameCard/$bgc_nomads_samurai_name",
+    "descr_mini": NaN,
+    "image": "card_nomads_samurai",
+    "nations": "Nomads",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "guns_bloody_eye",
+    "header": "BoardGameCard/$bgc_guns_bloody_eye_name",
+    "descr_mini": NaN,
+    "image": "card_guns_bloody_eye",
+    "nations": "Guns",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "corporates_yellow_eyed",
+    "header": "BoardGameCard/$bgc_corporates_yellow_eyed_name",
+    "descr_mini": NaN,
+    "image": "card_corporates_yellow_eyed",
+    "nations": "Corporates",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
+    }
+  },
+  {
+    "name": "rebels_shooter",
+    "header": "BoardGameCard/$bgc_rebels_shooter_name",
+    "descr_mini": NaN,
+    "image": "card_rebels_shooter",
+    "nations": "Rebels",
+    "price": 2,
+    "count": 2,
+    "type": "Ship",
+    "ability": {
+      "type": "Trade",
+      "value": 2
+    },
+    "fractions_ability": {
+      "type": "attack",
+      "value": 2
     }
   }
 ]

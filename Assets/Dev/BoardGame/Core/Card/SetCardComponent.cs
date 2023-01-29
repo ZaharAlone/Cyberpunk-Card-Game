@@ -9,7 +9,7 @@ namespace BoardGame.Core
             var component = new CardComponent
             {
                 GUID = System.Guid.NewGuid().ToString(),
-                RectTransform = cardMono.RectTransform,
+                Canvas = cardMono.Canvas,
                 GO = go,
                 Transform = go.transform,
                 Stats = stats,

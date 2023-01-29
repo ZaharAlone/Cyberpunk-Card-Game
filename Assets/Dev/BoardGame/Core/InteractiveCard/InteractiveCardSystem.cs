@@ -1,11 +1,11 @@
+using BoardGame.Core.UI;
 using EcsCore;
+using Input;
+using ModulesFrameworkUnity;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
 using UnityEngine;
-using Input;
 
 namespace BoardGame.Core
 {
@@ -13,48 +13,91 @@ namespace BoardGame.Core
     public class InteractiveCardSystem : IInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
+        private bool _isOn;
 
         public void Init()
         {
-            InteractiveActionCard.InteractiveCard += InteractiveCard;
+            InteractiveActionCard.StartInteractiveCard += DownClickCard;
+            InteractiveActionCard.EndInteractiveCard += UpClickCard;
         }
 
-        private void InteractiveCard(bool isActive, string guid, string key)
+        private void DownClickCard(string guid)
         {
-            var entities = _dataWorld.Select<CardComponent>().GetEntities();
+            _isOn = true;
 
-            foreach (var entity in entities)
+            var entity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guid)
+                .SelectFirstEntity();
+
+            if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
-                if (entity.GetComponent<CardComponent>().GUID == guid)
-                {
-                    Interactive(isActive, entity, key);
-                    break;
-                }
+                ref var inputData = ref _dataWorld.OneData<InputData>();
+                entity.AddComponent(new InteractiveSelectCardComponent { StartMousePositions = inputData.MousePosition });
             }
+            else
+                ShowViewCard(entity);
         }
 
-        public void Interactive(bool isActive, Entity entity, string key)
+        private void UpClickCard()
         {
+            _isOn = false;
+
+            var isTimer = _dataWorld.Select<InteractiveSelectCardComponent>().Count();
+            if (isTimer > 0)
+                CheckEndTimer();
+
+            var isMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
+            if (isMove > 0)
+                EndMove();
+        }
+
+        private void CheckEndTimer()
+        {
+            var entity = _dataWorld.Select<InteractiveSelectCardComponent>().SelectFirstEntity();
+
+            ref var timerComponent = ref entity.GetComponent<InteractiveSelectCardComponent>();
+            if (timerComponent.Timer < 0.3f)
+                ShowViewCard(entity);
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
+        }
+
+        public void StartMove()
+        {
+            var entity = _dataWorld.Select<InteractiveSelectCardComponent>().SelectFirstEntity();
             ref var component = ref entity.GetComponent<CardComponent>();
 
-            if (key == "Left")
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            entity.AddComponent(new InteractiveMoveComponent
             {
-                if (isActive)
-                {
-                    ref var inputData = ref _dataWorld.OneData<InputData>();
-                    entity.AddComponent(new InteractiveMoveComponent { StartPositions = inputData.MousePosition });
-                }
-                else
-                    entity.RemoveComponent<InteractiveMoveComponent>();
-            }
-
-            if (isActive && key == "Right")
-            {
-                component.CardMono.SwitchFaceCard();
-            }
+                StartCardPosition = component.Transform.position,
+                StartMousePositions = inputData.MousePosition
+            });
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
         }
 
         public void Run()
+        {
+            if (!_isOn)
+                return;
+
+            var entitiesTimer = _dataWorld.Select<InteractiveSelectCardComponent>().GetEntities();
+
+            foreach (var entity in entitiesTimer)
+            {
+                ref var component = ref entity.GetComponent<InteractiveSelectCardComponent>();
+                component.Timer += Time.deltaTime;
+
+                ref var inputData = ref _dataWorld.OneData<InputData>();
+                if (inputData.MousePosition - component.StartMousePositions != Vector2.zero)
+                    StartMove();
+            }
+
+            var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
+            if (countEntityMove > 0)
+                MoveCard();
+        }
+
+        private void MoveCard()
         {
             var entities = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().GetEntities();
             ref var inputData = ref _dataWorld.OneData<InputData>();
@@ -64,15 +107,90 @@ namespace BoardGame.Core
                 ref var componentMove = ref entity.GetComponent<InteractiveMoveComponent>();
                 ref var componentCard = ref entity.GetComponent<CardComponent>();
 
-                var deltaMove = inputData.MousePosition - componentMove.StartPositions;
+                var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
                 componentCard.Transform.position += new Vector3(deltaMove.x, deltaMove.y, 0);
-                componentMove.StartPositions = inputData.MousePosition;
+                componentMove.StartMousePositions = inputData.MousePosition;
+            }
+        }
+
+        private void ShowViewCard(Entity entity)
+        {
+            var component = entity.GetComponent<CardComponent>();
+            _dataWorld.RiseEvent(new EventViewCard { TargetCard = component.CardMono });
+        }
+
+        private void EndMove()
+        {
+            var entity = _dataWorld.Select<InteractiveMoveComponent>().SelectFirstEntity();
+
+            if (entity.HasComponent<CardPlayerComponent>())
+                EndMovePlayerCard(entity);
+            else if (entity.HasComponent<CardTradeRowComponent>())
+                EndMoveShopCard(entity);
+        }
+
+        private void EndMovePlayerCard(Entity entity)
+        {
+            var componentMove = entity.GetComponent<InteractiveMoveComponent>();
+            var componentCard = entity.GetComponent<CardComponent>();
+            var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
+
+            if (distance > 150)
+            {
+                entity.RemoveComponent<CardHandComponent>();
+                entity.AddComponent(new CardDeckComponent());
+                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            }
+            else
+            {
+                var card = entity.GetComponent<CardComponent>();
+                var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
+                card.Transform.position = pos;
+            }
+
+            entity.RemoveComponent<InteractiveMoveComponent>();
+            _dataWorld.RiseEvent(new EventUpdateHandUI());
+        }
+
+        private void EndMoveShopCard(Entity entity)
+        {
+            var componentMove = entity.GetComponent<InteractiveMoveComponent>();
+            var componentCard = entity.GetComponent<CardComponent>();
+            var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
+
+            if (distance < -50)
+            {
+                ref var actionValue = ref _dataWorld.OneData<ActionData>();
+                actionValue.SpendTrade += componentCard.Price;
+                entity.RemoveComponent<CardTradeRowComponent>();
+                entity.AddComponent(new CardPlayerComponent());
+                ClearViewDropItem();
+                entity.AddComponent(new CardDiscardComponent { IsLast = true });
+                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            }
+            else
+            {
+                var card = entity.GetComponent<CardComponent>();
+                card.Transform.position = componentMove.StartCardPosition;
+            }
+
+            entity.RemoveComponent<InteractiveMoveComponent>();
+        }
+
+        private void ClearViewDropItem()
+        {
+            var entitiesCard = _dataWorld.Select<CardDiscardComponent>().With<CardPlayerComponent>().GetEntities();
+            foreach (var entity in entitiesCard)
+            {
+                ref var component = ref entity.GetComponent<CardDiscardComponent>();
+                component.IsLast = false;
             }
         }
 
         public void Destroy()
         {
-            InteractiveActionCard.InteractiveCard -= InteractiveCard;
+            InteractiveActionCard.StartInteractiveCard -= DownClickCard;
+            InteractiveActionCard.EndInteractiveCard -= UpClickCard;
         }
     }
 }
