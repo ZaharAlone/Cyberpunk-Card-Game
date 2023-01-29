@@ -9,12 +9,11 @@ using UnityEngine;
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class BoardGameSetupSystem : IInitSystem, IDestroySystem
+    public class BoardGameSetupSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-        private BoardGameData _boardGameData;
 
-        public void Init()
+        public void PreInit()
         {
             SetupBoard();
             SetupCard();
@@ -28,44 +27,41 @@ namespace BoardGame.Core
         private void SetupBoard()
         {
             var resource = EcsWorldContainer.World.NewEntity();
-            var table = Object.Instantiate(_boardGameData.BoardGameConfig.TablePrefab);
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
             resource.AddComponent(new BoardGameResourceComponent { Table = table });
         }
 
         //Инициализируем все карты
         private void SetupCard()
         {
-            if (!_dataWorld.Select<BoardGameConfigJsonComponent>().Any())
-                return;
+            var json = _dataWorld.OneData<BoardGameConfigJson>();
 
-            _dataWorld.TrySelectFirst<BoardGameConfigJsonComponent>(out var component);
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var cards = new GameObject { name = "Cards" };
 
-            var cards = Object.Instantiate(new GameObject());
-            cards.name = "Cards";
-
-            foreach (var card in component.CardConfig)
+            foreach (var card in json.CardConfig)
             {
                 for (var i = 0; i < card.Count; i++)
                 {
-                    var cardMono = Object.Instantiate(_boardGameData.BoardGameConfig.CardMono, cards.transform);
+                    var cardMono = Object.Instantiate(boardGameData.BoardGameConfig.CardMono, cards.transform);
                     var cardGO = cardMono.gameObject;
                     SetViewCard(cardMono, card);
 
                     var entity = EcsWorldContainer.World.NewEntity();
-                    var cardComponent = SetCardComponent.Set(cardGO, card);
+                    var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
                     entity.AddComponent(cardComponent);
 
                     if (card.Nations != "Neutral")
                     {
-                        cardGO.SetActive(false);
-                        entity.AddComponent(new CardCloseComponent());
+                        entity.AddComponent(new CardTradeDeckComponent());
                     }
                     else
                     {
                         if (!CheckCardIsPlayer(card.Name))
                             entity.AddComponent(new CardNeutralComponent());
                         else
-                            SortingCardPlayer(entity, card.Name);
+                            HandingOutCardPlayers(entity, card.Name);
                     }
                 }
             }
@@ -75,19 +71,21 @@ namespace BoardGame.Core
         private bool CheckCardIsPlayer(string Key)
         {
             var isPlayer = false;
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
 
-            foreach (var item in _boardGameData.BoardGameRule.BasePoolCard)
+            foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
                 if (item.Key == Key)
                     isPlayer = true;
             return isPlayer;
         }
 
         //Раздаем карты игрокам
-        private void SortingCardPlayer(Entity entity, string Key)
+        private void HandingOutCardPlayers(Entity entity, string Key)
         {
             var targetCountCard = 0;
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
 
-            foreach (var item in _boardGameData.BoardGameRule.BasePoolCard)
+            foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
                 if (item.Key == Key)
                     targetCountCard = item.Value;
 
@@ -113,66 +111,101 @@ namespace BoardGame.Core
         //Отрисовываем вьюху кард
         private void SetViewCard(CardMono card, CardStats stats)
         {
+            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var cardImage);
 
+            if (cardImage == null)
+                Debug.Log($"Card is name: {stats.ImageKey}");
+
+            if (stats.Nations != "Neutral")
+            {
+                boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
+                card.SetViewCard(cardImage, stats.Header, stats.Price, nationsImage);
+            }
+            else
+                card.SetViewCard(cardImage, stats.Header, stats.Price);
+
+            if (stats.Ability.Type != AbilityType.None)
+            {
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type.ToString(), out var currencyImage);
+                card.SetAbility(currencyImage, stats.Ability.Value);
+            }
+
+            if (stats.FractionsAbility.Type != AbilityType.None)
+            {
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type.ToString(), out var currencyImage);
+                boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
+                card.SetFractionAbiltity(nationsImage, currencyImage, stats.FractionsAbility.Value);
+            }
+
+            if (stats.DropAbility.Type != AbilityType.None)
+            {
+                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type.ToString(), out var currencyImage);
+                card.SetAbility(currencyImage, stats.DropAbility.Value);
+            }
+
+            card.CardOnBack();
         }
 
         //Тупой копи пастный код который сортирует карты во всех трех колодах.
         #region
         private void SortingShopCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardCloseComponent>()
-                             .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardCloseComponent>()
-                                  .Count();
-
-            var sorting = SortingCard.Sorting(count);
-            var index = 0;
-
-            foreach (var entity in entities)
-                entity.GetComponent<CardCloseComponent>().Index = sorting[index];
+            var entities = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().Count();
+            SortingCard.FirstSorting(count, entities);
         }
 
         private void SortingPlayerCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardPlayerComponent>()
-                             .GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Count();
 
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardPlayerComponent>()
-                                  .Count();
-
-            var sorting = SortingCard.Sorting(count);
-            var index = 0;
-
-            foreach (var entity in entities)
-                entity.GetComponent<CardPlayerComponent>().Index = sorting[index];
+            SortingCard.FirstSorting(count, entities);
         }
 
         private void SortingEnemyCard()
         {
-            var entities = _dataWorld.Select<CardComponent>()
-                             .With<CardEnemyComponent>()
-                             .GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
+            var count = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Count();
 
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardEnemyComponent>()
-                                  .Count();
-
-            var sorting = SortingCard.Sorting(count);
-            var index = 0;
-
-            foreach (var entity in entities)
-                entity.GetComponent<CardEnemyComponent>().Index = sorting[index];
+            SortingCard.FirstSorting(count, entities);
         }
         #endregion
 
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
+            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeckAndDrop;
+
+            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
+            foreach (var entity in entitiesPlayer)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
+
+            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
+            foreach (var entity in entitiesEnemy)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
+                component.Transform.localScale = targetSizeDeckCard;
+            }
+
+            var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
+            foreach (var entity in entitiesDeck)
+                entity.GetComponent<CardComponent>().CardMono.HideCard();
+
+            var entitiesNeutral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
+            foreach (var entity in entitiesNeutral)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>();
+                component.Transform.position = boardGameData.BoardGameConfig.PositionsShopNeutralCard;
+                component.CardMono.CardOnFace();
+            }
         }
 
         public void Destroy()

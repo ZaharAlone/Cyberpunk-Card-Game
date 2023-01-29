@@ -9,17 +9,17 @@ using BoardGame;
 using BoardGame.Core;
 using ModulesFramework.Modules;
 using ModulesFrameworkUnity;
+using ModulesFramework.Data;
+using BoardGame.Core.UI;
 
 namespace EcsCore
 {
     public class BoardGameModule : EcsModule
     {
-        private Dictionary<Type, object> _dependencies = new Dictionary<Type, object>();
         private List<Object> _resource = new List<Object>();
 
         protected override async Task Setup()
         {
-            var boardGameData = new BoardGameData();
             var tasks = new List<Task>();
 
             var camera = Load<GameObject>("BoardGameCamera", tasks);
@@ -30,21 +30,14 @@ namespace EcsCore
             var alltask = Task.WhenAll(tasks.ToArray());
             await alltask;
 
-            boardGameData.BoardGameConfig = boardGameConfig.Result;
-            boardGameData.BoardGameRule = boardGameRule.Result;
-
-            var cameraEntity = EcsWorldContainer.World.NewEntity();
             var cameraObject = Object.Instantiate(camera.Result);
-            cameraEntity.AddComponent(new BoardGameCameraComponent { Camera = cameraObject });
-
-            var uiEntity = EcsWorldContainer.World.NewEntity();
             var uiObject = Object.Instantiate(ui.Result);
-            uiEntity.AddComponent(new BoardGameUIComponent { UIGO = uiObject });
+            world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
+            world.CreateOneData(new BoardGameUIComponent { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
+            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
 
             _resource.Add(cameraObject);
             _resource.Add(uiObject);
-
-            _dependencies[boardGameData.GetType()] = boardGameData;
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)
@@ -54,9 +47,13 @@ namespace EcsCore
             return task;
         }
 
-        public override Dictionary<Type, object> GetDependencies()
+        protected override Dictionary<Type, int> GetSystemsOrder()
         {
-            return _dependencies;
+            return new Dictionary<Type, int>
+            {
+                { typeof(CardDistributionSystem), -10 },
+                { typeof(HandUISystem), 0}
+            };
         }
 
         public override void OnDeactivate()

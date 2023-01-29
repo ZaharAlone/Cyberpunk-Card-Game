@@ -6,7 +6,7 @@ namespace BoardGame
     /// <summary>
     /// ¬се данные дл€ карточной игра хран€тс€ тут
     /// </summary>
-    public class BoardGameData
+    public struct BoardGameData
     {
         public BoardGameConfig BoardGameConfig;
         public BoardGameRuleSettings BoardGameRule;

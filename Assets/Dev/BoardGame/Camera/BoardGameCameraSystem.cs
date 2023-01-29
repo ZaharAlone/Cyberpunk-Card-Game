@@ -9,36 +9,33 @@ using ModulesFrameworkUnity;
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(BoardGameModule))]
-    public class BoardGameCameraSystem : IInitSystem
+    public class BoardGameCameraSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
-            _dataWorld.TrySelectFirst<BoardGameCameraComponent>(out var component);
-
-            component.BoardGameCamera = component.Camera.GetComponent<BoardGameCamera>();
-            component.MainCamera = component.BoardGameCamera.MainCamera;
-            component.CoreVirtualCamera = component.BoardGameCamera.CoreVirtualCamera;
+            ref var camera = ref _dataWorld.OneData<BoardGameCameraComponent>();
+            camera.BoardGameCamera = camera.Camera.GetComponent<BoardGameCamera>();
+            camera.MainCamera = camera.BoardGameCamera.MainCamera;
+            camera.CoreVirtualCamera = camera.BoardGameCamera.CoreVirtualCamera;
         }
 
         private void ShakeCamera(float amplitude, float time)
         {
-            _dataWorld.TrySelectFirst<BoardGameCameraComponent>(out var component);
-
-            var cinemachineShake = component.CoreVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            ref var camera = ref _dataWorld.OneData<BoardGameCameraComponent>();
+            var cinemachineShake = camera.CoreVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cinemachineShake.m_AmplitudeGain = amplitude;
-            component.ShakeCamera = true;
-            component.ShakeTime = time;
+            camera.ShakeCamera = true;
+            camera.ShakeTime = time;
         }
 
         private void OffShakeCamera()
         {
-            _dataWorld.TrySelectFirst<BoardGameCameraComponent>(out var component);
-
-            var cinemachineShake = component.CoreVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            ref var camera = ref _dataWorld.OneData<BoardGameCameraComponent>();
+            var cinemachineShake = camera.CoreVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cinemachineShake.m_AmplitudeGain = 0f;
-            component.ShakeCamera = false;
+            camera.ShakeCamera = false;
         }
     }
 }
