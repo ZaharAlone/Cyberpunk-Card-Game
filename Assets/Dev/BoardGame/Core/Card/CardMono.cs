@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using I2.Loc;
+using DG.Tweening;
 
 namespace BoardGame.Core
 {
@@ -33,6 +34,7 @@ namespace BoardGame.Core
         public CardAbilityView TrashAbility;
 
         private bool _cardIsBack;
+        private Sequence _sequence;
 
         public void SetViewCard(Sprite imageCard, string header, int price = 0, Sprite imageNations = null)
         {
@@ -114,7 +116,6 @@ namespace BoardGame.Core
 
         public void SetStatusInteractiveVFX(bool status)
         {
-            Debug.Log($"Set status VFX {status}");
             VFXIsInteractiveCard.SetActive(status);
         }
 
@@ -126,6 +127,23 @@ namespace BoardGame.Core
         public void ShowCard()
         {
             Canvas.gameObject.SetActive(true);
+        }
+
+        public void SetMovePositionAnimations(Vector3 positions, Vector3 scale)
+        {
+            _sequence = DOTween.Sequence();
+            var distance = Vector3.Distance(transform.position, positions);
+            Debug.Log($"Distance to target positions {distance}");
+            var time = distance / 600;
+            if (time > 0.8f)
+                time = 0.8f;
+            _sequence.Append(transform.DOMove(positions, time)).Join(transform.DOScale(scale, time));
+        }
+
+        public void OnDisable()
+        {
+            if (_sequence != null)
+                _sequence.Kill();
         }
     }
 }

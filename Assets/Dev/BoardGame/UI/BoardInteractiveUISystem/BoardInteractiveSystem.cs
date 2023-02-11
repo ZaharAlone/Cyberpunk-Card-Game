@@ -53,14 +53,13 @@ namespace BoardGame.Core.UI
 
             foreach (var entity in entities)
             {
-                ref var card = ref entity.GetComponent<CardComponent>();
-                card.Transform.rotation = Quaternion.identity;
-                card.Transform.localScale = config.NormalSize;
-
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                cardComponent.Transform.rotation = Quaternion.identity;
                 var pos = config.PlayerCardPositionInPlay;
                 pos.x = start_point;
-                card.Transform.position = pos;
-                card.CardMono.CardOnFace();
+
+                cardComponent.CardMono.SetMovePositionAnimations(pos, config.NormalSize);
+                cardComponent.CardMono.CardOnFace();
 
                 start_point += (204 + 30);
             }
@@ -83,8 +82,7 @@ namespace BoardGame.Core.UI
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 ref var discardCard = ref entity.GetComponent<CardDiscardComponent>();
-                cardComponent.GO.transform.position = position;
-                cardComponent.GO.transform.localScale = size;
+                cardComponent.CardMono.SetMovePositionAnimations(position, size);
 
                 if (!isEnemy)
                 {

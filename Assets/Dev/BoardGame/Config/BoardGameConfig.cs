@@ -46,5 +46,8 @@ namespace BoardGame
         [Header("Size")]
         public Vector3 SizeCardInDeckAndDrop = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 NormalSize = Vector3.one;
+
+        [Header("Rotate")]
+        public Quaternion RotateInTable;
     }
 }

@@ -37,6 +37,7 @@ namespace BoardGame.Core
             {
                 roundData.CurrentRound++;
                 roundData.CurrentTurn = 0;
+
             }
             else
                 roundData.CurrentTurn++;
