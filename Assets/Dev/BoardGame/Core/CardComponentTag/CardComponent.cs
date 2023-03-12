@@ -13,11 +13,10 @@ namespace BoardGame.Core
 
         public string Key;
         public CardNations Nations;
+        public int CyberpsychosisCount;
         public int Price;
-        public CardType Type;
 
-        public AbilityCard Ability;
-        public AbilityCard FractionsAbility;
-        public AbilityCard DropAbility;
+        public AbilityCard Ability_0;
+        public AbilityCard Ability_1;
     }
 }

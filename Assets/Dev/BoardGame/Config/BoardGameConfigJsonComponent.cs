@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,21 +6,19 @@ using Newtonsoft.Json;
 
 namespace BoardGame
 {
-    [System.Serializable]
+    [Serializable]
     public struct BoardGameConfigJson
     {
         public List<CardStats> CardConfig;
     }
 
-    [System.Serializable]
+    [Serializable]
     public struct CardStats
     {
         [JsonProperty("name")]
         public string Name;
         [JsonProperty("header")]
         public string Header;
-        [JsonProperty("descr_mini")]
-        public string Descr_mini;
         [JsonProperty("descr")]
         public string Descr;
 
@@ -27,38 +26,58 @@ namespace BoardGame
         public string ImageKey;
         [JsonProperty("nations")]
         public string Nations;
+        [JsonProperty("cyberpsychosis_count")]
+        public int CyberpsychosisCount;
         [JsonProperty("price")]
         public int Price;
         [JsonProperty("count")]
         public int Count;
-        [JsonProperty("type")]
-        public string Type;
 
-        [JsonProperty("ability")]
-        public AbilityCard Ability;
-        [JsonProperty("fractions_ability")]
-        public AbilityCard FractionsAbility;
-        [JsonProperty("drop_ability")]
-        public AbilityCard DropAbility;
+        [JsonProperty("ability_0")]
+        public AbilityCard Ability_0;
+        [JsonProperty("ability_1")]
+        public AbilityCard Ability_1;
     }
 
-    [System.Serializable]
+    [Serializable]
     public struct AbilityCard
     {
-        [JsonProperty("type")]
-        public AbilityType Type;
-        [JsonProperty("value")]
-        public int Value;
-        [JsonProperty("parameter")]
-        public string Parameter;
+        [JsonProperty("action")]
+        public AbilityAction Action;
+        [JsonProperty("count")]
+        public int Count;
+        [JsonProperty("condition")]
+        public AbilityCondition Condition;
     }
 
-    [System.Serializable]
-    public enum AbilityType
+    [Serializable]
+    public enum AbilityAction
     {
         None,
-        Attack,
-        Trade,
-        Influence
+        attack,
+        trade,
+        influence,
+        drawCard,
+        discardCard,
+        destroyCard,
+        up—yberpsychosis,
+        downCyberpsychosis,
+        cloneCard,
+        noiseCard,
+        thiefCard
+    }
+
+    [Serializable]
+    public enum AbilityCondition
+    {
+        None,
+        cyberpsychosis_5,
+        cyberpsychosis_10,
+        cyberpsychosis_15,
+        doubleCorporates,
+        doubleGuns,
+        doubleNomads,
+        doubleNetrunners,
+        destroyCard,
     }
 }

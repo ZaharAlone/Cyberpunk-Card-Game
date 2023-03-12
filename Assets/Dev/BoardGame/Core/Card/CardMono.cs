@@ -25,21 +25,20 @@ namespace BoardGame.Core
         public GameObject PriceGO;
         public TextMeshProUGUI PriceText;
 
-        [Header("Bottom")]
-        public VerticalLayoutGroup LayoutGroup;
-        public TextMeshProUGUI Header;
-        public CardAbilityView Ability;
-        public Image FractionImage;
-        public CardAbilityView FractionAbility;
-        public CardAbilityView TrashAbility;
+        [Header("Down Block")]
+        public Localize Header;
+        public TextMeshProUGUI Cyberpsychosis;
+        public Transform Ability_0_Container;
+        public Transform Ability_1_Container;
 
         private bool _cardIsBack;
         private Sequence _sequence;
 
-        public void SetViewCard(Sprite imageCard, string header, int price = 0, Sprite imageNations = null)
+        public void SetViewCard(Sprite imageCard, string header, int cyberpsychosis, int price = 0,  Sprite imageNations = null)
         {
-            Header.text = LocalizationManager.GetTranslation(header);
+            Header.Term = header;
             ImageCard.sprite = imageCard;
+            Cyberpsychosis.text = cyberpsychosis.ToString();
 
             if (imageNations != null)
                 ImageNations.sprite = imageNations;
@@ -50,47 +49,6 @@ namespace BoardGame.Core
                 PriceText.text = price.ToString();
             else
                 PriceGO.SetActive(false);
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)LayoutGroup.transform);
-        }
-
-        public void SetAbility(Sprite currency = null, int currency_value = 0, string ability_parameters = "")
-        {
-            SetViewAbility(Ability, currency, currency_value, ability_parameters);
-        }
-
-        public void SetFractionAbiltity(Sprite fractions, Sprite currency = null, int currency_value = 0, string ability_parameters = "")
-        {
-            FractionImage.sprite = fractions;
-            SetViewAbility(FractionAbility, currency, currency_value, ability_parameters);
-        }
-
-        public void SetDropAbility(Sprite currency = null, int currency_value = 0, string ability_parameters = "")
-        {
-            SetViewAbility(TrashAbility, currency, currency_value, ability_parameters);
-        }
-
-        private void SetViewAbility(CardAbilityView ability, Sprite currency = null, int currency_value = 0, string ability_parameters = "")
-        {
-            ability.GO.SetActive(true);
-            if (currency != null)
-            {
-                ability.ImageCurrency.sprite = currency;
-                ability.TextCurrency.text = currency_value.ToString();
-            }
-            else
-            {
-                ability.ImageCurrency.gameObject.SetActive(false);
-            }
-
-            if (ability_parameters != "")
-            {
-                ability.TextAbility.text = LocalizationManager.GetTranslation(ability_parameters);
-            }
-            else
-            {
-                ability.TextAbility.gameObject.SetActive(false);
-            }
         }
 
         public void CardOnBack()

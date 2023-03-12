@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using BoardGame.Core;
@@ -11,6 +13,12 @@ namespace BoardGame
         [Header("Prefab")]
         public GameObject TablePrefab;
         public CardMono CardMono;
+
+        [Header("Element ability card")]
+        public Image IconsBaseAbility;
+        public Image IconsMiniAbility;
+        public TextMeshProUGUI TextBaseAbility;
+        public TextMeshProUGUI TextDotAbility;
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;
@@ -44,7 +52,8 @@ namespace BoardGame
         public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
 
         [Header("Size")]
-        public Vector3 SizeCardInDeckAndDrop = new Vector3(0.8f, 0.8f, 1f);
+        public Vector3 SizeCardInDeck = new Vector3(0.8f, 0.8f, 1f);
+        public Vector3 SizeCardInDrop = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 NormalSize = Vector3.one;
 
         [Header("Rotate")]

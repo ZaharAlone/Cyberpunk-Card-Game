@@ -1,444 +1,436 @@
 [
   {
-    "name": "base_scout",
+    "name": "scout",
     "header": "BoardGameCard/$bgc_scout_name",
-    "descr_mini": NaN,
     "image": "card_scout",
     "nations": "Neutral",
+    "cyberpsychosis_count": 1,
     "price": 0,
     "count": 16,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 1
+    "ability_0": {
+      "action": "trade",
+      "count": 1
     }
   },
   {
-    "name": "base_explorer",
+    "name": "explorer",
     "header": "BoardGameCard/$bgc_explorer_name",
-    "descr_mini": NaN,
     "image": "card_explorer",
     "nations": "Neutral",
+    "cyberpsychosis_count": 2,
     "price": 2,
     "count": 10,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
-    },
-    "drop_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_0": {
+      "action": "trade",
+      "count": 2
     }
   },
   {
-    "name": "base_hunter",
+    "name": "hunter",
     "header": "BoardGameCard/$bgc_hunter_name",
-    "descr_mini": NaN,
     "image": "card_hunter",
     "nations": "Neutral",
+    "cyberpsychosis_count": 1,
     "price": 0,
     "count": 4,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 1
+    "ability_0": {
+      "action": "attack",
+      "count": 1
     }
   },
   {
     "name": "corporates_twins",
-    "header": "BoardGameCard/$bgc_corporates_twins",
-    "descr_mini": NaN,
+    "header": "BoardGameCard/$bgc_corporates_twins_name",
     "image": "card_corporates_twins",
     "nations": "Corporates",
-    "price": 1,
+    "cyberpsychosis_count": 3,
+    "price": 3,
     "count": 3,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 2,
-      "parameter": "discard_opponent_card"
+    "ability_0": {
+      "action": "trade",
+      "count": 3
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "trade",
+      "count": 5,
+      "condition": "doubleCorporates"
     }
   },
   {
     "name": "corporates_engineer",
-    "header": "BoardGameCard/$bgc_corporates_engineer",
-    "descr_mini": NaN,
+    "header": "BoardGameCard/$bgc_corporates_engineer_name",
     "image": "card_corporates_engineer",
     "nations": "Corporates",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 1,
-      "parameter": "draw_card"
+    "cyberpsychosis_count": 3,
+    "price": 3,
+    "count": 4,
+    "ability_0": {
+      "action": "trade",
+      "count": 3
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "noiseCard",
+      "count": 1,
+      "condition": "doubleCorporates"
     }
   },
   {
     "name": "corporates_sergeant",
-    "header": "BoardGameCard/$bgc_corporates_sergeant",
-    "descr_mini": NaN,
+    "header": "BoardGameCard/$bgc_corporates_sergeant_name",
     "image": "card_corporates_sergeant",
     "nations": "Corporates",
+    "cyberpsychosis_count": 3,
     "price": 3,
-    "count": 3,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 4,
-      "parameter": "discard_opponent_card"
+    "count": 4,
+    "ability_0": {
+      "action": "attack",
+      "count": 4
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "trade",
+      "count": 3,
+      "condition": "doubleCorporates"
     }
   },
   {
     "name": "corporates_head_hunter",
-    "header": "BoardGameCard/$bgc_corporates_head_hunter",
-    "descr_mini": NaN,
+    "header": "BoardGameCard/$bgc_corporates_head_hunter_name",
     "image": "card_corporates_head_hunter",
     "nations": "Corporates",
+    "cyberpsychosis_count": 5,
     "price": 7,
     "count": 1,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 7,
-      "parameter": "draw_card"
+    "ability_0": {
+      "action": "attack",
+      "count": 7
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 5
+    "ability_1": {
+      "action": "attack",
+      "count": 10,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "guns_pirate",
     "header": "BoardGameCard/$bgc_guns_pirate_name",
-    "descr_mini": NaN,
     "image": "card_guns_pirate",
     "nations": "Guns",
+    "cyberpsychosis_count": 4,
     "price": 4,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 5
-    }
-  },
-  {
-    "name": "rebels_boy",
-    "header": "BoardGameCard/$bgc_rebels_boy_name",
-    "descr_mini": NaN,
-    "image": "card_rebels_boy",
-    "nations": "Rebels",
-    "price": 1,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_0": {
+      "action": "attack",
+      "count": 4
     },
-    "fractions_ability": {
-      "type": "Trade",
-      "value": 3
+    "ability_1": {
+      "action": "attack",
+      "count": 5,
+      "condition": "doubleGuns"
     }
   },
   {
-    "name": "rebels_thief",
-    "header": "BoardGameCard/$bgc_rebels_thief_name",
-    "descr_mini": NaN,
-    "image": "card_rebels_thief",
-    "nations": "Rebels",
+    "name": "netrunners_boy",
+    "header": "BoardGameCard/$bgc_netrunners_boy_name",
+    "image": "card_netrunners_boy",
+    "nations": "Netrunners",
+    "cyberpsychosis_count": 2,
     "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 1
+    "count": 3,
+    "ability_0": {
+      "action": "destroyCard",
+      "count": 1
     },
-    "fractions_ability": {
-      "type": "Influence",
-      "value": 2
+    "ability_1": {
+      "action": "noiseCard",
+      "count": 1,
+      "condition": "doubleNetrunners"
+    }
+  },
+  {
+    "name": "netrunners_thief",
+    "header": "BoardGameCard/$bgc_netrunners_thief_name",
+    "image": "card_netrunners_thief",
+    "nations": "Netrunners",
+    "cyberpsychosis_count": 2,
+    "price": 2,
+    "count": 3,
+    "ability_0": {
+      "action": "thiefCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "noiseCard",
+      "count": 1,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "corporates_administrator",
     "header": "BoardGameCard/$bgc_corporates_administrator_name",
-    "descr_mini": NaN,
     "image": "card_corporates_administrator",
     "nations": "Corporates",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 3
+    "cyberpsychosis_count": 3,
+    "price": 4,
+    "count": 3,
+    "ability_0": {
+      "action": "trade",
+      "count": 3
     },
-    "fractions_ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_1": {
+      "action": "trade",
+      "count": 5
     }
   },
   {
-    "name": "rebels_networker",
-    "header": "BoardGameCard/$bgc_rebels_networker_name",
-    "descr_mini": NaN,
-    "image": "card_rebels_networker",
-    "nations": "Rebels",
-    "price": 2,
+    "name": "netrunners_networker",
+    "header": "BoardGameCard/$bgc_netrunners_networker_name",
+    "image": "card_netrunners_networker",
+    "nations": "Netrunners",
+    "cyberpsychosis_count": 2,
+    "price": 3,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Attack",
-      "value": 3
+    "ability_0": {
+      "action": "noiseCard",
+      "count": 1
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 5
+    "ability_1": {
+      "action": "up\u0421yberpsychosis",
+      "count": 3,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
-    "name": "rebels_cracker",
-    "header": "BoardGameCard/$bgc_rebels_cracker_name",
-    "descr_mini": NaN,
-    "image": "card_rebels_cracker",
-    "nations": "Rebels",
-    "price": 2,
+    "name": "netrunners_cracker",
+    "header": "BoardGameCard/$bgc_netrunners_cracker_name",
+    "image": "card_netrunners_cracker",
+    "nations": "Netrunners",
+    "cyberpsychosis_count": 2,
+    "price": 3,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "destroyCard",
+      "count": 1
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "noiseCard",
+      "count": 1,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "guns_killer",
     "header": "BoardGameCard/$bgc_guns_killer_name",
-    "descr_mini": NaN,
     "image": "card_guns_killer",
     "nations": "Guns",
-    "price": 2,
+    "cyberpsychosis_count": 2,
+    "price": 4,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "attack",
+      "count": 5
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "trade",
+      "count": 2,
+      "condition": "doubleGuns"
     }
   },
   {
     "name": "guns_chimney",
     "header": "BoardGameCard/$bgc_guns_chimney_name",
-    "descr_mini": NaN,
     "image": "card_guns_chimney",
     "nations": "Guns",
+    "cyberpsychosis_count": 1,
     "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "count": 4,
+    "ability_0": {
+      "action": "attack",
+      "count": 3
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "attack",
+      "count": 2,
+      "condition": "cyberpsychosis_5"
     }
   },
   {
     "name": "guns_russian",
     "header": "BoardGameCard/$bgc_guns_russian_name",
-    "descr_mini": NaN,
     "image": "card_guns_russian",
     "nations": "Guns",
-    "price": 2,
+    "cyberpsychosis_count": 2,
+    "price": 4,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "attack",
+      "count": 5
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "attack",
+      "count": 4,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "nomads_valkyrie",
     "header": "BoardGameCard/$bgc_nomads_valkyrie_name",
-    "descr_mini": NaN,
     "image": "card_nomads_valkyrie",
     "nations": "Nomads",
-    "price": 1,
+    "cyberpsychosis_count": 2,
+    "price": 4,
     "count": 3,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "influence",
+      "count": 2
     },
-    "fractions_ability": {
-      "type": "Influence",
-      "value": 4
+    "ability_1": {
+      "action": "trade",
+      "count": 3,
+      "condition": "doubleNomads"
     }
   },
   {
     "name": "nomads_racer",
     "header": "BoardGameCard/$bgc_nomads_racer_name",
-    "descr_mini": NaN,
     "image": "card_nomads_racer",
     "nations": "Nomads",
-    "price": 2,
+    "cyberpsychosis_count": 2,
+    "price": 4,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "trade",
+      "count": 4
     },
-    "fractions_ability": {
-      "type": "Attack",
-      "value": 2
+    "ability_1": {
+      "action": "influence",
+      "count": 2,
+      "condition": "doubleNomads"
     }
   },
   {
     "name": "nomads_doctor",
     "header": "BoardGameCard/$bgc_nomads_doctor_name",
-    "descr_mini": NaN,
     "image": "card_nomads_doctor",
     "nations": "Nomads",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "cyberpsychosis_count": 3,
+    "price": 6,
+    "count": 1,
+    "ability_0": {
+      "action": "influence",
+      "count": 5
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "downCyberpsychosis",
+      "count": 4,
+      "condition": "doubleNomads"
     }
   },
   {
     "name": "corporates_pathfinder",
     "header": "BoardGameCard/$bgc_corporates_pathfinder_name",
-    "descr_mini": NaN,
     "image": "card_corporates_pathfinder",
     "nations": "Corporates",
-    "price": 2,
+    "cyberpsychosis_count": 3,
+    "price": 5,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "trade",
+      "count": 6
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "attack",
+      "count": 4,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "guns_reckless",
     "header": "BoardGameCard/$bgc_guns_reckless_name",
-    "descr_mini": NaN,
     "image": "card_guns_reckless",
     "nations": "Guns",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "cyberpsychosis_count": 4,
+    "price": 6,
+    "count": 1,
+    "ability_0": {
+      "action": "attack",
+      "count": 5
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "attack",
+      "count": 7,
+      "condition": "cyberpsychosis_15"
     }
   },
   {
     "name": "nomads_samurai",
     "header": "BoardGameCard/$bgc_nomads_samurai_name",
-    "descr_mini": NaN,
     "image": "card_nomads_samurai",
     "nations": "Nomads",
+    "cyberpsychosis_count": 1,
     "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "count": 3,
+    "ability_0": {
+      "action": "drawCard",
+      "count": 1
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "attack",
+      "count": 4,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "guns_bloody_eye",
     "header": "BoardGameCard/$bgc_guns_bloody_eye_name",
-    "descr_mini": NaN,
     "image": "card_guns_bloody_eye",
     "nations": "Guns",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "cyberpsychosis_count": 2,
+    "price": 4,
+    "count": 4,
+    "ability_0": {
+      "action": "attack",
+      "count": 2
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "up\u0421yberpsychosis",
+      "count": 2,
+      "condition": "cyberpsychosis_10"
     }
   },
   {
     "name": "corporates_yellow_eyed",
     "header": "BoardGameCard/$bgc_corporates_yellow_eyed_name",
-    "descr_mini": NaN,
     "image": "card_corporates_yellow_eyed",
     "nations": "Corporates",
-    "price": 2,
+    "cyberpsychosis_count": 5,
+    "price": 7,
     "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "ability_0": {
+      "action": "trade",
+      "count": 4
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "trade",
+      "count": 4,
+      "condition": "doubleCorporates"
     }
   },
   {
-    "name": "rebels_shooter",
-    "header": "BoardGameCard/$bgc_rebels_shooter_name",
-    "descr_mini": NaN,
-    "image": "card_rebels_shooter",
-    "nations": "Rebels",
-    "price": 2,
-    "count": 2,
-    "type": "Ship",
-    "ability": {
-      "type": "Trade",
-      "value": 2
+    "name": "netrunners_shooter",
+    "header": "BoardGameCard/$bgc_netrunners_shooter_name",
+    "image": "card_netrunners_shooter",
+    "nations": "Netrunners",
+    "cyberpsychosis_count": 2,
+    "price": 3,
+    "count": 4,
+    "ability_0": {
+      "action": "destroyCard",
+      "count": 1
     },
-    "fractions_ability": {
-      "type": "attack",
-      "value": 2
+    "ability_1": {
+      "action": "noiseCard",
+      "count": 1,
+      "condition": "cyberpsychosis_10"
     }
   }
 ]

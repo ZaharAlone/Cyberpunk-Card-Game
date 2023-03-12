@@ -6,6 +6,6 @@ public class InitBoardGameModule : MonoBehaviour
 {
     public void Start()
     {
-        EcsWorldContainer.World.ActivateModule<BoardGameModule>();
+        ModulesUnityAdapter.world.ActivateModule<BoardGameModule>();
     }
 }

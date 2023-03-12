@@ -26,7 +26,7 @@ namespace BoardGame.Core
         //Создаем поле
         private void SetupBoard()
         {
-            var resource = EcsWorldContainer.World.NewEntity();
+            var resource = ModulesUnityAdapter.world.NewEntity();
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
             resource.AddComponent(new BoardGameResourceComponent { Table = table });
@@ -48,7 +48,7 @@ namespace BoardGame.Core
                     var cardGO = cardMono.gameObject;
                     SetViewCard(cardMono, card);
 
-                    var entity = EcsWorldContainer.World.NewEntity();
+                    var entity = ModulesUnityAdapter.world.NewEntity();
                     var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
                     entity.AddComponent(cardComponent);
 
@@ -115,34 +115,20 @@ namespace BoardGame.Core
             boardGameData.BoardGameConfig.CardImage.TryGetValue(stats.ImageKey, out var cardImage);
 
             if (cardImage == null)
-                Debug.Log($"Card is name: {stats.ImageKey}");
+                Debug.LogError($"Not find card image is name: {stats.ImageKey}");
 
             if (stats.Nations != "Neutral")
             {
                 boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
-                card.SetViewCard(cardImage, stats.Header, stats.Price, nationsImage);
+                card.SetViewCard(cardImage, stats.Header, stats.CyberpsychosisCount, stats.Price, nationsImage);
             }
             else
-                card.SetViewCard(cardImage, stats.Header, stats.Price);
+                card.SetViewCard(cardImage, stats.Header, stats.CyberpsychosisCount, stats.Price);
 
-            if (stats.Ability.Type != AbilityType.None)
-            {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.Ability.Type.ToString(), out var currencyImage);
-                card.SetAbility(currencyImage, stats.Ability.Value);
-            }
-
-            if (stats.FractionsAbility.Type != AbilityType.None)
-            {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.FractionsAbility.Type.ToString(), out var currencyImage);
-                boardGameData.BoardGameConfig.NationsImage.TryGetValue(stats.Nations, out var nationsImage);
-                card.SetFractionAbiltity(nationsImage, currencyImage, stats.FractionsAbility.Value);
-            }
-
-            if (stats.DropAbility.Type != AbilityType.None)
-            {
-                boardGameData.BoardGameConfig.CurrencyImage.TryGetValue(stats.DropAbility.Type.ToString(), out var currencyImage);
-                card.SetAbility(currencyImage, stats.DropAbility.Value);
-            }
+            if (stats.Ability_0.Action != AbilityAction.None)
+                SetViewAbilityCard.SetView(card.Ability_0_Container, stats.Ability_0, boardGameData.BoardGameConfig);
+            if (stats.Ability_1.Action != AbilityAction.None)
+                SetViewAbilityCard.SetView(card.Ability_1_Container, stats.Ability_1, boardGameData.BoardGameConfig);
 
             card.CardOnBack();
         }
@@ -177,7 +163,7 @@ namespace BoardGame.Core
         private void SetPositionCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeckAndDrop;
+            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeck;
 
             var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
             foreach (var entity in entitiesPlayer)
@@ -185,6 +171,7 @@ namespace BoardGame.Core
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
                 component.Transform.localScale = targetSizeDeckCard;
+                component.GO.SetActive(false);
             }
 
             var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
@@ -193,6 +180,7 @@ namespace BoardGame.Core
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
                 component.Transform.localScale = targetSizeDeckCard;
+                component.GO.SetActive(false);
             }
 
             var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();

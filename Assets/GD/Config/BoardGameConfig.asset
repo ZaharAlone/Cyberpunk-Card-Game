@@ -18,7 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: a686c011e13e02c4bb21fa2c65f75304, type: 3}
     - {fileID: 21300000, guid: a792e0e5b42f8644981310bee60ec643, type: 3}
-    - {fileID: 21300000, guid: 0e9e63021f6bf7f46a408c2d4d6455d6, type: 3}
+    - {fileID: 21300000, guid: 52adcccafc684bb4180208a344fa1eb5, type: 3}
     - {fileID: 21300000, guid: 6626fe5e11c6869478c4440dc0d720d6, type: 3}
     - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
     - {fileID: 21300000, guid: fbb0e82ae7f1c494a9eab82ebb8efdee, type: 3}
@@ -97,7 +97,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Rebels
+      Data: Netrunners
     - Name: $v
       Entry: 10
       Data: 2
@@ -441,7 +441,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_rebels_boy
+      Data: card_netrunners_boy
     - Name: $v
       Entry: 10
       Data: 28
@@ -453,7 +453,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_rebels_cracker
+      Data: card_netrunners_cracker
     - Name: $v
       Entry: 10
       Data: 29
@@ -465,7 +465,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_rebels_networker
+      Data: card_netrunners_networker
     - Name: $v
       Entry: 10
       Data: 30
@@ -477,7 +477,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_rebels_shooter
+      Data: card_netrunners_shooter
     - Name: $v
       Entry: 10
       Data: 31
@@ -489,7 +489,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_rebels_thief
+      Data: card_netrunners_thief
     - Name: $v
       Entry: 10
       Data: 32
@@ -505,6 +505,14 @@ MonoBehaviour:
   TablePrefab: {fileID: 5185846423585439056, guid: 6f4a5c9a6b1bbd247922d63c41470cea,
     type: 3}
   CardMono: {fileID: 397128050539189007, guid: e52fb57fcd59ce8478e09352bf232527, type: 3}
+  IconsBaseAbility: {fileID: 7752582939702526963, guid: 12e2b02019b2bb7419ed88604fc95f12,
+    type: 3}
+  IconsMiniAbility: {fileID: 7429665441295577904, guid: d6fd014ad78a075469d68b29b6c4fa28,
+    type: 3}
+  TextBaseAbility: {fileID: 3902837046628150200, guid: 9a90bfb11b0e27b43ae451c8a5634606,
+    type: 3}
+  TextDotAbility: {fileID: 5219679280586529752, guid: 276ac6e7e00fdf64a985dfa72c32f073,
+    type: 3}
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
   ViewCardCanvas: {fileID: 4457183771650750037, guid: 5c7eadabc92543840b6af85acaff183c,
     type: 3}
@@ -512,14 +520,15 @@ MonoBehaviour:
   StepPosXEnemy: 170
   PositionsCardDeckPlayer: {x: 830, y: -300}
   PlayerHandPosition: {x: 0, y: -420}
-  PlayerCardDiscardPosition: {x: 640, y: -300}
+  PlayerCardDiscardPosition: {x: 880, y: -430}
   PlayerCardPositionInPlay: {x: 0, y: -120}
   PositionsCardDeckEnemy: {x: 830, y: 400}
   EnemyHandPosition: {x: 0, y: 420}
-  EnemyCardDiscardPosition: {x: 610, y: 400}
+  EnemyCardDiscardPosition: {x: 850, y: 400}
   SizeCardEnemy: {x: 0.5, y: 0.5, z: 1}
   PositionsShopFirstCard: {x: -600, y: 200}
   PositionsShopNeutralCard: {x: -830, y: 200}
-  SizeCardInDeckAndDrop: {x: 0.8, y: 0.8, z: 1}
+  SizeCardInDeck: {x: 0.8, y: 0.8, z: 1}
+  SizeCardInDrop: {x: 0.35, y: 0.35, z: 1}
   NormalSize: {x: 1, y: 1, z: 1}
   RotateInTable: {x: 0, y: 0.21643962, z: 0, w: 0.976296}

@@ -16,11 +16,10 @@ namespace BoardGame.Core
                 CardMono = cardMono,
                 Key = stats.Name,
                 Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
+                CyberpsychosisCount = stats.CyberpsychosisCount,
                 Price = stats.Price,
-                Type = (CardType)System.Enum.Parse(typeof(CardType), stats.Type),
-                Ability = stats.Ability,
-                FractionsAbility = stats.FractionsAbility,
-                DropAbility = stats.DropAbility
+                Ability_0 = stats.Ability_0,
+                Ability_1 = stats.Ability_1,
             };
 
             component.CardMono.InteractiveCard.GUID = component.GUID;

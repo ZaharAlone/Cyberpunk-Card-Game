@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 namespace BoardGame.Core.UI
 {
-    public class ActionButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class CardButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        public Animator ActionButtonAnimator;
+        public Animator CardButtonAnimator;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            ActionButtonAnimator.SetTrigger("Select");
+            CardButtonAnimator.SetTrigger("Select");
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            ActionButtonAnimator.SetTrigger("Unselect");
+            CardButtonAnimator.SetTrigger("Unselect");
         }
     }
 }

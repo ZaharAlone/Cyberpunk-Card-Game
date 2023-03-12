@@ -78,6 +78,7 @@ namespace BoardGame.Core
             entity.AddComponent(new CardHandComponent());
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            cardComponent.GO.SetActive(true);
             if (targetPlayer == PlayerEnum.Player)
             {
                 cardComponent.Transform.position = config.PlayerHandPosition;

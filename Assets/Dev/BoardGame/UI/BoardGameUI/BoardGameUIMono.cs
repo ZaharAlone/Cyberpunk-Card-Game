@@ -21,6 +21,7 @@ namespace BoardGame.Core.UI
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
+        public Image ActionButtonImage;
 
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
@@ -38,9 +39,10 @@ namespace BoardGame.Core.UI
             EnemyStats.text = influenceValue.ToString();
         }
 
-        public void SetInteractiveButton(string text)
+        public void SetInteractiveButton(string text, Sprite sprite)
         {
             ActionButtonText.text = text;
+            ActionButtonImage.sprite = sprite;
         }
 
         public void ShowInteractiveButton()

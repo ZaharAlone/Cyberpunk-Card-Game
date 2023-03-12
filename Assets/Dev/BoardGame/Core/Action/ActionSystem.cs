@@ -26,7 +26,7 @@ namespace BoardGame.Core
 
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
-
+            /*
             foreach (var entity in entities)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
@@ -43,7 +43,7 @@ namespace BoardGame.Core
                         actionData.TotalInfluence += component.Ability.Value;
                         break;
                 }
-            }
+            }*/
 
             _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }

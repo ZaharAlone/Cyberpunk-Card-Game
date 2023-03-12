@@ -5,14 +5,7 @@ namespace BoardGame
         Neutral,
         Guns,
         Corporates,
-        Rebels,
+        Netrunners,
         Nomads
-    }
-
-    public enum CardType
-    {
-        Ship,
-        Base,
-        outpost
     }
 }

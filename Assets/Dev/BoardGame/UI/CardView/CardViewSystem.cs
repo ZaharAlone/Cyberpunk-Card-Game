@@ -41,7 +41,7 @@ namespace BoardGame.Core.UI
             var cardMono = canvasCard.GetComponent<InteractiveCardMono>();
             Component.Destroy(cardMono);
 
-            var newEntity = EcsWorldContainer.World.NewEntity();
+            var newEntity = ModulesUnityAdapter.world.NewEntity();
             newEntity.AddComponent(new CardShowViewComponent { GO = canvasCard.gameObject });
 
             cardView.SetActive(true);

@@ -70,7 +70,7 @@ namespace BoardGame.Core.UI
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
-            UpdateDiscardView(entitiesPlayer, config.PlayerCardDiscardPosition, config.SizeCardInDeckAndDrop, false);
+            UpdateDiscardView(entitiesPlayer, config.PlayerCardDiscardPosition, config.SizeCardInDrop, false);
 
             var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardDiscardComponent>().GetEntities();
             UpdateDiscardView(entitiesEnemy, config.EnemyCardDiscardPosition, config.SizeCardEnemy, true);

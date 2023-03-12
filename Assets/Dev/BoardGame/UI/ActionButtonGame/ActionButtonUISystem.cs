@@ -39,17 +39,17 @@ namespace BoardGame.Core.UI
 
             if (cardInHand > 0)
             {
-                ui.UIMono.SetInteractiveButton(config.ActionPlayAll);
+                ui.UIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
                 actionPlayer.CurrentAction = ActionType.PlayAll;
             }
             else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
             {
-                ui.UIMono.SetInteractiveButton(config.ActionAttack);
+                ui.UIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
                 actionPlayer.CurrentAction = ActionType.Attack;
             }
             else
             {
-                ui.UIMono.SetInteractiveButton(config.ActionEndTurn);
+                ui.UIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
                 actionPlayer.CurrentAction = ActionType.EndTurn;
             }
         }

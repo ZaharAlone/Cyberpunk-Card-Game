@@ -25,9 +25,12 @@ namespace BoardGame
         [Tooltip("Сколько карт обычно игрок получает в руку в ход")]
         public int BaseCountDropCard = 5;
 
-        public LocalizedString ActionPlayAll;
-        public LocalizedString ActionAttack;
-        public LocalizedString ActionEndTurn;
+        public LocalizedString ActionPlayAll_loc;
+        public LocalizedString ActionAttack_loc;
+        public LocalizedString ActionEndTurn_loc;
+        public Sprite ActionPlayAll_image;
+        public Sprite ActionAttack_image;
+        public Sprite ActionEndTurn_image;
     }
     
     [System.Serializable]

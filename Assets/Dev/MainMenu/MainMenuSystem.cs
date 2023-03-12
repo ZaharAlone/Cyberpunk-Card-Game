@@ -29,7 +29,7 @@ namespace BoardGame.Meta
         {
             var menu = _dataWorld.OneData<MainMenuData>();
             menu.UI.SetActive(false);
-            EcsWorldContainer.World.InitModule<BoardGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
         }
 
         private void ConnectToServer()
