@@ -13,16 +13,20 @@ using System.Text;
 namespace BoardGame.Meta
 {
     [EcsSystem(typeof(GlobalModule))]
-    public class MainMenuSystem : IInitSystem
+    public class MainMenuSystem : IInitSystem, IDestroySystem, IRunSystem
     {
         private DataWorld _dataWorld;
         public TCP Tcp;
+
+        private bool _isOnServer;
+
+        public Telepathy.Client client = new Telepathy.Client(10000);
 
         public void Init()
         {
             Tcp = new TCP();
             MainMenuMono.ButtonStartGame += StartGame;
-            MainMenuMono.ButtonConnectServer += ConnectToServer;
+            MainMenuMono.ButtonConnectServer += InitServer;
         }
 
         private void StartGame()
@@ -32,6 +36,52 @@ namespace BoardGame.Meta
             ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
         }
 
+        private void InitServer()
+        {
+            // update even if window isn't focused, otherwise we don't receive.
+            Application.runInBackground = true;
+
+            // use Debug.Log functions for Telepathy so we can see it in the console
+            Telepathy.Log.Info = Debug.Log;
+            Telepathy.Log.Warning = Debug.LogWarning;
+            Telepathy.Log.Error = Debug.LogError;
+
+            // hook up events
+            client.OnConnected = () => Debug.Log("Client Connected");
+            client.OnData = (message) => Debug.Log("Client Data: " + BitConverter.ToString(message.Array, message.Offset, message.Count));
+            client.OnDisconnected = () => Debug.Log("Client Disconnected");
+
+            ConnectToServer();
+        }
+
+        private void ConnectToServer()
+        {
+            client.Connect("localhost", 1337);
+            _isOnServer = true;
+        }
+
+        public void Run()
+        {
+            if (!_isOnServer)
+                return;
+
+            // client
+            if (client.Connected)
+            {
+                client.Send(new ArraySegment<byte>(new byte[] { 0x1 }));
+            }
+
+            // tick to process messages
+            // (even if not connected so we still process disconnect messages)
+            client.Tick(100);
+        }
+
+        public void Destroy()
+        {
+            client.Disconnect();
+        }
+
+        /*
         private void ConnectToServer()
         {
             Tcp.Connect();
@@ -68,6 +118,6 @@ namespace BoardGame.Meta
                     break;
                 }
             }
-        }
+        }*/
     }
 }
