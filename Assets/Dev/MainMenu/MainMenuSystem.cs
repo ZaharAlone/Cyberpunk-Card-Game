@@ -4,11 +4,12 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using UnityEngine;
-
+using Telepathy;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace BoardGame.Meta
 {
@@ -16,15 +17,12 @@ namespace BoardGame.Meta
     public class MainMenuSystem : IInitSystem, IDestroySystem, IRunSystem
     {
         private DataWorld _dataWorld;
-        public TCP Tcp;
-
         private bool _isOnServer;
 
-        public Telepathy.Client client = new Telepathy.Client(10000);
+        public Client client = new Client(10000);
 
         public void Init()
         {
-            Tcp = new TCP();
             MainMenuMono.ButtonStartGame += StartGame;
             MainMenuMono.ButtonConnectServer += InitServer;
         }
@@ -47,11 +45,21 @@ namespace BoardGame.Meta
             Telepathy.Log.Error = Debug.LogError;
 
             // hook up events
-            client.OnConnected = () => Debug.Log("Client Connected");
-            client.OnData = (message) => Debug.Log("Client Data: " + BitConverter.ToString(message.Array, message.Offset, message.Count));
+            client.OnConnected += ActionConnetToServer;
+            client.OnData = (message) => Debug.Log("Client Data: " + message);
             client.OnDisconnected = () => Debug.Log("Client Disconnected");
 
             ConnectToServer();
+        }
+
+        private void ActionConnetToServer()
+        {
+            Debug.Log("Client Connected");
+            var test = new TestStruct { NameCard = "Viking", Server = "Valhala", value = 12500 };
+            var date = JsonConvert.SerializeObject(test);
+            var sendData = new SendData { EntityId = "0", Type = test.GetType().ToString(), Data = date };
+            var data = NetworkWriter.Write(sendData);
+            client.Send(data);
         }
 
         private void ConnectToServer()
@@ -65,14 +73,6 @@ namespace BoardGame.Meta
             if (!_isOnServer)
                 return;
 
-            // client
-            if (client.Connected)
-            {
-                client.Send(new ArraySegment<byte>(new byte[] { 0x1 }));
-            }
-
-            // tick to process messages
-            // (even if not connected so we still process disconnect messages)
             client.Tick(100);
         }
 
@@ -80,44 +80,13 @@ namespace BoardGame.Meta
         {
             client.Disconnect();
         }
-
-        /*
-        private void ConnectToServer()
-        {
-            Tcp.Connect();
-            Debug.Log("Is Connect");
-        }
-
-        private async void ConnectServer()
-        {
-            foreach (var a in Dns.GetHostAddresses("localhost"))
-                Debug.Log(a.ToString());
-
-            var addresses = Dns.GetHostAddresses("localhost");
-            var ipAddress = addresses[1];
-            var endPoint = new IPEndPoint(ipAddress, 8701);
-            using Socket sock = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            Debug.Log($"Try to connect to {endPoint}");
-
-            await sock.ConnectAsync(endPoint);
-            while (true)
-            {
-                var message = "Hi friends !<|EOM|>";
-                var messageBytes = Encoding.UTF8.GetBytes(message);
-                _ = await sock.SendAsync(messageBytes, SocketFlags.None);
-                Debug.Log($"Socket client sent message: \"{message}\"");
-
-                // Receive ack.
-                var buffer = new byte[1_024];
-                var received = await sock.ReceiveAsync(buffer, SocketFlags.None);
-                var response = Encoding.UTF8.GetString(buffer, 0, received);
-                if (response == "<|ACK|>")
-                {
-                    Debug.Log(
-                        $"Socket client received acknowledgment: \"{response}\"");
-                    break;
-                }
-            }
-        }*/
     }
+}
+
+[Serializable]
+public struct TestStruct
+{
+    public string NameCard;
+    public string Server;
+    public int value;
 }
