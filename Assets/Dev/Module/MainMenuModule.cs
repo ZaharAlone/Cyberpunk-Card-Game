@@ -14,26 +14,12 @@ using BoardGame.Core.UI;
 
 namespace EcsCore
 {
-    public class BoardGameModule : EcsModule
+    public class MainMenuModule : EcsModule
     {
         private List<Object> _resource = new List<Object>();
 
         protected override async Task Setup()
         {
-            var tasks = new List<Task>();
-
-            var ui = Load<GameObject>("BoardGameUI", tasks);
-            var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
-            var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
-
-            var alltask = Task.WhenAll(tasks.ToArray());
-            await alltask;
-
-            var uiObject = Object.Instantiate(ui.Result);
-            world.CreateOneData(new BoardGameUIComponent { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
-            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
-
-            _resource.Add(uiObject);
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)
