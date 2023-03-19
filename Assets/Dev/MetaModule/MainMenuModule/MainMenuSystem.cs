@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace BoardGame.Meta
 {
-    [EcsSystem(typeof(GlobalModule))]
+    [EcsSystem(typeof(MetaModule))]
     public class MainMenuSystem : IInitSystem, IDestroySystem, IRunSystem
     {
         private DataWorld _dataWorld;

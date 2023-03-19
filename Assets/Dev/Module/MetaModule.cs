@@ -11,10 +11,11 @@ using ModulesFramework.Modules;
 using ModulesFrameworkUnity;
 using ModulesFramework.Data;
 using BoardGame.Core.UI;
+using BoardGame.Meta;
 
 namespace EcsCore
 {
-    public class MainMenuModule : EcsModule
+    public class MetaModule : EcsModule
     {
         private List<Object> _resource = new List<Object>();
 
@@ -27,15 +28,6 @@ namespace EcsCore
             var task = Addressables.LoadAssetAsync<T>(name).Task;
             tasks.Add(task);
             return task;
-        }
-
-        protected override Dictionary<Type, int> GetSystemsOrder()
-        {
-            return new Dictionary<Type, int>
-            {
-                { typeof(CardDistributionSystem), -10 },
-                { typeof(HandUISystem), 0}
-            };
         }
 
         public override void OnDeactivate()

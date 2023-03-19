@@ -25,6 +25,7 @@ namespace EcsCore
             var camera = Load<GameObject>("BoardGameCamera", tasks);
             var input = Load<GameObject>("Input", tasks);
             var metaUI = Load<GameObject>("MainMenuUI", tasks);
+            var popupUI = Load<GameObject>("PopupCanvas", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -33,12 +34,16 @@ namespace EcsCore
             var cameraObject = Object.Instantiate(camera.Result);
             var inputGO = Object.Instantiate(input.Result);
             var metaUIGO = Object.Instantiate(metaUI.Result);
+            var popupUIGO = Object.Instantiate(popupUI.Result);
+            Object.DontDestroyOnLoad(popupUIGO);
 
             world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
             world.CreateOneData(new MainMenuData { UI = metaUIGO });
-
+            world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
             _resource.Add(cameraObject);
+
+            ModulesUnityAdapter.world.InitModule<MetaModule>(true);
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)
