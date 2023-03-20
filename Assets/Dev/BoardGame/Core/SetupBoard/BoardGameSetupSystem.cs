@@ -17,9 +17,6 @@ namespace BoardGame.Core
         {
             SetupBoard();
             SetupCard();
-            SortingShopCard();
-            SortingPlayerCard();
-            SortingEnemyCard();
             SetPositionCard();
         }
 
@@ -36,35 +33,33 @@ namespace BoardGame.Core
         private void SetupCard()
         {
             var json = _dataWorld.OneData<BoardGameConfigJson>();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
+            var deckCardsData = _dataWorld.OneData<DeckCardsData>();
 
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
             var cards = new GameObject { name = "Cards" };
-
-            foreach (var card in json.CardConfig)
+            /*
+            foreach (var card in deckCardsData.NeutralShopCards)
             {
-                for (var i = 0; i < card.Count; i++)
+                var cardMono = Object.Instantiate(boardGameData.BoardGameConfig.CardMono, cards.transform);
+                var cardGO = cardMono.gameObject;
+                SetViewCard(cardMono, card);
+
+                var entity = ModulesUnityAdapter.world.NewEntity();
+                var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
+                entity.AddComponent(cardComponent);
+
+                if (card.Nations != "Neutral")
                 {
-                    var cardMono = Object.Instantiate(boardGameData.BoardGameConfig.CardMono, cards.transform);
-                    var cardGO = cardMono.gameObject;
-                    SetViewCard(cardMono, card);
-
-                    var entity = ModulesUnityAdapter.world.NewEntity();
-                    var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
-                    entity.AddComponent(cardComponent);
-
-                    if (card.Nations != "Neutral")
-                    {
-                        entity.AddComponent(new CardTradeDeckComponent());
-                    }
-                    else
-                    {
-                        if (!CheckCardIsPlayer(card.Name))
-                            entity.AddComponent(new CardNeutralComponent());
-                        else
-                            HandingOutCardPlayers(entity, card.Name);
-                    }
+                    entity.AddComponent(new CardTradeDeckComponent());
                 }
-            }
+                else
+                {
+                    if (!CheckCardIsPlayer(card.Name))
+                        entity.AddComponent(new CardNeutralComponent());
+                    else
+                        HandingOutCardPlayers(entity, card.Name);
+                }
+            }*/
         }
 
         //ѕровер€ем принадлежит ли карта игроку
@@ -132,32 +127,6 @@ namespace BoardGame.Core
 
             card.CardOnBack();
         }
-
-        //“упой копи пастный код который сортирует карты во всех трех колодах.
-        #region
-        private void SortingShopCard()
-        {
-            var entities = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().Count();
-            SortingCard.FirstSorting(count, entities);
-        }
-
-        private void SortingPlayerCard()
-        {
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().Count();
-
-            SortingCard.FirstSorting(count, entities);
-        }
-
-        private void SortingEnemyCard()
-        {
-            var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().GetEntities();
-            var count = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().Count();
-
-            SortingCard.FirstSorting(count, entities);
-        }
-        #endregion
 
         //–аскладываем карты по местам
         private void SetPositionCard()

@@ -2,7 +2,7 @@ using ModulesFramework.Modules;
 
 namespace EcsCore
 {
-    public class MetaModule : EcsModule
+    public class AIModule : EcsModule
     {
     }
 }

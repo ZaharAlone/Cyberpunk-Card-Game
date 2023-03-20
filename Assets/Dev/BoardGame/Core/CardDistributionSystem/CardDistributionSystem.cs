@@ -112,8 +112,8 @@ namespace BoardGame.Core
                                   .Without<CardDiscardComponent>()
                                   .Without<CardHandComponent>()
                                   .Count();
-
-            SortingCard.FirstSorting(count, deckCard);
+            //Rework
+            //SortingCard.FirstSorting(count, deckCard);
             _dataWorld.RiseEvent(new EventUpdateStackCard());
         }
 
@@ -138,8 +138,8 @@ namespace BoardGame.Core
                                   .Without<CardDiscardComponent>()
                                   .Without<CardHandComponent>()
                                   .Count();
-
-            SortingCard.FirstSorting(count, deckCard);
+            //Rework
+            //SortingCard.FirstSorting(count, deckCard);
             _dataWorld.RiseEvent(new EventUpdateStackCard());
         }
     }

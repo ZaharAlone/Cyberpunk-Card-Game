@@ -1,23 +1,23 @@
 using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace BoardGame.Core
 {
     public static class SortingCard
     {
-        public static EntitiesEnumerable FirstSorting(int count, EntitiesEnumerable entities)
+        public static List<PlaceCard> SortingDeckCards(List<PlaceCard> Cards)
         {
-            var sorting = Sorting(count);
-            var index = 0;
-
-            foreach (var entity in entities)
+            var sorting = Sorting(Cards.Count);
+            for (int i = 0; i < Cards.Count; i++)
             {
-                entity.AddComponent(new CardSortingIndexComponent { Index = sorting[index] });
-                index++;
+                var card = Cards[i];
+                card.IDPositions = sorting[i];
+                Cards[i] = card;
             }
 
-            return entities;
+            return Cards;
         }
 
         public static int[] Sorting(int count)

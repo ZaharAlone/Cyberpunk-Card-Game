@@ -6,56 +6,56 @@ using System;
 using UnityEditor;
 #endif
 
-public class MainMenuMono : MonoBehaviour
+namespace BoardGame.Meta
 {
-    public GameObject MainMenuUIBlock;
-    public GameObject SelectTypeOnlineGameUIBlock;
-
-    public static Action ButtonStartGame;
-    public static Action ButtonConnectServer;
-
-    public void PlayOnline()
+    public class MainMenuMono : MonoBehaviour
     {
-        MainMenuUIBlock.SetActive(false);
-        SelectTypeOnlineGameUIBlock.SetActive(true);
-    }
+        public GameObject MainMenuUIBlock;
+        public GameObject SelectTypeOnlineGameUIBlock;
 
-    public void SearchOnlineGame()
-    {
-        ButtonConnectServer?.Invoke();
-    }
+        public void PlayOnline()
+        {
+            MainMenuUIBlock.SetActive(false);
+            SelectTypeOnlineGameUIBlock.SetActive(true);
+        }
 
-    public void PlayCampaign()
-    {
+        public void SearchOnlineGame()
+        {
+            MainMenuAction.ConnectServer?.Invoke();
+        }
 
-    }
+        public void PlayCampaign()
+        {
 
-    public void PlayVsAI()
-    {
-        ButtonStartGame?.Invoke();
-    }
+        }
 
-    public void PlayPassAndPlay()
-    {
+        public void PlayVsAI()
+        {
+            MainMenuAction.StartGame?.Invoke();
+        }
 
-    }
+        public void PlayPassAndPlay()
+        {
 
-    public void Settings()
-    {
+        }
 
-    }
+        public void Settings()
+        {
 
-    public void Exti()
-    {
+        }
+
+        public void Exti()
+        {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
+            EditorApplication.isPlaying = false;
 #else
 		        Application.Quit();
 #endif
-    }
+        }
 
-    public void GoToWebPage(string url)
-    {
-        Application.OpenURL(url);
+        public void GoToWebPage(string url)
+        {
+            Application.OpenURL(url);
+        }
     }
 }
