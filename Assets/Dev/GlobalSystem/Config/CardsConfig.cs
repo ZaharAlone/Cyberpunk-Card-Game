@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 namespace BoardGame
 {
     [Serializable]
-    public struct BoardGameConfigJson
+    public struct CardsConfig
     {
-        public List<CardStats> CardConfig;
+        public Dictionary<string, CardConfig> Cards;
     }
 
     [Serializable]
-    public struct CardStats
+    public struct CardConfig
     {
         [JsonProperty("name")]
         public string Name;

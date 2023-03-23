@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using BoardGame.Meta;
 using UnityEngine;
 using BoardGame.Core;
+using BoardGame;
 
 namespace EcsCore
 {
@@ -26,6 +27,8 @@ namespace EcsCore
             var input = Load<GameObject>("Input", tasks);
             var metaUI = Load<GameObject>("MainMenuUI", tasks);
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
+            var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
+            var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -41,6 +44,7 @@ namespace EcsCore
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
             world.CreateOneData(new MainMenuData { UI = metaUIGO });
             world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
+            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

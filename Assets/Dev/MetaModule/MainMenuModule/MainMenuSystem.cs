@@ -24,7 +24,7 @@ namespace BoardGame.Meta
         {
             var menu = _dataWorld.OneData<MainMenuData>();
             menu.UI.SetActive(false);
-            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
         }
 
         private void InitServer()

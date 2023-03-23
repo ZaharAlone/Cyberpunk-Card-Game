@@ -17,15 +17,15 @@ namespace BoardGame.Core.UI
         public void PostRunEvent(EventUpdateBoardCard _)
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayer == PlayerEnum.Player)
+            if (roundData.CurrentPlayer == PlayerEnum.Player1)
                 UpdateVFX();
         }
 
         private void UpdateVFX()
         {
-            var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
-            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDeckComponent>().GetEntities();
-            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
+            var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
+            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDeckComponent>().GetEntities();
+            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;

@@ -9,7 +9,7 @@ namespace BoardGame.Core
         public GameObject GO;
         public Transform Transform;
         public CardMono CardMono;
-        public CardStats Stats;
+        public CardConfig Stats;
 
         public string Key;
         public CardNations Nations;

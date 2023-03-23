@@ -12,16 +12,16 @@ namespace BoardGame
     /// <summary>
     /// Читаем Json с конфигом кард и записываем его в компонент
     /// </summary>
-    [EcsSystem(typeof(BoardGameModule))]
-    public class BoardGameConfigJsonComponentExtract : IPreInitSystem
+    [EcsSystem(typeof(GlobalModule))]
+    public class CardsConfigExtract : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
-            var dictionary = JsonConvert.DeserializeObject<List<CardStats>>(boardGameData.BoardGameConfig.CardConfigJson.text);
-            _dataWorld.CreateOneData(new BoardGameConfigJson { CardConfig = dictionary });
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfig>>(boardGameData.BoardGameConfig.CardConfigJson.text);
+            _dataWorld.CreateOneData(new CardsConfig { Cards = dictionary });
         }
     }
 }

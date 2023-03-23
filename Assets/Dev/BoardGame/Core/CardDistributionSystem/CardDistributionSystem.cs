@@ -20,12 +20,12 @@ namespace BoardGame.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
-            if (eventValue.Target == PlayerEnum.Player)
+            if (eventValue.Target == PlayerEnum.Player1)
             {
                 for (int i = 0; i < eventValue.Count; i++)
                 {
                     var countPlayerEntities = _dataWorld.Select<CardComponent>()
-                               .With<CardPlayerComponent>()
+                               .With<CardPlayer1Component>()
                                .Without<CardDiscardComponent>()
                                .Without<CardHandComponent>()
                                .Count();
@@ -34,13 +34,13 @@ namespace BoardGame.Core
                         SortingDiscardPlayer();
 
                     var playerEntities = _dataWorld.Select<CardComponent>()
-                                                   .With<CardPlayerComponent>()
+                                                   .With<CardPlayer1Component>()
                                                    .Without<CardDiscardComponent>()
                                                    .Without<CardHandComponent>()
                                                    .GetEntities();
 
                     var id = SortingCard.SelectCard(playerEntities);
-                    AddCard(id, PlayerEnum.Player);
+                    AddCard(id, PlayerEnum.Player1);
                 }
             }
             else
@@ -48,7 +48,7 @@ namespace BoardGame.Core
                 for (int i = 0; i < eventValue.Count; i++)
                 {
                     var countEnemyEntities = _dataWorld.Select<CardComponent>()
-                              .With<CardEnemyComponent>()
+                              .With<CardPlayer2Component>()
                               .Without<CardDiscardComponent>()
                               .Without<CardHandComponent>()
                               .Count();
@@ -57,13 +57,13 @@ namespace BoardGame.Core
                         SortingDiscardEnemy();
 
                     var enemyEntities = _dataWorld.Select<CardComponent>()
-                                                  .With<CardEnemyComponent>()
+                                                  .With<CardPlayer2Component>()
                                                   .Without<CardDiscardComponent>()
                                                   .Without<CardHandComponent>()
                                                   .GetEntities();
 
                     var id = SortingCard.SelectCard(enemyEntities);
-                    AddCard(id, PlayerEnum.Enemy);
+                    AddCard(id, PlayerEnum.Player2);
                 }
             }
 
@@ -79,7 +79,7 @@ namespace BoardGame.Core
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.GO.SetActive(true);
-            if (targetPlayer == PlayerEnum.Player)
+            if (targetPlayer == PlayerEnum.Player1)
             {
                 cardComponent.Transform.position = config.PlayerHandPosition;
                 cardComponent.Transform.localScale = config.NormalSize;
@@ -94,7 +94,7 @@ namespace BoardGame.Core
         private void SortingDiscardPlayer()
         {
             var discardCard = _dataWorld.Select<CardComponent>()
-                                        .With<CardPlayerComponent>()
+                                        .With<CardPlayer1Component>()
                                         .With<CardDiscardComponent>()
                                         .GetEntities();
 
@@ -102,13 +102,13 @@ namespace BoardGame.Core
                 entity.RemoveComponent<CardDiscardComponent>();
 
             var deckCard = _dataWorld.Select<CardComponent>()
-                                     .With<CardPlayerComponent>()
+                                     .With<CardPlayer1Component>()
                                      .Without<CardDiscardComponent>()
                                      .Without<CardHandComponent>()
                                      .GetEntities();
 
             var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardPlayerComponent>()
+                                  .With<CardPlayer1Component>()
                                   .Without<CardDiscardComponent>()
                                   .Without<CardHandComponent>()
                                   .Count();
@@ -120,7 +120,7 @@ namespace BoardGame.Core
         private void SortingDiscardEnemy()
         {
             var discardCard = _dataWorld.Select<CardComponent>()
-                                        .With<CardEnemyComponent>()
+                                        .With<CardPlayer2Component>()
                                         .With<CardDiscardComponent>()
                                         .GetEntities();
 
@@ -128,13 +128,13 @@ namespace BoardGame.Core
                 entity.RemoveComponent<CardDiscardComponent>();
 
             var deckCard = _dataWorld.Select<CardComponent>()
-                                     .With<CardEnemyComponent>()
+                                     .With<CardPlayer2Component>()
                                      .Without<CardDiscardComponent>()
                                      .Without<CardHandComponent>()
                                      .GetEntities();
 
             var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardEnemyComponent>()
+                                  .With<CardPlayer2Component>()
                                   .Without<CardDiscardComponent>()
                                   .Without<CardHandComponent>()
                                   .Count();

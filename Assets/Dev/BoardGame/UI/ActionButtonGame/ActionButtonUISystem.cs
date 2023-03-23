@@ -25,7 +25,7 @@ namespace BoardGame.Core.UI
             var round = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<BoardGameUIComponent>();
 
-            if (round.CurrentPlayer != PlayerEnum.Player)
+            if (round.CurrentPlayer != PlayerEnum.Player1)
             {
                 ui.UIMono.HideInteractiveButton();
                 return;
@@ -33,7 +33,7 @@ namespace BoardGame.Core.UI
 
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
-            var cardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
+            var cardInHand = _dataWorld.Select<CardPlayer1Component>().With<CardHandComponent>().Count();
 
             ui.UIMono.ShowInteractiveButton();
 
@@ -76,7 +76,7 @@ namespace BoardGame.Core.UI
 
         private void PlayAll()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
@@ -93,7 +93,7 @@ namespace BoardGame.Core.UI
             var roundData = _dataWorld.OneData<RoundData>();
             var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
 
-            if (roundData.CurrentPlayer == PlayerEnum.Player)
+            if (roundData.CurrentPlayer == PlayerEnum.Player1)
             {
                 ref var enemyStats = ref _dataWorld.OneData<EnemyStatsData>();
                 enemyStats.Influence -= valueAttack;

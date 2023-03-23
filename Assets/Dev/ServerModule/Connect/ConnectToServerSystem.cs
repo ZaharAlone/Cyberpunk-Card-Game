@@ -32,7 +32,7 @@ namespace BoardGame.Server
             Log.Error = Debug.LogError;
 
             client.OnConnected += OnConnect;
-            client.OnData = (message) => Debug.Log("Client Data: " + message);
+            client.OnData = (message) => Debug.Log("Client Data: " + Encoding.ASCII.GetString(message));
             client.OnDisconnected += ConnectError;
         }
 

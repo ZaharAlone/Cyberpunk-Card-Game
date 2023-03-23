@@ -4,7 +4,7 @@ namespace BoardGame.Core
 {
     public static class SetCardComponent
     {
-        public static CardComponent Set(GameObject go, CardStats stats, CardMono cardMono)
+        public static CardComponent Set(GameObject go, CardConfig stats, CardMono cardMono)
         {
             var component = new CardComponent
             {

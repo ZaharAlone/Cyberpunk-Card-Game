@@ -123,7 +123,7 @@ namespace BoardGame.Core
         {
             var entity = _dataWorld.Select<InteractiveMoveComponent>().SelectFirstEntity();
 
-            if (entity.HasComponent<CardPlayerComponent>())
+            if (entity.HasComponent<CardPlayer1Component>() || entity.HasComponent<CardPlayer2Component>())
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
@@ -163,7 +163,7 @@ namespace BoardGame.Core
                 ref var actionValue = ref _dataWorld.OneData<ActionData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
-                entity.AddComponent(new CardPlayerComponent());
+                entity.AddComponent(new CardPlayer1Component());
                 ClearViewDropItem();
                 entity.AddComponent(new CardDiscardComponent { IsLast = true });
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
@@ -179,7 +179,7 @@ namespace BoardGame.Core
 
         private void ClearViewDropItem()
         {
-            var entitiesCard = _dataWorld.Select<CardDiscardComponent>().With<CardPlayerComponent>().GetEntities();
+            var entitiesCard = _dataWorld.Select<CardDiscardComponent>().With<CardPlayer1Component>().GetEntities();
             foreach (var entity in entitiesCard)
             {
                 ref var component = ref entity.GetComponent<CardDiscardComponent>();

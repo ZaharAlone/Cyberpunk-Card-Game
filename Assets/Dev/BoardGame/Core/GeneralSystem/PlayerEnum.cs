@@ -1,5 +1,5 @@
 public enum PlayerEnum
 {
-    Player,
-    Enemy
+    Player1,
+    Player2
 }

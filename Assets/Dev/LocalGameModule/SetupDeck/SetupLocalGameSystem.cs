@@ -21,46 +21,30 @@ namespace BoardGame.Core
         //Инициализируем все карты
         private void SetupCard()
         {
-            var json = _dataWorld.OneData<BoardGameConfigJson>();
+            var cardsConfig = _dataWorld.OneData<CardsConfig>();
 
             var shopCard = new List<PlaceCard>();
             var neutralShopCard = new List<PlaceCard>();
             var player_1 = new List<PlaceCard>();
             var player_2 = new List<PlaceCard>();
 
-            var counterShopCard = 0;
-            var counterNeutralCard = 0;
-            var counterPlayer_1_Card = 0;
-            var counterPlayer_2_Card = 0;
-
-            foreach (var card in json.CardConfig)
+            foreach (var cardKV in cardsConfig.Cards)
             {
+                var card = cardKV.Value;
                 for (var i = 0; i < card.Count; i++)
                 {
                     if (card.Nations != "Neutral")
-                    {
-                        shopCard.Add(new PlaceCard { IDPositions = counterShopCard, CardName = card.Name });
-                        counterShopCard++;
-                    }
+                        shopCard.Add(new PlaceCard { IDPositions = shopCard.Count, CardName = card.Name });
                     else
                     {
                         if (!CheckCardIsPlayer(card.Name))
-                        {
-                            neutralShopCard.Add(new PlaceCard { IDPositions = counterNeutralCard, CardName = card.Name });
-                            counterNeutralCard++;
-                        }
+                            neutralShopCard.Add(new PlaceCard { IDPositions = neutralShopCard.Count, CardName = card.Name });
                         else
                         {
                             if (CardIsFirstPlayer(player_1, card.Name))
-                            {
-                                player_1.Add(new PlaceCard { IDPositions = counterPlayer_1_Card, CardName = card.Name });
-                                counterPlayer_1_Card++;
-                            }
+                                player_1.Add(new PlaceCard { IDPositions = player_1.Count, CardName = card.Name });
                             else
-                            {
-                                player_2.Add(new PlaceCard { IDPositions = counterPlayer_2_Card, CardName = card.Name });
-                                counterPlayer_2_Card++;
-                            }
+                                player_2.Add(new PlaceCard { IDPositions = player_2.Count, CardName = card.Name });
                         }
                     }
                 }

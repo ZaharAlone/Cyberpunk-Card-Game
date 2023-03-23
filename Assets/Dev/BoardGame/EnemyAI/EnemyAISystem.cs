@@ -18,7 +18,7 @@ namespace BoardGame.Core.Enemy
         {
             var roundData = _dataWorld.OneData<RoundData>();
 
-            if (roundData.CurrentPlayer == PlayerEnum.Enemy)
+            if (roundData.CurrentPlayer == PlayerEnum.Player2)
                 StartTurn();
         }
 
@@ -38,7 +38,7 @@ namespace BoardGame.Core.Enemy
         private void PlayAll()
         {
             Debug.Log("Enemy Play All Card");
-            var entities = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardHandComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
             {

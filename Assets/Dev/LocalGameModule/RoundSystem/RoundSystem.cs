@@ -3,11 +3,12 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using UnityEngine;
+using System;
+using BoardGame.Core;
 
-namespace BoardGame.Core
+namespace BoardGame.Local
 {
-    [EcsSystem(typeof(BoardGameModule))]
+    [EcsSystem(typeof(LocalGameModule))]
     public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>
     {
         private DataWorld _dataWorld;
@@ -15,17 +16,19 @@ namespace BoardGame.Core
         public void Activate()
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = PlayerEnum.Player });
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player, Count = rules.CardInHandFirstPlayerOneRound });
+            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = SelectFirstTurn() });
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player1, Count = rules.CardInHandFirstPlayerOneRound });
         }
-        //¬ключать когда подготовлю сервер, выбор первого игрока
+
         private PlayerEnum SelectFirstTurn()
         {
-            var select = Random.Range(0, 2);
+            var random = new Random();
+            var select = random.Next(0, 1);
+            
             if (select == 0)
-                return PlayerEnum.Player;
+                return PlayerEnum.Player1;
             else
-                return PlayerEnum.Enemy;
+                return PlayerEnum.Player2;
         }
 
         public void PostRunEvent(EventEndCurrentTurn _) => SwitchRound();
@@ -42,10 +45,10 @@ namespace BoardGame.Core
             else
                 roundData.CurrentTurn++;
 
-            if (roundData.CurrentPlayer == PlayerEnum.Player)
-                roundData.CurrentPlayer = PlayerEnum.Enemy;
+            if (roundData.CurrentPlayer == PlayerEnum.Player1)
+                roundData.CurrentPlayer = PlayerEnum.Player2;
             else
-                roundData.CurrentPlayer = PlayerEnum.Player;
+                roundData.CurrentPlayer = PlayerEnum.Player1;
 
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.BaseCountDropCard });

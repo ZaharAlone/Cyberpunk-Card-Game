@@ -9,7 +9,7 @@ namespace BoardGame
     public class BoardGameRuleSettings : SerializedScriptableObject
     {
         [Header ("Базовые параметры игрока")]
-        public List<Cards> BasePoolCard = new List<Cards>();
+        public List<KeyValue> BasePoolCard = new List<KeyValue>();
         public int BaseInfluenceCount = 50;
         public int BaseCyberpsychosisCount = 0;
 
@@ -31,12 +31,5 @@ namespace BoardGame
         public Sprite ActionPlayAll_image;
         public Sprite ActionAttack_image;
         public Sprite ActionEndTurn_image;
-    }
-    
-    [System.Serializable]
-    public struct Cards
-    {
-        public string Key;
-        public int Value;
     }
 }

@@ -69,10 +69,10 @@ namespace BoardGame.Core.UI
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayerComponent>().With<CardDiscardComponent>().GetEntities();
+            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
             UpdateDiscardView(entitiesPlayer, config.PlayerCardDiscardPosition, config.SizeCardInDrop, false);
 
-            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardEnemyComponent>().With<CardDiscardComponent>().GetEntities();
+            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardDiscardComponent>().GetEntities();
             UpdateDiscardView(entitiesEnemy, config.EnemyCardDiscardPosition, config.SizeCardEnemy, true);
         }
 
@@ -101,10 +101,10 @@ namespace BoardGame.Core.UI
             var roundData = _dataWorld.OneData<RoundData>();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            if (roundData.CurrentPlayer == PlayerEnum.Player)
+            if (roundData.CurrentPlayer == PlayerEnum.Player1)
             {
                 var stackCard = _dataWorld.Select<CardComponent>()
-                                          .With<CardPlayerComponent>()
+                                          .With<CardPlayer1Component>()
                                           .Without<CardDiscardComponent>()
                                           .Without<CardHandComponent>()
                                           .GetEntities();
@@ -119,7 +119,7 @@ namespace BoardGame.Core.UI
             else
             {
                 var stackCard = _dataWorld.Select<CardComponent>()
-                                          .With<CardEnemyComponent>()
+                                          .With<CardPlayer2Component>()
                                           .Without<CardDiscardComponent>()
                                           .Without<CardHandComponent>()
                                           .GetEntities();

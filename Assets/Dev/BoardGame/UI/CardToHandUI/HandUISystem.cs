@@ -21,17 +21,17 @@ namespace BoardGame.Core.UI
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var uiRect = _dataWorld.OneData<BoardGameUIComponent>().UIMono.UIRect;
 
-            if (round.CurrentPlayer == PlayerEnum.Player)
+            if (round.CurrentPlayer == PlayerEnum.Player1)
             {
-                var countCardInHand = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().Count();
-                var entities = _dataWorld.Select<CardPlayerComponent>().With<CardHandComponent>().GetEntities();
+                var countCardInHand = _dataWorld.Select<CardPlayer1Component>().With<CardHandComponent>().Count();
+                var entities = _dataWorld.Select<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
                 var position = new Vector2(0, -uiRect.rect.height / 2 + 142);
                 UpdateView(entities, countCardInHand, position, config.StepPosXPlayer);
             }
             else
             {
-                var countCardInHand = _dataWorld.Select<CardEnemyComponent>().With<CardHandComponent>().Count();
-                var entities = _dataWorld.Select<CardEnemyComponent>().With<CardHandComponent>().GetEntities();
+                var countCardInHand = _dataWorld.Select<CardPlayer2Component>().With<CardHandComponent>().Count();
+                var entities = _dataWorld.Select<CardPlayer2Component>().With<CardHandComponent>().GetEntities();
                 var position = new Vector2(0, uiRect.rect.height / 2 - 142 * config.SizeCardEnemy.y);
                 UpdateView(entities, countCardInHand, position, config.StepPosXEnemy);
             }
