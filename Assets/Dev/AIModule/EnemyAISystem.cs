@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BoardGame.Core.Enemy
 {
-    [EcsSystem(typeof(BoardGameModule))]
+    [EcsSystem(typeof(AIModule))]
     public class EnemyAISystem : IPostRunEventSystem<EventEndCurrentTurn>
     {
         private DataWorld _dataWorld;

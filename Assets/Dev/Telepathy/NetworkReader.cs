@@ -7,12 +7,15 @@ using Newtonsoft.Json;
 
 namespace Telepathy
 {
-    public class NetworkReader
+    public static class NetworkReader
     {
-        private Dictionary<Type, Action<object>> _handlers = new Dictionary<Type, Action<object>>();
+        private static Dictionary<Type, Action<object>> _handlers = new Dictionary<Type, Action<object>>();
 
-        public void OnMsg(SendData sendData)
+        public static void OnMsg(ArraySegment<byte> msg)
         {
+            var message = Encoding.ASCII.GetString(msg);
+            var sendData = JsonConvert.DeserializeObject<SendData>(message);
+
             var type = Type.GetType(sendData.Type);
             if (_handlers.TryGetValue(type, out var handler))
             {
@@ -21,7 +24,7 @@ namespace Telepathy
             }
         }
 
-        public void RegisterHandle<T>(Action<T> onMsg)
+        public static void RegisterHandle<T>(Action<T> onMsg)
         {
             var handler = new Action<object>(deserialized =>
             {

@@ -23,10 +23,10 @@ namespace BoardGame.Core
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
 
-            var shopCard = new List<PlaceCard>();
-            var neutralShopCard = new List<PlaceCard>();
-            var player_1 = new List<PlaceCard>();
-            var player_2 = new List<PlaceCard>();
+            var shopCard = new List<CardData>();
+            var neutralShopCard = new List<CardData>();
+            var player_1 = new List<CardData>();
+            var player_2 = new List<CardData>();
 
             foreach (var cardKV in cardsConfig.Cards)
             {
@@ -34,17 +34,17 @@ namespace BoardGame.Core
                 for (var i = 0; i < card.Count; i++)
                 {
                     if (card.Nations != "Neutral")
-                        shopCard.Add(new PlaceCard { IDPositions = shopCard.Count, CardName = card.Name });
+                        shopCard.Add(new CardData { IDPositions = shopCard.Count, CardName = card.Name });
                     else
                     {
                         if (!CheckCardIsPlayer(card.Name))
-                            neutralShopCard.Add(new PlaceCard { IDPositions = neutralShopCard.Count, CardName = card.Name });
+                            neutralShopCard.Add(new CardData { IDPositions = neutralShopCard.Count, CardName = card.Name });
                         else
                         {
                             if (CardIsFirstPlayer(player_1, card.Name))
-                                player_1.Add(new PlaceCard { IDPositions = player_1.Count, CardName = card.Name });
+                                player_1.Add(new CardData { IDPositions = player_1.Count, CardName = card.Name });
                             else
-                                player_2.Add(new PlaceCard { IDPositions = player_2.Count, CardName = card.Name });
+                                player_2.Add(new CardData { IDPositions = player_2.Count, CardName = card.Name });
                         }
                     }
                 }
@@ -68,7 +68,7 @@ namespace BoardGame.Core
             return isPlayer;
         }
 
-        private bool CardIsFirstPlayer(List<PlaceCard> playerCard, string Key)
+        private bool CardIsFirstPlayer(List<CardData> playerCard, string Key)
         {
             var targetCountCard = 0;
             var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();

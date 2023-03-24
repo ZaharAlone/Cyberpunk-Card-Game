@@ -16,19 +16,8 @@ namespace BoardGame.Local
         public void Activate()
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = SelectFirstTurn() });
+            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = SelectFirstPlayer.Select() });
             _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player1, Count = rules.CardInHandFirstPlayerOneRound });
-        }
-
-        private PlayerEnum SelectFirstTurn()
-        {
-            var random = new Random();
-            var select = random.Next(0, 1);
-            
-            if (select == 0)
-                return PlayerEnum.Player1;
-            else
-                return PlayerEnum.Player2;
         }
 
         public void PostRunEvent(EventEndCurrentTurn _) => SwitchRound();
@@ -40,7 +29,6 @@ namespace BoardGame.Local
             {
                 roundData.CurrentRound++;
                 roundData.CurrentTurn = 0;
-
             }
             else
                 roundData.CurrentTurn++;

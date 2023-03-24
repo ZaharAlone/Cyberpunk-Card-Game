@@ -6,7 +6,7 @@ namespace BoardGame.Core
 {
     public static class SortingCard
     {
-        public static List<PlaceCard> SortingDeckCards(List<PlaceCard> Cards)
+        public static List<CardData> SortingDeckCards(List<CardData> Cards)
         {
             var sorting = Sorting(Cards.Count);
             for (int i = 0; i < Cards.Count; i++)

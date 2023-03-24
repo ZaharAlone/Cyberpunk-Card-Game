@@ -17,7 +17,6 @@ namespace Telepathy
     [Serializable]
     public struct SendData
     {
-        public string EntityId;
         public string Type;
         public string Data;
     }

@@ -32,7 +32,7 @@ namespace BoardGame.Server
             Log.Error = Debug.LogError;
 
             client.OnConnected += OnConnect;
-            client.OnData = (message) => Debug.Log("Client Data: " + Encoding.ASCII.GetString(message));
+            client.OnData = (message) => NetworkReader.OnMsg(message);
             client.OnDisconnected += ConnectError;
         }
 
@@ -47,16 +47,7 @@ namespace BoardGame.Server
 
         private void OnConnect()
         {
-            PopupAction.CloseWaitPopup?.Invoke();
-            PopupAction.WaitPopup?.Invoke("MainMenu/$bt_searchOnlineGame_name");
-
-            /*
-            Debug.Log("Client Connected");
-            var test = new TestStruct { NameCard = "Viking", Server = "Valhala", value = 12500 };
-            var date = JsonConvert.SerializeObject(test);
-            var sendData = new SendData { EntityId = "0", Type = test.GetType().ToString(), Data = date };
-            var data = NetworkWriter.Write(sendData);
-            client.Send(data);*/
+            WaitConnectGameAction.Init?.Invoke();
         }
 
         private void ConnectError()
@@ -79,3 +70,13 @@ namespace BoardGame.Server
         }
     }
 }
+
+
+
+/*
+Debug.Log("Client Connected");
+var test = new TestStruct { NameCard = "Viking", Server = "Valhala", value = 12500 };
+var date = JsonConvert.SerializeObject(test);
+var sendData = new SendData { EntityId = "0", Type = test.GetType().ToString(), Data = date };
+var data = NetworkWriter.Write(sendData);
+client.Send(data);*/

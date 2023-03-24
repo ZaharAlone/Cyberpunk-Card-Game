@@ -60,7 +60,7 @@ namespace BoardGame.Core
             }
         }
 
-        private Entity InitCard(PlaceCard placeCard, Transform parent)
+        private Entity InitCard(CardData placeCard, Transform parent)
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;

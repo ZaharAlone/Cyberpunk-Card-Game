@@ -7,9 +7,9 @@ namespace BoardGame.Core
     [Serializable]
     public struct DeckCardsData
     {
-        public List<PlaceCard> ShopCards;
-        public List<PlaceCard> NeutralShopCards;
-        public List<PlaceCard> PlayerCards_1;
-        public List<PlaceCard> PlayerCards_2;
+        public List<CardData> ShopCards;
+        public List<CardData> NeutralShopCards;
+        public List<CardData> PlayerCards_1;
+        public List<CardData> PlayerCards_2;
     }
 }
