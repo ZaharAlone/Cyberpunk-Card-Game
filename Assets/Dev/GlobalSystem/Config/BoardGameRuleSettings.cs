@@ -20,10 +20,8 @@ namespace BoardGame
         [Tooltip("Какие карты присутсвуют в магазине кроме общей колоды")]
         public string KeyCardsInShopAdd;
 
-        [Tooltip("Сколько карт первый игрок получает в руку в первый ход")]
-        public int CardInHandFirstPlayerOneRound = 3;
         [Tooltip("Сколько карт обычно игрок получает в руку в ход")]
-        public int BaseCountDropCard = 5;
+        public int CountDropCard = 5;
 
         public LocalizedString ActionPlayAll_loc;
         public LocalizedString ActionAttack_loc;

@@ -20,7 +20,7 @@ namespace BoardGame.Server
         private DataWorld _dataWorld;
         private bool _isOnServer;
 
-        public Client client = new Client(10000);
+        public Client client = new Client(1500);
 
         public void Init()
         {

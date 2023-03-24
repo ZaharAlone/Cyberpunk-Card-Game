@@ -19,9 +19,6 @@ namespace BoardGame.Server
     public class WaitConnectGameSystem : IInitSystem
     {
         private DataWorld _dataWorld;
-        private bool _isOnServer;
-
-        public Client client = new Client(10000);
 
         public void Init()
         {
@@ -30,14 +27,42 @@ namespace BoardGame.Server
 
         private void InitWait()
         {
+            Debug.LogError("Wait Init");
             PopupAction.CloseWaitPopup?.Invoke();
             PopupAction.WaitPopup?.Invoke("MainMenu/$bt_searchOnlineGame_name");
+
             NetworkReader.RegisterHandle<RoundData>(InitRoundData);
+
+            _dataWorld.CreateOneData(new DeckCardsData());
+            NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
+            NetworkReader.RegisterHandle<PlayersComponent>(InitPlayerCard);
         }
 
         private void InitRoundData(RoundData roundData)
         {
+            Debug.LogError("Get Round Data");
+            _dataWorld.CreateOneData(roundData);
 
+            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
+        }
+
+        private void InitShopCard(ShopCardComponent shopCard)
+        {
+            ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
+
+            deckCard.NeutralShopCards = shopCard.NeutralCardTradeRow;
+            deckCard.ShopCards = shopCard.CardTradeRow;
+        }
+
+        private void InitPlayerCard(PlayersComponent playerCard)
+        {
+            ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
+
+            deckCard.PlayerCards_1 = playerCard.Player1.DeckCard;
+            deckCard.PlayerCards_2 = playerCard.Player2.DeckCard;
+
+            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
         }
     }
 }
