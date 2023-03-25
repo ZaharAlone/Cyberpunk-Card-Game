@@ -20,7 +20,7 @@ namespace BoardGame.Server
         private DataWorld _dataWorld;
         private bool _isOnServer;
 
-        public Client client = new Client(1500);
+        public Client client = new Client(16384);
 
         public void Init()
         {
@@ -32,8 +32,15 @@ namespace BoardGame.Server
             Log.Error = Debug.LogError;
 
             client.OnConnected += OnConnect;
-            client.OnData = (message) => NetworkReader.OnMsg(message);
+            client.OnData += (message) => readDataMessage(message);
             client.OnDisconnected += ConnectError;
+        }
+
+        private void readDataMessage(ArraySegment<byte> message)
+        {
+            Debug.Log($"Read message {message}");
+
+            NetworkReader.OnMsg(message);
         }
 
         private void InitServer()
@@ -43,10 +50,13 @@ namespace BoardGame.Server
 
             client.Connect("localhost", 1337);
             _isOnServer = true;
+
+            Debug.Log("Init Server Connect");
         }
 
         private void OnConnect()
         {
+            Debug.Log("Client Connect");
             WaitConnectGameAction.Init?.Invoke();
         }
 

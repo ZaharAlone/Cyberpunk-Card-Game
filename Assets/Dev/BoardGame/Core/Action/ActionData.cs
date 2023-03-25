@@ -1,7 +1,8 @@
-using UnityEngine;
+using System;
 
 namespace BoardGame.Core
 {
+    [Serializable]
     public struct ActionData
     {
         public int TotalAttack;

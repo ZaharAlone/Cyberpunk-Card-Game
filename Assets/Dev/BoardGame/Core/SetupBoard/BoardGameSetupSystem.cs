@@ -53,7 +53,7 @@ namespace BoardGame.Core
                 entity.AddComponent(new CardPlayer1Component());
             }
 
-            foreach (var item in deckCardsData.ShopCards)
+            foreach (var item in deckCardsData.PlayerCards_2)
             {
                 var entity = InitCard(item, cardsParent);
                 entity.AddComponent(new CardPlayer2Component());

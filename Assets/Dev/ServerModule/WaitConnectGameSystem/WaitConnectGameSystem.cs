@@ -36,6 +36,16 @@ namespace BoardGame.Server
             _dataWorld.CreateOneData(new DeckCardsData());
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
             NetworkReader.RegisterHandle<PlayersComponent>(InitPlayerCard);
+            NetworkReader.RegisterHandle<ActionData>(InitActionData);
+            NetworkReader.RegisterHandle<StartGameComponent>(StartGame);
+        }
+
+        private void StartGame(StartGameComponent _)
+        {
+            PopupAction.CloseWaitPopup?.Invoke();
+            var menu = _dataWorld.OneData<MainMenuData>();
+            menu.UI.SetActive(false);
+            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
         }
 
         private void InitRoundData(RoundData roundData)
@@ -49,6 +59,7 @@ namespace BoardGame.Server
 
         private void InitShopCard(ShopCardComponent shopCard)
         {
+            Debug.LogError("Get ShopCard");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.NeutralShopCards = shopCard.NeutralCardTradeRow;
@@ -57,12 +68,17 @@ namespace BoardGame.Server
 
         private void InitPlayerCard(PlayersComponent playerCard)
         {
+            Debug.LogError("Get Player Card");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.PlayerCards_1 = playerCard.Player1.DeckCard;
             deckCard.PlayerCards_2 = playerCard.Player2.DeckCard;
+        }
 
-            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
+        private void InitActionData(ActionData actionData)
+        {
+            Debug.LogError("Get Action Data");
+            _dataWorld.CreateOneData(actionData);
         }
     }
 }

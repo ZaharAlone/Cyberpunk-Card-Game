@@ -333,6 +333,7 @@ namespace Telepathy
                 // still keeping the pooled byte[] alive by not removing anything.
                 if (state.receivePipe.TryPeek(out int _, out EventType eventType, out ArraySegment<byte> message))
                 {
+                    Log.Info("event type" + eventType.ToString());
                     switch (eventType)
                     {
                         case EventType.Connected:
