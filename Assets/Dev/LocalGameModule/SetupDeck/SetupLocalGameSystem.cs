@@ -15,7 +15,8 @@ namespace BoardGame.Core
         public void PreInit()
         {
             SetupCard();
-            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<CoreModule>(true);
+            _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
         //Инициализируем все карты

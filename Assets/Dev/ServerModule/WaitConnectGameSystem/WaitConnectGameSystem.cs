@@ -27,7 +27,7 @@ namespace BoardGame.Server
 
         private void InitWait()
         {
-            Debug.LogError("Wait Init");
+            Debug.Log("Wait Init");
             PopupAction.CloseWaitPopup?.Invoke();
             PopupAction.WaitPopup?.Invoke("MainMenu/$bt_searchOnlineGame_name");
 
@@ -35,8 +35,10 @@ namespace BoardGame.Server
 
             _dataWorld.CreateOneData(new DeckCardsData());
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
-            NetworkReader.RegisterHandle<PlayersComponent>(InitPlayerCard);
+            NetworkReader.RegisterHandle<PlayersComponent>(InitPlayers);
             NetworkReader.RegisterHandle<ActionData>(InitActionData);
+            NetworkReader.RegisterHandle<ViewPlayerData>(InitPlayerView);
+
             NetworkReader.RegisterHandle<StartGameComponent>(StartGame);
         }
 
@@ -45,40 +47,47 @@ namespace BoardGame.Server
             PopupAction.CloseWaitPopup?.Invoke();
             var menu = _dataWorld.OneData<MainMenuData>();
             menu.UI.SetActive(false);
-            ModulesUnityAdapter.world.InitModule<BoardGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<CoreModule>(true);
+            _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
         private void InitRoundData(RoundData roundData)
         {
-            Debug.LogError("Get Round Data");
+            Debug.Log("Get Round Data");
             _dataWorld.CreateOneData(roundData);
-
-            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
         }
 
         private void InitShopCard(ShopCardComponent shopCard)
         {
-            Debug.LogError("Get ShopCard");
+            Debug.Log("Get ShopCard");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.NeutralShopCards = shopCard.NeutralCardTradeRow;
             deckCard.ShopCards = shopCard.CardTradeRow;
         }
 
-        private void InitPlayerCard(PlayersComponent playerCard)
+        private void InitPlayers(PlayersComponent playerCard)
         {
-            Debug.LogError("Get Player Card");
+            Debug.Log("Get Players info");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.PlayerCards_1 = playerCard.Player1.DeckCard;
             deckCard.PlayerCards_2 = playerCard.Player2.DeckCard;
+
+            ref var player1stats = ref _dataWorld.OneData<Player1StatsData>();
+            ref var player2stats = ref _dataWorld.OneData<Player2StatsData>();
         }
 
         private void InitActionData(ActionData actionData)
         {
-            Debug.LogError("Get Action Data");
+            Debug.Log("Get Action Data");
             _dataWorld.CreateOneData(actionData);
+        }
+
+        private void InitPlayerView(ViewPlayerData view)
+        {
+            Debug.Log("Get View Player");
+            _dataWorld.CreateOneData(view);
         }
     }
 }

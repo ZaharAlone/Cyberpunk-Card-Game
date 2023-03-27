@@ -19,7 +19,7 @@ namespace BoardGame
 
         public void PreInit()
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
             var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfig>>(boardGameData.BoardGameConfig.CardConfigJson.text);
             _dataWorld.CreateOneData(new CardsConfig { Cards = dictionary });
         }

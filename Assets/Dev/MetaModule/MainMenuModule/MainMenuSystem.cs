@@ -17,6 +17,7 @@ namespace BoardGame.Meta
         public void Init()
         {
             MainMenuAction.StartGame += StartGame;
+            MainMenuAction.StartGamePassAndPlay += StartGamePassAndPlay;
             MainMenuAction.ConnectServer += InitServer;
         }
 
@@ -25,6 +26,15 @@ namespace BoardGame.Meta
             var menu = _dataWorld.OneData<MainMenuData>();
             menu.UI.SetActive(false);
             ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<VSAIModule>(true);
+        }
+
+        private void StartGamePassAndPlay()
+        {
+            var menu = _dataWorld.OneData<MainMenuData>();
+            menu.UI.SetActive(false);
+            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
+            ModulesUnityAdapter.world.InitModule<PassAndPlayModule>(true);
         }
 
         private void InitServer()

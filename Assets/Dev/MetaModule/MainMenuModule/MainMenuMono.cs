@@ -36,7 +36,7 @@ namespace BoardGame.Meta
 
         public void PlayPassAndPlay()
         {
-
+            MainMenuAction.StartGamePassAndPlay?.Invoke();
         }
 
         public void Settings()
