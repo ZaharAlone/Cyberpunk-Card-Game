@@ -23,7 +23,7 @@ namespace BoardGame.Core.UI
         public void Run()
         {
             var round = _dataWorld.OneData<RoundData>();
-            var ui = _dataWorld.OneData<BoardGameUIComponent>();
+            var ui = _dataWorld.OneData<UIData>();
 
             if (round.CurrentPlayer != PlayerEnum.Player1)
             {

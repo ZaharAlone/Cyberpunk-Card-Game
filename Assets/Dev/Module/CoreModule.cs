@@ -28,7 +28,7 @@ namespace EcsCore
             await alltask;
 
             var uiObject = Object.Instantiate(ui.Result);
-            world.CreateOneData(new BoardGameUIComponent { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
+            world.CreateOneData(new UIData { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
 
             _resource.Add(uiObject);
         }

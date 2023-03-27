@@ -36,7 +36,7 @@ namespace BoardGame.Core.UI
         private void UpdateView(EntitiesEnumerable entities, int countCardInHand, PlayerEnum isPlayer)
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var uiRect = _dataWorld.OneData<BoardGameUIComponent>().UIMono.UIRect;
+            var uiRect = _dataWorld.OneData<UIData>().UIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var position = new Vector2();
@@ -45,10 +45,12 @@ namespace BoardGame.Core.UI
             if (viewPlayer.PlayerView == isPlayer)
             {
                 position = new Vector2(0, -uiRect.rect.height / 2 + 142);
+                stepX = config.StepPosXPlayerDown;
             }
             else
             {
                 position = new Vector2(0, uiRect.rect.height / 2 - 142 * config.SizeCardPlayerUp.y);
+                stepX = config.StepPosXPlayerUp;
             }
 
             foreach (var entity in entities)

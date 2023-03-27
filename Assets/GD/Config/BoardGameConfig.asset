@@ -516,19 +516,17 @@ MonoBehaviour:
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
   ViewCardCanvas: {fileID: 4457183771650750037, guid: 5c7eadabc92543840b6af85acaff183c,
     type: 3}
-  StepPosXPlayer: 210
-  StepPosXEnemy: 170
+  StepPosXPlayerDown: 210
+  StepPosXPlayerUp: 170
   PositionsCardDeckPlayer: {x: 830, y: -300}
   PlayerHandPosition: {x: 0, y: -420}
-  PlayerCardDiscardPosition: {x: 880, y: -430}
   PlayerCardPositionInPlay: {x: 0, y: -120}
   PositionsCardDeckEnemy: {x: 830, y: 400}
   EnemyHandPosition: {x: 0, y: 420}
-  EnemyCardDiscardPosition: {x: 850, y: 400}
-  SizeCardEnemy: {x: 0.5, y: 0.5, z: 1}
+  SizeCardPlayerUp: {x: 0.25, y: 0.25, z: 1}
   PositionsShopFirstCard: {x: -600, y: 200}
   PositionsShopNeutralCard: {x: -830, y: 200}
   SizeCardInDeck: {x: 0.8, y: 0.8, z: 1}
-  SizeCardInDrop: {x: 0.35, y: 0.35, z: 1}
+  SizeCardPlayerDown: {x: 0.25, y: 0.25, z: 1}
   NormalSize: {x: 1, y: 1, z: 1}
   RotateInTable: {x: 0, y: 0.21643962, z: 0, w: 0.976296}

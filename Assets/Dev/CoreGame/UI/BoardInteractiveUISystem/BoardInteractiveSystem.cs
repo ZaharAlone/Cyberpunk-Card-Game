@@ -11,7 +11,7 @@ using ModulesFramework.Data.Enumerators;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventUpdateStackCard>
+    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventUpdateDeckCard>
     {
         private DataWorld _dataWorld;
 
@@ -25,7 +25,7 @@ namespace BoardGame.Core.UI
                 ref var componentCard = ref entity.GetComponent<CardComponent>();
 
                 var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
-                var ui = _dataWorld.OneData<BoardGameUIComponent>();
+                var ui = _dataWorld.OneData<UIData>();
 
                 if (distance > 150)
                     ui.UIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
@@ -36,13 +36,13 @@ namespace BoardGame.Core.UI
 
         public void PostRunEvent(EventUpdateBoardCard _)
         {
-            UpdateDeck();
+            UpdateTableCards();
             UpdateDiscardHub();
         }
 
-        public void PostRunEvent(EventUpdateStackCard _) => UpdateStack();
+        public void PostRunEvent(EventUpdateDeckCard _) => UpdateDeck();
 
-        private void UpdateDeck()
+        private void UpdateTableCards()
         {
             var countCard = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().Count();
             var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
@@ -68,12 +68,22 @@ namespace BoardGame.Core.UI
         private void UpdateDiscardHub()
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var ui = _dataWorld.OneData<UIData>().UIMono;
 
-            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
-            UpdateDiscardView(entitiesPlayer, config.PlayerCardDiscardPosition, config.SizeCardInDrop, false);
+            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
+            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardDiscardComponent>().GetEntities();
 
-            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardDiscardComponent>().GetEntities();
-            UpdateDiscardView(entitiesEnemy, config.EnemyCardDiscardPosition, config.SizeCardPlayerUp, true);
+            if (viewPlayer.PlayerView == PlayerEnum.Player1)
+            {
+                UpdateDiscardView(entitiesPlayer1, ui.DiscardDownCard.localPosition, config.SizeCardPlayerDown, false);
+                UpdateDiscardView(entitiesPlayer2, ui.DiscardUpCard.localPosition, config.SizeCardPlayerUp, true);
+            }
+            else
+            {
+                UpdateDiscardView(entitiesPlayer2, ui.DiscardDownCard.position, config.SizeCardPlayerDown, false);
+                UpdateDiscardView(entitiesPlayer1, ui.DiscardUpCard.position, config.SizeCardPlayerUp, true);
+            }
         }
 
         private void UpdateDiscardView(EntitiesEnumerable entities, Vector2 position, Vector3 size, bool isEnemy)
@@ -82,21 +92,11 @@ namespace BoardGame.Core.UI
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 ref var discardCard = ref entity.GetComponent<CardDiscardComponent>();
-                cardComponent.CardMono.SetMovePositionAnimations(position, size);
-
-                if (!isEnemy)
-                {
-                    if (discardCard.IsLast)
-                        cardComponent.CardMono.Canvas.sortingOrder = 3;
-                    else
-                        cardComponent.CardMono.Canvas.sortingOrder = 2;
-                }
-                else
-                    cardComponent.CardMono.CardOnBack();
+                cardComponent.CardMono.AnimationsMoveAtDiscardDeck(position, size);
             }
         }
 
-        private void UpdateStack()
+        private void UpdateDeck()
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
@@ -113,7 +113,6 @@ namespace BoardGame.Core.UI
                 {
                     ref var component = ref entity.GetComponent<CardComponent>();
                     component.Transform.position = config.PositionsCardDeckPlayer;
-                    component.CardMono.CardOnBack();
                 }
             }
             else
@@ -128,7 +127,6 @@ namespace BoardGame.Core.UI
                 {
                     ref var component = ref entity.GetComponent<CardComponent>();
                     component.Transform.position = config.PositionsCardDeckEnemy;
-                    component.CardMono.CardOnBack();
                 }
             }
         }

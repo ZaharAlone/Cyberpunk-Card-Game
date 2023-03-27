@@ -16,7 +16,7 @@ namespace BoardGame.Core.UI
 
         public void Init()
         {
-            var gameUI = _dataWorld.OneData<BoardGameUIComponent>();
+            var gameUI = _dataWorld.OneData<UIData>();
             var camera = _dataWorld.OneData<BoardGameCameraComponent>();
 
             var canvas = gameUI.UIGO.GetComponent<Canvas>();
@@ -33,7 +33,7 @@ namespace BoardGame.Core.UI
         private void UpdatePlayerCurrency()
         {
             ref var actionValue = ref _dataWorld.OneData<ActionData>();
-            ref var gameUI = ref _dataWorld.OneData<BoardGameUIComponent>();
+            ref var gameUI = ref _dataWorld.OneData<UIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
@@ -46,7 +46,7 @@ namespace BoardGame.Core.UI
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();
             ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-            ref var gameUI = ref _dataWorld.OneData<BoardGameUIComponent>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
@@ -66,7 +66,7 @@ namespace BoardGame.Core.UI
             var avatarData = _dataWorld.OneData<AvatarData>();
             ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
-            ref var gameUI = ref _dataWorld.OneData<BoardGameUIComponent>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
 
             avatarData.Avatar.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
             avatarData.Avatar.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);

@@ -4,7 +4,7 @@ using TMPro;
 
 namespace BoardGame.Core.UI
 {
-    public struct BoardGameUIComponent
+    public struct UIData
     {
         public GameObject UIGO;
         public BoardGameUIMono UIMono;

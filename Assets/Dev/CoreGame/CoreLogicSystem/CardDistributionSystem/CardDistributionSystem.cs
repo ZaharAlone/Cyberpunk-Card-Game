@@ -117,7 +117,7 @@ namespace BoardGame.Core
                                   .Count();
             //Rework
             //SortingCard.FirstSorting(count, deckCard);
-            _dataWorld.RiseEvent(new EventUpdateStackCard());
+            _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
 
         private void SortingDiscardPlayer2()
@@ -143,7 +143,7 @@ namespace BoardGame.Core
                                   .Count();
             //Rework
             //SortingCard.FirstSorting(count, deckCard);
-            _dataWorld.RiseEvent(new EventUpdateStackCard());
+            _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
     }
 }

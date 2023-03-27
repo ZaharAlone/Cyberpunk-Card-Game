@@ -24,6 +24,12 @@ namespace BoardGame.Core.UI
         public TextMeshProUGUI ActionButtonText;
         public Image ActionButtonImage;
 
+        [Header("Draw and Discard")]
+        public Transform DrawDownCard;
+        public Transform DiscardDownCard;
+        public Transform DrawUpCard;
+        public Transform DiscardUpCard;
+
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();

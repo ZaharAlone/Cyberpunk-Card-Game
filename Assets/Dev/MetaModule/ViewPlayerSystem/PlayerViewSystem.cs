@@ -18,10 +18,6 @@ namespace BoardGame.Core
             ref var playerView = ref _dataWorld.OneData<Player1ViewData>();
             playerView.AvatarKey = "avatar_pirate";
             playerView.Name = "Zakhar";
-
-            ref var playerView2 = ref _dataWorld.OneData<Player2ViewData>();
-            playerView2.AvatarKey = "avatar_red_witch";
-            playerView2.Name = "Witch";
         }
     }
 }
