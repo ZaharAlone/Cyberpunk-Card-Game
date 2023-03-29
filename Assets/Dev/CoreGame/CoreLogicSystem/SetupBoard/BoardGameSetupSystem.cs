@@ -108,8 +108,8 @@ namespace BoardGame.Core
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeck;
 
-            var entitiesPlayer = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().GetEntities();
-            foreach (var entity in entitiesPlayer)
+            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().GetEntities();
+            foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
@@ -117,8 +117,8 @@ namespace BoardGame.Core
                 component.GO.SetActive(false);
             }
 
-            var entitiesEnemy = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().GetEntities();
-            foreach (var entity in entitiesEnemy)
+            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().GetEntities();
+            foreach (var entity in entitiesPlayer2)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
@@ -130,11 +130,12 @@ namespace BoardGame.Core
             foreach (var entity in entitiesDeck)
                 entity.GetComponent<CardComponent>().CardMono.HideCard();
 
+            var positionsNeutralCard = new Vector2(Screen.resolutions.Length / 2 - 560, 200);
             var entitiesNeutral = _dataWorld.Select<CardComponent>().With<CardNeutralComponent>().GetEntities();
             foreach (var entity in entitiesNeutral)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = boardGameData.BoardGameConfig.PositionsShopNeutralCard;
+                component.Transform.position = positionsNeutralCard;
                 component.CardMono.CardOnFace();
             }
         }

@@ -27,7 +27,8 @@ namespace BoardGame.Core.UI
         {
             UpdatePlayerCurrency();
             UpdateStatsPlayers();
-            UpdateView();
+            UpdateViewPassport();
+            UpdateCountCard();
         }
 
         private void UpdatePlayerCurrency()
@@ -60,7 +61,7 @@ namespace BoardGame.Core.UI
             }
         }
 
-        private void UpdateView()
+        private void UpdateViewPassport()
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var avatarData = _dataWorld.OneData<AvatarData>();
@@ -81,6 +82,21 @@ namespace BoardGame.Core.UI
                 gameUI.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
                 gameUI.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
             }
+        }
+
+        private void UpdateCountCard()
+        {
+            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
+            var discardCardsPlayer1 = _dataWorld.Select<CardPlayer1Component>().With<CardDiscardComponent>().Count();
+            var deckCardsPlayer1 = _dataWorld.Select<CardPlayer1Component>().Without<CardHandComponent>().Without<CardDiscardComponent>().Count();
+            var discardCardsPlayer2 = _dataWorld.Select<CardPlayer2Component>().With<CardDiscardComponent>().Count();
+            var deckCardsPlayer2 = _dataWorld.Select<CardPlayer2Component>().Without<CardHandComponent>().Without<CardDiscardComponent>().Count();
+
+            if (viewPlayer.PlayerView == PlayerEnum.Player1)
+                gameUI.SetCountCard(discardCardsPlayer1, deckCardsPlayer1, discardCardsPlayer2, deckCardsPlayer2);
+            else
+                gameUI.SetCountCard(discardCardsPlayer2, deckCardsPlayer2, discardCardsPlayer1, deckCardsPlayer1);
         }
     }
 }

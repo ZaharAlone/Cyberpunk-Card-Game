@@ -44,8 +44,8 @@ namespace BoardGame.Core.UI
 
         private void UpdateTableCards()
         {
-            var countCard = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().Count();
-            var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
+            var countCard = _dataWorld.Select<CardComponent>().With<CardTableComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var width = (204 + 30) * (countCard - 1);
@@ -76,13 +76,13 @@ namespace BoardGame.Core.UI
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                UpdateDiscardView(entitiesPlayer1, ui.DiscardDownCard.localPosition, config.SizeCardPlayerDown, false);
-                UpdateDiscardView(entitiesPlayer2, ui.DiscardUpCard.localPosition, config.SizeCardPlayerUp, true);
+                UpdateDiscardView(entitiesPlayer1, ui.DownDiscard.localPosition, config.SizeCardPlayerDown, false);
+                UpdateDiscardView(entitiesPlayer2, ui.UpDiscard.localPosition, config.SizeCardPlayerUp, true);
             }
             else
             {
-                UpdateDiscardView(entitiesPlayer2, ui.DiscardDownCard.position, config.SizeCardPlayerDown, false);
-                UpdateDiscardView(entitiesPlayer1, ui.DiscardUpCard.position, config.SizeCardPlayerUp, true);
+                UpdateDiscardView(entitiesPlayer2, ui.DownDiscard.position, config.SizeCardPlayerDown, false);
+                UpdateDiscardView(entitiesPlayer1, ui.UpDiscard.position, config.SizeCardPlayerUp, true);
             }
         }
 

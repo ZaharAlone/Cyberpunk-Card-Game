@@ -66,9 +66,7 @@ namespace BoardGame.Core
             var correctCell = new List<int> { 0, 1, 2, 3, 4 };
 
             foreach (var index in fullIndex)
-            {
                 correctCell.Remove(index);
-            }
 
             return correctCell;
         }
@@ -79,8 +77,8 @@ namespace BoardGame.Core
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             entity.RemoveComponent<CardTradeDeckComponent>();
 
-            var pos = boardGameData.BoardGameConfig.PositionsShopFirstCard;
-            pos.x += 20 + indexPositionCard * 225;
+            var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);
+            pos.x += 20 + indexPositionCard * 224;
             entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard, Positions = pos });
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();

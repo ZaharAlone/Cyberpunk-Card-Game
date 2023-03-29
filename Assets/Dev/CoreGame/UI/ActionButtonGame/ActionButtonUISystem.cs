@@ -81,7 +81,7 @@ namespace BoardGame.Core.UI
             foreach (var entity in entities)
             {
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardDeckComponent());
+                entity.AddComponent(new CardTableComponent());
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
@@ -118,11 +118,11 @@ namespace BoardGame.Core.UI
                 entity.AddComponent(new CardDiscardComponent());
             }
 
-            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
+            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
 
             foreach (var entity in cardInDeck)
             {
-                entity.RemoveComponent<CardDeckComponent>();
+                entity.RemoveComponent<CardTableComponent>();
                 entity.AddComponent(new CardDiscardComponent());
             }
 

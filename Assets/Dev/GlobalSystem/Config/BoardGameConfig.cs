@@ -45,10 +45,6 @@ namespace BoardGame
         public Vector2 EnemyHandPosition = new Vector2(0, 330);
         public Vector3 SizeCardPlayerUp = new Vector3(0.5f, 0.5f, 1f);
 
-        [Header("Positions Trade")]
-        public Vector2 PositionsShopFirstCard = new Vector2(-700, 0);
-        public Vector2 PositionsShopNeutralCard = new Vector2(-1050, 0);
-
         [Header("Size")]
         public Vector3 SizeCardInDeck = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 SizeCardPlayerDown = new Vector3(0.8f, 0.8f, 1f);

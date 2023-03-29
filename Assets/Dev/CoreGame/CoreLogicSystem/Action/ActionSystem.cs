@@ -25,7 +25,7 @@ namespace BoardGame.Core
             ClearTotalData();
 
             ref var actionData = ref _dataWorld.OneData<ActionData>();
-            var entities = _dataWorld.Select<CardComponent>().With<CardDeckComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
             /*
             foreach (var entity in entities)
             {

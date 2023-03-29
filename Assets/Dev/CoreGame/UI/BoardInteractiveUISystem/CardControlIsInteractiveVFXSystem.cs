@@ -24,7 +24,7 @@ namespace BoardGame.Core.UI
         private void UpdateVFX()
         {
             var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
-            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDeckComponent>().GetEntities();
+            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardTableComponent>().GetEntities();
             var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionData>();

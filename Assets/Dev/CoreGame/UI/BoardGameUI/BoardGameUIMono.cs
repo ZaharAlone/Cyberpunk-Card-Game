@@ -25,10 +25,14 @@ namespace BoardGame.Core.UI
         public Image ActionButtonImage;
 
         [Header("Draw and Discard")]
-        public Transform DrawDownCard;
-        public Transform DiscardDownCard;
-        public Transform DrawUpCard;
-        public Transform DiscardUpCard;
+        public Transform DownDiscard;
+        public TextMeshProUGUI DownDiscardCount;
+        public Transform DownDeck;
+        public TextMeshProUGUI DownDeckCount;
+        public Transform UpDiscard;
+        public TextMeshProUGUI UpDiscardCount;
+        public Transform UpDeck;
+        public TextMeshProUGUI UpDeckCount;
 
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
@@ -79,6 +83,14 @@ namespace BoardGame.Core.UI
         public void OnClickActionButton()
         {
             ActionButtonEvent.ClickActionButton?.Invoke();
+        }
+
+        public void SetCountCard(int downDiscard, int downDeck,int upDiscard, int upDeck)
+        {
+            DownDiscardCount.text = downDiscard.ToString();
+            DownDeckCount.text = downDeck.ToString();
+            UpDiscardCount.text = upDiscard.ToString();
+            UpDeckCount.text = upDeck.ToString();
         }
     }
 

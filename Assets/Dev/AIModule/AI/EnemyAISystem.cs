@@ -43,7 +43,7 @@ namespace BoardGame.Core.Enemy
             foreach (var entity in entities)
             {
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardDeckComponent());
+                entity.AddComponent(new CardTableComponent());
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());

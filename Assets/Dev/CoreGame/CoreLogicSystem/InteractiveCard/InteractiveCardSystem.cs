@@ -138,7 +138,7 @@ namespace BoardGame.Core
             if (distance > 150)
             {
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardDeckComponent());
+                entity.AddComponent(new CardTableComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else

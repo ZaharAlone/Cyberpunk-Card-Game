@@ -17,7 +17,9 @@ namespace BoardGame.Local
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
+
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player1, Count = rules.CountDropCard });
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player2, Count = rules.CountDropCard });
         }
 
         public void PostRunEvent(EventEndCurrentTurn _) => SwitchRound();
@@ -25,6 +27,9 @@ namespace BoardGame.Local
         private void SwitchRound()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
+            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
+
             if (roundData.CurrentTurn == 1)
             {
                 roundData.CurrentRound++;
@@ -38,8 +43,6 @@ namespace BoardGame.Local
             else
                 roundData.CurrentPlayer = PlayerEnum.Player1;
 
-            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
             _dataWorld.RiseEvent(new EventUpdateRound ());
         }
     }
