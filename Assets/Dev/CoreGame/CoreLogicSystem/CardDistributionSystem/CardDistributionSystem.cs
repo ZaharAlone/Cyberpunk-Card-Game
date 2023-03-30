@@ -70,7 +70,7 @@ namespace BoardGame.Core
                 }
             }
 
-            _dataWorld.RiseEvent(new EventUpdateHandUI());
+            _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = eventValue.Target });
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
@@ -116,7 +116,7 @@ namespace BoardGame.Core
                                   .Without<CardHandComponent>()
                                   .Count();
             //Rework
-            //SortingCard.FirstSorting(count, deckCard);
+            //SortingCard.SortingDeckCards(count, deckCard);
             _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
 

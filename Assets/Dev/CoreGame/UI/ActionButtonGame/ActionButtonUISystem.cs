@@ -7,6 +7,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using ModulesFramework.Data.Enumerators;
 
 namespace BoardGame.Core.UI
 {
@@ -108,9 +109,14 @@ namespace BoardGame.Core.UI
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
-        private async void EndTurn()
+        private void EndTurn()
         {
-            var cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().GetEntities();
+            var cardInHand = new EntitiesEnumerable();
+            var roundData = _dataWorld.OneData<RoundData>();
+            if (roundData.CurrentPlayer == PlayerEnum.Player1)
+                cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().With<CardPlayer1Component>().GetEntities();
+            else
+                cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().With<CardPlayer2Component>().GetEntities();
 
             foreach (var entity in cardInHand)
             {

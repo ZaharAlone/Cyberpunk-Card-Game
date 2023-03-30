@@ -106,14 +106,12 @@ namespace BoardGame.Core
         private void SetPositionCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var targetSizeDeckCard = boardGameData.BoardGameConfig.SizeCardInDeck;
 
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().GetEntities();
             foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
-                component.Transform.localScale = targetSizeDeckCard;
                 component.GO.SetActive(false);
             }
 
@@ -122,7 +120,6 @@ namespace BoardGame.Core
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
-                component.Transform.localScale = targetSizeDeckCard;
                 component.GO.SetActive(false);
             }
 

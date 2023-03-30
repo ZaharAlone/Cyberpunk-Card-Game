@@ -76,13 +76,13 @@ namespace BoardGame.Core.UI
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                UpdateDiscardView(entitiesPlayer1, ui.DownDiscard.localPosition, config.SizeCardPlayerDown, false);
-                UpdateDiscardView(entitiesPlayer2, ui.UpDiscard.localPosition, config.SizeCardPlayerUp, true);
+                UpdateDiscardView(entitiesPlayer1, ui.DownDiscard.localPosition, config.SizeCardInDeck, false);
+                UpdateDiscardView(entitiesPlayer2, ui.UpDiscard.localPosition, config.SizeCardInDeck, true);
             }
             else
             {
-                UpdateDiscardView(entitiesPlayer2, ui.DownDiscard.position, config.SizeCardPlayerDown, false);
-                UpdateDiscardView(entitiesPlayer1, ui.UpDiscard.position, config.SizeCardPlayerUp, true);
+                UpdateDiscardView(entitiesPlayer2, ui.DownDiscard.position, config.SizeCardInDeck, false);
+                UpdateDiscardView(entitiesPlayer1, ui.UpDiscard.position, config.SizeCardInDeck, true);
             }
         }
 
