@@ -71,8 +71,8 @@ namespace BoardGame.Core.UI
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var ui = _dataWorld.OneData<UIData>().UIMono;
 
-            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
-            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardDiscardComponent>().GetEntities();
+            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardMoveToDiscardComponent>().GetEntities();
+            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardMoveToDiscardComponent>().GetEntities();
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
@@ -91,8 +91,10 @@ namespace BoardGame.Core.UI
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                ref var discardCard = ref entity.GetComponent<CardDiscardComponent>();
                 cardComponent.CardMono.AnimationsMoveAtDiscardDeck(position, size);
+
+                entity.RemoveComponent<CardMoveToDiscardComponent>();
+                entity.AddComponent(new CardDiscardComponent());
             }
         }
 

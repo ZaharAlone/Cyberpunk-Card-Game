@@ -43,7 +43,7 @@ namespace BoardGame.Core
                                                      .With<CardSortingIndexComponent>()
                                                      .GetEntities();
 
-                var id = SortingCard.SelectCard(entities);
+                var id = SortingCard.ChooseNearestCard(entities);
                 AddTradeRowCard(id, freeCell[i]);
             }
 

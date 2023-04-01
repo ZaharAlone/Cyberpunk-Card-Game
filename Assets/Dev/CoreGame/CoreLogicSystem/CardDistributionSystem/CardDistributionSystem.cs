@@ -34,15 +34,15 @@ namespace BoardGame.Core
                                .Count();
 
                     if (countPlayerEntities == 0)
-                        SortingDiscardPlayer1();
+                        GlobalCoreGameAction.SortingDiscardCard?.Invoke(PlayerEnum.Player1);
 
-                    var playerEntities = _dataWorld.Select<CardComponent>()
+                    var player1Entities = _dataWorld.Select<CardComponent>()
                                                    .With<CardPlayer1Component>()
                                                    .Without<CardDiscardComponent>()
                                                    .Without<CardHandComponent>()
                                                    .GetEntities();
 
-                    var id = SortingCard.SelectCard(playerEntities);
+                    var id = SortingCard.ChooseNearestCard(player1Entities);
                     AddCard(id, PlayerEnum.Player1);
                 }
             }
@@ -57,15 +57,15 @@ namespace BoardGame.Core
                               .Count();
 
                     if (countEnemyEntities == 0)
-                        SortingDiscardPlayer2();
+                        GlobalCoreGameAction.SortingDiscardCard?.Invoke(PlayerEnum.Player2);
 
-                    var enemyEntities = _dataWorld.Select<CardComponent>()
+                    var player2Entities = _dataWorld.Select<CardComponent>()
                                                   .With<CardPlayer2Component>()
                                                   .Without<CardDiscardComponent>()
                                                   .Without<CardHandComponent>()
                                                   .GetEntities();
 
-                    var id = SortingCard.SelectCard(enemyEntities);
+                    var id = SortingCard.ChooseNearestCard(player2Entities);
                     AddCard(id, PlayerEnum.Player2);
                 }
             }
@@ -92,58 +92,6 @@ namespace BoardGame.Core
             {
                 cardComponent.Transform.position = config.PlayerHandPosition;
             }
-        }
-
-        private void SortingDiscardPlayer1()
-        {
-            var discardCard = _dataWorld.Select<CardComponent>()
-                                        .With<CardPlayer1Component>()
-                                        .With<CardDiscardComponent>()
-                                        .GetEntities();
-
-            foreach (var entity in discardCard)
-                entity.RemoveComponent<CardDiscardComponent>();
-
-            var deckCard = _dataWorld.Select<CardComponent>()
-                                     .With<CardPlayer1Component>()
-                                     .Without<CardDiscardComponent>()
-                                     .Without<CardHandComponent>()
-                                     .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardPlayer1Component>()
-                                  .Without<CardDiscardComponent>()
-                                  .Without<CardHandComponent>()
-                                  .Count();
-            //Rework
-            //SortingCard.SortingDeckCards(count, deckCard);
-            _dataWorld.RiseEvent(new EventUpdateDeckCard());
-        }
-
-        private void SortingDiscardPlayer2()
-        {
-            var discardCard = _dataWorld.Select<CardComponent>()
-                                        .With<CardPlayer2Component>()
-                                        .With<CardDiscardComponent>()
-                                        .GetEntities();
-
-            foreach (var entity in discardCard)
-                entity.RemoveComponent<CardDiscardComponent>();
-
-            var deckCard = _dataWorld.Select<CardComponent>()
-                                     .With<CardPlayer2Component>()
-                                     .Without<CardDiscardComponent>()
-                                     .Without<CardHandComponent>()
-                                     .GetEntities();
-
-            var count = _dataWorld.Select<CardComponent>()
-                                  .With<CardPlayer2Component>()
-                                  .Without<CardDiscardComponent>()
-                                  .Without<CardHandComponent>()
-                                  .Count();
-            //Rework
-            //SortingCard.FirstSorting(count, deckCard);
-            _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
     }
 }

@@ -42,7 +42,7 @@ namespace BoardGame.Core
             return sorting;
         }
 
-        public static int SelectCard(EntitiesEnumerable entities)
+        public static int ChooseNearestCard(EntitiesEnumerable entities)
         {
             var id = 0;
             var minIndex = 500;
