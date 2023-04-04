@@ -4,11 +4,21 @@ using UnityEngine.EventSystems;
 
 namespace BoardGame.Core
 {
-    public class InteractiveCardMono : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class InteractiveCardMono : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
     {
         public string GUID;
 
         public Vector2 CurrentPointerPos { get; private set; }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            InteractiveActionCard.SelectCard?.Invoke(GUID);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            InteractiveActionCard.DeselectCard?.Invoke();
+        }
 
         public void OnPointerDown(PointerEventData eventData)
         {

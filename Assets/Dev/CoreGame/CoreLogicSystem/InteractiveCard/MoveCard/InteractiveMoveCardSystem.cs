@@ -10,10 +10,9 @@ using UnityEngine;
 namespace BoardGame.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class InteractiveCardSystem : IInitSystem, IRunSystem, IDestroySystem
+    public class InteractiveMoveCardSystem : IInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-        private bool _isOn;
 
         public void Init()
         {
@@ -23,8 +22,6 @@ namespace BoardGame.Core
 
         private void DownClickCard(string guid)
         {
-            _isOn = true;
-
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
@@ -32,66 +29,24 @@ namespace BoardGame.Core
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
                 ref var inputData = ref _dataWorld.OneData<InputData>();
-                entity.AddComponent(new InteractiveSelectCardComponent { StartMousePositions = inputData.MousePosition });
+                ref var component = ref entity.GetComponent<CardComponent>();
+                entity.AddComponent(new InteractiveMoveComponent
+                {
+                    StartCardPosition = component.Transform.position,
+                    StartMousePositions = inputData.MousePosition
+                });
             }
-            else
-                ShowViewCard(entity);
         }
 
         private void UpClickCard()
         {
-            _isOn = false;
-
-            var isTimer = _dataWorld.Select<InteractiveSelectCardComponent>().Count();
-            if (isTimer > 0)
-                CheckEndTimer();
-
             var isMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
             if (isMove > 0)
                 EndMove();
         }
 
-        private void CheckEndTimer()
-        {
-            var entity = _dataWorld.Select<InteractiveSelectCardComponent>().SelectFirstEntity();
-
-            ref var timerComponent = ref entity.GetComponent<InteractiveSelectCardComponent>();
-            if (timerComponent.Timer < 0.3f)
-                ShowViewCard(entity);
-            entity.RemoveComponent<InteractiveSelectCardComponent>();
-        }
-
-        public void StartMove()
-        {
-            var entity = _dataWorld.Select<InteractiveSelectCardComponent>().SelectFirstEntity();
-            ref var component = ref entity.GetComponent<CardComponent>();
-
-            ref var inputData = ref _dataWorld.OneData<InputData>();
-            entity.AddComponent(new InteractiveMoveComponent
-            {
-                StartCardPosition = component.Transform.position,
-                StartMousePositions = inputData.MousePosition
-            });
-            entity.RemoveComponent<InteractiveSelectCardComponent>();
-        }
-
         public void Run()
         {
-            if (!_isOn)
-                return;
-
-            var entitiesTimer = _dataWorld.Select<InteractiveSelectCardComponent>().GetEntities();
-
-            foreach (var entity in entitiesTimer)
-            {
-                ref var component = ref entity.GetComponent<InteractiveSelectCardComponent>();
-                component.Timer += Time.deltaTime;
-
-                ref var inputData = ref _dataWorld.OneData<InputData>();
-                if (inputData.MousePosition - component.StartMousePositions != Vector2.zero)
-                    StartMove();
-            }
-
             var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
             if (countEntityMove > 0)
                 MoveCard();
@@ -111,12 +66,6 @@ namespace BoardGame.Core
                 componentCard.Transform.position += new Vector3(deltaMove.x, deltaMove.y, 0);
                 componentMove.StartMousePositions = inputData.MousePosition;
             }
-        }
-
-        private void ShowViewCard(Entity entity)
-        {
-            var component = entity.GetComponent<CardComponent>();
-            _dataWorld.RiseEvent(new EventViewCard { TargetCard = component.CardMono });
         }
 
         private void EndMove()

@@ -28,9 +28,6 @@ namespace BoardGame
         public Dictionary<string, Sprite> CurrencyImage;
         public Dictionary<string, Sprite> CardImage;
 
-        [Header("View Card")]
-        public GameObject ViewCardCanvas;
-
         public float StepPosXPlayerDown = 210f;
         public float StepPosXPlayerUp = 170f;
 
