@@ -1,11 +1,7 @@
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
-using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BoardGame.Core.UI
 {
@@ -16,16 +12,26 @@ namespace BoardGame.Core.UI
 
         public void PostRunEvent(EventUpdateBoardCard _)
         {
+            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-                UpdateVFX();
+            if (roundData.CurrentPlayer == viewPlayer.PlayerView)
+                UpdateVFX(viewPlayer.PlayerView);
         }
 
-        private void UpdateVFX()
+        private void UpdateVFX(PlayerEnum player)
         {
-            var entitiesCardInHand = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
-            var entitiesCardInDeck = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardTableComponent>().GetEntities();
-            var entitiesCardInDrop = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardDiscardComponent>().GetEntities();
+            var entitiesCardInHand = _dataWorld.Select<CardComponent>()
+                                               .Where<CardComponent>(card => card.Player == player)
+                                               .With<CardHandComponent>()
+                                               .GetEntities();
+            var entitiesCardInDeck = _dataWorld.Select<CardComponent>()
+                                               .Where<CardComponent>(card => card.Player == player)
+                                               .With<CardTableComponent>()
+                                               .GetEntities();
+            var entitiesCardInDrop = _dataWorld.Select<CardComponent>()
+                                               .Where<CardComponent>(card => card.Player == player)
+                                               .With<CardDiscardComponent>()
+                                               .GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
@@ -35,19 +41,19 @@ namespace BoardGame.Core.UI
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(true);
             }
-            
+
             foreach (var entity in entitiesCardInDeck)
             {
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
-            
+
             foreach (var entity in entitiesCardInDrop)
             {
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
-            
+
             foreach (var entity in entitiesCardInShop)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();

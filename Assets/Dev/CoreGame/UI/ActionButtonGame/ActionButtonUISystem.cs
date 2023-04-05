@@ -3,11 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
-using ModulesFramework.Data.Enumerators;
 
 namespace BoardGame.Core.UI
 {
@@ -24,19 +19,22 @@ namespace BoardGame.Core.UI
         public void Run()
         {
             var round = _dataWorld.OneData<RoundData>();
+            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var ui = _dataWorld.OneData<UIData>();
 
-            if (round.CurrentPlayer != PlayerEnum.Player1)
+            if (round.CurrentPlayer != viewPlayer.PlayerView)
             {
                 ui.UIMono.HideInteractiveButton();
                 return;
             }
 
+            ui.UIMono.ShowInteractiveButton();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
-            var cardInHand = _dataWorld.Select<CardPlayer1Component>().With<CardHandComponent>().Count();
-
-            ui.UIMono.ShowInteractiveButton();
+            var cardInHand = _dataWorld.Select<CardComponent>()
+                                       .Where<CardComponent>(card => card.Player == viewPlayer.PlayerView)
+                                       .With<CardHandComponent>()
+                                       .Count();
 
             if (cardInHand > 0)
             {
@@ -55,8 +53,15 @@ namespace BoardGame.Core.UI
             }
         }
 
-        public void PostRunEvent(EventActionAttack _) => Attack();
-        public void PostRunEvent(EventActionEndTurn _) => EndTurn();
+        public void PostRunEvent(EventActionAttack _)
+        {
+            Attack();
+        }
+
+        public void PostRunEvent(EventActionEndTurn _)
+        {
+            EndTurn();
+        }
 
         private void ClickButton()
         {
@@ -77,7 +82,10 @@ namespace BoardGame.Core.UI
 
         private void PlayAll()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardHandComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>()
+                                     .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                     .With<CardHandComponent>()
+                                     .GetEntities();
 
             foreach (var entity in entities)
             {
@@ -111,12 +119,12 @@ namespace BoardGame.Core.UI
 
         private void EndTurn()
         {
-            var cardInHand = new EntitiesEnumerable();
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-                cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().With<CardPlayer1Component>().GetEntities();
-            else
-                cardInHand = _dataWorld.Select<CardComponent>().With<CardHandComponent>().With<CardPlayer2Component>().GetEntities();
+
+            var cardInHand = _dataWorld.Select<CardComponent>()
+                                       .With<CardHandComponent>()
+                                       .Where<CardComponent>(card => card.Player == roundData.CurrentPlayer)
+                                       .GetEntities();
 
             foreach (var entity in cardInHand)
             {

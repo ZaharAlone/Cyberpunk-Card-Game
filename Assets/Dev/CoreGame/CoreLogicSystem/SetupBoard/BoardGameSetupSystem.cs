@@ -50,13 +50,15 @@ namespace BoardGame.Core
             foreach (var item in deckCardsData.PlayerCards_1)
             {
                 var entity = InitCard(item, cardsParent);
-                entity.AddComponent(new CardPlayer1Component());
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                cardComponent.Player = PlayerEnum.Player1;
             }
 
             foreach (var item in deckCardsData.PlayerCards_2)
             {
                 var entity = InitCard(item, cardsParent);
-                entity.AddComponent(new CardPlayer2Component());
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                cardComponent.Player = PlayerEnum.Player2;
             }
         }
 
@@ -107,7 +109,10 @@ namespace BoardGame.Core
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
 
-            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().GetEntities();
+            var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
+                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                            .GetEntities();
+
             foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
@@ -115,7 +120,9 @@ namespace BoardGame.Core
                 component.GO.SetActive(false);
             }
 
-            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().GetEntities();
+            var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
+                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                            .GetEntities();
             foreach (var entity in entitiesPlayer2)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();

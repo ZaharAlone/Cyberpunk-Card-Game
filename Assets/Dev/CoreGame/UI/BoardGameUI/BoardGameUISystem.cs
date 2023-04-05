@@ -88,10 +88,24 @@ namespace BoardGame.Core.UI
         {
             ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
             ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
-            var discardCardsPlayer1 = _dataWorld.Select<CardPlayer1Component>().With<CardDiscardComponent>().Count();
-            var deckCardsPlayer1 = _dataWorld.Select<CardPlayer1Component>().Without<CardHandComponent>().Without<CardDiscardComponent>().Count();
-            var discardCardsPlayer2 = _dataWorld.Select<CardPlayer2Component>().With<CardDiscardComponent>().Count();
-            var deckCardsPlayer2 = _dataWorld.Select<CardPlayer2Component>().Without<CardHandComponent>().Without<CardDiscardComponent>().Count();
+            var discardCardsPlayer1 = _dataWorld.Select<CardComponent>()
+                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                                .With<CardDiscardComponent>()
+                                                .Count();
+            var deckCardsPlayer1 = _dataWorld.Select<CardComponent>()
+                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                             .Without<CardHandComponent>()
+                                             .Without<CardDiscardComponent>()
+                                             .Count();
+            var discardCardsPlayer2 = _dataWorld.Select<CardComponent>()
+                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                                .With<CardDiscardComponent>()
+                                                .Count();
+            var deckCardsPlayer2 = _dataWorld.Select<CardComponent>()
+                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                             .Without<CardHandComponent>()
+                                             .Without<CardDiscardComponent>()
+                                             .Count();
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
                 gameUI.SetCountCard(discardCardsPlayer1, deckCardsPlayer1, discardCardsPlayer2, deckCardsPlayer2);

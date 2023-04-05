@@ -23,51 +23,25 @@ namespace BoardGame.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
-            if (eventValue.Target == PlayerEnum.Player1)
+            for (int i = 0; i < eventValue.Count; i++)
             {
-                for (int i = 0; i < eventValue.Count; i++)
-                {
-                    var countPlayerEntities = _dataWorld.Select<CardComponent>()
-                               .With<CardPlayer1Component>()
-                               .Without<CardDiscardComponent>()
-                               .Without<CardHandComponent>()
-                               .Count();
+                var countPlayerEntities = _dataWorld.Select<CardComponent>()
+                           .Where<CardComponent>(card => card.Player == eventValue.Target)
+                           .Without<CardDiscardComponent>()
+                           .Without<CardHandComponent>()
+                           .Count();
 
-                    if (countPlayerEntities == 0)
-                        GlobalCoreGameAction.SortingDiscardCard?.Invoke(PlayerEnum.Player1);
+                if (countPlayerEntities == 0)
+                    GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.Target);
 
-                    var player1Entities = _dataWorld.Select<CardComponent>()
-                                                   .With<CardPlayer1Component>()
-                                                   .Without<CardDiscardComponent>()
-                                                   .Without<CardHandComponent>()
-                                                   .GetEntities();
+                var player1Entities = _dataWorld.Select<CardComponent>()
+                                               .Where<CardComponent>(card => card.Player == eventValue.Target)
+                                               .Without<CardDiscardComponent>()
+                                               .Without<CardHandComponent>()
+                                               .GetEntities();
 
-                    var id = SortingCard.ChooseNearestCard(player1Entities);
-                    AddCard(id, PlayerEnum.Player1);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < eventValue.Count; i++)
-                {
-                    var countEnemyEntities = _dataWorld.Select<CardComponent>()
-                              .With<CardPlayer2Component>()
-                              .Without<CardDiscardComponent>()
-                              .Without<CardHandComponent>()
-                              .Count();
-
-                    if (countEnemyEntities == 0)
-                        GlobalCoreGameAction.SortingDiscardCard?.Invoke(PlayerEnum.Player2);
-
-                    var player2Entities = _dataWorld.Select<CardComponent>()
-                                                  .With<CardPlayer2Component>()
-                                                  .Without<CardDiscardComponent>()
-                                                  .Without<CardHandComponent>()
-                                                  .GetEntities();
-
-                    var id = SortingCard.ChooseNearestCard(player2Entities);
-                    AddCard(id, PlayerEnum.Player2);
-                }
+                var id = SortingCard.ChooseNearestCard(player1Entities);
+                AddCard(id, eventValue.Target);
             }
 
             _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = eventValue.Target });

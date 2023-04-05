@@ -70,9 +70,10 @@ namespace BoardGame.Core
 
         private void EndMove()
         {
-            var entity = _dataWorld.Select<InteractiveMoveComponent>().SelectFirstEntity();
+            var entity = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
-            if (entity.HasComponent<CardPlayer1Component>() || entity.HasComponent<CardPlayer2Component>())
+            if (cardComponent.Player != PlayerEnum.None)
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
@@ -89,6 +90,7 @@ namespace BoardGame.Core
                 entity.RemoveComponent<CardHandComponent>();
                 entity.AddComponent(new CardTableComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                componentCard.Canvas.sortingOrder = 2;
             }
             else
             {
@@ -98,6 +100,7 @@ namespace BoardGame.Core
             }
 
             entity.RemoveComponent<InteractiveMoveComponent>();
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
             _dataWorld.RiseEvent(new EventUpdateHandUI());
         }
 
@@ -112,7 +115,7 @@ namespace BoardGame.Core
                 ref var actionValue = ref _dataWorld.OneData<ActionData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
-                entity.AddComponent(new CardPlayer1Component());
+                componentCard.Player = PlayerEnum.Player1;
                 entity.AddComponent(new CardDiscardComponent ());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }

@@ -38,7 +38,9 @@ namespace BoardGame.Core.Enemy
         private void PlayAll()
         {
             Debug.Log("Enemy Play All Card");
-            var entities = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardHandComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>()
+                                     .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                     .With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
             {

@@ -71,8 +71,14 @@ namespace BoardGame.Core.UI
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var ui = _dataWorld.OneData<UIData>().UIMono;
 
-            var entitiesPlayer1 = _dataWorld.Select<CardComponent>().With<CardPlayer1Component>().With<CardMoveToDiscardComponent>().GetEntities();
-            var entitiesPlayer2 = _dataWorld.Select<CardComponent>().With<CardPlayer2Component>().With<CardMoveToDiscardComponent>().GetEntities();
+            var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
+                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                            .With<CardMoveToDiscardComponent>()
+                                            .GetEntities();
+            var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
+                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                            .With<CardMoveToDiscardComponent>()
+                                            .GetEntities();
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
@@ -106,7 +112,7 @@ namespace BoardGame.Core.UI
             if (roundData.CurrentPlayer == PlayerEnum.Player1)
             {
                 var stackCard = _dataWorld.Select<CardComponent>()
-                                          .With<CardPlayer1Component>()
+                                          .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
                                           .Without<CardDiscardComponent>()
                                           .Without<CardHandComponent>()
                                           .GetEntities();
@@ -120,7 +126,7 @@ namespace BoardGame.Core.UI
             else
             {
                 var stackCard = _dataWorld.Select<CardComponent>()
-                                          .With<CardPlayer2Component>()
+                                          .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
                                           .Without<CardDiscardComponent>()
                                           .Without<CardHandComponent>()
                                           .GetEntities();
