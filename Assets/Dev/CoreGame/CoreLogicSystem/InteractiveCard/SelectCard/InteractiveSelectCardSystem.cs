@@ -53,11 +53,11 @@ namespace BoardGame.Core
                 sequence.Join(cardComponent.Transform.DOMove(pos, 0.15f));
 
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
-                MoveOtherCards(index);
+                MoveOtherCards(index, true);
             }
         }
 
-        private void MoveOtherCards(int targetIndex)
+        private void MoveOtherCards(int targetIndex, bool isUndraw)
         {
             var view = _dataWorld.OneData<ViewPlayerData>();
             var entities = _dataWorld.Select<CardComponent>()
@@ -65,6 +65,9 @@ namespace BoardGame.Core
                 .With<CardHandComponent>()
                 .With<CardSortingIndexComponent>()
                 .GetEntities();
+            var mult = 1f;
+            if (!isUndraw)
+                mult = -1f;
 
             foreach (var entity in entities)
             {
@@ -75,40 +78,38 @@ namespace BoardGame.Core
                 if (index < targetIndex)
                 {
                     if (index == targetIndex - 1)
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 5f), 0.15f))
-                                .Join(cardComponent.Transform.DOMoveX(25, 0.15f))
+                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 4f * mult), 0.15f))
+                                .Join(cardComponent.Transform.DOMove(new Vector3(-30 * mult, -10 * mult, 0), 0.15f))
                                 .SetRelative(true);
                     else
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 3f), 0.15f))
-                                .Join(cardComponent.Transform.DOMoveX(15, 0.15f))
+                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 1f * mult), 0.15f))
+                                .Join(cardComponent.Transform.DOMove(new Vector3(-15 * mult, -20 * mult, 0), 0.15f))
                                 .SetRelative(true);
                 }
                 else if (index > targetIndex)
                 {
                     if (index == targetIndex + 1)
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 5f), 0.15f))
-                                .Join(cardComponent.Transform.DOMoveX(-25, 0.15f))
+                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, -4f * mult), 0.15f))
+                                .Join(cardComponent.Transform.DOMove(new Vector3(30 * mult, -10 * mult, 0), 0.15f))
                                 .SetRelative(true);
                     else
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 3f), 0.15f))
-                                .Join(cardComponent.Transform.DOMoveX(-15, 0.15f))
+                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, -1f * mult), 0.15f))
+                                .Join(cardComponent.Transform.DOMove(new Vector3(15 * mult, -20 * mult, 0), 0.15f))
                                 .SetRelative(true);
                 }
 
             }
         }
 
-        private void DeselectCard()
+        private void DeselectCard(string guid)
         {
             var isEntity = _dataWorld.Select<CardComponent>()
+                        .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()
                         .TrySelectFirstEntity(out var entity);
 
             if (!isEntity)
                 return;
-
-            //if (!entity.HasComponent<CardHandComponent>())
-            //    return;
 
             var cardComponent = entity.GetComponent<CardComponent>();
             var selectComponent = entity.GetComponent<InteractiveSelectCardComponent>();
@@ -117,6 +118,9 @@ namespace BoardGame.Core
                     .Join(cardComponent.Transform.DOMove(selectComponent.Positions, 0.3f))
                     .Join(cardComponent.Transform.DOScale(Vector3.one, 0.3f))
                     .OnComplete(() => ReturnSortingOrder(cardComponent.Canvas, selectComponent.SortingOrder));
+
+            var index = entity.GetComponent<CardSortingIndexComponent>().Index;
+            MoveOtherCards(index, false);
 
             entity.RemoveComponent<InteractiveSelectCardComponent>();
         }

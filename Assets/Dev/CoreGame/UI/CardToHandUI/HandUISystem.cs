@@ -24,10 +24,19 @@ namespace BoardGame.Core.UI
                                      .Where<CardComponent>(card => card.Player == value.TargetPlayer)
                                      .With<CardHandComponent>()
                                      .GetEntities();
-            UpdateView(entities, countCardInHand, value.TargetPlayer);
+
+            var minIndex = 1000;
+            foreach (var entity in entities)
+            {
+                var indexComponent = entity.GetComponent<CardSortingIndexComponent>().Index;
+                if (indexComponent < minIndex)
+                    minIndex = indexComponent;
+            }
+
+            UpdateView(entities, countCardInHand, value.TargetPlayer, minIndex);
         }
 
-        private void UpdateView(EntitiesEnumerable entities, int countCard, PlayerEnum isPlayer)
+        private void UpdateView(EntitiesEnumerable entities, int countCard, PlayerEnum isPlayer, int minIndex)
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var uiRect = _dataWorld.OneData<UIData>().UIMono.UIRect;
@@ -67,19 +76,28 @@ namespace BoardGame.Core.UI
             var maxAngle = 90 - Mathf.Atan(height / length) * Mathf.Rad2Deg;
             float oneAngle = maxAngle / countCard;
             maxAngle -= oneAngle;
-            var index = 0;
+            var indexCard = 0;
 
-            foreach (var entity in entities)
+            for (int i = 0; i < countCard; i++)
             {
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                float angle = maxAngle / 2 - oneAngle * index;
-                var posY = Mathf.Abs(deltaHeight - heightOne * index) * multPosY;
-                var posX = sizeCard * index - deltaLength;
+                foreach (var entity in entities)
+                {
+                    ref var sortingIndexCard = ref entity.GetComponent<CardSortingIndexComponent>().Index;
+                    if (sortingIndexCard != minIndex)
+                        continue;
 
-                cardComponent.Transform.position = new Vector3(posX, posY - screenShift, 0f);
-                cardComponent.Transform.rotation = Quaternion.Euler(0, 0, angle * -multPosY);
-                cardComponent.Canvas.sortingOrder = 2 + index;
-                index++;
+                    ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                    float angle = maxAngle / 2 - oneAngle * indexCard;
+                    var posY = Mathf.Abs(deltaHeight - heightOne * indexCard) * multPosY;
+                    var posX = sizeCard * indexCard - deltaLength;
+
+                    cardComponent.Transform.position = new Vector3(posX, posY - screenShift, 0f);
+                    cardComponent.Transform.rotation = Quaternion.Euler(0, 0, angle * -multPosY);
+                    cardComponent.Canvas.sortingOrder = 2 + indexCard;
+                    indexCard++;
+                    break;
+                }
+                minIndex++;
             }
         }
     }

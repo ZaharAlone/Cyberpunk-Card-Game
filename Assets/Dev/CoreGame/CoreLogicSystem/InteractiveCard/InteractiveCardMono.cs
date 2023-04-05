@@ -17,7 +17,7 @@ namespace BoardGame.Core
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            InteractiveActionCard.DeselectCard?.Invoke();
+            InteractiveActionCard.DeselectCard?.Invoke(GUID);
         }
 
         public void OnPointerDown(PointerEventData eventData)
