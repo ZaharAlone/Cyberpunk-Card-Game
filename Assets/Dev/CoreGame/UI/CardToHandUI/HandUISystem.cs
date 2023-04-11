@@ -40,28 +40,33 @@ namespace BoardGame.Core.UI
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var uiRect = _dataWorld.OneData<UIData>().UIMono.UIRect;
+            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var screenShift = 0f;
             var length = 0f;
             var multPosY = 0;
-            var radius = 0;
+            var radius = 0f;
+            var multiplieSizeCard = Vector3.zero;
 
             if (viewPlayer.PlayerView == isPlayer)
             {
                 screenShift = uiRect.rect.height / 2 - 120;
                 multPosY = -1;
-                radius = 4000;
+                radius = 2500;
+                multiplieSizeCard = config.SizeCardPlayerDown;
             }
             else
             {
                 screenShift = -uiRect.rect.height / 2 + 70;
                 multPosY = 1;
-                radius = 1000;
+                radius = 1500;
+                multiplieSizeCard = config.SizeCardPlayerUp;
             }
 
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                cardComponent.Transform.localScale = multiplieSizeCard;
                 length += 204 * cardComponent.Transform.localScale.x;
             }
 
@@ -73,7 +78,7 @@ namespace BoardGame.Core.UI
             var deltaHeight = radius - height - heightOne / 2;
             var deltaLength = length - (float)sizeCard / 2;
 
-            var maxAngle = 90 - Mathf.Atan(height / length) * Mathf.Rad2Deg;
+            var maxAngle = 90 - Mathf.Atan(height / length - 2) * Mathf.Rad2Deg;
             float oneAngle = maxAngle / countCard;
             maxAngle -= oneAngle;
             var indexCard = 0;

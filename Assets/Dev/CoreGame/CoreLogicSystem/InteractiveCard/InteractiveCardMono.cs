@@ -7,7 +7,6 @@ namespace BoardGame.Core
     public class InteractiveCardMono : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
     {
         public string GUID;
-
         public Vector2 CurrentPointerPos { get; private set; }
 
         public void OnPointerEnter(PointerEventData eventData)

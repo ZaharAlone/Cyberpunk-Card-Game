@@ -1,13 +1,9 @@
+using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using BoardGame.Core.UI;
 
 namespace BoardGame.Core
 {
@@ -37,67 +33,105 @@ namespace BoardGame.Core
 
             if (view.PlayerView != cardComponent.Player)
                 return;
+            
+            ClearSelectComponent();
+            entity.AddComponent(new InteractiveSelectCardComponent());
 
-            entity.AddComponent(new InteractiveSelectCardComponent { Positions = cardComponent.Transform.position, Rotate = cardComponent.Transform.rotation, SortingOrder = cardComponent.Canvas.sortingOrder });
+            var animComponent = new CardComponentAnimations();
+            if (entity.HasComponent<CardComponentAnimations>())
+            {
+                animComponent = entity.GetComponent<CardComponentAnimations>();
+                animComponent.Sequence.Kill();
+            }
+            else
+            {
+                animComponent.Positions = cardComponent.Transform.position;
+                animComponent.Rotate = cardComponent.Transform.rotation;
+                animComponent.Scale = cardComponent.Transform.localScale;
+                animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
+            }
 
-            var sequence = DOTween.Sequence();
-            sequence.Append(cardComponent.Transform.DORotateQuaternion(Quaternion.identity, 0.15f))
-                    .Join(cardComponent.Transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.15f));
+            animComponent.Sequence = DOTween.Sequence();
+            animComponent.Sequence.Append(cardComponent.Transform.DORotateQuaternion(Quaternion.identity, 0.15f))
+                                  .Join(cardComponent.Transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.15f));
 
             cardComponent.Canvas.sortingOrder = 20;
 
             if (cardComponent.Player != PlayerEnum.None)
             {
-                var pos = cardComponent.Transform.localPosition;
+                var pos = animComponent.Positions;
                 pos.y = -340;
-                sequence.Join(cardComponent.Transform.DOMove(pos, 0.15f));
-
+                animComponent.Sequence.Join(cardComponent.Transform.DOMove(pos, 0.15f));
+                entity.AddComponent(animComponent);
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
-                MoveOtherCards(index, true);
+                MoveOtherCards(index);
             }
+            else
+                entity.AddComponent(animComponent);
         }
 
-        private void MoveOtherCards(int targetIndex, bool isUndraw)
+        private void ClearSelectComponent()
+        {
+            var entities = _dataWorld.Select<CardComponent>()
+                            .With<InteractiveSelectCardComponent>()
+                            .GetEntities();
+
+            foreach (var entity in entities)
+                entity.RemoveComponent<InteractiveSelectCardComponent>();
+        }
+
+        private void MoveOtherCards(int targetIndex)
         {
             var view = _dataWorld.OneData<ViewPlayerData>();
             var entities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.Player == view.PlayerView)
-                .With<CardHandComponent>()
-                .With<CardSortingIndexComponent>()
-                .GetEntities();
-            var mult = 1f;
-            if (!isUndraw)
-                mult = -1f;
+                                     .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                     .With<CardHandComponent>()
+                                     .With<CardSortingIndexComponent>()
+                                     .Without<InteractiveSelectCardComponent>()
+                                     .GetEntities();
 
             foreach (var entity in entities)
             {
                 ref var index = ref entity.GetComponent<CardSortingIndexComponent>().Index;
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                var sequence = DOTween.Sequence();
+                var cardAnimations = new CardComponentAnimations();
 
+                if (entity.HasComponent<CardComponentAnimations>())
+                {
+                    cardAnimations = entity.GetComponent<CardComponentAnimations>();
+                    cardAnimations.Sequence.Kill();
+                }
+                else
+                {
+                    cardAnimations.Positions = cardComponent.Transform.position;
+                    cardAnimations.Rotate = cardComponent.Transform.rotation;
+                    cardAnimations.Scale = cardComponent.Transform.localScale;
+                    cardAnimations.SortingOrder = cardComponent.Canvas.sortingOrder;
+                }
+                cardAnimations.Sequence = DOTween.Sequence();
+
+                var targetPos = cardAnimations.Positions;
                 if (index < targetIndex)
                 {
                     if (index == targetIndex - 1)
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 4f * mult), 0.15f))
-                                .Join(cardComponent.Transform.DOMove(new Vector3(-30 * mult, -10 * mult, 0), 0.15f))
-                                .SetRelative(true);
+                        targetPos.x -= 50;
                     else
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, 1f * mult), 0.15f))
-                                .Join(cardComponent.Transform.DOMove(new Vector3(-15 * mult, -20 * mult, 0), 0.15f))
-                                .SetRelative(true);
+                        targetPos.x -= 25;
                 }
                 else if (index > targetIndex)
                 {
                     if (index == targetIndex + 1)
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, -4f * mult), 0.15f))
-                                .Join(cardComponent.Transform.DOMove(new Vector3(30 * mult, -10 * mult, 0), 0.15f))
-                                .SetRelative(true);
+                        targetPos.x += 50;
                     else
-                        sequence.Join(cardComponent.Transform.DORotate(new Vector3(0, 0, -1f * mult), 0.15f))
-                                .Join(cardComponent.Transform.DOMove(new Vector3(15 * mult, -20 * mult, 0), 0.15f))
-                                .SetRelative(true);
+                        targetPos.x += 25;
                 }
 
+                cardAnimations.Sequence.Append(cardComponent.Transform.DOMove(targetPos, 0.15f))
+                                       .Join(cardComponent.Transform.DORotateQuaternion(cardAnimations.Rotate, 0.3f))
+                                       .Join(cardComponent.Transform.DOScale(cardAnimations.Scale, 0.3f));
+
+                cardComponent.Canvas.sortingOrder = cardAnimations.SortingOrder;
+                entity.AddComponent(cardAnimations);
             }
         }
 
@@ -106,28 +140,50 @@ namespace BoardGame.Core
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()
+                        .With<CardComponentAnimations>()
                         .TrySelectFirstEntity(out var entity);
 
             if (!isEntity)
                 return;
-
-            var cardComponent = entity.GetComponent<CardComponent>();
-            var selectComponent = entity.GetComponent<InteractiveSelectCardComponent>();
-            var sequence = DOTween.Sequence();
-            sequence.Append(cardComponent.Transform.DORotateQuaternion(selectComponent.Rotate, 0.3f))
-                    .Join(cardComponent.Transform.DOMove(selectComponent.Positions, 0.3f))
-                    .Join(cardComponent.Transform.DOScale(Vector3.one, 0.3f))
-                    .OnComplete(() => ReturnSortingOrder(cardComponent.Canvas, selectComponent.SortingOrder));
-
-            var index = entity.GetComponent<CardSortingIndexComponent>().Index;
-            MoveOtherCards(index, false);
-
             entity.RemoveComponent<InteractiveSelectCardComponent>();
+            if (entity.HasComponent<CardHandComponent>())
+                ReturnAllCard();
+            else
+                ReturnCardAnimations(entity);
         }
 
-        private void ReturnSortingOrder(Canvas canvas, int sortingOrder)
+        private void ReturnAllCard()
         {
-            canvas.sortingOrder = sortingOrder;
+            var view = _dataWorld.OneData<ViewPlayerData>();
+            var entities = _dataWorld.Select<CardComponent>()
+                                        .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                        .With<CardHandComponent>()
+                                        .With<CardComponentAnimations>()
+                                        .GetEntities();
+
+            foreach (var entity in entities)
+                ReturnCardAnimations(entity);
+        }
+
+        private void ReturnCardAnimations(Entity entity)
+        {
+            var index = entity.GetComponent<CardSortingIndexComponent>().Index;
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
+            animationsCard.Sequence.Kill();
+            animationsCard.Sequence = DOTween.Sequence();
+            animationsCard.Sequence.Append(cardComponent.Transform.DORotateQuaternion(animationsCard.Rotate, 0.3f))
+                                .Join(cardComponent.Transform.DOMove(animationsCard.Positions, 0.3f))
+                                .Join(cardComponent.Transform.DOScale(animationsCard.Scale, 0.3f))
+                                .OnComplete(() => FinishDeselect(entity));
+        }
+
+        private void FinishDeselect(Entity entity)
+        {
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            var animationsCard = entity.GetComponent<CardComponentAnimations>();
+            cardComponent.Canvas.sortingOrder = animationsCard.SortingOrder;
+            entity.RemoveComponent<CardComponentAnimations>();
         }
     }
 }
