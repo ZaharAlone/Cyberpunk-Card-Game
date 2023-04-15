@@ -89,37 +89,6 @@ namespace BoardGame.Core
             Canvas.gameObject.SetActive(true);
         }
 
-        public void AnimationsMoveAtDiscardDeck(Vector3 positions, Vector3 scale)
-        {
-            StartCoroutine(AnimationsMoveAtDiscardDeckCorotine(positions, scale));
-        }
-
-        private IEnumerator AnimationsMoveAtDiscardDeckCorotine(Vector3 positions, Vector3 scale)
-        {
-            StartCoroutine(AnimationsCardOnBack());
-            yield return new WaitForSeconds(0.4f);
-
-            _sequence = DOTween.Sequence();
-
-            var distance = Vector3.Distance(transform.position, positions);
-            var time = distance / 600;
-            if (time > 0.8f)
-                time = 0.8f;
-            _sequence.Append(transform.DOMove(positions, time))
-                     .Join(transform.DOScale(scale, time))
-                     .Join(BackCardImage.DOColor(new Color32(1, 1, 1, 0), time / 0.5f));
-        }
-
-        public IEnumerator AnimationsCardOnBack()
-        {
-            _sequence = DOTween.Sequence();
-            _sequence.Append(CardConteinerTransform.DORotate(new Vector3(0, 90, 0), 0.2f));
-            yield return _sequence.WaitForCompletion();
-            CardOnBack();
-            _sequence.Append(CardConteinerTransform.DORotate(new Vector3(0, 180, 0), 0.2f));
-            yield return _sequence.WaitForCompletion();
-        }
-
         public void SetMovePositionAnimations(Vector3 positions, Vector3 scale)
         {
             _sequence = DOTween.Sequence();

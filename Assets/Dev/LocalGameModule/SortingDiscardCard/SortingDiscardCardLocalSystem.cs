@@ -2,6 +2,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace BoardGame.Core
 {
@@ -28,14 +29,15 @@ namespace BoardGame.Core
 
             var sorting = SortingCard.Sorting(countCard);
             var index = 0;
+
             foreach (var entity in discardCard)
             {
                 entity.RemoveComponent<CardDiscardComponent>();
+                entity.AddComponent(new CardDrawComponent());
                 ref var cardIndexComponent = ref entity.GetComponent<CardSortingIndexComponent>();
                 cardIndexComponent.Index = sorting[index];
                 index++;
             }
-
             _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
     }

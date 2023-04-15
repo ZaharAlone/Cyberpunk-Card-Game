@@ -46,5 +46,7 @@ namespace BoardGame
         public Vector3 SizeCardPlayerUp = new Vector3(0.5f, 0.5f, 1f);
         public Vector3 SizeCardPlayerDown = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 NormalSize = Vector3.one;
+        public Vector3 SizeSelectCardHand = new Vector3(1.4f, 1.4f, 1.4f);
+        public Vector3 SizeSelectCardTradeRow = new Vector3(1.8f, 1.8f, 1.8f);
     }
 }

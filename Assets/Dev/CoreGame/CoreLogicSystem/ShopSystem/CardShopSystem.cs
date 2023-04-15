@@ -28,8 +28,9 @@ namespace BoardGame.Core
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var countCardInShop = _dataWorld.Select<CardComponent>()
-                             .With<CardTradeRowComponent>()
-                             .Count();
+                                            .With<CardTradeRowComponent>()
+                                            .Without<CardNeutralComponent>()
+                                            .Count();
 
             if (countCardInShop == boardGameData.BoardGameRule.OpenCardInShop)
                 return;
@@ -53,8 +54,9 @@ namespace BoardGame.Core
         private List<int> GetFreeSlotInTradeRow()
         {
             var entitiesCardInTradeRow = _dataWorld.Select<CardComponent>()
-                 .With<CardTradeRowComponent>()
-                 .GetEntities();
+                                                   .With<CardTradeRowComponent>()
+                                                   .Without<CardNeutralComponent>()
+                                                   .GetEntities();
 
             var fullIndex = new List<int>();
             foreach (var entity in entitiesCardInTradeRow)
@@ -74,7 +76,6 @@ namespace BoardGame.Core
         private void AddTradeRowCard(int entityId, int indexPositionCard)
         {
             var entity = _dataWorld.GetEntity(entityId);
-            var boardGameData = _dataWorld.OneData<BoardGameData>();
             entity.RemoveComponent<CardTradeDeckComponent>();
 
             var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);

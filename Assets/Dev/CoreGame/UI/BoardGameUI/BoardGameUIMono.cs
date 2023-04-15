@@ -34,6 +34,9 @@ namespace BoardGame.Core.UI
         public Transform UpDeck;
         public TextMeshProUGUI UpDeckCount;
 
+        [Header("Support Element")]
+        public ChangeRoundUIMono ChangeRoundUI;
+
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();

@@ -45,6 +45,7 @@ namespace BoardGame.Core
             {
                 var entity = InitCard(item, cardsParent);
                 entity.AddComponent(new CardNeutralComponent());
+                entity.AddComponent(new CardTradeRowComponent());
             }
 
             foreach (var item in deckCardsData.PlayerCards_1)
@@ -52,6 +53,7 @@ namespace BoardGame.Core
                 var entity = InitCard(item, cardsParent);
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.Player = PlayerEnum.Player1;
+                entity.AddComponent(new CardDrawComponent());
             }
 
             foreach (var item in deckCardsData.PlayerCards_2)
@@ -59,6 +61,7 @@ namespace BoardGame.Core
                 var entity = InitCard(item, cardsParent);
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.Player = PlayerEnum.Player2;
+                entity.AddComponent(new CardDrawComponent());
             }
         }
 

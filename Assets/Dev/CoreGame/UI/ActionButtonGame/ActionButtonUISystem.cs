@@ -141,7 +141,8 @@ namespace BoardGame.Core.UI
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
-            _dataWorld.RiseEvent(new EventEndCurrentTurn());
+            var newEntity = _dataWorld.NewEntity();
+            newEntity.AddComponent(new WaitEndRoundComponent());
         }
     }
 }

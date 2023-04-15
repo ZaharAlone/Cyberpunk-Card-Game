@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System;
 using BoardGame.Core;
+using BoardGame.Core.UI;
 
 namespace BoardGame.Local
 {
@@ -43,7 +44,14 @@ namespace BoardGame.Local
             else
                 roundData.CurrentPlayer = PlayerEnum.Player1;
 
-            _dataWorld.RiseEvent(new EventUpdateRound ());
+            _dataWorld.RiseEvent(new EventUpdateRound());
+            UpdateUIRound();
+        }
+
+        private void UpdateUIRound()
+        {
+            ref var ui = ref _dataWorld.OneData<UIData>().UIMono;
+            ui.ChangeRoundUI.OnNewRound();
         }
     }
 }

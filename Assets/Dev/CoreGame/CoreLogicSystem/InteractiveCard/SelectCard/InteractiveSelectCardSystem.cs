@@ -16,6 +16,7 @@ namespace BoardGame.Core
         {
             InteractiveActionCard.SelectCard += SelectCard;
             InteractiveActionCard.DeselectCard += DeselectCard;
+            InteractiveActionCard.ReturnAllCardInHand += ReturnAllCard;
         }
 
         private void SelectCard(string guid)
@@ -31,9 +32,9 @@ namespace BoardGame.Core
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var view = ref _dataWorld.OneData<ViewPlayerData>();
 
-            if (view.PlayerView != cardComponent.Player)
+            if (view.PlayerView != cardComponent.Player && !entity.HasComponent<CardTradeRowComponent>())
                 return;
-            
+
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -51,9 +52,14 @@ namespace BoardGame.Core
                 animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
             }
 
+            var gameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var scaleCard = gameConfig.SizeSelectCardHand;
+            if (entity.HasComponent<CardTradeRowComponent>())
+                scaleCard = gameConfig.SizeSelectCardTradeRow;
+
             animComponent.Sequence = DOTween.Sequence();
             animComponent.Sequence.Append(cardComponent.Transform.DORotateQuaternion(Quaternion.identity, 0.15f))
-                                  .Join(cardComponent.Transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.15f));
+                                  .Join(cardComponent.Transform.DOScale(scaleCard, 0.15f));
 
             cardComponent.Canvas.sortingOrder = 20;
 

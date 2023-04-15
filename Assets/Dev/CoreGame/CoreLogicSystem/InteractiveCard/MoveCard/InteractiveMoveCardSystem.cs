@@ -6,6 +6,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
+using DG.Tweening;
 
 namespace BoardGame.Core
 {
@@ -26,13 +27,19 @@ namespace BoardGame.Core
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
 
+            ref var component = ref entity.GetComponent<CardComponent>();
+            var round = _dataWorld.OneData<RoundData>();
+            if (round.CurrentPlayer != component.Player)
+                return;
+
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
                 ref var inputData = ref _dataWorld.OneData<InputData>();
-                ref var component = ref entity.GetComponent<CardComponent>();
+
                 entity.AddComponent(new InteractiveMoveComponent
                 {
                     StartCardPosition = component.Transform.position,
+                    StartCardRotation = component.Transform.rotation,
                     StartMousePositions = inputData.MousePosition
                 });
             }
@@ -81,27 +88,33 @@ namespace BoardGame.Core
 
         private void EndMovePlayerCard(Entity entity)
         {
-            var componentMove = entity.GetComponent<InteractiveMoveComponent>();
-            var componentCard = entity.GetComponent<CardComponent>();
-            var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
+            var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
+            var cardComponent = entity.GetComponent<CardComponent>();
+            var distance = cardComponent.Transform.position.y - moveComponent.StartCardPosition.y;
+
+            entity.RemoveComponent<InteractiveMoveComponent>();
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
+            if (entity.HasComponent<CardComponentAnimations>())
+            {
+                var animationCard = entity.GetComponent<CardComponentAnimations>();
+                animationCard.Sequence.Kill();
+                entity.RemoveComponent<CardComponentAnimations>();
+            }
 
             if (distance > 150)
             {
                 entity.RemoveComponent<CardHandComponent>();
                 entity.AddComponent(new CardTableComponent());
+                cardComponent.Canvas.sortingOrder = 2;
+
+                var view = _dataWorld.OneData<ViewPlayerData>();
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
-                componentCard.Canvas.sortingOrder = 2;
+                _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = view.PlayerView });
             }
             else
             {
-                var card = entity.GetComponent<CardComponent>();
-                var pos = _dataWorld.OneData<BoardGameData>().BoardGameConfig.PlayerHandPosition;
-                card.Transform.position = pos;
+                InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             }
-
-            entity.RemoveComponent<InteractiveMoveComponent>();
-            entity.RemoveComponent<InteractiveSelectCardComponent>();
-            _dataWorld.RiseEvent(new EventUpdateHandUI());
         }
 
         private void EndMoveShopCard(Entity entity)

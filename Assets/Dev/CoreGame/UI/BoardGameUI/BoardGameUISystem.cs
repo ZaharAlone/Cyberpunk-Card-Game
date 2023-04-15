@@ -92,25 +92,23 @@ namespace BoardGame.Core.UI
                                                 .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
                                                 .With<CardDiscardComponent>()
                                                 .Count();
-            var deckCardsPlayer1 = _dataWorld.Select<CardComponent>()
+            var drawCardsPlayer1 = _dataWorld.Select<CardComponent>()
                                              .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
-                                             .Without<CardHandComponent>()
-                                             .Without<CardDiscardComponent>()
+                                             .With<CardDrawComponent>()
                                              .Count();
             var discardCardsPlayer2 = _dataWorld.Select<CardComponent>()
                                                 .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
                                                 .With<CardDiscardComponent>()
                                                 .Count();
-            var deckCardsPlayer2 = _dataWorld.Select<CardComponent>()
+            var drawCardsPlayer2 = _dataWorld.Select<CardComponent>()
                                              .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
-                                             .Without<CardHandComponent>()
-                                             .Without<CardDiscardComponent>()
+                                             .With<CardDrawComponent>()
                                              .Count();
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
-                gameUI.SetCountCard(discardCardsPlayer1, deckCardsPlayer1, discardCardsPlayer2, deckCardsPlayer2);
+                gameUI.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
             else
-                gameUI.SetCountCard(discardCardsPlayer2, deckCardsPlayer2, discardCardsPlayer1, deckCardsPlayer1);
+                gameUI.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
         }
     }
 }

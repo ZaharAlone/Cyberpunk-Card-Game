@@ -8,5 +8,6 @@ namespace BoardGame.Core
         public static Action<string> SelectCard;
         public static Action<string> DeselectCard;
         public static Action EndInteractiveCard;
+        public static Action ReturnAllCardInHand;
     }
 }
