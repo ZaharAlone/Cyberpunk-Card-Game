@@ -10,11 +10,11 @@ using UnityEngine;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class BoardGameUISystem : IPreInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
             var gameUI = _dataWorld.OneData<UIData>();
             var camera = _dataWorld.OneData<BoardGameCameraComponent>();

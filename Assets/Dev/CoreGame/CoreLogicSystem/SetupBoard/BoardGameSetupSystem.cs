@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
+using BoardGame.Core.UI;
 
 namespace BoardGame.Core
 {
@@ -110,17 +111,17 @@ namespace BoardGame.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
-            var boardGameData = _dataWorld.OneData<BoardGameData>();
-
+            var gameUI = _dataWorld.OneData<UIData>();
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
                                             .GetEntities();
 
+
             foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckPlayer;
-                component.GO.SetActive(false);
+                component.Transform.position = gameUI.UIMono.DownDeck.localPosition;
+                component.CardMono.HideCard();
             }
 
             var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
@@ -129,8 +130,8 @@ namespace BoardGame.Core
             foreach (var entity in entitiesPlayer2)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = boardGameData.BoardGameConfig.PositionsCardDeckEnemy;
-                component.GO.SetActive(false);
+                component.Transform.position = gameUI.UIMono.UpDeck.localPosition;
+                component.CardMono.HideCard();
             }
 
             var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
