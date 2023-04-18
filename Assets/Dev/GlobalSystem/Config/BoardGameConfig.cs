@@ -32,17 +32,16 @@ namespace BoardGame
         public float StepPosXPlayerUp = 170f;
 
         [Header("Positions Player")]
-        public Vector2 PositionsCardDeckPlayer = new Vector2(830, 400);
         public Vector2 PlayerHandPosition = new Vector2(0, -330);
 
         public Vector2 PlayerCardPositionInPlay = new Vector2(0, -120);
 
         [Header("Positions Enemy")]
-        public Vector2 PositionsCardDeckEnemy = new Vector2(830, -100);
         public Vector2 EnemyHandPosition = new Vector2(0, 330);
 
         [Header("Size")]
         public Vector3 SizeCardInDeck = new Vector3(0.25f, 0.25f, 1f);
+        public Vector3 SizeCardInTable = new Vector3(0.7f, 0.7f, 1f);
         public Vector3 SizeCardPlayerUp = new Vector3(0.5f, 0.5f, 1f);
         public Vector3 SizeCardPlayerDown = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 NormalSize = Vector3.one;

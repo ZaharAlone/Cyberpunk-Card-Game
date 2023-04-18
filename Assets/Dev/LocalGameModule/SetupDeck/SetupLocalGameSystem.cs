@@ -61,7 +61,7 @@ namespace BoardGame.Core
         private bool CheckCardIsPlayer(string Key)
         {
             var isPlayer = false;
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
                 if (item.Key == Key)
@@ -72,7 +72,7 @@ namespace BoardGame.Core
         private bool CardIsFirstPlayer(List<CardData> playerCard, string Key)
         {
             var targetCountCard = 0;
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
                 if (item.Key == Key)

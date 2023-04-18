@@ -31,10 +31,7 @@ namespace BoardGame.Core
                            .Count();
 
                 if (countPlayerEntities == 0)
-                {
-                    GlobalCoreGameAction.SortingDiscardCardAnimations?.Invoke(eventValue.Target);
                     GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.Target);
-                }
 
                 var playerEntities = _dataWorld.Select<CardComponent>()
                                                .Where<CardComponent>(card => card.Player == eventValue.Target)
@@ -42,25 +39,22 @@ namespace BoardGame.Core
                                                .GetEntities();
 
                 var id = SortingCard.ChooseNearestCard(playerEntities);
-                AddCard(id, eventValue.Target);
+                AddCard(id);
             }
-
-            _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = eventValue.Target });
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
-        private void AddCard(int entityId, PlayerEnum targetPlayer)
+        private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
             var viewData = _dataWorld.OneData<ViewPlayerData>();
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
-
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            var waitTimeAnim = WaitCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
+            waitTimeAnim += 0.25f;
+            entity.AddComponent(new WaitCardAnimationsDrawHandComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });
             cardComponent.CardMono.ShowCard();
-
-            if (targetPlayer == viewData.PlayerView)
-                cardComponent.CardMono.CardOnFace();
         }
     }
 }

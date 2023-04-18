@@ -21,11 +21,14 @@ namespace BoardGame.Core.UI
                                 .Where<CardComponent>(card => card.Player == value.TargetPlayer)
                                 .With<CardHandComponent>()
                                 .Without<CardTableComponent>()
+                                .Without<WaitCardAnimationsDrawHandComponent>()
                                 .Count();
+
             var entities = _dataWorld.Select<CardComponent>()
                                      .Where<CardComponent>(card => card.Player == value.TargetPlayer)
                                      .With<CardHandComponent>()
                                      .Without<CardTableComponent>()
+                                     .Without<WaitCardAnimationsDrawHandComponent>()
                                      .GetEntities();
 
             UpdateView(entities, countCardInHand, value.TargetPlayer);
@@ -87,6 +90,7 @@ namespace BoardGame.Core.UI
                     ref var sortingIndexCard = ref entity.GetComponent<CardSortingIndexComponent>().Index;
                     if (sortingIndexCard != targetIndex)
                         continue;
+
                     ref var cardComponent = ref entity.GetComponent<CardComponent>();
                     float angle = maxAngle / 2 - oneAngle * i;
                     var targetPos = Vector3.zero;
@@ -120,16 +124,9 @@ namespace BoardGame.Core.UI
             var animationComponent = new CardComponentAnimations();
             var round = _dataWorld.OneData<RoundData>();
 
-            if (round.CurrentRound == 0 && round.CurrentTurn == 1)
-            {
-                cardComponent.Transform.position = position;
-                cardComponent.Transform.rotation = rotate;
-                return;
-            }
-
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(position, 0.3f))
-                                       .Join(cardComponent.Transform.DORotateQuaternion(rotate, 0.3f))
+            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(position, 0.4f))
+                                       .Join(cardComponent.Transform.DORotateQuaternion(rotate, 0.4f))
                                        .OnComplete(() => ClearAnimationComponent(entity));
         }
 

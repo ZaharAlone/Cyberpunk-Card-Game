@@ -84,6 +84,11 @@ namespace BoardGame.Core
             Canvas.gameObject.SetActive(false);
         }
 
+        public void HideBackCardColor()
+        {
+            BackCardImage.color = new Color32(255, 255, 255, 0);
+        }
+
         public void ShowCard()
         {
             Canvas.gameObject.SetActive(true);

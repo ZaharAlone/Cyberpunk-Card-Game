@@ -25,7 +25,7 @@ namespace BoardGame.Core
         private void SetupBoard()
         {
             var resource = ModulesUnityAdapter.world.NewEntity();
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
             var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
             resource.AddComponent(new BoardGameResourceComponent { Table = table });
         }
@@ -38,20 +38,20 @@ namespace BoardGame.Core
 
             foreach (var item in deckCardsData.ShopCards)
             {
-                var entity = InitCard(item, cardsParent);
+                var entity = InitCard(item, cardsParent, false);
                 entity.AddComponent(new CardTradeDeckComponent());
             }
 
             foreach (var item in deckCardsData.NeutralShopCards)
             {
-                var entity = InitCard(item, cardsParent);
+                var entity = InitCard(item, cardsParent, false);
                 entity.AddComponent(new CardNeutralComponent());
                 entity.AddComponent(new CardTradeRowComponent());
             }
 
             foreach (var item in deckCardsData.PlayerCards_1)
             {
-                var entity = InitCard(item, cardsParent);
+                var entity = InitCard(item, cardsParent, true);
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.Player = PlayerEnum.Player1;
                 entity.AddComponent(new CardDrawComponent());
@@ -59,20 +59,23 @@ namespace BoardGame.Core
 
             foreach (var item in deckCardsData.PlayerCards_2)
             {
-                var entity = InitCard(item, cardsParent);
+                var entity = InitCard(item, cardsParent, true);
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.Player = PlayerEnum.Player2;
                 entity.AddComponent(new CardDrawComponent());
             }
         }
 
-        private Entity InitCard(CardData placeCard, Transform parent)
+        private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var cardMono = Object.Instantiate(boardGameConfig.CardMono, parent);
             var cardGO = cardMono.gameObject;
             cardsConfig.Cards.TryGetValue(placeCard.CardName, out var card);
+
+            if (isPlayerCard)
+                cardGO.transform.localScale = boardGameConfig.SizeCardInDeck;
 
             SetViewCard(cardMono, card);
 
@@ -86,7 +89,7 @@ namespace BoardGame.Core
         //Отрисовываем вьюху кард
         private void SetViewCard(CardMono card, CardConfig cardConfig)
         {
-            var boardGameData = _dataWorld.GetOneData<BoardGameData>().GetData();
+            var boardGameData = _dataWorld.OneData<BoardGameData>();
             boardGameData.BoardGameConfig.CardImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
 
             if (cardImage == null)
@@ -122,6 +125,7 @@ namespace BoardGame.Core
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = gameUI.UIMono.DownDeck.localPosition;
                 component.CardMono.HideCard();
+                component.CardMono.HideBackCardColor();
             }
 
             var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
@@ -132,6 +136,7 @@ namespace BoardGame.Core
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.Transform.position = gameUI.UIMono.UpDeck.localPosition;
                 component.CardMono.HideCard();
+                component.CardMono.HideBackCardColor();
             }
 
             var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();

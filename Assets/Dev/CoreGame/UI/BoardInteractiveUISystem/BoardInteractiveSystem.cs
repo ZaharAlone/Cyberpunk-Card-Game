@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventUpdateDeckCard>
+    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>
     {
         private DataWorld _dataWorld;
 
@@ -41,8 +41,6 @@ namespace BoardGame.Core.UI
             UpdateTableCards();
             UpdateDiscardHub();
         }
-
-        public void PostRunEvent(EventUpdateDeckCard _) => UpdateDeck();
 
         private void UpdateTableCards()
         {
@@ -121,46 +119,11 @@ namespace BoardGame.Core.UI
 
             sequence.Append(cardComponent.Transform.DOMove(positions, time))
                      .Join(cardComponent.Transform.DOScale(scale, time))
-                     .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(1, 1, 1, 0), time / 0.5f));
+                     .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), time / 0.5f));
 
             await Task.Delay((int)(1000 * time));
             entity.RemoveComponent<CardMoveToDiscardComponent>();
             entity.AddComponent(new CardDiscardComponent());
-        }
-
-        private void UpdateDeck()
-        {
-            var roundData = _dataWorld.OneData<RoundData>();
-            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-            {
-                var stackCard = _dataWorld.Select<CardComponent>()
-                                          .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
-                                          .Without<CardDiscardComponent>()
-                                          .Without<CardHandComponent>()
-                                          .GetEntities();
-
-                foreach (var entity in stackCard)
-                {
-                    ref var component = ref entity.GetComponent<CardComponent>();
-                    component.Transform.position = config.PositionsCardDeckPlayer;
-                }
-            }
-            else
-            {
-                var stackCard = _dataWorld.Select<CardComponent>()
-                                          .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
-                                          .Without<CardDiscardComponent>()
-                                          .Without<CardHandComponent>()
-                                          .GetEntities();
-
-                foreach (var entity in stackCard)
-                {
-                    ref var component = ref entity.GetComponent<CardComponent>();
-                    component.Transform.position = config.PositionsCardDeckEnemy;
-                }
-            }
         }
     }
 }

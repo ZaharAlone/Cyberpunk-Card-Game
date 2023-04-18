@@ -34,11 +34,13 @@ namespace BoardGame.Core
             {
                 entity.RemoveComponent<CardDiscardComponent>();
                 entity.AddComponent(new CardDrawComponent());
+                var waitTimeAnim = WaitCardAnimationsAction.GetTimeSortingDeck.Invoke(player);
+                waitTimeAnim += 0.1f;
+                entity.AddComponent(new WaitCardAnimationsSortingDeckComponent { Player = player, WaitTime = waitTimeAnim });
                 ref var cardIndexComponent = ref entity.GetComponent<CardSortingIndexComponent>();
                 cardIndexComponent.Index = sorting[index];
                 index++;
             }
-            _dataWorld.RiseEvent(new EventUpdateDeckCard());
         }
     }
 }
