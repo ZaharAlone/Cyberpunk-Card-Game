@@ -24,6 +24,8 @@ namespace BoardGame.Core
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .Without<CardTableComponent>()
+                        .Without<CardDrawComponent>()
+                        .Without<CardDistributionComponent>()
                         .TrySelectFirstEntity(out var entity);
 
             if (!isEntity)
@@ -34,7 +36,6 @@ namespace BoardGame.Core
 
             if (view.PlayerView != cardComponent.Player && !entity.HasComponent<CardTradeRowComponent>())
                 return;
-
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -147,10 +148,13 @@ namespace BoardGame.Core
                         .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()
                         .With<CardComponentAnimations>()
+                        .Without<CardDistributionComponent>()
+                        .Without<CardDrawComponent>()
                         .TrySelectFirstEntity(out var entity);
 
             if (!isEntity)
                 return;
+
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             if (entity.HasComponent<CardHandComponent>())
                 ReturnAllCard();

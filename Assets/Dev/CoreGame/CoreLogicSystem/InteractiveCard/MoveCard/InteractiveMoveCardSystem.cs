@@ -109,7 +109,7 @@ namespace BoardGame.Core
 
                 var view = _dataWorld.OneData<ViewPlayerData>();
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
-                _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = view.PlayerView });
+                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = view.PlayerView });
             }
             else
             {

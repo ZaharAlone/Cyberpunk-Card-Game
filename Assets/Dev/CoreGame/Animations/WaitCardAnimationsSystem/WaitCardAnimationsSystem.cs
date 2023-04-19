@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
 using BoardGame.Core.UI;
+using System.Threading.Tasks;
 
 namespace BoardGame.Core
 {
@@ -41,6 +42,9 @@ namespace BoardGame.Core
                 ref var waitComponent = ref entity.GetComponent<WaitCardAnimationsDrawHandComponent>();
                 waitComponent.WaitTime -= Time.deltaTime;
 
+                if (entity.HasComponent<CardComponentAnimations>())
+                    continue;
+
                 if (waitComponent.WaitTime <= 0)
                     AnimationsDrawToHand(entity);
             }
@@ -73,7 +77,7 @@ namespace BoardGame.Core
         private void EndSortingCard(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
-            
+            cardComponent.CardMono.CardConteinerTransform.rotation = Quaternion.identity;
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
@@ -93,7 +97,7 @@ namespace BoardGame.Core
             animationComponent.Sequence = DOTween.Sequence();
             animationComponent.Sequence.Append(cardComponent.Transform.DOMove(new Vector3(0, positionsY, 0), 0.4f))
                                        .Join(cardComponent.Transform.DOScale(boardGameConfig.NormalSize, 0.4f))
-                                       .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.2f))
+                                       .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.1f))
                                        .OnComplete(() => EndDrawHandAnimations(entity));
 
             entity.AddComponent(animationComponent);
@@ -103,13 +107,21 @@ namespace BoardGame.Core
         private void EndDrawHandAnimations(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
+            var animationComponent = entity.GetComponent<CardComponentAnimations>();
+            animationComponent.Sequence.Kill();
+            entity.RemoveComponent<CardComponentAnimations>();
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
 
-            if (viewPlayer.PlayerView == cardComponent.Player)
+            if (cardComponent.Player == viewPlayer.PlayerView)
                 cardComponent.CardMono.CardOnFace();
 
-            entity.RemoveComponent<CardComponentAnimations>();
-            _dataWorld.RiseEvent(new EventUpdateHandUI { TargetPlayer = cardComponent.Player });
+            var waitDistributionEntity = _dataWorld.Select<WaitDistributionCardHandComponent>()
+                                                   .Where<WaitDistributionCardHandComponent>(wait => wait.Player == cardComponent.Player)
+                                                   .SelectFirstEntity();
+            ref var waitDistributionComponent = ref waitDistributionEntity.GetComponent<WaitDistributionCardHandComponent>();
+            waitDistributionComponent.CurrentDistributionCard++;
+
+            _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = cardComponent.Player });
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
     }

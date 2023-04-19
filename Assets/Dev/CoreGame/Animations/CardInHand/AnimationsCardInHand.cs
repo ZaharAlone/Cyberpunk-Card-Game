@@ -11,11 +11,11 @@ using DG.Tweening;
 namespace BoardGame.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class HandUISystem : IPostRunEventSystem<EventUpdateHandUI>
+    public class AnimationsCardInHand : IPostRunEventSystem<EventCardAnimationsHand>
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventUpdateHandUI value)
+        public void PostRunEvent(EventCardAnimationsHand value)
         {
             var countCardInHand = _dataWorld.Select<CardComponent>()
                                 .Where<CardComponent>(card => card.Player == value.TargetPlayer)
@@ -89,6 +89,9 @@ namespace BoardGame.Core.UI
                 {
                     ref var sortingIndexCard = ref entity.GetComponent<CardSortingIndexComponent>().Index;
                     if (sortingIndexCard != targetIndex)
+                        continue;
+
+                    if (entity.HasComponent<CardComponentAnimations>() && entity.HasComponent<CardDistributionComponent>())
                         continue;
 
                     ref var cardComponent = ref entity.GetComponent<CardComponent>();

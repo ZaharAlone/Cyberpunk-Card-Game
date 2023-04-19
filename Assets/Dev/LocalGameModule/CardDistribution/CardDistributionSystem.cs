@@ -41,6 +41,8 @@ namespace BoardGame.Core
                 var id = SortingCard.ChooseNearestCard(playerEntities);
                 AddCard(id);
             }
+            var entity = _dataWorld.NewEntity();
+            entity.AddComponent(new WaitDistributionCardHandComponent { Player = eventValue.Target, CountCard = eventValue.Count });
         }
 
         private void AddCard(int entityId)
@@ -51,6 +53,7 @@ namespace BoardGame.Core
 
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
+            entity.AddComponent(new CardDistributionComponent());
             var waitTimeAnim = WaitCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
             waitTimeAnim += 0.25f;
             entity.AddComponent(new WaitCardAnimationsDrawHandComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });

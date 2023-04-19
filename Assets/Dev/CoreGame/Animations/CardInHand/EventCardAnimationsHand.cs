@@ -1,6 +1,6 @@
 namespace BoardGame.Core.UI
 {
-    public struct EventUpdateHandUI
+    public struct EventCardAnimationsHand
     {
         public PlayerEnum TargetPlayer;
     }
