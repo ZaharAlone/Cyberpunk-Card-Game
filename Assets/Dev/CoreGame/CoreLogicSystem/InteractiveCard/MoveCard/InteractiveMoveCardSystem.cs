@@ -94,16 +94,18 @@ namespace BoardGame.Core
 
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
-            if (entity.HasComponent<CardComponentAnimations>())
-            {
-                var animationCard = entity.GetComponent<CardComponentAnimations>();
-                animationCard.Sequence.Kill();
-                entity.RemoveComponent<CardComponentAnimations>();
-            }
 
             if (distance > 150)
             {
                 entity.RemoveComponent<CardHandComponent>();
+
+                if (entity.HasComponent<CardComponentAnimations>())
+                {
+                    var animationCard = entity.GetComponent<CardComponentAnimations>();
+                    animationCard.Sequence.Kill();
+                    entity.RemoveComponent<CardComponentAnimations>();
+                }
+
                 entity.AddComponent(new CardTableComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 

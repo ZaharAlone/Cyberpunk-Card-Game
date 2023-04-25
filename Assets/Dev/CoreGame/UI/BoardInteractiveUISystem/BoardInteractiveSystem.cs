@@ -58,10 +58,10 @@ namespace BoardGame.Core.UI
                 var pos = config.PlayerCardPositionInPlay;
                 pos.x = start_point;
 
-                cardComponent.CardMono.SetMovePositionAnimations(pos, config.NormalSize);
+                cardComponent.CardMono.SetMovePositionAnimations(pos, config.SizeCardInTable);
                 cardComponent.CardMono.CardOnFace();
 
-                start_point += (204 + 30);
+                start_point += (int)(234 * config.SizeCardInTable.x);
             }
         }
 

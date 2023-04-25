@@ -16,7 +16,7 @@ namespace BoardGame.Core
             SetAction(container, ability, boardGameConfig);
             Object.Instantiate(boardGameConfig.TextDotAbility, container);
 
-            //container.gameObject.SetActive(true);
+            container.gameObject.SetActive(true);
         }
 
         private static void SetConfition(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)

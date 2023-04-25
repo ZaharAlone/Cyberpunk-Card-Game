@@ -21,6 +21,9 @@ namespace BoardGame.Core
 
         private void SelectCard(string guid)
         {
+            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
+                return;
+
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .Without<CardTableComponent>()
@@ -144,6 +147,9 @@ namespace BoardGame.Core
 
         private void DeselectCard(string guid)
         {
+            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
+                return;
+
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()

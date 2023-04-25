@@ -104,10 +104,13 @@ namespace BoardGame.Core
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
 
             if (cardConfig.Ability_0.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.Ability_0_Container, cardConfig.Ability_0, boardGameData.BoardGameConfig);
-            if (cardConfig.Ability_1.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.Ability_1_Container, cardConfig.Ability_1, boardGameData.BoardGameConfig);
+                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameData.BoardGameConfig);
 
+
+            if (cardConfig.Ability_0.Action != AbilityAction.None)
+                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameData.BoardGameConfig);
+            if (cardConfig.Ability_1.Action != AbilityAction.None)
+                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameData.BoardGameConfig);
             card.CardOnBack();
         }
 

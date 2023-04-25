@@ -24,14 +24,14 @@ namespace BoardGame.Core
         public Image ImageCard;
         public Image ImageNations;
         [Header("Price")]
-        public GameObject PriceGO;
         public TextMeshProUGUI PriceText;
 
         [Header("Down Block")]
         public Localize Header;
         public TextMeshProUGUI Cyberpsychosis;
-        public Transform Ability_0_Container;
-        public Transform Ability_1_Container;
+        public Transform AbilityBlock_1_Container;
+        public Transform AbilityBlock_2_Container;
+        public Transform AbilityBlock_3_Container;
 
         private bool _cardIsBack;
         private Sequence _sequence;
@@ -50,7 +50,7 @@ namespace BoardGame.Core
             if (price != 0)
                 PriceText.text = price.ToString();
             else
-                PriceGO.SetActive(false);
+                PriceText.gameObject.SetActive(false);
         }
 
         public void CardOnBack()
