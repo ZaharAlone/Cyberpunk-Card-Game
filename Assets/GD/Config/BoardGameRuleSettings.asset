@@ -22,30 +22,42 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   BasePoolCard:
-  - Key: base_hunter
+  - Key: hunter
     Value: 2
-  - Key: base_scout
+  - Key: scout
     Value: 8
   BaseInfluenceCount: 50
+  BaseCyberpsychosisCount: 0
   OpenCardInShop: 5
   KeyCardsInShopAdd: base_explorer
-  CardInHandFirstPlayerOneRound: 3
-  BaseCountDropCard: 5
-  ActionPlayAll:
-    mTerm: BoardGameUI/$bg_play_all_name
+  CountDropCard: 5
+  ActionPlayAll_loc:
+    mTerm: BoardGameUI/$bg_play_all_button
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
-  ActionAttack:
-    mTerm: BoardGameUI/$bg_attack_name
+  ActionAttack_loc:
+    mTerm: BoardGameUI/$bg_attack_button
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
-  ActionEndTurn:
-    mTerm: BoardGameUI/$bg_end_turn_name
+  ActionEndTurn_loc:
+    mTerm: BoardGameUI/$bg_end_turn_button
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
+  ChoseOneCard_Loc:
+    mTerm: BoardGameUI/$bg_choose_one
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  ActionPlayAll_image: {fileID: 1583462850, guid: 95efd8ae8b6d4a44f90883933e343c4c,
+    type: 3}
+  ActionAttack_image: {fileID: 317831370, guid: 95efd8ae8b6d4a44f90883933e343c4c,
+    type: 3}
+  ActionEndTurn_image: {fileID: -353957088, guid: 95efd8ae8b6d4a44f90883933e343c4c,
+    type: 3}
