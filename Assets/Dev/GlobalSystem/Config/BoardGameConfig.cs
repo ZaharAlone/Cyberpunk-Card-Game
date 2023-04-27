@@ -16,9 +16,10 @@ namespace BoardGame
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;
-        public Image IconsMiniAbility;
+        public Image IconsArrowBaseAbility;
+        public Image IconsArrowConditionAbility;
         public TextMeshProUGUI TextBaseAbility;
-        public TextMeshProUGUI TextDotAbility;
+        public GameObject ItemIconsCounterCard;
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;

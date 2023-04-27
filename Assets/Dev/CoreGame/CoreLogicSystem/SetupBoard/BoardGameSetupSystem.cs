@@ -89,28 +89,33 @@ namespace BoardGame.Core
         //Отрисовываем вьюху кард
         private void SetViewCard(CardMono card, CardConfig cardConfig)
         {
-            var boardGameData = _dataWorld.OneData<BoardGameData>();
-            boardGameData.BoardGameConfig.CardImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
+            var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            boardGameConfig.CardImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
 
             if (cardImage == null)
+            {
                 Debug.LogError($"Not find card image is name: {cardConfig.ImageKey}");
+                return;
+            }
 
             if (cardConfig.Nations != "Neutral")
             {
-                boardGameData.BoardGameConfig.NationsImage.TryGetValue(cardConfig.Nations, out var nationsImage);
+                boardGameConfig.NationsImage.TryGetValue(cardConfig.Nations, out var nationsImage);
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price, nationsImage);
+
+                for (int i = 0; i < cardConfig.Count; i++)
+                    Object.Instantiate(boardGameConfig.ItemIconsCounterCard, card.CountCardBlock);
             }
             else
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
 
-            if (cardConfig.Ability_0.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameData.BoardGameConfig);
-
+            card.SetActiveChooseOne(cardConfig.Ability_0.Action != AbilityAction.None && cardConfig.Ability_1.Action != AbilityAction.None);
 
             if (cardConfig.Ability_0.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameData.BoardGameConfig);
+                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig);
             if (cardConfig.Ability_1.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameData.BoardGameConfig);
+                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameConfig);
+
             card.CardOnBack();
         }
 

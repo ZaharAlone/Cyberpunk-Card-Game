@@ -10,11 +10,11 @@ namespace BoardGame.Core
     {
         public static void SetView(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)
         {
+            var imageArrow = Object.Instantiate(boardGameConfig.IconsArrowBaseAbility, container);
             if (ability.Condition != AbilityCondition.None)
                 SetConfition(container, ability, boardGameConfig);
 
             SetAction(container, ability, boardGameConfig);
-            Object.Instantiate(boardGameConfig.TextDotAbility, container);
 
             container.gameObject.SetActive(true);
         }
@@ -36,16 +36,16 @@ namespace BoardGame.Core
                     textC15.text = "cyberpsychosis > 15";
                     break;
                 case AbilityCondition.doubleCorporates:
-                    var imCorpo = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+                    SetDoubleNations(container, boardGameConfig, "Corporates");
                     break;
                 case AbilityCondition.doubleGuns:
-                    var imGuns = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+                    SetDoubleNations(container, boardGameConfig, "Guns");
                     break;
                 case AbilityCondition.doubleNomads:
-                    var imNomads = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+                    SetDoubleNations(container, boardGameConfig, "Nomads");
                     break;
                 case AbilityCondition.doubleNetrunners:
-                    var imNetrunners = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+                    SetDoubleNations(container, boardGameConfig, "Netrunners");
                     break;
                 case AbilityCondition.destroyCard:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
@@ -53,7 +53,16 @@ namespace BoardGame.Core
                     break;
             }
 
-            var imageArrow = Object.Instantiate(boardGameConfig.IconsMiniAbility, container);
+            var imageArrow = Object.Instantiate(boardGameConfig.IconsArrowConditionAbility, container);
+        }
+
+        private static void SetDoubleNations(Transform container, BoardGameConfig boardGameConfig, string nationsName)
+        {
+            boardGameConfig.NationsImage.TryGetValue(nationsName, out var icons);
+            var im_1 = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+            var im_2 = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
+            im_1.sprite = icons;
+            im_2.sprite = icons;
         }
 
         private static void SetAction(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)
@@ -109,8 +118,6 @@ namespace BoardGame.Core
 
         private static void AddBaseAction(Transform container, Sprite sprite, int count, BoardGameConfig boardGameConfig)
         {
-            var imageAdd = Object.Instantiate(boardGameConfig.IconsMiniAbility, container);
-
             for (int i = 0; i < count; i++)
             {
                 var image = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);

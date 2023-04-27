@@ -31,7 +31,9 @@ namespace BoardGame.Core
         public TextMeshProUGUI Cyberpsychosis;
         public Transform AbilityBlock_1_Container;
         public Transform AbilityBlock_2_Container;
-        public Transform AbilityBlock_3_Container;
+        public GameObject ChooseOneHeader;
+
+        public Transform CountCardBlock;
 
         private bool _cardIsBack;
         private Sequence _sequence;
@@ -51,6 +53,11 @@ namespace BoardGame.Core
                 PriceText.text = price.ToString();
             else
                 PriceText.gameObject.SetActive(false);
+        }
+
+        public void SetActiveChooseOne(bool status)
+        {
+            ChooseOneHeader.SetActive(status);
         }
 
         public void CardOnBack()

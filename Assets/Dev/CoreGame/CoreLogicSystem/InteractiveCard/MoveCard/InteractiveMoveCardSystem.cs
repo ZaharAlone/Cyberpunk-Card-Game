@@ -29,7 +29,7 @@ namespace BoardGame.Core
 
             ref var component = ref entity.GetComponent<CardComponent>();
             var round = _dataWorld.OneData<RoundData>();
-            if (round.CurrentPlayer != component.Player)
+            if (round.CurrentPlayer != component.Player && component.Player != PlayerEnum.None)
                 return;
 
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
@@ -122,16 +122,26 @@ namespace BoardGame.Core
         private void EndMoveShopCard(Entity entity)
         {
             var componentMove = entity.GetComponent<InteractiveMoveComponent>();
-            var componentCard = entity.GetComponent<CardComponent>();
+            ref var componentCard = ref entity.GetComponent<CardComponent>();
             var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
+            var roundPlayer = _dataWorld.OneData<RoundData>();
 
             if (distance < -50)
             {
+                Debug.LogError("Buy card");
                 ref var actionValue = ref _dataWorld.OneData<ActionData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
-                componentCard.Player = PlayerEnum.Player1;
-                entity.AddComponent(new CardDiscardComponent ());
+
+                if (entity.HasComponent<CardComponentAnimations>())
+                {
+                    var animationCard = entity.GetComponent<CardComponentAnimations>();
+                    animationCard.Sequence.Kill();
+                    entity.RemoveComponent<CardComponentAnimations>();
+                }
+
+                componentCard.Player = roundPlayer.CurrentPlayer;
+                entity.AddComponent(new CardMoveToDiscardComponent());
                 _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
             else
@@ -140,6 +150,7 @@ namespace BoardGame.Core
                 card.Transform.position = componentMove.StartCardPosition;
             }
 
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
             entity.RemoveComponent<InteractiveMoveComponent>();
         }
 

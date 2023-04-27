@@ -37,6 +37,10 @@ namespace BoardGame.Core.UI
         [Header("Support Element")]
         public ChangeRoundUIMono ChangeRoundUI;
 
+        [Header("Action Table")]
+        public TextMeshProUGUI TradeActionText;
+        public TextMeshProUGUI AttackActionText;
+
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();

@@ -26,24 +26,49 @@ namespace BoardGame.Core
 
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
-            /*
+
             foreach (var entity in entities)
             {
-                ref var component = ref entity.GetComponent<CardComponent>();
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                ref var selectAbility = ref entity.GetComponent<CardTableComponent>().SelectAbility;
+                var abilityCard = new AbilityCard();
 
-                switch (component.Stats.Ability.Type)
+                if (selectAbility == SelectAbility.Ability_1)
+                    abilityCard = cardComponent.Stats.Ability_0;
+                else
+                    abilityCard = cardComponent.Stats.Ability_1;
+
+                switch (abilityCard.Action)
                 {
-                    case AbilityType.Attack:
-                        actionData.TotalAttack += component.Ability.Value;
+                    case AbilityAction.attack:
+                        actionData.TotalAttack += abilityCard.Count;
                         break;
-                    case AbilityType.Trade:
-                        actionData.TotalTrade += component.Ability.Value;
+                    case AbilityAction.trade:
+                        actionData.TotalTrade += abilityCard.Count;
                         break;
-                    case AbilityType.Influence:
-                        actionData.TotalInfluence += component.Ability.Value;
+                    case AbilityAction.influence:
+                        actionData.TotalInfluence += abilityCard.Count;
+                        break;
+                    case AbilityAction.drawCard:
+                        break;
+                    case AbilityAction.discardCard:
+                        break;
+                    case AbilityAction.destroyCard:
+                        break;
+                    case AbilityAction.up—yberpsychosis:
+                        break;
+                    case AbilityAction.downCyberpsychosis:
+                        break;
+                    case AbilityAction.cloneCard:
+                        break;
+                    case AbilityAction.noiseCard:
+                        break;
+                    case AbilityAction.thiefCard:
+                        break;
+                    default:
                         break;
                 }
-            }*/
+            }
 
             _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
