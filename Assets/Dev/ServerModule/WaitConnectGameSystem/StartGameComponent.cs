@@ -1,6 +1,6 @@
 using System;
 
-namespace BoardGame.Server
+namespace CyberNet.Server
 {
     [Serializable]
     public struct StartGameComponent { }

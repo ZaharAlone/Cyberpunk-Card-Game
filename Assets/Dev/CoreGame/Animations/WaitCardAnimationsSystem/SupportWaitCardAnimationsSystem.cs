@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class SupportWaitCardAnimationsSystem : IPreInitSystem

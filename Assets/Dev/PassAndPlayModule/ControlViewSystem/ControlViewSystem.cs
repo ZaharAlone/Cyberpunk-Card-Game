@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(PassAndPlayModule))]
     public class ControlViewSystem : IActivateSystem, IPostRunEventSystem<EventDistributionCard>

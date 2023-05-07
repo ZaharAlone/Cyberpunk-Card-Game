@@ -10,7 +10,7 @@ using ModulesFramework.Data.Enumerators;
 using DG.Tweening;
 using System.Threading.Tasks;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>

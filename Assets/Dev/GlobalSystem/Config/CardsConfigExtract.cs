@@ -7,10 +7,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 
-namespace BoardGame
+namespace CyberNet
 {
     /// <summary>
-    /// Читаем Json с конфигом кард и записываем его в компонент
+    /// Р§РёС‚Р°РµРј Json СЃ РєРѕРЅС„РёРіРѕРј РєР°СЂРґ Рё Р·Р°РїРёСЃС‹РІР°РµРј РµРіРѕ РІ РєРѕРјРїРѕРЅРµРЅС‚
     /// </summary>
     [EcsSystem(typeof(GlobalModule))]
     public class CardsConfigExtract : IPreInitSystem

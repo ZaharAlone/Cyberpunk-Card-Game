@@ -5,9 +5,9 @@ using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using UnityEngine;
 using System;
-using BoardGame.Server;
+using CyberNet.Server;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     [EcsSystem(typeof(MetaModule))]
     public class MainMenuSystem : IInitSystem

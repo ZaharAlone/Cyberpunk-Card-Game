@@ -6,10 +6,10 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Threading.Tasks;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     /// <summary>
-    /// Ждет пока игрок получит все карты на руку, чтобы отсортировать их
+    /// Р–РґРµС‚ РїРѕРєР° РёРіСЂРѕРє РїРѕР»СѓС‡РёС‚ РІСЃРµ РєР°СЂС‚С‹ РЅР° СЂСѓРєСѓ, С‡С‚РѕР±С‹ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РёС…
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
     public class WaitDistributionCardHandSystem : IRunSystem

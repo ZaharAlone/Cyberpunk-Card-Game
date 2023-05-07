@@ -2,7 +2,7 @@ using I2.Loc;
 using System;
 using UnityEngine;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     public class PopupWarningUIMono : MonoBehaviour
     {

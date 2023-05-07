@@ -7,7 +7,7 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 
-namespace BoardGame.Core.Enemy
+namespace CyberNet.Core.Enemy
 {
     [EcsSystem(typeof(VSAIModule))]
     public class EnemyAISystem : IPostRunEventSystem<EventUpdateRound>

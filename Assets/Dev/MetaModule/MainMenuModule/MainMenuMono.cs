@@ -6,7 +6,7 @@ using System;
 using UnityEditor;
 #endif
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     public class MainMenuMono : MonoBehaviour
     {

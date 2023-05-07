@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using BoardGame.Core;
+using CyberNet.Core;
 
-namespace BoardGame
+namespace CyberNet
 {
     [CreateAssetMenu(fileName = "BoardGameConfig", menuName = "Scriptable Object/Board Game/Board Game Config")]
     public class BoardGameConfig : SerializedScriptableObject

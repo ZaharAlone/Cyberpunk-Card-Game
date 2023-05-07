@@ -4,10 +4,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System;
-using BoardGame.Core;
-using BoardGame.Core.UI;
+using CyberNet.Core;
+using CyberNet.Core.UI;
 
-namespace BoardGame.Local
+namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
     public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>

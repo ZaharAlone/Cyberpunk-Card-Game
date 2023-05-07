@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace BoardGame
+namespace CyberNet
 {
     /// <summary>
-    /// Словарь с аватарами
+    /// РЎР»РѕРІР°СЂСЊ СЃ Р°РІР°С‚Р°СЂР°РјРё
     /// </summary>
     public struct AvatarData
     {

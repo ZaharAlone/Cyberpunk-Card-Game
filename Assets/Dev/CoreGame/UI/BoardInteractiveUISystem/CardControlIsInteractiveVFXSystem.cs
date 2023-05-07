@@ -3,7 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems.Events;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class CardControlIsInteractiveVFXSystem : IPostRunEventSystem<EventUpdateBoardCard>

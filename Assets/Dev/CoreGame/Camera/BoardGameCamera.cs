@@ -1,7 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public class BoardGameCamera : MonoBehaviour
     {

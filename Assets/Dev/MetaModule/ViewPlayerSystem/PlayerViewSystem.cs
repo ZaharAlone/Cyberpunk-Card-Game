@@ -6,7 +6,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(MetaModule))]
     public class PlayerViewSystem : IInitSystem

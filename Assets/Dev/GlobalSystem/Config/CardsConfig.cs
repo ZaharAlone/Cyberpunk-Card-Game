@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-namespace BoardGame
+namespace CyberNet
 {
     [Serializable]
     public struct CardsConfig
@@ -60,7 +60,7 @@ namespace BoardGame
         drawCard,
         discardCard,
         destroyCard,
-        up—yberpsychosis,
+        up–°yberpsychosis,
         downCyberpsychosis,
         cloneCard,
         noiseCard,

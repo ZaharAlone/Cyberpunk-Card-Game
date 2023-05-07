@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     public static class MainMenuAction
     {

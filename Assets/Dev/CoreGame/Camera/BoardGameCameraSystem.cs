@@ -6,7 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class BoardGameCameraSystem : IPreInitSystem

@@ -1,4 +1,4 @@
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public struct CardDistributionComponent { }
 }

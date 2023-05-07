@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public static class SetViewAbilityCard
     {
@@ -93,7 +93,7 @@ namespace BoardGame.Core
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroy.text = "Destroy Card";
                     break;
-                case AbilityAction.up—yberpsychosis:
+                case AbilityAction.up–°yberpsychosis:
                     var textUpCyb = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textUpCyb.text = "Up Cyberpsychosis";
                     break;

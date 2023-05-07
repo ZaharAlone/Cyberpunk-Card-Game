@@ -1,4 +1,4 @@
-using BoardGame.Core.UI;
+using CyberNet.Core.UI;
 using EcsCore;
 using Input;
 using ModulesFrameworkUnity;
@@ -8,7 +8,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class InteractiveMoveCardSystem : IInitSystem, IRunSystem, IDestroySystem

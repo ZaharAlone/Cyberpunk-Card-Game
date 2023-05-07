@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class ActionSystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventEndCurrentTurn>
@@ -55,7 +55,7 @@ namespace BoardGame.Core
                         break;
                     case AbilityAction.destroyCard:
                         break;
-                    case AbilityAction.up—yberpsychosis:
+                    case AbilityAction.up–°yberpsychosis:
                         break;
                     case AbilityAction.downCyberpsychosis:
                         break;

@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace BoardGame
+namespace CyberNet
 {
     /// <summary>
-    /// Все данные для карточной игра хранятся тут
+    /// Р’СЃРµ РґР°РЅРЅС‹Рµ РґР»СЏ РєР°СЂС‚РѕС‡РЅРѕР№ РёРіСЂР° С…СЂР°РЅСЏС‚СЃСЏ С‚СѓС‚
     /// </summary>
     public struct BoardGameData
     {

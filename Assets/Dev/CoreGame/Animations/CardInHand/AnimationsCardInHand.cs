@@ -8,7 +8,7 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class AnimationsCardInHand : IPostRunEventSystem<EventCardAnimationsHand>

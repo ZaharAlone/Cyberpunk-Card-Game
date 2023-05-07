@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using I2.Loc;
 using DG.Tweening;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public class CardMono : MonoBehaviour
     {

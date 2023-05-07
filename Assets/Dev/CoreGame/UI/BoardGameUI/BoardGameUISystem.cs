@@ -7,7 +7,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class BoardGameUISystem : IPreInitSystem, IPostRunEventSystem<EventBoardGameUpdate>

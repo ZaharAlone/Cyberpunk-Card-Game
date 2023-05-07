@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class ActionButtonUISystem : IInitSystem, IRunSystem, IPostRunEventSystem<EventActionAttack>, IPostRunEventSystem<EventActionEndTurn>

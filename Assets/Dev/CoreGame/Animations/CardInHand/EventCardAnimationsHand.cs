@@ -1,4 +1,4 @@
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     public struct EventCardAnimationsHand
     {

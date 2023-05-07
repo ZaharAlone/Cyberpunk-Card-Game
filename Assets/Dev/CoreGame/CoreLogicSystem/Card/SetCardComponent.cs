@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public static class SetCardComponent
     {

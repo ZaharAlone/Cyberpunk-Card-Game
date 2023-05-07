@@ -4,10 +4,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
-using BoardGame.Core.UI;
 using System.Threading.Tasks;
+using CyberNet.Core.UI;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class WaitCardAnimationsSystem : IRunSystem

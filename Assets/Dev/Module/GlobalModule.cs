@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
-using BoardGame.Meta;
+using CyberNet.Meta;
 using UnityEngine;
-using BoardGame.Core;
-using BoardGame;
+using CyberNet.Core;
+using CyberNet;
 
 namespace EcsCore
 {

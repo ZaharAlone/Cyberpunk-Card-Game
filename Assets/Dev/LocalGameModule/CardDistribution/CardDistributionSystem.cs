@@ -4,12 +4,12 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using UnityEngine;
-using BoardGame.Core.UI;
+using CyberNet.Core.UI;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     /// <summary>
-    /// Выдаем карты игрокам
+    /// Р’С‹РґР°РµРј РєР°СЂС‚С‹ РёРіСЂРѕРєР°Рј
     /// </summary>
     [EcsSystem(typeof(LocalGameModule))]
     public class CardDistributionSystem : IPostRunEventSystem<EventDistributionCard>

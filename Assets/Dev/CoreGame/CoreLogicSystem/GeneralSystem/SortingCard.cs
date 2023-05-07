@@ -2,7 +2,7 @@ using ModulesFramework.Data.Enumerators;
 using System;
 using System.Collections.Generic;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public static class SortingCard
     {

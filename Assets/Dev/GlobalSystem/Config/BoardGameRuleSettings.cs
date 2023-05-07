@@ -3,24 +3,24 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using I2.Loc;
 
-namespace BoardGame
+namespace CyberNet
 {
     [CreateAssetMenu(fileName = "BoardGameRuleSettings", menuName = "Scriptable Object/Board Game/Board Game Rule Settings")]
     public class BoardGameRuleSettings : SerializedScriptableObject
     {
-        [Header ("Базовые параметры игрока")]
+        [Header ("Р‘Р°Р·РѕРІС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РёРіСЂРѕРєР°")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
         public int BaseInfluenceCount = 50;
         public int BaseCyberpsychosisCount = 0;
 
-        [Header("Параметры игры")]
-        [Tooltip("Кол-во открытых карт в магазине")]
+        [Header("РџР°СЂР°РјРµС‚СЂС‹ РёРіСЂС‹")]
+        [Tooltip("РљРѕР»-РІРѕ РѕС‚РєСЂС‹С‚С‹С… РєР°СЂС‚ РІ РјР°РіР°Р·РёРЅРµ")]
         public int OpenCardInShop = 5;
 
-        [Tooltip("Какие карты присутсвуют в магазине кроме общей колоды")]
+        [Tooltip("РљР°РєРёРµ РєР°СЂС‚С‹ РїСЂРёСЃСѓС‚СЃРІСѓСЋС‚ РІ РјР°РіР°Р·РёРЅРµ РєСЂРѕРјРµ РѕР±С‰РµР№ РєРѕР»РѕРґС‹")]
         public string KeyCardsInShopAdd;
 
-        [Tooltip("Сколько карт обычно игрок получает в руку в ход")]
+        [Tooltip("РЎРєРѕР»СЊРєРѕ РєР°СЂС‚ РѕР±С‹С‡РЅРѕ РёРіСЂРѕРє РїРѕР»СѓС‡Р°РµС‚ РІ СЂСѓРєСѓ РІ С…РѕРґ")]
         public int CountDropCard = 5;
 
         [Header("Localize")]

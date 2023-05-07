@@ -5,9 +5,9 @@ using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
-using BoardGame.Core.UI;
+using CyberNet.Core.UI;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class BoardGameSetupSystem : IPreInitSystem, IDestroySystem
@@ -21,7 +21,7 @@ namespace BoardGame.Core
             SetPositionCard();
         }
 
-        //Создаем поле
+        //РЎРѕР·РґР°РµРј РїРѕР»Рµ
         private void SetupBoard()
         {
             var resource = ModulesUnityAdapter.world.NewEntity();
@@ -30,7 +30,7 @@ namespace BoardGame.Core
             resource.AddComponent(new BoardGameResourceComponent { Table = table });
         }
 
-        //Инициализируем все карты
+        //РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІСЃРµ РєР°СЂС‚С‹
         private void SetupCard()
         {
             var deckCardsData = _dataWorld.OneData<DeckCardsData>();
@@ -86,7 +86,7 @@ namespace BoardGame.Core
             return entity;
         }
 
-        //Отрисовываем вьюху кард
+        //РћС‚СЂРёСЃРѕРІС‹РІР°РµРј РІСЊСЋС…Сѓ РєР°СЂРґ
         private void SetViewCard(CardMono card, CardConfig cardConfig)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
@@ -119,7 +119,7 @@ namespace BoardGame.Core
             card.CardOnBack();
         }
 
-        //Раскладываем карты по местам
+        //Р Р°СЃРєР»Р°РґС‹РІР°РµРј РєР°СЂС‚С‹ РїРѕ РјРµСЃС‚Р°Рј
         private void SetPositionCard()
         {
             var gameUI = _dataWorld.OneData<UIData>();

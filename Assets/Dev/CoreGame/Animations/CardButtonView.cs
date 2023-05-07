@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     public class CardButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

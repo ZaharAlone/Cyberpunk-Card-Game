@@ -1,6 +1,6 @@
 using System;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [Serializable]
     public struct Player1ViewData

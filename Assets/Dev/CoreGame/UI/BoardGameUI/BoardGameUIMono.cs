@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Serialization;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     public class BoardGameUIMono : MonoBehaviour
     {
@@ -40,7 +41,7 @@ namespace BoardGame.Core.UI
         [Header("Action Table")]
         public TextMeshProUGUI TradeActionText;
         public TextMeshProUGUI AttackActionText;
-
+        
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();
@@ -98,6 +99,16 @@ namespace BoardGame.Core.UI
             DownDeckCount.text = downDeck.ToString();
             UpDiscardCount.text = upDiscard.ToString();
             UpDeckCount.text = upDeck.ToString();
+        }
+        
+        public void OnOpenDrawDeckCard()
+        {
+            ShowViewDeckCardAction.OpenDraw?.Invoke();
+        }
+
+        public void OnOpenDiscardDeckCard()
+        {
+            ShowViewDeckCardAction.OpenDiscard?.Invoke();
         }
     }
 

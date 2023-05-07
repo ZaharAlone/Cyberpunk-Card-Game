@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace BoardGame.Server
+namespace CyberNet.Server
 {
     public static class ConnectServerAction
     {

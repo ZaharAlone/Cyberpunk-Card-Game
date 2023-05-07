@@ -1,10 +1,10 @@
-using BoardGame.Core;
+using CyberNet.Core;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 
-namespace BoardGame.Local
+namespace CyberNet.Local
 {
     [EcsSystem(typeof(LocalGameModule))]
     public class SelectFirstPlayerSystem : IActivateSystem

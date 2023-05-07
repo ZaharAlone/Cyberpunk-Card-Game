@@ -5,12 +5,12 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
-using BoardGame;
-using BoardGame.Core;
+using CyberNet;
+using CyberNet.Core;
 using ModulesFramework.Modules;
 using ModulesFrameworkUnity;
 using ModulesFramework.Data;
-using BoardGame.Core.UI;
+using CyberNet.Core.UI;
 
 namespace EcsCore
 {
@@ -22,15 +22,19 @@ namespace EcsCore
         {
             var tasks = new List<Task>();
 
-            var ui = Load<GameObject>("BoardGameUI", tasks);
+            var canvasMainCore = Load<GameObject>("BoardGameUI", tasks);
+            var canvasViewCard = Load<GameObject>("CanvasViewCard", tasks);
 
             var alltask = Task.WhenAll(tasks.ToArray());
             await alltask;
 
-            var uiObject = Object.Instantiate(ui.Result);
-            world.CreateOneData(new UIData { UIGO = uiObject, UIMono = uiObject.GetComponent<BoardGameUIMono>() });
+            var canvasMainCoreGO = Object.Instantiate(canvasMainCore.Result);
+            var canvasMainMono = canvasMainCoreGO.GetComponent<BoardGameUIMono>();
+            var canvasViewCardMono = Object.Instantiate(canvasViewCard.Result).GetComponent<ViewDeckCardUIMono>();
+            world.CreateOneData(new UIData { UIGO = canvasMainCoreGO, UIMono = canvasMainMono, ViewDeckCard = canvasViewCardMono});
 
-            _resource.Add(uiObject);
+            _resource.Add(canvasMainCoreGO);
+            _resource.Add(canvasViewCardMono.gameObject);
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)

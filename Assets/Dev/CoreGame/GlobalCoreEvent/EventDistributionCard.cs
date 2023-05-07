@@ -1,7 +1,7 @@
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     /// <summary>
-    /// Сколько карт выдать и кому
+    /// РЎРєРѕР»СЊРєРѕ РєР°СЂС‚ РІС‹РґР°С‚СЊ Рё РєРѕРјСѓ
     /// </summary>
     public struct EventDistributionCard
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public struct CardComponentAnimations
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public static class GlobalCoreGameAction
     {

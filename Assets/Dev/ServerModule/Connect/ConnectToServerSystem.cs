@@ -10,9 +10,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
-using BoardGame.Meta;
+using CyberNet.Meta;
 
-namespace BoardGame.Server
+namespace CyberNet.Server
 {
     [EcsSystem(typeof(ServerModule))]
     public class ConnectToServerSystem : IInitSystem, IDestroySystem, IRunSystem

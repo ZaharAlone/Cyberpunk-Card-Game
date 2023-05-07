@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using I2.Loc;
 using DG.Tweening;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     public class ChangeRoundUIMono : MonoBehaviour
     {
@@ -17,7 +18,7 @@ namespace BoardGame.Core.UI
         {
             //TextRound.Term = text;
             NewRoundGO.SetActive(true);
-            await System.Threading.Tasks.Task.Delay(750);
+            await Task.Delay(750);
             NewRoundGO.SetActive(false);
         }
     }
