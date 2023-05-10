@@ -9,37 +9,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec26c2adc3ec6545bab654bff1befbc, type: 3}
-  m_Name: BoardGameConfig
+  m_Script: {fileID: 11500000, guid: 2a2f235b3b82c9a4fa4c2aefdee61a46, type: 3}
+  m_Name: CardsImage
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: a686c011e13e02c4bb21fa2c65f75304, type: 3}
-    - {fileID: 21300000, guid: a792e0e5b42f8644981310bee60ec643, type: 3}
-    - {fileID: 21300000, guid: 52adcccafc684bb4180208a344fa1eb5, type: 3}
-    - {fileID: 21300000, guid: 6626fe5e11c6869478c4440dc0d720d6, type: 3}
-    - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
-    - {fileID: 21300000, guid: 8254cab71c190c44ab5879d1a47a1880, type: 3}
-    - {fileID: 21300000, guid: 0b4e8bc197be4fe40927330126fcddd0, type: 3}
-    - {fileID: 21300000, guid: f3cab4d2747f63b42b3694a1f8c69ab5, type: 3}
-    - {fileID: 21300000, guid: aebacf4ed3f20f143a7d1a6abcdf27f6, type: 3}
-    - {fileID: 21300000, guid: bfea836db7ab14241854c523e9c97a91, type: 3}
-    - {fileID: 21300000, guid: 95bf6280311d3a64481a45901c814c49, type: 3}
-    - {fileID: 21300000, guid: 74fb007300fc47045b608e50aaf3f2b7, type: 3}
-    - {fileID: 21300000, guid: 4b9f2990f45d8f74c86fee8185668eb9, type: 3}
-    - {fileID: 21300000, guid: 51bb0f6d394ebdd4ca1546265857d213, type: 3}
-    - {fileID: 21300000, guid: 4309aac1de757e245a794500c4895668, type: 3}
     - {fileID: 21300000, guid: 6bbdec534017b1543b5736c50ea4ed7b, type: 3}
     - {fileID: 21300000, guid: 46e195d7de810ba46a78cb7b00ec3e9b, type: 3}
+    - {fileID: 21300000, guid: 74fb007300fc47045b608e50aaf3f2b7, type: 3}
+    - {fileID: 21300000, guid: 51bb0f6d394ebdd4ca1546265857d213, type: 3}
     - {fileID: 21300000, guid: 30eaee27bdee26545b38ddf60cb54bc5, type: 3}
+    - {fileID: 21300000, guid: 4b9f2990f45d8f74c86fee8185668eb9, type: 3}
+    - {fileID: 21300000, guid: 95bf6280311d3a64481a45901c814c49, type: 3}
     - {fileID: 21300000, guid: 745d232488ee2944e87396c5300c1525, type: 3}
     - {fileID: 21300000, guid: 36fbe0f382019d04ba9fee177226c2dd, type: 3}
     - {fileID: 21300000, guid: 1c2f212ba6cd2c94783e197862b73bb8, type: 3}
     - {fileID: 21300000, guid: 0e857aa739c965e4c90c89b8677e07d0, type: 3}
+    - {fileID: 21300000, guid: 4309aac1de757e245a794500c4895668, type: 3}
     - {fileID: 21300000, guid: 675d919b4686e5c4b83bcfe8802649bd, type: 3}
     - {fileID: 21300000, guid: 2a1a0fff520e5964d8256ff28b93fc79, type: 3}
+    - {fileID: 21300000, guid: aebacf4ed3f20f143a7d1a6abcdf27f6, type: 3}
+    - {fileID: 21300000, guid: bfea836db7ab14241854c523e9c97a91, type: 3}
+    - {fileID: 21300000, guid: f3cab4d2747f63b42b3694a1f8c69ab5, type: 3}
     - {fileID: 21300000, guid: ff6a8eee4551eff4583a2ff5991aeeb2, type: 3}
     - {fileID: 21300000, guid: 5d6cf79aca09aea44899211eca48e65d, type: 3}
     - {fileID: 21300000, guid: 3183bbef117934e4393e94a34c02b585, type: 3}
@@ -54,7 +47,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: NationsImage
+    - Name: Cards
       Entry: 7
       Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
         UnityEngine.CoreModule]], mscorlib
@@ -67,13 +60,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 26
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: Guns
+      Data: card_corporates_administrator
     - Name: $v
       Entry: 10
       Data: 0
@@ -85,150 +78,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Corporates
+      Data: card_corporates_commander
     - Name: $v
       Entry: 10
       Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Netrunners
-    - Name: $v
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Nomads
-    - Name: $v
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CurrencyImage
-      Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 1
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Attack
-    - Name: $v
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Trade
-    - Name: $v
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Influence
-    - Name: $v
-      Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: CardImage
-      Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 1
-    - Name: 
-      Entry: 12
-      Data: 26
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_scout
-    - Name: $v
-      Entry: 10
-      Data: 7
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_explorer
-    - Name: $v
-      Entry: 10
-      Data: 8
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_hunter
-    - Name: $v
-      Entry: 10
-      Data: 9
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_corporates_twins
-    - Name: $v
-      Entry: 10
-      Data: 10
     - Name: 
       Entry: 8
       Data: 
@@ -240,19 +93,7 @@ MonoBehaviour:
       Data: card_corporates_engineer
     - Name: $v
       Entry: 10
-      Data: 11
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_corporates_sergeant
-    - Name: $v
-      Entry: 10
-      Data: 12
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -264,43 +105,7 @@ MonoBehaviour:
       Data: card_corporates_head_hunter
     - Name: $v
       Entry: 10
-      Data: 13
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_guns_pirate
-    - Name: $v
-      Entry: 10
-      Data: 14
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_corporates_administrator
-    - Name: $v
-      Entry: 10
-      Data: 15
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: card_corporates_commander
-    - Name: $v
-      Entry: 10
-      Data: 16
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -312,7 +117,31 @@ MonoBehaviour:
       Data: card_corporates_pathfinder
     - Name: $v
       Entry: 10
-      Data: 17
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_sergeant
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_twins
+    - Name: $v
+      Entry: 10
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
@@ -324,7 +153,7 @@ MonoBehaviour:
       Data: card_corporates_yellow_eyed
     - Name: $v
       Entry: 10
-      Data: 18
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -336,7 +165,7 @@ MonoBehaviour:
       Data: card_guns_bloody_eye
     - Name: $v
       Entry: 10
-      Data: 19
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
@@ -348,7 +177,7 @@ MonoBehaviour:
       Data: card_guns_chimney
     - Name: $v
       Entry: 10
-      Data: 20
+      Data: 9
     - Name: 
       Entry: 8
       Data: 
@@ -360,7 +189,19 @@ MonoBehaviour:
       Data: card_guns_killer
     - Name: $v
       Entry: 10
-      Data: 21
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_pirate
+    - Name: $v
+      Entry: 10
+      Data: 11
     - Name: 
       Entry: 8
       Data: 
@@ -372,7 +213,7 @@ MonoBehaviour:
       Data: card_guns_reckless
     - Name: $v
       Entry: 10
-      Data: 22
+      Data: 12
     - Name: 
       Entry: 8
       Data: 
@@ -384,7 +225,43 @@ MonoBehaviour:
       Data: card_guns_russian
     - Name: $v
       Entry: 10
-      Data: 23
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_explorer
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_hunter
+    - Name: $v
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_scout
+    - Name: $v
+      Entry: 10
+      Data: 16
     - Name: 
       Entry: 8
       Data: 
@@ -396,7 +273,7 @@ MonoBehaviour:
       Data: card_nomads_doctor
     - Name: $v
       Entry: 10
-      Data: 24
+      Data: 17
     - Name: 
       Entry: 8
       Data: 
@@ -408,7 +285,7 @@ MonoBehaviour:
       Data: card_nomads_racer
     - Name: $v
       Entry: 10
-      Data: 25
+      Data: 18
     - Name: 
       Entry: 8
       Data: 
@@ -420,7 +297,7 @@ MonoBehaviour:
       Data: card_nomads_samurai
     - Name: $v
       Entry: 10
-      Data: 26
+      Data: 19
     - Name: 
       Entry: 8
       Data: 
@@ -432,7 +309,7 @@ MonoBehaviour:
       Data: card_nomads_valkyrie
     - Name: $v
       Entry: 10
-      Data: 27
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -441,10 +318,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_boy
+      Data: card_rebels_boy
     - Name: $v
       Entry: 10
-      Data: 28
+      Data: 21
     - Name: 
       Entry: 8
       Data: 
@@ -453,10 +330,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_cracker
+      Data: card_rebels_cracker
     - Name: $v
       Entry: 10
-      Data: 29
+      Data: 22
     - Name: 
       Entry: 8
       Data: 
@@ -465,10 +342,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_networker
+      Data: card_rebels_networker
     - Name: $v
       Entry: 10
-      Data: 30
+      Data: 23
     - Name: 
       Entry: 8
       Data: 
@@ -477,10 +354,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_shooter
+      Data: card_rebels_shooter
     - Name: $v
       Entry: 10
-      Data: 31
+      Data: 24
     - Name: 
       Entry: 8
       Data: 
@@ -489,10 +366,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_thief
+      Data: card_rebels_thief
     - Name: $v
       Entry: 10
-      Data: 32
+      Data: 25
     - Name: 
       Entry: 8
       Data: 
@@ -502,40 +379,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  TablePrefab: {fileID: 5185846423585439056, guid: 6f4a5c9a6b1bbd247922d63c41470cea,
-    type: 3}
-  CardMono: {fileID: 397128050539189007, guid: e52fb57fcd59ce8478e09352bf232527, type: 3}
-  IconsBaseAbility: {fileID: 7752582939702526963, guid: 12e2b02019b2bb7419ed88604fc95f12,
-    type: 3}
-  TextBaseAbilityCountItem: {fileID: 5677971599807528328, guid: dce4aeb69268a564981261a2b9547b31,
-    type: 3}
-  IconsArrowBaseAbility: {fileID: 7429665441295577904, guid: d6fd014ad78a075469d68b29b6c4fa28,
-    type: 3}
-  IconsArrowConditionAbility: {fileID: 7429665441295577904, guid: 96cb73ca5cfc8d046a0ef461f76de8c7,
-    type: 3}
-  TextBaseAbility: {fileID: 3902837046628150200, guid: 9a90bfb11b0e27b43ae451c8a5634606,
-    type: 3}
-  ItemIconsCounterCard: {fileID: 4668678704381399944, guid: 11f5bebe6308eff4584d9a6689c8b133,
-    type: 3}
-  ColorAttackText:
-    serializedVersion: 2
-    rgba: 4279307936
-  ColorTradeText:
-    serializedVersion: 2
-    rgba: 4278250225
-  ColorInfluenceText:
-    serializedVersion: 2
-    rgba: 4286627689
-  CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
-  StepPosXPlayerDown: 210
-  StepPosXPlayerUp: 170
-  PlayerHandPosition: {x: 0, y: -420}
-  PlayerCardPositionInPlay: {x: 0, y: -120}
-  EnemyHandPosition: {x: 0, y: 420}
-  SizeCardInDeck: {x: 0.25, y: 0.25, z: 0.25}
-  SizeCardInTable: {x: 0.9, y: 0.9, z: 0.9}
-  SizeCardPlayerUp: {x: 0.6, y: 0.6, z: 0.6}
-  SizeCardPlayerDown: {x: 0.9, y: 0.9, z: 0.9}
-  NormalSize: {x: 1, y: 1, z: 1}
-  SizeSelectCardHand: {x: 1.4, y: 1.4, z: 1.4}
-  SizeSelectCardTradeRow: {x: 1.6, y: 1.6, z: 1.6}
+  folderPath: Assets/Art/2D/Cards

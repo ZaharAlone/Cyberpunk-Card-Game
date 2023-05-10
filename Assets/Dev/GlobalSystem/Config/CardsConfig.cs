@@ -32,11 +32,17 @@ namespace CyberNet
         public int Price;
         [JsonProperty("count")]
         public int Count;
+        [JsonProperty("type")]
+        public TypeCard Type;
+        [JsonProperty("shield")]
+        public int Shield;
 
         [JsonProperty("ability_0")]
         public AbilityCard Ability_0;
         [JsonProperty("ability_1")]
         public AbilityCard Ability_1;
+        [JsonProperty("ability_2")]
+        public AbilityCard Ability_2;
     }
 
     [Serializable]
@@ -54,30 +60,35 @@ namespace CyberNet
     public enum AbilityAction
     {
         None,
-        attack,
-        trade,
-        influence,
-        drawCard,
-        discardCard,
-        destroyCard,
-        upСyberpsychosis,
-        downCyberpsychosis,
-        cloneCard,
-        noiseCard,
-        thiefCard
+        Attack,
+        Trade,
+        Influence,
+        DrawCard,
+        DiscardCardEnemy,
+        DestroyCard,
+        DownCyberpsychosisEnemy,
+        CloneCard,
+        NoiseCard,
+        ThiefCard,
+        DestroyTradeCard,
+        DestroyEnemyBass
     }
 
     [Serializable]
     public enum AbilityCondition
     {
         None,
-        cyberpsychosis_5,
-        cyberpsychosis_10,
-        cyberpsychosis_15,
-        doubleCorporates,
-        doubleGuns,
-        doubleNomads,
-        doubleNetrunners,
-        destroyCard,
+        Corporates,
+        Guns,
+        Nomads,
+        Netrunners,
+        Destroy
+    }
+
+    [Serializable]
+    public enum TypeCard
+    {
+        Unit,
+        Base
     }
 }

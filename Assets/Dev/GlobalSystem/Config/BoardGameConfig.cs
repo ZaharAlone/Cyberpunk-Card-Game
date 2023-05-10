@@ -16,10 +16,16 @@ namespace CyberNet
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;
+        public TextMeshProUGUI TextBaseAbilityCountItem;
         public Image IconsArrowBaseAbility;
         public Image IconsArrowConditionAbility;
         public TextMeshProUGUI TextBaseAbility;
         public GameObject ItemIconsCounterCard;
+
+        [Header("Color Resource")]
+        public Color32 ColorAttackText;
+        public Color32 ColorTradeText;
+        public Color32 ColorInfluenceText;
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;
@@ -27,7 +33,6 @@ namespace CyberNet
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
-        public Dictionary<string, Sprite> CardImage;
 
         public float StepPosXPlayerDown = 210f;
         public float StepPosXPlayerUp = 170f;

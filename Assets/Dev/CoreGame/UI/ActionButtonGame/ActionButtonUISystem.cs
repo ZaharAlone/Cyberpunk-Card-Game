@@ -1,3 +1,5 @@
+using CyberNet.Core.Sound;
+using CyberNet.Global.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -113,6 +115,8 @@ namespace CyberNet.Core.UI
                 playerStats.HP -= valueAttack;
             }
 
+            ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
+            SoundAction.PlaySound?.Invoke(soundData.AttackSound);
             actionData.SpendAttack += valueAttack;
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }

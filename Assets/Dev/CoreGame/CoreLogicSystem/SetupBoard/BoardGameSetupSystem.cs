@@ -90,7 +90,8 @@ namespace CyberNet.Core
         private void SetViewCard(CardMono card, CardConfig cardConfig)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            boardGameConfig.CardImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
+            var cardsImage = _dataWorld.OneData<BoardGameData>().CardsImage;
+            cardsImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
 
             if (cardImage == null)
             {

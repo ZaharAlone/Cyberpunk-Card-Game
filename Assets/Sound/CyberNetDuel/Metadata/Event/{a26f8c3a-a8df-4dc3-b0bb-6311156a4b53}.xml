@@ -64,6 +64,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{7a3e3c6c-799a-4360-abe6-0abbf5f463ae}">
+		<property name="volume">
+			<value>-9</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{7618032d-d40c-47b2-9620-07ab4ad7735f}</destination>
 		</relationship>
@@ -78,6 +81,7 @@
 		<property name="length">
 			<value>192.02031746031747</value>
 		</property>
+		<property name="name" />
 		<relationship name="audioFile">
 			<destination>{a05305a2-241d-4f34-9f4d-41b53840c723}</destination>
 		</relationship>

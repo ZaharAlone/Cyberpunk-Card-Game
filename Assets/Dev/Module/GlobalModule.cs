@@ -11,6 +11,7 @@ using CyberNet.Meta;
 using UnityEngine;
 using CyberNet.Core;
 using CyberNet;
+using CyberNet.Core.Sound;
 
 namespace EcsCore
 {
@@ -29,7 +30,9 @@ namespace EcsCore
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
+            var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
             var avatar = Load<AvatarListSO>("Avatars", tasks);
+            var soundList = Load<SoundList>("SoundList", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -45,8 +48,9 @@ namespace EcsCore
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
             world.CreateOneData(new MainMenuData { UI = metaUIGO });
             world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
-            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
+            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
             world.CreateOneData(new AvatarData { Avatar = avatar.Result.Avatar });
+            world.CreateOneData(new SoundData { Sound = soundList.Result });
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

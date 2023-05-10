@@ -40,32 +40,32 @@ namespace CyberNet.Core
 
                 switch (abilityCard.Action)
                 {
-                    case AbilityAction.attack:
+                    case AbilityAction.Attack:
                         actionData.TotalAttack += abilityCard.Count;
                         break;
-                    case AbilityAction.trade:
+                    case AbilityAction.Trade:
                         actionData.TotalTrade += abilityCard.Count;
                         break;
-                    case AbilityAction.influence:
+                    case AbilityAction.Influence:
                         actionData.TotalInfluence += abilityCard.Count;
                         break;
-                    case AbilityAction.drawCard:
+                    case AbilityAction.DrawCard:
                         break;
-                    case AbilityAction.discardCard:
+                    case AbilityAction.DiscardCardEnemy:
                         break;
-                    case AbilityAction.destroyCard:
+                    case AbilityAction.DestroyCard:
                         break;
-                    case AbilityAction.upСyberpsychosis:
+                    case AbilityAction.DownCyberpsychosisEnemy:
                         break;
-                    case AbilityAction.downCyberpsychosis:
+                    case AbilityAction.CloneCard:
                         break;
-                    case AbilityAction.cloneCard:
+                    case AbilityAction.NoiseCard:
                         break;
-                    case AbilityAction.noiseCard:
+                    case AbilityAction.ThiefCard:
                         break;
-                    case AbilityAction.thiefCard:
+                    case AbilityAction.DestroyTradeCard:
                         break;
-                    default:
+                    case AbilityAction.DestroyEnemyBass:
                         break;
                 }
             }

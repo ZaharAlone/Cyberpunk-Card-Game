@@ -6,32 +6,32 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(fileName = "Avatars", menuName = "Scriptable Object/Board Game/Avatars")]
-public class AvatarListSO : SerializedScriptableObject
+[CreateAssetMenu(fileName = "CardsImage", menuName = "Scriptable Object/Board Game/Card Image")]
+public class CardsImageDictionary : SerializedScriptableObject
 {
-    public Dictionary<string, Sprite> Avatar = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> Cards = new Dictionary<string, Sprite>();
 
 #if UNITY_EDITOR
-    [InfoBox("Найдет ВСЕ Иконки в папке \"Assets/Art/2D/Avatars\" и перезапишет поле \"Avatar\"!")]
+    [InfoBox("РќР°Р№РґРµС‚ Р’РЎР• РРєРѕРЅРєРё РІ РїР°РїРєРµ \"Assets/Art/2D/Cards\" Рё РїРµСЂРµР·Р°РїРёС€РµС‚ РїРѕР»Рµ \"Cards\"!")]
     [SerializeField]
-    private string folderPath = "Assets/Art/2D/Avatars";
-    [Button("Заполнить Словарь")]
+    private string folderPath = "Assets/Art/2D/Cards";
+    [Button("Р—Р°РїРѕР»РЅРёС‚СЊ РЎР»РѕРІР°СЂСЊ")]
     public void FindAllImage()
     {
-        Avatar.Clear();
+        Cards.Clear();
 
         var instances = GetAllInstances<Sprite>(new[] { folderPath });
 
         foreach (var instance in instances)
         {
-            if (Avatar.ContainsKey(instance.name))
+            if (Cards.ContainsKey(instance.name))
             {
-                Debug.LogError($"Иконка с именем {instance.name} присутствует в папке {folderPath} дважды!");
-                Avatar.Clear();
+                Debug.LogError($"РРєРѕРЅРєР° СЃ РёРјРµРЅРµРј {instance.name} РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РІ РїР°РїРєРµ {folderPath} РґРІР°Р¶РґС‹!");
+                Cards.Clear();
                 break;
             }
 
-            Avatar.Add(instance.name, instance);
+            Cards.Add(instance.name, instance);
         }
 
         AssetDatabase.SaveAssetIfDirty(this);
@@ -46,7 +46,6 @@ public class AvatarListSO : SerializedScriptableObject
             string path = AssetDatabase.GUIDToAssetPath(guids[i]);
             a[i] = AssetDatabase.LoadAssetAtPath<T>(path);
         }
-
         return a;
     }
 #endif

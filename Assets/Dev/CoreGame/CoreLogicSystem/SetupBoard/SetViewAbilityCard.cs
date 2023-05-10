@@ -23,31 +23,19 @@ namespace CyberNet.Core
         {
             switch (ability.Condition)
             {
-                case AbilityCondition.cyberpsychosis_5:
-                    var textC5 = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textC5.text = "cyberpsychosis > 5";
-                    break;
-                case AbilityCondition.cyberpsychosis_10:
-                    var textC10 = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textC10.text = "cyberpsychosis > 10";
-                    break;
-                case AbilityCondition.cyberpsychosis_15:
-                    var textC15 = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textC15.text = "cyberpsychosis > 15";
-                    break;
-                case AbilityCondition.doubleCorporates:
+                case AbilityCondition.Corporates:
                     SetDoubleNations(container, boardGameConfig, "Corporates");
                     break;
-                case AbilityCondition.doubleGuns:
+                case AbilityCondition.Guns:
                     SetDoubleNations(container, boardGameConfig, "Guns");
                     break;
-                case AbilityCondition.doubleNomads:
+                case AbilityCondition.Nomads:
                     SetDoubleNations(container, boardGameConfig, "Nomads");
                     break;
-                case AbilityCondition.doubleNetrunners:
+                case AbilityCondition.Netrunners:
                     SetDoubleNations(container, boardGameConfig, "Netrunners");
                     break;
-                case AbilityCondition.destroyCard:
+                case AbilityCondition.Destroy:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroy.text = "Destroy Card";
                     break;
@@ -69,49 +57,53 @@ namespace CyberNet.Core
         {
             switch (ability.Action)
             {
-                case AbilityAction.attack:
+                case AbilityAction.Attack:
                     boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
                     AddBaseAction(container, imAttack, ability.Count, boardGameConfig);
                     break;
-                case AbilityAction.trade:
+                case AbilityAction.Trade:
                     boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
                     AddBaseAction(container, imTrade, ability.Count, boardGameConfig);
                     break;
-                case AbilityAction.influence:
+                case AbilityAction.Influence:
                     boardGameConfig.CurrencyImage.TryGetValue("Influence", out var imInfluence);
                     AddBaseAction(container, imInfluence, ability.Count, boardGameConfig);
                     break;
-                case AbilityAction.drawCard:
+                case AbilityAction.DrawCard:
                     var textDraw = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDraw.text = "Draw Card";
                     break;
-                case AbilityAction.discardCard:
+                case AbilityAction.DiscardCardEnemy:
                     var textDiscard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDiscard.text = "Discard Card Enemy";
                     break;
-                case AbilityAction.destroyCard:
+                case AbilityAction.DestroyCard:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroy.text = "Destroy Card";
                     break;
-                case AbilityAction.upСyberpsychosis:
-                    var textUpCyb = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textUpCyb.text = "Up Cyberpsychosis";
-                    break;
-                case AbilityAction.downCyberpsychosis:
+                case AbilityAction.DownCyberpsychosisEnemy:
                     var textDownCyb = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDownCyb.text = "Down Cyberpsychosis";
                     break;
-                case AbilityAction.cloneCard:
+                case AbilityAction.CloneCard:
                     var textClone = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textClone.text = "Clone card in hand";
                     break;
-                case AbilityAction.noiseCard:
+                case AbilityAction.NoiseCard:
                     var textNoise = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textNoise.text = "Add Card Noise Enemy";
                     break;
-                case AbilityAction.thiefCard:
+                case AbilityAction.ThiefCard:
                     var textThief = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textThief.text = "Thief Random Card";
+                    break;
+                case AbilityAction.DestroyTradeCard:
+                    var textDestroyTrade = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
+                    textDestroyTrade.text = "Destroy Trade Card";
+                    break;
+                case AbilityAction.DestroyEnemyBass:
+                    var textDestroyBase = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
+                    textDestroyBase.text = "Destroy Enemy Base";
                     break;
             }
         }

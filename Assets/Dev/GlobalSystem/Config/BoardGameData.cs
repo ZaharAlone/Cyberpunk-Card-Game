@@ -10,5 +10,6 @@ namespace CyberNet
     {
         public BoardGameConfig BoardGameConfig;
         public BoardGameRuleSettings BoardGameRule;
+        public Dictionary<string, Sprite> CardsImage;
     }
 }
