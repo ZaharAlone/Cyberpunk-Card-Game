@@ -4,6 +4,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -12,7 +13,8 @@ namespace CyberNet
     {
         [Header("Prefab")]
         public GameObject TablePrefab;
-        public CardMono CardMono;
+        public CardMono CardUnit;
+        public CardMono CardBase;
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;

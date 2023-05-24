@@ -32,6 +32,7 @@ namespace CyberNet.Core
         public Transform AbilityBlock_1_Container;
         public Transform AbilityBlock_2_Container;
         public GameObject ChooseOneHeader;
+        public GameObject DivideLine;
 
         public Transform CountCardBlock;
 
