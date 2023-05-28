@@ -110,7 +110,7 @@ namespace CyberNet.Core
             else
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
 
-            card.SetActiveChooseOne(cardConfig.Ability_0.Action != AbilityAction.None && cardConfig.Ability_1.Action != AbilityAction.None);
+            card.SetTwoAbility(cardConfig.Ability_0.Action != AbilityAction.None && cardConfig.Ability_1.Action != AbilityAction.None);
 
             if (cardConfig.Ability_0.Action != AbilityAction.None)
                 SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig);

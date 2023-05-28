@@ -19,7 +19,6 @@ namespace CyberNet
         [Header("Element ability card")]
         public Image IconsBaseAbility;
         public TextMeshProUGUI TextBaseAbilityCountItem;
-        public Image IconsArrowBaseAbility;
         public Image IconsArrowConditionAbility;
         public TextMeshProUGUI TextBaseAbility;
         public GameObject ItemIconsCounterCard;

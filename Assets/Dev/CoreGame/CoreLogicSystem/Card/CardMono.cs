@@ -56,9 +56,10 @@ namespace CyberNet.Core
                 PriceText.gameObject.SetActive(false);
         }
 
-        public void SetActiveChooseOne(bool status)
+        public void SetTwoAbility(bool status)
         {
             ChooseOneHeader.SetActive(status);
+            DivideLine.SetActive(status);
         }
 
         public void CardOnBack()
