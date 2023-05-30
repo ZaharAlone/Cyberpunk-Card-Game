@@ -42,6 +42,11 @@ namespace CyberNet.Core.UI
         public TextMeshProUGUI TradeActionText;
         public TextMeshProUGUI AttackActionText;
         
+        [Header("Visual Effect")]
+        public CharacterDamagePassportEffect characterDamagePassportEffectUp;
+        public CharacterDamagePassportEffect characterDamagePassportEffectDown;
+        public CharacterDamageScreenEffect DamageScreen;
+        
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();

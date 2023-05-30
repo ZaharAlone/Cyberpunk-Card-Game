@@ -100,25 +100,46 @@ namespace CyberNet.Core.UI
 
         private void Attack()
         {
+            ref var boardGameRule = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             var roundData = _dataWorld.OneData<RoundData>();
             var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
-
+            var percentHP = 0f;
+            
             if (roundData.CurrentPlayer == PlayerEnum.Player1)
             {
-                ref var enemyStats = ref _dataWorld.OneData<Player2StatsData>();
-                enemyStats.HP -= valueAttack;
+                ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
+                player2Stats.HP -= valueAttack;
+                percentHP = (float)player2Stats.HP / boardGameRule.BaseInfluenceCount;
             }
             else
             {
                 ref var playerStats = ref _dataWorld.OneData<Player1StatsData>();
                 playerStats.HP -= valueAttack;
+                percentHP = (float)playerStats.HP / boardGameRule.BaseInfluenceCount;
             }
+            
+            AttackView(roundData.CurrentPlayer, valueAttack, percentHP);
 
             ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
             SoundAction.PlaySound?.Invoke(soundData.AttackSound);
             actionData.SpendAttack += valueAttack;
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
+        }
+
+        private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
+        {
+            ref var boardUI = ref _dataWorld.OneData<UIData>().UIMono;
+            var viewData = _dataWorld.OneData<ViewPlayerData>();
+            if (targetAttack != viewData.PlayerView)
+            {
+                boardUI.characterDamagePassportEffectDown.Attack();
+                boardUI.DamageScreen.Damage(valueAttack, percentHP);
+            }
+            else
+                boardUI.characterDamagePassportEffectUp.Attack();
+            
+            BoardGameCameraEvent.GetDamageCameraShake?.Invoke();
         }
 
         private void EndTurn()
@@ -147,6 +168,7 @@ namespace CyberNet.Core.UI
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new WaitEndRoundComponent());
+            ActionEvent.ClearActionView.Invoke();
         }
     }
 }

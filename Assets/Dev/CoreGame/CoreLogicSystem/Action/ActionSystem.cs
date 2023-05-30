@@ -8,21 +8,21 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionSystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>, IPostRunEventSystem<EventEndCurrentTurn>
+    public class ActionSystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
     {
         private DataWorld _dataWorld;
 
         public void Init()
         {
             _dataWorld.CreateOneData(new ActionData());
+            ActionEvent.ClearActionView += ClearAction;
         }
 
         public void PostRunEvent(EventUpdateBoardCard _) => CalculateValueCard();
-        public void PostRunEvent(EventEndCurrentTurn _) => ClearAction();
 
         private void CalculateValueCard()
         {
-            ClearTotalData();
+            ClearData();
 
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
@@ -73,7 +73,7 @@ namespace CyberNet.Core
             _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
-        private void ClearTotalData()
+        private void ClearData()
         {
             ref var actionData = ref _dataWorld.OneData<ActionData>();
             actionData.TotalAttack = 0;
