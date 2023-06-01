@@ -16,8 +16,10 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 21300000, guid: ff5d0c3115eec5346bc1074b11368e15, type: 3}
     - {fileID: 21300000, guid: d43bb89307759e043bd92c0812b8675b, type: 3}
     - {fileID: 21300000, guid: 523b72c544fc46e41b65ca248b661124, type: 3}
+    - {fileID: 21300000, guid: ba4ef424a038ad648810ac095bbdb4f5, type: 3}
     - {fileID: 21300000, guid: 93078678fd50d0a4aabbc698d049aa13, type: 3}
     - {fileID: 21300000, guid: c1de196e4e59aff4ab944cebe6604e27, type: 3}
     - {fileID: 21300000, guid: fc319c844fd3d8342bd65d4956d6a37f, type: 3}
@@ -32,10 +34,18 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 00184154be15d5540b7ede4686dc7614, type: 3}
     - {fileID: 21300000, guid: 4309aac1de757e245a794500c4895668, type: 3}
     - {fileID: 21300000, guid: 8121e07bcf736d943a2d399803eeec0f, type: 3}
+    - {fileID: 21300000, guid: a07cae0948acbf44f98363b141c73b22, type: 3}
     - {fileID: 21300000, guid: 162343cae532c5349961cea7c5fd9cf5, type: 3}
     - {fileID: 21300000, guid: 317e1f47b1a455f46bac69d5dc9c570c, type: 3}
     - {fileID: 21300000, guid: e51d3e797741c9c4883e94c06b6c220d, type: 3}
+    - {fileID: 21300000, guid: d06c08b82fcb92f4c868f25bd06a7500, type: 3}
+    - {fileID: 21300000, guid: b95f0cc417f7ee04cbd87ad1831366d5, type: 3}
+    - {fileID: 21300000, guid: 59b962b4a42451242af35442f70910cb, type: 3}
+    - {fileID: 21300000, guid: 0e3ba4b7a606eb74880d5e3b8990029c, type: 3}
+    - {fileID: 21300000, guid: 4c980fc3ef7082c45a062c803d3a6e71, type: 3}
+    - {fileID: 21300000, guid: e3b202497fd607842b6cc74f2609f2b8, type: 3}
     - {fileID: 21300000, guid: 972de41c284acaf44ab8b51a40aec2e7, type: 3}
+    - {fileID: 21300000, guid: deaa5cd4cc4802845a2dca8b91063aed, type: 3}
     - {fileID: 21300000, guid: d4f045a282f2b14488f8a1cf35da3bf6, type: 3}
     - {fileID: 21300000, guid: 009a660208c70e94fac0dc99cb165e8f, type: 3}
     - {fileID: 21300000, guid: 0441d38d2b6e03d44857c3c4ec4dcf17, type: 3}
@@ -44,6 +54,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: f3cab4d2747f63b42b3694a1f8c69ab5, type: 3}
     - {fileID: 21300000, guid: 973a803a1b5053d4785017d228a8c8de, type: 3}
     - {fileID: 21300000, guid: 5b3f4358a11873d42b3bb04d7c965560, type: 3}
+    - {fileID: 21300000, guid: 6d5fd5505ac1f5b4f8b9cc0e92df4109, type: 3}
     - {fileID: 21300000, guid: bebd0251b64f1414a8a1a6d32c4b6ed9, type: 3}
     - {fileID: 21300000, guid: 5d6cf79aca09aea44899211eca48e65d, type: 3}
     - {fileID: 21300000, guid: 97df177adaf5d764eb644ab05b3cd8ab, type: 3}
@@ -69,13 +80,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 35
+      Data: 46
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_brothers
+      Data: card_corporates_administrator
     - Name: $v
       Entry: 10
       Data: 0
@@ -87,7 +98,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_director
+      Data: card_corporates_brothers
     - Name: $v
       Entry: 10
       Data: 1
@@ -99,7 +110,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_engineer
+      Data: card_corporates_director
     - Name: $v
       Entry: 10
       Data: 2
@@ -111,7 +122,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_head_hunter
+      Data: card_corporates_droid
     - Name: $v
       Entry: 10
       Data: 3
@@ -123,7 +134,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_pathfinder
+      Data: card_corporates_engineer
     - Name: $v
       Entry: 10
       Data: 4
@@ -135,7 +146,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_R52
+      Data: card_corporates_head_hunter
     - Name: $v
       Entry: 10
       Data: 5
@@ -147,7 +158,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_sergeant
+      Data: card_corporates_pathfinder
     - Name: $v
       Entry: 10
       Data: 6
@@ -159,7 +170,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_corporates_yellow_eyed
+      Data: card_corporates_R52
     - Name: $v
       Entry: 10
       Data: 7
@@ -171,7 +182,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_biker
+      Data: card_corporates_sergeant
     - Name: $v
       Entry: 10
       Data: 8
@@ -183,7 +194,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_bloody_eye
+      Data: card_corporates_yellow_eyed
     - Name: $v
       Entry: 10
       Data: 9
@@ -195,7 +206,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_chimney
+      Data: card_guns_biker
     - Name: $v
       Entry: 10
       Data: 10
@@ -207,7 +218,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_killer
+      Data: card_guns_bloody_eye
     - Name: $v
       Entry: 10
       Data: 11
@@ -219,7 +230,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_leader
+      Data: card_guns_chimney
     - Name: $v
       Entry: 10
       Data: 12
@@ -231,7 +242,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_oldSoldier
+      Data: card_guns_killer
     - Name: $v
       Entry: 10
       Data: 13
@@ -243,7 +254,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_pirate
+      Data: card_guns_leader
     - Name: $v
       Entry: 10
       Data: 14
@@ -255,7 +266,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_reckless
+      Data: card_guns_oldSoldier
     - Name: $v
       Entry: 10
       Data: 15
@@ -267,7 +278,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_russian
+      Data: card_guns_pirate
     - Name: $v
       Entry: 10
       Data: 16
@@ -279,7 +290,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_guns_sniper
+      Data: card_guns_reckless
     - Name: $v
       Entry: 10
       Data: 17
@@ -291,7 +302,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_agent
+      Data: card_guns_refuge
     - Name: $v
       Entry: 10
       Data: 18
@@ -303,7 +314,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_networker
+      Data: card_guns_russian
     - Name: $v
       Entry: 10
       Data: 19
@@ -315,7 +326,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_netrunners_virus
+      Data: card_guns_sniper
     - Name: $v
       Entry: 10
       Data: 20
@@ -327,7 +338,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: netrunners_darkNet
+      Data: card_netrunners_agent
     - Name: $v
       Entry: 10
       Data: 21
@@ -339,7 +350,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: netrunners_thief
+      Data: card_netrunners_ai
     - Name: $v
       Entry: 10
       Data: 22
@@ -351,7 +362,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_neutral_explorer
+      Data: card_netrunners_boy
     - Name: $v
       Entry: 10
       Data: 23
@@ -363,7 +374,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_neutral_hunter
+      Data: card_netrunners_c28
     - Name: $v
       Entry: 10
       Data: 24
@@ -375,7 +386,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_neutral_scout
+      Data: card_netrunners_cracker
     - Name: $v
       Entry: 10
       Data: 25
@@ -387,7 +398,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_blueBlade
+      Data: card_netrunners_empath
     - Name: $v
       Entry: 10
       Data: 26
@@ -399,7 +410,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_demon
+      Data: card_netrunners_interference
     - Name: $v
       Entry: 10
       Data: 27
@@ -411,7 +422,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_outcast
+      Data: card_netrunners_networker
     - Name: $v
       Entry: 10
       Data: 28
@@ -423,7 +434,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_racer
+      Data: card_netrunners_shooter
     - Name: $v
       Entry: 10
       Data: 29
@@ -435,7 +446,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_ravager
+      Data: card_netrunners_virus
     - Name: $v
       Entry: 10
       Data: 30
@@ -447,7 +458,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_samurai
+      Data: netrunners_darkNet
     - Name: $v
       Entry: 10
       Data: 31
@@ -459,7 +470,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_trader
+      Data: netrunners_thief
     - Name: $v
       Entry: 10
       Data: 32
@@ -471,7 +482,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nomads_valkyrie
+      Data: card_neutral_explorer
     - Name: $v
       Entry: 10
       Data: 33
@@ -483,10 +494,142 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: card_nombads_raven
+      Data: card_neutral_hunter
     - Name: $v
       Entry: 10
       Data: 34
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_scout
+    - Name: $v
+      Entry: 10
+      Data: 35
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_blueBlade
+    - Name: $v
+      Entry: 10
+      Data: 36
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_demon
+    - Name: $v
+      Entry: 10
+      Data: 37
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_doctor
+    - Name: $v
+      Entry: 10
+      Data: 38
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_outcast
+    - Name: $v
+      Entry: 10
+      Data: 39
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_racer
+    - Name: $v
+      Entry: 10
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_ravager
+    - Name: $v
+      Entry: 10
+      Data: 41
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_samurai
+    - Name: $v
+      Entry: 10
+      Data: 42
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_trader
+    - Name: $v
+      Entry: 10
+      Data: 43
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_valkyrie
+    - Name: $v
+      Entry: 10
+      Data: 44
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nombads_raven
+    - Name: $v
+      Entry: 10
+      Data: 45
     - Name: 
       Entry: 8
       Data: 
