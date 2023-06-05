@@ -5586,11 +5586,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1805689551043537454, guid: 77af45304a72ef8409e8fcee5f589b08,
-        type: 3}
-      propertyPath: mLocalizeTarget
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8416986948293710128, guid: 77af45304a72ef8409e8fcee5f589b08,
         type: 3}
       propertyPath: m_Name
@@ -5598,40 +5593,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77af45304a72ef8409e8fcee5f589b08, type: 3}
---- !u!1 &1369801935384144872 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8416986948293710128, guid: 77af45304a72ef8409e8fcee5f589b08,
-    type: 3}
-  m_PrefabInstance: {fileID: 7479817704393915096}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &4822206234224263521
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1369801935384144872}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 30
-  m_TargetDisplay: 0
 --- !u!114 &2055710441498852737 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8884193950203250521, guid: 77af45304a72ef8409e8fcee5f589b08,
     type: 3}
   m_PrefabInstance: {fileID: 7479817704393915096}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1369801935384144872}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0203f2605bf002c49a376b957c8e275b, type: 3}

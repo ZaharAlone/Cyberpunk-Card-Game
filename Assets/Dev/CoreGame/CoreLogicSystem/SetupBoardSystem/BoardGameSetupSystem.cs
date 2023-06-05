@@ -6,6 +6,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 using CyberNet.Core.UI;
+using Unity.VisualScripting;
 
 namespace CyberNet.Core
 {
@@ -86,7 +87,7 @@ namespace CyberNet.Core
             return entity;
         }
 
-        //Отрисовываем вьюху кард
+        //Отрисовываем вьюху карт
         private void SetViewCard(CardMono card, CardConfig cardConfig)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
@@ -110,12 +111,32 @@ namespace CyberNet.Core
             else
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
 
-            card.SetTwoAbility(cardConfig.Ability_0.Action != AbilityAction.None && cardConfig.Ability_1.Action != AbilityAction.None);
+            var isAbility_0 = cardConfig.Ability_0.Action != AbilityAction.None;
+            var isAbility_1 = cardConfig.Ability_1.Action != AbilityAction.None;
+            var isAbility_2 = cardConfig.Ability_2.Action != AbilityAction.None;
+            var onlyOneAbility = isAbility_0 && !isAbility_1 && !isAbility_2;
+            var chooseAbility = isAbility_0 && isAbility_1;
 
+            card.SetChooseAbility(chooseAbility);
+            card.IsConditionAbility(isAbility_2);
+            
+            if (!chooseAbility)
+                card.AbilityBlock_2_Container.GameObject().SetActive(false);
+            
+            if (chooseAbility && isAbility_2)
+                card.SetBigDownBlock();
+            
             if (cardConfig.Ability_0.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig);
+            {
+                if (onlyOneAbility)
+                    SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility, onlyOneAbility);
+                else
+                    SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility);
+            }
             if (cardConfig.Ability_1.Action != AbilityAction.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameConfig);
+                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameConfig, chooseAbility);
+            if (cardConfig.Ability_2.Action != AbilityAction.None)
+                SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfig.Ability_2, boardGameConfig);
 
             card.CardOnBack();
         }

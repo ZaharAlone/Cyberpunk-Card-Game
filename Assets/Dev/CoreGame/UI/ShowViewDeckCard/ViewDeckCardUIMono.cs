@@ -1,3 +1,5 @@
+using I2.Loc;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = System.Object;
@@ -9,8 +11,19 @@ namespace CyberNet.Core.UI
         public GameObject PanelViewCard;
         public Transform ViewHandCardContainer;
 
-        public void SetOpenWindow()
+        public TextMeshProUGUI HeaderText;
+        public LocalizedString HeaderDrawLoc;
+        public LocalizedString HeaderDiscardLoc;
+
+        public void SetOpenWindowDraw()
         {
+            HeaderText.text = HeaderDrawLoc;
+            PanelViewCard.SetActive(true);
+        }
+
+        public void SetOpenWindowDiscard()
+        {
+            HeaderText.text = HeaderDiscardLoc;
             PanelViewCard.SetActive(true);
         }
 

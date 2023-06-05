@@ -8,12 +8,15 @@ namespace CyberNet.Core
 {
     public static class SetViewAbilityCard
     {
-        public static void SetView(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)
+        public static void SetView(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig, bool chooseAbility = false, bool oneAbility = false)
         {
+            if (chooseAbility)
+                Object.Instantiate(boardGameConfig.IconsArrowChooseAbility, container);
+
             if (ability.Condition != AbilityCondition.None)
                 SetConfition(container, ability, boardGameConfig);
 
-            SetAction(container, ability, boardGameConfig);
+            SetAction(container, ability, boardGameConfig, oneAbility);
 
             container.gameObject.SetActive(true);
         }
@@ -52,21 +55,21 @@ namespace CyberNet.Core
             im_2.sprite = icons;
         }
 
-        private static void SetAction(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)
+        private static void SetAction(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig, bool oneAbility = false)
         {
             switch (ability.Action)
             {
                 case AbilityAction.Attack:
                     boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
-                    AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig);
+                    AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
                     break;
                 case AbilityAction.Trade:
                     boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
-                    AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig);
+                    AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
                     break;
                 case AbilityAction.Influence:
                     boardGameConfig.CurrencyImage.TryGetValue("Influence", out var imInfluence);
-                    AddBaseAction(container, imInfluence, ability.Count, boardGameConfig.ColorInfluenceText, boardGameConfig);
+                    AddBaseAction(container, imInfluence, ability.Count, boardGameConfig.ColorInfluenceText, boardGameConfig, oneAbility);
                     break;
                 case AbilityAction.DrawCard:
                     var textDraw = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
@@ -100,29 +103,29 @@ namespace CyberNet.Core
                     var textDestroyTrade = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroyTrade.text = "Destroy Trade Card";
                     break;
-                case AbilityAction.DestroyEnemyBass:
+                case AbilityAction.DestroyEnemyBase:
                     var textDestroyBase = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroyBase.text = "Destroy Enemy Base";
                     break;
             }
         }
 
-        private static void AddBaseAction(Transform container, Sprite sprite, int count, Color32 colorCount, BoardGameConfig boardGameConfig)
+        private static void AddBaseAction(Transform container, Sprite sprite, int count, Color32 colorCount, BoardGameConfig boardGameConfig, bool oneAbility)
         {
             if (count > 1)
             {
                 var textCount = Object.Instantiate(boardGameConfig.TextBaseAbilityCountItem, container);
                 textCount.text = count.ToString();
                 textCount.color = colorCount;
+                if (oneAbility)
+                    textCount.fontSize *= 1.4f;
             }
 
             var image = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
             image.sprite = sprite;
             
-            if (count == 1)
-            {
-                image.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-            }
+            if (oneAbility)
+                image.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
         }
     }
 }

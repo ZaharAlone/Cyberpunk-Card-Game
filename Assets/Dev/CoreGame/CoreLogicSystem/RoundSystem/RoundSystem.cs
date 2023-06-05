@@ -45,13 +45,18 @@ namespace CyberNet.Local
                 roundData.CurrentPlayer = PlayerEnum.Player1;
 
             _dataWorld.RiseEvent(new EventUpdateRound());
-            UpdateUIRound();
+            UpdateUIRound(roundData.CurrentPlayer);
         }
 
-        private void UpdateUIRound()
+        private void UpdateUIRound(PlayerEnum playersRound)
         {
+            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
             ref var ui = ref _dataWorld.OneData<UIData>().UIMono;
-            ui.ChangeRoundUI.OnNewRound();
+            
+            if (playersRound == viewPlayer.PlayerView)
+                ui.ChangeRoundUI.PlayerRound();
+            else
+                ui.ChangeRoundUI.EnemyRound();
         }
     }
 }

@@ -1,24 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using I2.Loc;
 using DG.Tweening;
+using TMPro;
 
 namespace CyberNet.Core.UI
 {
     public class ChangeRoundUIMono : MonoBehaviour
     {
         public GameObject NewRoundGO;
-        public Localize TextRound;
+        public RectTransform NewRoundRect;
+        public TextMeshProUGUI TextRound;
+        
+        public LocalizedString PlayerRoundLoc;
+        public LocalizedString EnemyRoundLoc;
 
         private Sequence _sequence;
-        //TODO add animations and set text round
-        public async void OnNewRound()
+        private float _deltaSize;
+        
+        public void Start()
         {
-            //TextRound.Term = text;
+            _deltaSize = Screen.currentResolution.width / 2 + NewRoundRect.sizeDelta.x / 2;
+        }
+
+        public void PlayerRound()
+        {
+            TextRound.text = PlayerRoundLoc;
+            NewRoundAnimations();
+        }
+
+        public void EnemyRound()
+        {
+            TextRound.text = EnemyRoundLoc;
+            NewRoundAnimations();
+        }
+
+        private void NewRoundAnimations()
+        {
             NewRoundGO.SetActive(true);
-            await Task.Delay(750);
+            NewRoundRect.position = new Vector3(-_deltaSize, NewRoundRect.position.y, NewRoundRect.position.z);
+            _sequence = DOTween.Sequence();
+            _sequence.Append(NewRoundGO.transform.DOMoveX(0f, 1f))
+                .AppendInterval(1.5f)
+                .Append(NewRoundGO.transform.DOMoveX(_deltaSize, 1f))
+                .OnComplete(()=> CompleteAnimatios());
+        }
+
+        private void CompleteAnimatios()
+        {
             NewRoundGO.SetActive(false);
         }
     }

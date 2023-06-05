@@ -47,9 +47,10 @@ namespace CyberNet.Core
                         actionData.TotalTrade += abilityCard.Count;
                         break;
                     case AbilityAction.Influence:
-                        actionData.TotalInfluence += abilityCard.Count;
+                        ActionInfluence(abilityCard.Count);
                         break;
                     case AbilityAction.DrawCard:
+                        ActionDrawCard(abilityCard.Count);
                         break;
                     case AbilityAction.DiscardCardEnemy:
                         break;
@@ -65,12 +66,38 @@ namespace CyberNet.Core
                         break;
                     case AbilityAction.DestroyTradeCard:
                         break;
-                    case AbilityAction.DestroyEnemyBass:
+                    case AbilityAction.DestroyEnemyBase:
                         break;
                 }
             }
 
             _dataWorld.RiseEvent(new EventBoardGameUpdate());
+        }
+
+        private void ActionInfluence(int value)
+        {
+            ref var playersRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+
+            if (playersRound == PlayerEnum.Player1)
+            {
+                ref var playerStats = ref _dataWorld.OneData<Player1StatsData>();
+                playerStats.HP += value;
+            }
+            else
+            {
+                ref var playerStats = ref _dataWorld.OneData<Player2StatsData>();
+                playerStats.HP += value;
+            }
+            
+            //View Effect
+        }
+
+        private void ActionDrawCard(int value)
+        {
+            ref var playersRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = playersRound, Count = value });
+            
+            //View Effect
         }
 
         private void ClearData()

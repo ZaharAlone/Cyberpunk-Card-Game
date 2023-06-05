@@ -71,7 +71,7 @@ namespace CyberNet
         NoiseCard,
         ThiefCard,
         DestroyTradeCard,
-        DestroyEnemyBass
+        DestroyEnemyBase
     }
 
     [Serializable]

@@ -34,7 +34,7 @@ namespace CyberNet.Core.UI
                 showViewUI.SetCardInContainer(cardComponent.CardMono.CardFace.gameObject);
             }
             
-            showViewUI.SetOpenWindow();
+            showViewUI.SetOpenWindowDiscard();
         }
 
         private void OpenDraw()
@@ -52,7 +52,7 @@ namespace CyberNet.Core.UI
                 showViewUI.SetCardInContainer(cardComponent.CardMono.CardFace.gameObject);
             }
             
-            showViewUI.SetOpenWindow();
+            showViewUI.SetOpenWindowDraw();
         }
 
         private void CloseView()

@@ -22,6 +22,7 @@ namespace CyberNet
         public Image IconsArrowConditionAbility;
         public TextMeshProUGUI TextBaseAbility;
         public GameObject ItemIconsCounterCard;
+        public GameObject IconsArrowChooseAbility;
 
         [Header("Color Resource")]
         public Color32 ColorAttackText;

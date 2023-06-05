@@ -48,7 +48,7 @@ namespace CyberNet.Core.UI
 
             if (viewPlayer.PlayerView == isPlayer)
             {
-                screenShift = uiRect.rect.height / 2 - 120;
+                screenShift = uiRect.rect.height / 2 - 125;
                 multPosY = -1;
                 radius = 2500;
                 multiplieSizeCard = config.SizeCardPlayerDown;

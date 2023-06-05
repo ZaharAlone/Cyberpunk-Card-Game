@@ -27,10 +27,14 @@ namespace CyberNet.Core
         public TextMeshProUGUI PriceText;
 
         [Header("Down Block")]
+        public RectTransform ImageDownBlockRect;
+        public RectTransform AbilityBlockRect;
         public Localize Header;
         public TextMeshProUGUI Cyberpsychosis;
         public Transform AbilityBlock_1_Container;
         public Transform AbilityBlock_2_Container;
+        public Transform AbilityBlock_3_Container;
+        public Transform AbilityBlock_OneShot_Container;
         public GameObject ChooseOneHeader;
         public GameObject DivideLine;
 
@@ -56,10 +60,21 @@ namespace CyberNet.Core
                 PriceText.gameObject.SetActive(false);
         }
 
-        public void SetTwoAbility(bool status)
+        public void SetChooseAbility(bool status)
         {
             ChooseOneHeader.SetActive(status);
+        }
+
+        public void IsConditionAbility(bool status)
+        {
             DivideLine.SetActive(status);
+        }
+
+        public void SetBigDownBlock()
+        {
+            ImageDownBlockRect.sizeDelta = new Vector2(ImageDownBlockRect.sizeDelta.x, 120f);
+            AbilityBlockRect.anchoredPosition = new Vector2(AbilityBlockRect.anchoredPosition.x, 120f);
+            
         }
 
         public void CardOnBack()
