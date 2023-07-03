@@ -1,0 +1,129 @@
+using EcsCore;
+using ModulesFramework.Attributes;
+using ModulesFramework.Data;
+using ModulesFramework.Data.Enumerators;
+using ModulesFramework.Systems;
+using ModulesFramework.Systems.Events;
+using CyberNet.Core.Ability;
+using UnityEngine;
+
+namespace CyberNet.Core.Ability
+{
+    [EcsSystem(typeof(CoreModule))]
+    public class AbilitySystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
+    {
+        private DataWorld _dataWorld;
+
+        public void Init()
+        {
+            _dataWorld.CreateOneData(new AbilityData());
+            AbilityEvent.ClearActionView += ClearAction;
+        }
+
+        public void PostRunEvent(EventUpdateBoardCard _) => CalculateValueCard();
+
+        private void CalculateValueCard()
+        {
+            ClearData();
+            
+            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
+
+            foreach (var entity in entities)
+            {
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                ref var selectAbility = ref entity.GetComponent<CardTableComponent>().SelectAbility;
+
+                if (selectAbility == SelectAbilityEnum.Ability_1)
+                    AbilityAppointmentComponent(cardComponent.Ability_0, entity);
+                else
+                    AbilityAppointmentComponent(cardComponent.Ability_1, entity);
+
+                CheckComboEffect(cardComponent, entities);
+            }
+        }
+        
+        private void CheckComboEffect(CardComponent cardComponent, EntitiesEnumerable entities)
+        {
+            foreach (var entity in entities)
+            {
+                ref var cardComponentDeck = ref entity.GetComponent<CardComponent>();
+                
+                if (cardComponentDeck.GUID == cardComponent.GUID)
+                    continue;
+
+                if (cardComponentDeck.Nations == cardComponent.Nations)
+                {
+                    AbilityAppointmentComponent(cardComponent.Ability_2, entity);
+                    break;
+                }
+            }
+        }
+
+        //Add component ability
+        private void AbilityAppointmentComponent(AbilityCard abilityCard, Entity entity)
+        {
+            ref var actionData = ref _dataWorld.OneData<AbilityData>();
+            
+            switch (abilityCard.AbilityType)
+            {
+                case AbilityType.Attack:
+                    entity.AddComponent(new AbilityAddResourceComponent {AbilityType = abilityCard.AbilityType, Count = abilityCard.Count});
+                    break;
+                case AbilityType.Trade:
+                    entity.AddComponent(new AbilityAddResourceComponent {AbilityType = abilityCard.AbilityType, Count = abilityCard.Count});
+                    break;
+                case AbilityType.Influence:
+                    entity.AddComponent(new AbilityAddResourceComponent {AbilityType = abilityCard.AbilityType, Count = abilityCard.Count});
+                    break;
+                case AbilityType.DrawCard:
+                    ActionDrawCard(abilityCard.Count);
+                    break;
+                case AbilityType.DiscardCardEnemy:
+                    break;
+                case AbilityType.DestroyCard:
+                    break;
+                case AbilityType.DownCyberpsychosisEnemy:
+                    break;
+                case AbilityType.CloneCard:
+                    break;
+                case AbilityType.NoiseCard:
+                    break;
+                case AbilityType.ThiefCard:
+                    break;
+                case AbilityType.DestroyTradeCard:
+                    break;
+                case AbilityType.DestroyEnemyBase:
+                    break;
+                case AbilityType.None:
+                    break;
+            }
+        }
+
+        private void ActionDrawCard(int value)
+        {
+            ref var playersRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+            _dataWorld.RiseEvent(new EventDistributionCard { Target = playersRound, Count = value });
+            
+            //View Effect
+        }
+
+        private void ClearData()
+        {
+            ref var actionData = ref _dataWorld.OneData<AbilityData>();
+            actionData.TotalAttack = 0;
+            actionData.TotalTrade = 0;
+            actionData.TotalInfluence = 0;
+        }
+
+        private void ClearAction()
+        {
+            ref var actionData = ref _dataWorld.OneData<AbilityData>();
+            actionData.TotalAttack = 0;
+            actionData.TotalTrade = 0;
+            actionData.TotalInfluence = 0;
+            actionData.SpendAttack = 0;
+            actionData.SpendTrade = 0;
+            actionData.SpendInfluence = 0;
+        }
+    }
+}

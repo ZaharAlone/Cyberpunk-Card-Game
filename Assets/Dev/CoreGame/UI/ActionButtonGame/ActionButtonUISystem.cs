@@ -4,6 +4,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using CyberNet.Core.Ability;
 using ModulesFramework.Systems.Events;
 
 namespace CyberNet.Core.UI
@@ -32,7 +33,7 @@ namespace CyberNet.Core.UI
 
             ui.UIMono.ShowInteractiveButton();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
+            ref var actionPlayer = ref _dataWorld.OneData<AbilityData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
                                        .Where<CardComponent>(card => card.Player == viewPlayer.PlayerView)
                                        .With<CardHandComponent>()
@@ -41,17 +42,17 @@ namespace CyberNet.Core.UI
             if (cardInHand > 0)
             {
                 ui.UIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                actionPlayer.CurrentAction = ActionType.PlayAll;
+                actionPlayer.ActionType = ActionType.PlayAll;
             }
             else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
             {
                 ui.UIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
-                actionPlayer.CurrentAction = ActionType.Attack;
+                actionPlayer.ActionType = ActionType.Attack;
             }
             else
             {
                 ui.UIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                actionPlayer.CurrentAction = ActionType.EndTurn;
+                actionPlayer.ActionType = ActionType.EndTurn;
             }
         }
 
@@ -67,8 +68,8 @@ namespace CyberNet.Core.UI
 
         private void ClickButton()
         {
-            ref var actionPlayer = ref _dataWorld.OneData<ActionData>();
-            switch (actionPlayer.CurrentAction)
+            ref var actionPlayer = ref _dataWorld.OneData<AbilityData>();
+            switch (actionPlayer.ActionType)
             {
                 case ActionType.PlayAll:
                     PlayAll();
@@ -88,20 +89,18 @@ namespace CyberNet.Core.UI
                                      .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
                                      .With<CardHandComponent>()
                                      .GetEntities();
-
+            
             foreach (var entity in entities)
             {
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardTableComponent());
+                entity.AddComponent(new CardSelectAbilityComponent());
             }
-
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
         private void Attack()
         {
             ref var boardGameRule = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var actionData = ref _dataWorld.OneData<ActionData>();
+            ref var actionData = ref _dataWorld.OneData<AbilityData>();
             var roundData = _dataWorld.OneData<RoundData>();
             var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
             var percentHP = 0f;
@@ -168,7 +167,7 @@ namespace CyberNet.Core.UI
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new WaitEndRoundComponent());
-            ActionEvent.ClearActionView.Invoke();
+            AbilityEvent.ClearActionView.Invoke();
         }
     }
 }

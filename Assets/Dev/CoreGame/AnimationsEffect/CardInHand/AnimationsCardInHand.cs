@@ -125,7 +125,6 @@ namespace CyberNet.Core.UI
         {
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = new CardComponentAnimations();
-            var round = _dataWorld.OneData<RoundData>();
 
             animationComponent.Sequence = DOTween.Sequence();
             animationComponent.Sequence.Append(cardComponent.Transform.DOMove(position, 0.4f))
@@ -135,7 +134,7 @@ namespace CyberNet.Core.UI
 
         private void ClearAnimationComponent(Entity entity)
         {
-            var animationComponent = new CardComponentAnimations();
+            ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
         }

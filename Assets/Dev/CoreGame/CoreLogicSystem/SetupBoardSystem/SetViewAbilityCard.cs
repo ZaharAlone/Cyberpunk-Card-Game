@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 namespace CyberNet.Core
 {
@@ -50,60 +46,58 @@ namespace CyberNet.Core
         {
             boardGameConfig.NationsImage.TryGetValue(nationsName, out var icons);
             var im_1 = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
-            var im_2 = Object.Instantiate(boardGameConfig.IconsBaseAbility, container);
             im_1.sprite = icons;
-            im_2.sprite = icons;
         }
 
         private static void SetAction(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig, bool oneAbility = false)
         {
-            switch (ability.Action)
+            switch (ability.AbilityType)
             {
-                case AbilityAction.Attack:
+                case AbilityType.Attack:
                     boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
                     AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
                     break;
-                case AbilityAction.Trade:
+                case AbilityType.Trade:
                     boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
                     AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
                     break;
-                case AbilityAction.Influence:
+                case AbilityType.Influence:
                     boardGameConfig.CurrencyImage.TryGetValue("Influence", out var imInfluence);
                     AddBaseAction(container, imInfluence, ability.Count, boardGameConfig.ColorInfluenceText, boardGameConfig, oneAbility);
                     break;
-                case AbilityAction.DrawCard:
+                case AbilityType.DrawCard:
                     var textDraw = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDraw.text = "Draw Card";
                     break;
-                case AbilityAction.DiscardCardEnemy:
+                case AbilityType.DiscardCardEnemy:
                     var textDiscard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDiscard.text = "Discard Card Enemy";
                     break;
-                case AbilityAction.DestroyCard:
+                case AbilityType.DestroyCard:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroy.text = "Destroy Card";
                     break;
-                case AbilityAction.DownCyberpsychosisEnemy:
+                case AbilityType.DownCyberpsychosisEnemy:
                     var textDownCyb = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDownCyb.text = "Down Cyberpsychosis";
                     break;
-                case AbilityAction.CloneCard:
+                case AbilityType.CloneCard:
                     var textClone = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textClone.text = "Clone card in hand";
                     break;
-                case AbilityAction.NoiseCard:
+                case AbilityType.NoiseCard:
                     var textNoise = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textNoise.text = "Add Card Noise Enemy";
                     break;
-                case AbilityAction.ThiefCard:
+                case AbilityType.ThiefCard:
                     var textThief = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textThief.text = "Thief Random Card";
                     break;
-                case AbilityAction.DestroyTradeCard:
+                case AbilityType.DestroyTradeCard:
                     var textDestroyTrade = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroyTrade.text = "Destroy Trade Card";
                     break;
-                case AbilityAction.DestroyEnemyBase:
+                case AbilityType.DestroyEnemyBase:
                     var textDestroyBase = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroyBase.text = "Destroy Enemy Base";
                     break;

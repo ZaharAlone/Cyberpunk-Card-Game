@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.Ability
 {
     [Serializable]
     public enum ActionType

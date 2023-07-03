@@ -46,6 +46,9 @@ namespace CyberNet.Core.UI
         public CharacterDamagePassportEffect characterDamagePassportEffectUp;
         public CharacterDamagePassportEffect characterDamagePassportEffectDown;
         public CharacterDamageScreenEffect DamageScreen;
+
+        [Header("Select Ability Mono")]
+        public SelectAbilityUIMono SelectAbilityUIMono;
         
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {

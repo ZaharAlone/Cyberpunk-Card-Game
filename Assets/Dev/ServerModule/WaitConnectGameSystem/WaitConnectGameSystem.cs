@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 using CyberNet.Core;
+using CyberNet.Core.Ability;
 using CyberNet.Meta;
 
 namespace CyberNet.Server
@@ -36,7 +37,7 @@ namespace CyberNet.Server
             _dataWorld.CreateOneData(new DeckCardsData());
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
             NetworkReader.RegisterHandle<PlayersComponent>(InitPlayers);
-            NetworkReader.RegisterHandle<ActionData>(InitActionData);
+            NetworkReader.RegisterHandle<AbilityData>(InitActionData);
             NetworkReader.RegisterHandle<ViewPlayerData>(InitPlayerView);
 
             NetworkReader.RegisterHandle<StartGameComponent>(StartGame);
@@ -78,10 +79,10 @@ namespace CyberNet.Server
             ref var player2stats = ref _dataWorld.OneData<Player2StatsData>();
         }
 
-        private void InitActionData(ActionData actionData)
+        private void InitActionData(AbilityData abilityData)
         {
             Debug.Log("Get Action Data");
-            _dataWorld.CreateOneData(actionData);
+            _dataWorld.CreateOneData(abilityData);
         }
 
         private void InitPlayerView(ViewPlayerData view)

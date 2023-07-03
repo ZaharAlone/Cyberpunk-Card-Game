@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -49,7 +50,7 @@ namespace CyberNet
     public struct AbilityCard
     {
         [JsonProperty("action")]
-        public AbilityAction Action;
+        public AbilityType AbilityType;
         [JsonProperty("count")]
         public int Count;
         [JsonProperty("condition")]
@@ -57,7 +58,7 @@ namespace CyberNet
     }
 
     [Serializable]
-    public enum AbilityAction
+    public enum AbilityType
     {
         None,
         Attack,

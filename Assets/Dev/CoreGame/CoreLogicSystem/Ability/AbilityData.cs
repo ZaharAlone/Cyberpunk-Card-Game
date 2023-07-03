@@ -1,9 +1,10 @@
 using System;
+using UnityEngine.Serialization;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.Ability
 {
     [Serializable]
-    public struct ActionData
+    public struct AbilityData
     {
         public int TotalAttack;
         public int TotalTrade;
@@ -12,7 +13,7 @@ namespace CyberNet.Core
         public int SpendAttack;
         public int SpendTrade;
         public int SpendInfluence;
-
-        public ActionType CurrentAction;
+        
+        public ActionType ActionType;
     }
 }

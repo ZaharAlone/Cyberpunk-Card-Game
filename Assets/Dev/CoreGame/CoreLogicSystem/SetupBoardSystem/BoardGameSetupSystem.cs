@@ -111,9 +111,9 @@ namespace CyberNet.Core
             else
                 card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
 
-            var isAbility_0 = cardConfig.Ability_0.Action != AbilityAction.None;
-            var isAbility_1 = cardConfig.Ability_1.Action != AbilityAction.None;
-            var isAbility_2 = cardConfig.Ability_2.Action != AbilityAction.None;
+            var isAbility_0 = cardConfig.Ability_0.AbilityType != AbilityType.None;
+            var isAbility_1 = cardConfig.Ability_1.AbilityType != AbilityType.None;
+            var isAbility_2 = cardConfig.Ability_2.AbilityType != AbilityType.None;
             var onlyOneAbility = isAbility_0 && !isAbility_1 && !isAbility_2;
             var chooseAbility = isAbility_0 && isAbility_1;
 
@@ -126,16 +126,16 @@ namespace CyberNet.Core
             if (chooseAbility && isAbility_2)
                 card.SetBigDownBlock();
             
-            if (cardConfig.Ability_0.Action != AbilityAction.None)
+            if (cardConfig.Ability_0.AbilityType != AbilityType.None)
             {
                 if (onlyOneAbility)
                     SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility, onlyOneAbility);
                 else
                     SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility);
             }
-            if (cardConfig.Ability_1.Action != AbilityAction.None)
+            if (cardConfig.Ability_1.AbilityType != AbilityType.None)
                 SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameConfig, chooseAbility);
-            if (cardConfig.Ability_2.Action != AbilityAction.None)
+            if (cardConfig.Ability_2.AbilityType != AbilityType.None)
                 SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfig.Ability_2, boardGameConfig);
 
             card.CardOnBack();

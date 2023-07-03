@@ -1,3 +1,4 @@
+using CyberNet.Core.Ability;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -33,7 +34,7 @@ namespace CyberNet.Core.UI
                                                .With<CardDiscardComponent>()
                                                .GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
-            var actionValue = _dataWorld.OneData<ActionData>();
+            var actionValue = _dataWorld.OneData<AbilityData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)

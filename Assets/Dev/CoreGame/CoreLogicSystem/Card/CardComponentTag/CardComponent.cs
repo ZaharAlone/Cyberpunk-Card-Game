@@ -19,5 +19,6 @@ namespace CyberNet.Core
 
         public AbilityCard Ability_0;
         public AbilityCard Ability_1;
+        public AbilityCard Ability_2;
     }
 }
