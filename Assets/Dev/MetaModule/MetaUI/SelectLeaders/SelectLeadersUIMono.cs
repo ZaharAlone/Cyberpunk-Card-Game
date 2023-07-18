@@ -2,7 +2,7 @@ using I2.Loc;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CyberNet.Meta.Leaders
+namespace CyberNet.Meta
 {
     public class SelectLeadersUIMono : MonoBehaviour
     {
@@ -15,10 +15,16 @@ namespace CyberNet.Meta.Leaders
         public Localize SelectLeadersNameLoc;
         public Localize SelectLeadersDescrLoc;
 
-        public void OpenSelectLeadersUI()
+        public void OpenWindow()
         {
             Background.SetActive(true);
             Panel.SetActive(true);
+        }
+
+        public void CloseWindow()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
         }
         
         public void SetSelectViewLeaders(Sprite imageCard, string name, string descr)
@@ -26,6 +32,21 @@ namespace CyberNet.Meta.Leaders
             SelectLeadersImageCard.sprite = imageCard;
             SelectLeadersNameLoc.Term = name;
             SelectLeadersDescrLoc.Term = descr;
+        }
+
+        public void OnClickBackMainMenu()
+        {
+            SelectLeaderAction.BackMainMenu?.Invoke();
+        }
+
+        public void OnClickStartGame()
+        {
+            SelectLeaderAction.StartGame?.Invoke();
+        }
+
+        public void OnClickSelectLeader(string leaderName)
+        {
+            SelectLeaderAction.SelectLeader?.Invoke(leaderName);
         }
     }
 }

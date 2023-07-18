@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 using System;
+using CyberNet.Global;
 using CyberNet.Server;
 
 namespace CyberNet.Meta
@@ -23,31 +24,46 @@ namespace CyberNet.Meta
         public void PreInit()
         {
             MainMenuAction.OpenMainMenu += OpenMainMenu;
+            MainMenuAction.CloseMainMenu += CloseMainMenu;
+            MainMenuAction.OpenCampaign += OpenCampaign;
             MainMenuAction.OpenLocalGameVSAI += OpenLocalGameVSAI;
             MainMenuAction.OpenLocalGameVSPlayer += OpenLocalGameVSPlayer;
             MainMenuAction.OpenServerGame += OpenServerGame;
             MainMenuAction.OpenSettingsGame += OpenSettingsGame;
             MainMenuAction.OpenExitGame += OpenExitGame;
         }
+        private void OpenCampaign()
+        {
+            CampaignUIAction.OpenCampaignUI?.Invoke();
+            CloseMainMenu();
+        }
+        
         private void OpenExitGame()
         {
-            throw new NotImplementedException();
+
         }
+        
         private void OpenSettingsGame()
         {
-            throw new NotImplementedException();
+
         }
+        
         private void OpenServerGame()
         {
-            throw new NotImplementedException();
+            OnlineGameUIAction.OpenOnlineGameUI?.Invoke();
+            CloseMainMenu();
         }
+        
         private void OpenLocalGameVSPlayer()
         {
-            throw new NotImplementedException();
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalVSPlayer);
+            CloseMainMenu();
         }
+        
         private void OpenLocalGameVSAI()
         {
-            
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalVSAI);
+            CloseMainMenu();
         }
         
         private void CloseMainMenu()
