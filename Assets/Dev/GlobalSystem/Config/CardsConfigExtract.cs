@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFrameworkUnity;
 
 namespace CyberNet
 {
@@ -20,7 +19,7 @@ namespace CyberNet
         public void PreInit()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfig>>(boardGameData.BoardGameConfig.CardConfigJson.text);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(boardGameData.BoardGameConfig.CardConfigJson.text);
             _dataWorld.CreateOneData(new CardsConfig { Cards = dictionary });
         }
     }

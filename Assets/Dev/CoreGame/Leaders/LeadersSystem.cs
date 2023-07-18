@@ -5,10 +5,10 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 
-namespace CyberNet.Core.Heroes
+namespace CyberNet.Core.Leaders
 {
     [EcsSystem(typeof(CoreModule))]
-    public class HeroesSystem : IInitSystem, IRunSystem
+    public class LeadersSystem : IInitSystem, IRunSystem
     {
         private DataWorld _dataWorld;
 

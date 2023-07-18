@@ -46,8 +46,8 @@ namespace CyberNet.Server
         private void StartGame(StartGameComponent _)
         {
             PopupAction.CloseWaitPopup?.Invoke();
-            var menu = _dataWorld.OneData<MainMenuData>();
-            menu.UI.SetActive(false);
+            var menu = _dataWorld.OneData<MetaUIData>();
+            menu.UIGO.SetActive(false);
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
             _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }

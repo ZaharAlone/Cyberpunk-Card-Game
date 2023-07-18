@@ -10,11 +10,11 @@ namespace CyberNet
     [Serializable]
     public struct CardsConfig
     {
-        public Dictionary<string, CardConfig> Cards;
+        public Dictionary<string, CardConfigJson> Cards;
     }
 
     [Serializable]
-    public struct CardConfig
+    public struct CardConfigJson
     {
         [JsonProperty("name")]
         public string Name;

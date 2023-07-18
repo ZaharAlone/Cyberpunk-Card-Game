@@ -88,32 +88,32 @@ namespace CyberNet.Core
         }
 
         //Отрисовываем вьюху карт
-        private void SetViewCard(CardMono card, CardConfig cardConfig)
+        private void SetViewCard(CardMono card, CardConfigJson cardConfigJson)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var cardsImage = _dataWorld.OneData<BoardGameData>().CardsImage;
-            cardsImage.TryGetValue(cardConfig.ImageKey, out var cardImage);
+            cardsImage.TryGetValue(cardConfigJson.ImageKey, out var cardImage);
 
             if (cardImage == null)
             {
-                Debug.LogError($"Not find card image is name: {cardConfig.ImageKey}");
+                Debug.LogError($"Not find card image is name: {cardConfigJson.ImageKey}");
                 return;
             }
 
-            if (cardConfig.Nations != "Neutral")
+            if (cardConfigJson.Nations != "Neutral")
             {
-                boardGameConfig.NationsImage.TryGetValue(cardConfig.Nations, out var nationsImage);
-                card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price, nationsImage);
+                boardGameConfig.NationsImage.TryGetValue(cardConfigJson.Nations, out var nationsImage);
+                card.SetViewCard(cardImage, cardConfigJson.Header, cardConfigJson.CyberpsychosisCount, cardConfigJson.Price, nationsImage);
 
-                for (int i = 0; i < cardConfig.Count; i++)
+                for (int i = 0; i < cardConfigJson.Count; i++)
                     Object.Instantiate(boardGameConfig.ItemIconsCounterCard, card.CountCardBlock);
             }
             else
-                card.SetViewCard(cardImage, cardConfig.Header, cardConfig.CyberpsychosisCount, cardConfig.Price);
+                card.SetViewCard(cardImage, cardConfigJson.Header, cardConfigJson.CyberpsychosisCount, cardConfigJson.Price);
 
-            var isAbility_0 = cardConfig.Ability_0.AbilityType != AbilityType.None;
-            var isAbility_1 = cardConfig.Ability_1.AbilityType != AbilityType.None;
-            var isAbility_2 = cardConfig.Ability_2.AbilityType != AbilityType.None;
+            var isAbility_0 = cardConfigJson.Ability_0.AbilityType != AbilityType.None;
+            var isAbility_1 = cardConfigJson.Ability_1.AbilityType != AbilityType.None;
+            var isAbility_2 = cardConfigJson.Ability_2.AbilityType != AbilityType.None;
             var onlyOneAbility = isAbility_0 && !isAbility_1 && !isAbility_2;
             var chooseAbility = isAbility_0 && isAbility_1;
 
@@ -126,17 +126,17 @@ namespace CyberNet.Core
             if (chooseAbility && isAbility_2)
                 card.SetBigDownBlock();
             
-            if (cardConfig.Ability_0.AbilityType != AbilityType.None)
+            if (cardConfigJson.Ability_0.AbilityType != AbilityType.None)
             {
                 if (onlyOneAbility)
-                    SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility, onlyOneAbility);
+                    SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfigJson.Ability_0, boardGameConfig, chooseAbility, onlyOneAbility);
                 else
-                    SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfig.Ability_0, boardGameConfig, chooseAbility);
+                    SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfigJson.Ability_0, boardGameConfig, chooseAbility);
             }
-            if (cardConfig.Ability_1.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfig.Ability_1, boardGameConfig, chooseAbility);
-            if (cardConfig.Ability_2.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfig.Ability_2, boardGameConfig);
+            if (cardConfigJson.Ability_1.AbilityType != AbilityType.None)
+                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfigJson.Ability_1, boardGameConfig, chooseAbility);
+            if (cardConfigJson.Ability_2.AbilityType != AbilityType.None)
+                SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfigJson.Ability_2, boardGameConfig);
 
             card.CardOnBack();
         }

@@ -10,7 +10,7 @@ namespace CyberNet.Core
         public GameObject GO;
         public Transform Transform;
         public CardMono CardMono;
-        public CardConfig Stats;
+        public CardConfigJson Stats;
 
         public string Key;
         public CardNations Nations;

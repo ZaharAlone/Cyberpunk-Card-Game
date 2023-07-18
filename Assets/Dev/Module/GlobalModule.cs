@@ -27,7 +27,7 @@ namespace EcsCore
 
             var camera = Load<GameObject>("BoardGameCamera", tasks);
             var input = Load<GameObject>("Input", tasks);
-            var metaUI = Load<GameObject>("MainMenuUI", tasks);
+            var metaUI = Load<GameObject>("MetaUI", tasks);
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
@@ -48,7 +48,7 @@ namespace EcsCore
 
             world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
-            world.CreateOneData(new MainMenuData { UI = metaUIGO });
+            world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
             world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
             world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
             world.CreateOneData(new AvatarData { Avatar = avatar.Result.Avatar });

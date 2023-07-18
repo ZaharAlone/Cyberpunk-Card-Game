@@ -32,6 +32,10 @@ namespace CyberNet
         [Header("Config Card")]
         public TextAsset CardConfigJson;
 
+        [Header("Heroes Config")]
+        public TextAsset HeroesConfigJson;
+        public TextAsset AbilityConfigJson;
+
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
