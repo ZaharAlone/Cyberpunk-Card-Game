@@ -7,7 +7,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu(fileName = "Avatars", menuName = "Scriptable Object/Board Game/Avatars")]
-public class AvatarListSO : SerializedScriptableObject
+public class LeadersViewSO : SerializedScriptableObject
 {
     public Dictionary<string, Sprite> Avatar = new Dictionary<string, Sprite>();
 

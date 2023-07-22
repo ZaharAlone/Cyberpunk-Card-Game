@@ -7,12 +7,6 @@ namespace CyberNet
     [Serializable]
     public struct AbilityConfig
     {
-        public Dictionary<string, AbilityConfigJson> Ability;
-    }
-
-    [Serializable]
-    public struct AbilityConfigJson
-    {
         [JsonProperty("name")]
         public string Name;
         [JsonProperty("energy_one_use")]
@@ -23,6 +17,9 @@ namespace CyberNet
         public string Value;
         [JsonProperty("image_ability")]
         public string ImageAbility;
-
+        [JsonProperty("ability_loc_name")]
+        public string NameLoc;
+        [JsonProperty("ability_loc_descr")]
+        public string DescrLoc;
     }
 }

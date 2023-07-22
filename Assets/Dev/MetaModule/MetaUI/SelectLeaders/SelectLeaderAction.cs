@@ -1,5 +1,6 @@
 using System;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Meta
 {
@@ -9,5 +10,7 @@ namespace CyberNet.Meta
         public static Action<string> SelectLeader;
         public static Action BackMainMenu;
         public static Action StartGame;
+
+        public static Func<string, bool, Sprite> InitButtonLeader;
     }
 }

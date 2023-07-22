@@ -10,10 +10,15 @@ namespace CyberNet.Meta
         public GameObject Background;
         public GameObject Panel;
         
-        [Header("Select Leaders Frame")]
+        [Header("Select Leaders Info")]
         public Image SelectLeadersImageCard;
         public Localize SelectLeadersNameLoc;
         public Localize SelectLeadersDescrLoc;
+        
+        [Header("Select Leaders Ability")]
+        public Image SelectLeadersAbilityImage;
+        public Localize SelectLeadersAbilityNameLoc;
+        public Localize SelectLeadersAbilityDescrLoc;
 
         public void OpenWindow()
         {
@@ -27,11 +32,18 @@ namespace CyberNet.Meta
             Panel.SetActive(false);
         }
         
-        public void SetSelectViewLeaders(Sprite imageCard, string name, string descr)
+        public void SetSelectViewLeader(Sprite imageCard, string name, string descr)
         {
             SelectLeadersImageCard.sprite = imageCard;
             SelectLeadersNameLoc.Term = name;
             SelectLeadersDescrLoc.Term = descr;
+        }
+
+        public void SetSelectViewLeaderAbility(Sprite imageAbility, string name, string descr)
+        {
+            SelectLeadersAbilityImage.sprite = imageAbility;
+            SelectLeadersAbilityNameLoc.Term = name;
+            SelectLeadersAbilityDescrLoc.Term = descr;
         }
 
         public void OnClickBackMainMenu()
@@ -42,11 +54,6 @@ namespace CyberNet.Meta
         public void OnClickStartGame()
         {
             SelectLeaderAction.StartGame?.Invoke();
-        }
-
-        public void OnClickSelectLeader(string leaderName)
-        {
-            SelectLeaderAction.SelectLeader?.Invoke(leaderName);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace EcsCore
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
             var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
-            var avatar = Load<AvatarListSO>("Avatars", tasks);
+            var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
             var cardAbilitEffect = Load<CardAbilityEffect>("CardAbilityEffect", tasks);
             tasks.Add(input);
@@ -51,7 +51,7 @@ namespace EcsCore
             world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
             world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
             world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
-            world.CreateOneData(new AvatarData { Avatar = avatar.Result.Avatar });
+            world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });
             world.CreateOneData(new CardAbilityEffectData {CardAbilityEffect = cardAbilitEffect.Result});
             _resource.Add(cameraObject);

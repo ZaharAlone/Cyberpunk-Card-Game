@@ -26,6 +26,7 @@ namespace CyberNet.Core.UI
 
         public void PostRunEvent(EventBoardGameUpdate _)
         {
+            Debug.LogError("Update View Board game");
             UpdatePlayerCurrency();
             UpdateStatsPlayers();
             UpdateViewPassport();
@@ -65,14 +66,15 @@ namespace CyberNet.Core.UI
         private void UpdateViewPassport()
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var avatarData = _dataWorld.OneData<AvatarData>();
+            var leadersData = _dataWorld.OneData<LeadersViewData>();
             ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
             ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
 
-            avatarData.Avatar.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
-            avatarData.Avatar.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
-
+            leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
+            leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
+            
+            Debug.LogError("Update Avatar Image");
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 gameUI.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
