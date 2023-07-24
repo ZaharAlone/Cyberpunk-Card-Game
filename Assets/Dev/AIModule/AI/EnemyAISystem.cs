@@ -6,6 +6,7 @@ using ModulesFramework.Systems.Events;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using CyberNet.Core.UI;
 
 namespace CyberNet.Core.Enemy
 {
@@ -30,9 +31,9 @@ namespace CyberNet.Core.Enemy
             await Task.Delay(1000);
             SelectTradeCard();
             await Task.Delay(1000);
-            _dataWorld.RiseEvent(new EventActionAttack());
+            ActionButtonEvent.ActionAttackBot?.Invoke();
             await Task.Delay(1000);
-            _dataWorld.RiseEvent(new EventActionEndTurn());
+            ActionButtonEvent.ActionEndTurnBot?.Invoke();
         }
 
         private void PlayAll()

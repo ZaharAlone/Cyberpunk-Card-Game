@@ -7,30 +7,30 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class SupportWaitCardAnimationsSystem : IPreInitSystem
+    public class SupportSortingDeckCardAnimationsSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            WaitCardAnimationsAction.GetTimeSortingDeck += GetTimeSortingDeck;
-            WaitCardAnimationsAction.GetTimeCardToHand += GetTimeCardToHand;
+            SortingDeckCardAnimationsAction.GetTimeSortingDeck += GetTimeSortingDeck;
+            SortingDeckCardAnimationsAction.GetTimeCardToHand += GetTimeCardToHand;
         }
 
         public float GetTimeSortingDeck(PlayerEnum playerTarget)
         {
-            var countWait = _dataWorld.Select<WaitCardAnimationsSortingDeckComponent>().Count(); ;
+            var countWait = _dataWorld.Select<WaitEndAnimationsToStartMoveHandComponent>().Count(); ;
 
             if (countWait == 0)
                 return 0;
 
-            var entities = _dataWorld.Select<WaitCardAnimationsSortingDeckComponent>()
-                                     .Where<WaitCardAnimationsSortingDeckComponent>(wait => wait.Player == playerTarget)
+            var entities = _dataWorld.Select<WaitEndAnimationsToStartMoveHandComponent>()
+                                     .Where<WaitEndAnimationsToStartMoveHandComponent>(wait => wait.Player == playerTarget)
                                      .GetEntities();
             var waitTime = 0f;
             foreach (var entity in entities)
             {
-                var waitComponent = entity.GetComponent<WaitCardAnimationsSortingDeckComponent>();
+                var waitComponent = entity.GetComponent<WaitEndAnimationsToStartMoveHandComponent>();
                 if (waitComponent.WaitTime > waitTime)
                     waitTime = waitComponent.WaitTime;
             }
@@ -40,18 +40,18 @@ namespace CyberNet.Core
 
         public float GetTimeCardToHand(PlayerEnum playerTarget)
         {
-            var countWait = _dataWorld.Select<WaitCardAnimationsDrawHandComponent>().Count(); ;
+            var countWait = _dataWorld.Select<WaitAnimationsDrawHandCardComponent>().Count(); ;
 
             if (countWait == 0)
                 return 0;
 
-            var entities = _dataWorld.Select<WaitCardAnimationsDrawHandComponent>()
-                                     .Where<WaitCardAnimationsDrawHandComponent>(wait => wait.Player == playerTarget)
+            var entities = _dataWorld.Select<WaitAnimationsDrawHandCardComponent>()
+                                     .Where<WaitAnimationsDrawHandCardComponent>(wait => wait.Player == playerTarget)
                                      .GetEntities();
             var waitTime = 0f;
             foreach (var entity in entities)
             {
-                var waitComponent = entity.GetComponent<WaitCardAnimationsDrawHandComponent>();
+                var waitComponent = entity.GetComponent<WaitAnimationsDrawHandCardComponent>();
                 if (waitComponent.WaitTime > waitTime)
                     waitTime = waitComponent.WaitTime;
             }

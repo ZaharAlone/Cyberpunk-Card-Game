@@ -1,7 +1,4 @@
 namespace CyberNet.Core
 {
-    public struct CardSelectAbilityComponent
-    {
-        
-    }
+    public struct CardSelectAbilityComponent { }
 }

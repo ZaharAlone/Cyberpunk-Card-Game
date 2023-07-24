@@ -4,13 +4,12 @@ using ModulesFramework.Data;
 using ModulesFramework.Data.Enumerators;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using CyberNet.Core.Ability;
 using UnityEngine;
 
 namespace CyberNet.Core.Ability
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySystem : IPreInitSystem, IInitSystem
+    public class AbilitySystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
     {
         private DataWorld _dataWorld;
 
@@ -24,9 +23,13 @@ namespace CyberNet.Core.Ability
         {
             _dataWorld.CreateOneData(new AbilityData());
         }
-
-        public void PostRunEvent(EventUpdateBoardCard _) => CalculateValueCard();
-
+        
+        public void PostRunEvent(EventUpdateBoardCard _)
+        {
+            //CalculateValueCard();
+        }
+        
+        //Производим расчет карт, только когда выкладываем карты на стол
         private void CalculateValueCard()
         {
             Debug.LogError("Calculate Value Card");

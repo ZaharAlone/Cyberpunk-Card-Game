@@ -1,18 +1,19 @@
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
-using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
-using CyberNet.Core.Ability;
 using DG.Tweening;
 
 namespace CyberNet.Core.UI
 {
+    /// <summary>
+    /// Анимация карт - расположение в руке полукругом
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsCardInHand : IPostRunEventSystem<EventCardAnimationsHand>
+    public class AnimationsFanCardInHandSystem : IPostRunEventSystem<EventCardAnimationsHand>
     {
         private DataWorld _dataWorld;
 
@@ -22,16 +23,16 @@ namespace CyberNet.Core.UI
                                 .Where<CardComponent>(card => card.Player == value.TargetPlayer)
                                 .With<CardHandComponent>()
                                 .Without<CardTableComponent>()
-                                .Without<WaitCardAnimationsDrawHandComponent>()
+                                .Without<WaitAnimationsDrawHandCardComponent>()
                                 .Count();
 
             var entities = _dataWorld.Select<CardComponent>()
                                      .Where<CardComponent>(card => card.Player == value.TargetPlayer)
                                      .With<CardHandComponent>()
                                      .Without<CardTableComponent>()
-                                     .Without<WaitCardAnimationsDrawHandComponent>()
+                                     .Without<WaitAnimationsDrawHandCardComponent>()
                                      .GetEntities();
-
+            
             UpdateView(entities, countCardInHand, value.TargetPlayer);
         }
 
@@ -138,7 +139,6 @@ namespace CyberNet.Core.UI
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
-            AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
         }
     }
 }

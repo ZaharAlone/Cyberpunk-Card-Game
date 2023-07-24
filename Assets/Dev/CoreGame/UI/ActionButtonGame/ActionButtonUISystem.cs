@@ -5,20 +5,25 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.Ability;
-using ModulesFramework.Systems.Events;
 
 namespace CyberNet.Core.UI
 {
+    /// <summary>
+    /// Система управляющая Action кнопкой - позволяющей разыгрывать все карты, атаковать, заканчивать раунд
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class ActionButtonUISystem : IInitSystem, IRunSystem, IPostRunEventSystem<EventActionAttack>, IPostRunEventSystem<EventActionEndTurn>
+    public class ActionButtonUISystem : IInitSystem, IRunSystem
     {
         private DataWorld _dataWorld;
 
         public void Init()
         {
             ActionButtonEvent.ClickActionButton += ClickButton;
+            ActionButtonEvent.ActionAttackBot += Attack;
+            ActionButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
+        //TO-DO перевести на ивент
         public void Run()
         {
             var round = _dataWorld.OneData<RoundData>();
@@ -55,17 +60,7 @@ namespace CyberNet.Core.UI
                 actionPlayer.ActionType = ActionType.EndTurn;
             }
         }
-
-        public void PostRunEvent(EventActionAttack _)
-        {
-            Attack();
-        }
-
-        public void PostRunEvent(EventActionEndTurn _)
-        {
-            EndTurn();
-        }
-
+        
         private void ClickButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<AbilityData>();
@@ -125,7 +120,6 @@ namespace CyberNet.Core.UI
             actionData.SpendAttack += valueAttack;
             
             AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
-            //_dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)

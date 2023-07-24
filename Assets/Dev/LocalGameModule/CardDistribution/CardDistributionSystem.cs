@@ -48,15 +48,14 @@ namespace CyberNet.Core
         private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
-            var viewData = _dataWorld.OneData<ViewPlayerData>();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
             entity.AddComponent(new CardDistributionComponent());
-            var waitTimeAnim = WaitCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
-            waitTimeAnim += 0.25f;
-            entity.AddComponent(new WaitCardAnimationsDrawHandComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });
+            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
+            waitTimeAnim += 0.175f;
+            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });
             cardComponent.CardMono.ShowCard();
         }
     }
