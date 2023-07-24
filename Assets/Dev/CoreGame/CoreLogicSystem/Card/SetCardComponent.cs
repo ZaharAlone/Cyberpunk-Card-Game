@@ -16,7 +16,7 @@ namespace CyberNet.Core
                 CardMono = cardMono,
                 Key = stats.Name,
                 Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
-                CyberpsychosisCount = stats.CyberpsychosisCount,
+                DestroyPointCount = stats.CyberpsychosisCount,
                 Price = stats.Price,
                 Ability_0 = stats.Ability_0,
                 Ability_1 = stats.Ability_1,

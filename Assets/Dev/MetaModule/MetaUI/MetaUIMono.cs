@@ -11,5 +11,6 @@ namespace CyberNet.Meta
         public CampaignUIMono CampaignUIMono;
         public SelectLeadersUIMono SelectLeadersUIMono;
         public OnlineGameUIMono OnlineGameUIMono;
+        public VSScreenUIMono VSScreenUIMono;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core
 {
@@ -14,7 +15,7 @@ namespace CyberNet.Core
 
         public string Key;
         public CardNations Nations;
-        public int CyberpsychosisCount;
+        public int DestroyPointCount;
         public int Price;
 
         public AbilityCard Ability_0;

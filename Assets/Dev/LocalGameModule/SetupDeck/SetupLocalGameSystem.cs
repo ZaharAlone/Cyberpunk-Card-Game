@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CyberNet.Core
 {
@@ -16,7 +17,6 @@ namespace CyberNet.Core
         {
             SetupCard();
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
         //Инициализируем все карты

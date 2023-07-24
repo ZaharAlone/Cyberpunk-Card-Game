@@ -6,6 +6,7 @@ using ModulesFramework.Systems.Events;
 using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
+using CyberNet.Core.Ability;
 using DG.Tweening;
 
 namespace CyberNet.Core.UI
@@ -137,6 +138,7 @@ namespace CyberNet.Core.UI
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
+            AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
         }
     }
 }

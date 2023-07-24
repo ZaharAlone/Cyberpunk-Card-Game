@@ -123,7 +123,9 @@ namespace CyberNet.Core.UI
             ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
             SoundAction.PlaySound?.Invoke(soundData.AttackSound);
             actionData.SpendAttack += valueAttack;
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            
+            AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
+            //_dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)

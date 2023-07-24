@@ -15,32 +15,56 @@ namespace CyberNet.Meta
 
         public void PreInit()
         {
-            SelectLeaderAction.OpenSelectLeaderUI += OpenSelectLeaderUI;
+            SelectLeaderAction.OpenSelectLeaderUI += OpenFirstSelectLeaderUI;
             SelectLeaderAction.SelectLeader += SelectLeaderView;
             SelectLeaderAction.BackMainMenu += BackMainMenu;
             SelectLeaderAction.StartGame += StartGame;
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
+        private void OpenFirstSelectLeaderUI(GameModeEnum gameModeEnum)
+        {
+            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
+            uiSelectLeader.OpenWindow(gameModeEnum);
+
+            _dataWorld.CreateOneData(new SelectLeadersData {SelectGameMode = gameModeEnum });
+        }
+        
+        private void OpenSecondSelectLeaderUI()
+        {
+            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
+            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
+            uiSelectLeader.OpenWindow(selectLeaderData.SelectGameMode);
+        }
+        
         private void StartGame()
         {
-            var entitySelectLeader = _dataWorld.Select<SelectLeadersComponent>().SelectFirstEntity();
-            var componentSelectLeader = entitySelectLeader.GetComponent<SelectLeadersComponent>();
-
-            switch (componentSelectLeader.SelectGameMode)
+            ref var selectLeadersData = ref _dataWorld.OneData<SelectLeadersData>();
+            var isNextSelectPlayer2 = false;
+            
+            switch (selectLeadersData.SelectGameMode)
             {
                 case GameModeEnum.Campaign:
                     break;
                 case GameModeEnum.LocalVSAI:
-                    StartGameAction.StartGameLocalVSAI?.Invoke(componentSelectLeader.CurrentSelectLeader);
+                    StartGameAction.StartGameLocalVSAI?.Invoke(selectLeadersData.CurrentSelectLeader_Player1);
                     break;
                 case GameModeEnum.LocalVSPlayer:
+                    isNextSelectPlayer2 = true;
+                    selectLeadersData.SelectGameMode = GameModeEnum.LocalVSPlayer2;
+                    OpenSecondSelectLeaderUI();
+                    break;
+                case GameModeEnum.LocalVSPlayer2:
+                    StartGameAction.StartGameLocalVSPlayer?.Invoke(selectLeadersData.CurrentSelectLeader_Player1, selectLeadersData.CurrentSelectLeader_Player2);
                     break;
                 case GameModeEnum.OnlineGame:
                     break;
             }
-            
-            entitySelectLeader.Destroy();
-            CloseSelectLeader();
+
+            if (!isNextSelectPlayer2)
+            {
+                _dataWorld.RemoveOneData<SelectLeadersData>();
+                CloseSelectLeader();   
+            }
         }
 
         private void SelectLeaderView(string nameLeader)
@@ -77,26 +101,21 @@ namespace CyberNet.Meta
 
         private void WriteInComponentSelectLeader(string nameLeader)
         {
-            var selectLeaderEntity = _dataWorld.Select<SelectLeadersComponent>().SelectFirstEntity();
-            ref var selectLeaderComponent = ref selectLeaderEntity.GetComponent<SelectLeadersComponent>();
-            selectLeaderComponent.CurrentSelectLeader = nameLeader;
-        }
-        
-        private void OpenSelectLeaderUI(GameModeEnum gameModeEnum)
-        {
-            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
-            uiSelectLeader.OpenWindow();
-
-            var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new SelectLeadersComponent {
-                SelectGameMode = gameModeEnum
-            });
+            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
+            if (selectLeaderData.SelectGameMode != GameModeEnum.LocalVSPlayer2)
+            {
+                selectLeaderData.CurrentSelectLeader_Player1 = nameLeader;
+            }
+            else
+            {
+                selectLeaderData.CurrentSelectLeader_Player2 = nameLeader;
+            }
         }
 
         private void BackMainMenu()
         {
             MainMenuAction.OpenMainMenu?.Invoke();
-            _dataWorld.Select<SelectLeadersComponent>().SelectFirstEntity().Destroy();
+            _dataWorld.RemoveOneData<SelectLeadersData>();
             CloseSelectLeader();
         }
 

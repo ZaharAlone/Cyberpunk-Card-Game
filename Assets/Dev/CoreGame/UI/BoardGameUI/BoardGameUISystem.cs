@@ -11,7 +11,7 @@ using UnityEngine;
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
@@ -24,9 +24,18 @@ namespace CyberNet.Core.UI
             canvas.worldCamera = camera.MainCamera;
         }
 
+        public void Init()
+        {
+            UpdateView();
+        }
+
         public void PostRunEvent(EventBoardGameUpdate _)
         {
-            Debug.LogError("Update View Board game");
+            UpdateView();
+        }
+
+        private void UpdateView()
+        {
             UpdatePlayerCurrency();
             UpdateStatsPlayers();
             UpdateViewPassport();
@@ -74,7 +83,6 @@ namespace CyberNet.Core.UI
             leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
             leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
             
-            Debug.LogError("Update Avatar Image");
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 gameUI.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);

@@ -44,7 +44,7 @@ namespace CyberNet.Core
             if (cardComponent.Ability_1.AbilityType == AbilityType.None)
             {
                 entity.RemoveComponent<CardSelectAbilityComponent>();
-                entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_1});
+                entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_0});
                 isOneAbility = true;
             }
             else
@@ -79,12 +79,12 @@ namespace CyberNet.Core
         
         private void SelectFirstAbility()
         {
-            SelectConfimAbility(SelectAbilityEnum.Ability_1);
+            SelectConfimAbility(SelectAbilityEnum.Ability_0);
         }
 
         private void SelectSecondAbility()
         {
-            SelectConfimAbility(SelectAbilityEnum.Ability_2);
+            SelectConfimAbility(SelectAbilityEnum.Ability_1);
         }
 
         private void SelectConfimAbility(SelectAbilityEnum targetAbility)
@@ -92,7 +92,7 @@ namespace CyberNet.Core
             var entity = _dataWorld.Select<CardSelectAbilityComponent>().With<SelectPlayerAbilityComponent>().SelectFirstEntity();
             entity.RemoveComponent<CardSelectAbilityComponent>();
             entity.RemoveComponent<SelectPlayerAbilityComponent>();
-            entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_1});
+            entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_0});
             var uiSelectAbility = _dataWorld.OneData<UIData>().UIMono.SelectAbilityUIMono;
             uiSelectAbility.CloseFrame();
         }

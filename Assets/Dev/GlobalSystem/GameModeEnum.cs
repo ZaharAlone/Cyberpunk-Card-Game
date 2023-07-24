@@ -5,6 +5,7 @@ namespace CyberNet.Global
         Campaign,
         LocalVSAI,
         LocalVSPlayer,
+        LocalVSPlayer2,
         OnlineGame
     }
 }

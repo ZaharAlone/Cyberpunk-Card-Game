@@ -10,20 +10,26 @@ using UnityEngine;
 namespace CyberNet.Core.Ability
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySystem : IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
+    public class AbilitySystem : IPreInitSystem, IInitSystem
     {
         private DataWorld _dataWorld;
 
+        public void PreInit()
+        {
+            AbilityEvent.UpdateValueResourcePlayedCard += CalculateValueCard;
+            AbilityEvent.ClearActionView += ClearAction;
+        }
+        
         public void Init()
         {
             _dataWorld.CreateOneData(new AbilityData());
-            AbilityEvent.ClearActionView += ClearAction;
         }
 
         public void PostRunEvent(EventUpdateBoardCard _) => CalculateValueCard();
 
         private void CalculateValueCard()
         {
+            Debug.LogError("Calculate Value Card");
             ClearData();
             
             var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
@@ -33,10 +39,10 @@ namespace CyberNet.Core.Ability
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 ref var selectAbility = ref entity.GetComponent<CardTableComponent>().SelectAbility;
 
-                if (selectAbility == SelectAbilityEnum.Ability_1)
-                    AbilityAppointmentComponent(cardComponent.Ability_0, entity);
+                if (selectAbility == SelectAbilityEnum.Ability_0)
+                    AddAbilityComponent(cardComponent.Ability_0, entity);
                 else
-                    AbilityAppointmentComponent(cardComponent.Ability_1, entity);
+                    AddAbilityComponent(cardComponent.Ability_1, entity);
 
                 CheckComboEffect(cardComponent, entities);
             }
@@ -53,15 +59,16 @@ namespace CyberNet.Core.Ability
 
                 if (cardComponentDeck.Nations == cardComponent.Nations)
                 {
-                    AbilityAppointmentComponent(cardComponent.Ability_2, entity);
+                    AddAbilityComponent(cardComponent.Ability_2, entity);
                     break;
                 }
             }
         }
 
         //Add component ability
-        private void AbilityAppointmentComponent(AbilityCard abilityCard, Entity entity)
+        private void AddAbilityComponent(AbilityCard abilityCard, Entity entity)
         {
+            Debug.LogError("Add Ability Component");
             ref var actionData = ref _dataWorld.OneData<AbilityData>();
             
             switch (abilityCard.AbilityType)
@@ -93,8 +100,6 @@ namespace CyberNet.Core.Ability
                 case AbilityType.DestroyTradeCard:
                     break;
                 case AbilityType.DestroyEnemyBase:
-                    break;
-                case AbilityType.None:
                     break;
             }
         }

@@ -8,7 +8,7 @@ namespace CyberNet.Core
 
     public enum SelectAbilityEnum
     {
+        Ability_0,
         Ability_1,
-        Ability_2,
     }
 }
