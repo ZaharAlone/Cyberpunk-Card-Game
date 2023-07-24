@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace CyberNet.Meta
 {
-    public class VSScreenUIMono : MonoBehaviour
+    public class LoadingVSScreenUIMono : MonoBehaviour
     {
         public GameObject Background;
         public GameObject Panel;

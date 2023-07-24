@@ -122,7 +122,7 @@ MonoBehaviour:
   CampaignUIMono: {fileID: 6575633600536326575}
   SelectLeadersUIMono: {fileID: 3414649511333456153}
   OnlineGameUIMono: {fileID: 6679755281649923027}
-  VSScreenUIMono: {fileID: 2089754082659208302}
+  loadingVSScreenUIMono: {fileID: 2089754082659208302}
 --- !u!1001 &2835846505100109539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -693,7 +693,7 @@ PrefabInstance:
     - target: {fileID: 164587263008477287, guid: e1fbdbb36698fe24c8bcb0c9b2d85b91,
         type: 3}
       propertyPath: m_Name
-      value: vs_block
+      value: loading_vs_block
       objectReference: {fileID: 0}
     - target: {fileID: 5551278220749639662, guid: e1fbdbb36698fe24c8bcb0c9b2d85b91,
         type: 3}

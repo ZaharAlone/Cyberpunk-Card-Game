@@ -27,7 +27,7 @@ namespace CyberNet.Meta
         {
             SelectAvatarPlayer(nameLeader, PlayerEnum.Player1);
             SelectViewBot();
-            ViewVSSCreen();
+            LoadingVSScreenAction.OpenLoadingVSScreen?.Invoke();
             
             ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
             ModulesUnityAdapter.world.InitModule<VSAIModule>(true);
@@ -70,22 +70,6 @@ namespace CyberNet.Meta
             playerView.LeaderKey = leadersConfig.Name;
             playerView.Name =  I2.Loc.LocalizationManager.GetTranslation(leadersConfig.NameLoc);
             playerView.AvatarKey = leadersConfig.imageAvatarLeader;
-        }
-
-        private void ViewVSSCreen()
-        {
-            ref var playerView_1 = ref _dataWorld.OneData<Player1ViewData>();
-            ref var playerView_2 = ref _dataWorld.OneData<Player2ViewData>();
-            ref var uiVSScreen = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.VSScreenUIMono;
-            ref var leadersConfigData = ref _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
-            ref var leadersView = ref _dataWorld.OneData<LeadersViewData>().LeadersView;
-            leadersConfigData.TryGetValue(playerView_1.LeaderKey, out var playerConfig_1);
-            leadersConfigData.TryGetValue(playerView_2.LeaderKey, out var playerConfig_2);
-            leadersView.TryGetValue(playerConfig_1.ImageCardLeaders, out var player1CardSprite);
-            leadersView.TryGetValue(playerConfig_2.ImageCardLeaders, out var player2CardSprite);
-
-            uiVSScreen.SetLeader(player1CardSprite, player2CardSprite);
-            uiVSScreen.OpenWindow();
         }
     }
 }
