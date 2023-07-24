@@ -163,6 +163,8 @@ namespace CyberNet.Core.UI
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new WaitEndRoundComponent());
+            
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             AbilityEvent.ClearActionView.Invoke();
         }
     }

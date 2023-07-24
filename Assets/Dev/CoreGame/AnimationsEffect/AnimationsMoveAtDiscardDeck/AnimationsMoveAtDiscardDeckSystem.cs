@@ -2,69 +2,25 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
 using UnityEngine;
-using ModulesFramework.Data.Enumerators;
-using DG.Tweening;
+using System;
 using System.Threading.Tasks;
+using CyberNet.Core.UI;
+using DG.Tweening;
+using ModulesFramework.Data.Enumerators;
 
-namespace CyberNet.Core.UI
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardInteractiveSystem : IRunSystem, IPostRunEventSystem<EventUpdateBoardCard>
+    public class AnimationsMoveAtDiscardDeckSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void Run()
+        public void PreInit()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().GetEntities();
-
-            foreach (var entity in entities)
-            {
-                ref var componentMove = ref entity.GetComponent<InteractiveMoveComponent>();
-                ref var componentCard = ref entity.GetComponent<CardComponent>();
-
-                var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
-                var ui = _dataWorld.OneData<UIData>();
-
-                if (distance > 150)
-                    ui.UIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
-                else
-                    ui.UIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 0);
-            }
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck += UpdateDiscardHub;
         }
-
-        public void PostRunEvent(EventUpdateBoardCard _)
-        {
-            UpdateTableCards();
-            UpdateDiscardHub();
-        }
-
-        private void UpdateTableCards()
-        {
-            var countCard = _dataWorld.Select<CardComponent>().With<CardTableComponent>().Count();
-            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
-            var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-
-            var width = (204 + 30) * (countCard - 1);
-            var start_point = width / -2;
-
-            foreach (var entity in entities)
-            {
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Transform.rotation = Quaternion.identity;
-                var pos = config.PlayerCardPositionInPlay;
-                pos.x = start_point;
-
-                cardComponent.CardMono.SetMovePositionAnimations(pos, config.SizeCardInTable);
-                cardComponent.CardMono.CardOnFace();
-
-                start_point += (int)(234 * config.SizeCardInTable.x);
-            }
-        }
-
+        
         private void UpdateDiscardHub()
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
@@ -96,7 +52,6 @@ namespace CyberNet.Core.UI
         {
             foreach (var entity in entities)
             {
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 AnimationsMoveAtDiscardDeckCorotine(entity, position, size);
             }
         }

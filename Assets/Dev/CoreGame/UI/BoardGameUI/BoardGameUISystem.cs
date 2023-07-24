@@ -7,6 +7,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using CyberNet.Core.Ability;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI
 {
@@ -17,13 +18,19 @@ namespace CyberNet.Core.UI
 
         public void PreInit()
         {
+            InitCameraCanvas();
+            
+            BoardGameUIAction.UpdateStatsPlayerUI += UpdateStatsPlayers;
+        }
+        
+        private void InitCameraCanvas()
+        {
             var gameUI = _dataWorld.OneData<UIData>();
             var camera = _dataWorld.OneData<BoardGameCameraComponent>();
 
             var canvas = gameUI.UIGO.GetComponent<Canvas>();
             canvas.worldCamera = camera.MainCamera;
         }
-
         public void Init()
         {
             UpdateView();
@@ -37,7 +44,6 @@ namespace CyberNet.Core.UI
         private void UpdateView()
         {
             UpdatePlayerCurrency();
-            UpdateStatsPlayers();
             UpdateViewPassport();
             UpdateCountCard();
         }

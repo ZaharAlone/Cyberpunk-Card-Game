@@ -1,7 +1,4 @@
 namespace CyberNet.Core
 {
-    public struct SelectPlayerAbilityComponent
-    {
-        
-    }
+    public struct SelectPlayerAbilityComponent { }
 }

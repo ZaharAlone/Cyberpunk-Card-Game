@@ -49,7 +49,7 @@ namespace CyberNet.Core.Enemy
                 entity.AddComponent(new CardTableComponent());
             }
 
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
 
         private void SelectTradeCard()

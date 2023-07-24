@@ -29,6 +29,10 @@ namespace CyberNet.Core
             if (selectPlayerAbilityCard != 0)
                 return;
             
+            var cardSelectPlayerAbilityCard = _dataWorld.Select<CardSelectAbilityComponent>().Count();   
+            if (cardSelectPlayerAbilityCard == 0)
+                return;
+            
             var entities = _dataWorld.Select<CardSelectAbilityComponent>().GetEntities();
 
             foreach (var entity in entities)
@@ -37,6 +41,8 @@ namespace CyberNet.Core
                 if (!isOneAbility)
                     break;
             }
+            
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
 
         private bool SelectAbility(Entity entity)
@@ -56,8 +62,6 @@ namespace CyberNet.Core
                 OpenUISelectAbilityCard(cardComponent);
                 return isOneAbility;
             }
-
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
             return isOneAbility;
         }
 
@@ -98,6 +102,7 @@ namespace CyberNet.Core
             entity.AddComponent(new CardTableComponent { SelectAbility = targetAbility});
             var uiSelectAbility = _dataWorld.OneData<UIData>().UIMono.SelectAbilityUIMono;
             uiSelectAbility.CloseFrame();
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
     }
 }

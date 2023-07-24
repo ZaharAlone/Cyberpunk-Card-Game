@@ -111,7 +111,7 @@ namespace CyberNet.Core
                 cardComponent.Canvas.sortingOrder = 2;
 
                 var view = _dataWorld.OneData<ViewPlayerData>();
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
                 _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = view.PlayerView });
             }
             else
@@ -143,7 +143,9 @@ namespace CyberNet.Core
 
                 componentCard.Player = roundPlayer.CurrentPlayer;
                 entity.AddComponent(new CardMoveToDiscardComponent());
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                
+                BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
+                AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             }
             else
             {

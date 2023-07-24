@@ -1,3 +1,4 @@
+using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace CyberNet.Core.Ability
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventUpdateBoardCard>
+    public class AbilitySystem : IPreInitSystem, IInitSystem
     {
         private DataWorld _dataWorld;
 
@@ -22,11 +23,6 @@ namespace CyberNet.Core.Ability
         public void Init()
         {
             _dataWorld.CreateOneData(new AbilityData());
-        }
-        
-        public void PostRunEvent(EventUpdateBoardCard _)
-        {
-            //CalculateValueCard();
         }
         
         //Производим расчет карт, только когда выкладываем карты на стол
@@ -49,6 +45,8 @@ namespace CyberNet.Core.Ability
 
                 CheckComboEffect(cardComponent, entities);
             }
+
+            BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
         }
         
         private void CheckComboEffect(CardComponent cardComponent, EntitiesEnumerable entities)
@@ -132,6 +130,8 @@ namespace CyberNet.Core.Ability
             actionData.SpendAttack = 0;
             actionData.SpendTrade = 0;
             actionData.SpendInfluence = 0;
+            
+            BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
         }
     }
 }
