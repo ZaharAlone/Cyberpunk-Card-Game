@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     public static class SetCardComponent
     {
-        public static CardComponent Set(GameObject go, CardConfig stats, CardMono cardMono)
+        public static CardComponent Set(GameObject go, CardConfigJson stats, CardMono cardMono)
         {
             var component = new CardComponent
             {
@@ -16,10 +16,11 @@ namespace BoardGame.Core
                 CardMono = cardMono,
                 Key = stats.Name,
                 Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
-                CyberpsychosisCount = stats.CyberpsychosisCount,
+                DestroyPointCount = stats.CyberpsychosisCount,
                 Price = stats.Price,
                 Ability_0 = stats.Ability_0,
                 Ability_1 = stats.Ability_1,
+                Ability_2 = stats.Ability_2
             };
 
             component.CardMono.InteractiveCard.GUID = component.GUID;

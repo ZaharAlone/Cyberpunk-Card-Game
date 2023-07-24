@@ -4,10 +4,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System;
-using BoardGame.Core;
-using BoardGame.Core.UI;
+using CyberNet.Core;
+using CyberNet.Core.UI;
 
-namespace BoardGame.Local
+namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
     public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>
@@ -45,13 +45,18 @@ namespace BoardGame.Local
                 roundData.CurrentPlayer = PlayerEnum.Player1;
 
             _dataWorld.RiseEvent(new EventUpdateRound());
-            UpdateUIRound();
+            UpdateUIRound(roundData.CurrentPlayer);
         }
 
-        private void UpdateUIRound()
+        private void UpdateUIRound(PlayerEnum playersRound)
         {
+            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
             ref var ui = ref _dataWorld.OneData<UIData>().UIMono;
-            ui.ChangeRoundUI.OnNewRound();
+            
+            if (playersRound == viewPlayer.PlayerView)
+                ui.ChangeRoundUI.PlayerRound();
+            else
+                ui.ChangeRoundUI.EnemyRound();
         }
     }
 }

@@ -5,12 +5,13 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
+using CyberNet.Core.Ability;
 using UnityEngine;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
     {
         private DataWorld _dataWorld;
 
@@ -23,7 +24,17 @@ namespace BoardGame.Core.UI
             canvas.worldCamera = camera.MainCamera;
         }
 
+        public void Init()
+        {
+            UpdateView();
+        }
+
         public void PostRunEvent(EventBoardGameUpdate _)
+        {
+            UpdateView();
+        }
+
+        private void UpdateView()
         {
             UpdatePlayerCurrency();
             UpdateStatsPlayers();
@@ -33,7 +44,7 @@ namespace BoardGame.Core.UI
 
         private void UpdatePlayerCurrency()
         {
-            ref var actionValue = ref _dataWorld.OneData<ActionData>();
+            ref var actionValue = ref _dataWorld.OneData<AbilityData>();
             ref var gameUI = ref _dataWorld.OneData<UIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
@@ -64,14 +75,14 @@ namespace BoardGame.Core.UI
         private void UpdateViewPassport()
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var avatarData = _dataWorld.OneData<AvatarData>();
+            var leadersData = _dataWorld.OneData<LeadersViewData>();
             ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
             ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
 
-            avatarData.Avatar.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
-            avatarData.Avatar.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
-
+            leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
+            leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
+            
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 gameUI.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);

@@ -4,9 +4,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
+using CyberNet.Core.Ability;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class CardShopSystem : IActivateSystem, IPostRunEventSystem<EventBoardGameUpdate>
@@ -93,7 +94,7 @@ namespace BoardGame.Core
             ClearComponentInShop();
 
             var enteties = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
-            var action = _dataWorld.OneData<ActionData>();
+            var action = _dataWorld.OneData<AbilityData>();
             var tradePoint = action.TotalTrade - action.SpendTrade;
 
             foreach (var entity in enteties)

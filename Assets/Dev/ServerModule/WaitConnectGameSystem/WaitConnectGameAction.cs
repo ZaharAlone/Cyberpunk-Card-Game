@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace BoardGame.Server
+namespace CyberNet.Server
 {
     public static class WaitConnectGameAction
     {

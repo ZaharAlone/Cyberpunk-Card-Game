@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
-using BoardGame.Meta;
+using CyberNet.Meta;
 using UnityEngine;
-using BoardGame.Core;
-using BoardGame;
+using CyberNet.Core;
+using CyberNet;
+using CyberNet.Core.Ability;
+using CyberNet.Core.Sound;
 
 namespace EcsCore
 {
@@ -25,11 +27,14 @@ namespace EcsCore
 
             var camera = Load<GameObject>("BoardGameCamera", tasks);
             var input = Load<GameObject>("Input", tasks);
-            var metaUI = Load<GameObject>("MainMenuUI", tasks);
+            var metaUI = Load<GameObject>("MetaUI", tasks);
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
-            var avatar = Load<AvatarListSO>("Avatars", tasks);
+            var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
+            var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
+            var soundList = Load<SoundList>("SoundList", tasks);
+            var cardAbilitEffect = Load<CardAbilityEffect>("CardAbilityEffect", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -43,10 +48,12 @@ namespace EcsCore
 
             world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
-            world.CreateOneData(new MainMenuData { UI = metaUIGO });
+            world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
             world.CreateOneData(new PopupData { UIMono = popupUIGO.GetComponent<PopupUIMono>() });
-            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result });
-            world.CreateOneData(new AvatarData { Avatar = avatar.Result.Avatar });
+            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
+            world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
+            world.CreateOneData(new SoundData { Sound = soundList.Result });
+            world.CreateOneData(new CardAbilityEffectData {CardAbilityEffect = cardAbilitEffect.Result});
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

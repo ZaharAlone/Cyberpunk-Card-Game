@@ -5,12 +5,11 @@ using Newtonsoft.Json;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFrameworkUnity;
 
-namespace BoardGame
+namespace CyberNet
 {
     /// <summary>
-    /// Читаем Json с конфигом кард и записываем его в компонент
+    /// Р§РёС‚Р°РµРј Json СЃ РєРѕРЅС„РёРіРѕРј РєР°СЂРґ Рё Р·Р°РїРёСЃС‹РІР°РµРј РµРіРѕ РІ РєРѕРјРїРѕРЅРµРЅС‚
     /// </summary>
     [EcsSystem(typeof(GlobalModule))]
     public class CardsConfigExtract : IPreInitSystem
@@ -20,7 +19,7 @@ namespace BoardGame
         public void PreInit()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfig>>(boardGameData.BoardGameConfig.CardConfigJson.text);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(boardGameData.BoardGameConfig.CardConfigJson.text);
             _dataWorld.CreateOneData(new CardsConfig { Cards = dictionary });
         }
     }

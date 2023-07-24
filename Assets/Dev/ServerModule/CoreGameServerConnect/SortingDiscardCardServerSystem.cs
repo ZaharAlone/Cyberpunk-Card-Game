@@ -6,7 +6,7 @@ using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(ServerModule))]
     public class SortingDiscardCardServerSystem : IInitSystem

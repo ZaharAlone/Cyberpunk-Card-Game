@@ -1,9 +1,10 @@
+using CyberNet.Core.Ability;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems.Events;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
     public class CardControlIsInteractiveVFXSystem : IPostRunEventSystem<EventUpdateBoardCard>
@@ -33,7 +34,7 @@ namespace BoardGame.Core.UI
                                                .With<CardDiscardComponent>()
                                                .GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
-            var actionValue = _dataWorld.OneData<ActionData>();
+            var actionValue = _dataWorld.OneData<AbilityData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)

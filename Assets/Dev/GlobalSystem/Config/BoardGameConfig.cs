@@ -3,31 +3,42 @@ using UnityEngine.UI;
 using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using BoardGame.Core;
+using CyberNet.Core;
+using UnityEngine.Serialization;
 
-namespace BoardGame
+namespace CyberNet
 {
     [CreateAssetMenu(fileName = "BoardGameConfig", menuName = "Scriptable Object/Board Game/Board Game Config")]
     public class BoardGameConfig : SerializedScriptableObject
     {
         [Header("Prefab")]
         public GameObject TablePrefab;
-        public CardMono CardMono;
+        public CardMono CardUnit;
+        public CardMono CardBase;
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;
-        public Image IconsArrowBaseAbility;
+        public TextMeshProUGUI TextBaseAbilityCountItem;
         public Image IconsArrowConditionAbility;
         public TextMeshProUGUI TextBaseAbility;
         public GameObject ItemIconsCounterCard;
+        public GameObject IconsArrowChooseAbility;
+
+        [Header("Color Resource")]
+        public Color32 ColorAttackText;
+        public Color32 ColorTradeText;
+        public Color32 ColorInfluenceText;
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;
 
+        [Header("Heroes Config")]
+        public TextAsset HeroesConfigJson;
+        public TextAsset AbilityConfigJson;
+
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
-        public Dictionary<string, Sprite> CardImage;
 
         public float StepPosXPlayerDown = 210f;
         public float StepPosXPlayerUp = 170f;

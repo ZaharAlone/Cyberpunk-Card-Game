@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     public class PopupUIMono : MonoBehaviour
     {

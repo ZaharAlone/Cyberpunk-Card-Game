@@ -3,7 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(PassAndPlayModule))]
     public class PassAndPlayInitViewSystem : IActivateSystem

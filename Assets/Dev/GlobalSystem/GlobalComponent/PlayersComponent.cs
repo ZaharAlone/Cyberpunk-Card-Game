@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
 	[Serializable]
 	public struct PlayersComponent

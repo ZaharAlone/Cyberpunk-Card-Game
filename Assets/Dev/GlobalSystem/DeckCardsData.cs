@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [Serializable]
     public struct DeckCardsData

@@ -1,4 +1,5 @@
-using BoardGame.Core.UI;
+using CyberNet.Core.Ability;
+using CyberNet.Core.UI;
 using EcsCore;
 using Input;
 using ModulesFrameworkUnity;
@@ -8,7 +9,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
     public class InteractiveMoveCardSystem : IInitSystem, IRunSystem, IDestroySystem
@@ -106,7 +107,7 @@ namespace BoardGame.Core
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
 
-                entity.AddComponent(new CardTableComponent());
+                entity.AddComponent(new CardSelectAbilityComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
                 var view = _dataWorld.OneData<ViewPlayerData>();
@@ -129,7 +130,7 @@ namespace BoardGame.Core
             if (distance < -50)
             {
                 Debug.LogError("Buy card");
-                ref var actionValue = ref _dataWorld.OneData<ActionData>();
+                ref var actionValue = ref _dataWorld.OneData<AbilityData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
 

@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.Serialization;
 
-namespace BoardGame
+namespace CyberNet
 {
     [Serializable]
     public struct CardsConfig
     {
-        public Dictionary<string, CardConfig> Cards;
+        public Dictionary<string, CardConfigJson> Cards;
     }
 
     [Serializable]
-    public struct CardConfig
+    public struct CardConfigJson
     {
         [JsonProperty("name")]
         public string Name;
@@ -32,18 +33,24 @@ namespace BoardGame
         public int Price;
         [JsonProperty("count")]
         public int Count;
+        [JsonProperty("type")]
+        public TypeCard Type;
+        [JsonProperty("shield")]
+        public int Shield;
 
         [JsonProperty("ability_0")]
         public AbilityCard Ability_0;
         [JsonProperty("ability_1")]
         public AbilityCard Ability_1;
+        [JsonProperty("ability_2")]
+        public AbilityCard Ability_2;
     }
 
     [Serializable]
     public struct AbilityCard
     {
         [JsonProperty("action")]
-        public AbilityAction Action;
+        public AbilityType AbilityType;
         [JsonProperty("count")]
         public int Count;
         [JsonProperty("condition")]
@@ -51,33 +58,38 @@ namespace BoardGame
     }
 
     [Serializable]
-    public enum AbilityAction
+    public enum AbilityType
     {
         None,
-        attack,
-        trade,
-        influence,
-        drawCard,
-        discardCard,
-        destroyCard,
-        up—yberpsychosis,
-        downCyberpsychosis,
-        cloneCard,
-        noiseCard,
-        thiefCard
+        Attack,
+        Trade,
+        Influence,
+        DrawCard,
+        DiscardCardEnemy,
+        DestroyCard,
+        DownCyberpsychosisEnemy,
+        CloneCard,
+        NoiseCard,
+        ThiefCard,
+        DestroyTradeCard,
+        DestroyEnemyBase
     }
 
     [Serializable]
     public enum AbilityCondition
     {
         None,
-        cyberpsychosis_5,
-        cyberpsychosis_10,
-        cyberpsychosis_15,
-        doubleCorporates,
-        doubleGuns,
-        doubleNomads,
-        doubleNetrunners,
-        destroyCard,
+        Corporates,
+        Guns,
+        Nomads,
+        Netrunners,
+        Destroy
+    }
+
+    [Serializable]
+    public enum TypeCard
+    {
+        Unit,
+        Base
     }
 }

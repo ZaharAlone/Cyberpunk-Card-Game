@@ -1,4 +1,4 @@
-namespace BoardGame
+namespace CyberNet
 {
     public enum CardNations
     {

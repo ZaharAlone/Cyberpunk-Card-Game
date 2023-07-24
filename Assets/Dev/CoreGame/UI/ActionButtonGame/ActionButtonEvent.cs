@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace BoardGame.Core.UI
+namespace CyberNet.Core.UI
 {
     public static class ActionButtonEvent
     {

@@ -6,7 +6,7 @@ using ModulesFrameworkUnity;
 using UnityEngine;
 using System;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     [EcsSystem(typeof(MetaModule))]
     public class PopupSystem : IInitSystem

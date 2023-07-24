@@ -4,8 +4,9 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace BoardGame.Core
+namespace CyberNet.Core
 {
     [EcsSystem(typeof(LocalGameModule))]
     public class SetupLocalGameSystem : IPreInitSystem
@@ -16,10 +17,9 @@ namespace BoardGame.Core
         {
             SetupCard();
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
         }
 
-        //Инициализируем все карты
+        //РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІСЃРµ РєР°СЂС‚С‹
         private void SetupCard()
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();

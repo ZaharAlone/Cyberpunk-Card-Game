@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BoardGame.Meta
+namespace CyberNet.Meta
 {
     public struct PopupData
     {
