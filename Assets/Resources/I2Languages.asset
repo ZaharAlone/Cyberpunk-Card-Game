@@ -17,7 +17,225 @@ MonoBehaviour:
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
     mTerms:
-    - Term: BoardGameUI/$bg_play_all_name
+    - Term: Global/$ok_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Ok
+      - "\u0425\u043E\u0440\u043E\u0448\u043E"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$clear_key
+      TermType: 0
+      Description: 
+      Languages:
+      - ' '
+      - ' '
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$back
+      TermType: 0
+      Description: 
+      Languages:
+      - Back
+      - "\u041D\u0430\u0437\u0430\u0434"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$yes
+      TermType: 0
+      Description: 
+      Languages:
+      - Yes
+      - "\u0414\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$no
+      TermType: 0
+      Description: 
+      Languages:
+      - No
+      - "\u041D\u0435\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$exit
+      TermType: 0
+      Description: 
+      Languages:
+      - Exit
+      - "\u0412\u044B\u0445\u043E\u0434"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$confirm
+      TermType: 0
+      Description: 
+      Languages:
+      - Confirm
+      - "\u0414\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_playOnline_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Play Online
+      - "\u0421\u0435\u0442\u0435\u0432\u0430\u044F \u0438\u0433\u0440\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_campaign_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Campaign
+      - "\u041A\u043E\u043C\u043F\u0430\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_vsAI_name
+      TermType: 0
+      Description: 
+      Languages:
+      - VS AI
+      - "\u041F\u0440\u043E\u0442\u0438\u0432 AI"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_passAndPlay_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Pass And Play
+      - "\u0418\u0433\u0440\u0430 \u043D\u0430 \u043E\u0434\u043D\u043E\u043C \u041F\u041A"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_settings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Settings
+      - "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_exit_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Exit
+      - "\u0412\u044B\u0445\u043E\u0434"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_callFriend_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Call a friend
+      - "\u041F\u043E\u0437\u0432\u0430\u0442\u044C \u0434\u0440\u0443\u0433\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_findMatch_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Find Match
+      - "\u041F\u043E\u0438\u0441\u043A \u043C\u0430\u0442\u0447\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$bt_select_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Select
+      - "\u0412\u044B\u0431\u0440\u0430\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$disconnection_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Disconnection
+      - "\u0420\u0430\u0437\u0440\u044B\u0432 \u0441\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ok_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Ok
+      - "\u0425\u043E\u0440\u043E\u0448\u043E"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$connectServer_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Connect to Server
+      - "\u041F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435 \u043A
+        \u0441\u0435\u0440\u0432\u0435\u0440\u0443"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$notConnectServer_header
+      TermType: 0
+      Description: 
+      Languages:
+      - No network connection
+      - "\u041D\u0435\u0442 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F
+        \u043A \u0441\u0435\u0442\u0438"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_continue_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Continue
+      - "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_new_campaign_name
+      TermType: 0
+      Description: 
+      Languages:
+      - New campaign
+      - "\u041D\u043E\u0432\u0430\u044F \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_start_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Start
+      - "\u041D\u0430\u0447\u0430\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_player1_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Player 1
+      - "\u0418\u0433\u0440\u043E\u043A 1"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_player2_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Player 2
+      - "\u0418\u0433\u0440\u043E\u043A 2"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_selectLeader_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Select leader
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043B\u0438\u0434\u0435\u0440\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: MainMenu/$ui_vs_header
+      TermType: 0
+      Description: 
+      Languages:
+      - VS
+      - VS
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_play_all_button
       TermType: 0
       Description: 
       Languages:
@@ -25,7 +243,7 @@ MonoBehaviour:
       - "\u0421\u044B\u0433\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_attack_name
+    - Term: BoardGameUI/$bg_attack_button
       TermType: 0
       Description: 
       Languages:
@@ -33,7 +251,7 @@ MonoBehaviour:
       - "\u0410\u0442\u0430\u043A\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_end_turn_name
+    - Term: BoardGameUI/$bg_end_turn_button
       TermType: 0
       Description: 
       Languages:
@@ -41,12 +259,28 @@ MonoBehaviour:
       - "\u041A\u043E\u043D\u0435\u0446 \u0440\u0430\u0443\u043D\u0434\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_discard_name
+    - Term: BoardGameUI/$bg_discard_button
       TermType: 0
       Description: 
       Languages:
-      - Discard {name}
-      - "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C"
+      - Discard
+      - "\u0421\u0431\u0440\u043E\u0441"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_draw_card_button
+      TermType: 0
+      Description: 
+      Languages:
+      - Draw
+      - "\u041A\u043E\u043B\u043E\u0434\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_numberCurrentTurn_button_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Turn {[count]}
+      - "\u0420\u0430\u0443\u043D\u0434 {[count]}"
       Flags: 0000
       Languages_Touch: []
     - Term: BoardGameUI/$bg_draw_card_name
@@ -73,59 +307,107 @@ MonoBehaviour:
       - "\u0412\u044B \u041F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_scout_name
+    - Term: BoardGameUI/$bg_choose_one
       TermType: 0
       Description: 
       Languages:
-      - 
+      - 'Choose one:'
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443:"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_turnYou_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Your turn
+      - "\u0412\u0430\u0448 \u0445\u043E\u0434"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_turnEnemy_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Opponent's move
+      - "\u0425\u043E\u0434 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 "
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_mercenaries_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Mercenaries
+      - "\u041D\u0430\u0435\u043C\u043D\u0438\u043A\u0438"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_discard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard
+      - "\u0421\u0431\u0440\u043E\u0441"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameUI/$bg_draw_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Draw
+      - "\u041A\u043E\u043B\u043E\u0434\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_neutral_scout_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Scout
       - "\u0420\u0430\u0437\u0432\u0435\u0434\u0447\u0438\u043A"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_hunter_name
+    - Term: BoardGameCard/$bgc_neutral_hunter_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Hunter
       - "\u041E\u0445\u043E\u0442\u043D\u0438\u043A"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_explorer_name
+    - Term: BoardGameCard/$bgc_neutral_explorer_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Explorer
       - "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u044C"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_corporates_twins
+    - Term: BoardGameCard/$bgc_corporates_brothers_name
       TermType: 0
       Description: 
       Languages:
-      - 
-      - "\u0411\u043B\u0438\u0437\u043D\u0435\u0446\u044B"
+      - Brothers
+      - "\u0411\u0440\u0430\u0442\u044C\u044F"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_corporates_engineer
+    - Term: BoardGameCard/$bgc_corporates_engineer_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Engineer
       - "\u0418\u043D\u0436\u0435\u043D\u0435\u0440"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_corporates_sergeant
+    - Term: BoardGameCard/$bgc_corporates_sergeant_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Sergeant
       - "\u0421\u0435\u0440\u0436\u0430\u043D\u0442"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_corporates_head_hunter
+    - Term: BoardGameCard/$bgc_corporates_head_hunter_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Head Hunter
       - "\u041E\u0445\u043E\u0442\u043D\u0438\u043A \u0437\u0430 \u0433\u043E\u043B\u043E\u0432\u0430\u043C\u0438"
       Flags: 0000
       Languages_Touch: []
@@ -133,23 +415,23 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Pirate
       - "\u041F\u0438\u0440\u0430\u0442"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_rebels_boy_name
+    - Term: BoardGameCard/$bgc_netrunners_boy_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Boy
       - "\u041F\u0430\u0446\u0430\u043D"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_rebels_thief_name
+    - Term: BoardGameCard/$bgc_netrunners_thief_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Thief
       - "\u0412\u043E\u0440\u043E\u0432\u043A\u0430"
       Flags: 0000
       Languages_Touch: []
@@ -157,23 +439,23 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Administrator
       - "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_rebels_networker_name
+    - Term: BoardGameCard/$bgc_netrunners_networker_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Networker
       - "\u0421\u0435\u0442\u0447\u0438\u043A"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_rebels_cracker_name
+    - Term: BoardGameCard/$bgc_netrunners_cracker_name
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Cracker
       - "\u0425\u0430\u043A\u0435\u0440"
       Flags: 0000
       Languages_Touch: []
@@ -181,7 +463,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Killer
       - "\u0423\u0431\u0438\u0439\u0446\u0430"
       Flags: 0000
       Languages_Touch: []
@@ -189,7 +471,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Chimney
       - "\u041A\u0443\u0440\u0438\u043B\u044C\u0449\u0438\u043A"
       Flags: 0000
       Languages_Touch: []
@@ -197,7 +479,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Russian
       - "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
       Flags: 0000
       Languages_Touch: []
@@ -205,7 +487,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Valkyrie
       - "\u0412\u0430\u043B\u044C\u043A\u0438\u0440\u0438\u044F"
       Flags: 0000
       Languages_Touch: []
@@ -213,7 +495,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Racer
       - "\u0413\u043E\u043D\u0449\u0438\u043A"
       Flags: 0000
       Languages_Touch: []
@@ -221,7 +503,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Doctor
       - "\u0414\u043E\u043A\u0442\u043E\u0440"
       Flags: 0000
       Languages_Touch: []
@@ -229,7 +511,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Pathfinder
       - "\u0421\u043B\u0435\u0434\u043E\u043F\u044B\u0442"
       Flags: 0000
       Languages_Touch: []
@@ -237,7 +519,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Reckless
       - "\u0411\u0435\u0437\u0431\u0430\u0448\u0435\u043D\u043D\u0430\u044F"
       Flags: 0000
       Languages_Touch: []
@@ -245,7 +527,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Samurai
       - "\u0421\u0430\u043C\u0443\u0440\u0430\u0439"
       Flags: 0000
       Languages_Touch: []
@@ -253,7 +535,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Bloody Eye
       - "\u041A\u0440\u0430\u0441\u043D\u043E\u0433\u043B\u0430\u0437\u0430\u044F"
       Flags: 0000
       Languages_Touch: []
@@ -261,16 +543,451 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
+      - Yellow Eyed
       - "\u0416\u0435\u043B\u0442\u043E\u0433\u043B\u0430\u0437\u0430\u044F"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameCard/$bgc_rebels_shooter_name
+    - Term: BoardGameCard/$bgc_netrunners_shooter_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Shooter
+      - "\u0421\u0442\u0440\u0435\u043B\u043E\u043A"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_airBase_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Air Base
+      - "\u0412\u043E\u0437\u0434\u0443\u0448\u043D\u0430\u044F \u0411\u0430\u0437\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_bunker_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Bunker
+      - "\u0411\u0443\u043D\u043A\u0435\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_citadel_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Citadel
+      - "\u0426\u0438\u0442\u0430\u0434\u0435\u043B\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_director_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Director
+      - "\u0414\u0438\u0440\u0435\u043A\u0442\u043E\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_droid_name
+      TermType: 0
+      Description: 
+      Languages:
+      - droid
+      - "\u0414\u0440\u043E\u0439\u0434"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_corporates_R52_name
+      TermType: 0
+      Description: 
+      Languages:
+      - R-52
+      - R-52
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_bar_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Bar
+      - "\u0411\u0430\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_biker_name
+      TermType: 0
+      Description: 
+      Languages:
+      - biker
+      - "\u0411\u0430\u0439\u043A\u0435\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_leader_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Leader
+      - "\u041B\u0438\u0434\u0435\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_oldSoldier_name
+      TermType: 0
+      Description: 
+      Languages:
+      - old soldier
+      - "\u0421\u0442\u0430\u0440\u044B\u0439 \u0441\u043E\u043B\u0434\u0430\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_refuge_name
+      TermType: 0
+      Description: 
+      Languages:
+      - asylum
+      - "\u0423\u0431\u0435\u0436\u0438\u0449\u0435"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_sniper_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Sniper
+      - "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_guns_turret_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Turret
+      - "\u0422\u0443\u0440\u0435\u043B\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_agent_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Agent
+      - "\u0410\u0433\u0435\u043D\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_ai_name
+      TermType: 0
+      Description: 
+      Languages:
+      - AI
+      - "\u0418\u0441\u043A\u0443\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439
+        \u0438\u043D\u0442\u0435\u043B\u0435\u043A\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_c28_name
+      TermType: 0
+      Description: 
+      Languages:
+      - C-28
+      - C-28
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_darkNet_name
+      TermType: 0
+      Description: 
+      Languages:
+      - DarkNet
+      - "\u0414\u0430\u0440\u043A\u041D\u0435\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_virus_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Virus
+      - "\u0412\u0438\u0440\u0443\u0441"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_empath_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Empath
+      - "\u042D\u043C\u043F\u0430\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_interference_name
+      TermType: 0
+      Description: 
+      Languages:
+      - hindrance
+      - "\u041F\u043E\u043C\u0435\u0445\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_netrunners_shield_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Shield
+      - "\u0429\u0438\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_armoredVehicle_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Armored vehicle
+      - "\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u0430\u044F
+        \u043C\u0430\u0448\u0438\u043D\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_base_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Base
+      - "\u0411\u0430\u0437\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_blockStation_name
+      TermType: 0
+      Description: 
+      Languages:
+      - block post
+      - "\u0411\u043B\u043E\u043A \u043F\u043E\u0441\u0442"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_blueBlade_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Blue blade
+      - "\u0421\u0438\u043D\u0438\u0435 \u043B\u0435\u0437\u0432\u0438\u0435"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_demon_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Daemon
+      - "\u0414\u0435\u043C\u043E\u043D"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_outcast_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Outcast
+      - "\u0418\u0437\u0433\u043E\u0439"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_ravager_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Ravager
+      - "\u041E\u043F\u0443\u0441\u0442\u043E\u0448\u0438\u0442\u0435\u043B\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nomads_trader_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Dealer
+      - "\u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_nombads_raven_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Crow
+      - "\u0412\u043E\u0440\u043E\u043D"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: BoardGameCard/$bgc_neutral_noise_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Network noise
+      - "\u0421\u0435\u0442\u0435\u0432\u043E\u0439 \u0448\u0443\u043C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_cyberpsycho_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Cyberpsycho
+      - "\u041A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_cyberpsycho_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - 'The Cyberpsycho was formerly a member of a gang known as "Plague Jack."
+        He earned this nickname because he implanted an infinite number of enhancements
+        into himself, numbing the pain with narcotics. Consequently, his behavior
+        often exceeded the boundaries set by the gang.
+
+
+        During one of the
+        gang''s escapades, he crossed a line. When his partner attempted to stop
+        him, he killed a child and also eliminated his partner. He was expelled from
+        the gang but spared his life. Now, he takes on the dirtiest assignments in
+        the city, committing merciless murders without leaving any witnesses behind.'
+      - "\u041A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445 \u0440\u0430\u043D\u044C\u0448\u0435
+        \u0431\u044B\u043B \u0447\u043B\u0435\u043D\u043E\u043C \u0431\u0430\u043D\u0434\u044B,
+        \u0438 \u0435\u0433\u043E \u0437\u0432\u0430\u043B\u0438 \u0427\u0443\u043C\u043D\u043E\u0439
+        \u0414\u0436\u0435\u043A. \u0427\u0443\u043C\u043D\u044B\u043C \u0435\u0433\u043E
+        \u0437\u0432\u0430\u043B\u0438 \u0438\u0437-\u0437\u0430 \u0442\u043E\u0433\u043E
+        \u0447\u0442\u043E \u043E\u043D \u0441\u0442\u0430\u0432\u0438\u043B \u0441\u0435\u0431\u0435
+        \u0431\u0435\u0441\u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0435 \u0447\u0438\u0441\u043B\u043E
+        \u0438\u043C\u043F\u043B\u0430\u043D\u0442\u043E\u0432, \u0430 \u0431\u043E\u043B\u044C
+        \u0437\u0430\u0433\u043B\u0443\u0448\u0430\u043B \u043D\u0430\u0440\u043A\u043E\u0442\u0438\u043A\u0430\u043C\u0438.
+        \u0418\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0435\u0433\u043E \u043F\u043E\u0432\u0435\u0434\u0435\u043D\u0438\u0435
+        \u0447\u0430\u0441\u0442\u043E \u0432\u044B\u0445\u043E\u0434\u0438\u043B\u043E
+        \u0437\u0430 \u0440\u0430\u043C\u043A\u0438 \u0434\u043E\u0437\u0432\u043E\u043B\u0435\u043D\u043D\u043E\u0433\u043E
+        \u0432 \u0431\u0430\u043D\u0434\u0435.\n\n\u041D\u0430 \u043E\u0434\u043D\u043E\u0439
+        \u0438\u0437 \u0432\u044B\u043B\u0430\u0437\u043E\u043A \u0431\u0430\u043D\u0434\u044B,
+        \u043E\u043D \u043F\u0435\u0440\u0435\u0448\u0435\u043B \u0447\u0435\u0440\u0442\u0443.
+        \u0423\u0431\u0438\u0432 \u0440\u0435\u0431\u0435\u043D\u043A\u0430, \u043A\u043E\u0433\u0434\u0430
+        \u0435\u0433\u043E \u043D\u0430\u043F\u0430\u0440\u043D\u0438\u043A \u043F\u043E\u043F\u044B\u0442\u0430\u043B\u0441\u044F
+        \u0435\u0433\u043E \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C,
+        \u043E\u043D \u0443\u0431\u0438\u043B \u0438 \u0435\u0433\u043E. \u0415\u0433\u043E
+        \u0432\u044B\u0433\u043D\u0430\u043B\u0438 \u0438\u0437 \u0431\u0430\u043D\u0434\u044B,
+        \u043D\u043E \u043D\u0435 \u0443\u0431\u0438\u043B\u0438. \u0422\u0435\u043F\u0435\u0440\u044C
+        \u043E\u043D \u0431\u0435\u0440\u0435\u0442\u044C\u0441\u044F \u0437\u0430
+        \u0441\u0430\u043C\u044B\u0435 \u0433\u0440\u044F\u0437\u043D\u044B\u0435
+        \u0437\u0430\u0434\u0430\u043D\u0438\u044F \u0432 \u044D\u0442\u043E\u043C
+        \u0433\u043E\u0440\u043E\u0434\u0435, \u0441\u043E\u0432\u0435\u0440\u0448\u0430\u044F
+        \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0430 \u0431\u0435\u0437 \u043F\u043E\u0449\u0430\u0434\u044B,
+        \u043D\u0435 \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u044F \u0437\u0430
+        \u0441\u043E\u0431\u043E\u0439 \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043B\u0435\u0439."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_cyberpsychosis_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Cyberpsychosis
+      - "\u041A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445\u043E\u0437"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_cyberpsychosis_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Using your stock of cyberpsychosis, you can inflict wounds on the enemy
+      - "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u044F \u0441\u0432\u043E\u0439
+        \u0437\u0430\u043F\u0430\u0441 \u043A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445\u043E\u0437\u0430
+        \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u043D\u0435\u0441\u0442\u0438
+        \u0440\u0430\u043D\u0435\u043D\u0438\u044F \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0443"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_annaPizza_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Anna
+      - "\u0410\u043D\u043D\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_annaPizza_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Once she was just a pizza delivery man, but due to unfair treatment she became
+        a netrunner. And even though she still delivers pizza with a smile, anyone
+        who climbs to her will immediately short out the implants.
+      - "\u041A\u043E\u0433\u0434\u0430 \u0442\u043E \u043E\u043D\u0430 \u0431\u044B\u043B\u0430
+        \u043F\u0440\u043E\u0441\u0442\u043E \u0434\u043E\u0441\u0442\u0430\u0432\u0449\u0438\u043A\u043E\u043C
+        \u043F\u0438\u0446\u0446\u044B, \u043D\u043E \u0438\u0437-\u0437\u0430 \u043D\u0435\u0441\u043F\u0440\u0430\u0432\u0435\u0434\u043B\u0438\u0432\u043E\u0433\u043E
+        \u043E\u0442\u043D\u043E\u0448\u0435\u043D\u0438\u044F \u0441\u0442\u0430\u043B\u0430
+        \u043D\u0435\u0442\u0440\u0430\u043D\u043D\u0435\u0440\u043E\u043C. \u0418
+        \u043F\u0443\u0441\u0442\u044C \u043E\u043D\u0430 \u0434\u043E \u0441\u0438\u0445
+        \u043F\u043E\u0440 \u0441 \u0443\u043B\u044B\u0431\u043A\u043E\u0439 \u0434\u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442
+        \u043F\u0438\u0446\u0446\u0443, \u043D\u043E \u043B\u044E\u0431\u043E\u043C\u0443
+        \u043A\u0442\u043E \u043A \u043D\u0435\u0439 \u043F\u043E\u043B\u0435\u0437\u0435\u0442
+        \u0442\u0443\u0442 \u0436\u0435 \u0437\u0430\u043A\u043E\u0440\u043E\u0442\u0438\u0442
+        \u0438\u043C\u043F\u043B\u0430\u043D\u0442\u044B."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_systemHack_name
+      TermType: 0
+      Description: 
+      Languages:
+      - System hack
+      - "\u0412\u0437\u043B\u043E\u043C \u0441\u0438\u0441\u0442\u0435\u043C\u044B"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_systemHack_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Hacks the base and produces noise cards in his stock
+      - "\u0412\u0437\u043B\u0430\u043C\u044B\u0432\u0430\u0435\u0442 \u0441\u0438\u0441\u0442\u0435\u043C\u0443
+        \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 \u0438 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442
+        \u043A\u0430\u0440\u0442\u044B \u0448\u0443\u043C\u0430 \u0432 \u0435\u0433\u043E
+        \u043A\u043E\u043B\u043E\u0434\u0443"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_KiraCat_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Kira
+      - "\u041A\u0438\u0440\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_KiraCat_descr
       TermType: 0
       Description: 
       Languages:
       - 
-      - "\u0421\u0442\u0440\u0435\u043B\u043E\u043A"
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_hackDestroyShield_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Destroy shield
+      - "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u0435 \u0449\u0438\u0442\u043E\u0432"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_hackDestroyShield_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Destroy all shield build enemy
+      - "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u0430\u0435\u0442 \u0432\u0441\u0435
+        \u0437\u0430\u0449\u0438\u0442\u043D\u044B\u0435 \u043F\u043E\u0441\u0442\u0440\u043E\u0439\u043A\u0438
+        \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_leo_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Leo
+      - "\u041B\u0435\u0432"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_leo_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_leoTrade_name
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_leoTrade_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - 
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -288,12 +1005,12 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1672856346916
+    Google_LastUpdatedVersion: 1690131080180
     Google_Password: Cyberpunk_local
-    GoogleUpdateFrequency: 3
+    GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2
     GoogleUpdateSynchronization: 1
-    GoogleUpdateDelay: 0
+    GoogleUpdateDelay: 5
     Assets: []
     Spreadsheet_LocalFileName: 
     Spreadsheet_LocalCSVSeparator: ','
