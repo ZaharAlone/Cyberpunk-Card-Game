@@ -41,9 +41,9 @@ namespace CyberNet.Core.UI
             NewRoundGO.SetActive(true);
             NewRoundRect.position = new Vector3(-_deltaSize, NewRoundRect.position.y, NewRoundRect.position.z);
             _sequence = DOTween.Sequence();
-            _sequence.Append(NewRoundGO.transform.DOMoveX(0f, 1f))
-                .AppendInterval(1.5f)
-                .Append(NewRoundGO.transform.DOMoveX(_deltaSize, 1f))
+            _sequence.Append(NewRoundGO.transform.DOMoveX(0f, 0.7f))
+                .AppendInterval(1.2f)
+                .Append(NewRoundGO.transform.DOMoveX(_deltaSize, 0.7f))
                 .OnComplete(()=> CompleteAnimatios());
         }
 

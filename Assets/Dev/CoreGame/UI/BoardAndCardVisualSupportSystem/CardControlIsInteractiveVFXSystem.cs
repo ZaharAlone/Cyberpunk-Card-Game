@@ -4,6 +4,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {

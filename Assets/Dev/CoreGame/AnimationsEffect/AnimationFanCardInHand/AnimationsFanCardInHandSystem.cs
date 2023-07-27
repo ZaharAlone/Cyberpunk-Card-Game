@@ -136,10 +136,10 @@ namespace CyberNet.Core.UI
 
         private void ClearAnimationComponent(Entity entity)
         {
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
         }
     }
 }
