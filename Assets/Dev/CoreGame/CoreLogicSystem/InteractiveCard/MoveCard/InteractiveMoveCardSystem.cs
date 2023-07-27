@@ -27,14 +27,16 @@ namespace CyberNet.Core
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
-
+            
             ref var component = ref entity.GetComponent<CardComponent>();
             var round = _dataWorld.OneData<RoundData>();
             if (round.CurrentPlayer != component.Player && component.Player != PlayerEnum.None)
                 return;
 
+            Debug.LogError("Down Click Card");
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
+                Debug.LogError("Has component");
                 ref var inputData = ref _dataWorld.OneData<InputData>();
 
                 entity.AddComponent(new InteractiveMoveComponent
@@ -144,8 +146,10 @@ namespace CyberNet.Core
                 componentCard.Player = roundPlayer.CurrentPlayer;
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 
-                BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
+                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+                VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+                CardShopAction.CheckPoolShopCard?.Invoke();
             }
             else
             {

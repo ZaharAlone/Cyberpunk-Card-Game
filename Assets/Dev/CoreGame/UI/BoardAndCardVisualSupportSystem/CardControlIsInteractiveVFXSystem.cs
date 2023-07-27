@@ -2,16 +2,30 @@ using CyberNet.Core.Ability;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
+using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 
 namespace CyberNet.Core.UI
 {
+    /// <summary>
+    /// VFX вокруг кард - являющийся индикацией что с данной картой можно взаимодействовать,
+    /// к примеру с картой в руке или на рынке
+    /// Вызывается:
+    /// При выкладывание карты на стол
+    /// При пополнение руки игрока
+    /// При покупке карт
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class CardControlIsInteractiveVFXSystem : IPostRunEventSystem<EventUpdateBoardCard>
+    public class CardControlIsInteractiveVFXSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventUpdateBoardCard _)
+        public void PreInit()
+        {
+            VFXCardInteractivAction.UpdateVFXCard += UpdateVFXViewCurrentPlayer;
+        }
+
+        private void UpdateVFXViewCurrentPlayer()
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var roundData = _dataWorld.OneData<RoundData>();

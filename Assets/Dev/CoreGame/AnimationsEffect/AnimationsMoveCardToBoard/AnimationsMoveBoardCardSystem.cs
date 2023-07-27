@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using DG.Tweening;
 using CyberNet.Core.Ability;
 
 namespace CyberNet.Core
@@ -12,6 +13,7 @@ namespace CyberNet.Core
     public class AnimationsMoveBoardCardSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
+        private Sequence _sequence;
 
         public void PreInit()
         {
@@ -27,24 +29,34 @@ namespace CyberNet.Core
             var width = (204 + 30) * (countCard - 1);
             var start_point = width / -2;
             
-            Debug.LogError($"Animations Move Board Card {countCard.ToString()}");
-            
             foreach (var entity in entities)
             {
-                Debug.LogError("Move Card");
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.Transform.rotation = Quaternion.identity;
                 var pos = config.PlayerCardPositionInPlay;
                 pos.x = start_point;
 
-                cardComponent.CardMono.SetMovePositionAnimations(pos, config.SizeCardInTable);
+                SetMovePositionAnimations(cardComponent.Transform ,pos, config.SizeCardInTable);
                 cardComponent.CardMono.CardOnFace();
 
                 start_point += (int)(234 * config.SizeCardInTable.x);
             }
-            
-            Debug.LogError("MoveAnimations Event");
-            //To-do переписать на окончание анимации движения в дальнейшем
+        }
+        
+        public void SetMovePositionAnimations(Transform transformObject, Vector3 positions, Vector3 scale)
+        {
+            _sequence = DOTween.Sequence();
+            var distance = Vector3.Distance(transformObject.position, positions);
+            var time = distance / 600;
+            if (time > 0.8f)
+                time = 0.8f;
+            _sequence.Append(transformObject.DOMove(positions, time))
+                .Join(transformObject.DOScale(scale, time))
+                .OnComplete(() => EndMoveCardAnimations());
+        }
+
+        public void EndMoveCardAnimations()
+        {
             AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
         }
     }

@@ -4,7 +4,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Data.Enumerators;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
 using UnityEngine;
 
 namespace CyberNet.Core.Ability
@@ -28,25 +27,27 @@ namespace CyberNet.Core.Ability
         //Производим расчет карт, только когда выкладываем карты на стол
         private void CalculateValueCard()
         {
-            Debug.LogError("Calculate Value Card");
-            ClearData();
-            
             var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                ref var selectAbility = ref entity.GetComponent<CardTableComponent>().SelectAbility;
+                ref var cardTableComponent = ref entity.GetComponent<CardTableComponent>();
 
-                if (selectAbility == SelectAbilityEnum.Ability_0)
-                    AddAbilityComponent(cardComponent.Ability_0, entity);
-                else
-                    AddAbilityComponent(cardComponent.Ability_1, entity);
+                if (!cardTableComponent.CalculateBaseAbility)
+                {
+                    cardTableComponent.CalculateBaseAbility = true;
+                    if (cardTableComponent.SelectAbility == SelectAbilityEnum.Ability_0)
+                        AddAbilityComponent(cardComponent.Ability_0, entity);
+                    else
+                        AddAbilityComponent(cardComponent.Ability_1, entity);
+                }
 
-                CheckComboEffect(cardComponent, entities);
+                if (!cardTableComponent.CalculateComboAbility)
+                {
+                    CheckComboEffect(cardComponent, entities);   
+                }
             }
-
-            BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
         }
         
         private void CheckComboEffect(CardComponent cardComponent, EntitiesEnumerable entities)
@@ -55,12 +56,14 @@ namespace CyberNet.Core.Ability
             {
                 ref var cardComponentDeck = ref entity.GetComponent<CardComponent>();
                 
-                if (cardComponentDeck.GUID == cardComponent.GUID)
+                if (cardComponentDeck.GUID == cardComponent.GUID || cardComponentDeck.Nations == CardNations.Neutral)
                     continue;
-
+                
                 if (cardComponentDeck.Nations == cardComponent.Nations)
                 {
                     AddAbilityComponent(cardComponent.Ability_2, entity);
+                    ref var cardTableComponent = ref entity.GetComponent<CardTableComponent>();
+                    cardTableComponent.CalculateComboAbility = true;
                     break;
                 }
             }
@@ -69,9 +72,6 @@ namespace CyberNet.Core.Ability
         //Add component ability
         private void AddAbilityComponent(AbilityCard abilityCard, Entity entity)
         {
-            Debug.LogError("Add Ability Component");
-            ref var actionData = ref _dataWorld.OneData<AbilityData>();
-            
             switch (abilityCard.AbilityType)
             {
                 case AbilityType.Attack:
@@ -113,14 +113,6 @@ namespace CyberNet.Core.Ability
             //View Effect
         }
 
-        private void ClearData()
-        {
-            ref var actionData = ref _dataWorld.OneData<AbilityData>();
-            actionData.TotalAttack = 0;
-            actionData.TotalTrade = 0;
-            actionData.TotalInfluence = 0;
-        }
-
         private void ClearAction()
         {
             ref var actionData = ref _dataWorld.OneData<AbilityData>();
@@ -131,7 +123,7 @@ namespace CyberNet.Core.Ability
             actionData.SpendTrade = 0;
             actionData.SpendInfluence = 0;
             
-            BoardGameUIAction.UpdateStatsPlayerUI?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }
     }
 }

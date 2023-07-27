@@ -139,6 +139,7 @@ namespace CyberNet.Core.UI
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
         }
     }
 }

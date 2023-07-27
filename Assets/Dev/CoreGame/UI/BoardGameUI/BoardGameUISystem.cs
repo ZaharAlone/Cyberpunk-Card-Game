@@ -20,7 +20,8 @@ namespace CyberNet.Core.UI
         {
             InitCameraCanvas();
             
-            BoardGameUIAction.UpdateStatsPlayerUI += UpdateStatsPlayers;
+            BoardGameUIAction.UpdateStatsPlayersPassportUI += UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
         }
         
         private void InitCameraCanvas()
@@ -43,7 +44,6 @@ namespace CyberNet.Core.UI
 
         private void UpdateView()
         {
-            UpdatePlayerCurrency();
             UpdateViewPassport();
             UpdateCountCard();
         }
@@ -59,7 +59,7 @@ namespace CyberNet.Core.UI
             gameUI.UIMono.SetInteractiveValue(attackValue, tradeValue);
         }
 
-        private void UpdateStatsPlayers()
+        private void UpdateStatsPlayersPassport()
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();

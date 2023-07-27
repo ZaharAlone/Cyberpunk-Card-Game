@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Ability;
+using CyberNet.Core.UI;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core
@@ -16,7 +17,9 @@ namespace CyberNet.Core
 
         public void Run()
         {
-            var entities = _dataWorld.Select<AbilityAddResourceComponent>().Without<CardComponentAnimations>().GetEntities();
+            var entities = _dataWorld.Select<AbilityAddResourceComponent>()
+                                     .Without<CardComponentAnimations>()
+                                     .GetEntities();
 
             foreach (var entity in entities)
             {
@@ -49,7 +52,9 @@ namespace CyberNet.Core
             }
             
             entity.RemoveComponent<AbilityAddResourceComponent>();
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
+            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            CardShopAction.SelectCardFreeToBuy?.Invoke();
         }
         
         private void ActionInfluence()

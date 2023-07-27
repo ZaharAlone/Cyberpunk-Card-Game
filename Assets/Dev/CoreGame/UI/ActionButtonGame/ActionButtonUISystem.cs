@@ -119,7 +119,8 @@ namespace CyberNet.Core.UI
             SoundAction.PlaySound?.Invoke(soundData.AttackSound);
             actionData.SpendAttack += valueAttack;
             
-            AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
         }
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
