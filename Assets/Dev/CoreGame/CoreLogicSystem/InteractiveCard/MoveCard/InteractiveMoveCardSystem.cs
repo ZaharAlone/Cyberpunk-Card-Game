@@ -33,10 +33,8 @@ namespace CyberNet.Core
             if (round.CurrentPlayer != component.Player && component.Player != PlayerEnum.None)
                 return;
 
-            Debug.LogError("Down Click Card");
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
             {
-                Debug.LogError("Has component");
                 ref var inputData = ref _dataWorld.OneData<InputData>();
 
                 entity.AddComponent(new InteractiveMoveComponent
@@ -131,7 +129,6 @@ namespace CyberNet.Core
 
             if (distance < -50)
             {
-                Debug.LogError("Buy card");
                 ref var actionValue = ref _dataWorld.OneData<AbilityData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
