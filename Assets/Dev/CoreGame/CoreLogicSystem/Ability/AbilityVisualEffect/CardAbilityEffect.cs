@@ -8,5 +8,7 @@ namespace CyberNet.Core.Ability
         public CardAbilityEffectMono AttackAbilityVFX;
         public CardAbilityEffectMono TradeAbilityVFX;
         public CardAbilityEffectMono InfluenceAbilityVFX;
+        public CardAbilityEffectMono DiscardCardVFX;
+        public GameObject DiscardCardUIEffect;
     }
 }

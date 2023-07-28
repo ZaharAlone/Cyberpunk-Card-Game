@@ -87,6 +87,15 @@ namespace CyberNet.Core.Ability
                     ActionDrawCard(abilityCard.Count);
                     break;
                 case AbilityType.DiscardCardEnemy:
+                    ref var playerRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+                    var targetPlayer = playerRound;
+
+                    if (targetPlayer == PlayerEnum.Player1)
+                        targetPlayer = PlayerEnum.Player2;
+                    else
+                        targetPlayer = PlayerEnum.Player1;
+                    
+                    entity.AddComponent(new AbilityDiscardCardVisualEffect() { TargetDiscardCard = targetPlayer});
                     break;
                 case AbilityType.DestroyCard:
                     break;

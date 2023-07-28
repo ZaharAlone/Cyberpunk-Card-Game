@@ -38,16 +38,16 @@ namespace CyberNet.Core
             {
                 case AbilityType.Attack:
                     actionData.TotalAttack += abilityAddResourceComponent.Count;
-                    CreateVisualEffect(abilityVFX.AttackAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.AttackAbilityVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Trade:
                     actionData.TotalTrade += abilityAddResourceComponent.Count;
-                    CreateVisualEffect(abilityVFX.TradeAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.TradeAbilityVFX,cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Influence:
                     actionData.TotalInfluence += abilityAddResourceComponent.Count;
                     ActionInfluence();
-                    CreateVisualEffect(abilityVFX.InfluenceAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.InfluenceAbilityVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
             }
             
@@ -79,15 +79,6 @@ namespace CyberNet.Core
             }
 
             actionData.SpendInfluence += deltaInfluence;
-        }
-
-        private void CreateVisualEffect(CardAbilityEffectMono targetEffect, int count, Vector3 position)
-        {
-            var effect = Object.Instantiate(targetEffect);
-            effect.transform.position = position;
-            effect.SetText(count);
-            effect.Init();
-            Object.Destroy(effect.gameObject, 1);
         }
     }
 }

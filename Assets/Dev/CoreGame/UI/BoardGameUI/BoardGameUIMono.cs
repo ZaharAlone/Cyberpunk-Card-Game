@@ -127,5 +127,7 @@ namespace CyberNet.Core.UI
         public TextMeshProUGUI HPText;
         public Image CyberpsychosisImage;
         public Image Avatar;
+
+        public Transform FrameEffectCard;
     }
 }
