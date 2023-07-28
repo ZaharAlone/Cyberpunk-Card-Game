@@ -9,6 +9,9 @@ using CyberNet.Core.UI;
 
 namespace CyberNet.Core
 {
+    /// <summary>
+    /// Система отвечает за UI выбора абилки карты, если абилка одна, ничего не происходит. Две - открывается UI выбора
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
     public class SelectAbilitySystem : IPreInitSystem, IRunSystem
     {
@@ -16,14 +19,18 @@ namespace CyberNet.Core
 
         public void PreInit()
         {
-            SelectAbilityAction.SelectFirstAbility += SelectFirstAbility;
-            SelectAbilityAction.SelectSecondAbility += SelectSecondAbility;
+            SelectAbilityAction.SelectFirstAbility += OnClickSelectFirstAbility;
+            SelectAbilityAction.SelectSecondAbility += OnClickSelectSecondAbility;
         }
 
         public void Run()
         {
             var selectPlayerAbilityCard = _dataWorld.Select<SelectPlayerAbilityComponent>().Count();
             if (selectPlayerAbilityCard != 0)
+                return;
+            
+            var cardSelectPlayerAbilityCard = _dataWorld.Select<CardSelectAbilityComponent>().Count();   
+            if (cardSelectPlayerAbilityCard == 0)
                 return;
             
             var entities = _dataWorld.Select<CardSelectAbilityComponent>().GetEntities();
@@ -34,6 +41,8 @@ namespace CyberNet.Core
                 if (!isOneAbility)
                     break;
             }
+            
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
 
         private bool SelectAbility(Entity entity)
@@ -53,8 +62,6 @@ namespace CyberNet.Core
                 OpenUISelectAbilityCard(cardComponent);
                 return isOneAbility;
             }
-
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
             return isOneAbility;
         }
 
@@ -77,12 +84,12 @@ namespace CyberNet.Core
             uiSelectAbility.OpenFrame();
         }
         
-        private void SelectFirstAbility()
+        private void OnClickSelectFirstAbility()
         {
             SelectConfimAbility(SelectAbilityEnum.Ability_0);
         }
 
-        private void SelectSecondAbility()
+        private void OnClickSelectSecondAbility()
         {
             SelectConfimAbility(SelectAbilityEnum.Ability_1);
         }
@@ -92,9 +99,10 @@ namespace CyberNet.Core
             var entity = _dataWorld.Select<CardSelectAbilityComponent>().With<SelectPlayerAbilityComponent>().SelectFirstEntity();
             entity.RemoveComponent<CardSelectAbilityComponent>();
             entity.RemoveComponent<SelectPlayerAbilityComponent>();
-            entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_0});
+            entity.AddComponent(new CardTableComponent { SelectAbility = targetAbility});
             var uiSelectAbility = _dataWorld.OneData<UIData>().UIMono.SelectAbilityUIMono;
             uiSelectAbility.CloseFrame();
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
     }
 }

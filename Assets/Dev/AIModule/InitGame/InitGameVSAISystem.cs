@@ -13,7 +13,6 @@ namespace CyberNet.Core
         public void Activate()
         {
             _dataWorld.CreateOneData(new ViewPlayerData { PlayerView = PlayerEnum.Player1 });
-            _dataWorld.CreateOneData(new Player2ViewData { Name = "Bot", AvatarKey = "avatar_red_witch" });
         }
     }
 }

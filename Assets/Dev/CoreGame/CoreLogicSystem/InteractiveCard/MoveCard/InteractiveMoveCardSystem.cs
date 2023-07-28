@@ -27,7 +27,7 @@ namespace CyberNet.Core
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
-
+            
             ref var component = ref entity.GetComponent<CardComponent>();
             var round = _dataWorld.OneData<RoundData>();
             if (round.CurrentPlayer != component.Player && component.Player != PlayerEnum.None)
@@ -111,7 +111,7 @@ namespace CyberNet.Core
                 cardComponent.Canvas.sortingOrder = 2;
 
                 var view = _dataWorld.OneData<ViewPlayerData>();
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
                 _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = view.PlayerView });
             }
             else
@@ -129,7 +129,6 @@ namespace CyberNet.Core
 
             if (distance < -50)
             {
-                Debug.LogError("Buy card");
                 ref var actionValue = ref _dataWorld.OneData<AbilityData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
@@ -143,7 +142,11 @@ namespace CyberNet.Core
 
                 componentCard.Player = roundPlayer.CurrentPlayer;
                 entity.AddComponent(new CardMoveToDiscardComponent());
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                
+                AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
+                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+                VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+                CardShopAction.CheckPoolShopCard?.Invoke();
             }
             else
             {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Meta
 {
@@ -11,6 +12,7 @@ namespace CyberNet.Meta
         public CampaignUIMono CampaignUIMono;
         public SelectLeadersUIMono SelectLeadersUIMono;
         public OnlineGameUIMono OnlineGameUIMono;
-        public VSScreenUIMono VSScreenUIMono;
+        [FormerlySerializedAs("VSScreenUIMono")]
+        public LoadingVSScreenUIMono loadingVSScreenUIMono;
     }
 }

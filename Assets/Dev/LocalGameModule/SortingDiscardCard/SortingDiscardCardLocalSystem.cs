@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace CyberNet.Core
 {
+    /// <summary>
+    /// Сортировка карт в колоде и старт анимации
+    /// </summary>
     [EcsSystem(typeof(LocalGameModule))]
     public class SortingDiscardCardLocalSystem : IInitSystem
     {
@@ -34,9 +37,9 @@ namespace CyberNet.Core
             {
                 entity.RemoveComponent<CardDiscardComponent>();
                 entity.AddComponent(new CardDrawComponent());
-                var waitTimeAnim = WaitCardAnimationsAction.GetTimeSortingDeck.Invoke(player);
-                waitTimeAnim += 0.1f;
-                entity.AddComponent(new WaitCardAnimationsSortingDeckComponent { Player = player, WaitTime = waitTimeAnim });
+                var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeSortingDeck.Invoke(player);
+                waitTimeAnim += 0.07f;
+                entity.AddComponent(new WaitEndAnimationsToStartMoveHandComponent { Player = player, WaitTime = waitTimeAnim });
                 ref var cardIndexComponent = ref entity.GetComponent<CardSortingIndexComponent>();
                 cardIndexComponent.Index = sorting[index];
                 index++;

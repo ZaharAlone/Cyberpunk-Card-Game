@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Ability;
+using CyberNet.Core.UI;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core
@@ -16,7 +17,9 @@ namespace CyberNet.Core
 
         public void Run()
         {
-            var entities = _dataWorld.Select<AbilityAddResourceComponent>().Without<CardComponentAnimations>().GetEntities();
+            var entities = _dataWorld.Select<AbilityAddResourceComponent>()
+                                     .Without<CardComponentAnimations>()
+                                     .GetEntities();
 
             foreach (var entity in entities)
             {
@@ -35,21 +38,23 @@ namespace CyberNet.Core
             {
                 case AbilityType.Attack:
                     actionData.TotalAttack += abilityAddResourceComponent.Count;
-                    CreateVisualEffect(abilityVFX.AttackAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.AttackAbilityVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Trade:
                     actionData.TotalTrade += abilityAddResourceComponent.Count;
-                    CreateVisualEffect(abilityVFX.TradeAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.TradeAbilityVFX,cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Influence:
                     actionData.TotalInfluence += abilityAddResourceComponent.Count;
                     ActionInfluence();
-                    CreateVisualEffect(abilityVFX.InfluenceAbilityVFX, abilityAddResourceComponent.Count, cardComponent.Transform.position);
+                    AbilityVisualEffect.CreateEffect(abilityVFX.InfluenceAbilityVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
             }
             
             entity.RemoveComponent<AbilityAddResourceComponent>();
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
+            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            CardShopAction.SelectCardFreeToBuy?.Invoke();
         }
         
         private void ActionInfluence()
@@ -74,15 +79,6 @@ namespace CyberNet.Core
             }
 
             actionData.SpendInfluence += deltaInfluence;
-        }
-
-        private void CreateVisualEffect(CardAbilityEffectMono targetEffect, int count, Vector3 position)
-        {
-            var effect = Object.Instantiate(targetEffect);
-            effect.transform.position = position;
-            effect.SetText(count);
-            effect.Init();
-            Object.Destroy(effect.gameObject, 1);
         }
     }
 }

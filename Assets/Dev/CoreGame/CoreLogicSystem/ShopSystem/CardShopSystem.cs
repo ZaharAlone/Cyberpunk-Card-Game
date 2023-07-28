@@ -10,7 +10,7 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CardShopSystem : IActivateSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class CardShopSystem : IActivateSystem, IPreInitSystem
     {
         private DataWorld _dataWorld;
 
@@ -19,12 +19,12 @@ namespace CyberNet.Core
             CheckPoolShopCard();
         }
 
-        public void PostRunEvent(EventBoardGameUpdate _)
+        public void PreInit()
         {
-            CheckPoolShopCard();
-            SelectCardFreeToBuy();
+            CardShopAction.CheckPoolShopCard += CheckPoolShopCard;
+            CardShopAction.SelectCardFreeToBuy += SelectCardFreeToBuy;
         }
-
+        
         private void CheckPoolShopCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
@@ -50,6 +50,7 @@ namespace CyberNet.Core
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            SelectCardFreeToBuy();
         }
 
         private List<int> GetFreeSlotInTradeRow()

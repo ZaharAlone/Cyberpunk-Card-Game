@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System;
+using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Core.UI;
 
@@ -17,7 +18,6 @@ namespace CyberNet.Local
         public void Activate()
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player1, Count = rules.CountDropCard });
             _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player2, Count = rules.CountDropCard });
@@ -48,15 +48,18 @@ namespace CyberNet.Local
             UpdateUIRound(roundData.CurrentPlayer);
         }
 
-        private void UpdateUIRound(PlayerEnum playersRound)
+        private async void UpdateUIRound(PlayerEnum playersRound)
         {
-            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
-            ref var ui = ref _dataWorld.OneData<UIData>().UIMono;
+            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var ui = _dataWorld.OneData<UIData>().UIMono;
             
             if (playersRound == viewPlayer.PlayerView)
                 ui.ChangeRoundUI.PlayerRound();
             else
                 ui.ChangeRoundUI.EnemyRound();
+
+            await Task.Delay(2000);
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
         }
     }
 }

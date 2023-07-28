@@ -12,6 +12,7 @@ using UnityEngine;
 using CyberNet.Core;
 using CyberNet;
 using CyberNet.Core.Ability;
+using CyberNet.Core.Dialog;
 using CyberNet.Core.Sound;
 
 namespace EcsCore
@@ -35,6 +36,7 @@ namespace EcsCore
             var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
             var cardAbilitEffect = Load<CardAbilityEffect>("CardAbilityEffect", tasks);
+            var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -54,6 +56,7 @@ namespace EcsCore
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });
             world.CreateOneData(new CardAbilityEffectData {CardAbilityEffect = cardAbilitEffect.Result});
+            world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

@@ -10,5 +10,8 @@ namespace CyberNet.Core.Ability
         //Считаем сколько ресурсов стало
         public static Action UpdateValueResourcePlayedCard;
         public static Action ClearActionView;
+        
+        //Делегаты для вызова/проверки определенных абилок
+        public static Action CheckDiscardCard;
     }   
 }
