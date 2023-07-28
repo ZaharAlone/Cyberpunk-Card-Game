@@ -30,9 +30,9 @@ namespace CyberNet.Core.UI
                 var ui = _dataWorld.OneData<UIData>();
 
                 if (distance > 150)
-                    ui.UIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
+                    ui.UIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
                 else
-                    ui.UIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 0);
+                    ui.UIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 0);
             }
         }
     }

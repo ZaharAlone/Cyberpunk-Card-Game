@@ -32,11 +32,11 @@ namespace CyberNet.Core.UI
 
             if (round.CurrentPlayer != viewPlayer.PlayerView)
             {
-                ui.UIMono.HideInteractiveButton();
+                ui.UIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
             }
 
-            ui.UIMono.ShowInteractiveButton();
+            ui.UIMono.CoreHudUIMono.ShowInteractiveButton();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<AbilityData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
@@ -46,17 +46,17 @@ namespace CyberNet.Core.UI
 
             if (cardInHand > 0)
             {
-                ui.UIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
+                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
                 actionPlayer.ActionType = ActionType.PlayAll;
             }
             else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
             {
-                ui.UIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
+                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
                 actionPlayer.ActionType = ActionType.Attack;
             }
             else
             {
-                ui.UIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
+                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
                 actionPlayer.ActionType = ActionType.EndTurn;
             }
         }
@@ -129,11 +129,11 @@ namespace CyberNet.Core.UI
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             if (targetAttack != viewData.PlayerView)
             {
-                boardUI.characterDamagePassportEffectDown.Attack();
+                boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
                 boardUI.DamageScreen.Damage(valueAttack, percentHP);
             }
             else
-                boardUI.characterDamagePassportEffectUp.Attack();
+                boardUI.CoreHudUIMono.PlayerUpView.CharacterDamagePassportEffect.Attack();
             
             BoardGameCameraEvent.GetDamageCameraShake?.Invoke();
         }

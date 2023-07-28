@@ -153,7 +153,7 @@ namespace CyberNet.Core
             foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = gameUI.UIMono.DownDeck.localPosition;
+                component.Transform.position = gameUI.UIMono.CoreHudUIMono.DownDeck.localPosition;
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }
@@ -164,7 +164,7 @@ namespace CyberNet.Core
             foreach (var entity in entitiesPlayer2)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = gameUI.UIMono.UpDeck.localPosition;
+                component.Transform.position = gameUI.UIMono.CoreHudUIMono.UpDeck.localPosition;
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }

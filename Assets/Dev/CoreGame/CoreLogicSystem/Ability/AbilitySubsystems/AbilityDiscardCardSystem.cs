@@ -44,11 +44,11 @@ namespace CyberNet.Core.Ability
 
             if (playerView == playerTargetDiscard)
             {
-                Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.PlayerDownView.FrameEffectCard);
+                Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard);
             }
             else
             {
-                Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.PlayerUpView.FrameEffectCard);
+                Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.CoreHudUIMono.PlayerUpView.FrameEffectCard);
             }
             
             entity.RemoveComponent<AbilityDiscardCardVisualEffect>();
@@ -82,11 +82,11 @@ namespace CyberNet.Core.Ability
 
             if (viewPlayer == playerTargetDiscard)
             {
-                Object.Destroy(gameUI.PlayerDownView.FrameEffectCard.GetChild(0).gameObject);
+                Object.Destroy(gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard.GetChild(0).gameObject);
             }
             else
             {
-                Object.Destroy(gameUI.PlayerUpView.FrameEffectCard.GetChild(0).gameObject);
+                Object.Destroy(gameUI.CoreHudUIMono.PlayerUpView.FrameEffectCard.GetChild(0).gameObject);
             }
         }
 

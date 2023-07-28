@@ -7,7 +7,6 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using CyberNet.Core.Ability;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI
 {
@@ -56,7 +55,7 @@ namespace CyberNet.Core.UI
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            gameUI.UIMono.SetInteractiveValue(attackValue, tradeValue);
+            gameUI.UIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
         }
 
         private void UpdateStatsPlayersPassport()
@@ -68,13 +67,13 @@ namespace CyberNet.Core.UI
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                gameUI.SetViewDownTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-                gameUI.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
+                gameUI.CoreHudUIMono.SetViewDownTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
+                gameUI.CoreHudUIMono.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
             }
             else
             {
-                gameUI.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-                gameUI.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
+                gameUI.CoreHudUIMono.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
+                gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
             }
         }
 
@@ -91,13 +90,13 @@ namespace CyberNet.Core.UI
             
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                gameUI.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
-                gameUI.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
+                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
+                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
             }
             else
             {
-                gameUI.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
-                gameUI.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
+                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
+                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
             }
         }
 
@@ -123,9 +122,9 @@ namespace CyberNet.Core.UI
                                              .Count();
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
-                gameUI.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
+                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
             else
-                gameUI.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
+                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
         }
     }
 }

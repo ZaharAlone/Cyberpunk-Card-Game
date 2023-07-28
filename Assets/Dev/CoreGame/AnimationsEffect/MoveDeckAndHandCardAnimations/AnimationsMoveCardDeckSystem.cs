@@ -39,9 +39,9 @@ namespace CyberNet.Core
             var targetPositions = Vector3.zero;
 
             if (viewData.PlayerView == cardComponent.Player)
-                targetPositions = ui.DownDeck.localPosition;
+                targetPositions = ui.CoreHudUIMono.DownDeck.localPosition;
             else
-                targetPositions = ui.UpDeck.localPosition;
+                targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
