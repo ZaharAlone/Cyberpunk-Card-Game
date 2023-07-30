@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 using UnityEngine;
 
 namespace CyberNet.Core.UI
@@ -49,7 +49,7 @@ namespace CyberNet.Core.UI
 
         private void UpdatePlayerCurrency()
         {
-            ref var actionValue = ref _dataWorld.OneData<AbilityData>();
+            ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             ref var gameUI = ref _dataWorld.OneData<UIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;

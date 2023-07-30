@@ -81,7 +81,7 @@ namespace  CyberNet.Core.UI
 
         public void OnClickActionButton()
         {
-            ActionButtonEvent.ClickActionButton?.Invoke();
+            ActionPlayerButtonEvent.ClickActionButton?.Invoke();
         }
 
         public void SetCountCard(int downDiscard, int downDeck,int upDiscard, int upDeck)

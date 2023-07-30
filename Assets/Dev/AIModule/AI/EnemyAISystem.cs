@@ -31,9 +31,9 @@ namespace CyberNet.Core.Enemy
             await Task.Delay(1000);
             SelectTradeCard();
             await Task.Delay(1000);
-            ActionButtonEvent.ActionAttackBot?.Invoke();
+            ActionPlayerButtonEvent.ActionAttackBot?.Invoke();
             await Task.Delay(1000);
-            ActionButtonEvent.ActionEndTurnBot?.Invoke();
+            ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
 
         private void PlayAll()
