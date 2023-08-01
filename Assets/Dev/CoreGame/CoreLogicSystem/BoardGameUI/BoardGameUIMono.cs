@@ -6,6 +6,7 @@ using TMPro;
 using System;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
+using CyberNet.Core.WinLose;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
@@ -31,5 +32,8 @@ namespace CyberNet.Core.UI
 
         [Header("Dialog")]
         public DialogUIMono DialogUIMono;
+
+        [Header("Win Lose Screen")]
+        public WinLoseUIMono WinLoseUIMono;
     }
 }

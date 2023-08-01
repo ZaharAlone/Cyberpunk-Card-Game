@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CyberNet.Core
 {
-    public struct BoardGameResourceComponent
+    public struct BoardGameResourceData
     {
         public GameObject Table;
         public GameObject Cards;

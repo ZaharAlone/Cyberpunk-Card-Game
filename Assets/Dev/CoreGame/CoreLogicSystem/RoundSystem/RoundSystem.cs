@@ -11,7 +11,7 @@ using CyberNet.Core.UI;
 namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
-    public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>
+    public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -60,6 +60,11 @@ namespace CyberNet.Local
 
             await Task.Delay(2000);
             VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            _dataWorld.RemoveOneData<RoundData>();
         }
     }
 }

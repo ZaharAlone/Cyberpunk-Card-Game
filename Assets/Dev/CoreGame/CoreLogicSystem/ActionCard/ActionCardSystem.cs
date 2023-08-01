@@ -9,7 +9,7 @@ using UnityEngine;
 namespace CyberNet.Core.ActionCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionCardSystem : IPreInitSystem, IInitSystem
+    public class ActionCardSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -145,6 +145,11 @@ namespace CyberNet.Core.ActionCard
             actionData.SpendInfluence = 0;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            _dataWorld.RemoveOneData<ActionCardData>();
         }
     }
 }

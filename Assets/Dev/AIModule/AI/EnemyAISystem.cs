@@ -54,7 +54,7 @@ namespace CyberNet.Core.Enemy
 
         private void SelectTradeCard()
         {
-
+            
         }
     }
 }

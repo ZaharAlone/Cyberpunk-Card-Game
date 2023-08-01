@@ -25,10 +25,11 @@ namespace CyberNet.Core
         //Создаем поле
         private void SetupBoard()
         {
-            var resource = ModulesUnityAdapter.world.NewEntity();
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
-            resource.AddComponent(new BoardGameResourceComponent { Table = table });
+            _dataWorld.CreateOneData(new BoardGameResourceData {
+                Table = table
+            });
         }
 
         //Инициализируем все карты
@@ -65,6 +66,9 @@ namespace CyberNet.Core
                 cardComponent.Player = PlayerEnum.Player2;
                 entity.AddComponent(new CardDrawComponent());
             }
+
+            ref var resourceData = ref _dataWorld.OneData<BoardGameResourceData>();
+            resourceData.Cards = cardsParent.gameObject;
         }
 
         private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
@@ -185,13 +189,19 @@ namespace CyberNet.Core
 
         public void Destroy()
         {
-            var entities = _dataWorld.Select<BoardGameResourceComponent>()
-                                     .GetEntities();
+            ref var resourceTable = ref _dataWorld.OneData<BoardGameResourceData>();
+            Object.Destroy(resourceTable.Table);
+            Object.Destroy(resourceTable.Cards);
+            
+            _dataWorld.RemoveOneData<BoardGameResourceData>();
+            _dataWorld.RemoveOneData<DeckCardsData>();
+            _dataWorld.RemoveOneData<BoardGameResourceData>();
+            
+            var entitiesCards = _dataWorld.Select<CardComponent>().GetEntities();
 
-            foreach (var entity in entities)
+            foreach (var entity in entitiesCards)
             {
-                var resource = entity.GetComponent<BoardGameResourceComponent>();
-                Object.Destroy(resource.Table);
+                entity.Destroy();
             }
         }
     }

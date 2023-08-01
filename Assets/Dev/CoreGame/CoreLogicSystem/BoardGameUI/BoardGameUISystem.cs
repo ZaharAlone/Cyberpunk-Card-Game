@@ -11,7 +11,7 @@ using UnityEngine;
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -125,6 +125,11 @@ namespace CyberNet.Core.UI
                 gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
             else
                 gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
+        }
+
+        public void Destroy()
+        {
+            _dataWorld.RemoveOneData<UIData>();
         }
     }
 }

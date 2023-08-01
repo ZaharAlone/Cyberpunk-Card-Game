@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CyberNet.Core;
+using CyberNet.Server;
 using ModulesFrameworkUnity;
 using Random = UnityEngine.Random;
 
-namespace CyberNet.Meta
+namespace CyberNet.Meta.StartGame
 {
     [EcsSystem(typeof(MetaModule))]
     public class StartGameSystem : IPreInitSystem
@@ -29,14 +30,14 @@ namespace CyberNet.Meta
             SelectViewBot();
             LoadingVSScreenAction.OpenLoadingVSScreen?.Invoke();
             
-            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
-            ModulesUnityAdapter.world.InitModule<VSAIModule>(true);
+            _dataWorld.InitModule<LocalGameModule>(true);
+            _dataWorld.InitModule<VSAIModule>(true);
         }
 
         private void StartGameLocalVSPlayer(string nameLeaderPlayer1, string nameLeaderPlayer2)
         {
-            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
-            ModulesUnityAdapter.world.InitModule<PassAndPlayModule>(true);
+            _dataWorld.InitModule<LocalGameModule>(true);
+            _dataWorld.InitModule<PassAndPlayModule>(true);
             SelectAvatarPlayer(nameLeaderPlayer1, PlayerEnum.Player1);
             SelectAvatarPlayer(nameLeaderPlayer2, PlayerEnum.Player2);
         }
@@ -71,5 +72,17 @@ namespace CyberNet.Meta
             playerView.Name =  I2.Loc.LocalizationManager.GetTranslation(leadersConfig.NameLoc);
             playerView.AvatarKey = leadersConfig.imageAvatarLeader;
         }
+        
+        private void OnlineGame()
+        {
+            ConnectServer();
+        }
+        
+        private void ConnectServer()
+        {
+            ModulesUnityAdapter.world.InitModule<ServerModule>(true);
+            ConnectServerAction.ConnectServer.Invoke();
+        }
+
     }
 }

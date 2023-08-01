@@ -5,6 +5,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.ActionCard;
+using CyberNet.Core.WinLose;
 
 namespace CyberNet.Core.UI
 {
@@ -121,6 +122,7 @@ namespace CyberNet.Core.UI
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
+            WinLoseAction.CheckWin?.Invoke();
         }
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
