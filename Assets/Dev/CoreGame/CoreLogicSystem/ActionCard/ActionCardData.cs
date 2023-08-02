@@ -14,7 +14,6 @@ namespace CyberNet.Core.ActionCard
         public int SpendTrade;
         public int SpendInfluence;
         
-        [FormerlySerializedAs("ActionType")]
-        public ActionCardType actionCardType;
+        public ActionPlayerType ActionPlayerType;
     }
 }

@@ -13,6 +13,7 @@ using CyberNet.Core;
 using CyberNet;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
+using CyberNet.Core.Enemy;
 using CyberNet.Core.Sound;
 
 namespace EcsCore
@@ -37,6 +38,7 @@ namespace EcsCore
             var soundList = Load<SoundList>("SoundList", tasks);
             var actionCardEffect = Load<ActionCardConfig>("ActionCardEffect", tasks);
             var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
+            var botConfig = Load<BotConfigSO>("BotConfig", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -57,6 +59,7 @@ namespace EcsCore
             world.CreateOneData(new SoundData { Sound = soundList.Result });
             world.CreateOneData(new ActionCardConfigData {ActionCardConfig = actionCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
+            world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

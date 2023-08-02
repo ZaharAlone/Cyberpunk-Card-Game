@@ -48,32 +48,32 @@ namespace CyberNet.Core.UI
             if (cardInHand > 0)
             {
                 ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                actionPlayer.actionCardType = ActionCardType.PlayAll;
+                actionPlayer.ActionPlayerType = ActionPlayerType.PlayAll;
             }
             else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
             {
                 ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
-                actionPlayer.actionCardType = ActionCardType.Attack;
+                actionPlayer.ActionPlayerType = ActionPlayerType.Attack;
             }
             else
             {
                 ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                actionPlayer.actionCardType = ActionCardType.EndTurn;
+                actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
             }
         }
         
         private void ClickButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            switch (actionPlayer.actionCardType)
+            switch (actionPlayer.ActionPlayerType)
             {
-                case ActionCardType.PlayAll:
+                case ActionPlayerType.PlayAll:
                     PlayAll();
                     break;
-                case ActionCardType.Attack:
+                case ActionPlayerType.Attack:
                     Attack();
                     break;
-                case ActionCardType.EndTurn:
+                case ActionPlayerType.EndTurn:
                     EndTurn();
                     break;
             }

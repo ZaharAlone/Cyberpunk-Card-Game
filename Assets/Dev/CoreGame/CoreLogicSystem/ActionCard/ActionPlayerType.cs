@@ -3,7 +3,7 @@ using System;
 namespace CyberNet.Core.ActionCard
 {
     [Serializable]
-    public enum ActionCardType
+    public enum ActionPlayerType
     {
         PlayAll,
         Attack,
