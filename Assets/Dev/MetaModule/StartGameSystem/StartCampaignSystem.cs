@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 
-namespace CyberNet.Core
+namespace CyberNet.Meta.StartGame
 {
     [EcsSystem(typeof(MetaModule))]
     public class StartCampaignSystem : IInitSystem, IRunSystem

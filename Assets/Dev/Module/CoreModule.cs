@@ -23,7 +23,7 @@ namespace EcsCore
             var tasks = new List<Task>();
 
             var canvasMainCore = Load<GameObject>("CoreGameUI", tasks);
-            var canvasViewCard = Load<GameObject>("CanvasViewCard", tasks);
+            var canvasViewCard = Load<GameObject>("ViewCardUI", tasks);
 
             var alltask = Task.WhenAll(tasks.ToArray());
             await alltask;

@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 using UnityEngine;
 
 namespace CyberNet.Core
@@ -95,7 +95,7 @@ namespace CyberNet.Core
             ClearComponentInShop();
 
             var enteties = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
-            var action = _dataWorld.OneData<AbilityData>();
+            var action = _dataWorld.OneData<ActionCardData>();
             var tradePoint = action.TotalTrade - action.SpendTrade;
 
             foreach (var entity in enteties)

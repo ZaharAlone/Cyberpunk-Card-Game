@@ -78,33 +78,6 @@ namespace CyberNet.Meta
             metaUI.MainMenuUIMono.OpenMainMenu();
         }
         
-        private void StartGameVSAI()
-        {
-            var menu = _dataWorld.OneData<MetaUIData>();
-            menu.UIGO.SetActive(false);
-            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
-            ModulesUnityAdapter.world.InitModule<VSAIModule>(true);
-        }
-
-        private void StartGamePassAndPlay()
-        {
-            var menu = _dataWorld.OneData<MetaUIData>();
-            menu.UIGO.SetActive(false);
-            ModulesUnityAdapter.world.InitModule<LocalGameModule>(true);
-            ModulesUnityAdapter.world.InitModule<PassAndPlayModule>(true);
-        }
-
-        private void OnlineGame()
-        {
-            ConnectServer();
-        }
-        
-        private void ConnectServer()
-        {
-            ModulesUnityAdapter.world.InitModule<ServerModule>(true);
-            ConnectServerAction.ConnectServer.Invoke();
-        }
-        
         public void Exti()
         {
 #if UNITY_EDITOR

@@ -11,8 +11,9 @@ using CyberNet.Meta;
 using UnityEngine;
 using CyberNet.Core;
 using CyberNet;
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
+using CyberNet.Core.Enemy;
 using CyberNet.Core.Sound;
 
 namespace EcsCore
@@ -35,8 +36,9 @@ namespace EcsCore
             var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
             var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
-            var cardAbilitEffect = Load<CardAbilityEffect>("CardAbilityEffect", tasks);
+            var actionCardEffect = Load<ActionCardConfig>("ActionCardEffect", tasks);
             var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
+            var botConfig = Load<BotConfigSO>("BotConfig", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -55,8 +57,9 @@ namespace EcsCore
             world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });
-            world.CreateOneData(new CardAbilityEffectData {CardAbilityEffect = cardAbilitEffect.Result});
+            world.CreateOneData(new ActionCardConfigData {ActionCardConfig = actionCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
+            world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

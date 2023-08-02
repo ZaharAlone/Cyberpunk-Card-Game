@@ -1,4 +1,4 @@
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 using CyberNet.Core.UI;
 using EcsCore;
 using Input;
@@ -129,7 +129,7 @@ namespace CyberNet.Core
 
             if (distance < -50)
             {
-                ref var actionValue = ref _dataWorld.OneData<AbilityData>();
+                ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
 

@@ -5,13 +5,13 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -49,7 +49,7 @@ namespace CyberNet.Core.UI
 
         private void UpdatePlayerCurrency()
         {
-            ref var actionValue = ref _dataWorld.OneData<AbilityData>();
+            ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             ref var gameUI = ref _dataWorld.OneData<UIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
@@ -125,6 +125,11 @@ namespace CyberNet.Core.UI
                 gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
             else
                 gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
+        }
+
+        public void Destroy()
+        {
+            _dataWorld.RemoveOneData<UIData>();
         }
     }
 }

@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using DG.Tweening;
-using CyberNet.Core.Ability;
+using CyberNet.Core.ActionCard;
 
 namespace CyberNet.Core
 {
@@ -57,7 +57,7 @@ namespace CyberNet.Core
 
         public void EndMoveCardAnimations()
         {
-            AbilityEvent.UpdateValueResourcePlayedCard?.Invoke();
+            ActionCardEvent.UpdateValueResourcePlayedCard?.Invoke();
         }
     }
 }

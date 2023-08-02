@@ -73,6 +73,22 @@ MonoBehaviour:
       - "\u0414\u0430"
       Flags: 0000
       Languages_Touch: []
+    - Term: Global/$cancel
+      TermType: 0
+      Description: 
+      Languages:
+      - Cancel
+      - "\u041E\u0442\u043C\u0435\u043D\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Global/$none
+      TermType: 0
+      Description: 
+      Languages:
+      - None
+      - "\u041D\u0438\u0447\u0435\u0433\u043E"
+      Flags: 0000
+      Languages_Touch: []
     - Term: MainMenu/$bt_playOnline_name
       TermType: 0
       Description: 
@@ -235,7 +251,7 @@ MonoBehaviour:
       - VS
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_play_all_button
+    - Term: CoreGame/$bg_play_all_button
       TermType: 0
       Description: 
       Languages:
@@ -243,7 +259,7 @@ MonoBehaviour:
       - "\u0421\u044B\u0433\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_attack_button
+    - Term: CoreGame/$bg_attack_button
       TermType: 0
       Description: 
       Languages:
@@ -251,7 +267,7 @@ MonoBehaviour:
       - "\u0410\u0442\u0430\u043A\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_end_turn_button
+    - Term: CoreGame/$bg_end_turn_button
       TermType: 0
       Description: 
       Languages:
@@ -259,7 +275,7 @@ MonoBehaviour:
       - "\u041A\u043E\u043D\u0435\u0446 \u0440\u0430\u0443\u043D\u0434\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_discard_button
+    - Term: CoreGame/$bg_discard_button
       TermType: 0
       Description: 
       Languages:
@@ -267,7 +283,7 @@ MonoBehaviour:
       - "\u0421\u0431\u0440\u043E\u0441"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_draw_card_button
+    - Term: CoreGame/$bg_draw_card_button
       TermType: 0
       Description: 
       Languages:
@@ -275,7 +291,7 @@ MonoBehaviour:
       - "\u041A\u043E\u043B\u043E\u0434\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_numberCurrentTurn_button_descr
+    - Term: CoreGame/$bg_numberCurrentTurn_button_descr
       TermType: 0
       Description: 
       Languages:
@@ -283,7 +299,7 @@ MonoBehaviour:
       - "\u0420\u0430\u0443\u043D\u0434 {[count]}"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_draw_card_name
+    - Term: CoreGame/$bg_draw_card_name
       TermType: 0
       Description: 
       Languages:
@@ -291,7 +307,7 @@ MonoBehaviour:
       - "\u0412\u0437\u044F\u0442\u044C \u043A\u0430\u0440\u0442\u0443"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_you_won_name
+    - Term: CoreGame/$bg_you_won_name
       TermType: 0
       Description: 
       Languages:
@@ -299,7 +315,7 @@ MonoBehaviour:
       - "\u0412\u044B \u041F\u043E\u0431\u0435\u0434\u0438\u043B\u0438"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_you_lose_name
+    - Term: CoreGame/$bg_you_lose_name
       TermType: 0
       Description: 
       Languages:
@@ -307,7 +323,7 @@ MonoBehaviour:
       - "\u0412\u044B \u041F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_choose_one
+    - Term: CoreGame/$bg_choose_one
       TermType: 0
       Description: 
       Languages:
@@ -315,7 +331,7 @@ MonoBehaviour:
       - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443:"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_turnYou_name
+    - Term: CoreGame/$bg_turnYou_name
       TermType: 0
       Description: 
       Languages:
@@ -323,7 +339,7 @@ MonoBehaviour:
       - "\u0412\u0430\u0448 \u0445\u043E\u0434"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_turnEnemy_name
+    - Term: CoreGame/$bg_turnEnemy_name
       TermType: 0
       Description: 
       Languages:
@@ -331,7 +347,7 @@ MonoBehaviour:
       - "\u0425\u043E\u0434 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 "
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_mercenaries_header
+    - Term: CoreGame/$bg_mercenaries_header
       TermType: 0
       Description: 
       Languages:
@@ -339,7 +355,7 @@ MonoBehaviour:
       - "\u041D\u0430\u0435\u043C\u043D\u0438\u043A\u0438"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_discard_header
+    - Term: CoreGame/$bg_discard_header
       TermType: 0
       Description: 
       Languages:
@@ -347,12 +363,116 @@ MonoBehaviour:
       - "\u0421\u0431\u0440\u043E\u0441"
       Flags: 0000
       Languages_Touch: []
-    - Term: BoardGameUI/$bg_draw_header
+    - Term: CoreGame/$bg_draw_header
       TermType: 0
       Description: 
       Languages:
       - Draw
       - "\u041A\u043E\u043B\u043E\u0434\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_discardCard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Select a card to discard
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043A\u0430\u0440\u0442\u0443
+        \u0434\u043B\u044F \u0441\u0431\u0440\u043E\u0441\u0430"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_discardCard_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - You must discard one of the cards from your hand, choose which
+      - "\u0412\u044B \u0434\u043E\u043B\u0436\u043D\u044B \u0441\u0431\u0440\u043E\u0441\u0438\u0442\u044C
+        \u043E\u0434\u043D\u0443 \u0438\u0437 \u043A\u0430\u0440\u0442 \u0441 \u0440\u0443\u043A\u0438,
+        \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043A\u0430\u043A\u0443\u044E"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_destroyCard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Select a card to destroy
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043A\u0430\u0440\u0442\u0443
+        \u0434\u043B\u044F \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_destroyCard_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one card you want to destroy, you can destroy any card from your hand
+        or from your discard pile.
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u043A\u0430\u0440\u0442\u0443 \u043A\u043E\u0442\u043E\u0440\u0443\u044E
+        \u0432\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C,
+        \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C
+        \u043B\u044E\u0431\u0443\u044E \u043A\u0430\u0440\u0442\u0443 \u0441 \u0440\u0443\u043A\u0438
+        \u0438\u043B\u0438 \u0441 \u0441\u0431\u0440\u043E\u0441\u0430."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_cloneCard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Select the card you want to clone
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043A\u0430\u0440\u0442\u0443
+        \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0445\u043E\u0442\u0438\u0442\u0435
+        \u043A\u043B\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_cloneCard_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one card from your hand whose ability you want to clone
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u043A\u0430\u0440\u0442\u0443 \u0438\u0437 \u0440\u0443\u043A\u0438, \u0447\u044C\u0438
+        \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438 \u0432\u044B
+        \u0445\u043E\u0442\u0438\u0442\u0435 \u043A\u043B\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_tradeDestroyCard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose a card from the market to destroy
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043A\u0430\u0440\u0442\u0443
+        \u0441 \u0440\u044B\u043D\u043A\u0430 \u0434\u043B\u044F \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_tradeDestroyCard_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one card from the market that you want to destroy.
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u043A\u0430\u0440\u0442\u0443 \u0441 \u0440\u044B\u043D\u043A\u0430, \u043A\u043E\u0442\u043E\u0440\u0443\u044E
+        \u0432\u044B \u0445\u043E\u0442\u0438\u0442\u0435 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_enemyBaseDestroyCard_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose an enemy base to destroy
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0431\u0430\u0437\u0443
+        \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 \u0434\u043B\u044F
+        \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_enemyBaseDestroyCard_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Select one of the established enemy bases that you want to destroy
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u0438\u0437 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044B\u0445
+        \u0431\u0430\u0437 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430,
+        \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0432\u044B \u0445\u043E\u0442\u0438\u0442\u0435
+        \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C"
       Flags: 0000
       Languages_Touch: []
     - Term: BoardGameCard/$bgc_neutral_scout_name
@@ -1005,7 +1125,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1690131080180
+    Google_LastUpdatedVersion: 1690735430097
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2
