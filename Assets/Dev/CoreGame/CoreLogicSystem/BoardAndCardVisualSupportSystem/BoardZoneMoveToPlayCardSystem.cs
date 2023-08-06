@@ -27,12 +27,12 @@ namespace CyberNet.Core.UI
                 ref var componentCard = ref entity.GetComponent<CardComponent>();
 
                 var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
-                var ui = _dataWorld.OneData<UIData>();
+                var ui = _dataWorld.OneData<CoreUIData>();
 
                 if (distance > 150)
-                    ui.UIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
+                    ui.BoardGameUIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 255);
                 else
-                    ui.UIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 0);
+                    ui.BoardGameUIMono.CoreHudUIMono.InteractiveZoneImage.color = new Color(255, 255, 255, 0);
             }
         }
     }

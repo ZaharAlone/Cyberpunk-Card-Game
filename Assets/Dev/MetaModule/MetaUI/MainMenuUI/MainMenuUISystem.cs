@@ -31,6 +31,7 @@ namespace CyberNet.Meta
             MainMenuAction.OpenServerGame += OpenServerGame;
             MainMenuAction.OpenSettingsGame += OpenSettingsGame;
             MainMenuAction.OpenExitGame += OpenExitGame;
+            MainMenuAction.ExitGame += Exit;
         }
         private void OpenCampaign()
         {
@@ -40,7 +41,14 @@ namespace CyberNet.Meta
         
         private void OpenExitGame()
         {
-
+            ref var popupViewConfig = ref _dataWorld.OneData<PopupData>().PopupViewConfig;
+            var popupView = new PopupConfimStruct();
+            popupView.HeaderLoc = popupViewConfig.HeaderPopupConfim;
+            popupView.DescrLoc = popupViewConfig.DescrPopupConfim;
+            popupView.ButtonConfimLoc = popupViewConfig.ConfimButtonPopupConfim;
+            popupView.ButtonCancelLoc = popupViewConfig.CancelButtonPopupConfim;
+            popupView.ButtonConfimAction = MainMenuAction.ExitGame;
+            PopupAction.ConfirmPopup?.Invoke(popupView);
         }
         
         private void OpenSettingsGame()
@@ -78,7 +86,7 @@ namespace CyberNet.Meta
             metaUI.MainMenuUIMono.OpenMainMenu();
         }
         
-        public void Exti()
+        public void Exit()
         {
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;

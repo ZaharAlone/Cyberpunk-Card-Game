@@ -36,7 +36,7 @@ namespace CyberNet.Core.WinLose
 
         public void OpenWinScreen(PlayerEnum playerWin)
         {
-            ref var uiWinLoseScreen = ref _dataWorld.OneData<UIData>().UIMono.WinLoseUIMono;
+            ref var uiWinLoseScreen = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.WinLoseUIMono;
             ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
             ref var leadersViewData = ref _dataWorld.OneData<LeadersViewData>().LeadersView;

@@ -16,8 +16,7 @@ namespace CyberNet.Meta
         public GameObject PopupWarningGO;
         public PopupWarningUIMono PopupWarningClass;
 
-        public GameObject PopupConfirmGO;
-        public PopupConfirmUIMono PopupConfirmClass;
+        public PopupConfirmUIMono PopupConfirmUIMono;
 
         public void OpenWaitPopup(string header)
         {
@@ -32,14 +31,7 @@ namespace CyberNet.Meta
             PopupWarningGO.SetActive(true);
             PopupWarningClass.OpenPopup(header, descr, button, action);
         }
-
-        public void OpenConfirmPopup(string header, string descr, string buttonRight, string buttonLeft, Action action)
-        {
-            BackgroundImage.SetActive(true);
-            PopupConfirmGO.SetActive(true);
-            PopupConfirmClass.OpenPopup(header, descr, buttonRight, buttonLeft, action);
-        }
-
+        
         public void CloseWaitPopup()
         {
             BackgroundImage.SetActive(false);
@@ -50,12 +42,6 @@ namespace CyberNet.Meta
         {
             BackgroundImage.SetActive(false);
             PopupWarningGO.SetActive(false);
-        }
-
-        public void CloseConfirmPopup()
-        {
-            BackgroundImage.SetActive(false);
-            PopupConfirmGO.SetActive(false);
         }
     }
 }

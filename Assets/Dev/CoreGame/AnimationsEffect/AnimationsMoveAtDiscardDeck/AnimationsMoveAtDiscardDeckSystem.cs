@@ -25,7 +25,7 @@ namespace CyberNet.Core
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<UIData>().UIMono;
+            var ui = _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
 
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)

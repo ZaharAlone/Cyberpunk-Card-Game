@@ -1,29 +1,58 @@
 using I2.Loc;
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace CyberNet.Meta
 {
     public class PopupConfirmUIMono : MonoBehaviour
     {
-        public Localize Header;
-        public Localize Descr;
-        public Localize ButtonTextLeft;
-        public Localize ButtonTextRight;
-        private Action TargetAction;
+        [Header("Main Element")]
+        public GameObject Background;
+        public GameObject Panel;
+        
+        [Header("View element")]
+        public TextMeshProUGUI Header;
+        public TextMeshProUGUI Descr;
+        public TextMeshProUGUI ButtonTextLeft;
+        public TextMeshProUGUI ButtonTextRight;
 
-        public void OpenPopup(string header, string descr, string buttonRight, string buttonLeft, Action action)
+        //Element for animations
+        
+        private Action ActionConfim;
+
+        public void OpenPopup(PopupConfimStruct popupData)
         {
-            Header.Term = header;
-            Descr.Term = descr;
-            ButtonTextRight.Term = buttonRight;
-            ButtonTextLeft.Term = buttonLeft;
-            TargetAction = action;
+            Debug.Log(popupData.HeaderLoc);
+            Header.text = popupData.HeaderLoc;
+            Descr.text = popupData.DescrLoc;
+            ButtonTextRight.text = popupData.ButtonConfimLoc;
+            ButtonTextLeft.text = popupData.ButtonCancelLoc;
+            ActionConfim = popupData.ButtonConfimAction;
+            
+            OpenPopupAnimations();
         }
 
-        public void OnClick()
+        private void OpenPopupAnimations()
         {
-            TargetAction?.Invoke();
+            Background.SetActive(true);
+            Panel.SetActive(true);
+        }
+
+        public void OnConfimClick()
+        {
+            ActionConfim?.Invoke();
+        }
+
+        public void OnClickCancel()
+        {
+            ClosePopupAnimation();
+        }
+
+        public void ClosePopupAnimation()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
         }
     }
 }

@@ -29,15 +29,15 @@ namespace CyberNet.Core.UI
         {
             var round = _dataWorld.OneData<RoundData>();
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<UIData>();
+            var ui = _dataWorld.OneData<CoreUIData>();
 
             if (round.CurrentPlayer != viewPlayer.PlayerView)
             {
-                ui.UIMono.CoreHudUIMono.HideInteractiveButton();
+                ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
             }
 
-            ui.UIMono.CoreHudUIMono.ShowInteractiveButton();
+            ui.BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
@@ -47,17 +47,17 @@ namespace CyberNet.Core.UI
 
             if (cardInHand > 0)
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
                 actionPlayer.ActionPlayerType = ActionPlayerType.PlayAll;
             }
             else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
                 actionPlayer.ActionPlayerType = ActionPlayerType.Attack;
             }
             else
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
                 actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
             }
         }
@@ -127,7 +127,7 @@ namespace CyberNet.Core.UI
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
         {
-            ref var boardUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var boardUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             if (targetAttack != viewData.PlayerView)
             {

@@ -51,7 +51,7 @@ namespace CyberNet.Local
         private async void UpdateUIRound(PlayerEnum playersRound)
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<UIData>().UIMono;
+            var ui = _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             
             if (playersRound == viewPlayer.PlayerView)
                 ui.ChangeRoundUI.PlayerRound();

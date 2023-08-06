@@ -26,7 +26,7 @@ namespace CyberNet.Core.Dialog
         private void ShowDialog(int phrase)
         {
             ref var dialogData = ref _dataWorld.OneData<CurrentDialogData>();
-            ref var dialogUI = ref _dataWorld.OneData<UIData>().UIMono.DialogUIMono;
+            ref var dialogUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.DialogUIMono;
             ref var dialogConfigData = ref _dataWorld.OneData<DialogConfigData>();
 
             dialogData.CurrentIndexPhrase = phrase;
@@ -43,7 +43,7 @@ namespace CyberNet.Core.Dialog
 
         private void EndDialog()
         {
-            ref var dialogUI = ref _dataWorld.OneData<UIData>().UIMono.DialogUIMono;
+            ref var dialogUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.DialogUIMono;
             dialogUI.CloseDialog();
             ref var dialogData = ref _dataWorld.OneData<CurrentDialogData>();
             ref var dialogConfigData = ref _dataWorld.OneData<DialogConfigData>();

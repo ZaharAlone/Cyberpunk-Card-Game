@@ -15,5 +15,6 @@ namespace CyberNet.Meta
         public static Action OpenServerGame;
         public static Action OpenSettingsGame;
         public static Action OpenExitGame;
+        public static Action ExitGame;
     }
 }

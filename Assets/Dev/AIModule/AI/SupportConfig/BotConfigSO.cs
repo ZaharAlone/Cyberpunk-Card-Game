@@ -7,6 +7,5 @@ namespace CyberNet.Core.Enemy
     public class BotConfigSO : ScriptableObject
     {
         public TextAsset BotAIConfigJson;
-        public TextAsset BotNameJson;
     }
 }

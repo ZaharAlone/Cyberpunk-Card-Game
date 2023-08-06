@@ -5,6 +5,7 @@ namespace CyberNet.Meta
     {
         public static Action OpenCampaignUI;
         public static Action NewCampaign;
+        public static Action NewCampaignConfim;
         public static Action ContinueCampaign;
         public static Action BackMainMenu;
     }

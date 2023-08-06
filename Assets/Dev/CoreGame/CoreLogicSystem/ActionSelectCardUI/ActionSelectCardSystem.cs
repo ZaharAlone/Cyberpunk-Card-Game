@@ -25,9 +25,15 @@ namespace CyberNet.Core.ActionCard
         
         private void OpenWindow()
         {
+            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
+            ref var currentPlayer = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+            
+            if (viewPlayer != currentPlayer)
+                return;
+            
             var entity = _dataWorld.Select<CardComponent>().With<ActionSelectCardComponent>().SelectFirstEntity();
             ref var actionSelectCardComponent = ref entity.GetComponent<ActionSelectCardComponent>();
-            ref var uiActionSelectCard = ref _dataWorld.OneData<UIData>().UIMono.actionSelectCardUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.actionSelectCardUIMono;
             ref var actionConfig = ref _dataWorld.OneData<ActionCardConfigData>().ActionCardViewConfig;
             actionConfig.TryGetValue(actionSelectCardComponent.AbilityCard.AbilityType.ToString(), out var actionVisualConfig);
             
@@ -41,7 +47,7 @@ namespace CyberNet.Core.ActionCard
 
         private void CloseWindow()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<UIData>().UIMono.actionSelectCardUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.actionSelectCardUIMono;
             uiActionSelectCard.CloseWindow();
         }
         

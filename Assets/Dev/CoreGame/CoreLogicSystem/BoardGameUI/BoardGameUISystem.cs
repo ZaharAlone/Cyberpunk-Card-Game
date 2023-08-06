@@ -25,7 +25,7 @@ namespace CyberNet.Core.UI
         
         private void InitCameraCanvas()
         {
-            var gameUI = _dataWorld.OneData<UIData>();
+            var gameUI = _dataWorld.OneData<CoreUIData>();
             var camera = _dataWorld.OneData<BoardGameCameraComponent>();
 
             var canvas = gameUI.UIGO.GetComponent<Canvas>();
@@ -50,12 +50,12 @@ namespace CyberNet.Core.UI
         private void UpdatePlayerCurrency()
         {
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>();
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            gameUI.UIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
+            gameUI.BoardGameUIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
         }
 
         private void UpdateStatsPlayersPassport()
@@ -63,7 +63,7 @@ namespace CyberNet.Core.UI
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();
             ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
 
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
@@ -83,7 +83,7 @@ namespace CyberNet.Core.UI
             var leadersData = _dataWorld.OneData<LeadersViewData>();
             ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
 
             leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
             leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
@@ -102,7 +102,7 @@ namespace CyberNet.Core.UI
 
         private void UpdateCountCard()
         {
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
             var discardCardsPlayer1 = _dataWorld.Select<CardComponent>()
                                                 .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
@@ -129,7 +129,7 @@ namespace CyberNet.Core.UI
 
         public void Destroy()
         {
-            _dataWorld.RemoveOneData<UIData>();
+            _dataWorld.RemoveOneData<CoreUIData>();
         }
     }
 }

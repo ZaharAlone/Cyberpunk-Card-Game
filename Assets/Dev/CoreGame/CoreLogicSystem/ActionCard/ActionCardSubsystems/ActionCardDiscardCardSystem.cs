@@ -39,7 +39,7 @@ namespace CyberNet.Core.ActionCard
 
             ActionCardVisualEffect.CreateEffect(abilityVFX.discardActionCardVFX, cardComponent.Transform.position);
 
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             ref var playerView = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
 
             if (playerView == playerTargetDiscard)
@@ -77,7 +77,7 @@ namespace CyberNet.Core.ActionCard
             Debug.LogError("DiscardCard");
             //TODO: Show ui select discard card;
             ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardComponent>().TargetDiscardCard;
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
 
             if (viewPlayer == playerTargetDiscard)
