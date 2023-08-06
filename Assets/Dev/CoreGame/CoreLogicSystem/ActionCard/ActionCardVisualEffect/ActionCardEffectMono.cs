@@ -7,12 +7,23 @@ namespace CyberNet.Core.ActionCard
 {
     public class ActionCardEffectMono : MonoBehaviour
     {
+        public RectTransform ParticleTranform;
         public TextMeshProUGUI Text;
 
         private Sequence _sequence;
         
         public void SetText(int value)
         {
+            if (value > 1)
+            {
+                Text.gameObject.SetActive(true);
+                ParticleTranform.anchoredPosition = new Vector2(-20, 0);
+            }
+            else
+            {
+                Text.gameObject.SetActive(false);
+                ParticleTranform.anchoredPosition = Vector2.zero;
+            }
             Text.text = value.ToString();
         }
 
