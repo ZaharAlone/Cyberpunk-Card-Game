@@ -33,10 +33,6 @@ namespace CyberNet
         public int Price;
         [JsonProperty("count")]
         public int Count;
-        [JsonProperty("type")]
-        public TypeCard Type;
-        [JsonProperty("shield")]
-        public int Shield;
 
         [JsonProperty("ability_0")]
         public AbilityCard Ability_0;
@@ -63,14 +59,9 @@ namespace CyberNet
         None,
         Attack,
         Trade,
-        Influence,
         DrawCard,
-        DiscardCardEnemy,
         DestroyCard,
         CloneCard,
-        NoiseCard,
-        DestroyTradeCard,
-        DestroyEnemyBase
     }
 
     [Serializable]
@@ -82,12 +73,5 @@ namespace CyberNet
         Nomads,
         Netrunners,
         Destroy
-    }
-
-    [Serializable]
-    public enum TypeCard
-    {
-        Unit,
-        Base
     }
 }

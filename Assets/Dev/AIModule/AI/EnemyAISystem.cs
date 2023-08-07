@@ -97,23 +97,10 @@ namespace CyberNet.Core.Enemy
                 case AbilityType.Trade:
                     value = CalculateValueCardAction.TradeAction.Invoke(abilityCard.Count);
                     break;
-                case AbilityType.Influence:
-                    value = CalculateValueCardAction.InfluenceAction.Invoke(abilityCard.Count);
-                    break;
                 case AbilityType.DrawCard:
-                    break;
-                case AbilityType.DiscardCardEnemy:
-                    value = CalculateValueCardAction.DiscardCardAction.Invoke();
                     break;
                 case AbilityType.DestroyCard:
                     value = CalculateValueCardAction.DestroyCardAction.Invoke();
-                    break;
-                case AbilityType.NoiseCard:
-                    value = CalculateValueCardAction.NoiseCardAction.Invoke();
-                    break;
-                case AbilityType.DestroyTradeCard:
-                    break;
-                case AbilityType.DestroyEnemyBase:
                     break;
             }
 
@@ -168,28 +155,13 @@ namespace CyberNet.Core.Enemy
                 case AbilityType.Trade:
                     value = multValueAction * abilityCard.Count;
                     break;
-                case AbilityType.Influence:
-                    value = multValueAction * abilityCard.Count;
-                    break;
                 case AbilityType.DrawCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.DiscardCardEnemy:
                     value = multValueAction;
                     break;
                 case AbilityType.DestroyCard:
                     value = multValueAction;
                     break;
                 case AbilityType.CloneCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.NoiseCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.DestroyTradeCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.DestroyEnemyBase:
                     value = multValueAction;
                     break;
             }

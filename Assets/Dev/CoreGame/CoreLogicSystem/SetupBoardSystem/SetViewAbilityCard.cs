@@ -61,17 +61,9 @@ namespace CyberNet.Core
                     boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
                     AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
                     break;
-                case AbilityType.Influence:
-                    boardGameConfig.CurrencyImage.TryGetValue("Influence", out var imInfluence);
-                    AddBaseAction(container, imInfluence, ability.Count, boardGameConfig.ColorInfluenceText, boardGameConfig, oneAbility);
-                    break;
                 case AbilityType.DrawCard:
                     var textDraw = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDraw.text = "Draw Card";
-                    break;
-                case AbilityType.DiscardCardEnemy:
-                    var textDiscard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDiscard.text = "Discard Card Enemy";
                     break;
                 case AbilityType.DestroyCard:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
@@ -80,18 +72,6 @@ namespace CyberNet.Core
                 case AbilityType.CloneCard:
                     var textClone = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textClone.text = "Clone card in hand";
-                    break;
-                case AbilityType.NoiseCard:
-                    var textNoise = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textNoise.text = "Add Card Noise Enemy";
-                    break;
-                case AbilityType.DestroyTradeCard:
-                    var textDestroyTrade = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDestroyTrade.text = "Destroy Trade Card";
-                    break;
-                case AbilityType.DestroyEnemyBase:
-                    var textDestroyBase = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDestroyBase.text = "Destroy Enemy Base";
                     break;
             }
         }

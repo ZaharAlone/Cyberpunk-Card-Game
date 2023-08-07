@@ -13,8 +13,7 @@ namespace CyberNet
     {
         [Header("Prefab")]
         public GameObject TablePrefab;
-        public CardMono CardUnit;
-        public CardMono CardBase;
+        public CardMono CardGO;
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;

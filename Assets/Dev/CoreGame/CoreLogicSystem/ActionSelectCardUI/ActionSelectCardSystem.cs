@@ -39,9 +39,7 @@ namespace CyberNet.Core.ActionCard
             
             uiActionSelectCard.SetView(actionVisualConfig.HeaderLoc, actionVisualConfig.DescrLoc);
             var isEnableCancelButton = true;
-
-            if (actionSelectCardComponent.AbilityCard.AbilityType == AbilityType.DiscardCardEnemy)
-                isEnableCancelButton = false;
+            
             uiActionSelectCard.OpenWindow(isEnableCancelButton);
         }
 

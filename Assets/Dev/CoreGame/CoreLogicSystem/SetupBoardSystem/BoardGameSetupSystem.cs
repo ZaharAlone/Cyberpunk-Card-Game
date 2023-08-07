@@ -75,7 +75,7 @@ namespace CyberNet.Core
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var cardMono = Object.Instantiate(boardGameConfig.CardUnit, parent);
+            var cardMono = Object.Instantiate(boardGameConfig.CardGO, parent);
             var cardGO = cardMono.gameObject;
             cardsConfig.Cards.TryGetValue(placeCard.CardName, out var card);
 

@@ -5,7 +5,6 @@
     "image": "card_neutral_scout",
     "nations": "Neutral",
     "count": 16,
-    "type": "Unit",
     "price": 0,
     "cyberpsychosis_count": 1,
     "ability_0": {
@@ -19,7 +18,6 @@
     "image": "card_neutral_explorer",
     "nations": "Neutral",
     "count": 10,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 2,
     "ability_0": {
@@ -33,7 +31,6 @@
     "image": "card_neutral_hunter",
     "nations": "Neutral",
     "count": 4,
-    "type": "Unit",
     "price": 0,
     "cyberpsychosis_count": 1,
     "ability_0": {
@@ -47,17 +44,11 @@
     "image": "card_corporates_administrator",
     "nations": "Corporates",
     "count": 3,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "trade",
       "count": 3
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 2,
-      "condition": "Corporates"
     }
   },
   "corporates_director": {
@@ -66,21 +57,11 @@
     "image": "card_corporates_director",
     "nations": "Corporates",
     "count": 2,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "trade",
       "count": 4
-    },
-    "ability_1": {
-      "action": "drawCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 2,
-      "condition": "Destroy"
     }
   },
   "corporates_droid": {
@@ -89,16 +70,11 @@
     "image": "card_corporates_droid",
     "nations": "Corporates",
     "count": 3,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 3
-    },
-    "ability_1": {
-      "action": "cloneCard",
-      "count": 1
     }
   },
   "corporates_engineer": {
@@ -107,21 +83,11 @@
     "image": "card_corporates_engineer",
     "nations": "Corporates",
     "count": 4,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "trade",
       "count": 3
-    },
-    "ability_1": {
-      "action": "noiseCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "noiseCard",
-      "count": 1,
-      "condition": "Corporates"
     }
   },
   "corporates_head_hunter": {
@@ -130,21 +96,11 @@
     "image": "card_corporates_head_hunter",
     "nations": "Corporates",
     "count": 1,
-    "type": "Unit",
     "price": 7,
     "cyberpsychosis_count": 6,
     "ability_0": {
       "action": "attack",
       "count": 5
-    },
-    "ability_1": {
-      "action": "DestroyCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 3,
-      "condition": "Corporates"
     }
   },
   "corporates_pathfinder": {
@@ -153,21 +109,11 @@
     "image": "card_corporates_pathfinder",
     "nations": "Corporates",
     "count": 2,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "trade",
       "count": 5
-    },
-    "ability_1": {
-      "action": "trade",
-      "count": 4
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 4,
-      "condition": "Corporates"
     }
   },
   "corporates_R52": {
@@ -176,15 +122,10 @@
     "image": "card_corporates_R52",
     "nations": "Corporates",
     "count": 3,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "drawCard",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
       "count": 1
     }
   },
@@ -194,21 +135,11 @@
     "image": "card_corporates_sergeant",
     "nations": "Corporates",
     "count": 4,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "attack",
       "count": 4
-    },
-    "ability_1": {
-      "action": "trade",
-      "count": 3
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 3,
-      "condition": "Corporates"
     }
   },
   "corporates_brothers": {
@@ -217,21 +148,11 @@
     "image": "card_corporates_brothers",
     "nations": "Corporates",
     "count": 3,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "trade",
       "count": 3
-    },
-    "ability_1": {
-      "action": "DrawCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 5,
-      "condition": "Corporates"
     }
   },
   "corporates_yellow_eyed": {
@@ -240,21 +161,11 @@
     "image": "card_corporates_yellow_eyed",
     "nations": "Corporates",
     "count": 2,
-    "type": "Unit",
     "price": 7,
     "cyberpsychosis_count": 6,
     "ability_0": {
       "action": "trade",
       "count": 4
-    },
-    "ability_1": {
-      "action": "Attack",
-      "count": 3
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 4,
-      "condition": "Corporates"
     }
   },
   "guns_biker": {
@@ -263,17 +174,11 @@
     "image": "card_guns_biker",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 4
-    },
-    "ability_2": {
-      "action": "discardCardEnemy",
-      "count": 1,
-      "condition": "Guns"
     }
   },
   "guns_bloody_eye": {
@@ -282,21 +187,11 @@
     "image": "card_guns_bloody_eye",
     "nations": "Guns",
     "count": 4,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 2
-    },
-    "ability_1": {
-      "action": "destroyCard",
-      "count": 2
-    },
-    "ability_2": {
-      "action": "destroyCard",
-      "count": 2,
-      "condition": "Guns"
     }
   },
   "guns_chimney": {
@@ -305,21 +200,11 @@
     "image": "card_guns_chimney",
     "nations": "Guns",
     "count": 4,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "attack",
       "count": 3
-    },
-    "ability_1": {
-      "action": "Trade",
-      "count": 2
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 2,
-      "condition": "Guns"
     }
   },
   "guns_killer": {
@@ -328,21 +213,11 @@
     "image": "card_guns_killer",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 5
-    },
-    "ability_1": {
-      "action": "trade",
-      "count": 2
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 2,
-      "condition": "Guns"
     }
   },
   "guns_leader": {
@@ -351,21 +226,11 @@
     "image": "card_guns_leader",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "attack",
       "count": 3
-    },
-    "ability_1": {
-      "action": "destroyCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 5,
-      "condition": "Destroy"
     }
   },
   "guns_oldSoldier": {
@@ -374,21 +239,11 @@
     "image": "card_guns_oldSoldier",
     "nations": "Guns",
     "count": 3,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "attack",
       "count": 3
-    },
-    "ability_1": {
-      "action": "trade",
-      "count": 3
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 2,
-      "condition": "Destroy"
     }
   },
   "guns_pirate": {
@@ -397,21 +252,11 @@
     "image": "card_guns_pirate",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 4
-    },
-    "ability_1": {
-      "action": "destroyCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 5,
-      "condition": "Guns"
     }
   },
   "guns_reckless": {
@@ -420,17 +265,11 @@
     "image": "card_guns_reckless",
     "nations": "Guns",
     "count": 1,
-    "type": "Unit",
     "price": 6,
     "cyberpsychosis_count": 5,
     "ability_0": {
       "action": "attack",
       "count": 5
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 7,
-      "condition": "Guns"
     }
   },
   "guns_refuge": {
@@ -439,15 +278,10 @@
     "image": "card_guns_refuge",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 6,
     "cyberpsychosis_count": 5,
     "ability_0": {
       "action": "destroyCard",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
       "count": 1
     }
   },
@@ -457,17 +291,11 @@
     "image": "card_guns_russian",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 5
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 4,
-      "condition": "Guns"
     }
   },
   "guns_sniper": {
@@ -476,21 +304,11 @@
     "image": "card_guns_sniper",
     "nations": "Guns",
     "count": 2,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "attack",
       "count": 6
-    },
-    "ability_1": {
-      "action": "noiseCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 4,
-      "condition": "Guns"
     }
   },
   "netrunners_agent": {
@@ -499,16 +317,11 @@
     "image": "card_netrunners_agent",
     "nations": "Netrunners",
     "count": 4,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "attack",
       "count": 2
-    },
-    "ability_1": {
-      "action": "cloneCard",
-      "count": 1
     }
   },
   "netrunners_ai": {
@@ -517,15 +330,10 @@
     "image": "card_netrunners_ai",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "drawCard",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
       "count": 1
     }
   },
@@ -535,21 +343,11 @@
     "image": "card_netrunners_boy",
     "nations": "Netrunners",
     "count": 3,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "destroyCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "noiseCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_c28": {
@@ -558,11 +356,10 @@
     "image": "card_netrunners_c28",
     "nations": "Netrunners",
     "count": 4,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "downCyberpsychosisEnemy",
+      "action": "attack",
       "count": 2
     }
   },
@@ -572,21 +369,11 @@
     "image": "card_netrunners_cracker",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "destroyCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "noiseCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_darkNet": {
@@ -595,11 +382,10 @@
     "image": "card_netrunners_darkNet",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 1,
     "cyberpsychosis_count": 0,
     "ability_0": {
-      "action": "noiseCard",
+      "action": "Attack",
       "count": 1
     }
   },
@@ -609,17 +395,11 @@
     "image": "card_netrunners_virus",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "noiseCard",
+      "action": "attack",
       "count": 1
-    },
-    "ability_2": {
-      "action": "discardCardEnemy",
-      "count": 1,
-      "condition": "Destroy"
     }
   },
   "netrunners_empath": {
@@ -628,21 +408,11 @@
     "image": "card_netrunners_empath",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "drawCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "destroyCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "drawCard",
-      "count": 1,
-      "condition": "Destroy"
     }
   },
   "netrunners_interference": {
@@ -651,21 +421,11 @@
     "image": "card_netrunners_interference",
     "nations": "Netrunners",
     "count": 3,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "noiseCard",
+      "action": "Attack",
       "count": 1
-    },
-    "ability_1": {
-      "action": "cloneCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "noiseCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_networker": {
@@ -674,21 +434,11 @@
     "image": "card_netrunners_networker",
     "nations": "Netrunners",
     "count": 2,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "noiseCard",
+      "action": "Attack",
       "count": 1
-    },
-    "ability_1": {
-      "action": "thiefCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "thiefCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_shooter": {
@@ -697,21 +447,11 @@
     "image": "card_netrunners_shooter",
     "nations": "Netrunners",
     "count": 4,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "destroyCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "noiseCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "noiseCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_thief": {
@@ -720,21 +460,11 @@
     "image": "card_netrunners_thief",
     "nations": "Netrunners",
     "count": 3,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "attack",
       "count": 2
-    },
-    "ability_1": {
-      "action": "thiefCard",
-      "count": 1
-    },
-    "ability_2": {
-      "action": "thiefCard",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "nomads_blueBlade": {
@@ -743,16 +473,11 @@
     "image": "card_nomads_blueBlade",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "attack",
       "count": 5
-    },
-    "ability_1": {
-      "action": "discardCardEnemy",
-      "count": 1
     }
   },
   "nomads_demon": {
@@ -761,16 +486,11 @@
     "image": "card_nomads_demon",
     "nations": "Nomads",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "attack",
       "count": 3
-    },
-    "ability_1": {
-      "action": "destroyCard",
-      "count": 1
     }
   },
   "nomads_doctor": {
@@ -779,21 +499,11 @@
     "image": "card_nomads_doctor",
     "nations": "Nomads",
     "count": 2,
-    "type": "Unit",
     "price": 6,
     "cyberpsychosis_count": 5,
     "ability_0": {
-      "action": "influence",
+      "action": "attack",
       "count": 5
-    },
-    "ability_1": {
-      "action": "downCyberpsychosisEnemy",
-      "count": 4
-    },
-    "ability_2": {
-      "action": "downCyberpsychosisEnemy",
-      "count": 4,
-      "condition": "Nomads"
     }
   },
   "nomads_outcast": {
@@ -802,11 +512,10 @@
     "image": "card_nomads_outcast",
     "nations": "Nomads",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "downCyberpsychosisEnemy",
+      "action": "attack",
       "count": 3
     }
   },
@@ -816,21 +525,11 @@
     "image": "card_nomads_racer",
     "nations": "Nomads",
     "count": 2,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "trade",
       "count": 4
-    },
-    "ability_1": {
-      "action": "influence",
-      "count": 2
-    },
-    "ability_2": {
-      "action": "influence",
-      "count": 2,
-      "condition": "Nomads"
     }
   },
   "nomads_ravager": {
@@ -839,17 +538,11 @@
     "image": "card_nomads_ravager",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "discardCardEnemy",
+      "action": "trade",
       "count": 1
-    },
-    "ability_2": {
-      "action": "downCyberpsychosisEnemy",
-      "count": 1,
-      "condition": "Destroy"
     }
   },
   "nomads_samurai": {
@@ -858,21 +551,11 @@
     "image": "card_nomads_samurai",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "drawCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "attack",
-      "count": 4
-    },
-    "ability_2": {
-      "action": "attack",
-      "count": 4,
-      "condition": "Nomads"
     }
   },
   "nomads_trader": {
@@ -881,17 +564,11 @@
     "image": "card_nomads_trader",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
       "action": "trade",
       "count": 4
-    },
-    "ability_2": {
-      "action": "thiefCard",
-      "count": 1,
-      "condition": "Nomads"
     }
   },
   "nomads_valkyrie": {
@@ -900,21 +577,11 @@
     "image": "card_nomads_valkyrie",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "influence",
+      "action": "trade",
       "count": 2
-    },
-    "ability_1": {
-      "action": "trade",
-      "count": 3
-    },
-    "ability_2": {
-      "action": "trade",
-      "count": 3,
-      "condition": "Nomads"
     }
   },
   "nombads_raven": {
@@ -923,24 +590,11 @@
     "image": "card_nombads_raven",
     "nations": "Nomads",
     "count": 3,
-    "type": "Unit",
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "drawCard",
       "count": 1
-    },
-    "ability_1": {
-      "action": "cloneCard",
-      "count": 1
     }
-  },
-  "neutral_noise": {
-    "name": "neutral_noise",
-    "header": "BoardGameCard/$bgc_neutral_noise_name",
-    "image": "card_neutral_noise",
-    "nations": "Neutral",
-    "count": 0,
-    "type": "Unit"
   }
 }

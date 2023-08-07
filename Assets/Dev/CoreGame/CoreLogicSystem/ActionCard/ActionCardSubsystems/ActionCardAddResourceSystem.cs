@@ -44,11 +44,6 @@ namespace CyberNet.Core
                     actionData.TotalTrade += abilityAddResourceComponent.Count;
                     ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.Transform.position, abilityAddResourceComponent.Count);
                     break;
-                case AbilityType.Influence:
-                    actionData.TotalInfluence += abilityAddResourceComponent.Count;
-                    ActionInfluence();
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.influenceVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
-                    break;
             }
             
             entity.RemoveComponent<ActionCardAddResourceComponent>();
