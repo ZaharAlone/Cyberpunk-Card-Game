@@ -67,10 +67,8 @@ namespace CyberNet
         DrawCard,
         DiscardCardEnemy,
         DestroyCard,
-        DownCyberpsychosisEnemy,
         CloneCard,
         NoiseCard,
-        ThiefCard,
         DestroyTradeCard,
         DestroyEnemyBase
     }

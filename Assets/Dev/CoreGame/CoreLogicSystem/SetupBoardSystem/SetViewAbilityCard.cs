@@ -77,10 +77,6 @@ namespace CyberNet.Core
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textDestroy.text = "Destroy Card";
                     break;
-                case AbilityType.DownCyberpsychosisEnemy:
-                    var textDownCyb = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDownCyb.text = "Down Cyberpsychosis";
-                    break;
                 case AbilityType.CloneCard:
                     var textClone = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textClone.text = "Clone card in hand";
@@ -88,10 +84,6 @@ namespace CyberNet.Core
                 case AbilityType.NoiseCard:
                     var textNoise = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
                     textNoise.text = "Add Card Noise Enemy";
-                    break;
-                case AbilityType.ThiefCard:
-                    var textThief = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textThief.text = "Thief Random Card";
                     break;
                 case AbilityType.DestroyTradeCard:
                     var textDestroyTrade = Object.Instantiate(boardGameConfig.TextBaseAbility, container);

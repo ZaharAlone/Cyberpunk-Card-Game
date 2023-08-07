@@ -100,14 +100,8 @@ namespace CyberNet.Core.ActionCard
                 case AbilityType.DestroyCard:
                     ActionSelectCardAddComponent(abilityCard, entity);
                     break;
-                case AbilityType.DownCyberpsychosisEnemy:
-                    break;
-                case AbilityType.CloneCard:
-                    ActionSelectCardAddComponent(abilityCard, entity);
                     break;
                 case AbilityType.NoiseCard:
-                    break;
-                case AbilityType.ThiefCard:
                     break;
                 case AbilityType.DestroyTradeCard:
                     ActionSelectCardAddComponent(abilityCard, entity);

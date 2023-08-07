@@ -108,14 +108,8 @@ namespace CyberNet.Core.Enemy
                 case AbilityType.DestroyCard:
                     value = CalculateValueCardAction.DestroyCardAction.Invoke();
                     break;
-                case AbilityType.DownCyberpsychosisEnemy:
-                    break;
-                case AbilityType.CloneCard:
-                    break;
                 case AbilityType.NoiseCard:
                     value = CalculateValueCardAction.NoiseCardAction.Invoke();
-                    break;
-                case AbilityType.ThiefCard:
                     break;
                 case AbilityType.DestroyTradeCard:
                     break;
@@ -186,16 +180,10 @@ namespace CyberNet.Core.Enemy
                 case AbilityType.DestroyCard:
                     value = multValueAction;
                     break;
-                case AbilityType.DownCyberpsychosisEnemy:
-                    value = multValueAction;
-                    break;
                 case AbilityType.CloneCard:
                     value = multValueAction;
                     break;
                 case AbilityType.NoiseCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.ThiefCard:
                     value = multValueAction;
                     break;
                 case AbilityType.DestroyTradeCard:
