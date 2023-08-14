@@ -6,6 +6,7 @@ using ModulesFramework.Systems.Events;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using CyberNet.Core.ActionCard;
+using CyberNet.Global.GameCamera;
 using UnityEngine;
 
 namespace CyberNet.Core.UI
@@ -26,7 +27,7 @@ namespace CyberNet.Core.UI
         private void InitCameraCanvas()
         {
             var gameUI = _dataWorld.OneData<CoreUIData>();
-            var camera = _dataWorld.OneData<BoardGameCameraComponent>();
+            var camera = _dataWorld.OneData<GameCameraData>();
 
             var canvas = gameUI.UIGO.GetComponent<Canvas>();
             canvas.worldCamera = camera.MainCamera;
@@ -65,15 +66,16 @@ namespace CyberNet.Core.UI
             ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
             ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
 
+            //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 gameUI.CoreHudUIMono.SetViewDownTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-                gameUI.CoreHudUIMono.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
+                //gameUI.CoreHudUIMono.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
             }
             else
             {
                 gameUI.CoreHudUIMono.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-                gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
+                //gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
             }
         }
 
@@ -88,15 +90,16 @@ namespace CyberNet.Core.UI
             leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
             leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
             
+            //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
-                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
+                //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
             }
             else
             {
                 gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
-                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
+                //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
             }
         }
 
@@ -121,10 +124,12 @@ namespace CyberNet.Core.UI
                                              .With<CardDrawComponent>()
                                              .Count();
 
+            //TODO: старый код
+            /*
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
                 gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
             else
-                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
+                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);*/
         }
 
         public void Destroy()

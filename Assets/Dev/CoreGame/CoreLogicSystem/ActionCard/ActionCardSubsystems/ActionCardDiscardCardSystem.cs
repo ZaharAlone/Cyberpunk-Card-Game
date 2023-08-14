@@ -42,15 +42,16 @@ namespace CyberNet.Core.ActionCard
             ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             ref var playerView = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
 
+            //TODO: старый код
             if (playerView == playerTargetDiscard)
             {
                 Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard);
-            }
+            }/*
             else
             {
                 Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.CoreHudUIMono.PlayerUpView.FrameEffectCard);
             }
-            
+            */
             entity.RemoveComponent<ActionCardDiscardCardVisualEffect>();
 
             var newEntity = _dataWorld.NewEntity();
@@ -86,7 +87,8 @@ namespace CyberNet.Core.ActionCard
             }
             else
             {
-                Object.Destroy(gameUI.CoreHudUIMono.PlayerUpView.FrameEffectCard.GetChild(0).gameObject);
+                //TODO: старый код
+                //Object.Destroy(gameUI.CoreHudUIMono.PlayerUpView.FrameEffectCard.GetChild(0).gameObject);
             }
         }
 

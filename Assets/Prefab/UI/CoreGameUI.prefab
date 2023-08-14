@@ -1,5 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &555138710288739278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4427949730480118328}
+  m_Layer: 5
+  m_Name: Cards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4427949730480118328
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555138710288739278}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7918542800242355687}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1692811773065040126
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,7 +68,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7918542800242355687}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -127,6 +163,7 @@ RectTransform:
   - {fileID: 8773811998001706610}
   - {fileID: 8138668110709411920}
   - {fileID: 8749163990649949705}
+  - {fileID: 4427949730480118328}
   - {fileID: 2230902017456832659}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -217,6 +254,7 @@ MonoBehaviour:
   DamageScreen: {fileID: 4381491197733079115}
   DialogUIMono: {fileID: 0}
   WinLoseUIMono: {fileID: 592392731966504743}
+  CardsContainer: {fileID: 4427949730480118328}
 --- !u!1001 &1023801291059448898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,6 +266,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ActionCardUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5225137200462340132, guid: 1b94aa8f1c6e0dd42b82b09fdd9a8e81,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8519964099643739093, guid: 1b94aa8f1c6e0dd42b82b09fdd9a8e81,
         type: 3}
@@ -476,6 +519,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoreHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 7507422820374126316, guid: 88db3343c0650e641b2a37e946713aa6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88db3343c0650e641b2a37e946713aa6, type: 3}
 --- !u!224 &8138668110709411920 stripped
@@ -507,6 +555,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SelectAbilityUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439220138773126896, guid: b5aa7c9a6edcc9a41843be7ec66fa132,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8439220138773126900, guid: b5aa7c9a6edcc9a41843be7ec66fa132,
         type: 3}
@@ -649,6 +702,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WinLose_screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473368069560872159, guid: b20ee1fe3df04e443a3976e1ff7ce928,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4269697988632987329, guid: b20ee1fe3df04e443a3976e1ff7ce928,
         type: 3}
@@ -896,6 +954,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ui_new_round
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416986948293710128, guid: 77af45304a72ef8409e8fcee5f589b08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8884193950203250521, guid: 77af45304a72ef8409e8fcee5f589b08,
         type: 3}

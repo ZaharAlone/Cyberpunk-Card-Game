@@ -6,6 +6,7 @@ using ModulesFrameworkUnity;
 using System.Collections.Generic;
 using UnityEngine;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using Unity.VisualScripting;
 
 namespace CyberNet.Core
@@ -18,8 +19,10 @@ namespace CyberNet.Core
         public void PreInit()
         {
             SetupBoard();
+            
             SetupCard();
             SetPositionCard();
+            GlobalCoreAction.FinishInitGameResource?.Invoke();
         }
 
         //Создаем поле
@@ -27,6 +30,7 @@ namespace CyberNet.Core
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
+            
             _dataWorld.CreateOneData(new BoardGameResourceData {
                 Table = table
             });
@@ -36,8 +40,8 @@ namespace CyberNet.Core
         private void SetupCard()
         {
             var deckCardsData = _dataWorld.OneData<DeckCardsData>();
-            var cardsParent = new GameObject { name = "Cards" }.transform;
-
+            var cardsParent = _dataWorld.OneData<CoreUIData>().BoardGameUIMono.CardsContainer;
+/*
             foreach (var item in deckCardsData.ShopCards)
             {
                 var entity = InitCard(item, cardsParent, false);
@@ -50,7 +54,7 @@ namespace CyberNet.Core
                 entity.AddComponent(new CardNeutralComponent());
                 entity.AddComponent(new CardTradeRowComponent());
             }
-
+*/
             foreach (var item in deckCardsData.PlayerCards_1)
             {
                 var entity = InitCard(item, cardsParent, true);
@@ -58,7 +62,7 @@ namespace CyberNet.Core
                 cardComponent.Player = PlayerEnum.Player1;
                 entity.AddComponent(new CardDrawComponent());
             }
-
+/*
             foreach (var item in deckCardsData.PlayerCards_2)
             {
                 var entity = InitCard(item, cardsParent, true);
@@ -66,7 +70,7 @@ namespace CyberNet.Core
                 cardComponent.Player = PlayerEnum.Player2;
                 entity.AddComponent(new CardDrawComponent());
             }
-
+*/
             ref var resourceData = ref _dataWorld.OneData<BoardGameResourceData>();
             resourceData.Cards = cardsParent.gameObject;
         }
@@ -162,6 +166,8 @@ namespace CyberNet.Core
                 component.CardMono.HideBackCardColor();
             }
 
+            //TODO: старый код
+            /*
             var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
                                             .GetEntities();
@@ -172,7 +178,7 @@ namespace CyberNet.Core
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }
-
+*/
             var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
             foreach (var entity in entitiesDeck)
                 entity.GetComponent<CardComponent>().CardMono.HideCard();

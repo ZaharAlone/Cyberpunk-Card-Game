@@ -33,6 +33,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "LeftClickHold",
+                    "type": "Button",
+                    "id": "2ada69e3-b415-4725-8159-06e045dee24c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Point",
                     "type": "PassThrough",
                     "id": "c456ce1d-18d0-43e2-9453-d67fdfd0622a",
@@ -602,6 +611,28 @@
                     "action": "NavigateHorizontal",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4ba79cdf-d6db-44a9-83c2-0d9651424f52",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "LeftClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39daf840-704e-4282-bdb0-041f07e2b127",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

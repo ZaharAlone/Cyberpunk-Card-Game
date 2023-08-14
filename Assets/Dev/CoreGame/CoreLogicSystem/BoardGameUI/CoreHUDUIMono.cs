@@ -12,11 +12,9 @@ namespace  CyberNet.Core.UI
         [Header("Action Table")]
         public TextMeshProUGUI ValueAttackText;
         public TextMeshProUGUI ValueTradeText;
-        public Image InteractiveZoneImage;
 
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
-        public PlayerTablet PlayerUpView;
 
         [Header("Action Button")]
         public GameObject ActionButton;
@@ -28,11 +26,7 @@ namespace  CyberNet.Core.UI
         public TextMeshProUGUI DownDiscardCount;
         public Transform DownDeck;
         public TextMeshProUGUI DownDeckCount;
-        public Transform UpDiscard;
-        public TextMeshProUGUI UpDiscardCount;
-        public Transform UpDeck;
-        public TextMeshProUGUI UpDeckCount;
-
+        
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {
             ValueAttackText.text = attackValue.ToString();
@@ -50,19 +44,7 @@ namespace  CyberNet.Core.UI
             PlayerDownView.HPText.text = hp.ToString();
             PlayerDownView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
         }
-
-        public void SetViewNameAvatarUpTable(string name, Sprite avatar)
-        {
-            PlayerUpView.NameText.text = name;
-            PlayerUpView.Avatar.sprite = avatar;
-        }
-
-        public void SetViewUpTableStats(int hp, int cyberpsychosis)
-        {
-            PlayerUpView.HPText.text = hp.ToString();
-            PlayerUpView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
-        }
-
+        
         public void SetInteractiveButton(string text, Sprite sprite)
         {
             ActionButtonText.text = text;
@@ -84,12 +66,10 @@ namespace  CyberNet.Core.UI
             ActionPlayerButtonEvent.ClickActionButton?.Invoke();
         }
 
-        public void SetCountCard(int downDiscard, int downDeck,int upDiscard, int upDeck)
+        public void SetCountCard(int downDiscard, int downDeck)
         {
             DownDiscardCount.text = downDiscard.ToString();
             DownDeckCount.text = downDeck.ToString();
-            UpDiscardCount.text = upDiscard.ToString();
-            UpDeckCount.text = upDeck.ToString();
         }
         
         public void OnClickOpenDrawDeckCard()

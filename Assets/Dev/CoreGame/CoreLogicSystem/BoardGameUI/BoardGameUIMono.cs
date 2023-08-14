@@ -35,5 +35,8 @@ namespace CyberNet.Core.UI
 
         [Header("Win Lose Screen")]
         public WinLoseUIMono WinLoseUIMono;
+
+        [Header("Cards Container")]
+        public Transform CardsContainer;
     }
 }

@@ -9,6 +9,7 @@ using CyberNet.Core;
 using CyberNet.Core.PauseUI;
 using ModulesFramework.Modules;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace EcsCore
 {
@@ -44,6 +45,8 @@ namespace EcsCore
             _resource.Add(canvasMainCoreGO);
             _resource.Add(canvasViewCardMono.gameObject);
             _resource.Add(pauseUIGO);
+            
+            ModuleAction.ActivateCoreModule?.Invoke();
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)
@@ -67,6 +70,8 @@ namespace EcsCore
         {
             foreach (var item in _resource)
                 Object.Destroy(item);
+            
+            ModuleAction.DeactivateCoreModule?.Invoke();
         }
     }
 }

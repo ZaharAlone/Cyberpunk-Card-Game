@@ -68,6 +68,7 @@ namespace Input
             inputData.Navigate = Control.Game.Navigate.ReadValue<Vector2>();
             inputData.ScrollWheel = Control.Game.ScrollWheel.ReadValue<Vector2>();
             inputData.Click = Control.Game.Click.triggered;
+            inputData.LeftClickHold = Control.Game.LeftClickHold.IsPressed();
             inputData.RightClick = Control.Game.RightClick.triggered;
             inputData.ExitUI = Control.Game.Exit.triggered;
             inputData.Cancel = Control.Game.Cancel.triggered;

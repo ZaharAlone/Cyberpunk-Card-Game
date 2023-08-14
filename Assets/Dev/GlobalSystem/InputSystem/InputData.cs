@@ -21,6 +21,7 @@ namespace Input
         public Vector2 Navigate;
         public Vector2 ScrollWheel;
         public bool Click;
+        public bool LeftClickHold;
         public bool RightClick;
         public bool Submit;
         public bool Cancel;

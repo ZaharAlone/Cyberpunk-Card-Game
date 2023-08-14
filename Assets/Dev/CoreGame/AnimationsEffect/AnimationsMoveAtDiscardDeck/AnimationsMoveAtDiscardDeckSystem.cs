@@ -35,16 +35,16 @@ namespace CyberNet.Core
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
                                             .With<CardMoveToDiscardComponent>()
                                             .GetEntities();
-
+            //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
                 UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.DownDiscard.localPosition, config.SizeCardInDeck);
-                UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.UpDiscard.localPosition, config.SizeCardInDeck);
+                //UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.UpDiscard.localPosition, config.SizeCardInDeck);
             }
             else
             {
                 UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.DownDiscard.position, config.SizeCardInDeck);
-                UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.UpDiscard.position, config.SizeCardInDeck);
+                //UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.UpDiscard.position, config.SizeCardInDeck);
             }
         }
 

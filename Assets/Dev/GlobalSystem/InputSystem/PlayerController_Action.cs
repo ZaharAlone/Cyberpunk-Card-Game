@@ -55,6 +55,15 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""LeftClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ada69e3-b415-4725-8159-06e045dee24c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Point"",
                     ""type"": ""PassThrough"",
                     ""id"": ""c456ce1d-18d0-43e2-9453-d67fdfd0622a"",
@@ -624,6 +633,28 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""action"": ""NavigateHorizontal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ba79cdf-d6db-44a9-83c2-0d9651424f52"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""LeftClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39daf840-704e-4282-bdb0-041f07e2b127"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LeftClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -663,6 +694,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         m_Game_RightClick = m_Game.FindAction("RightClick", throwIfNotFound: true);
         m_Game_ScrollWheel = m_Game.FindAction("ScrollWheel", throwIfNotFound: true);
         m_Game_Click = m_Game.FindAction("Click", throwIfNotFound: true);
+        m_Game_LeftClickHold = m_Game.FindAction("LeftClickHold", throwIfNotFound: true);
         m_Game_Point = m_Game.FindAction("Point", throwIfNotFound: true);
         m_Game_Cancel = m_Game.FindAction("Cancel", throwIfNotFound: true);
         m_Game_Submit = m_Game.FindAction("Submit", throwIfNotFound: true);
@@ -732,6 +764,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
     private readonly InputAction m_Game_RightClick;
     private readonly InputAction m_Game_ScrollWheel;
     private readonly InputAction m_Game_Click;
+    private readonly InputAction m_Game_LeftClickHold;
     private readonly InputAction m_Game_Point;
     private readonly InputAction m_Game_Cancel;
     private readonly InputAction m_Game_Submit;
@@ -746,6 +779,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         public InputAction @RightClick => m_Wrapper.m_Game_RightClick;
         public InputAction @ScrollWheel => m_Wrapper.m_Game_ScrollWheel;
         public InputAction @Click => m_Wrapper.m_Game_Click;
+        public InputAction @LeftClickHold => m_Wrapper.m_Game_LeftClickHold;
         public InputAction @Point => m_Wrapper.m_Game_Point;
         public InputAction @Cancel => m_Wrapper.m_Game_Cancel;
         public InputAction @Submit => m_Wrapper.m_Game_Submit;
@@ -771,6 +805,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Click.started -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
+                @LeftClickHold.started -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
                 @Point.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
                 @Point.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
                 @Point.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
@@ -805,6 +842,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
+                @LeftClickHold.started += instance.OnLeftClickHold;
+                @LeftClickHold.performed += instance.OnLeftClickHold;
+                @LeftClickHold.canceled += instance.OnLeftClickHold;
                 @Point.started += instance.OnPoint;
                 @Point.performed += instance.OnPoint;
                 @Point.canceled += instance.OnPoint;
@@ -853,6 +893,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         void OnRightClick(InputAction.CallbackContext context);
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnLeftClickHold(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);

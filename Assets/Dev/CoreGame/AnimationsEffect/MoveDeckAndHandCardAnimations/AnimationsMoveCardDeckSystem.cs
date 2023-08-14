@@ -38,10 +38,11 @@ namespace CyberNet.Core
             var ui = _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             var targetPositions = Vector3.zero;
 
+            //TODO: старый код
             if (viewData.PlayerView == cardComponent.Player)
                 targetPositions = ui.CoreHudUIMono.DownDeck.localPosition;
-            else
-                targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
+            //else
+            //    targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();

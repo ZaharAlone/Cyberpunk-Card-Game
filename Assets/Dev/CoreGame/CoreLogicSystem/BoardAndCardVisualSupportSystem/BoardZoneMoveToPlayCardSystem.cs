@@ -10,6 +10,8 @@ using ModulesFramework.Data.Enumerators;
 using DG.Tweening;
 using System.Threading.Tasks;
 
+//TODO: старый код
+/*
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
@@ -36,4 +38,4 @@ namespace CyberNet.Core.UI
             }
         }
     }
-}
+}*/

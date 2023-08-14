@@ -6,6 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.WinLose;
+using CyberNet.Global.GameCamera;
 
 namespace CyberNet.Core.UI
 {
@@ -127,17 +128,18 @@ namespace CyberNet.Core.UI
 
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
         {
+            //TODO: старый код
             ref var boardUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             if (targetAttack != viewData.PlayerView)
             {
                 boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
                 boardUI.DamageScreen.Damage(valueAttack, percentHP);
-            }
+            }/*
             else
                 boardUI.CoreHudUIMono.PlayerUpView.CharacterDamagePassportEffect.Attack();
-            
-            BoardGameCameraEvent.GetDamageCameraShake?.Invoke();
+            */
+            GameCameraAction.GetDamageCameraShake?.Invoke();
         }
 
         private void EndTurn()

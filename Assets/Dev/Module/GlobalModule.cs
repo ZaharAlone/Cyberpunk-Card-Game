@@ -15,6 +15,7 @@ using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.Enemy;
 using CyberNet.Core.Sound;
+using CyberNet.Global.GameCamera;
 
 namespace EcsCore
 {
@@ -27,7 +28,7 @@ namespace EcsCore
         {
             var tasks = new List<Task>();
 
-            var camera = Load<GameObject>("BoardGameCamera", tasks);
+            var camera = Load<GameObject>("GameCamera", tasks);
             var input = Load<GameObject>("Input", tasks);
             var metaUI = Load<GameObject>("MetaUI", tasks);
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
@@ -51,7 +52,7 @@ namespace EcsCore
             var popupUIGO = Object.Instantiate(popupUI.Result);
             Object.DontDestroyOnLoad(popupUIGO);
 
-            world.CreateOneData(new BoardGameCameraComponent { Camera = cameraObject });
+            world.CreateOneData(new GameCameraData { CameraGO = cameraObject });
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
             world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
             world.CreateOneData(new PopupData { PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(), PopupViewConfig = popupViewConfig.Result});
