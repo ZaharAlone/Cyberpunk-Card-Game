@@ -32,11 +32,11 @@ namespace CyberNet.Core
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Transform.rotation = Quaternion.identity;
+                cardComponent.RectTransform.rotation = Quaternion.identity;
                 var pos = config.PlayerCardPositionInPlay;
                 pos.x = start_point;
 
-                SetMovePositionAnimations(cardComponent.Transform ,pos, config.SizeCardInTable);
+                SetMovePositionAnimations(cardComponent.RectTransform ,pos, config.SizeCardInTable);
                 cardComponent.CardMono.CardOnFace();
 
                 start_point += (int)(234 * config.SizeCardInTable.x);

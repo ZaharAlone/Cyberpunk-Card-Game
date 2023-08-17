@@ -46,7 +46,7 @@ namespace CyberNet.Core
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(targetPositions, 0.5f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOMove(targetPositions, 0.5f))
                 .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.15f))
                 .Append(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), 0.15f))
                 .OnComplete(() => EndAnimationsMoveCardToHand(entity));
@@ -57,7 +57,7 @@ namespace CyberNet.Core
         private void EndAnimationsMoveCardToHand(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
-            cardComponent.CardMono.CardConteinerTransform.rotation = Quaternion.identity;
+            cardComponent.CardMono.RectTransform.rotation = Quaternion.identity;
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();

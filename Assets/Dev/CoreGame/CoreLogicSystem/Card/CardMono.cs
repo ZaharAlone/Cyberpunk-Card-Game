@@ -12,8 +12,8 @@ namespace CyberNet.Core
     {
         public InteractiveCardMono InteractiveCard;
         public Canvas Canvas;
+        public RectTransform RectTransform;
         public GameObject VFXIsInteractiveCard;
-        public Transform CardConteinerTransform;
 
         [Header("Card")]
         public RectTransform CardFace;  

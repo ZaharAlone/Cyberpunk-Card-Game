@@ -6,6 +6,7 @@ using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
 using DG.Tweening;
+//TODO: вернуть
 
 namespace CyberNet.Core.UI
 {
@@ -66,8 +67,8 @@ namespace CyberNet.Core.UI
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Transform.localScale = multiplieSizeCard;
-                length += 204 * cardComponent.Transform.localScale.x;
+                cardComponent.RectTransform.localScale = multiplieSizeCard;
+                length += 204 * cardComponent.RectTransform.localScale.x;
             }
 
             var sizeCard = length / countCard;
@@ -129,8 +130,8 @@ namespace CyberNet.Core.UI
             var animationComponent = new CardComponentAnimations();
 
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(position, 0.4f))
-                                       .Join(cardComponent.Transform.DORotateQuaternion(rotate, 0.4f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(position, 0.4f))
+                                       .Join(cardComponent.RectTransform.DOLocalRotateQuaternion(rotate, 0.4f))
                                        .OnComplete(() => ClearAnimationComponent(entity));
         }
 

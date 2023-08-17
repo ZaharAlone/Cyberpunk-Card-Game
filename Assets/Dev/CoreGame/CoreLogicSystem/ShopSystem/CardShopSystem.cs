@@ -6,7 +6,8 @@ using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using CyberNet.Core.ActionCard;
 using UnityEngine;
-
+//TODO: вернуть
+/*
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
@@ -85,7 +86,7 @@ namespace CyberNet.Core
             entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard, Positions = pos });
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            cardComponent.Transform.position = pos;
+            cardComponent.RectTransform.position = pos;
             cardComponent.CardMono.ShowCard();
             cardComponent.CardMono.CardOnFace();
         }
@@ -114,4 +115,4 @@ namespace CyberNet.Core
                 entity.RemoveComponent<CardFreeToBuyComponent>();
         }
     }
-}
+}*/

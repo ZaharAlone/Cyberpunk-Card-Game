@@ -29,13 +29,14 @@ namespace CyberNet.Core
         private void SetupBoard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var table = Object.Instantiate(boardGameData.BoardGameConfig.TablePrefab);
+            var cityMono = Object.Instantiate(boardGameData.BoardGameConfig.CityMono);
             
             _dataWorld.CreateOneData(new BoardGameResourceData {
-                Table = table
+                CityGO = cityMono.gameObject,
+                CityMono = cityMono,
             });
         }
-
+        //TODO: вернуть
         //Инициализируем все карты
         private void SetupCard()
         {
@@ -72,7 +73,6 @@ namespace CyberNet.Core
             }
 */
             ref var resourceData = ref _dataWorld.OneData<BoardGameResourceData>();
-            resourceData.Cards = cardsParent.gameObject;
         }
 
         private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
@@ -161,7 +161,7 @@ namespace CyberNet.Core
             foreach (var entity in entitiesPlayer1)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = gameUI.BoardGameUIMono.CoreHudUIMono.DownDeck.localPosition;
+                component.RectTransform.position = gameUI.BoardGameUIMono.CoreHudUIMono.DownDeck.localPosition;
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }
@@ -188,7 +188,7 @@ namespace CyberNet.Core
             foreach (var entity in entitiesNeutral)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = positionsNeutralCard;
+                component.RectTransform.position = positionsNeutralCard;
                 component.CardMono.CardOnFace();
             }
         }
@@ -196,9 +196,8 @@ namespace CyberNet.Core
         public void Destroy()
         {
             ref var resourceTable = ref _dataWorld.OneData<BoardGameResourceData>();
-            Object.Destroy(resourceTable.Table);
-            Object.Destroy(resourceTable.Cards);
-            
+            Object.Destroy(resourceTable.CityGO);
+
             _dataWorld.RemoveOneData<BoardGameResourceData>();
             _dataWorld.RemoveOneData<DeckCardsData>();
             _dataWorld.RemoveOneData<BoardGameResourceData>();

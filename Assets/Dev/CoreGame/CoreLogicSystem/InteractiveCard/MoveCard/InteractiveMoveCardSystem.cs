@@ -24,6 +24,7 @@ namespace CyberNet.Core
 
         private void DownClickCard(string guid)
         {
+            Debug.LogError("Down click card");
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
@@ -39,8 +40,8 @@ namespace CyberNet.Core
 
                 entity.AddComponent(new InteractiveMoveComponent
                 {
-                    StartCardPosition = component.Transform.position,
-                    StartCardRotation = component.Transform.rotation,
+                    StartCardPosition = component.RectTransform.position,
+                    StartCardRotation = component.RectTransform.rotation,
                     StartMousePositions = inputData.MousePosition
                 });
             }
@@ -71,7 +72,7 @@ namespace CyberNet.Core
                 ref var componentCard = ref entity.GetComponent<CardComponent>();
 
                 var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
-                componentCard.Transform.position += new Vector3(deltaMove.x, deltaMove.y, 0);
+                componentCard.RectTransform.position += new Vector3(deltaMove.x, deltaMove.y, 0);
                 componentMove.StartMousePositions = inputData.MousePosition;
             }
         }
@@ -91,7 +92,7 @@ namespace CyberNet.Core
         {
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
             var cardComponent = entity.GetComponent<CardComponent>();
-            var distance = cardComponent.Transform.position.y - moveComponent.StartCardPosition.y;
+            var distance = cardComponent.RectTransform.position.y - moveComponent.StartCardPosition.y;
 
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
@@ -124,7 +125,7 @@ namespace CyberNet.Core
         {
             var componentMove = entity.GetComponent<InteractiveMoveComponent>();
             ref var componentCard = ref entity.GetComponent<CardComponent>();
-            var distance = componentCard.Transform.position.y - componentMove.StartCardPosition.y;
+            var distance = componentCard.RectTransform.position.y - componentMove.StartCardPosition.y;
             var roundPlayer = _dataWorld.OneData<RoundData>();
 
             if (distance < -50)
@@ -151,7 +152,7 @@ namespace CyberNet.Core
             else
             {
                 var card = entity.GetComponent<CardComponent>();
-                card.Transform.position = componentMove.StartCardPosition;
+                card.RectTransform.position = componentMove.StartCardPosition;
             }
 
             entity.RemoveComponent<InteractiveSelectCardComponent>();

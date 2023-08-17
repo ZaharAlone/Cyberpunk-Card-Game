@@ -60,20 +60,20 @@ namespace CyberNet.Core
         {
             var cardComponent = entity.GetComponent<CardComponent>();
             var sequence = DOTween.Sequence();
-            sequence.Append(cardComponent.CardMono.CardConteinerTransform.DORotate(new Vector3(0, 90, 0), 0.2f));
+            sequence.Append(cardComponent.CardMono.RectTransform.DORotate(new Vector3(0, 90, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             cardComponent.CardMono.CardOnBack();
-            sequence.Append(cardComponent.CardMono.CardConteinerTransform.DORotate(new Vector3(0, 180, 0), 0.2f));
+            sequence.Append(cardComponent.CardMono.RectTransform.DORotate(new Vector3(0, 180, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             await Task.Delay(400);
 
-            var distance = Vector3.Distance(cardComponent.Transform.position, positions);
+            var distance = Vector3.Distance(cardComponent.RectTransform.position, positions);
             var time = distance / 600;
             if (time > 0.8f)
                 time = 0.8f;
 
-            sequence.Append(cardComponent.Transform.DOMove(positions, time))
-                     .Join(cardComponent.Transform.DOScale(scale, time))
+            sequence.Append(cardComponent.RectTransform.DOMove(positions, time))
+                     .Join(cardComponent.RectTransform.DOScale(scale, time))
                      .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), time / 0.5f));
 
             await Task.Delay((int)(1000 * time));

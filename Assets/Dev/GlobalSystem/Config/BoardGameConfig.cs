@@ -4,6 +4,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
+using CyberNet.CoreGame.Tower;
 using UnityEngine.Serialization;
 
 namespace CyberNet
@@ -12,7 +13,7 @@ namespace CyberNet
     public class BoardGameConfig : SerializedScriptableObject
     {
         [Header("Prefab")]
-        public GameObject TablePrefab;
+        public CityMono CityMono;
         public CardMono CardGO;
 
         [Header("Element ability card")]

@@ -38,11 +38,11 @@ namespace CyberNet.Core
             {
                 case AbilityType.Attack:
                     actionData.TotalAttack += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.attackVFX, cardComponent.Transform.position, abilityAddResourceComponent.Count);
+                    ActionCardVisualEffect.CreateEffect(abilityVFX.attackVFX, cardComponent.RectTransform.position, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Trade:
                     actionData.TotalTrade += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.Transform.position, abilityAddResourceComponent.Count);
+                    ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, abilityAddResourceComponent.Count);
                     break;
             }
             

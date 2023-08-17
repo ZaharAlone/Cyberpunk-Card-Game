@@ -11,7 +11,7 @@ namespace CyberNet.Core
                 GUID = System.Guid.NewGuid().ToString(),
                 Canvas = cardMono.Canvas,
                 GO = go,
-                Transform = go.transform,
+                RectTransform = cardMono.RectTransform,
                 Stats = stats,
                 CardMono = cardMono,
                 Key = stats.Name,

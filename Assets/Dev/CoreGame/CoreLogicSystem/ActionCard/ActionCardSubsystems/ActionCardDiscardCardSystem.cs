@@ -37,7 +37,7 @@ namespace CyberNet.Core.ActionCard
             var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
-            ActionCardVisualEffect.CreateEffect(abilityVFX.discardActionCardVFX, cardComponent.Transform.position);
+            ActionCardVisualEffect.CreateEffect(abilityVFX.discardActionCardVFX, cardComponent.RectTransform.position);
 
             ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
             ref var playerView = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;

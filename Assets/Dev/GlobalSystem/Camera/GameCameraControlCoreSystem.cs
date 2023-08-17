@@ -29,7 +29,7 @@ namespace CyberNet.Global.GameCamera
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
             ref var boardResourceData = ref _dataWorld.OneData<BoardGameResourceData>();
-            camera.CoreVirtualCamera.m_Follow = boardResourceData.Table.transform;
+            camera.CoreVirtualCamera.m_Follow = boardResourceData.CityGO.transform;
             camera.MetaVirtualCamera.gameObject.SetActive(false);
             camera.CoreVirtualCamera.gameObject.SetActive(true);
             camera.IsCore = true;

@@ -23,6 +23,9 @@ namespace CyberNet.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
+            //TODO: заглушка, исправить
+            if (eventValue.Target == PlayerEnum.Player2)
+                return;
             for (int i = 0; i < eventValue.Count; i++)
             {
                 var countPlayerEntities = _dataWorld.Select<CardComponent>()

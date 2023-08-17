@@ -53,14 +53,15 @@ namespace CyberNet.Core
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var positionsY = -400;
-
+            //TODO: view player2
+/*
             if (viewPlayer.PlayerView != cardComponent.Player)
                 positionsY = 400;
-
+*/
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(new Vector3(0, positionsY, 0), 0.25f))
-                                       .Join(cardComponent.Transform.DOScale(boardGameConfig.NormalSize, 0.25f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(new Vector2(0, positionsY), 0.25f))
+                                       .Join(cardComponent.RectTransform.DOScale(boardGameConfig.NormalSize, 0.25f))
                                        .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.07f))
                                        .OnComplete(() => EndDrawHandAnimations(entity));
 

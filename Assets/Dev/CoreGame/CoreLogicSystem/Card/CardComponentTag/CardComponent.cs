@@ -9,7 +9,7 @@ namespace CyberNet.Core
         public PlayerEnum Player;
         public Canvas Canvas;
         public GameObject GO;
-        public Transform Transform;
+        public RectTransform RectTransform;
         public CardMono CardMono;
         public CardConfigJson Stats;
 

@@ -55,13 +55,13 @@ namespace EcsCore
             tasks.Add(task);
             return task;
         }
-
+        //TODO: вернуть
         protected override Dictionary<Type, int> GetSystemsOrder()
         {
             return new Dictionary<Type, int>
             {
                 { typeof(CardDistributionSystem), -10 },
-                { typeof(AnimationsFanCardInHandSystem), 0},
+               // { typeof(AnimationsFanCardInHandSystem), 0},
                 { typeof(EndLoadingSystem), 1000}
             };
         }
