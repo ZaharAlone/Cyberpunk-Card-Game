@@ -3,6 +3,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEditor;
 using UnityEngine;
 
 namespace CyberNet.Core
@@ -39,6 +40,7 @@ namespace CyberNet.Core
 
             if (view.PlayerView != cardComponent.Player && !entity.HasComponent<CardTradeRowComponent>())
                 return;
+            
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -62,19 +64,19 @@ namespace CyberNet.Core
                 scaleCard = gameConfig.SizeSelectCardTradeRow;
 
             animComponent.Sequence = DOTween.Sequence();
-            animComponent.Sequence.Append(cardComponent.RectTransform.DORotateQuaternion(Quaternion.identity, 0.15f))
-                                  .Join(cardComponent.RectTransform.DOAnchorPos(scaleCard, 0.15f));
+            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.15f))
+                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.15f));
 
             cardComponent.Canvas.sortingOrder = 20;
-
+       
             if (cardComponent.Player != PlayerEnum.None)
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
-                animComponent.Sequence.Join(cardComponent.RectTransform.DOMove(pos, 0.15f));
-                entity.AddComponent(animComponent);
-                var index = entity.GetComponent<CardSortingIndexComponent>().Index;
-                MoveOtherCards(index);
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.15f));
+                //entity.AddComponent(animComponent);
+                //var index = entity.GetComponent<CardSortingIndexComponent>().Index;
+                //MoveOtherCards(index);
             }
             else
                 entity.AddComponent(animComponent);
