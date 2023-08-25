@@ -52,8 +52,8 @@ namespace CyberNet.Core
             }
             else
             {
-                animComponent.Positions = cardComponent.RectTransform.position;
-                animComponent.Rotate = cardComponent.RectTransform.rotation;
+                animComponent.Positions = cardComponent.RectTransform.anchoredPosition;
+                animComponent.Rotate = cardComponent.RectTransform.localRotation;
                 animComponent.Scale = cardComponent.RectTransform.localScale;
                 animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
             }
@@ -74,9 +74,9 @@ namespace CyberNet.Core
                 var pos = animComponent.Positions;
                 pos.y = -340;
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.15f));
-                //entity.AddComponent(animComponent);
-                //var index = entity.GetComponent<CardSortingIndexComponent>().Index;
-                //MoveOtherCards(index);
+                entity.AddComponent(animComponent);
+                var index = entity.GetComponent<CardSortingIndexComponent>().Index;
+                MoveOtherCards(index);
             }
             else
                 entity.AddComponent(animComponent);
@@ -115,8 +115,8 @@ namespace CyberNet.Core
                 }
                 else
                 {
-                    cardAnimations.Positions = cardComponent.RectTransform.position;
-                    cardAnimations.Rotate = cardComponent.RectTransform.rotation;
+                    cardAnimations.Positions = cardComponent.RectTransform.anchoredPosition;
+                    cardAnimations.Rotate = cardComponent.RectTransform.localRotation;
                     cardAnimations.Scale = cardComponent.RectTransform.localScale;
                     cardAnimations.SortingOrder = cardComponent.Canvas.sortingOrder;
                 }
@@ -139,7 +139,7 @@ namespace CyberNet.Core
                 }
 
                 cardAnimations.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPos, 0.15f))
-                                       .Join(cardComponent.RectTransform.DORotateQuaternion(cardAnimations.Rotate, 0.3f))
+                                       .Join(cardComponent.RectTransform.DOLocalRotateQuaternion(cardAnimations.Rotate, 0.3f))
                                        .Join(cardComponent.RectTransform.DOScale(cardAnimations.Scale, 0.3f));
 
                 cardComponent.Canvas.sortingOrder = cardAnimations.SortingOrder;
@@ -188,9 +188,10 @@ namespace CyberNet.Core
             var index = entity.GetComponent<CardSortingIndexComponent>().Index;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
+            
             animationsCard.Sequence.Kill();
             animationsCard.Sequence = DOTween.Sequence();
-            animationsCard.Sequence.Append(cardComponent.RectTransform.DORotateQuaternion(animationsCard.Rotate, 0.3f))
+            animationsCard.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(animationsCard.Rotate, 0.3f))
                                 .Join(cardComponent.RectTransform.DOAnchorPos(animationsCard.Positions, 0.3f))
                                 .Join(cardComponent.RectTransform.DOScale(animationsCard.Scale, 0.3f))
                                 .OnComplete(() => FinishDeselect(entity));

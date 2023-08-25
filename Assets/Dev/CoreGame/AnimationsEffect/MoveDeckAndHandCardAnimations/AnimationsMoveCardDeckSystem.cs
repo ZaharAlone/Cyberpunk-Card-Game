@@ -40,13 +40,13 @@ namespace CyberNet.Core
 
             //TODO: старый код
             if (viewData.PlayerView == cardComponent.Player)
-                targetPositions = ui.CoreHudUIMono.DownDeck.localPosition;
+                targetPositions = ui.CoreHudUIMono.DownDeck.anchoredPosition;
             //else
             //    targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.RectTransform.DOMove(targetPositions, 0.5f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPositions, 0.5f))
                 .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.15f))
                 .Append(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), 0.15f))
                 .OnComplete(() => EndAnimationsMoveCardToHand(entity));

@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using CyberNet.Core.ActionCard;
 
@@ -14,7 +15,7 @@ namespace CyberNet.Core
     {
         private DataWorld _dataWorld;
         private Sequence _sequence;
-
+        
         public void PreInit()
         {
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard += AnimationsMoveBoardCard;
@@ -22,42 +23,38 @@ namespace CyberNet.Core
 
         private void AnimationsMoveBoardCard()
         {
-            var countCard = _dataWorld.Select<CardComponent>().With<CardTableComponent>().Count();
             var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            var width = (204 + 30) * (countCard - 1);
-            var start_point = width / -2;
-            
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.RectTransform.rotation = Quaternion.identity;
-                var pos = config.PlayerCardPositionInPlay;
-                pos.x = start_point;
+                cardComponent.RectTransform.localRotation = Quaternion.identity;
 
-                SetMovePositionAnimations(cardComponent.RectTransform ,pos, config.SizeCardInTable);
+                SetMovePositionAnimations(cardComponent.RectTransform , config.SizeCardInTable, entity);
                 cardComponent.CardMono.CardOnFace();
-
-                start_point += (int)(234 * config.SizeCardInTable.x);
             }
         }
         
-        public void SetMovePositionAnimations(Transform transformObject, Vector3 positions, Vector3 scale)
+        public void SetMovePositionAnimations(RectTransform transformObject, Vector3 scale, Entity entity)
         {
             _sequence = DOTween.Sequence();
-            var distance = Vector3.Distance(transformObject.position, positions);
+            var distance = Vector2.Distance(transformObject.anchoredPosition, Vector2.zero);
             var time = distance / 600;
             if (time > 0.8f)
                 time = 0.8f;
-            _sequence.Append(transformObject.DOMove(positions, time))
+            _sequence.Append(transformObject.DOAnchorPos(Vector2.zero, time))
                 .Join(transformObject.DOScale(scale, time))
-                .OnComplete(() => EndMoveCardAnimations());
+                .OnComplete(() => EndMoveCardAnimations(entity));
         }
 
-        public void EndMoveCardAnimations()
+        public async void EndMoveCardAnimations(Entity entity)
         {
             ActionCardEvent.UpdateValueResourcePlayedCard?.Invoke();
+            await Task.Delay(500);
+            entity.AddComponent(new CardMoveToDiscardComponent());
+            entity.RemoveComponent<CardTableComponent>();
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
         }
     }
 }

@@ -22,9 +22,9 @@ namespace  CyberNet.Core.UI
         public Image ActionButtonImage;
 
         [Header("Draw and Discard")]
-        public Transform DownDiscard;
+        public RectTransform DownDiscard;
         public TextMeshProUGUI DownDiscardCount;
-        public Transform DownDeck;
+        public RectTransform DownDeck;
         public TextMeshProUGUI DownDeckCount;
         
         public void SetInteractiveValue(int attackValue, int tradeValue)

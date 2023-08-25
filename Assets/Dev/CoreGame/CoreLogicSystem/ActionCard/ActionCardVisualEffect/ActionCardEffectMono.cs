@@ -7,6 +7,7 @@ namespace CyberNet.Core.ActionCard
 {
     public class ActionCardEffectMono : MonoBehaviour
     {
+        public RectTransform RectTransform;
         public RectTransform ParticleTranform;
         public TextMeshProUGUI Text;
 
@@ -30,7 +31,7 @@ namespace CyberNet.Core.ActionCard
         public void Init()
         {
             _sequence = DOTween.Sequence();
-            _sequence.Append(transform.DOMoveY(25, 1));
+            _sequence.Append(RectTransform.DOAnchorPos(new Vector2(0, 100), 1));
         }
 
         public void OnDestroy()

@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using CyberNet.Core.UI;
+using CyberNet.Tools;
 using DG.Tweening;
 using ModulesFramework.Data.Enumerators;
 
@@ -35,44 +36,47 @@ namespace CyberNet.Core
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
                                             .With<CardMoveToDiscardComponent>()
                                             .GetEntities();
+            
             //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.DownDiscard.localPosition, config.SizeCardInDeck);
+                UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
                 //UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.UpDiscard.localPosition, config.SizeCardInDeck);
             }
             else
             {
-                UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.DownDiscard.position, config.SizeCardInDeck);
+                UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
                 //UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.UpDiscard.position, config.SizeCardInDeck);
             }
         }
 
-        private void UpdateDiscardView(EntitiesEnumerable entities, Vector2 position, Vector3 size)
+        private void UpdateDiscardView(EntitiesEnumerable entities, RectTransform targetTransform, Vector3 size)
         {
             foreach (var entity in entities)
             {
-                AnimationsMoveAtDiscardDeckCorotine(entity, position, size);
+                AnimationsMoveAtDiscardDeckCorotine(entity, targetTransform, size);
             }
         }
 
-        private async void AnimationsMoveAtDiscardDeckCorotine(Entity entity, Vector3 positions, Vector3 scale)
+        private async void AnimationsMoveAtDiscardDeckCorotine(Entity entity, RectTransform targetTransform, Vector3 scale)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
             var sequence = DOTween.Sequence();
-            sequence.Append(cardComponent.CardMono.RectTransform.DORotate(new Vector3(0, 90, 0), 0.2f));
+            sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 90, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             cardComponent.CardMono.CardOnBack();
-            sequence.Append(cardComponent.CardMono.RectTransform.DORotate(new Vector3(0, 180, 0), 0.2f));
+            sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             await Task.Delay(400);
 
-            var distance = Vector3.Distance(cardComponent.RectTransform.position, positions);
+            var targetPosition = ConvertRectTransformPosition.Convert(cardComponent.RectTransform, targetTransform);
+            var distance = Vector2.Distance(cardComponent.RectTransform.anchoredPosition, targetPosition);
             var time = distance / 600;
             if (time > 0.8f)
                 time = 0.8f;
-
-            sequence.Append(cardComponent.RectTransform.DOMove(positions, time))
+            
+            Debug.LogError($"Discard position {targetPosition}");
+            sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPosition, time))
                      .Join(cardComponent.RectTransform.DOScale(scale, time))
                      .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), time / 0.5f));
 

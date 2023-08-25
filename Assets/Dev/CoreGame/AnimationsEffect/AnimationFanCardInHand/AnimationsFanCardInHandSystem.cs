@@ -128,7 +128,6 @@ namespace CyberNet.Core.UI
         {
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = new CardComponentAnimations();
-
             animationComponent.Sequence = DOTween.Sequence();
             animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(position, 0.4f))
                                        .Join(cardComponent.RectTransform.DOLocalRotateQuaternion(rotate, 0.4f))

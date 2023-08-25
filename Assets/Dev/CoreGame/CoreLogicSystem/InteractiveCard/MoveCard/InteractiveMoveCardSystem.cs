@@ -2,7 +2,6 @@ using CyberNet.Core.ActionCard;
 using CyberNet.Core.UI;
 using EcsCore;
 using Input;
-using ModulesFrameworkUnity;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
@@ -24,7 +23,6 @@ namespace CyberNet.Core
 
         private void DownClickCard(string guid)
         {
-            Debug.LogError("Down click card");
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
@@ -40,8 +38,8 @@ namespace CyberNet.Core
 
                 entity.AddComponent(new InteractiveMoveComponent
                 {
-                    StartCardPosition = component.RectTransform.position,
-                    StartCardRotation = component.RectTransform.rotation,
+                    StartCardPosition = component.RectTransform.anchoredPosition,
+                    StartCardRotation = component.RectTransform.localRotation,
                     StartMousePositions = inputData.MousePosition
                 });
             }
@@ -72,7 +70,7 @@ namespace CyberNet.Core
                 ref var componentCard = ref entity.GetComponent<CardComponent>();
 
                 var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
-                componentCard.RectTransform.position += new Vector3(deltaMove.x, deltaMove.y, 0);
+                componentCard.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
                 componentMove.StartMousePositions = inputData.MousePosition;
             }
         }
@@ -92,7 +90,7 @@ namespace CyberNet.Core
         {
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
             var cardComponent = entity.GetComponent<CardComponent>();
-            var distance = cardComponent.RectTransform.position.y - moveComponent.StartCardPosition.y;
+            var distance = cardComponent.RectTransform.anchoredPosition.y - moveComponent.StartCardPosition.y;
 
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
@@ -152,7 +150,7 @@ namespace CyberNet.Core
             else
             {
                 var card = entity.GetComponent<CardComponent>();
-                card.RectTransform.position = componentMove.StartCardPosition;
+                card.RectTransform.anchoredPosition = componentMove.StartCardPosition;
             }
 
             entity.RemoveComponent<InteractiveSelectCardComponent>();

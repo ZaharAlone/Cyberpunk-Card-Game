@@ -5,9 +5,9 @@ namespace CyberNet.Core.ActionCard
 {
     public static class ActionCardVisualEffect
     {
-        public static void CreateEffect(ActionCardEffectMono targetEffect, Vector3 position, int count = 0)
+        public static void CreateEffect(ActionCardEffectMono targetEffect, Vector3 position, Transform parent, int count = 0)
         {
-            var effect = Object.Instantiate(targetEffect);
+            var effect = Object.Instantiate(targetEffect, parent);
             effect.transform.position = position;
             if (count != 0)
                 effect.SetText(count);

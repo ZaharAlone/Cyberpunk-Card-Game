@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089152426a2540d2b0c6e9ca394d0435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RectTransform: {fileID: 1815388137820968987}
   ParticleTranform: {fileID: 6782663229388641704}
   Text: {fileID: 1815388137889390079}
 --- !u!1 &1815388137889390077
@@ -501,7 +502,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 35
+      scalar: 15
       minScalar: 1
       maxCurve:
         serializedVersion: 2

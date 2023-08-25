@@ -46,6 +46,9 @@ namespace CyberNet.Core.UI
                                        .With<CardHandComponent>()
                                        .Count();
 
+            ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
+            actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
+            return;
             if (cardInHand > 0)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);

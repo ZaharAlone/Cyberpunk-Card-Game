@@ -33,16 +33,17 @@ namespace CyberNet.Core
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            ref var cardsContainer = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.CardsContainer;
             
             switch (abilityAddResourceComponent.AbilityType)
             {
                 case AbilityType.Attack:
                     actionData.TotalAttack += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.attackVFX, cardComponent.RectTransform.position, abilityAddResourceComponent.Count);
+                    ActionCardVisualEffect.CreateEffect(abilityVFX.attackVFX, cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
                     break;
                 case AbilityType.Trade:
                     actionData.TotalTrade += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, abilityAddResourceComponent.Count);
+                    ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
                     break;
             }
             
