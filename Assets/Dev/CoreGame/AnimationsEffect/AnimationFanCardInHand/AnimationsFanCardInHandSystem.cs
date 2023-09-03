@@ -40,7 +40,7 @@ namespace CyberNet.Core.UI
         private void UpdateView(EntitiesEnumerable entities, int countCard, PlayerEnum isPlayer)
         {
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var uiRect = _dataWorld.OneData<CoreUIData>().BoardGameUIMono.UIRect;
+            var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var screenShift = 0f;

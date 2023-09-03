@@ -24,16 +24,11 @@ namespace CyberNet.Meta
             MainMenuAction.OpenCampaign?.Invoke();
         }
 
-        public void OnClickLocalGameVSAI()
+        public void OnClickLocalGame()
         {
-            MainMenuAction.OpenLocalGameVSAI?.Invoke();
+            MainMenuAction.OpenLocalGame?.Invoke();
         }
 
-        public void OnClickLocalGameVSPlayer()
-        {
-            MainMenuAction.OpenLocalGameVSPlayer?.Invoke();
-        }
-        
         public void OnClickServerGame()
         {
             MainMenuAction.OpenServerGame?.Invoke();

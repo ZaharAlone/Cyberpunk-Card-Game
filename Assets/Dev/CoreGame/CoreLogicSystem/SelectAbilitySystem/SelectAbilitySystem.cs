@@ -67,7 +67,7 @@ namespace CyberNet.Core
 
         private void OpenUISelectAbilityCard(CardComponent cardComponent)
         {
-            var uiSelectAbility = _dataWorld.OneData<CoreUIData>().BoardGameUIMono.SelectAbilityUIMono;
+            var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var cardsImage = _dataWorld.OneData<BoardGameData>().CardsImage;
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
@@ -100,7 +100,7 @@ namespace CyberNet.Core
             entity.RemoveComponent<CardSelectAbilityComponent>();
             entity.RemoveComponent<SelectPlayerAbilityComponent>();
             entity.AddComponent(new CardTableComponent { SelectAbility = targetAbility});
-            var uiSelectAbility = _dataWorld.OneData<CoreUIData>().BoardGameUIMono.SelectAbilityUIMono;
+            var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;
             uiSelectAbility.CloseFrame();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }

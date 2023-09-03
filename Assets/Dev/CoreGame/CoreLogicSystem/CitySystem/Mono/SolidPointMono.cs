@@ -1,0 +1,20 @@
+using UnityEngine;
+namespace CyberNet.CoreGame.City
+{
+    public class SolidPointMono : MonoBehaviour
+    {
+        public bool StartIsNeutralSolid;
+        public int Index;
+        public string GUID;
+
+        public void SetIndex(int index)
+        {
+            Index = index;
+        }
+
+        public void SetGUID(string guid)
+        {
+            GUID = guid;
+        }
+    }
+}

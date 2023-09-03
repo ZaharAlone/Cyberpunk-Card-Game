@@ -7,6 +7,8 @@ using System;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.WinLose;
+using CyberNet.CoreGame.TaskUI;
+using CyberNet.CoreGame.Traderow;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
@@ -38,5 +40,11 @@ namespace CyberNet.Core.UI
 
         [Header("Cards Container")]
         public Transform CardsContainer;
+
+        [Header("Traderow")]
+        public TraderowMono TraderowMono;
+
+        [Header("TaskUI")]
+        public TaskUIMono TaskUIMono;
     }
 }

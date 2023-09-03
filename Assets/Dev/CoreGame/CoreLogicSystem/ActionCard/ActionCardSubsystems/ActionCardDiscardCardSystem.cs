@@ -36,11 +36,11 @@ namespace CyberNet.Core.ActionCard
             ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardVisualEffect>().TargetDiscardCard;
             var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var cardsContainer = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.CardsContainer;
+            ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
             ActionCardVisualEffect.CreateEffect(abilityVFX.discardActionCardVFX, cardComponent.RectTransform.position, cardsContainer);
 
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             ref var playerView = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
 
             //TODO: старый код
@@ -79,7 +79,7 @@ namespace CyberNet.Core.ActionCard
             Debug.LogError("DiscardCard");
             //TODO: Show ui select discard card;
             ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardComponent>().TargetDiscardCard;
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
 
             if (viewPlayer == playerTargetDiscard)

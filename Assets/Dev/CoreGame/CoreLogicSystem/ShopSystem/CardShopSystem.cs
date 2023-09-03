@@ -6,8 +6,7 @@ using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using CyberNet.Core.ActionCard;
 using UnityEngine;
-//TODO: вернуть
-/*
+
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
@@ -78,15 +77,17 @@ namespace CyberNet.Core
 
         private void AddTradeRowCard(int entityId, int indexPositionCard)
         {
+            ref var sizeCard = ref _dataWorld.OneData<BoardGameData>().BoardGameConfig.SizeCardInTraderow;
             var entity = _dataWorld.GetEntity(entityId);
             entity.RemoveComponent<CardTradeDeckComponent>();
 
-            var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);
-            pos.x += 20 + indexPositionCard * 224;
-            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard, Positions = pos });
+            //var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);
+            //pos.x += 20 + indexPositionCard * 224;
+            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard/*, Positions = pos*/ });
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            cardComponent.RectTransform.position = pos;
+            //cardComponent.RectTransform.position = pos;
+            cardComponent.CardMono.RectTransform.localScale = sizeCard;
             cardComponent.CardMono.ShowCard();
             cardComponent.CardMono.CardOnFace();
         }
@@ -115,4 +116,4 @@ namespace CyberNet.Core
                 entity.RemoveComponent<CardFreeToBuyComponent>();
         }
     }
-}*/
+}

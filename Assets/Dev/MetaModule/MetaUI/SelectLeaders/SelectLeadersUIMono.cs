@@ -1,3 +1,4 @@
+using CyberNet.Core;
 using CyberNet.Global;
 using I2.Loc;
 using TMPro;
@@ -24,15 +25,15 @@ namespace CyberNet.Meta
 
         [Header("Local Game VS Player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
-        public LocalizedString SelectPlayer_1_Loc;
-        public LocalizedString SelectPlayer_2_Loc;
+        public LocalizedString SelectPlayerLoc;
+        public LocalizedString SelectAILoc;
         
         public void OpenWindow(GameModeEnum gameModeEnum)
         {
             Background.SetActive(true);
             Panel.SetActive(true);
 
-            SetCurrentMode(gameModeEnum);
+            SetCurrentMode(PlayerType.Player);
         }
 
         public void CloseWindow()
@@ -55,20 +56,16 @@ namespace CyberNet.Meta
             SelectLeadersAbilityDescrLoc.Term = descr;
         }
 
-        private void SetCurrentMode(GameModeEnum gameModeEnum)
+        private void SetCurrentMode(PlayerType playerType)
         {
-            if (gameModeEnum == GameModeEnum.LocalVSPlayer)
+            if (playerType == PlayerType.Player)
             {
                 HeaderSelectTargetPlayer.gameObject.SetActive(true);
-                HeaderSelectTargetPlayer.text = SelectPlayer_1_Loc;
-            }
-            else if (gameModeEnum == GameModeEnum.LocalVSPlayer2)
-            {
-                HeaderSelectTargetPlayer.text = SelectPlayer_2_Loc;
+                HeaderSelectTargetPlayer.text = SelectPlayerLoc;
             }
             else
             {
-                HeaderSelectTargetPlayer.gameObject.SetActive(false);
+                HeaderSelectTargetPlayer.text = SelectAILoc;
             }
         }
 

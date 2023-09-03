@@ -126,9 +126,10 @@ namespace CyberNet.Core
             var distance = componentCard.RectTransform.position.y - componentMove.StartCardPosition.y;
             var roundPlayer = _dataWorld.OneData<RoundData>();
 
-            if (distance < -50)
+            if (Mathf.Abs(distance) > 75)
             {
                 ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
+                var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
                 actionValue.SpendTrade += componentCard.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
 
@@ -140,6 +141,7 @@ namespace CyberNet.Core
                 }
 
                 componentCard.Player = roundPlayer.CurrentPlayer;
+                componentCard.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();

@@ -26,7 +26,7 @@ namespace CyberNet.Core
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
@@ -69,14 +69,13 @@ namespace CyberNet.Core
             await sequence.AsyncWaitForCompletion();
             await Task.Delay(400);
 
-            var targetPosition = ConvertRectTransformPosition.Convert(cardComponent.RectTransform, targetTransform);
-            var distance = Vector2.Distance(cardComponent.RectTransform.anchoredPosition, targetPosition);
-            var time = distance / 600;
+            var targetPosition = targetTransform.position;
+            var distance = Vector2.Distance(cardComponent.RectTransform.position, targetPosition);
+            var time = distance / 100;
             if (time > 0.8f)
                 time = 0.8f;
             
-            Debug.LogError($"Discard position {targetPosition}");
-            sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPosition, time))
+            sequence.Append(cardComponent.RectTransform.DOMove(targetPosition, time))
                      .Join(cardComponent.RectTransform.DOScale(scale, time))
                      .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), time / 0.5f));
 

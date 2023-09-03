@@ -10,7 +10,6 @@ namespace CyberNet.Global.GameCamera
         public GameCameraMono GameCameraMono;
         public CinemachineVirtualCamera CoreVirtualCamera;
         public CinemachineTransposer CoreCinemachineTransposer;
-        public Vector3 FollowOffsetCoreCamera;
         public CinemachineVirtualCamera MetaVirtualCamera;
         public Camera MainCamera;
         public bool IsCore;

@@ -33,7 +33,7 @@ namespace EcsCore
             var canvasViewCardMono = Object.Instantiate(canvasViewCard.Result).GetComponent<ViewDeckCardUIMono>();
             var pauseUIGO = Object.Instantiate(pauseUI.Result);
             var pauseUIMono = pauseUIGO.GetComponent<PauseGameUIMono>();
-            world.CreateOneData(new CoreUIData 
+            world.CreateOneData(new CoreGameUIData 
             { 
                 UIGO = canvasMainCoreGO, 
                 BoardGameUIMono = canvasMainMono, 

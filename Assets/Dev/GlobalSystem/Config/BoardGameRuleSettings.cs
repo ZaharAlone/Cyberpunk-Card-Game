@@ -10,8 +10,7 @@ namespace CyberNet
     {
         [Header ("Базовые параметры игрока")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
-        public int BaseInfluenceCount = 50;
-        public int BaseCyberpsychosisCount = 0;
+        public int StartCountUnit = 40;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]

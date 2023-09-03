@@ -26,7 +26,7 @@ namespace CyberNet.Core.UI
         
         private void InitCameraCanvas()
         {
-            var gameUI = _dataWorld.OneData<CoreUIData>();
+            var gameUI = _dataWorld.OneData<CoreGameUIData>();
             var camera = _dataWorld.OneData<GameCameraData>();
 
             var canvas = gameUI.UIGO.GetComponent<Canvas>();
@@ -51,7 +51,7 @@ namespace CyberNet.Core.UI
         private void UpdatePlayerCurrency()
         {
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>();
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>();
 
             var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
@@ -59,12 +59,14 @@ namespace CyberNet.Core.UI
             gameUI.BoardGameUIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
         }
 
+        //TODO: вернуть
         private void UpdateStatsPlayersPassport()
         {
+            /*
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();
+            ref var player1Stats = ref _dataWorld.OneData<PlayerStatsComponent>();
             ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
             //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
@@ -76,16 +78,18 @@ namespace CyberNet.Core.UI
             {
                 gameUI.CoreHudUIMono.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
                 //gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-            }
+            }*/
         }
 
         private void UpdateViewPassport()
         {
+            //TODO: вернуть
+            /*
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var leadersData = _dataWorld.OneData<LeadersViewData>();
-            ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
+            ref var player1View = ref _dataWorld.OneData<PlayerViewComponent>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
             leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
             leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
@@ -100,12 +104,12 @@ namespace CyberNet.Core.UI
             {
                 gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
                 //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
-            }
+            }*/
         }
 
         private void UpdateCountCard()
         {
-            ref var gameUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
             var discardCardsPlayer1 = _dataWorld.Select<CardComponent>()
                                                 .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
@@ -134,7 +138,7 @@ namespace CyberNet.Core.UI
 
         public void Destroy()
         {
-            _dataWorld.RemoveOneData<CoreUIData>();
+            _dataWorld.RemoveOneData<CoreGameUIData>();
         }
     }
 }

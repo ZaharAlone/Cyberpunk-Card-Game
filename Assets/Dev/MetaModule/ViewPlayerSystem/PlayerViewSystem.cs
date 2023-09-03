@@ -16,7 +16,7 @@ namespace CyberNet.Core
 
         public void Init()
         {
-            ref var playerView = ref _dataWorld.OneData<Player1ViewData>();
+            ref var playerView = ref _dataWorld.OneData<PlayerViewComponent>();
             playerView.Name = "Zakhar";
         }
     }

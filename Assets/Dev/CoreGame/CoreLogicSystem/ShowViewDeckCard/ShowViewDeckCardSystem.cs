@@ -21,7 +21,7 @@ namespace CyberNet.Core.UI
 
         private void OpenDiscard()
         {
-            var showViewUI = _dataWorld.OneData<CoreUIData>().ViewDeckCard;
+            var showViewUI = _dataWorld.OneData<CoreGameUIData>().ViewDeckCard;
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             var entitiesCardDiscard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.Player == viewData.PlayerView)
@@ -39,7 +39,7 @@ namespace CyberNet.Core.UI
 
         private void OpenDraw()
         {
-            var showViewUI = _dataWorld.OneData<CoreUIData>().ViewDeckCard;
+            var showViewUI = _dataWorld.OneData<CoreGameUIData>().ViewDeckCard;
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             var entitiesCardDiscard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.Player == viewData.PlayerView)

@@ -20,11 +20,10 @@ namespace CyberNet.Meta.StartGame
 
         public void PreInit()
         {
-            StartGameAction.StartGameLocalVSAI += StartGameVSAI;
-            StartGameAction.StartGameLocalVSPlayer += StartGameLocalVSPlayer;
+            StartGameAction.StartLocalGame += StartLocalGame;
         }
 
-        private void StartGameVSAI(string nameLeader)
+        private void StartLocalGame(string nameLeader)
         {
             SelectAvatarPlayer(nameLeader, PlayerEnum.Player1);
             SelectViewBot();
@@ -34,22 +33,16 @@ namespace CyberNet.Meta.StartGame
             _dataWorld.InitModule<VSAIModule>(true);
         }
 
-        private void StartGameLocalVSPlayer(string nameLeaderPlayer1, string nameLeaderPlayer2)
-        {
-            _dataWorld.InitModule<LocalGameModule>(true);
-            _dataWorld.InitModule<PassAndPlayModule>(true);
-            SelectAvatarPlayer(nameLeaderPlayer1, PlayerEnum.Player1);
-            SelectAvatarPlayer(nameLeaderPlayer2, PlayerEnum.Player2);
-        }
-        
         private void SelectAvatarPlayer(string nameLeader, PlayerEnum targetPlayer)
         {
             _dataWorld.OneData<LeadersConfigData>().LeadersConfig.TryGetValue(nameLeader, out var leadersConfig);
 
+            //TODO: вернуть
+            /*
             if (targetPlayer == PlayerEnum.Player1)
             {
-                ref var playerView = ref _dataWorld.OneData<Player1ViewData>();
-                playerView.LeaderKey = nameLeader;
+                ref var playerView = ref _dataWorld.OneData<PlayerViewComponent>();
+                playerView.Name = nameLeader;
                 playerView.AvatarKey = leadersConfig.imageAvatarLeader;   
             }
             else if (targetPlayer == PlayerEnum.Player2)
@@ -57,7 +50,7 @@ namespace CyberNet.Meta.StartGame
                 ref var playerView = ref _dataWorld.OneData<Player2ViewData>();
                 playerView.LeaderKey = nameLeader;
                 playerView.AvatarKey = leadersConfig.imageAvatarLeader;  
-            }
+            }*/
         }
 
         private void SelectViewBot()
@@ -66,11 +59,11 @@ namespace CyberNet.Meta.StartGame
             var randomIndex = Random.Range(0, leadersConfigData.Count);
 
             var leadersConfig = leadersConfigData.ElementAt(randomIndex).Value;
-            
+            /*
             ref var playerView = ref _dataWorld.OneData<Player2ViewData>();
             playerView.LeaderKey = leadersConfig.Name;
             playerView.Name =  I2.Loc.LocalizationManager.GetTranslation(leadersConfig.NameLoc);
-            playerView.AvatarKey = leadersConfig.imageAvatarLeader;
+            playerView.AvatarKey = leadersConfig.imageAvatarLeader;*/
         }
         
         private void OnlineGame()

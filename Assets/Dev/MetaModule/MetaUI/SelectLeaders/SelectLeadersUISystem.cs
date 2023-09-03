@@ -46,16 +46,8 @@ namespace CyberNet.Meta
             {
                 case GameModeEnum.Campaign:
                     break;
-                case GameModeEnum.LocalVSAI:
-                    StartGameAction.StartGameLocalVSAI?.Invoke(selectLeadersData.CurrentSelectLeader_Player1);
-                    break;
-                case GameModeEnum.LocalVSPlayer:
-                    isNextSelectPlayer2 = true;
-                    selectLeadersData.SelectGameMode = GameModeEnum.LocalVSPlayer2;
-                    OpenSecondSelectLeaderUI();
-                    break;
-                case GameModeEnum.LocalVSPlayer2:
-                    StartGameAction.StartGameLocalVSPlayer?.Invoke(selectLeadersData.CurrentSelectLeader_Player1, selectLeadersData.CurrentSelectLeader_Player2);
+                case GameModeEnum.LocalGame:
+                    StartGameAction.StartLocalGame?.Invoke(selectLeadersData.CurrentSelectLeader_Player1);
                     break;
                 case GameModeEnum.OnlineGame:
                     break;
@@ -102,6 +94,7 @@ namespace CyberNet.Meta
 
         private void WriteInComponentSelectLeader(string nameLeader)
         {
+            /*
             ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
             if (selectLeaderData.SelectGameMode != GameModeEnum.LocalVSPlayer2)
             {
@@ -110,7 +103,7 @@ namespace CyberNet.Meta
             else
             {
                 selectLeaderData.CurrentSelectLeader_Player2 = nameLeader;
-            }
+            }*/
         }
 
         private void BackMainMenu()

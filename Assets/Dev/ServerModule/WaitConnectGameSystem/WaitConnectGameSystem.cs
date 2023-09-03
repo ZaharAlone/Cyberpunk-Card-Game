@@ -67,16 +67,19 @@ namespace CyberNet.Server
             deckCard.ShopCards = shopCard.CardTradeRow;
         }
 
+        //TODO: вернуть как до сервера дойду
         private void InitPlayers(PlayersComponent playerCard)
         {
+            /*
             Debug.Log("Get Players info");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.PlayerCards_1 = playerCard.Player1.DeckCard;
             deckCard.PlayerCards_2 = playerCard.Player2.DeckCard;
 
-            ref var player1stats = ref _dataWorld.OneData<Player1StatsData>();
+            ref var player1stats = ref _dataWorld.OneData<PlayerStatsComponent>();
             ref var player2stats = ref _dataWorld.OneData<Player2StatsData>();
+            */
         }
 
         private void InitActionData(ActionCardData actionCardData)

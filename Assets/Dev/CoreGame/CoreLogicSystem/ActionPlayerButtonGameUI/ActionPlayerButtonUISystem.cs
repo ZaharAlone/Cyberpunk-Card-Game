@@ -21,7 +21,7 @@ namespace CyberNet.Core.UI
         public void Init()
         {
             ActionPlayerButtonEvent.ClickActionButton += ClickButton;
-            ActionPlayerButtonEvent.ActionAttackBot += Attack;
+            //ActionPlayerButtonEvent.ActionAttackBot += Attack;
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
@@ -30,7 +30,7 @@ namespace CyberNet.Core.UI
         {
             var round = _dataWorld.OneData<RoundData>();
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<CoreUIData>();
+            var ui = _dataWorld.OneData<CoreGameUIData>();
 
             if (round.CurrentPlayer != viewPlayer.PlayerView)
             {
@@ -75,7 +75,7 @@ namespace CyberNet.Core.UI
                     PlayAll();
                     break;
                 case ActionPlayerType.Attack:
-                    Attack();
+                    //Attack();
                     break;
                 case ActionPlayerType.EndTurn:
                     EndTurn();
@@ -97,6 +97,7 @@ namespace CyberNet.Core.UI
             }
         }
 
+        /*
         private void Attack()
         {
             ref var boardGameRule = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
@@ -113,7 +114,7 @@ namespace CyberNet.Core.UI
             }
             else
             {
-                ref var playerStats = ref _dataWorld.OneData<Player1StatsData>();
+                ref var playerStats = ref _dataWorld.OneData<PlayerStatsComponent>();
                 playerStats.HP -= valueAttack;
                 percentHP = (float)playerStats.HP / boardGameRule.BaseInfluenceCount;
             }
@@ -128,11 +129,11 @@ namespace CyberNet.Core.UI
             BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
             WinLoseAction.CheckWin?.Invoke();
         }
-
+*/
         private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
         {
             //TODO: старый код
-            ref var boardUI = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            ref var boardUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             if (targetAttack != viewData.PlayerView)
             {

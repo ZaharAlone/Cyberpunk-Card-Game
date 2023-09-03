@@ -35,7 +35,7 @@ namespace CyberNet.Core
         {
             var viewData = _dataWorld.OneData<ViewPlayerData>();
             var cardComponent = entity.GetComponent<CardComponent>();
-            var ui = _dataWorld.OneData<CoreUIData>().BoardGameUIMono;
+            var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             var targetPositions = Vector3.zero;
 
             //TODO: старый код

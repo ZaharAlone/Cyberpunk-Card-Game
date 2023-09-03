@@ -7,9 +7,6 @@ namespace CyberNet.Global.GameCamera
     {
         public Camera MainCamera;
         public CinemachineVirtualCamera CoreVirtualCamera;
-        public CinemachineVirtualCamera CoreVirtualCameraMaxScale;
         public CinemachineVirtualCamera MetaVirtualCamera;
-
-        public Transform CoreTargetFollow;
     }
 }

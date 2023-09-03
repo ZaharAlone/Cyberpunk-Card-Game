@@ -33,7 +33,7 @@ namespace CyberNet.Core.ActionCard
             
             var entity = _dataWorld.Select<CardComponent>().With<ActionSelectCardComponent>().SelectFirstEntity();
             ref var actionSelectCardComponent = ref entity.GetComponent<ActionSelectCardComponent>();
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.actionSelectCardUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.actionSelectCardUIMono;
             ref var actionConfig = ref _dataWorld.OneData<ActionCardConfigData>().ActionCardViewConfig;
             actionConfig.TryGetValue(actionSelectCardComponent.AbilityCard.AbilityType.ToString(), out var actionVisualConfig);
             
@@ -45,7 +45,7 @@ namespace CyberNet.Core.ActionCard
 
         private void CloseWindow()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.actionSelectCardUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.actionSelectCardUIMono;
             uiActionSelectCard.CloseWindow();
         }
         

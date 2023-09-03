@@ -18,7 +18,6 @@ namespace CyberNet.Global.GameCamera
             camera.MainCamera = camera.GameCameraMono.MainCamera;
             camera.CoreVirtualCamera = camera.GameCameraMono.CoreVirtualCamera;
             camera.CoreCinemachineTransposer = camera.CoreVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            camera.FollowOffsetCoreCamera = camera.CoreCinemachineTransposer.m_FollowOffset;
             camera.MetaVirtualCamera = camera.GameCameraMono.MetaVirtualCamera;
             
             camera.CoreVirtualCamera.gameObject.SetActive(false);

@@ -26,8 +26,7 @@ namespace CyberNet.Meta
             MainMenuAction.OpenMainMenu += OpenMainMenu;
             MainMenuAction.CloseMainMenu += CloseMainMenu;
             MainMenuAction.OpenCampaign += OpenCampaign;
-            MainMenuAction.OpenLocalGameVSAI += OpenLocalGameVSAI;
-            MainMenuAction.OpenLocalGameVSPlayer += OpenLocalGameVSPlayer;
+            MainMenuAction.OpenLocalGame += OpenLocalGame;
             MainMenuAction.OpenServerGame += OpenServerGame;
             MainMenuAction.OpenSettingsGame += OpenSettingsGame;
             MainMenuAction.OpenExitGame += OpenExitGame;
@@ -61,16 +60,10 @@ namespace CyberNet.Meta
             OnlineGameUIAction.OpenOnlineGameUI?.Invoke();
             CloseMainMenu();
         }
-        
-        private void OpenLocalGameVSPlayer()
+
+        private void OpenLocalGame()
         {
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalVSPlayer);
-            CloseMainMenu();
-        }
-        
-        private void OpenLocalGameVSAI()
-        {
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalVSAI);
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalGame);
             CloseMainMenu();
         }
         

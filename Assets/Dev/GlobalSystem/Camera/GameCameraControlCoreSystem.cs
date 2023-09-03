@@ -15,10 +15,8 @@ namespace CyberNet.Global.GameCamera
     {
         private DataWorld _dataWorld;
 
-        private float MinZoomCamera = 20;
-        private float MaxZoomCamera = 40
-            ;
-
+        private float MinZoomCamera = 10;
+        private float MaxZoomCamera = 45;
         public void PreInit()
         {
             GlobalCoreAction.FinishInitGameResource += ActivateCoreCamera;
@@ -28,7 +26,7 @@ namespace CyberNet.Global.GameCamera
         private void ActivateCoreCamera()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
-            ref var boardResourceData = ref _dataWorld.OneData<BoardGameResourceData>();
+            ref var boardResourceData = ref _dataWorld.OneData<CityData>();
             camera.CoreVirtualCamera.m_Follow = boardResourceData.CityGO.transform;
             camera.MetaVirtualCamera.gameObject.SetActive(false);
             camera.CoreVirtualCamera.gameObject.SetActive(true);
@@ -69,8 +67,8 @@ namespace CyberNet.Global.GameCamera
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
             var followOffset = camera.CoreCinemachineTransposer.m_FollowOffset;
-            followOffset.x += moveVector.x * 0.5f;
-            followOffset.z += moveVector.y * 0.5f;
+            followOffset.x += moveVector.x;
+            followOffset.z += moveVector.y;
             camera.CoreCinemachineTransposer.m_FollowOffset = followOffset;
         }
 
@@ -82,9 +80,13 @@ namespace CyberNet.Global.GameCamera
         private void ZoomCamera(float zoomValue)
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
-            var value = camera.CoreVirtualCamera.m_Lens.FieldOfView - zoomValue * 0.25f;
-            value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera); 
+            var value = camera.CoreVirtualCamera.m_Lens.FieldOfView - 3 * Mathf.Sign(zoomValue);
+            value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera);
             camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(camera.CoreVirtualCamera.m_Lens.FieldOfView, value, Time.deltaTime * 50f);
+            
+            var angle = Mathf.Lerp(45f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
+            var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
+            camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
         }
     }
 }

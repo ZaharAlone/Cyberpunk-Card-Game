@@ -33,7 +33,7 @@ namespace CyberNet.Core
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var cardsContainer = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.CardsContainer;
+            ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
             switch (abilityAddResourceComponent.AbilityType)
             {
@@ -53,6 +53,7 @@ namespace CyberNet.Core
             CardShopAction.SelectCardFreeToBuy?.Invoke();
         }
         
+        /*
         private void ActionInfluence()
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
@@ -65,7 +66,7 @@ namespace CyberNet.Core
 
             if (playersRound == PlayerEnum.Player1)
             {
-                ref var playerStats = ref _dataWorld.OneData<Player1StatsData>();
+                ref var playerStats = ref _dataWorld.OneData<PlayerStatsComponent>();
                 playerStats.HP += deltaInfluence;
             }
             else
@@ -75,6 +76,6 @@ namespace CyberNet.Core
             }
 
             actionData.SpendInfluence += deltaInfluence;
-        }
+        }*/
     }
 }

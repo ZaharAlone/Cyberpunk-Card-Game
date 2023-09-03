@@ -53,12 +53,12 @@ namespace CyberNet.Core.PauseUI
         }
         private void OpenUIPauseGame()
         {
-            ref var pauseUI = ref _dataWorld.OneData<CoreUIData>().PauseGameUIMono;
+            ref var pauseUI = ref _dataWorld.OneData<CoreGameUIData>().PauseGameUIMono;
             pauseUI.OpenWindow();
         }
         private void CloseUIPauseGame()
         {
-            ref var pauseUI = ref _dataWorld.OneData<CoreUIData>().PauseGameUIMono;
+            ref var pauseUI = ref _dataWorld.OneData<CoreGameUIData>().PauseGameUIMono;
             pauseUI.CloseWindow();
         }
         private void QuitGame()

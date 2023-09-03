@@ -29,6 +29,7 @@ namespace CyberNet.Meta
         public Localize ButtonTextDeactiveLoc;
         
         public EventReference SoundButtonClick;
+        public EventReference SoundButtonSelect;
         public UnityEvent ButtonClickEvent;
         
         private const float _delayBetweenClickHandling = 0.35f;
@@ -61,6 +62,7 @@ namespace CyberNet.Meta
 
             ActiveButton.SetActive(true);
             DeactiveButton.SetActive(false);
+            RuntimeManager.CreateInstance(SoundButtonSelect).start();
             _sequence = DOTween.Sequence();
             _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 255), 0.25f));
         }

@@ -19,9 +19,11 @@ namespace CyberNet.Meta
             LoadingVSScreenAction.CloseLoadingVSScreen += CloseLoadingVSScreen;
         }
 
+        //TODO: вернуть
         private void OpenLoadingVSScreen()
         {
-            ref var playerView_1 = ref _dataWorld.OneData<Player1ViewData>();
+            /*
+            ref var playerView_1 = ref _dataWorld.OneData<PlayerViewComponent>();
             ref var playerView_2 = ref _dataWorld.OneData<Player2ViewData>();
             ref var uiVSScreen = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.loadingVSScreenUIMono;
             ref var leadersConfigData = ref _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
@@ -33,7 +35,7 @@ namespace CyberNet.Meta
             leadersView.TryGetValue(playerConfig_2.ImageCardLeaders, out var player2CardSprite);
 
             uiVSScreen.SetLeader(player1CardSprite, player2CardSprite);
-            uiVSScreen.OpenWindow();
+            uiVSScreen.OpenWindow();*/
         }
         
         private void CloseLoadingVSScreen()

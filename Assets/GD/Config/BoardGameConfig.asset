@@ -23,6 +23,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
     - {fileID: 21300000, guid: 8254cab71c190c44ab5879d1a47a1880, type: 3}
     - {fileID: 21300000, guid: 0b4e8bc197be4fe40927330126fcddd0, type: 3}
+    - {fileID: -1710026891398166596, guid: 6d982edb18e502e41a140fb2d23b53de, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -148,6 +149,38 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: UnitDictionary
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CyberNet.CoreGame.City.UnitMono,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 4|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: neutral_unit
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   CityMono: {fileID: 8270648006510623642, guid: ce4eabb4c1ea74948be4b94773df0880,
     type: 3}
   CardGO: {fileID: 7722546294258958497, guid: 24aad44db34d3924ca7ccd7e3e313739, type: 3}
@@ -175,13 +208,9 @@ MonoBehaviour:
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
   HeroesConfigJson: {fileID: 4900000, guid: 38b4bb30bb0361849871c5a2765ef2ee, type: 3}
   AbilityConfigJson: {fileID: 4900000, guid: 21aafbac168cef64dbff487dcbcd1565, type: 3}
-  StepPosXPlayerDown: 210
-  StepPosXPlayerUp: 170
-  PlayerHandPosition: {x: 0, y: -420}
-  PlayerCardPositionInPlay: {x: 0, y: -120}
-  EnemyHandPosition: {x: -500, y: 100}
   SizeCardInDeck: {x: 0.25, y: 0.25, z: 0.25}
   SizeCardInTable: {x: 1, y: 1, z: 1}
+  SizeCardInTraderow: {x: 0.8, y: 0.8, z: 1}
   SizeCardPlayerUp: {x: 0.6, y: 0.6, z: 0.6}
   SizeCardPlayerDown: {x: 0.75, y: 0.75, z: 0.75}
   NormalSize: {x: 1, y: 1, z: 1}

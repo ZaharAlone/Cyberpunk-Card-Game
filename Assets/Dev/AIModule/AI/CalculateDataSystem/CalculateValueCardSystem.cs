@@ -14,53 +14,16 @@ namespace CyberNet.Core.Enemy
 
         public void PreInit()
         {
-            CalculateValueCardAction.AttackAction += AttackAction;
             CalculateValueCardAction.TradeAction += TradeAction;
-            CalculateValueCardAction.InfluenceAction += InfluenceAction;
             CalculateValueCardAction.DrawCardAction += DrawCardAction;
             CalculateValueCardAction.DestroyCardAction += DestroyCardAction;
             CalculateValueCardAction.DiscardCardAction += DiscardCardAction;
             CalculateValueCardAction.NoiseCardAction += NoiseCardAction;
         }
-        private int AttackAction(int count)
-        {
-            ref var hpPlayer1 = ref _dataWorld.OneData<Player1StatsData>().HP;
-            ref var hpPlayer2 = ref _dataWorld.OneData<Player2StatsData>().HP;
-
-            var calculateValue = (Mathf.Abs(hpPlayer1 - hpPlayer2) * 100 / 50) + count;
-            return calculateValue;
-        }
         private int TradeAction(int count)
         {
             //TODO: поправить
             return 15;
-        }
-        private int InfluenceAction(int count)
-        {
-            var hpBot = 0;
-            var hpPlayer = 0;
-            var playerRound = _dataWorld.OneData<RoundData>().CurrentPlayer;
-
-            if (playerRound == PlayerEnum.Player1)
-            {
-                hpBot =  _dataWorld.OneData<Player1StatsData>().HP;
-                hpPlayer =  _dataWorld.OneData<Player2StatsData>().HP;
-            }
-            else
-            {
-                hpPlayer =  _dataWorld.OneData<Player1StatsData>().HP;
-                hpBot =  _dataWorld.OneData<Player2StatsData>().HP;
-            }
-
-            var value = (hpBot - hpPlayer) * 100 / 50;
-
-
-            if (value < 0)
-                value = Mathf.Abs(value) * 2;
-            else if (hpBot - hpPlayer > 20)
-                value *= 4;
-            
-            return value;
         }
 
         private int DrawCardAction()

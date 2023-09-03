@@ -4,7 +4,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
-using CyberNet.CoreGame.Tower;
+using CyberNet.CoreGame.City;
 using UnityEngine.Serialization;
 
 namespace CyberNet
@@ -40,20 +40,10 @@ namespace CyberNet
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
 
-        public float StepPosXPlayerDown = 210f;
-        public float StepPosXPlayerUp = 170f;
-
-        [Header("Positions Player")]
-        public Vector2 PlayerHandPosition = new Vector2(0, -330);
-
-        public Vector2 PlayerCardPositionInPlay = new Vector2(0, -120);
-
-        [Header("Positions Enemy")]
-        public Vector2 EnemyHandPosition = new Vector2(0, 330);
-
         [Header("Size")]
         public Vector3 SizeCardInDeck = new Vector3(0.25f, 0.25f, 1f);
         public Vector3 SizeCardInTable = new Vector3(0.7f, 0.7f, 1f);
+        public Vector3 SizeCardInTraderow = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 SizeCardPlayerUp = new Vector3(0.5f, 0.5f, 1f);
         public Vector3 SizeCardPlayerDown = new Vector3(0.8f, 0.8f, 1f);
         public Vector3 NormalSize = Vector3.one;

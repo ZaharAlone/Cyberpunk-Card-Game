@@ -21,7 +21,9 @@ namespace CyberNet.Core.WinLose
         }
         private void CheckWin()
         {
-            ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();
+            //TODO: вернуть
+            /*
+            ref var player1Stats = ref _dataWorld.OneData<PlayerStatsComponent>();
             ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
 
             if (player1Stats.HP <= 0)
@@ -31,13 +33,13 @@ namespace CyberNet.Core.WinLose
             else if (player2Stats.HP <= 0)
             {
                 OpenWinScreen(PlayerEnum.Player2);
-            }
+            }*/
         }
-
+/*
         public void OpenWinScreen(PlayerEnum playerWin)
         {
-            ref var uiWinLoseScreen = ref _dataWorld.OneData<CoreUIData>().BoardGameUIMono.WinLoseUIMono;
-            ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
+            ref var uiWinLoseScreen = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.WinLoseUIMono;
+            ref var player1View = ref _dataWorld.OneData<PlayerViewComponent>();
             ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
             ref var leadersViewData = ref _dataWorld.OneData<LeadersViewData>().LeadersView;
             leadersViewData.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
@@ -52,7 +54,7 @@ namespace CyberNet.Core.WinLose
                 uiWinLoseScreen.OpenWindow(avatarPlayer2, avatarPlayer1);
             }
         }
-
+*/
         private void CloseWindow()
         {
             EndGameAction.EndGame?.Invoke();

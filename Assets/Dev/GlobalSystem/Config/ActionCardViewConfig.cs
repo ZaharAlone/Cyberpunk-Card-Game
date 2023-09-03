@@ -8,7 +8,6 @@ namespace CyberNet
     [Serializable]
     public struct ActionCardViewConfig
     {
-        [FormerlySerializedAs("NameLoc")]
         [JsonProperty("action_loc_header")]
         public string HeaderLoc;
         [JsonProperty("action_loc_descr")]

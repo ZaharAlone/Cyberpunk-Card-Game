@@ -34,6 +34,7 @@ namespace EcsCore
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
+            var cityVisualSO = Load<CityVisualSO>("CityVisualSO", tasks);
             var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
             var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
@@ -56,7 +57,7 @@ namespace EcsCore
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
             world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
             world.CreateOneData(new PopupData { PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(), PopupViewConfig = popupViewConfig.Result});
-            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards});
+            world.CreateOneData(new BoardGameData { BoardGameConfig = boardGameConfig.Result, BoardGameRule = boardGameRule.Result, CardsImage = cardsImage.Result.Cards, CityVisualSO = cityVisualSO.Result});
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });
             world.CreateOneData(new ActionCardConfigData {ActionCardConfig = actionCardEffect.Result});

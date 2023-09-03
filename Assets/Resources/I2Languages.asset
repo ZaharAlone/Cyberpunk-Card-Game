@@ -105,20 +105,12 @@ MonoBehaviour:
       - "\u041A\u043E\u043C\u043F\u0430\u043D\u0438\u044F"
       Flags: 0000
       Languages_Touch: []
-    - Term: UIGame/$bt_vsAI_name
+    - Term: UIGame/$bt_localGame_name
       TermType: 0
       Description: 
       Languages:
-      - VS AI
-      - "\u041F\u0440\u043E\u0442\u0438\u0432 AI"
-      Flags: 0000
-      Languages_Touch: []
-    - Term: UIGame/$bt_passAndPlay_name
-      TermType: 0
-      Description: 
-      Languages:
-      - Pass And Play
-      - "\u0418\u0433\u0440\u0430 \u043D\u0430 \u043E\u0434\u043D\u043E\u043C \u041F\u041A"
+      - Local game
+      - "\u041B\u043E\u043A\u0430\u043B\u044C\u043D\u0430\u044F \u0438\u0433\u0440\u0430"
       Flags: 0000
       Languages_Touch: []
     - Term: UIGame/$bt_settings_name
@@ -219,20 +211,20 @@ MonoBehaviour:
       - "\u041D\u0430\u0447\u0430\u0442\u044C"
       Flags: 0000
       Languages_Touch: []
-    - Term: UIGame/$ui_player1_name
+    - Term: UIGame/$ui_selectPlayer_name
       TermType: 0
       Description: 
       Languages:
-      - Player 1
-      - "\u0418\u0433\u0440\u043E\u043A 1"
+      - Select player
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0438\u0433\u0440\u043E\u043A\u0430"
       Flags: 0000
       Languages_Touch: []
-    - Term: UIGame/$ui_player2_name
+    - Term: UIGame/$ui_selectAI_name
       TermType: 0
       Description: 
       Languages:
-      - Player 2
-      - "\u0418\u0433\u0440\u043E\u043A 2"
+      - Select AI
+      - "\u0412\u044B\u0431\u0440\u0430\u0442\u044C AI"
       Flags: 0000
       Languages_Touch: []
     - Term: UIGame/$ui_selectLeader_header
@@ -305,6 +297,15 @@ MonoBehaviour:
         \u0445\u043E\u0442\u0438\u0442\u0435 \u0432\u044B\u0439\u0442\u0438 \u0432
         \u0433\u043B\u0430\u0432\u043D\u043E\u0435 \u043C\u0435\u043D\u044E? \u0422\u0435\u043A\u0443\u0449\u0438\u0439
         \u0431\u043E\u0439 \u0431\u0443\u0434\u0435\u0442 \u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043D."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: UIGame/$ui_selectPlayer_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Finish select players
+      - "\u0417\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C \u0432\u044B\u0431\u0438\u0440\u0430\u0442\u044C
+        \u0438\u0433\u0440\u043E\u043A\u043E\u0432"
       Flags: 0000
       Languages_Touch: []
     - Term: CoreGame/$bg_play_all_button
@@ -537,6 +538,15 @@ MonoBehaviour:
       Languages:
       - Action
       - "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_selectStartAreal_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one of the starting territories
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u0439"
       Flags: 0000
       Languages_Touch: []
     - Term: BoardGameCard/$bgc_neutral_scout_name
@@ -1189,7 +1199,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1691943963322
+    Google_LastUpdatedVersion: 1693750729601
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2
