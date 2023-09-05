@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Global;
+using CyberNet.Meta.SelectPlayersForGame;
 using CyberNet.Meta.StartGame;
 
 namespace CyberNet.Meta
@@ -16,48 +17,38 @@ namespace CyberNet.Meta
 
         public void PreInit()
         {
-            SelectLeaderAction.OpenSelectLeaderUI += OpenFirstSelectLeaderUI;
+            SelectLeaderAction.OpenSelectLeaderUI += OpenSelectLeaderUI;
             SelectLeaderAction.SelectLeader += SelectLeaderView;
             SelectLeaderAction.BackMainMenu += BackMainMenu;
-            SelectLeaderAction.StartGame += StartGame;
+            SelectLeaderAction.ConfirmSelect += ConfirmSelectLeader;
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
-        private void OpenFirstSelectLeaderUI(GameModeEnum gameModeEnum)
+        private void OpenSelectLeaderUI(SelectLeadersData selectLeaderConfig)
         {
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
-            uiSelectLeader.OpenWindow(gameModeEnum);
-
-            _dataWorld.CreateOneData(new SelectLeadersData {SelectGameMode = gameModeEnum });
+            _dataWorld.CreateOneData(selectLeaderConfig);
+            uiSelectLeader.OpenWindow();
         }
         
-        private void OpenSecondSelectLeaderUI()
-        {
-            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
-            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
-            uiSelectLeader.OpenWindow(selectLeaderData.SelectGameMode);
-        }
-        
-        private void StartGame()
+        private void ConfirmSelectLeader()
         {
             ref var selectLeadersData = ref _dataWorld.OneData<SelectLeadersData>();
-            var isNextSelectPlayer2 = false;
-            
-            switch (selectLeadersData.SelectGameMode)
-            {
-                case GameModeEnum.Campaign:
-                    break;
-                case GameModeEnum.LocalGame:
-                    StartGameAction.StartLocalGame?.Invoke(selectLeadersData.CurrentSelectLeader_Player1);
-                    break;
-                case GameModeEnum.OnlineGame:
-                    break;
-            }
+            ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
 
-            if (!isNextSelectPlayer2)
+            var counter = 0;
+            foreach (var selectLeader in selectPlayersData.SelectLeaders)
             {
-                _dataWorld.RemoveOneData<SelectLeadersData>();
-                CloseSelectLeader();   
+                if (selectLeader.IDPlayer == selectLeadersData.IDPlayer)
+                {
+                    selectPlayersData.SelectLeaders[counter] = selectLeadersData;
+                    break;
+                }
+                counter++;
             }
+            
+            _dataWorld.RemoveOneData<SelectLeadersData>();
+            CloseSelectLeader(); 
+            SelectPlayerAction.OpenSelectPlayerUI?.Invoke();
         }
 
         private void SelectLeaderView(string nameLeader)
@@ -84,7 +75,7 @@ namespace CyberNet.Meta
 
             if (isFirstButton)
             {
-                //TO-DO add select first button
+                //TODO add select first button view
                 SelectLeaderView(nameLeader);
                 WriteInComponentSelectLeader(nameLeader);
             }
@@ -94,16 +85,7 @@ namespace CyberNet.Meta
 
         private void WriteInComponentSelectLeader(string nameLeader)
         {
-            /*
-            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
-            if (selectLeaderData.SelectGameMode != GameModeEnum.LocalVSPlayer2)
-            {
-                selectLeaderData.CurrentSelectLeader_Player1 = nameLeader;
-            }
-            else
-            {
-                selectLeaderData.CurrentSelectLeader_Player2 = nameLeader;
-            }*/
+            _dataWorld.OneData<SelectLeadersData>().SelectLeader = nameLeader;
         }
 
         private void BackMainMenu()

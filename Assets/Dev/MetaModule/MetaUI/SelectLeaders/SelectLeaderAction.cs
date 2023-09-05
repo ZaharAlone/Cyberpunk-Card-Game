@@ -6,10 +6,11 @@ namespace CyberNet.Meta
 {
     public static class SelectLeaderAction
     {
-        public static Action<GameModeEnum> OpenSelectLeaderUI;
+        public static Action<SelectLeadersData> OpenSelectLeaderUI;
+        public static Action CloseSelectLeaderUI;
         public static Action<string> SelectLeader;
         public static Action BackMainMenu;
-        public static Action StartGame;
+        public static Action ConfirmSelect;
 
         public static Func<string, bool, Sprite> InitButtonLeader;
     }

@@ -23,17 +23,15 @@ namespace CyberNet.Meta
         public Localize SelectLeadersAbilityNameLoc;
         public Localize SelectLeadersAbilityDescrLoc;
 
-        [Header("Local Game VS Player")]
+        [Header("Header 2 current select player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
         public LocalizedString SelectPlayerLoc;
         public LocalizedString SelectAILoc;
         
-        public void OpenWindow(GameModeEnum gameModeEnum)
+        public void OpenWindow()
         {
             Background.SetActive(true);
             Panel.SetActive(true);
-
-            SetCurrentMode(PlayerType.Player);
         }
 
         public void CloseWindow()
@@ -56,11 +54,10 @@ namespace CyberNet.Meta
             SelectLeadersAbilityDescrLoc.Term = descr;
         }
 
-        private void SetCurrentMode(PlayerType playerType)
+        public void SetLocSelectPlayerOrAI(PlayerType playerType)
         {
             if (playerType == PlayerType.Player)
             {
-                HeaderSelectTargetPlayer.gameObject.SetActive(true);
                 HeaderSelectTargetPlayer.text = SelectPlayerLoc;
             }
             else
@@ -74,9 +71,9 @@ namespace CyberNet.Meta
             SelectLeaderAction.BackMainMenu?.Invoke();
         }
 
-        public void OnClickStartGame()
+        public void OnClickConfirmSelect()
         {
-            SelectLeaderAction.StartGame?.Invoke();
+            SelectLeaderAction.ConfirmSelect?.Invoke();
         }
     }
 }

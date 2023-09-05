@@ -8,8 +8,12 @@ using UnityEngine;
 using UnityEditor;
 #endif
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using CyberNet.Core;
 using CyberNet.Global;
 using CyberNet.Server;
+using Random = UnityEngine.Random;
 
 namespace CyberNet.Meta
 {
@@ -63,8 +67,62 @@ namespace CyberNet.Meta
 
         private void OpenLocalGame()
         {
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(GameModeEnum.LocalGame);
+            var playerConfig = CreatePlayerDataLocalGame();
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(playerConfig);
             CloseMainMenu();
+        }
+
+        private SelectLeadersData CreatePlayerDataLocalGame()
+        {
+            var selectPlayerData = new SelectPlayerData();
+            selectPlayerData.SelectLeaders = new();
+            
+            var playerLeaderData = new SelectLeadersData {
+                IDPlayer = 0,
+                PlayerType = PlayerType.Player,
+                SelectLeader = ""
+            };
+            selectPlayerData.SelectLeaders.Add(playerLeaderData);
+
+            var enemyLeaders = GetRandomLeader(3);
+            
+            for (int i = 1; i < 4; i++)
+            {
+                selectPlayerData.SelectLeaders.Add(new SelectLeadersData {
+                    IDPlayer = i,
+                    PlayerType = PlayerType.AIEasy,
+                    SelectLeader = enemyLeaders[i-1]
+                });
+            }
+
+            _dataWorld.CreateOneData(selectPlayerData);
+            return playerLeaderData;
+        }
+
+        private List<string> GetRandomLeader(int count)
+        {
+            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
+            var nameLeaders = new List<string>();
+
+            while (nameLeaders.Count != count)
+            {
+                var random = new System.Random();
+                var selectLeader = leadersConfig.ElementAt(random.Next(leadersConfig.Count));
+
+                var isUseLeader = false;
+                foreach (var useLeader in nameLeaders)
+                {
+                    if (useLeader == selectLeader.Key)
+                    {
+                        isUseLeader = true;
+                    }
+                }
+                
+                if (!isUseLeader)
+                    nameLeaders.Add(selectLeader.Key);
+            }
+            
+            return nameLeaders;
         }
         
         private void CloseMainMenu()

@@ -1,3 +1,5 @@
+using CyberNet.Global;
+using CyberNet.Meta;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -12,33 +14,32 @@ namespace CyberNet.Core
 
         public void Activate()
         {
-            ref var startGameConfig = ref _dataWorld.OneData<StartGameConfig>();
-            
-            CreatePlayer(startGameConfig.Player_1);
-            CreatePlayer(startGameConfig.Player_2);
-            CreatePlayer(startGameConfig.Player_3);
-            CreatePlayer(startGameConfig.Player_4);
+            ref var selectPlayer = ref _dataWorld.OneData<SelectPlayerData>();
+
+            for (int i = 0; i < selectPlayer.SelectLeaders.Count; i++)
+            {
+                CreatePlayer(selectPlayer.SelectLeaders[i]);
+            }
         }
         
-        private void CreatePlayer(PlayerConfigStartGame playerConfig)
+        private void CreatePlayer(SelectLeadersData selectLeadersData)
         {
-            if (playerConfig.PlayerType == PlayerType.None)
+            if (selectLeadersData.PlayerType == PlayerType.None)
                 return;
             
             ref var config = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             var entity = _dataWorld.NewEntity();
 
             entity.AddComponent(new PlayerStatsComponent {
-                PlayerType = playerConfig.PlayerType,
+                PlayerType = selectLeadersData.PlayerType,
                 PlayerID = 1, 
                 UnitCount = config.StartCountUnit, 
                 VictoryPoint = 0
             });
 
             entity.AddComponent(new PlayerViewComponent {
-                Key = playerConfig.Key, 
-                AvatarKey = playerConfig.AvatarKey, 
-                Name = playerConfig.Name
+                LeaderKey = selectLeadersData.SelectLeader, 
+                Name = selectLeadersData.NamePlayer
             });
         }
     }

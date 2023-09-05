@@ -1,5 +1,5 @@
 using UnityEngine.Serialization;
-namespace CyberNet.Core
+namespace CyberNet.Global
 {
     public struct StartGameConfig
     {
@@ -21,6 +21,8 @@ namespace CyberNet.Core
     {
         None,
         Player,
-        AI
+        AIEasy,
+        AIMedium,
+        AIHard
     }
 }

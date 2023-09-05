@@ -60,14 +60,14 @@ MonoBehaviour:
   SelectLeadersAbilityNameLoc: {fileID: 8049960682205630888}
   SelectLeadersAbilityDescrLoc: {fileID: 1230853020517309638}
   HeaderSelectTargetPlayer: {fileID: 5483374456776330131}
-  SelectPlayer_1_Loc:
-    mTerm: MainMenu/$ui_player1_name
+  SelectPlayerLoc:
+    mTerm: UIGame/$ui_selectPlayer_name
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
-  SelectPlayer_2_Loc:
-    mTerm: MainMenu/$ui_player2_name
+  SelectAILoc:
+    mTerm: UIGame/$ui_selectAI_name
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
@@ -1893,6 +1893,7 @@ GameObject:
   - component: {fileID: 699570410703786402}
   - component: {fileID: 6928155035775252183}
   - component: {fileID: 4666968394387906051}
+  - component: {fileID: 8190159329946491383}
   m_Layer: 5
   m_Name: bt_back
   m_TagString: Untagged
@@ -1986,6 +1987,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8190159329946491383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4497567330862543219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4979524399203864150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2369,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Start
+  m_text: Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -2420,7 +2451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTerm: MainMenu/$ui_start_name
+  mTerm: Global/$continue
   mTermSecondary: 
   PrimaryTermModifier: 0
   SecondaryTermModifier: 0
@@ -3240,8 +3271,9 @@ GameObject:
   - component: {fileID: 5576572647516470666}
   - component: {fileID: 2662586839869217535}
   - component: {fileID: 293525438583026219}
+  - component: {fileID: 2324903105492187351}
   m_Layer: 5
-  m_Name: bt_startGame
+  m_Name: bt_continue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3323,7 +3355,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5170060186646765462}
         m_TargetAssemblyTypeName: CyberNet.Meta.SelectLeadersUIMono, Assembly-CSharp
-        m_MethodName: OnClickStartGame
+        m_MethodName: OnClickConfirmSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3333,3 +3365,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2324903105492187351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8844006970358357339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
