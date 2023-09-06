@@ -36,7 +36,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
 
         public void OnClickStartGame()
         {
-            
+            SelectPlayerAction.OnClickStartGame?.Invoke();
         }
     }
 }

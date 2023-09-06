@@ -36,7 +36,7 @@ namespace CyberNet.Server
 
             _dataWorld.CreateOneData(new DeckCardsData());
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
-            NetworkReader.RegisterHandle<PlayersComponent>(InitPlayers);
+            NetworkReader.RegisterHandle<PlayerComponent>(InitPlayers);
             NetworkReader.RegisterHandle<ActionCardData>(InitActionData);
             NetworkReader.RegisterHandle<ViewPlayerData>(InitPlayerView);
 
@@ -68,7 +68,7 @@ namespace CyberNet.Server
         }
 
         //TODO: вернуть как до сервера дойду
-        private void InitPlayers(PlayersComponent playerCard)
+        private void InitPlayers(PlayerComponent playerComponent)
         {
             /*
             Debug.Log("Get Players info");

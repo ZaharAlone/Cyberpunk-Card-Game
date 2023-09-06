@@ -11,8 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CyberNet.Core;
+using CyberNet.Core.Enemy;
 using CyberNet.Global;
 using CyberNet.Server;
+using CyberNet.Tools;
 using Random = UnityEngine.Random;
 
 namespace CyberNet.Meta
@@ -72,15 +74,17 @@ namespace CyberNet.Meta
             CloseMainMenu();
         }
 
-        private SelectLeadersData CreatePlayerDataLocalGame()
+        private SelectLeaderData CreatePlayerDataLocalGame()
         {
             var selectPlayerData = new SelectPlayerData();
+            ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
             
-            var playerLeaderData = new SelectLeadersData {
-                IDPlayer = 0,
+            var playerLeaderData = new SelectLeaderData {
+                PlayerID = 0,
                 PlayerType = PlayerType.Player,
-                SelectLeader = ""
+                SelectLeader = "",
+                NamePlayer = "Zakhar"
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);
 
@@ -88,10 +92,13 @@ namespace CyberNet.Meta
             
             for (int i = 1; i < 4; i++)
             {
-                selectPlayerData.SelectLeaders.Add(new SelectLeadersData {
-                    IDPlayer = i,
+                var botName = GenerateUniqueBotName.Generate(botNames, selectPlayerData.SelectLeaders);
+                
+                selectPlayerData.SelectLeaders.Add(new SelectLeaderData {
+                    PlayerID = i,
                     PlayerType = PlayerType.AIEasy,
-                    SelectLeader = enemyLeaders[i-1]
+                    SelectLeader = enemyLeaders[i-1],
+                    NamePlayer = botName
                 });
             }
 

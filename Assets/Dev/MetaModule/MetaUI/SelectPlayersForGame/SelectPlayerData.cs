@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using CyberNet.Meta;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Global
 {
     public struct SelectPlayerData
     {
-        public List<SelectLeadersData> SelectLeaders;
-        public SelectLeadersData PrevSelectLeader;
+        public List<SelectLeaderData> SelectLeaders;
+        [FormerlySerializedAs("PrevSelectLeader")]
+        public SelectLeaderData prevSelectLeader;
     }
 }

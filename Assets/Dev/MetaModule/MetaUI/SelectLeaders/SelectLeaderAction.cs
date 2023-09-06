@@ -6,7 +6,7 @@ namespace CyberNet.Meta
 {
     public static class SelectLeaderAction
     {
-        public static Action<SelectLeadersData> OpenSelectLeaderUI;
+        public static Action<SelectLeaderData> OpenSelectLeaderUI;
         public static Action CloseSelectLeaderUI;
         public static Action<string> SelectLeader;
         public static Action BackMainMenu;

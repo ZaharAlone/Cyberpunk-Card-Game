@@ -22,24 +22,28 @@ namespace CyberNet.Core
             }
         }
         
-        private void CreatePlayer(SelectLeadersData selectLeadersData)
+        private void CreatePlayer(SelectLeaderData selectLeaderData)
         {
-            if (selectLeadersData.PlayerType == PlayerType.None)
+            if (selectLeaderData.PlayerType == PlayerType.None)
                 return;
             
             ref var config = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            var leadersView = _dataWorld.OneData<LeadersViewData>().LeadersView;
+            var leadersConfigData = _dataWorld.OneData<LeadersConfigData>();
+            
+            leadersConfigData.LeadersConfig.TryGetValue(selectLeaderData.SelectLeader, out var leadersConfig);
+            leadersView.TryGetValue(leadersConfig.imageAvatarLeader, out var imAvatar);
+            
             var entity = _dataWorld.NewEntity();
 
-            entity.AddComponent(new PlayerStatsComponent {
-                PlayerType = selectLeadersData.PlayerType,
-                PlayerID = 1, 
+            entity.AddComponent(new PlayerComponent {
+                PlayerType = selectLeaderData.PlayerType,
+                PlayerID = selectLeaderData.PlayerID, 
                 UnitCount = config.StartCountUnit, 
-                VictoryPoint = 0
-            });
-
-            entity.AddComponent(new PlayerViewComponent {
-                LeaderKey = selectLeadersData.SelectLeader, 
-                Name = selectLeadersData.NamePlayer
+                VictoryPoint = 0,
+                LeaderKey = selectLeaderData.SelectLeader, 
+                Name = selectLeaderData.NamePlayer,
+                Avatar = imAvatar
             });
         }
     }

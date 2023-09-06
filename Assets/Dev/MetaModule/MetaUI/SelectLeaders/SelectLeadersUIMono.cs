@@ -1,3 +1,4 @@
+using System;
 using CyberNet.Core;
 using CyberNet.Global;
 using I2.Loc;
@@ -25,9 +26,13 @@ namespace CyberNet.Meta
 
         [Header("Header 2 current select player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
-        public LocalizedString SelectPlayerLoc;
-        public LocalizedString SelectAILoc;
-        
+
+        public void Awake()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
+        }
+
         public void OpenWindow()
         {
             Background.SetActive(true);
@@ -54,16 +59,9 @@ namespace CyberNet.Meta
             SelectLeadersAbilityDescrLoc.Term = descr;
         }
 
-        public void SetLocSelectPlayerOrAI(PlayerType playerType)
+        public void SetLocSelectPlayer(string namePlayer)
         {
-            if (playerType == PlayerType.Player)
-            {
-                HeaderSelectTargetPlayer.text = SelectPlayerLoc;
-            }
-            else
-            {
-                HeaderSelectTargetPlayer.text = SelectAILoc;
-            }
+            HeaderSelectTargetPlayer.text = namePlayer;
         }
 
         public void OnClickBackMainMenu()

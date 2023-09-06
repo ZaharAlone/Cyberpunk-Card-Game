@@ -59,14 +59,19 @@ namespace CyberNet.Meta.SelectPlayersForGame
             LeaderName.Term = leaderName;
         }
 
+        public void SetLocTypePlayer(string nameTypePlayer)
+        {
+            CurrentEnemyText.text = nameTypePlayer;
+        }
+
         public void OnClickSwitchEnemyLeft()
         {
-            
+            SelectPlayerAction.SwitchTypePlayer?.Invoke(IDPlayerSlot, false);
         }
         
         public void OnClickSwitchEnemyRight()
         {
-            
+            SelectPlayerAction.SwitchTypePlayer?.Invoke(IDPlayerSlot, true);
         }
 
         public void OnClickEditLeader()

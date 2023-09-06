@@ -19,10 +19,10 @@ namespace CyberNet.Global
 
     public enum PlayerType
     {
-        None,
-        Player,
-        AIEasy,
-        AIMedium,
-        AIHard
+        None = 0,
+        Player = 1,
+        AIEasy = 2,
+        AIMedium = 3,
+        AIHard = 4
     }
 }

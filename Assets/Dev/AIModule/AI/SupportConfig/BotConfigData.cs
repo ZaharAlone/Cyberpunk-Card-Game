@@ -6,6 +6,7 @@ namespace CyberNet.Core.Enemy
     {
         public Dictionary<string, float> BotScoreCard;
 
+        public List<string> BotNameList;
         public BotConfigSO BotConfigSO;
     }
 }

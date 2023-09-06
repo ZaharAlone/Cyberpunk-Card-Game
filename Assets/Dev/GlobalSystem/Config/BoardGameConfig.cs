@@ -5,6 +5,8 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
 using CyberNet.CoreGame.City;
+using CyberNet.Global;
+using I2.Loc;
 using UnityEngine.Serialization;
 
 namespace CyberNet
@@ -39,6 +41,7 @@ namespace CyberNet
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
+        public Dictionary<PlayerType, LocalizedString> PlayerTypeLoc;
 
         [Header("Size")]
         public Vector3 SizeCardInDeck = new Vector3(0.25f, 0.25f, 1f);

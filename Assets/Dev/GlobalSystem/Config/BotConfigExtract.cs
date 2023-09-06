@@ -17,6 +17,7 @@ namespace CyberNet.Core
         {
             ref BotConfigData botData = ref _dataWorld.OneData<BotConfigData>();
             botData.BotScoreCard = JsonConvert.DeserializeObject<Dictionary<string, float>>(botData.BotConfigSO.BotAIConfigJson.text);
+            botData.BotNameList = JsonConvert.DeserializeObject<List<string>>(botData.BotConfigSO.BotNameConfig.text);
         }
     }
 }

@@ -23,22 +23,27 @@ namespace CyberNet.Meta
             SelectLeaderAction.ConfirmSelect += ConfirmSelectLeader;
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
-        private void OpenSelectLeaderUI(SelectLeadersData selectLeaderConfig)
+        private void OpenSelectLeaderUI(SelectLeaderData selectLeaderConfig)
         {
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
             _dataWorld.CreateOneData(selectLeaderConfig);
+            
+            if (!String.IsNullOrEmpty(selectLeaderConfig.SelectLeader))
+                SelectLeaderView(selectLeaderConfig.SelectLeader);
+            
+            uiSelectLeader.SetLocSelectPlayer(selectLeaderConfig.NamePlayer);
             uiSelectLeader.OpenWindow();
         }
         
         private void ConfirmSelectLeader()
         {
-            ref var selectLeadersData = ref _dataWorld.OneData<SelectLeadersData>();
+            ref var selectLeadersData = ref _dataWorld.OneData<SelectLeaderData>();
             ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
 
             var counter = 0;
             foreach (var selectLeader in selectPlayersData.SelectLeaders)
             {
-                if (selectLeader.IDPlayer == selectLeadersData.IDPlayer)
+                if (selectLeader.PlayerID == selectLeadersData.PlayerID)
                 {
                     selectPlayersData.SelectLeaders[counter] = selectLeadersData;
                     break;
@@ -46,7 +51,7 @@ namespace CyberNet.Meta
                 counter++;
             }
             
-            _dataWorld.RemoveOneData<SelectLeadersData>();
+            _dataWorld.RemoveOneData<SelectLeaderData>();
             CloseSelectLeader(); 
             SelectPlayerAction.OpenSelectPlayerUI?.Invoke();
         }
@@ -85,13 +90,13 @@ namespace CyberNet.Meta
 
         private void WriteInComponentSelectLeader(string nameLeader)
         {
-            _dataWorld.OneData<SelectLeadersData>().SelectLeader = nameLeader;
+            _dataWorld.OneData<SelectLeaderData>().SelectLeader = nameLeader;
         }
 
         private void BackMainMenu()
         {
             MainMenuAction.OpenMainMenu?.Invoke();
-            _dataWorld.RemoveOneData<SelectLeadersData>();
+            _dataWorld.RemoveOneData<SelectLeaderData>();
             CloseSelectLeader();
         }
 

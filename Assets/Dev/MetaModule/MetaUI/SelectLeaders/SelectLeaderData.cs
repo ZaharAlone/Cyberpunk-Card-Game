@@ -4,9 +4,9 @@ using UnityEngine.Serialization;
 
 namespace CyberNet.Meta
 {
-    public struct SelectLeadersData
+    public struct SelectLeaderData
     {
-        public int IDPlayer;
+        public int PlayerID;
         public string NamePlayer;
         public PlayerType PlayerType;
         public string SelectLeader;
