@@ -10,5 +10,6 @@ namespace CyberNet
     {
         public Dictionary<string, UnitMono> UnitDictionary = new Dictionary<string, UnitMono>();
         public Dictionary<string, GameObject> UnitCityVFX = new Dictionary<string, GameObject>();
+        public List<Color32> ColorEnemyStats = new();
     }
 }

@@ -6,7 +6,7 @@ namespace CyberNet.Core
     public struct CardComponent
     {
         public string GUID;
-        public PlayerEnum Player;
+        public int PlayerID;
         public Canvas Canvas;
         public GameObject GO;
         public RectTransform RectTransform;

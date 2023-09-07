@@ -4,6 +4,6 @@ namespace CyberNet.Core
     {
         public int CurrentRound;
         public int CurrentTurn;
-        public PlayerEnum CurrentPlayer;
+        public int CurrentPlayerID;
     }
 }

@@ -28,7 +28,6 @@ namespace CyberNet.Meta.StartGame
             LoadingVSScreenAction.OpenLoadingVSScreen?.Invoke();
             
             _dataWorld.InitModule<LocalGameModule>(true);
-            _dataWorld.InitModule<VSAIModule>(true);
         }
         
         private void OnlineGame()

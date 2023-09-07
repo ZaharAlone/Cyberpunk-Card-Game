@@ -25,10 +25,10 @@ namespace CyberNet.Core.ActionCard
         
         private void OpenWindow()
         {
-            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
-            ref var currentPlayer = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+            ref var viewPlayerID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
-            if (viewPlayer != currentPlayer)
+            if (viewPlayerID != currentPlayerID)
                 return;
             
             var entity = _dataWorld.Select<CardComponent>().With<ActionSelectCardComponent>().SelectFirstEntity();

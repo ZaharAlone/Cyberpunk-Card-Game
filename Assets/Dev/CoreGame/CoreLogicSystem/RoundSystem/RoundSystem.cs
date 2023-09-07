@@ -11,7 +11,7 @@ using CyberNet.Core.UI;
 namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
-    public class RoundSystem : IActivateSystem, IPostRunEventSystem<EventEndCurrentTurn>, IDestroySystem
+    public class RoundSystem : IActivateSystem, IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -19,17 +19,22 @@ namespace CyberNet.Local
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
 
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player1, Count = rules.CountDropCard });
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = PlayerEnum.Player2, Count = rules.CountDropCard });
+            //TODO переписать
+//            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = PlayerEnum.Player1, Count = rules.CountDropCard });
+//            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = PlayerEnum.Player2, Count = rules.CountDropCard });
         }
 
-        public void PostRunEvent(EventEndCurrentTurn _) => SwitchRound();
+        public void PreInit()
+        {
+            RoundAction.EndCurrentTurn += SwitchRound;
+        }
 
         private void SwitchRound()
         {
+            /*
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = roundData.CurrentPlayer, Count = rules.CountDropCard });
+            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = roundData.CurrentPlayer, Count = rules.CountDropCard });
 
             if (roundData.CurrentTurn == 1)
             {
@@ -44,22 +49,23 @@ namespace CyberNet.Local
             else
                 roundData.CurrentPlayer = PlayerEnum.Player1;
 
-            _dataWorld.RiseEvent(new EventUpdateRound());
-            UpdateUIRound(roundData.CurrentPlayer);
+            RoundAction.UpdateTurn?.Invoke();
+            UpdateUIRound(roundData.CurrentPlayer);*/
         }
 
         private async void UpdateUIRound(PlayerEnum playersRound)
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            /*
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             
-            if (playersRound == viewPlayer.PlayerView)
+            if (playersRound == viewPlayer.CurrentPlayerView)
                 ui.ChangeRoundUI.PlayerRound();
             else
                 ui.ChangeRoundUI.EnemyRound();
 
             await Task.Delay(2000);
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();*/
         }
 
         public void Destroy()

@@ -28,24 +28,24 @@ namespace CyberNet.Core.UI
 
         private void UpdateVFXViewCurrentPlayer()
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayer == viewPlayer.PlayerView)
-                UpdateVFX(viewPlayer.PlayerView);
+            if (roundData.CurrentPlayerID == viewPlayer.CurrentPlayerID)
+                UpdateVFX(viewPlayer.CurrentPlayerID);
         }
 
-        private void UpdateVFX(PlayerEnum player)
+        private void UpdateVFX(int playerID)
         {
             var entitiesCardInHand = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardHandComponent>()
                                                .GetEntities();
             var entitiesCardInDeck = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardTableComponent>()
                                                .GetEntities();
             var entitiesCardInDrop = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardDiscardComponent>()
                                                .GetEntities();
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();

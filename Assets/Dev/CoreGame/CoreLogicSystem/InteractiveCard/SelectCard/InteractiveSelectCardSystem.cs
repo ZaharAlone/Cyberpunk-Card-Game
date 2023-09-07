@@ -36,9 +36,9 @@ namespace CyberNet.Core
                 return;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var view = ref _dataWorld.OneData<ViewPlayerData>();
+            ref var view = ref _dataWorld.OneData<CurrentPlayerViewScreenData>();
 
-            if (view.PlayerView != cardComponent.Player && !entity.HasComponent<CardTradeRowComponent>())
+            if (view.CurrentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
             
             ClearSelectComponent();
@@ -68,8 +68,9 @@ namespace CyberNet.Core
                                   .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.15f));
 
             cardComponent.Canvas.sortingOrder = 20;
-       
-            if (cardComponent.Player != PlayerEnum.None)
+            //TODO вернуть
+            /*
+            if (cardComponent.PlayerID != PlayerEnum.None)
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
@@ -80,7 +81,7 @@ namespace CyberNet.Core
             }
             else
                 entity.AddComponent(animComponent);
-        }
+        */}
 
         private void ClearSelectComponent()
         {
@@ -94,9 +95,9 @@ namespace CyberNet.Core
 
         private void MoveOtherCards(int targetIndex)
         {
-            var view = _dataWorld.OneData<ViewPlayerData>();
+            var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                     .Where<CardComponent>(card => card.PlayerID == view.CurrentPlayerID)
                                      .With<CardHandComponent>()
                                      .With<CardSortingIndexComponent>()
                                      .Without<InteractiveSelectCardComponent>()
@@ -172,9 +173,9 @@ namespace CyberNet.Core
 
         private void ReturnAllCard()
         {
-            var view = _dataWorld.OneData<ViewPlayerData>();
+            var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var entities = _dataWorld.Select<CardComponent>()
-                                        .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                        .Where<CardComponent>(card => card.PlayerID == view.CurrentPlayerID)
                                         .With<CardHandComponent>()
                                         .With<CardComponentAnimations>()
                                         .GetEntities();

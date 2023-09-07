@@ -1,4 +1,5 @@
 using CyberNet.Core;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -14,7 +15,8 @@ namespace CyberNet.Local
         public void Activate()
         {
             var firstPlayer = SelectFirstPlayer.Select();
-            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayer = firstPlayer });
+            ref var selectLeader = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            _dataWorld.CreateOneData(new RoundData { CurrentRound = 0, CurrentTurn = 1, CurrentPlayerID = selectLeader[0].PlayerID });
         }
     }
 }

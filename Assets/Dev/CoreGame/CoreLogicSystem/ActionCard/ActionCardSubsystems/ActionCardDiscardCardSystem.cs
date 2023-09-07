@@ -33,7 +33,7 @@ namespace CyberNet.Core.ActionCard
 
         private void DiscardCardEffect(Entity entity)
         {
-            ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardVisualEffect>().TargetDiscardCard;
+            ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardVisualEffect>().TargetDiscardCardPlayerID;
             var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
@@ -41,10 +41,10 @@ namespace CyberNet.Core.ActionCard
             ActionCardVisualEffect.CreateEffect(abilityVFX.discardActionCardVFX, cardComponent.RectTransform.position, cardsContainer);
 
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            ref var playerView = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
+            ref var playerViewID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
 
             //TODO: старый код
-            if (playerView == playerTargetDiscard)
+            if (playerViewID == playerTargetDiscard)
             {
                 Object.Instantiate(abilityVFX.DiscardCardUIEffect, gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard);
             }/*
@@ -57,7 +57,7 @@ namespace CyberNet.Core.ActionCard
 
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new ActionCardDiscardCardComponent {
-                TargetDiscardCard = playerTargetDiscard
+                TargetDiscardCardID = playerTargetDiscard
             });
         }
         
@@ -78,11 +78,11 @@ namespace CyberNet.Core.ActionCard
         {
             Debug.LogError("DiscardCard");
             //TODO: Show ui select discard card;
-            ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardComponent>().TargetDiscardCard;
+            ref var playerTargetDiscard = ref entity.GetComponent<ActionCardDiscardCardComponent>().TargetDiscardCardID;
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>().PlayerView;
+            ref var viewPlayerID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
 
-            if (viewPlayer == playerTargetDiscard)
+            if (viewPlayerID == playerTargetDiscard)
             {
                 Object.Destroy(gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard.GetChild(0).gameObject);
             }

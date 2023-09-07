@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using UnityEngine;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using Unity.VisualScripting;
 
 namespace CyberNet.Core
@@ -28,7 +29,8 @@ namespace CyberNet.Core
             var deckCardsData = _dataWorld.OneData<DeckCardsData>();
             var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             var traderowParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono.TraderowContainerForCard;
-
+            ref var selectPlayer = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            
             foreach (var item in deckCardsData.NeutralShopCards)
             {
                 var entity = InitCard(item, traderowParent, false);
@@ -42,22 +44,16 @@ namespace CyberNet.Core
                 entity.AddComponent(new CardTradeDeckComponent());
             }
 
-            foreach (var item in deckCardsData.PlayerCards_1)
+            foreach (var playerDeckCard in deckCardsData.PlayerDeckCard)
             {
-                var entity = InitCard(item, cardsParent, true);
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Player = PlayerEnum.Player1;
-                entity.AddComponent(new CardDrawComponent());
+                foreach (var item in playerDeckCard.Cards)
+                {
+                    var entity = InitCard(item, cardsParent, true);
+                    ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                    cardComponent.PlayerID = playerDeckCard.IndexPlayer;
+                    entity.AddComponent(new CardDrawComponent());
+                }
             }
-/*
-            foreach (var item in deckCardsData.PlayerCards_2)
-            {
-                var entity = InitCard(item, cardsParent, true);
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Player = PlayerEnum.Player2;
-                entity.AddComponent(new CardDrawComponent());
-            }
-*/
         }
 
         private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
@@ -139,9 +135,10 @@ namespace CyberNet.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
+            /*
             var gameUI = _dataWorld.OneData<CoreGameUIData>();
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                            .Where<CardComponent>(card => card.PlayerID == PlayerEnum.Player1)
                                             .GetEntities();
 
 
@@ -152,7 +149,7 @@ namespace CyberNet.Core
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }
-
+*/
             //TODO: старый код
             /*
             var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
@@ -178,7 +175,7 @@ namespace CyberNet.Core
                 if (!isFirstNeutralCard)
                 {
                     isFirstNeutralCard = true;
-                    component.CardMono.CardOnFace();    
+                    component.CardMono.CardOnFace(); 
                 }
                 else
                 {

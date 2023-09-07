@@ -20,26 +20,27 @@ namespace CyberNet.Core.UI
 
         public void PostRunEvent(EventCardAnimationsHand value)
         {
+            
             var countCardInHand = _dataWorld.Select<CardComponent>()
-                                .Where<CardComponent>(card => card.Player == value.TargetPlayer)
+                                .Where<CardComponent>(card => card.PlayerID == value.TargetPlayerID)
                                 .With<CardHandComponent>()
                                 .Without<CardTableComponent>()
                                 .Without<WaitAnimationsDrawHandCardComponent>()
                                 .Count();
 
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == value.TargetPlayer)
+                                     .Where<CardComponent>(card => card.PlayerID == value.TargetPlayerID)
                                      .With<CardHandComponent>()
                                      .Without<CardTableComponent>()
                                      .Without<WaitAnimationsDrawHandCardComponent>()
                                      .GetEntities();
             
-            UpdateView(entities, countCardInHand, value.TargetPlayer);
+            UpdateView(entities, countCardInHand, value.TargetPlayerID);
         }
 
-        private void UpdateView(EntitiesEnumerable entities, int countCard, PlayerEnum isPlayer)
+        private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
@@ -49,7 +50,7 @@ namespace CyberNet.Core.UI
             var radius = 0f;
             var multiplieSizeCard = Vector3.zero;
 
-            if (viewPlayer.PlayerView == isPlayer)
+            if (viewPlayer.CurrentPlayerID == targetPlayerID)
             {
                 screenShift = uiRect.rect.height / 2 - 125;
                 multPosY = -1;

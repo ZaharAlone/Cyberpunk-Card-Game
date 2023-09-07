@@ -7,7 +7,6 @@ namespace CyberNet.Global
     public struct SelectPlayerData
     {
         public List<SelectLeaderData> SelectLeaders;
-        [FormerlySerializedAs("PrevSelectLeader")]
-        public SelectLeaderData prevSelectLeader;
+        public SelectLeaderData PrevSelectLeader;
     }
 }

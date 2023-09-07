@@ -29,7 +29,8 @@ namespace CyberNet.Core
             
             ref var component = ref entity.GetComponent<CardComponent>();
             var round = _dataWorld.OneData<RoundData>();
-            if (round.CurrentPlayer != component.Player && component.Player != PlayerEnum.None)
+            //TODO дописать что нельзя двигать карты
+            if (round.CurrentPlayerID != component.PlayerID)
                 return;
 
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
@@ -79,8 +80,9 @@ namespace CyberNet.Core
         {
             var entity = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-
-            if (cardComponent.Player != PlayerEnum.None)
+            ref var viewPlayerID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
+            
+            if (cardComponent.PlayerID != viewPlayerID)
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
@@ -109,9 +111,9 @@ namespace CyberNet.Core
                 entity.AddComponent(new CardSelectAbilityComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
-                var view = _dataWorld.OneData<ViewPlayerData>();
+                var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
                 AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = view.PlayerView });
+                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = view.CurrentPlayerID });
             }
             else
             {
@@ -140,7 +142,7 @@ namespace CyberNet.Core
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
 
-                componentCard.Player = roundPlayer.CurrentPlayer;
+                componentCard.PlayerID = roundPlayer.CurrentPlayerID;
                 componentCard.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 

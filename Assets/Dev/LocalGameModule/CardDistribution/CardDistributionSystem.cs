@@ -24,20 +24,21 @@ namespace CyberNet.Core
         private void DistributionCard(EventDistributionCard eventValue)
         {
             //TODO: заглушка, исправить
-            if (eventValue.Target == PlayerEnum.Player2)
+            /*
+            if (eventValue.TargetPlayerID == PlayerEnum.Player2)
                 return;
             for (int i = 0; i < eventValue.Count; i++)
             {
                 var countPlayerEntities = _dataWorld.Select<CardComponent>()
-                           .Where<CardComponent>(card => card.Player == eventValue.Target)
+                           .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                            .With<CardDrawComponent>()
                            .Count();
 
                 if (countPlayerEntities == 0)
-                    GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.Target);
+                    GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.TargetPlayerID);
 
                 var playerEntities = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == eventValue.Target)
+                                               .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                                                .With<CardDrawComponent>()
                                                .GetEntities();
 
@@ -45,8 +46,8 @@ namespace CyberNet.Core
                 AddCard(id);
             }
             var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new WaitDistributionCardHandComponent { Player = eventValue.Target, CountCard = eventValue.Count });
-        }
+            entity.AddComponent(new WaitDistributionCardHandComponent { Player = eventValue.TargetPlayerID, CountCard = eventValue.Count });
+        */}
 
         private void AddCard(int entityId)
         {
@@ -56,9 +57,9 @@ namespace CyberNet.Core
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
             entity.AddComponent(new CardDistributionComponent());
-            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
+            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.PlayerID);
             waitTimeAnim += 0.175f;
-            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });
+            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = waitTimeAnim });
             cardComponent.CardMono.ShowCard();
         }
     }

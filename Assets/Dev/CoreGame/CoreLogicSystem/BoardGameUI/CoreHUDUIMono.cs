@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CyberNet.Core.EnemyPassport;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,9 @@ namespace  CyberNet.Core.UI
         public TextMeshProUGUI DownDiscardCount;
         public RectTransform DownDeck;
         public TextMeshProUGUI DownDeckCount;
+
+        [Header("Enemy Passport")]
+        public List<EnemyPassportFrameUIMono> EnemyPassports = new();
         
         public void SetInteractiveValue(int attackValue, int tradeValue)
         {

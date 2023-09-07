@@ -3,9 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
 using CyberNet.Core.ActionCard;
+using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using UnityEngine;
 
@@ -35,6 +34,7 @@ namespace CyberNet.Core.UI
         public void Init()
         {
             UpdateView();
+            FirstInitPassport();
         }
 
         public void PostRunEvent(EventBoardGameUpdate _)
@@ -46,6 +46,15 @@ namespace CyberNet.Core.UI
         {
             UpdateViewPassport();
             UpdateCountCard();
+        }
+        
+        private void FirstInitPassport()
+        {
+            ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            ref var selectPlayerData = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            
+            
+            
         }
 
         private void UpdatePlayerCurrency()
@@ -82,22 +91,19 @@ namespace CyberNet.Core.UI
         }
 
         private void UpdateViewPassport()
-        {
-            //TODO: вернуть
-            /*
+        {/*
             var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var leadersData = _dataWorld.OneData<LeadersViewData>();
-            ref var player1View = ref _dataWorld.OneData<PlayerViewComponent>();
-            ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
+            
+            //ref var playerComponent = ref _dataWorld.OneData<PlayerComponent>();
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
-            leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
+            leadersData.LeadersView.TryGetValue(playerComponent.AvatarKey, out var avatarPlayer1);
             leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
             
-            //TODO: старый код
             if (viewPlayer.PlayerView == PlayerEnum.Player1)
             {
-                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
+                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(playerComponent.Name, avatarPlayer1);
                 //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
             }
             else
@@ -110,30 +116,17 @@ namespace CyberNet.Core.UI
         private void UpdateCountCard()
         {
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
-            var discardCardsPlayer1 = _dataWorld.Select<CardComponent>()
-                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var discardCard = _dataWorld.Select<CardComponent>()
+                                                .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
                                                 .With<CardDiscardComponent>()
                                                 .Count();
-            var drawCardsPlayer1 = _dataWorld.Select<CardComponent>()
-                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
-                                             .With<CardDrawComponent>()
-                                             .Count();
-            var discardCardsPlayer2 = _dataWorld.Select<CardComponent>()
-                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
-                                                .With<CardDiscardComponent>()
-                                                .Count();
-            var drawCardsPlayer2 = _dataWorld.Select<CardComponent>()
-                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+            var drawCard = _dataWorld.Select<CardComponent>()
+                                             .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
                                              .With<CardDrawComponent>()
                                              .Count();
 
-            //TODO: старый код
-            /*
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
-            else
-                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);*/
+            gameUI.CoreHudUIMono.SetCountCard(discardCard, drawCard);
         }
 
         public void Destroy()

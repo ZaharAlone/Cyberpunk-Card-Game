@@ -28,8 +28,7 @@ namespace CyberNet.Meta
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
             _dataWorld.CreateOneData(selectLeaderConfig);
             
-            if (!String.IsNullOrEmpty(selectLeaderConfig.SelectLeader))
-                SelectLeaderView(selectLeaderConfig.SelectLeader);
+            SelectLeaderView(selectLeaderConfig.SelectLeader);
             
             uiSelectLeader.SetLocSelectPlayer(selectLeaderConfig.NamePlayer);
             uiSelectLeader.OpenWindow();
@@ -50,7 +49,9 @@ namespace CyberNet.Meta
                 }
                 counter++;
             }
-            
+
+
+            selectPlayersData.PrevSelectLeader = selectLeadersData;
             _dataWorld.RemoveOneData<SelectLeaderData>();
             CloseSelectLeader(); 
             SelectPlayerAction.OpenSelectPlayerUI?.Invoke();
@@ -97,6 +98,7 @@ namespace CyberNet.Meta
         {
             MainMenuAction.OpenMainMenu?.Invoke();
             _dataWorld.RemoveOneData<SelectLeaderData>();
+            _dataWorld.RemoveOneData<SelectPlayerData>();
             CloseSelectLeader();
         }
 

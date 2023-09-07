@@ -50,7 +50,7 @@ namespace CyberNet.Core
         private void AnimationsDrawToHand(Entity entity)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var positionsY = -400;
             //TODO: view player2
@@ -71,24 +71,24 @@ namespace CyberNet.Core
         
         private void EndDrawHandAnimations(Entity entity)
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
 
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
 
-            if (cardComponent.Player == viewPlayer.PlayerView)
+            if (cardComponent.PlayerID == viewPlayer.CurrentPlayerID)
                 cardComponent.CardMono.CardOnFace();
 
             var waitDistributionEntity = _dataWorld.Select<WaitDistributionCardHandComponent>()
-                                                   .Where<WaitDistributionCardHandComponent>(wait => wait.Player == cardComponent.Player)
+                                                   .Where<WaitDistributionCardHandComponent>(wait => wait.PlayerID == cardComponent.PlayerID)
                                                    .SelectFirstEntity();
             
             ref var waitDistributionComponent = ref waitDistributionEntity.GetComponent<WaitDistributionCardHandComponent>();
             waitDistributionComponent.CurrentDistributionCard++;
 
-            _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = cardComponent.Player });
+            _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = cardComponent.PlayerID });
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
     }

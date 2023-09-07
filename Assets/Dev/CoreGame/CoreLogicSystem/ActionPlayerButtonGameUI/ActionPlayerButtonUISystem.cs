@@ -29,10 +29,10 @@ namespace CyberNet.Core.UI
         public void Run()
         {
             var round = _dataWorld.OneData<RoundData>();
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
 
-            if (round.CurrentPlayer != viewPlayer.PlayerView)
+            if (round.CurrentPlayerID != viewPlayer.CurrentPlayerID)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
@@ -42,7 +42,7 @@ namespace CyberNet.Core.UI
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
-                                       .Where<CardComponent>(card => card.Player == viewPlayer.PlayerView)
+                                       .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
                                        .With<CardHandComponent>()
                                        .Count();
 
@@ -85,8 +85,9 @@ namespace CyberNet.Core.UI
 
         private void PlayAll()
         {
+            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                     .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
                                      .With<CardHandComponent>()
                                      .GetEntities();
             
@@ -130,12 +131,13 @@ namespace CyberNet.Core.UI
             WinLoseAction.CheckWin?.Invoke();
         }
 */
-        private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
+        private void AttackView(int targetAttack, int valueAttack, float percentHP)
         {
             //TODO: старый код
             ref var boardUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            var viewData = _dataWorld.OneData<ViewPlayerData>();
-            if (targetAttack != viewData.PlayerView)
+            var viewData = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            
+            if (targetAttack != viewData.CurrentPlayerID)
             {
                 boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
                 boardUI.DamageScreen.Damage(valueAttack, percentHP);
@@ -152,7 +154,7 @@ namespace CyberNet.Core.UI
 
             var cardInHand = _dataWorld.Select<CardComponent>()
                                        .With<CardHandComponent>()
-                                       .Where<CardComponent>(card => card.Player == roundData.CurrentPlayer)
+                                       .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                        .GetEntities();
 
             foreach (var entity in cardInHand)

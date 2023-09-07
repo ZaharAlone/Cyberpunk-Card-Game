@@ -2,26 +2,34 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace CyberNet.Core.Enemy
 {
-    [EcsSystem(typeof(VSAIModule))]
-    public class EnemyAISystem : IPostRunEventSystem<EventUpdateRound>
+    [EcsSystem(typeof(CoreModule))]
+    public class EnemyAISystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventUpdateRound _)
+        public void PreInit()
+        {
+            RoundAction.UpdateTurn += UpdateTurn;
+        }
+        
+        private void UpdateTurn()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-
-            if (roundData.CurrentPlayer == PlayerEnum.Player2)
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(playerComponent => playerComponent.PlayerID == roundData.CurrentPlayerID)
+                .SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            
+            if (playerComponent.PlayerType != PlayerType.None && playerComponent.PlayerType != PlayerType.Player)
                 StartTurn();
         }
 
@@ -40,9 +48,9 @@ namespace CyberNet.Core.Enemy
 
         private void PlayAll()
         {
-            Debug.Log("Enemy Play All Card");
+            var playerViewID = _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                .Where<CardComponent>(card => card.PlayerID == playerViewID)
                 .With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)
@@ -127,7 +135,6 @@ namespace CyberNet.Core.Enemy
                 ref var cardComponent = ref cardEntity.GetComponent<CardComponent>();
                 var scoreCard = CalculateCardScore(cardComponent.Ability_0) + CalculateCardScore(cardComponent.Ability_1) + CalculateCardScore(cardComponent.Ability_2);
                 scoreCard /= cardComponent.Price;
-                Debug.LogError($"Trade row card name {cardComponent.Key} price {scoreCard}");
                 scoresCard.Add(new ScoreCardToBuy { GUID = cardComponent.GUID, ScoreCard = scoreCard, Cost = cardComponent.Price});
             }
 
@@ -171,6 +178,8 @@ namespace CyberNet.Core.Enemy
 
         private void PurchaseCard(List<string> cardForPurchase)
         {
+            //TODO рефакторинг
+            /*
             ref var roundPlayer = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             
@@ -187,14 +196,13 @@ namespace CyberNet.Core.Enemy
                 
                 componentCard.Player = roundPlayer;
                 cardEntity.AddComponent(new CardMoveToDiscardComponent());
-                
-                Debug.LogError($"Buy card name {componentCard.Key}");
             }
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             VFXCardInteractivAction.UpdateVFXCard?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
+            */
         }
     }
 }

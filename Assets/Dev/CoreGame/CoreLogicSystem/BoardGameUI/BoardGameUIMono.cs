@@ -6,6 +6,7 @@ using TMPro;
 using System;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
+using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.WinLose;
 using CyberNet.CoreGame.TaskUI;
 using CyberNet.CoreGame.Traderow;
@@ -23,9 +24,6 @@ namespace CyberNet.Core.UI
         public ChangeRoundUIMono ChangeRoundUI;
         [Header("Select Ability Mono")]
         public SelectAbilityUIMono SelectAbilityUIMono;
-        [FormerlySerializedAs("AbilitySelectCardUIMono")]
-        [FormerlySerializedAs("abilitySelectCardUIMono")]
-        [FormerlySerializedAs("AbilityActionUIMono")]
         [Header("Ability Action UI Mono")]
         public ActionSelectCardUIMono actionSelectCardUIMono;
 

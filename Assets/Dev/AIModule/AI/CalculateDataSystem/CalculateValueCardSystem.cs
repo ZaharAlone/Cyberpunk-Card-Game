@@ -32,6 +32,8 @@ namespace CyberNet.Core.Enemy
         }
         private int DestroyCardAction()
         {
+            //TODO вернуть
+            /*
             var playerRound = _dataWorld.OneData<RoundData>().CurrentPlayer;
             var countCardPlayer = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.Player == playerRound)
@@ -40,8 +42,8 @@ namespace CyberNet.Core.Enemy
                 .Where<CardComponent>(card => card.Player == playerRound && card.Nations == CardNations.Neutral)
                 .Count();
 
-            var value = 2 * (countCardPlayer + countCardPlayerNeutral);
-            return value;
+            var value = 2 * (countCardPlayer + countCardPlayerNeutral);*/
+            return 0;//value
         }
         private int DiscardCardAction()
         {

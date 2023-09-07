@@ -25,20 +25,21 @@ namespace CyberNet.Core
         private void UpdateDiscardHub()
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var viewPlayerID = _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
             var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
             var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+                                            .Where<CardComponent>(card => card.PlayerID == viewPlayerID)
                                             .With<CardMoveToDiscardComponent>()
                                             .GetEntities();
             var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+                                            .Where<CardComponent>(card => card.PlayerID == viewPlayerID)
                                             .With<CardMoveToDiscardComponent>()
                                             .GetEntities();
             
             //TODO: старый код
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
+            /*
+            if (viewPlayerID == PlayerEnum.Player1)
             {
                 UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
                 //UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.UpDiscard.localPosition, config.SizeCardInDeck);
@@ -47,7 +48,7 @@ namespace CyberNet.Core
             {
                 UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
                 //UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.UpDiscard.position, config.SizeCardInDeck);
-            }
+            }*/
         }
 
         private void UpdateDiscardView(EntitiesEnumerable entities, RectTransform targetTransform, Vector3 size)

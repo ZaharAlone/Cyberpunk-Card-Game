@@ -83,7 +83,7 @@ namespace CyberNet.Meta
             var playerLeaderData = new SelectLeaderData {
                 PlayerID = 0,
                 PlayerType = PlayerType.Player,
-                SelectLeader = "",
+                SelectLeader = "cyberpsycho",
                 NamePlayer = "Zakhar"
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);

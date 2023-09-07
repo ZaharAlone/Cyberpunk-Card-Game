@@ -24,6 +24,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             SelectPlayerAction.OnClickStartGame += OnClickStartGame;
             SelectPlayerAction.OnClickEditLeader += OnClickEditLeader;
             SelectPlayerAction.SwitchTypePlayer += SwitchTypePlayer;
+            SelectPlayerAction.ClearSlot += ClearSlotPlayer;
         }
         private void OnClickStartGame()
         {
@@ -81,7 +82,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
         private void OnClickBack()
         {
             ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.prevSelectLeader);
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.PrevSelectLeader);
             CloseWindow();
         }
 
@@ -91,7 +92,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.SelectLeaders[idSlot]);
             CloseWindow();
         }
-        
+
         private void SwitchTypePlayer(int indexSlot, bool isRightMove)
         {
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
@@ -119,6 +120,13 @@ namespace CyberNet.Meta.SelectPlayersForGame
             selectLeaders[indexSlot] = selectLeaderEdit;
             
             UpdateViewPlayers();
+        }
+        
+        private void ClearSlotPlayer(int indexSlot)
+        {
+            ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            selectLeaders.RemoveAt(indexSlot);
+            //UpdateViewPlayers();
         }
     }
 }

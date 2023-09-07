@@ -99,8 +99,8 @@ namespace CyberNet.Core.ActionCard
 
         private void ActionDrawCard(int value)
         {
-            ref var playersRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
-            _dataWorld.RiseEvent(new EventDistributionCard { Target = playersRound, Count = value });
+            ref var targetPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = targetPlayerID, Count = value });
             
             //View Effect
         }

@@ -18,28 +18,18 @@ namespace CyberNet.Meta.EndGame
         }
         private void EndGameLogic()
         {
-            var isVSAI = _dataWorld.IsModuleActive<VSAIModule>();
-            var isPassAndPlay = _dataWorld.IsModuleActive<PassAndPlayModule>();
+            var isLocal = _dataWorld.IsModuleActive<LocalGameModule>();
             var isServer = _dataWorld.IsModuleActive<ServerModule>();
 
-            if (isVSAI)
+            if (isLocal)
             {
-                EndVSAIGame();
+                _dataWorld.DestroyModule<LocalGameModule>();
             }
-            else if (isPassAndPlay)
+            else
             {
-                
+                _dataWorld.DestroyModule<ServerModule>();
             }
-            else if (isServer)
-            {
-                
-            }
-        }
-
-        private void EndVSAIGame()
-        {
-            _dataWorld.DestroyModule<LocalGameModule>();
-            _dataWorld.DestroyModule<VSAIModule>();
+            
             _dataWorld.DestroyModule<CoreModule>();
             _dataWorld.OneData<MetaUIData>().MetaUIMono.MainMenuUIMono.OpenMainMenu();
         }

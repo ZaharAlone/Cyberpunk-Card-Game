@@ -2,7 +2,7 @@ namespace CyberNet.Core
 {
     public struct WaitDistributionCardHandComponent
     {
-        public PlayerEnum Player;
+        public int PlayerID;
         public int CountCard;
         public int CurrentDistributionCard;
     }
