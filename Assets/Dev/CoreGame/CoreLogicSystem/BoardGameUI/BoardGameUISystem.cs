@@ -34,7 +34,7 @@ namespace CyberNet.Core.UI
         public void Init()
         {
             UpdateView();
-            FirstInitPassport();
+            ViewPlayerPassport();
         }
 
         public void PostRunEvent(EventBoardGameUpdate _)
@@ -44,17 +44,54 @@ namespace CyberNet.Core.UI
 
         private void UpdateView()
         {
-            UpdateViewPassport();
             UpdateCountCard();
         }
-        
-        private void FirstInitPassport()
+
+        private void ViewPlayerPassport()
         {
             ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
-            ref var selectPlayerData = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
-            
-            
-            
+            var entitiesPlayer = _dataWorld.Select<PlayerComponent>()
+                                                         .With<PlayerViewComponent>()
+                                                         .GetEntities();
+
+            var counter = 0;
+            foreach (var entity in entitiesPlayer)
+            {
+                var playerComponent = entity.GetComponent<PlayerComponent>();
+                var playerViewComponent = entity.GetComponent<PlayerViewComponent>();
+
+                if (playerComponent.PositionInTurnQueue == 0)
+                {
+                    ShowDownPassportPlayer(playerComponent, playerViewComponent);
+                }
+                else
+                {
+                    ShowLeftPassportPlayer(playerComponent, playerViewComponent);
+                }
+
+                counter++;
+            }
+
+            for (int i = 0; i < coreUIHud.EnemyPassports.Count; i++)
+            {
+                if ((counter - 1) > i)
+                    continue;
+                coreUIHud.EnemyPassports[i].gameObject.SetActive(false);
+            }
+        }
+
+        private void ShowDownPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        {
+            ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis);
+        }
+
+        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        {
+            ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetAvatar(playerViewComponent.Avatar);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(playerComponent.UnitCount);
         }
 
         private void UpdatePlayerCurrency()
@@ -90,28 +127,6 @@ namespace CyberNet.Core.UI
             }*/
         }
 
-        private void UpdateViewPassport()
-        {/*
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var leadersData = _dataWorld.OneData<LeadersViewData>();
-            
-            //ref var playerComponent = ref _dataWorld.OneData<PlayerComponent>();
-            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-
-            leadersData.LeadersView.TryGetValue(playerComponent.AvatarKey, out var avatarPlayer1);
-            leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
-            
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-            {
-                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(playerComponent.Name, avatarPlayer1);
-                //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
-            }
-            else
-            {
-                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
-                //gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
-            }*/
-        }
 
         private void UpdateCountCard()
         {

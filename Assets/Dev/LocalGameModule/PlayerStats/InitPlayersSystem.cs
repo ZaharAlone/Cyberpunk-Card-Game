@@ -18,11 +18,11 @@ namespace CyberNet.Core
 
             for (int i = 0; i < selectPlayer.SelectLeaders.Count; i++)
             {
-                CreatePlayer(selectPlayer.SelectLeaders[i]);
+                CreatePlayer(selectPlayer.SelectLeaders[i], i);
             }
         }
         
-        private void CreatePlayer(SelectLeaderData selectLeaderData)
+        private void CreatePlayer(SelectLeaderData selectLeaderData, int positionInTurnQueue)
         {
             if (selectLeaderData.PlayerType == PlayerType.None)
                 return;
@@ -41,6 +41,11 @@ namespace CyberNet.Core
                 PlayerID = selectLeaderData.PlayerID, 
                 UnitCount = config.StartCountUnit, 
                 VictoryPoint = 0,
+                PositionInTurnQueue = positionInTurnQueue
+            });
+
+            entity.AddComponent(new PlayerViewComponent 
+            {
                 LeaderKey = selectLeaderData.SelectLeader, 
                 Name = selectLeaderData.NamePlayer,
                 Avatar = imAvatar

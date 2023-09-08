@@ -81,16 +81,26 @@ namespace CyberNet.Meta.SelectPlayersForGame
 
         public void OnClickOpenSlot()
         {
-            LeaderSlotGO.SetActive(true);
-            ClearSlotGO.SetActive(false);
+            OpenSlot();
             SelectPlayerAction.CreatePlayer?.Invoke(IDPlayerSlot);
         }
 
+        public void OpenSlot()
+        {
+            LeaderSlotGO.SetActive(true);
+            ClearSlotGO.SetActive(false);
+        }
+        
         public void OnClickClearSlot()
+        {
+            ClearSlot();
+            SelectPlayerAction.ClearSlot?.Invoke(IDPlayerSlot);
+        }
+
+        public void ClearSlot()
         {
             LeaderSlotGO.SetActive(false);
             ClearSlotGO.SetActive(true);
-            SelectPlayerAction.ClearSlot?.Invoke(IDPlayerSlot);
         }
 
         public void OnSelectSlot()

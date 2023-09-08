@@ -25,6 +25,34 @@ namespace CyberNet.Meta.SelectPlayersForGame
             SelectPlayerAction.OnClickEditLeader += OnClickEditLeader;
             SelectPlayerAction.SwitchTypePlayer += SwitchTypePlayer;
             SelectPlayerAction.ClearSlot += ClearSlotPlayer;
+            SelectPlayerAction.CreatePlayer += CreatePlayerSlot;
+        }
+        private void CreatePlayerSlot(int indexSlot)
+        {
+            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
+            ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            ref var botNameConfig = ref _dataWorld.OneData<BotConfigData>().BotNameList;
+
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 1);
+            var botName = GeneratePlayerData.GenerateUniquePlayerName(botNameConfig, selectLeaders);
+
+            var newPlayerID = 0;
+            foreach (var leader in selectLeaders)
+            {
+                if (leader.PlayerID > newPlayerID)
+                    newPlayerID = leader.PlayerID;
+            }
+            newPlayerID++; // делаем уникальный ID
+            
+            selectLeaders.Add(new SelectLeaderData {
+                PlayerID = newPlayerID,
+                PlayerType = PlayerType.AIEasy,
+                SelectLeader = enemyLeaders[0],
+                NamePlayer = botName
+            });
+            
+            UpdateViewPlayers();
+            
         }
         private void OnClickStartGame()
         {
@@ -50,12 +78,13 @@ namespace CyberNet.Meta.SelectPlayersForGame
             var counter = 0;
             foreach (var playerSlot in uiSelectPlayer.SelectPlayerSlot)
             {
-                if (selectPlayers.Count < counter)
+                if (selectPlayers.Count <= counter)
                 {
-                    playerSlot.OnClickClearSlot();
+                    playerSlot.ClearSlot();
                 }
                 else
                 {
+                    playerSlot.OpenSlot();
                     leadersConfigData.LeadersConfig.TryGetValue(selectPlayers[counter].SelectLeader, out var leadersConfig);
                     leadersConfigData.AbilityConfig.TryGetValue(leadersConfig.Ability, out var abilityConfig);
 
@@ -115,7 +144,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             if (selectLeaderEdit.PlayerType == PlayerType.Player)
                 selectLeaderEdit.NamePlayer = $"Player {(indexSlot + 1).ToString()}";
             else
-                selectLeaderEdit.NamePlayer = GenerateUniqueBotName.Generate(botNames, selectLeaders);
+                selectLeaderEdit.NamePlayer = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectLeaders);
 
             selectLeaders[indexSlot] = selectLeaderEdit;
             
@@ -126,7 +155,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
         {
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             selectLeaders.RemoveAt(indexSlot);
-            //UpdateViewPlayers();
+            UpdateViewPlayers();
         }
     }
 }

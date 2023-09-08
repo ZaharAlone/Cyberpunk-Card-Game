@@ -10,9 +10,8 @@ namespace CyberNet.Core
         
         public int UnitCount;
         public int VictoryPoint;
-        
-        public string LeaderKey;
-        public string Name;
-        public Sprite Avatar;
+        public int Cyberpsychosis;
+
+        public int PositionInTurnQueue;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CyberNet.Core.EnemyPassport;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace  CyberNet.Core.UI
@@ -37,15 +38,15 @@ namespace  CyberNet.Core.UI
             ValueTradeText.text = tradeValue.ToString();
         }
 
-        public void SetViewNameAvatarDownTable(string name, Sprite avatar)
+        public void SetMainViewPassportNameAvatar(string name, Sprite avatar)
         {
             PlayerDownView.NameText.text = name;
             PlayerDownView.Avatar.sprite = avatar;
         }
 
-        public void SetViewDownTableStats(int hp, int cyberpsychosis)
+        public void SetMainPassportViewStats(int unit, int cyberpsychosis)
         {
-            PlayerDownView.HPText.text = hp.ToString();
+            PlayerDownView.UnitCountText.text = unit.ToString();
             PlayerDownView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
         }
         
@@ -92,7 +93,8 @@ namespace  CyberNet.Core.UI
     {
         public CharacterDamagePassportEffect CharacterDamagePassportEffect;
         public TextMeshProUGUI NameText;
-        public TextMeshProUGUI HPText;
+        [FormerlySerializedAs("HPText")]
+        public TextMeshProUGUI UnitCountText;
         public Image CyberpsychosisImage;
         public Image Avatar;
 

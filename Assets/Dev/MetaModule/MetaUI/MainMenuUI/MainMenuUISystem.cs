@@ -77,6 +77,7 @@ namespace CyberNet.Meta
         private SelectLeaderData CreatePlayerDataLocalGame()
         {
             var selectPlayerData = new SelectPlayerData();
+            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
             
@@ -87,12 +88,12 @@ namespace CyberNet.Meta
                 NamePlayer = "Zakhar"
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);
-
-            var enemyLeaders = GetRandomLeader(3);
+            
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3);
             
             for (int i = 1; i < 4; i++)
             {
-                var botName = GenerateUniqueBotName.Generate(botNames, selectPlayerData.SelectLeaders);
+                var botName = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectPlayerData.SelectLeaders);
                 
                 selectPlayerData.SelectLeaders.Add(new SelectLeaderData {
                     PlayerID = i,
@@ -106,32 +107,6 @@ namespace CyberNet.Meta
             return playerLeaderData;
         }
 
-        private List<string> GetRandomLeader(int count)
-        {
-            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
-            var nameLeaders = new List<string>();
-
-            while (nameLeaders.Count != count)
-            {
-                var random = new System.Random();
-                var selectLeader = leadersConfig.ElementAt(random.Next(leadersConfig.Count));
-
-                var isUseLeader = false;
-                foreach (var useLeader in nameLeaders)
-                {
-                    if (useLeader == selectLeader.Key)
-                    {
-                        isUseLeader = true;
-                    }
-                }
-                
-                if (!isUseLeader)
-                    nameLeaders.Add(selectLeader.Key);
-            }
-            
-            return nameLeaders;
-        }
-        
         private void CloseMainMenu()
         {
             ref var metaUI = ref _dataWorld.OneData<MetaUIData>().MetaUIMono;
