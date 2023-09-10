@@ -1,4 +1,4 @@
-using CyberNet.CoreGame.City;
+using CyberNet.Core.City;
 using UnityEngine;
 
 namespace CyberNet.Core

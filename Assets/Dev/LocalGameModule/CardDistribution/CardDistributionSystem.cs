@@ -23,10 +23,6 @@ namespace CyberNet.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
-            //TODO: заглушка, исправить
-            /*
-            if (eventValue.TargetPlayerID == PlayerEnum.Player2)
-                return;
             for (int i = 0; i < eventValue.Count; i++)
             {
                 var countPlayerEntities = _dataWorld.Select<CardComponent>()
@@ -45,9 +41,13 @@ namespace CyberNet.Core
                 var id = SortingCard.ChooseNearestCard(playerEntities);
                 AddCard(id);
             }
+            
             var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new WaitDistributionCardHandComponent { Player = eventValue.TargetPlayerID, CountCard = eventValue.Count });
-        */}
+            entity.AddComponent(new WaitDistributionCardHandComponent {
+                PlayerID = eventValue.TargetPlayerID,
+                CountCard = eventValue.Count
+            });
+        }
 
         private void AddCard(int entityId)
         {

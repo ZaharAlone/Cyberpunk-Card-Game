@@ -4,7 +4,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
-using CyberNet.CoreGame.City;
+using CyberNet.Core.City;
 using CyberNet.Global;
 using I2.Loc;
 using UnityEngine.Serialization;

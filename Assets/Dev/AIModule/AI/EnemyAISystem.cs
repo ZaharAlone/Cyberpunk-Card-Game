@@ -48,9 +48,9 @@ namespace CyberNet.Core.Enemy
 
         private void PlayAll()
         {
-            var playerViewID = _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == playerViewID)
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                 .With<CardHandComponent>().GetEntities();
 
             foreach (var entity in entities)

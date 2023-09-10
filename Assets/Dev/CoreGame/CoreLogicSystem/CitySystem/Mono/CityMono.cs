@@ -5,13 +5,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace CyberNet.CoreGame.City
+namespace CyberNet.Core.City
 {
     public class CityMono : MonoBehaviour
     {
         
         public Transform InteractiveObjectContainer;
-        public GameObject SolidConteiner;
+        public GameObject SolidContainer;
         public List<TowerMono> Towers = new List<TowerMono>();
         public List<ConnectPointMono> ConnectPoints = new List<ConnectPointMono>();
 

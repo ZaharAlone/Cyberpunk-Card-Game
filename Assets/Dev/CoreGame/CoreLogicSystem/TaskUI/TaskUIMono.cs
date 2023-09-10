@@ -1,6 +1,6 @@
 using I2.Loc;
 using UnityEngine;
-namespace CyberNet.CoreGame.TaskUI
+namespace CyberNet.Core.TaskUI
 {
     public class TaskUIMono : MonoBehaviour
     {

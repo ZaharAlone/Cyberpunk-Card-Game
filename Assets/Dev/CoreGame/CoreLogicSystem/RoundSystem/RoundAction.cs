@@ -5,5 +5,6 @@ namespace CyberNet.Core
     {
         public static Action EndCurrentTurn;
         public static Action UpdateTurn;
+        public static Action StartTurn;
     }
 }

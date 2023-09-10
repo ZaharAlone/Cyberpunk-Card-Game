@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.CoreGame.TaskUI
+namespace CyberNet.Core.TaskUI
 {
     public static class TaskUIAction
     {

@@ -7,9 +7,10 @@ using System;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.EnemyPassport;
+using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
-using CyberNet.CoreGame.TaskUI;
-using CyberNet.CoreGame.Traderow;
+using CyberNet.Core.TaskUI;
+using CyberNet.Core.Traderow;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
@@ -44,5 +45,8 @@ namespace CyberNet.Core.UI
 
         [Header("TaskUI")]
         public TaskUIMono TaskUIMono;
+
+        [Header("Select First Base")]
+        public SelectFirstBaseUIMono SelectFirstBaseUIMono;
     }
 }

@@ -6,6 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.ActionCard;
 using CyberNet.Core.WinLose;
+using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 
 namespace CyberNet.Core.UI
@@ -25,14 +26,13 @@ namespace CyberNet.Core.UI
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
-        //TO-DO перевести на ивент
+        //TODO перевести на ивент
         public void Run()
         {
-            var round = _dataWorld.OneData<RoundData>();
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
-
-            if (round.CurrentPlayerID != viewPlayer.CurrentPlayerID)
+            
+            if (roundData.PlayerType != PlayerType.Player)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
@@ -42,13 +42,14 @@ namespace CyberNet.Core.UI
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
-                                       .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
+                                       .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                        .With<CardHandComponent>()
                                        .Count();
 
             ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
             actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
             return;
+            //TODO return
             if (cardInHand > 0)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
@@ -85,11 +86,11 @@ namespace CyberNet.Core.UI
 
         private void PlayAll()
         {
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
-                                     .With<CardHandComponent>()
-                                     .GetEntities();
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardHandComponent>()
+                .GetEntities();
             
             foreach (var entity in entities)
             {
@@ -135,9 +136,9 @@ namespace CyberNet.Core.UI
         {
             //TODO: старый код
             ref var boardUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            var viewData = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
-            if (targetAttack != viewData.CurrentPlayerID)
+            if (targetAttack != currentPlayerID)
             {
                 boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
                 boardUI.DamageScreen.Damage(valueAttack, percentHP);

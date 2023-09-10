@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CyberNet.CoreGame.City
+namespace CyberNet.Core.City
 {
     public struct UnitComponent
     {
@@ -9,7 +9,9 @@ namespace CyberNet.CoreGame.City
 
         public GameObject UnitGO;
         public UnitMono UnitMono;
-        //Кому принадлежит данный пойнт
-        public PlayerEnum PowerSolid;
+        
+        //Кому принадлежит данный юнит
+        public PlayerControlEnum PlayerControl;
+        public int PowerSolidPlayerID;
     }
 }

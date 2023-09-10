@@ -25,30 +25,15 @@ namespace CyberNet.Core
         private void UpdateDiscardHub()
         {
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var viewPlayerID = _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
-            var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.PlayerID == viewPlayerID)
-                                            .With<CardMoveToDiscardComponent>()
-                                            .GetEntities();
-            var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.PlayerID == viewPlayerID)
+            var entitiesPlayer = _dataWorld.Select<CardComponent>()
+                                            .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                             .With<CardMoveToDiscardComponent>()
                                             .GetEntities();
             
-            //TODO: старый код
-            /*
-            if (viewPlayerID == PlayerEnum.Player1)
-            {
-                UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
-                //UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.UpDiscard.localPosition, config.SizeCardInDeck);
-            }
-            else
-            {
-                UpdateDiscardView(entitiesPlayer2, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
-                //UpdateDiscardView(entitiesPlayer1, ui.CoreHudUIMono.UpDiscard.position, config.SizeCardInDeck);
-            }*/
+            UpdateDiscardView(entitiesPlayer, ui.CoreHudUIMono.DownDiscard, config.SizeCardInDeck);
         }
 
         private void UpdateDiscardView(EntitiesEnumerable entities, RectTransform targetTransform, Vector3 size)

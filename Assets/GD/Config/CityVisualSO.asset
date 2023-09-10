@@ -17,6 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: -1710026891398166596, guid: 6d982edb18e502e41a140fb2d23b53de, type: 3}
+    - {fileID: 5714077248810172243, guid: 6cd65df5cc5672646a81a25f824940c3, type: 3}
     - {fileID: 2950176789771994318, guid: 5571e17713ad3f14ba002c5d2df905b4, type: 3}
     - {fileID: 4146224565906658649, guid: cc4efcc7f884cf440ae07772df26683f, type: 3}
     - {fileID: 99996011359003740, guid: 02f8605a7aa96c440af69e9378edc257, type: 3}
@@ -27,7 +28,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UnitDictionary
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CyberNet.CoreGame.City.UnitMono,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CyberNet.Core.City.UnitMono,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -38,7 +39,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
@@ -48,6 +49,18 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: blue_unit
+    - Name: $v
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -79,7 +92,7 @@ MonoBehaviour:
       Data: clear_solid_point
     - Name: $v
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -91,7 +104,7 @@ MonoBehaviour:
       Data: neutral_unit
     - Name: $v
       Entry: 10
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -103,7 +116,7 @@ MonoBehaviour:
       Data: blue_unit
     - Name: $v
       Entry: 10
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -120,3 +133,5 @@ MonoBehaviour:
     rgba: 4278208765
   - serializedVersion: 2
     rgba: 4284022566
+  TowerSelectVFX: {fileID: 6646153456709455640, guid: d8234b28eac256242ac317432d240b19,
+    type: 3}

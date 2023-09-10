@@ -27,10 +27,14 @@ namespace CyberNet.Core
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
             
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (!roundData.EndPreparationRound)
+                return;
+            
             ref var component = ref entity.GetComponent<CardComponent>();
-            var round = _dataWorld.OneData<RoundData>();
             //TODO дописать что нельзя двигать карты
-            if (round.CurrentPlayerID != component.PlayerID)
+            
+            if (entity.HasComponent<PlayerComponent>())
                 return;
 
             if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
@@ -48,6 +52,10 @@ namespace CyberNet.Core
 
         private void UpClickCard()
         {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (!roundData.EndPreparationRound)
+                return;
+            
             var isMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
             if (isMove > 0)
                 EndMove();
@@ -80,9 +88,9 @@ namespace CyberNet.Core
         {
             var entity = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var viewPlayerID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
-            if (cardComponent.PlayerID != viewPlayerID)
+            if (cardComponent.PlayerID != currentPlayerID)
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
@@ -93,7 +101,8 @@ namespace CyberNet.Core
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var distance = cardComponent.RectTransform.anchoredPosition.y - moveComponent.StartCardPosition.y;
-
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
 
@@ -111,9 +120,8 @@ namespace CyberNet.Core
                 entity.AddComponent(new CardSelectAbilityComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
-                var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
                 AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = view.CurrentPlayerID });
+                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = currentPlayerID });
             }
             else
             {

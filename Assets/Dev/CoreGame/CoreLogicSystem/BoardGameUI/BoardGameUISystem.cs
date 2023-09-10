@@ -4,7 +4,6 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using CyberNet.Core.ActionCard;
-using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using UnityEngine;
 
@@ -104,40 +103,30 @@ namespace CyberNet.Core.UI
 
             gameUI.BoardGameUIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
         }
-
-        //TODO: вернуть
+        
         private void UpdateStatsPlayersPassport()
         {
-            /*
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            ref var player1Stats = ref _dataWorld.OneData<PlayerStatsComponent>();
-            ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            var roundData = _dataWorld.OneData<RoundData>();
+            var entityPlayer = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player=> player.PlayerID == roundData.CurrentPlayerID)
+                .SelectFirstEntity();
 
-            //TODO: старый код
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-            {
-                gameUI.CoreHudUIMono.SetViewDownTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-                //gameUI.CoreHudUIMono.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-            }
-            else
-            {
-                gameUI.CoreHudUIMono.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-                //gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-            }*/
+            ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis);
         }
 
 
         private void UpdateCountCard()
         {
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var discardCard = _dataWorld.Select<CardComponent>()
-                                                .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
+                                                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                                 .With<CardDiscardComponent>()
                                                 .Count();
             var drawCard = _dataWorld.Select<CardComponent>()
-                                             .Where<CardComponent>(card => card.PlayerID == viewPlayer.CurrentPlayerID)
+                                             .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                              .With<CardDrawComponent>()
                                              .Count();
 

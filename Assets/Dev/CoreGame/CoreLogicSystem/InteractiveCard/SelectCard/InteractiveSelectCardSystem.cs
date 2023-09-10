@@ -25,6 +25,10 @@ namespace CyberNet.Core
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
 
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (!roundData.EndPreparationRound)
+                return;
+
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .Without<CardTableComponent>()
@@ -36,9 +40,9 @@ namespace CyberNet.Core
                 return;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var view = ref _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            if (view.CurrentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
+            if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
             
             ClearSelectComponent();
@@ -68,9 +72,9 @@ namespace CyberNet.Core
                                   .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.15f));
 
             cardComponent.Canvas.sortingOrder = 20;
-            //TODO вернуть
-            /*
-            if (cardComponent.PlayerID != PlayerEnum.None)
+
+            //TODO не уверен что правильно поправил
+            if (entity.HasComponent<PlayerComponent>())
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
@@ -81,7 +85,7 @@ namespace CyberNet.Core
             }
             else
                 entity.AddComponent(animComponent);
-        */}
+        }
 
         private void ClearSelectComponent()
         {
@@ -95,9 +99,9 @@ namespace CyberNet.Core
 
         private void MoveOtherCards(int targetIndex)
         {
-            var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.PlayerID == view.CurrentPlayerID)
+                                     .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                      .With<CardHandComponent>()
                                      .With<CardSortingIndexComponent>()
                                      .Without<InteractiveSelectCardComponent>()
@@ -152,6 +156,10 @@ namespace CyberNet.Core
         {
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
                 return;
+            
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (!roundData.EndPreparationRound)
+                return;
 
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
@@ -173,9 +181,9 @@ namespace CyberNet.Core
 
         private void ReturnAllCard()
         {
-            var view = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                        .Where<CardComponent>(card => card.PlayerID == view.CurrentPlayerID)
+                                        .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                         .With<CardHandComponent>()
                                         .With<CardComponentAnimations>()
                                         .GetEntities();

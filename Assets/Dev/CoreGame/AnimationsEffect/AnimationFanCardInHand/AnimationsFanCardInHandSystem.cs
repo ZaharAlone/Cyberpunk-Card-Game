@@ -6,7 +6,6 @@ using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
 using DG.Tweening;
-//TODO: вернуть
 
 namespace CyberNet.Core.UI
 {
@@ -40,7 +39,7 @@ namespace CyberNet.Core.UI
 
         private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
         {
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
@@ -50,7 +49,7 @@ namespace CyberNet.Core.UI
             var radius = 0f;
             var multiplieSizeCard = Vector3.zero;
 
-            if (viewPlayer.CurrentPlayerID == targetPlayerID)
+            if (roundData.CurrentPlayerID == targetPlayerID)
             {
                 screenShift = uiRect.rect.height / 2 - 125;
                 multPosY = -1;

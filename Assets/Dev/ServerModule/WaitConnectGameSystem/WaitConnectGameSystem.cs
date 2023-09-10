@@ -38,7 +38,6 @@ namespace CyberNet.Server
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
             NetworkReader.RegisterHandle<PlayerComponent>(InitPlayers);
             NetworkReader.RegisterHandle<ActionCardData>(InitActionData);
-            NetworkReader.RegisterHandle<CurrentPlayerViewScreenData>(InitPlayerView);
 
             NetworkReader.RegisterHandle<StartGameComponent>(StartGame);
         }
@@ -86,12 +85,6 @@ namespace CyberNet.Server
         {
             Debug.Log("Get Action Data");
             _dataWorld.CreateOneData(actionCardData);
-        }
-
-        private void InitPlayerView(CurrentPlayerViewScreenData currentPlayerView)
-        {
-            Debug.Log("Get View Player");
-            _dataWorld.CreateOneData(currentPlayerView);
         }
     }
 }

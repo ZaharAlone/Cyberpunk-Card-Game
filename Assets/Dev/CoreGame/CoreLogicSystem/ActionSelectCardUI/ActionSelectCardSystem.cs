@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace CyberNet.Core.ActionCard
 {
@@ -25,10 +26,14 @@ namespace CyberNet.Core.ActionCard
         
         private void OpenWindow()
         {
-            ref var viewPlayerID = ref _dataWorld.OneData<CurrentPlayerViewScreenData>().CurrentPlayerID;
-            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                .SelectFirstEntity();
+
+            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             
-            if (viewPlayerID != currentPlayerID)
+            if (playerComponent.PlayerType != PlayerType.Player)
                 return;
             
             var entity = _dataWorld.Select<CardComponent>().With<ActionSelectCardComponent>().SelectFirstEntity();

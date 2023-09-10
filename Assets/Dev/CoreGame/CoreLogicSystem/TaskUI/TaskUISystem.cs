@@ -5,7 +5,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.CoreGame.TaskUI
+namespace CyberNet.Core.TaskUI
 {
     [EcsSystem(typeof(CoreModule))]
     public class TaskUISystem : IPreInitSystem

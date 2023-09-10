@@ -2,7 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace CyberNet.CoreGame.City
+namespace CyberNet.Core.City
 {
     public class ConnectPointMono : MonoBehaviour
     {

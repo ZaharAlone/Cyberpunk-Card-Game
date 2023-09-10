@@ -1,4 +1,5 @@
 using CyberNet.Core.ActionCard;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -28,10 +29,9 @@ namespace CyberNet.Core.UI
 
         private void UpdateVFXViewCurrentPlayer()
         {
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayerID == viewPlayer.CurrentPlayerID)
-                UpdateVFX(viewPlayer.CurrentPlayerID);
+            if (roundData.PlayerType == PlayerType.Player)
+                UpdateVFX(roundData.CurrentPlayerID);
         }
 
         private void UpdateVFX(int playerID)

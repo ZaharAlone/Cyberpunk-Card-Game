@@ -1,15 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace CyberNet.CoreGame.City
+using UnityEngine.Serialization;
+namespace CyberNet.Core.City
 {
     public struct TowerComponent
     {
         public string GUID;
+        public TowerMono TowerMono;
         public GameObject TowerGO;
-        //Кому принадлежит контроль над башней?
-        public PlayerEnum PowerTowerBelong;
-        //Контроль полный?
-        public bool IsFullPower;
         public List<SolidPointMono> SolidPointMono;
+        public ParticleSystem SelectTowerEffect;
+        
+        //Кому принадлежит контроль над башней?
+        public PlayerControlEnum playerIsBelong;
+        public int TowerBelongPlyaerID;
+        //Контроль полный?
+        public bool IsFullTowerControl;
+    }
+
+    public enum PlayerControlEnum
+    {
+        None,
+        Neutral,
+        Player
     }
 }

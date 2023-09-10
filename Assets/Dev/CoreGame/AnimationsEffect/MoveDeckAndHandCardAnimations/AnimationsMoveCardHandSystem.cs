@@ -50,14 +50,10 @@ namespace CyberNet.Core
         private void AnimationsDrawToHand(Entity entity)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var positionsY = -400;
-            //TODO: view player2
-/*
-            if (viewPlayer.PlayerView != cardComponent.Player)
-                positionsY = 400;
-*/
+
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
             animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(new Vector2(0, positionsY), 0.25f))
@@ -71,14 +67,14 @@ namespace CyberNet.Core
         
         private void EndDrawHandAnimations(Entity entity)
         {
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
 
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
 
-            if (cardComponent.PlayerID == viewPlayer.CurrentPlayerID)
+            if (cardComponent.PlayerID == currentPlayerID)
                 cardComponent.CardMono.CardOnFace();
 
             var waitDistributionEntity = _dataWorld.Select<WaitDistributionCardHandComponent>()

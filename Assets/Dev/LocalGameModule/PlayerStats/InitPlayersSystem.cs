@@ -44,6 +44,8 @@ namespace CyberNet.Core
                 PositionInTurnQueue = positionInTurnQueue
             });
 
+            entity.AddComponent(new PlayerNotInstallFirstBaseComponent());
+
             entity.AddComponent(new PlayerViewComponent 
             {
                 LeaderKey = selectLeaderData.SelectLeader, 

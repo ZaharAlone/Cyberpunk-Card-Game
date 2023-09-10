@@ -2,39 +2,80 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
-using System;
 using System.Threading.Tasks;
 using CyberNet.Core;
+using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
-    public class RoundSystem : IActivateSystem, IPreInitSystem, IDestroySystem
+    public class RoundSystem : IActivateSystem, IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void Activate()
         {
-            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-
-            //TODO переписать
-//            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = PlayerEnum.Player1, Count = rules.CountDropCard });
-//            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = PlayerEnum.Player2, Count = rules.CountDropCard });
+            ref var selectLeader = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            _dataWorld.CreateOneData(new RoundData {
+                CurrentRound = 0,
+                CurrentTurn = 1,
+                CurrentPlayerID = selectLeader[0].PlayerID,
+                PlayerType = PlayerType.Player
+            });
         }
-
+        
         public void PreInit()
         {
             RoundAction.EndCurrentTurn += SwitchRound;
+            RoundAction.StartTurn += StartTurn;
         }
 
+        public void Init()
+        {
+            var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PositionInTurnQueue == 0)
+                .SelectFirstEntity();
+
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            
+            _dataWorld.RiseEvent(new EventDistributionCard {
+                TargetPlayerID = playerComponent.PlayerID,
+                Count = rules.CountDropCard
+            });
+            
+            UpdateUIRound(playerComponent.PlayerID);
+        }
+        
         private void SwitchRound()
         {
-            /*
             ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.EndPreparationRound = false;
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = roundData.CurrentPlayer, Count = rules.CountDropCard });
+            var entitiesPlayer = _dataWorld.Select<PlayerComponent>().GetEntities();
+            var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
+
+            var nextRoundPlayerID = 0;
+            foreach (var entityPlayer in entitiesPlayer)
+            {
+                ref var componentPlayer = ref entityPlayer.GetComponent<PlayerComponent>();
+                componentPlayer.PositionInTurnQueue--;
+
+                if (componentPlayer.PositionInTurnQueue < 0)
+                    componentPlayer.PositionInTurnQueue = countPlayers -1;
+
+                if (componentPlayer.PositionInTurnQueue == 0)
+                    nextRoundPlayerID = componentPlayer.PlayerID;
+            }
+
+            roundData.CurrentPlayerID = nextRoundPlayerID;
+            
+            _dataWorld.RiseEvent(new EventDistributionCard {
+                TargetPlayerID = roundData.CurrentPlayerID,
+                Count = rules.CountDropCard
+            });
 
             if (roundData.CurrentTurn == 1)
             {
@@ -43,29 +84,30 @@ namespace CyberNet.Local
             }
             else
                 roundData.CurrentTurn++;
-
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-                roundData.CurrentPlayer = PlayerEnum.Player2;
-            else
-                roundData.CurrentPlayer = PlayerEnum.Player1;
-
-            RoundAction.UpdateTurn?.Invoke();
-            UpdateUIRound(roundData.CurrentPlayer);*/
+            
+            UpdateUIRound(nextRoundPlayerID);
         }
 
-        private async void UpdateUIRound(PlayerEnum playersRound)
+        private async void UpdateUIRound(int playerID)
         {
-            /*
-            var viewPlayer = _dataWorld.OneData<CurrentPlayerViewScreenData>();
-            var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            var uiRound = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ChangeRoundUI;
+            var entityPlayer = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerID)
+                .SelectFirstEntity();
+            var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
-            if (playersRound == viewPlayer.CurrentPlayerView)
-                ui.ChangeRoundUI.PlayerRound();
-            else
-                ui.ChangeRoundUI.EnemyRound();
-
+            uiRound.NewRoundView(playerViewComponent.Avatar, playerViewComponent.Name);
             await Task.Delay(2000);
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();*/
+
+            if (SelectFirstBaseAction.CheckInstallFirstBase.Invoke())
+                StartTurn();
+        }
+
+        private void StartTurn()
+        {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.EndPreparationRound = true;
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
         }
 
         public void Destroy()

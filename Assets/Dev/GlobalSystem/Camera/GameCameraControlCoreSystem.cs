@@ -26,8 +26,8 @@ namespace CyberNet.Global.GameCamera
         private void ActivateCoreCamera()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
-            ref var boardResourceData = ref _dataWorld.OneData<CityData>();
-            camera.CoreVirtualCamera.m_Follow = boardResourceData.CityGO.transform;
+            ref var cityData = ref _dataWorld.OneData<CityData>();
+            camera.CoreVirtualCamera.m_Follow = cityData.CityGO.transform;
             camera.MetaVirtualCamera.gameObject.SetActive(false);
             camera.CoreVirtualCamera.gameObject.SetActive(true);
             camera.IsCore = true;

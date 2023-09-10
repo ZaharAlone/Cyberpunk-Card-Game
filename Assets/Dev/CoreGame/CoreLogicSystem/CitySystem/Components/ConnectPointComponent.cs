@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CyberNet.CoreGame.City
+namespace CyberNet.Core.City
 {
     public struct ConnectPointComponent
     {

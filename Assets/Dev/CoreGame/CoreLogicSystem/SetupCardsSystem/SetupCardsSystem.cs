@@ -19,10 +19,8 @@ namespace CyberNet.Core
         {
             SetupCard();
             SetPositionCard();
-            GlobalCoreAction.FinishInitGameResource?.Invoke();
         }
-
-        //TODO: вернуть
+        
         //Инициализируем все карты
         private void SetupCard()
         {
@@ -52,6 +50,7 @@ namespace CyberNet.Core
                     ref var cardComponent = ref entity.GetComponent<CardComponent>();
                     cardComponent.PlayerID = playerDeckCard.IndexPlayer;
                     entity.AddComponent(new CardDrawComponent());
+                    entity.AddComponent(new CardPlayerComponent());
                 }
             }
         }
@@ -135,34 +134,20 @@ namespace CyberNet.Core
         //Раскладываем карты по местам
         private void SetPositionCard()
         {
-            /*
             var gameUI = _dataWorld.OneData<CoreGameUIData>();
-            var entitiesPlayer1 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.PlayerID == PlayerEnum.Player1)
-                                            .GetEntities();
+            var entitiesPlayerCard = _dataWorld.Select<CardComponent>()
+                .With<CardPlayerComponent>()
+                .GetEntities();
 
 
-            foreach (var entity in entitiesPlayer1)
+            foreach (var entity in entitiesPlayerCard)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 component.RectTransform.position = gameUI.BoardGameUIMono.CoreHudUIMono.DownDeck.localPosition;
                 component.CardMono.HideCard();
                 component.CardMono.HideBackCardColor();
             }
-*/
-            //TODO: старый код
-            /*
-            var entitiesPlayer2 = _dataWorld.Select<CardComponent>()
-                                            .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
-                                            .GetEntities();
-            foreach (var entity in entitiesPlayer2)
-            {
-                ref var component = ref entity.GetComponent<CardComponent>();
-                component.Transform.position = gameUI.BoardGameUIMono.CoreHudUIMono.UpDeck.localPosition;
-                component.CardMono.HideCard();
-                component.CardMono.HideBackCardColor();
-            }
-*/
+
             var entitiesDeck = _dataWorld.Select<CardComponent>().With<CardTradeDeckComponent>().GetEntities();
             foreach (var entity in entitiesDeck)
                 entity.GetComponent<CardComponent>().CardMono.HideCard();

@@ -33,16 +33,13 @@ namespace CyberNet.Core
 
         private void AnimationsMoveCardToHand(Entity entity)
         {
-            var viewData = _dataWorld.OneData<CurrentPlayerViewScreenData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             var targetPositions = Vector3.zero;
-
-            //TODO: старый код
-            if (viewData.CurrentPlayerID == cardComponent.PlayerID)
+            
+            if (roundData.CurrentPlayerID == cardComponent.PlayerID)
                 targetPositions = ui.CoreHudUIMono.DownDeck.anchoredPosition;
-            //else
-            //    targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
