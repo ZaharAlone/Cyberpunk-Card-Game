@@ -87,10 +87,8 @@ namespace CyberNet.Core
         private void EndMove()
         {
             var entity = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
-            if (cardComponent.PlayerID != currentPlayerID)
+            if (entity.HasComponent<CardPlayerComponent>())
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);

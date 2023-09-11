@@ -25,17 +25,16 @@ namespace CyberNet.Core.SelectFirstBase
 
             var isNotInstallFirstBase = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                .With<PlayerNotInstallFirstBaseComponent>()
                 .TrySelectFirstEntity(out var entity);
 
             if (isNotInstallFirstBase)
-            {
-                SelectFirstBase(currentPlayerID);
-            }
+                SelectFirstBase();
 
             return !isNotInstallFirstBase;
         }
 
-        private void SelectFirstBase(int playerID)
+        private void SelectFirstBase()
         {
             ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
             uiSelectFirstBase.OpenWindow();
@@ -44,7 +43,6 @@ namespace CyberNet.Core.SelectFirstBase
         
         private void SelectBase(string towerGUID)
         {
-            Debug.LogError("Base is select");
             ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var towerEntity = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.GUID == towerGUID)

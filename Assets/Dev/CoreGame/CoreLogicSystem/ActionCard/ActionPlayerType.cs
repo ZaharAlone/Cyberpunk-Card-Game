@@ -6,7 +6,6 @@ namespace CyberNet.Core.ActionCard
     public enum ActionPlayerType
     {
         PlayAll,
-        Attack,
         EndTurn
     }
 }

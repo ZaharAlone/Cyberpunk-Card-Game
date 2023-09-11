@@ -20,6 +20,7 @@ namespace CyberNet.Core.UI
             
             BoardGameUIAction.UpdateStatsPlayersPassportUI += UpdateStatsPlayersPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
+            RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
         
         private void InitCameraCanvas()

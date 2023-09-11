@@ -73,7 +73,8 @@ namespace CyberNet.Meta
                 return;
 
             _sequence = DOTween.Sequence();
-            _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 0), 0.25f)).OnComplete(DeactivateButtonAction);
+            _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 0), 0.25f))
+                .OnComplete(DeactivateButtonAction);
         }
 
         public void ActivateButton()
@@ -91,6 +92,8 @@ namespace CyberNet.Meta
         {
             RuntimeManager.CreateInstance(SoundButtonClick).start();
             ButtonClickEvent?.Invoke();
+            ActiveButton.SetActive(false);
+            DeactiveButton.SetActive(true);
         }
         
         public void OnDisable()

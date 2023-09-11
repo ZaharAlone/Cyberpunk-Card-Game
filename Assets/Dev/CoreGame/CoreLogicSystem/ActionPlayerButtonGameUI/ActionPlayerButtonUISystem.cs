@@ -48,17 +48,11 @@ namespace CyberNet.Core.UI
 
             ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
             actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
-            return;
-            //TODO return
+            
             if (cardInHand > 0)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
                 actionPlayer.ActionPlayerType = ActionPlayerType.PlayAll;
-            }
-            else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
-            {
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.Attack;
             }
             else
             {
@@ -74,9 +68,6 @@ namespace CyberNet.Core.UI
             {
                 case ActionPlayerType.PlayAll:
                     PlayAll();
-                    break;
-                case ActionPlayerType.Attack:
-                    //Attack();
                     break;
                 case ActionPlayerType.EndTurn:
                     EndTurn();

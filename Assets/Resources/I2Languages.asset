@@ -435,22 +435,6 @@ MonoBehaviour:
       - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443:"
       Flags: 0000
       Languages_Touch: []
-    - Term: CoreGame/$bg_turnYou_name
-      TermType: 0
-      Description: 
-      Languages:
-      - Your turn
-      - "\u0412\u0430\u0448 \u0445\u043E\u0434"
-      Flags: 0000
-      Languages_Touch: []
-    - Term: CoreGame/$bg_turnEnemy_name
-      TermType: 0
-      Description: 
-      Languages:
-      - Opponent's move
-      - "\u0425\u043E\u0434 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 "
-      Flags: 0000
-      Languages_Touch: []
     - Term: CoreGame/$bg_mercenaries_header
       TermType: 0
       Description: 
@@ -1066,45 +1050,25 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 'The Cyberpsycho was formerly a member of a gang known as "Plague Jack."
-        He earned this nickname because he implanted an infinite number of enhancements
-        into himself, numbing the pain with narcotics. Consequently, his behavior
-        often exceeded the boundaries set by the gang.
-
-
-        During one of the
-        gang''s escapades, he crossed a line. When his partner attempted to stop
-        him, he killed a child and also eliminated his partner. He was expelled from
-        the gang but spared his life. Now, he takes on the dirtiest assignments in
-        the city, committing merciless murders without leaving any witnesses behind.'
-      - "\u041A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445 \u0440\u0430\u043D\u044C\u0448\u0435
-        \u0431\u044B\u043B \u0447\u043B\u0435\u043D\u043E\u043C \u0431\u0430\u043D\u0434\u044B,
-        \u0438 \u0435\u0433\u043E \u0437\u0432\u0430\u043B\u0438 \u0427\u0443\u043C\u043D\u043E\u0439
-        \u0414\u0436\u0435\u043A. \u0427\u0443\u043C\u043D\u044B\u043C \u0435\u0433\u043E
-        \u0437\u0432\u0430\u043B\u0438 \u0438\u0437-\u0437\u0430 \u0442\u043E\u0433\u043E
-        \u0447\u0442\u043E \u043E\u043D \u0441\u0442\u0430\u0432\u0438\u043B \u0441\u0435\u0431\u0435
-        \u0431\u0435\u0441\u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0435 \u0447\u0438\u0441\u043B\u043E
-        \u0438\u043C\u043F\u043B\u0430\u043D\u0442\u043E\u0432, \u0430 \u0431\u043E\u043B\u044C
-        \u0437\u0430\u0433\u043B\u0443\u0448\u0430\u043B \u043D\u0430\u0440\u043A\u043E\u0442\u0438\u043A\u0430\u043C\u0438.
-        \u0418\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0435\u0433\u043E \u043F\u043E\u0432\u0435\u0434\u0435\u043D\u0438\u0435
-        \u0447\u0430\u0441\u0442\u043E \u0432\u044B\u0445\u043E\u0434\u0438\u043B\u043E
-        \u0437\u0430 \u0440\u0430\u043C\u043A\u0438 \u0434\u043E\u0437\u0432\u043E\u043B\u0435\u043D\u043D\u043E\u0433\u043E
-        \u0432 \u0431\u0430\u043D\u0434\u0435.\n\n\u041D\u0430 \u043E\u0434\u043D\u043E\u0439
-        \u0438\u0437 \u0432\u044B\u043B\u0430\u0437\u043E\u043A \u0431\u0430\u043D\u0434\u044B,
-        \u043E\u043D \u043F\u0435\u0440\u0435\u0448\u0435\u043B \u0447\u0435\u0440\u0442\u0443.
-        \u0423\u0431\u0438\u0432 \u0440\u0435\u0431\u0435\u043D\u043A\u0430, \u043A\u043E\u0433\u0434\u0430
-        \u0435\u0433\u043E \u043D\u0430\u043F\u0430\u0440\u043D\u0438\u043A \u043F\u043E\u043F\u044B\u0442\u0430\u043B\u0441\u044F
-        \u0435\u0433\u043E \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C,
-        \u043E\u043D \u0443\u0431\u0438\u043B \u0438 \u0435\u0433\u043E. \u0415\u0433\u043E
-        \u0432\u044B\u0433\u043D\u0430\u043B\u0438 \u0438\u0437 \u0431\u0430\u043D\u0434\u044B,
-        \u043D\u043E \u043D\u0435 \u0443\u0431\u0438\u043B\u0438. \u0422\u0435\u043F\u0435\u0440\u044C
-        \u043E\u043D \u0431\u0435\u0440\u0435\u0442\u044C\u0441\u044F \u0437\u0430
-        \u0441\u0430\u043C\u044B\u0435 \u0433\u0440\u044F\u0437\u043D\u044B\u0435
-        \u0437\u0430\u0434\u0430\u043D\u0438\u044F \u0432 \u044D\u0442\u043E\u043C
-        \u0433\u043E\u0440\u043E\u0434\u0435, \u0441\u043E\u0432\u0435\u0440\u0448\u0430\u044F
-        \u0443\u0431\u0438\u0439\u0441\u0442\u0432\u0430 \u0431\u0435\u0437 \u043F\u043E\u0449\u0430\u0434\u044B,
-        \u043D\u0435 \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u044F \u0437\u0430
-        \u0441\u043E\u0431\u043E\u0439 \u0441\u0432\u0438\u0434\u0435\u0442\u0435\u043B\u0435\u0439."
+      - Former gang member known as Plague Jack. After installing a large number
+        of implants, his brain shorted out and he went crazy. He started a massacre
+        and killed his partner. He was kicked out of the gang, now he has nothing
+        left and he takes on the dirtiest orders in this city.
+      - "\u0411\u044B\u0432\u0448\u0438\u0439 \u0447\u043B\u0435\u043D \u0431\u0430\u043D\u0434\u044B
+        \u043F\u043E \u043A\u043B\u0438\u0447\u043A\u0435 \u0427\u0443\u043C\u043D\u043E\u0439
+        \u0414\u0436\u0435\u043A. \u041F\u043E\u0441\u043B\u0435 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0438
+        \u0431\u043E\u043B\u044C\u0448\u043E\u0433\u043E \u043A\u043E\u043B-\u0432\u0430
+        \u0438\u043C\u043F\u043B\u0430\u043D\u0442\u043E\u0432, \u0435\u0433\u043E
+        \u043C\u043E\u0437\u0433\u0438 \u0437\u0430\u043A\u043E\u0440\u043E\u0442\u0438\u043B\u043E
+        \u0438 \u043E\u043D \u0441\u0432\u0438\u0445\u043D\u0443\u043B\u0441\u044F.
+        \u0423\u0441\u0442\u0440\u043E\u0438\u043B \u0431\u043E\u0439\u043D\u044E,
+        \u0443\u0431\u0438\u043B \u043D\u0430\u043F\u0430\u0440\u043D\u0438\u043A\u0430.
+        \u0415\u0433\u043E \u0432\u044B\u0433\u043D\u0430\u043B\u0438 \u0438\u0437
+        \u0431\u0430\u043D\u0434\u044B, \u0442\u0435\u043F\u0435\u0440\u044C \u0443
+        \u043D\u0435\u0433\u043E \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435
+        \u043E\u0441\u0442\u0430\u043B\u043E\u0441\u044C \u0438 \u043E\u043D \u0431\u0435\u0440\u0435\u0442\u044C\u0441\u044F
+        \u0437\u0430 \u0441\u0430\u043C\u044B\u0435 \u0433\u0440\u044F\u0437\u043D\u044B\u0435
+        \u0437\u0430\u043A\u0430\u0437\u044B \u0432 \u044D\u0442\u043E\u043C \u0433\u043E\u0440\u043E\u0434\u0435."
       Flags: 0000
       Languages_Touch: []
     - Term: Leaders/$ab_cyberpsychosis_name
@@ -1185,8 +1149,24 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
-      - 
+      - Kaira is an amazing creature even for this city. Born in a laboratory as
+        a result of an explosion, the product of an experiment merging technology,
+        man and animal gene. Now she lives according to her own laws, taking the
+        best from life and enjoying milk.
+      - "\u041A\u0430\u0439\u0440\u0430 \u0443\u0434\u0438\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435
+        \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u043E \u0434\u0430\u0436\u0435
+        \u0434\u043B\u044F \u044D\u0442\u043E\u0433\u043E \u0433\u043E\u0440\u043E\u0434\u0430.
+        \u0420\u043E\u0436\u0434\u0435\u043D\u043D\u0430\u044F \u0432 \u043B\u0430\u0431\u043E\u0440\u043E\u0442\u043E\u0440\u0438\u0438
+        \u0432 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0435 \u0432\u0437\u0440\u044B\u0432\u0430,
+        \u043F\u0440\u043E\u0434\u0443\u043A\u0442 \u044D\u043A\u0441\u043F\u0435\u0440\u0438\u043C\u0435\u043D\u0442\u0430
+        \u0441\u043B\u0438\u044F\u043D\u0438\u0435 \u0442\u0435\u0445\u043D\u043E\u043B\u043E\u0433\u0438\u0438,
+        \u0447\u0435\u043B\u043E\u0432\u0435\u043A\u0430 \u0438 \u0433\u0435\u043D\u0430
+        \u0436\u0438\u0432\u043E\u0442\u043D\u043E\u0433\u043E. \u0422\u0435\u043F\u0435\u0440\u044C
+        \u043E\u043D\u0430 \u0436\u0438\u0432\u0435\u0442 \u043F\u043E \u0441\u0432\u043E\u0438\u043C
+        \u0437\u0430\u043A\u043E\u043D\u0430\u043C, \u0431\u0435\u0440\u044F \u043E\u0442
+        \u0436\u0438\u0437\u043D\u0438 \u0441\u0430\u043C\u043E\u0435 \u043B\u0443\u0447\u0448\u0435\u0435
+        \u0438 \u043D\u0430\u0441\u043B\u0430\u0436\u0434\u0430\u044F\u0441\u044C
+        \u043C\u043E\u043B\u043E\u043A\u043E\u043C."
       Flags: 0000
       Languages_Touch: []
     - Term: Leaders/$ab_hackDestroyShield_name
@@ -1219,24 +1199,167 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 
-      - 
+      - Leo got tired of the constant fighting in the city and founded his own biker
+        gang. Unlike many, they do not fight for power and do not fight with corporations.
+        Preferring to drive around the city, drink in a bar and protect the locals
+        from outside attacks.
+      - "\u041B\u0435\u043E \u0443\u0441\u0442\u0430\u043B \u043E\u0442 \u043F\u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E\u0439
+        \u0431\u043E\u0440\u044C\u0431\u044B \u0432 \u0433\u043E\u0440\u043E\u0434\u0435
+        \u0438 \u043E\u0441\u043D\u043E\u0432\u0430\u043B \u0441\u0432\u043E\u044E
+        \u0431\u0430\u043D\u0434\u0443 \u0431\u0430\u0439\u043A\u0435\u0440\u043E\u0432.
+        \u0412 \u043E\u0442\u043B\u0438\u0447\u0438\u0435 \u043E\u0442 \u043C\u043D\u043E\u0433\u0438\u0445,
+        \u043E\u043D\u0438 \u043D\u0435 \u0431\u043E\u0440\u044F\u0442\u044C\u0441\u044F
+        \u0437\u0430 \u0432\u043B\u0430\u0441\u0442\u044C, \u0438 \u043D\u0435 \u0432\u043E\u044E\u0442
+        \u0441 \u043A\u043E\u0440\u043F\u043E\u0440\u0430\u0446\u0438\u044F\u043C\u0438.
+        \u041F\u0440\u0435\u0434\u043F\u043E\u0447\u0438\u0442\u0430\u044F \u0433\u043E\u043D\u044F\u0442\u044C
+        \u043F\u043E \u0433\u043E\u0440\u043E\u0434\u0443, \u043F\u0438\u0442\u044C
+        \u0432 \u0431\u0430\u0440\u0435 \u0438 \u0437\u0430\u0449\u0438\u0449\u0430\u0442\u044C
+        \u043C\u0435\u0441\u0442\u043D\u044B\u0445 \u043E\u0442 \u043D\u0430\u043F\u0430\u0434\u043E\u043A
+        \u0438\u0437 \u0432\u043D\u0435."
       Flags: 0000
       Languages_Touch: []
     - Term: Leaders/$ab_leoTrade_name
       TermType: 0
       Description: 
       Languages:
-      - 
-      - 
+      - ----
+      - ----
       Flags: 0000
       Languages_Touch: []
     - Term: Leaders/$ab_leoTrade_descr
       TermType: 0
       Description: 
       Languages:
-      - 
-      - 
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_blackBoy_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_blackBoy_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_blackBoy_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_blackBoy_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_brownGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_brownGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_brownGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_brownGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_chinesGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_chinesGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_chinesGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_chinesGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_japanGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$leader_japanGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_japanGirl_name
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Leaders/$ab_japanGirl_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - ----
+      - ----
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -1254,7 +1377,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1694219798117
+    Google_LastUpdatedVersion: 1694468529089
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2
