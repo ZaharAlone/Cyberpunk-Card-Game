@@ -71,7 +71,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             CityAction.InitUnit?.Invoke(initUnit);
 
-            towerEntity.RemoveComponent<FirstBasePlayer>();
+            towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
             uiSelectFirstBase.CloseWindow();
 

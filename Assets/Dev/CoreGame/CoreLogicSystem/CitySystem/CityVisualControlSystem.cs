@@ -20,7 +20,7 @@ namespace CyberNet.Core.City
         private void ShowFirstBaseTower()
         {
             var entitiesTower = _dataWorld.Select<TowerComponent>()
-                .With<FirstBasePlayer>()
+                .With<FirstBasePlayerComponent>()
                 .GetEntities();
 
             foreach (var entityTower in entitiesTower)

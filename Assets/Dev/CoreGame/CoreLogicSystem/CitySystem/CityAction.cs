@@ -8,6 +8,9 @@ namespace CyberNet.Core.City
         public static Action UpdatePlayerViewCity;
         public static Action ViewAllAvailableTower;
 
+        public static Action UpdatePresencePlayerInCity;
+        public static Action EnableNewPresencePlayerInCity;
+
         public static Action<InitUnitStruct> InitUnit;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -66,7 +67,7 @@ namespace CyberNet.Core.City
 
                 entity.AddComponent(towerComponent);
                 if (tower.IsFirstBasePlayer)
-                    entity.AddComponent(new FirstBasePlayer());
+                    entity.AddComponent(new FirstBasePlayerComponent());
             }
             
             foreach (var connectPoint in cityData.CityMono.ConnectPoints)
@@ -77,7 +78,9 @@ namespace CyberNet.Core.City
                 {
                     GUID = connectPoint.GUID,
                     ConnectPointGO = connectPoint.gameObject,
-                    SolidPointMono = connectPoint.SolidPointMono
+                    ConnectPointMono = connectPoint,
+                    SolidPointMono = connectPoint.SolidPointMono,
+                    ConnectPointsTypeGUID = CityStaticLogic.SetConnectPointGUIDList(connectPoint)
                 };
 
                 InitStartUnit(connectPoint.SolidPointMono);

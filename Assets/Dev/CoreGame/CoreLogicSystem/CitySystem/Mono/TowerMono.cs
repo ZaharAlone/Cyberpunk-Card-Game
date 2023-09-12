@@ -25,6 +25,7 @@ namespace CyberNet.Core.City
                         continue;
                     solidPoint.SetIndex(counter);
                     solidPoint.SetGUID(GUID);
+                    solidPoint.GetCollider();
                     SolidPoints.Add(solidPoint);
                     counter++;
                 }
@@ -47,6 +48,22 @@ namespace CyberNet.Core.City
         public void ActivateCollider()
         {
             ColliderTower.enabled = true;
+        }
+
+        public void ActivateSolidPointCollider()
+        {
+            foreach (var solidPoint in SolidPoints)
+            {
+                solidPoint.ActivateCollider();
+            }
+        }
+
+        public void DeactivateSolidPointCollider()
+        {
+            foreach (var solidPoint in SolidPoints)
+            {
+                solidPoint.DeactivateCollider();
+            }
         }
 
         public Vector3 GetColliderSize()

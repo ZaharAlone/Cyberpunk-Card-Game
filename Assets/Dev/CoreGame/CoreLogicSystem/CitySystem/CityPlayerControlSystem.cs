@@ -101,6 +101,7 @@ namespace CyberNet.Core.City
                 };
 
                 CityAction.InitUnit?.Invoke(initUnit);
+                CityAction.UpdatePresencePlayerInCity?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             }

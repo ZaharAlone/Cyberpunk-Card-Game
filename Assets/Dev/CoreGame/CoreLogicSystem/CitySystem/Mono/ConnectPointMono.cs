@@ -19,6 +19,17 @@ namespace CyberNet.Core.City
             SolidPointMono = transform.GetChild(0).GetComponent<SolidPointMono>();
             SolidPointMono.SetGUID(GUID);
             SolidPointMono.SetIndex(0);
+            SolidPointMono.GetCollider();
+        }
+        
+        public void ActivateSolidPointCollider()
+        {
+            SolidPointMono.ActivateCollider();
+        }
+
+        public void DeactivateSolidPointCollider()
+        {
+            SolidPointMono.DeactivateCollider();
         }
         
         #if UNITY_EDITOR
@@ -55,16 +66,17 @@ namespace CyberNet.Core.City
     public enum TypeCityPoint
     {
         Tower,
-        ConnectPoint
+        ConnectPoint,
+        None
     }
 
     [Serializable]
     public struct ConnectPointStruct
     {
         public TypeCityPoint TypeCityPoint;
-        [HideIf("TypeCityPoint", TypeCityPoint.ConnectPoint)]
+        [ShowIf("TypeCityPoint", TypeCityPoint.Tower)]
         public TowerMono TowerPoint;
-        [HideIf("TypeCityPoint", TypeCityPoint.Tower)]
+        [ShowIf("TypeCityPoint", TypeCityPoint.ConnectPoint)]
         public ConnectPointMono ConnectPoint;
     }
 }
