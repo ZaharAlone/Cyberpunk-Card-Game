@@ -2,9 +2,8 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CyberNet.Core.City
 {
@@ -15,7 +14,6 @@ namespace CyberNet.Core.City
 
         public void PreInit()
         {
-            RoundAction.StartTurn += UpdatePresencePlayerInCity;
             CityAction.UpdatePresencePlayerInCity += UpdatePresencePlayerInCity;
             CityAction.EnableNewPresencePlayerInCity += EnableAllPresencePlayerPoint;
         }
@@ -23,11 +21,11 @@ namespace CyberNet.Core.City
         public void UpdatePresencePlayerInCity()
         {
             ClearOldPresencePlayerComponent();
-            AddComponentPresencePlayerInTower();
+            AddComponentPresencePlayer();
             EnableAllPresencePlayerPoint();
         }
 
-        public void AddComponentPresencePlayerInTower()
+        public void AddComponentPresencePlayer()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
@@ -35,13 +33,13 @@ namespace CyberNet.Core.City
                 .Where<UnitComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
                 .GetEntities();
 
-            var findTowerGUID = new List<string>();            
+            var isFindGUID = new List<string>();            
             foreach (var unitEntity in unitEntities)
             {
                 var unitComponent = unitEntity.GetComponent<UnitComponent>();
 
                 var isDouble = false;
-                foreach (var findGUID in findTowerGUID)
+                foreach (var findGUID in isFindGUID)
                 {
                     if (findGUID == unitComponent.GUIDPoint)
                         isDouble = true;
@@ -50,7 +48,7 @@ namespace CyberNet.Core.City
                 if (!isDouble)
                 {
                     FindUnitContainer(unitComponent.GUIDPoint);
-                    findTowerGUID.Add(unitComponent.GUIDPoint);
+                    isFindGUID.Add(unitComponent.GUIDPoint);
                 }
             }
         }
@@ -110,7 +108,7 @@ namespace CyberNet.Core.City
                 else
                 {
                     var connectPointEntity = _dataWorld.Select<ConnectPointComponent>()
-                        .Where<ConnectPointComponent>(connectPoint => connectPoint.GUID == connectPoint.GUID)
+                        .Where<ConnectPointComponent>(point => point.GUID == connectPoint.GUIDPoint)
                         .SelectFirstEntity();
 
                     connectPointEntity.AddComponent(new PresencePlayerPointCityComponent());

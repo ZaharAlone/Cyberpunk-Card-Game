@@ -43,7 +43,12 @@ namespace CyberNet.Core.SelectFirstBase
         
         private void SelectBase(string towerGUID)
         {
-            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                .SelectFirstEntity();
+            ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
+            
             var towerEntity = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
@@ -63,7 +68,7 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             var initUnit = new InitUnitStruct {
-                KeyUnit = "blue_unit",
+                KeyUnit = playerVisualComponent.KeyCityVisual,
                 SolidPoint  = towerComponent.SolidPointMono[closeSolidPoint +1],
                 PlayerControl = PlayerControlEnum.Player,
                 TargetPlayerID = currentPlayerID

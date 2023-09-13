@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
@@ -7,9 +8,18 @@ namespace CyberNet.Core.City
     [CreateAssetMenu(fileName = "CityVisualSO", menuName = "Scriptable Object/Board Game/City Visual SO")]
     public class CityVisualSO : SerializedScriptableObject
     {
-        public Dictionary<string, UnitMono> UnitDictionary = new Dictionary<string, UnitMono>();
-        public Dictionary<string, GameObject> UnitCityVFX = new Dictionary<string, GameObject>();
-        public List<Color32> ColorEnemyStats = new();
+        public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
+        public SolidPointVFXMono SolidPointVFXMono;
+        public GameObject ClearSolidPointVFX;
+
+        public List<string> PlayerVisualKeyList = new();
+    }
+
+    [Serializable]
+    public struct UnitVisual
+    {
+        public UnitMono UnitMono;
+        public Color32 ColorUnit;
     }
 }

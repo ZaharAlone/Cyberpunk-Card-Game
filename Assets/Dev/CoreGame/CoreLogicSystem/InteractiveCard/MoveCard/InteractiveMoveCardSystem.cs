@@ -104,7 +104,7 @@ namespace CyberNet.Core
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
 
-            if (distance > 150)
+            if (distance > 140)
             {
                 entity.RemoveComponent<CardHandComponent>();
 
@@ -125,16 +125,18 @@ namespace CyberNet.Core
             {
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             }
+            
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         private void EndMoveShopCard(Entity entity)
         {
             var componentMove = entity.GetComponent<InteractiveMoveComponent>();
             ref var componentCard = ref entity.GetComponent<CardComponent>();
-            var distance = componentCard.RectTransform.position.y - componentMove.StartCardPosition.y;
+            var distance = componentCard.RectTransform.anchoredPosition.y - componentMove.StartCardPosition.y;
             var roundPlayer = _dataWorld.OneData<RoundData>();
 
-            if (Mathf.Abs(distance) > 75)
+            if (Mathf.Abs(distance) > 175)
             {
                 ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
                 var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;

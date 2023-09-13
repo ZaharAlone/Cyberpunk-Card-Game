@@ -32,7 +32,8 @@ namespace CyberNet.Meta.SelectPlayersForGame
             var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             ref var botNameConfig = ref _dataWorld.OneData<BotConfigData>().BotNameList;
-
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            
             var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 1);
             var botName = GeneratePlayerData.GenerateUniquePlayerName(botNameConfig, selectLeaders);
 
@@ -48,7 +49,8 @@ namespace CyberNet.Meta.SelectPlayersForGame
                 PlayerID = newPlayerID,
                 PlayerType = PlayerType.AIEasy,
                 SelectLeader = enemyLeaders[0],
-                NamePlayer = botName
+                NamePlayer = botName,
+                KeyVisualCity = cityVisualSO.PlayerVisualKeyList[indexSlot]
             });
             
             UpdateViewPlayers();

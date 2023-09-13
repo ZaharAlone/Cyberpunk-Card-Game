@@ -3,10 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
 using System.Threading.Tasks;
 using CyberNet.Core.UI;
-using CyberNet.Tools;
 using DG.Tweening;
 using ModulesFramework.Data.Enumerators;
 
@@ -50,9 +48,11 @@ namespace CyberNet.Core
             var sequence = DOTween.Sequence();
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 90, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
+            
             cardComponent.CardMono.CardOnBack();
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
+            
             await Task.Delay(400);
 
             var targetPosition = targetTransform.position;
@@ -68,6 +68,10 @@ namespace CyberNet.Core
             await Task.Delay((int)(1000 * time));
             entity.RemoveComponent<CardMoveToDiscardComponent>();
             entity.AddComponent(new CardDiscardComponent());
+            
+            cardComponent.RectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cardComponent.RectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cardComponent.RectTransform.position = targetPosition;
         }
     }
 }

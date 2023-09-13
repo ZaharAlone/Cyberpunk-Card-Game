@@ -50,7 +50,8 @@ namespace CyberNet.Core
             {
                 LeaderKey = selectLeaderData.SelectLeader, 
                 Name = selectLeaderData.NamePlayer,
-                Avatar = imAvatar
+                Avatar = imAvatar,
+                KeyCityVisual = selectLeaderData.KeyVisualCity
             });
         }
     }

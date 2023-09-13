@@ -8,6 +8,7 @@ using CyberNet.Core.ActionCard;
 using CyberNet.Core.WinLose;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
+using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI
 {
@@ -15,24 +16,30 @@ namespace CyberNet.Core.UI
     /// Система управляющая Action кнопкой - позволяющей разыгрывать все карты, атаковать, заканчивать раунд
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class ActionPlayerButtonUISystem : IInitSystem, IRunSystem
+    public class ActionPlayerButtonUISystem : IPreInitSystem, IInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
+            RoundAction.EndCurrentTurn += HideButton;
+            RoundAction.StartTurn += UpdateButton;
+            ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
             ActionPlayerButtonEvent.ClickActionButton += ClickButton;
-            //ActionPlayerButtonEvent.ActionAttackBot += Attack;
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
-        //TODO перевести на ивент
-        public void Run()
+        public void Init()
+        {
+            HideButton();
+        }
+        
+        private void UpdateButton()
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
             
-            if (roundData.PlayerType != PlayerType.Player)
+            if (roundData.PlayerType != PlayerType.Player || !roundData.EndPreparationRound)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
@@ -42,9 +49,9 @@ namespace CyberNet.Core.UI
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
             var cardInHand = _dataWorld.Select<CardComponent>()
-                                       .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
-                                       .With<CardHandComponent>()
-                                       .Count();
+                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
+                .With<CardHandComponent>()
+                .Count();
 
             ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
             actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
@@ -61,6 +68,12 @@ namespace CyberNet.Core.UI
             }
         }
         
+        private void HideButton()
+        {
+            var ui = _dataWorld.OneData<CoreGameUIData>();
+            ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
+        }
+
         private void ClickButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
@@ -88,58 +101,10 @@ namespace CyberNet.Core.UI
                 entity.RemoveComponent<CardHandComponent>();
                 entity.AddComponent(new CardSelectAbilityComponent());
             }
+            
+            UpdateButton();
         }
-
-        /*
-        private void Attack()
-        {
-            ref var boardGameRule = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var roundData = _dataWorld.OneData<RoundData>();
-            var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
-            var percentHP = 0f;
-            
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-            {
-                ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-                player2Stats.HP -= valueAttack;
-                percentHP = (float)player2Stats.HP / boardGameRule.BaseInfluenceCount;
-            }
-            else
-            {
-                ref var playerStats = ref _dataWorld.OneData<PlayerStatsComponent>();
-                playerStats.HP -= valueAttack;
-                percentHP = (float)playerStats.HP / boardGameRule.BaseInfluenceCount;
-            }
-            
-            AttackView(roundData.CurrentPlayer, valueAttack, percentHP);
-
-            ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
-            SoundAction.PlaySound?.Invoke(soundData.AttackSound);
-            actionData.SpendAttack += valueAttack;
-            
-            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
-            WinLoseAction.CheckWin?.Invoke();
-        }
-*/
-        private void AttackView(int targetAttack, int valueAttack, float percentHP)
-        {
-            //TODO: старый код
-            ref var boardUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            
-            if (targetAttack != currentPlayerID)
-            {
-                boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
-                boardUI.DamageScreen.Damage(valueAttack, percentHP);
-            }/*
-            else
-                boardUI.CoreHudUIMono.PlayerUpView.CharacterDamagePassportEffect.Attack();
-            */
-            GameCameraAction.GetDamageCameraShake?.Invoke();
-        }
-
+        
         private void EndTurn()
         {
             var roundData = _dataWorld.OneData<RoundData>();

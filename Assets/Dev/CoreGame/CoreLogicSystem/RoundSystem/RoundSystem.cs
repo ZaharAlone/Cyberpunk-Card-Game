@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core;
+using CyberNet.Core.City;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -58,6 +59,7 @@ namespace CyberNet.Local
             var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
 
             var nextRoundPlayerID = 0;
+            var nextRoundPlayerType = PlayerType.None;
             foreach (var entityPlayer in entitiesPlayer)
             {
                 ref var componentPlayer = ref entityPlayer.GetComponent<PlayerComponent>();
@@ -67,10 +69,14 @@ namespace CyberNet.Local
                     componentPlayer.PositionInTurnQueue = countPlayers -1;
 
                 if (componentPlayer.PositionInTurnQueue == 0)
+                {
                     nextRoundPlayerID = componentPlayer.PlayerID;
+                    nextRoundPlayerType = componentPlayer.PlayerType;
+                }
             }
 
             roundData.CurrentPlayerID = nextRoundPlayerID;
+            roundData.PlayerType = nextRoundPlayerType;
             
             _dataWorld.RiseEvent(new EventDistributionCard {
                 TargetPlayerID = roundData.CurrentPlayerID,
@@ -107,7 +113,10 @@ namespace CyberNet.Local
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.EndPreparationRound = true;
+            
             VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
         }
 
         public void Destroy()

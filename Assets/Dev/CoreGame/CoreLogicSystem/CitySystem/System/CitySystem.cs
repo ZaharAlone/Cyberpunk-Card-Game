@@ -19,6 +19,7 @@ namespace CyberNet.Core.City
             SetupInteractiveElement();
 
             CityAction.InitUnit += InitUnit;
+            CityAction.ClearSolidPoint += ClearSolidPoint;
         }
 
         //Создаем поле
@@ -34,7 +35,7 @@ namespace CyberNet.Core.City
             });
             GlobalCoreAction.FinishInitGameResource?.Invoke();
         }
-        
+
         //Инициализируем все интерактивные объекты на карте
         private void SetupInteractiveElement()
         {
@@ -90,6 +91,8 @@ namespace CyberNet.Core.City
 
         private void InitStartUnit(SolidPointMono solidPoint)
         {
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            
             if (solidPoint.StartIsNeutralSolid)
             {
                 var neutralUnit = new InitUnitStruct 
@@ -104,8 +107,7 @@ namespace CyberNet.Core.City
             }
             else
             {
-                _dataWorld.OneData<BoardGameData>().CityVisualSO.UnitCityVFX.TryGetValue("clear_solid_point", out var clearPoint_vfx);
-                Object.Instantiate(clearPoint_vfx, solidPoint.transform);
+                solidPoint.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, solidPoint.transform);
             }
         }
 
@@ -113,15 +115,17 @@ namespace CyberNet.Core.City
         {
             var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
             var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
-            cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var targetUnit);
-            cityVisualSO.UnitCityVFX.TryGetValue(unit.KeyUnit, out var unitPoint_vfx);
+            cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
 
             if (unit.SolidPoint.transform.childCount > 0) 
                 Object.Destroy(unit.SolidPoint.transform.GetChild(0).gameObject);
-            Object.Instantiate(unitPoint_vfx, unit.SolidPoint.transform);
+            var solidPointVFX = Object.Instantiate(cityVisualSO.SolidPointVFXMono, unit.SolidPoint.transform);
+            solidPointVFX.SetColor(visualUnit.ColorUnit);
+            unit.SolidPoint.PointVFX = solidPointVFX.gameObject;
             
-            var unitMono = Object.Instantiate(targetUnit, solidConteiner.transform);
+            var unitMono = Object.Instantiate(visualUnit.UnitMono, solidConteiner.transform);
             unitMono.transform.position = unit.SolidPoint.transform.position;
+            
             var unitComponent = new UnitComponent
             {
                 GUIDPoint = unit.SolidPoint.GUID,
@@ -141,6 +145,32 @@ namespace CyberNet.Core.City
             Object.Destroy(resourceTable.CityGO);
 
             _dataWorld.RemoveOneData<CityData>();
+        }
+        
+        private void ClearSolidPoint(string guid, int indexPoint)
+        {
+            var isTowerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == guid)
+                .TrySelectFirstEntity(out var towerEntity);
+
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CityVisualSO;
+
+            if (isTowerEntity)
+            {
+                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+                Object.Destroy(towerComponent.TowerMono.SolidPoints[indexPoint].PointVFX);
+                towerComponent.TowerMono.SolidPoints[indexPoint].PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, towerComponent.TowerMono.SolidPoints[indexPoint].transform);
+            }
+            else
+            {
+                var connectPointEntity = _dataWorld.Select<ConnectPointComponent>()
+                    .Where<ConnectPointComponent>(point => point.GUID == guid)
+                    .SelectFirstEntity();
+
+                ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
+                Object.Destroy(connectPointComponent.ConnectPointMono.SolidPointMono.PointVFX);
+                connectPointComponent.ConnectPointMono.SolidPointMono.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, connectPointComponent.ConnectPointMono.SolidPointMono.transform);
+            }
         }
     }
 }

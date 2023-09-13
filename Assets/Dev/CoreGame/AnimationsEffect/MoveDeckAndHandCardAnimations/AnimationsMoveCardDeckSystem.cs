@@ -39,11 +39,11 @@ namespace CyberNet.Core
             var targetPositions = Vector3.zero;
             
             if (roundData.CurrentPlayerID == cardComponent.PlayerID)
-                targetPositions = ui.CoreHudUIMono.DownDeck.anchoredPosition;
+                targetPositions = ui.CoreHudUIMono.DownDeck.position;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPositions, 0.5f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOMove(targetPositions, 0.5f))
                 .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.15f))
                 .Append(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), 0.15f))
                 .OnComplete(() => EndAnimationsMoveCardToHand(entity));
@@ -54,7 +54,7 @@ namespace CyberNet.Core
         private void EndAnimationsMoveCardToHand(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
-            cardComponent.CardMono.RectTransform.rotation = Quaternion.identity;
+            cardComponent.CardMono.RectTransform.localRotation = Quaternion.identity;
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();

@@ -12,5 +12,6 @@ namespace CyberNet.Core.City
         public static Action EnableNewPresencePlayerInCity;
 
         public static Action<InitUnitStruct> InitUnit;
+        public static Action<string, int> ClearSolidPoint;
     }
 }

@@ -8,6 +8,8 @@ namespace CyberNet.Core.City
         public string GUID;
         public SphereCollider Collider;
 
+        public GameObject PointVFX;
+
         public void SetIndex(int index)
         {
             Index = index;

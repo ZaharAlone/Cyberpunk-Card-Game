@@ -25,6 +25,7 @@ namespace CyberNet.Core.City
         
         public void CheckClick()
         {
+            Debug.LogError("Click");
             var roundData = _dataWorld.OneData<RoundData>();
             if (roundData.PlayerType != PlayerType.Player)
                 return;
@@ -77,6 +78,7 @@ namespace CyberNet.Core.City
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
                 .SelectFirstEntity();
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+            ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             
             var isUnitPoint = _dataWorld.Select<UnitComponent>()
                 .Where<UnitComponent>(unit => unit.GUIDPoint == solidPoint.GUID && unit.IndexPoint == solidPoint.Index)
@@ -86,7 +88,20 @@ namespace CyberNet.Core.City
             {
                 if (actionData.TotalAttack - actionData.SpendAttack < 3)
                     return;
-                // Destroy unit
+                
+                actionData.SpendAttack += 3;
+
+                ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
+                if (unitComponent.PowerSolidPlayerID == currentPlayerID)
+                    return;
+                
+                CityAction.ClearSolidPoint?.Invoke(unitComponent.GUIDPoint, unitComponent.IndexPoint);
+                
+                Object.Destroy(unitComponent.UnitGO);
+                unitEntity.Destroy();
+
+                CityAction.UpdatePresencePlayerInCity?.Invoke();
+                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             }
             else
             {
@@ -94,7 +109,7 @@ namespace CyberNet.Core.City
                 playerComponent.UnitCount--;
                 
                 var initUnit = new InitUnitStruct {
-                    KeyUnit = "blue_unit",
+                    KeyUnit = playerVisualComponent.KeyCityVisual,
                     SolidPoint  = solidPoint,
                     PlayerControl = PlayerControlEnum.Player,
                     TargetPlayerID = currentPlayerID

@@ -10,5 +10,6 @@ namespace CyberNet.Meta
         public string NamePlayer;
         public PlayerType PlayerType;
         public string SelectLeader;
+        public string KeyVisualCity;
     }
 }

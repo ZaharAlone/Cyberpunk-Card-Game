@@ -23,6 +23,7 @@ namespace CyberNet.Meta
             SelectLeaderAction.ConfirmSelect += ConfirmSelectLeader;
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
+        
         private void OpenSelectLeaderUI(SelectLeaderData selectLeaderConfig)
         {
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;

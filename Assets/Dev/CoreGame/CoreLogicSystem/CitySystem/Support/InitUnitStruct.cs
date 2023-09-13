@@ -1,3 +1,4 @@
+using UnityEngine;
 namespace CyberNet.Core.City
 {
     public struct InitUnitStruct

@@ -47,11 +47,11 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 },
                 {
                     ""name"": ""Click"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""a2e8e707-f79e-4a0f-9080-c632de8805db"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {

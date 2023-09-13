@@ -78,6 +78,7 @@ namespace CyberNet.Meta
         {
             var selectPlayerData = new SelectPlayerData();
             var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
             
@@ -85,7 +86,8 @@ namespace CyberNet.Meta
                 PlayerID = 0,
                 PlayerType = PlayerType.Player,
                 SelectLeader = "cyberpsycho",
-                NamePlayer = "Zakhar"
+                NamePlayer = "Zakhar",
+                KeyVisualCity = cityVisualSO.PlayerVisualKeyList[0]
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);
             
@@ -99,7 +101,8 @@ namespace CyberNet.Meta
                     PlayerID = i,
                     PlayerType = PlayerType.AIEasy,
                     SelectLeader = enemyLeaders[i-1],
-                    NamePlayer = botName
+                    NamePlayer = botName,
+                    KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]
                 });
             }
 

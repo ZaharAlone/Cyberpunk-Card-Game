@@ -50,7 +50,6 @@ namespace CyberNet.Core
         private void AnimationsDrawToHand(Entity entity)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var roundData = _dataWorld.OneData<RoundData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var positionsY = -400;
 
