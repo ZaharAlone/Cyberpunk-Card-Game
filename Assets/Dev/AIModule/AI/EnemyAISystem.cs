@@ -6,8 +6,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core.ActionCard;
+using CyberNet.Core.City;
+using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
-using CyberNet.Global;
 
 namespace CyberNet.Core.Enemy
 {
@@ -18,30 +19,62 @@ namespace CyberNet.Core.Enemy
 
         public void PreInit()
         {
-            RoundAction.UpdateTurn += UpdateTurn;
+            RoundAction.StartTurnAI += StartTurn;
         }
         
-        private void UpdateTurn()
+        private void StartTurn()
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(playerComponent => playerComponent.PlayerID == roundData.CurrentPlayerID)
                 .SelectFirstEntity();
-            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+
+            if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
+                SelectFirstBase();
             
-            if (playerComponent.PlayerType != PlayerType.None && playerComponent.PlayerType != PlayerType.Player)
-                StartTurn();
+            roundData.EndPreparationRound = true;
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
+            
+            LogicAI();   
         }
 
-        private async void StartTurn()
+        private void SelectFirstBase()
         {
-            Debug.Log("Enter Start Turn Enemy");
+            var firstBaseEntities = _dataWorld.Select<TowerComponent>()
+                .With<FirstBasePlayerComponent>()
+                .GetEntities();
+            
+            var countFirstBase = _dataWorld.Select<TowerComponent>()
+                .With<FirstBasePlayerComponent>()
+                .Count();
+
+            var indexBase = Random.Range(0, countFirstBase);
+
+            var counter = 0;
+            foreach (var entityFirstBase in firstBaseEntities)
+            {
+                if (counter == indexBase)
+                {
+                    ref var towerComponent = ref entityFirstBase.GetComponent<TowerComponent>();
+                    SelectFirstBaseAction.SelectBase?.Invoke(towerComponent.GUID);
+                    break;
+                }
+                else
+                {
+                    counter++;
+                }
+            }
+        }
+
+        private async void LogicAI()
+        {
+            Debug.LogError("Enter Start Turn Enemy");
             await Task.Delay(1000);
             PlayAll();
             await Task.Delay(1000);
             SelectTradeCard();
             await Task.Delay(1000);
-            ActionPlayerButtonEvent.ActionAttackBot?.Invoke();
+            //Attack
             await Task.Delay(1000);
             ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
@@ -178,10 +211,9 @@ namespace CyberNet.Core.Enemy
 
         private void PurchaseCard(List<string> cardForPurchase)
         {
-            //TODO рефакторинг
-            /*
-            ref var roundPlayer = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
+            var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
             foreach (var purchaseCardGUID in cardForPurchase)
             {
@@ -194,15 +226,15 @@ namespace CyberNet.Core.Enemy
                 actionValue.SpendTrade += componentCard.Price;
                 cardEntity.RemoveComponent<CardTradeRowComponent>();
                 
-                componentCard.Player = roundPlayer;
+                componentCard.PlayerID = currentPlayerID;
+                componentCard.RectTransform.SetParent(cardsParent);
+
                 cardEntity.AddComponent(new CardMoveToDiscardComponent());
             }
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
-            */
         }
     }
 }

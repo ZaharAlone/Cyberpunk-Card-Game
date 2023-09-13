@@ -32,15 +32,15 @@ namespace CyberNet.Core.UI
 
         public void NewRoundView(Sprite avatar, string playerName)
         {
-            TextRound.text = LocalizationManager.GetTranslation(PassToLoc) + " " + playerName;
+            TextRound.text = PassToLoc + " " + playerName;
             AvatarImage.sprite = avatar;
             
             NewRoundGO.SetActive(true);
             NewRoundRect.position = new Vector3(-_deltaSize, NewRoundRect.position.y, NewRoundRect.position.z);
             _sequence = DOTween.Sequence();
-            _sequence.Append(NewRoundGO.transform.DOMoveX(0f, 0.7f))
-                .AppendInterval(1.2f)
-                .Append(NewRoundGO.transform.DOMoveX(_deltaSize, 0.7f))
+            _sequence.Append(NewRoundRect.DOAnchorPos(new Vector2(0,0), 0.7f))
+                .AppendInterval(2f)
+                .Append(NewRoundRect.DOAnchorPos(new Vector2(_deltaSize, 0), 0.7f))
                 .OnComplete(()=> CompleteAnimatios());
         }
 

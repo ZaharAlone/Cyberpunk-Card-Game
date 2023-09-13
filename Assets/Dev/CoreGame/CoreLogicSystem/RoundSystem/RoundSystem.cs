@@ -100,13 +100,22 @@ namespace CyberNet.Local
             var entityPlayer = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == playerID)
                 .SelectFirstEntity();
+
+            var playerComponent = entityPlayer.GetComponent<PlayerComponent>();
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
             uiRound.NewRoundView(playerViewComponent.Avatar, playerViewComponent.Name);
             await Task.Delay(2000);
 
-            if (SelectFirstBaseAction.CheckInstallFirstBase.Invoke())
-                StartTurn();
+            if (playerComponent.PlayerType == PlayerType.Player)
+            {
+                if (SelectFirstBaseAction.CheckInstallFirstBase.Invoke())
+                    StartTurn();   
+            }
+            else
+            {
+                RoundAction.StartTurnAI?.Invoke();
+            }
         }
 
         private void StartTurn()

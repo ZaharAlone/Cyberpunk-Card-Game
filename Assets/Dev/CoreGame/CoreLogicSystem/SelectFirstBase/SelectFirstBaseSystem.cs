@@ -1,5 +1,6 @@
 using CyberNet.Core.City;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -26,10 +27,17 @@ namespace CyberNet.Core.SelectFirstBase
             var isNotInstallFirstBase = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
                 .With<PlayerNotInstallFirstBaseComponent>()
-                .TrySelectFirstEntity(out var entity);
+                .TrySelectFirstEntity(out var playerEntity);
 
-            if (isNotInstallFirstBase)
+            if (!isNotInstallFirstBase)
+                return true;
+            
+            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+
+            if (isNotInstallFirstBase && playerComponent.PlayerType == PlayerType.Player)
+            {
                 SelectFirstBase();
+            }
 
             return !isNotInstallFirstBase;
         }
@@ -77,6 +85,8 @@ namespace CyberNet.Core.SelectFirstBase
             CityAction.InitUnit?.Invoke(initUnit);
 
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
+            playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
+            
             ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
             uiSelectFirstBase.CloseWindow();
 

@@ -25,7 +25,6 @@ namespace CyberNet.Core.City
         
         public void CheckClick()
         {
-            Debug.LogError("Click");
             var roundData = _dataWorld.OneData<RoundData>();
             if (roundData.PlayerType != PlayerType.Player)
                 return;
@@ -60,7 +59,6 @@ namespace CyberNet.Core.City
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
             {
                 SelectFirstBaseAction.SelectBase?.Invoke(towerMono.GUID);
-                playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             }
             else
             {
