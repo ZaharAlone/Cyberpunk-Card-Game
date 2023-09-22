@@ -110,10 +110,8 @@ namespace CyberNet.Core.ActionCard
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             actionData.TotalAttack = 0;
             actionData.TotalTrade = 0;
-            actionData.TotalInfluence = 0;
             actionData.SpendAttack = 0;
             actionData.SpendTrade = 0;
-            actionData.SpendInfluence = 0;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }

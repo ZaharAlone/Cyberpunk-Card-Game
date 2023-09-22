@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.City;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -12,6 +13,7 @@ namespace CyberNet
         public BoardGameConfig BoardGameConfig;
         public BoardGameRuleSettings BoardGameRule;
         public Dictionary<string, Sprite> CardsImage;
-        public CityVisualSO CityVisualSO;
+        public CitySO CitySO;
+        public Dictionary<string, TowerConfig> TowerConfig;
     }
 }

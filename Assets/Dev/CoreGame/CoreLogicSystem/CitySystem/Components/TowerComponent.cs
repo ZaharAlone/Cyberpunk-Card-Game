@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 namespace CyberNet.Core.City
 {
     public struct TowerComponent
     {
         public string GUID;
+        public string Key;
         public TowerMono TowerMono;
         public GameObject TowerGO;
         public List<SolidPointMono> SolidPointMono;

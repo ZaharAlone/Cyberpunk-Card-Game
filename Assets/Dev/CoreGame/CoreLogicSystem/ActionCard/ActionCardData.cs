@@ -8,11 +8,9 @@ namespace CyberNet.Core.ActionCard
     {
         public int TotalAttack;
         public int TotalTrade;
-        public int TotalInfluence;
 
         public int SpendAttack;
         public int SpendTrade;
-        public int SpendInfluence;
         
         public ActionPlayerType ActionPlayerType;
     }

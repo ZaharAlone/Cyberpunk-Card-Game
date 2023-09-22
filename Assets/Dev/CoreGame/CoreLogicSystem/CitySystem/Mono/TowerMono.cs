@@ -7,6 +7,7 @@ namespace CyberNet.Core.City
     public class TowerMono : MonoBehaviour
     {
         public string GUID;
+        public string Key = "tower_1";
         public bool IsFirstBasePlayer;
         public CountPlayerEnum ActiveOnCountPlayer;
         public List<SolidPointMono> SolidPoints = new List<SolidPointMono>();

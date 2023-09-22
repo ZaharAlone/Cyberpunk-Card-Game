@@ -23,7 +23,7 @@ namespace CyberNet.Core
         public void PreInit()
         {
             CardShopAction.CheckPoolShopCard += CheckPoolShopCard;
-            CardShopAction.SelectCardFreeToBuy += SelectCardFreeToBuy;
+            BoardGameUIAction.UpdateStatsPlayersCurrency += SelectCardFreeToBuy;
         }
         
         private void CheckPoolShopCard()
@@ -82,12 +82,9 @@ namespace CyberNet.Core
             var entity = _dataWorld.GetEntity(entityId);
             entity.RemoveComponent<CardTradeDeckComponent>();
 
-            //var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);
-            //pos.x += 20 + indexPositionCard * 224;
-            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard/*, Positions = pos*/ });
+            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard});
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            //cardComponent.RectTransform.position = pos;
             cardComponent.CardMono.RectTransform.localScale = sizeCard;
             cardComponent.CardMono.ShowCard();
             cardComponent.CardMono.CardOnFace();
@@ -97,23 +94,25 @@ namespace CyberNet.Core
         {
             ClearComponentInShop();
 
-            var enteties = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
             var action = _dataWorld.OneData<ActionCardData>();
             var tradePoint = action.TotalTrade - action.SpendTrade;
 
-            foreach (var entity in enteties)
+            foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
                 if (cardComponent.Stats.Price <= tradePoint)
                     entity.AddComponent(new CardFreeToBuyComponent());
             }
+            
+            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
         }
 
         private void ClearComponentInShop()
         {
-            var enteties = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
-            foreach (var entity in enteties)
+            var entities = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
+            foreach (var entity in entities)
                 entity.RemoveComponent<CardFreeToBuyComponent>();
         }
     }

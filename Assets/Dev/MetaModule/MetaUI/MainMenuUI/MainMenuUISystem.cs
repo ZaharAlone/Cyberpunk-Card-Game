@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CyberNet.Core;
-using CyberNet.Core.Enemy;
+using CyberNet.Core.AI;
 using CyberNet.Global;
 using CyberNet.Server;
 using CyberNet.Tools;
@@ -78,7 +78,7 @@ namespace CyberNet.Meta
         {
             var selectPlayerData = new SelectPlayerData();
             var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
-            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
             

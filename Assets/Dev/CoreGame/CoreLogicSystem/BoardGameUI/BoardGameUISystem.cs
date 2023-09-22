@@ -89,7 +89,7 @@ namespace CyberNet.Core.UI
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetAvatar(playerViewComponent.Avatar);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(playerComponent.UnitCount);

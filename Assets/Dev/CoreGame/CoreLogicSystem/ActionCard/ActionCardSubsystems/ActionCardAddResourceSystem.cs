@@ -49,33 +49,6 @@ namespace CyberNet.Core
             
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
-            CardShopAction.SelectCardFreeToBuy?.Invoke();
         }
-        
-        /*
-        private void ActionInfluence()
-        {
-            ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var deltaInfluence = actionData.TotalInfluence - actionData.SpendInfluence;
-            
-            if (deltaInfluence <= 0)
-                return;
-            
-            ref var playersRound = ref _dataWorld.OneData<RoundData>().CurrentPlayer;
-
-            if (playersRound == PlayerEnum.Player1)
-            {
-                ref var playerStats = ref _dataWorld.OneData<PlayerStatsComponent>();
-                playerStats.HP += deltaInfluence;
-            }
-            else
-            {
-                ref var playerStats = ref _dataWorld.OneData<Player2StatsData>();
-                playerStats.HP += deltaInfluence;
-            }
-
-            actionData.SpendInfluence += deltaInfluence;
-        }*/
     }
 }

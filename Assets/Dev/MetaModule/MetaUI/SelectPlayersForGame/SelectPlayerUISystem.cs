@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
-using CyberNet.Core.Enemy;
+using CyberNet.Core.AI;
 using CyberNet.Global;
 using CyberNet.Meta.StartGame;
 using CyberNet.Tools;
@@ -32,7 +32,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             ref var botNameConfig = ref _dataWorld.OneData<BotConfigData>().BotNameList;
-            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             
             var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 1);
             var botName = GeneratePlayerData.GenerateUniquePlayerName(botNameConfig, selectLeaders);

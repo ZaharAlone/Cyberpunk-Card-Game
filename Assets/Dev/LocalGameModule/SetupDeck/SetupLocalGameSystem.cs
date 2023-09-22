@@ -93,7 +93,7 @@ namespace CyberNet.Core
             var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
-                if (item.Key == Key)
+                if (item.Item == Key)
                     isPlayer = true;
             return isPlayer;
         }
@@ -105,7 +105,7 @@ namespace CyberNet.Core
             var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
-                if (item.Key == KeyCard)
+                if (item.Item == KeyCard)
                     targetCountCard = item.Value;
             
             var selectPlayerIndex = 0;

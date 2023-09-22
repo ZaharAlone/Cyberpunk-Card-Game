@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CyberNet.Core.Enemy;
+using CyberNet.Core.AI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;

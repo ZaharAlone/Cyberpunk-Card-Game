@@ -40,7 +40,7 @@ namespace CyberNet.Core.City
         private void SetupInteractiveElement()
         {
             var cityData = _dataWorld.OneData<CityData>();
-            var cityVisual = _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            var cityVisual = _dataWorld.OneData<BoardGameData>().CitySO;
             
             foreach (var tower in cityData.CityMono.Towers)
             {
@@ -55,6 +55,7 @@ namespace CyberNet.Core.City
                 var towerComponent = new TowerComponent 
                 {
                     GUID = tower.GUID,
+                    Key = tower.Key,
                     TowerMono = tower,
                     TowerGO = tower.gameObject,
                     SelectTowerEffect = towerEffect,
@@ -91,7 +92,7 @@ namespace CyberNet.Core.City
 
         private void InitStartUnit(SolidPointMono solidPoint)
         {
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             
             if (solidPoint.StartIsNeutralSolid)
             {
@@ -113,12 +114,13 @@ namespace CyberNet.Core.City
 
         public void InitUnit(InitUnitStruct unit)
         {
-            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
             cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
 
             if (unit.SolidPoint.transform.childCount > 0) 
                 Object.Destroy(unit.SolidPoint.transform.GetChild(0).gameObject);
+            
             var solidPointVFX = Object.Instantiate(cityVisualSO.SolidPointVFXMono, unit.SolidPoint.transform);
             solidPointVFX.SetColor(visualUnit.ColorUnit);
             unit.SolidPoint.PointVFX = solidPointVFX.gameObject;
@@ -153,7 +155,7 @@ namespace CyberNet.Core.City
                 .Where<TowerComponent>(tower => tower.GUID == guid)
                 .TrySelectFirstEntity(out var towerEntity);
 
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CityVisualSO;
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
 
             if (isTowerEntity)
             {
