@@ -3,7 +3,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEditor;
 using UnityEngine;
 
 namespace CyberNet.Core
@@ -74,7 +73,7 @@ namespace CyberNet.Core
             cardComponent.Canvas.sortingOrder = 20;
 
             //TODO не уверен что правильно поправил
-            if (entity.HasComponent<PlayerComponent>())
+            if (cardComponent.PlayerID == currentPlayerID)
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
@@ -84,7 +83,12 @@ namespace CyberNet.Core
                 MoveOtherCards(index);
             }
             else
+            {
+                var pos = animComponent.Positions;
+                pos.y = -250;
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.15f));
                 entity.AddComponent(animComponent);
+            }
         }
 
         private void ClearSelectComponent()
@@ -194,11 +198,11 @@ namespace CyberNet.Core
 
         private void ReturnCardAnimations(Entity entity)
         {
-            var index = entity.GetComponent<CardSortingIndexComponent>().Index;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
             
             animationsCard.Sequence.Kill();
+            cardComponent.Canvas.sortingOrder = animationsCard.SortingOrder;
             animationsCard.Sequence = DOTween.Sequence();
             animationsCard.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(animationsCard.Rotate, 0.3f))
                                 .Join(cardComponent.RectTransform.DOAnchorPos(animationsCard.Positions, 0.3f))
@@ -208,9 +212,6 @@ namespace CyberNet.Core
 
         private void FinishDeselect(Entity entity)
         {
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            var animationsCard = entity.GetComponent<CardComponentAnimations>();
-            cardComponent.Canvas.sortingOrder = animationsCard.SortingOrder;
             entity.RemoveComponent<CardComponentAnimations>();
         }
     }

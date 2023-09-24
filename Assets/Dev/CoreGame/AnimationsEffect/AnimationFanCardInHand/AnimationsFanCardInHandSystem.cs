@@ -39,30 +39,14 @@ namespace CyberNet.Core.UI
 
         private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
         {
-            var roundData = _dataWorld.OneData<RoundData>();
             var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            var screenShift = 0f;
+            var screenShift = uiRect.rect.height / 2 - 125;
             var length = 0f;
-            var multPosY = 0;
-            var radius = 0f;
-            var multiplieSizeCard = Vector3.zero;
-
-            if (roundData.CurrentPlayerID == targetPlayerID)
-            {
-                screenShift = uiRect.rect.height / 2 - 125;
-                multPosY = -1;
-                radius = 2500;
-                multiplieSizeCard = config.SizeCardPlayerDown;
-            }
-            else
-            {
-                screenShift = -uiRect.rect.height / 2 + 70;
-                multPosY = 1;
-                radius = 1500;
-                multiplieSizeCard = config.SizeCardPlayerUp;
-            }
+            var multPosY = -1;
+            var radius = 2500;
+            var multiplieSizeCard = config.SizeCardPlayerDown;
 
             foreach (var entity in entities)
             {

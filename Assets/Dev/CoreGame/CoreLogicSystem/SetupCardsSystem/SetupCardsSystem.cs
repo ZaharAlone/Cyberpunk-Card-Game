@@ -63,15 +63,21 @@ namespace CyberNet.Core
             var cardGO = cardMono.gameObject;
             cardsConfig.Cards.TryGetValue(placeCard.CardName, out var card);
 
-            if (isPlayerCard)
-                cardGO.transform.localScale = boardGameConfig.SizeCardInDeck;
-            else // card is trade row
-                cardGO.transform.localScale = boardGameConfig.SizeCardInTraderow;
-
             SetViewCard(cardMono, card);
 
             var entity = _dataWorld.NewEntity();
             var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
+            
+            if (isPlayerCard)
+            {
+                cardGO.transform.localScale = boardGameConfig.SizeCardInDeck;
+            }
+            else // card is trade row
+            {
+                cardComponent.PlayerID = -1;
+                cardGO.transform.localScale = boardGameConfig.SizeCardInTraderow;
+            }
+            
             entity.AddComponent(cardComponent);
             entity.AddComponent(new CardSortingIndexComponent { Index = placeCard.IDPositions });
             return entity;
