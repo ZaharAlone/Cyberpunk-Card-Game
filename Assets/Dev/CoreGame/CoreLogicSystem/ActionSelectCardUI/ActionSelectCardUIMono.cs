@@ -3,7 +3,7 @@ using I2.Loc;
 using TMPro;
 using UnityEngine;
 
-namespace CyberNet.Core.ActionCard
+namespace CyberNet.Core.AbilityCard
 {
     public class ActionSelectCardUIMono : MonoBehaviour
     {

@@ -11,7 +11,7 @@ using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 using CyberNet.Core;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Meta;
 
 namespace CyberNet.Server

@@ -41,6 +41,7 @@ namespace CyberNet.Core
                 PlayerID = selectLeaderData.PlayerID, 
                 UnitCount = config.StartCountUnit, 
                 VictoryPoint = 0,
+                UnitAgentCountInHand = config.CountAgentPlayer,
                 PositionInTurnQueue = positionInTurnQueue
             });
 

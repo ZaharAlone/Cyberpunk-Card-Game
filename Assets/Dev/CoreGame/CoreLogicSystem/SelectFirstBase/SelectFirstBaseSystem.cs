@@ -55,6 +55,8 @@ namespace CyberNet.Core.SelectFirstBase
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
                 .SelectFirstEntity();
+            
+            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             
             var towerEntity = _dataWorld.Select<TowerComponent>()
@@ -84,6 +86,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             CityAction.InitUnit?.Invoke(initUnit);
 
+            playerComponent.UnitCount--;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
@@ -92,6 +95,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
         }
     }
 }

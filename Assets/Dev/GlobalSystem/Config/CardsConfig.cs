@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CyberNet.Core.AbilityCard;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Serialization;
@@ -35,15 +36,15 @@ namespace CyberNet
         public int Count;
 
         [JsonProperty("ability_0")]
-        public AbilityCard Ability_0;
+        public AbilityCardContainer Ability_0;
         [JsonProperty("ability_1")]
-        public AbilityCard Ability_1;
+        public AbilityCardContainer Ability_1;
         [JsonProperty("ability_2")]
-        public AbilityCard Ability_2;
+        public AbilityCardContainer Ability_2;
     }
 
     [Serializable]
-    public struct AbilityCard
+    public struct AbilityCardContainer
     {
         [JsonProperty("action")]
         public AbilityType AbilityType;
@@ -51,17 +52,6 @@ namespace CyberNet
         public int Count;
         [JsonProperty("condition")]
         public AbilityCondition Condition;
-    }
-
-    [Serializable]
-    public enum AbilityType
-    {
-        None,
-        Attack,
-        Trade,
-        DrawCard,
-        DestroyCard,
-        CloneCard,
     }
 
     [Serializable]

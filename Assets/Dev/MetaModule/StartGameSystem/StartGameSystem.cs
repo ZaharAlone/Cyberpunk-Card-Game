@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Server;
 using ModulesFrameworkUnity;
@@ -23,10 +24,11 @@ namespace CyberNet.Meta.StartGame
             StartGameAction.StartLocalGame += StartLocalGame;
         }
 
-        private void StartLocalGame()
+        private async void StartLocalGame()
         {
-            LoadingVSScreenAction.OpenLoadingVSScreen?.Invoke();
-            
+            LoadingGameScreenAction.OpenLoadingGameScreen?.Invoke();
+
+            await Task.Delay(100);
             _dataWorld.InitModule<LocalGameModule>(true);
         }
         

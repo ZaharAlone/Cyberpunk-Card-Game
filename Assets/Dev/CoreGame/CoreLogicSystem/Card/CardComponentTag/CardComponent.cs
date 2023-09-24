@@ -18,8 +18,8 @@ namespace CyberNet.Core
         public int DestroyPointCount;
         public int Price;
 
-        public AbilityCard Ability_0;
-        public AbilityCard Ability_1;
-        public AbilityCard Ability_2;
+        public AbilityCardContainer Ability_0;
+        public AbilityCardContainer Ability_1;
+        public AbilityCardContainer Ability_2;
     }
 }

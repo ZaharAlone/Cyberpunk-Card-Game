@@ -11,7 +11,7 @@ using CyberNet.Meta;
 using UnityEngine;
 using CyberNet.Core;
 using CyberNet;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
 using CyberNet.Core.Sound;

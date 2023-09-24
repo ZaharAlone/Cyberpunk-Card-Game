@@ -61,7 +61,7 @@ namespace EcsCore
             return new Dictionary<Type, int>
             {
                 { typeof(CardDistributionSystem), -10 },
-               // { typeof(AnimationsFanCardInHandSystem), 0},
+                { typeof(AnimationsFanCardInHandSystem), 0},
                 { typeof(EndLoadingSystem), 1000}
             };
         }

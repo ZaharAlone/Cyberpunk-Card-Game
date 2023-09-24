@@ -19,7 +19,7 @@ namespace CyberNet.Core.City
             SetupInteractiveElement();
 
             CityAction.InitUnit += InitUnit;
-            CityAction.ClearSolidPoint += ClearSolidPoint;
+            CityAction.AttackSolidPoint += AttackSolidPoint;
         }
 
         //Создаем поле
@@ -147,6 +147,19 @@ namespace CyberNet.Core.City
             Object.Destroy(resourceTable.CityGO);
 
             _dataWorld.RemoveOneData<CityData>();
+        }
+
+        private void AttackSolidPoint(string guid, int indexPoint)
+        {
+            var unitEntity = _dataWorld.Select<UnitComponent>()
+                .Where<UnitComponent>(unit => unit.GUIDPoint == guid && unit.IndexPoint == indexPoint)
+                .SelectFirstEntity();
+            
+            ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
+            Object.Destroy(unitComponent.UnitGO);
+            unitEntity.Destroy();
+
+            ClearSolidPoint(guid, indexPoint);
         }
         
         private void ClearSolidPoint(string guid, int indexPoint)

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Global.GameCamera
 {

@@ -3,7 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Global.GameCamera;
 using UnityEngine;
 
@@ -16,21 +16,11 @@ namespace CyberNet.Core.UI
 
         public void PreInit()
         {
-            InitCameraCanvas();
-            
             BoardGameUIAction.UpdateStatsPlayersPassportUI += UpdateStatsPlayersPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
             RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
-        
-        private void InitCameraCanvas()
-        {
-            var gameUI = _dataWorld.OneData<CoreGameUIData>();
-            var camera = _dataWorld.OneData<GameCameraData>();
 
-            var canvas = gameUI.UIGO.GetComponent<Canvas>();
-            canvas.worldCamera = camera.MainCamera;
-        }
         public void Init()
         {
             UpdateView();
@@ -62,7 +52,7 @@ namespace CyberNet.Core.UI
 
                 if (playerComponent.PositionInTurnQueue == 0)
                 {
-                    ShowDownPassportPlayer(playerComponent, playerViewComponent);
+                    ShowMainPassportPlayer(playerComponent, playerViewComponent);
                 }
                 else
                 {
@@ -80,17 +70,19 @@ namespace CyberNet.Core.UI
             }
         }
 
-        private void ShowDownPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        private void ShowMainPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
             ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
             coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar);
-            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, playerComponent.UnitAgentCountInHand);
         }
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
+            
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetAvatar(playerViewComponent.Avatar);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(playerComponent.UnitCount);
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
@@ -117,7 +109,7 @@ namespace CyberNet.Core.UI
                 .SelectFirstEntity();
 
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
-            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis);
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis, playerComponent.UnitAgentCountInHand);
         }
 
 

@@ -1,4 +1,4 @@
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;

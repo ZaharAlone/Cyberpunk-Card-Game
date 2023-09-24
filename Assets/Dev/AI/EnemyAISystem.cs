@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
@@ -127,7 +127,7 @@ namespace CyberNet.Core.AI
             }
         }
 
-        private int CalculateValueCardInterface(AbilityCard abilityCard)
+        private int CalculateValueCardInterface(AbilityCardContainer abilityCard)
         {
             var value = 0;
             
@@ -176,7 +176,7 @@ namespace CyberNet.Core.AI
             PurchaseCard(cardForPurchase);
         }
 
-        private float CalculateCardScore(AbilityCard abilityCard)
+        private float CalculateCardScore(AbilityCardContainer abilityCard)
         {
             if (abilityCard.AbilityType == AbilityType.None)
                 return 0f;
@@ -248,17 +248,32 @@ namespace CyberNet.Core.AI
 
             if (attackPoint >= 3)
             {
-                var enemyInPlayerSlot = EnemyAISupportAction.CheckEnemyPresenceInTower.Invoke();
-
+                var enemyInPlayerSlot = EnemyAIAttackSupportAction.CheckEnemyPresenceInBuild.Invoke();
+                Debug.LogError("Check attack");
                 if (enemyInPlayerSlot.Count != 0)
                 {
-                    CityAction.ClearSolidPoint?.Invoke(enemyInPlayerSlot[0].GUID, enemyInPlayerSlot[0].Index);
+                    var selectTargetIndex = -1;
+                    var counter = 0;
+                    foreach (var enemyLink in enemyInPlayerSlot)
+                    {
+                        if (enemyLink.TypeCityPoint == TypeCityPoint.Tower)
+                        {
+                            selectTargetIndex = counter;
+                            break;
+                        }
+                    }
+
+                    if (selectTargetIndex == -1)
+                        selectTargetIndex = 0;
+                    
+                    Debug.LogError("Attack Bot");
                     actionData.SpendAttack += 3;
-                    Attack();
+                    
+                    CityAction.AttackSolidPoint?.Invoke(enemyInPlayerSlot[selectTargetIndex].GUID, enemyInPlayerSlot[selectTargetIndex].Index);
                 }
                 else
                 {
-                    var towerFreeSlot = EnemyAISupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
+                    var towerFreeSlot = EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
                     
                     var countAllFreeSlot = 0;
                     foreach (var towerSlot in towerFreeSlot)
@@ -276,18 +291,23 @@ namespace CyberNet.Core.AI
             }
             else if (attackPoint >= 1)
             {
-                var towerFreeSlot = EnemyAISupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
+                var towerFreeSlot = EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
                 if (towerFreeSlot.Count > 0)
                 {
                     SpawnUnit(towerFreeSlot, attackPoint);
                 }
                 else
                 {
-                    var connectPointFreeSlot = EnemyAISupportAction.GetConnectPointFreeSlotPlayerPresence.Invoke();
+                    var connectPointFreeSlot = EnemyAIAttackSupportAction.GetConnectPointFreeSlotPlayerPresence.Invoke();
                     if (connectPointFreeSlot.Count > 0)
                         SpawnUnit(connectPointFreeSlot, attackPoint);
                 }
             }
+            
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
+            Attack();
         }
 
         private void SpawnUnit(List<BuildFreeSlotStruct> freeSlotList, int countUnit)
@@ -296,10 +316,12 @@ namespace CyberNet.Core.AI
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
                 .SelectFirstEntity();
-            
+
+            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerViewComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             actionData.SpendAttack += countUnit;
+            playerComponent.UnitCount -= countUnit;
             
             var counter = 0;
             foreach (var freeSlot in freeSlotList)
@@ -325,20 +347,5 @@ namespace CyberNet.Core.AI
                     break;
             }
         }
-
-        private void OptimalTargetAttack()
-        {
-            var towerEntities = _dataWorld.Select<TowerComponent>()
-                .With<PresencePlayerPointCityComponent>()
-                .GetEntities();
-
-            foreach (var towerEntity in towerEntities)
-            {
-                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
-                
-                
-            }
-        }
-        
     }
 }

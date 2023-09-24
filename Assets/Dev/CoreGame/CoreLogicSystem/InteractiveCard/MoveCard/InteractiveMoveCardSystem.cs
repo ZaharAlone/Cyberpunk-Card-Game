@@ -1,4 +1,4 @@
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
 using EcsCore;
 using Input;

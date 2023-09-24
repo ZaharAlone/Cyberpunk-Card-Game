@@ -14,6 +14,7 @@ namespace CyberNet.Meta
         public SelectLeadersUIMono SelectLeadersUIMono;
         public SelectPlayersUIMono SelectPlayersUIMono;
         public OnlineGameUIMono OnlineGameUIMono;
-        public LoadingVSScreenUIMono loadingVSScreenUIMono;
+        [FormerlySerializedAs("loadingVSScreenUIMono")]
+        public LoadingGameScreenUIMono loadingGameScreenUIMono;
     }
 }

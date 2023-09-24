@@ -1,3 +1,4 @@
+using CyberNet.Core.AbilityCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -27,7 +28,6 @@ namespace CyberNet.Core
             var deckCardsData = _dataWorld.OneData<DeckCardsData>();
             var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             var traderowParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono.TraderowContainerForCard;
-            ref var selectPlayer = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             
             foreach (var item in deckCardsData.NeutralShopCards)
             {
@@ -70,7 +70,7 @@ namespace CyberNet.Core
 
             SetViewCard(cardMono, card);
 
-            var entity = ModulesUnityAdapter.world.NewEntity();
+            var entity = _dataWorld.NewEntity();
             var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
             entity.AddComponent(cardComponent);
             entity.AddComponent(new CardSortingIndexComponent { Index = placeCard.IDPositions });

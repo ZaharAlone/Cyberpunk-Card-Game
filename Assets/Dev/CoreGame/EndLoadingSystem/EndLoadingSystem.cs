@@ -15,7 +15,7 @@ namespace CyberNet.Core
 
         public void Init()
         {
-            LoadingVSScreenAction.CloseLoadingVSScreen?.Invoke();
+            LoadingGameScreenAction.CloseLoadingGameScreen?.Invoke();
         }
     }
 }

@@ -1,8 +1,9 @@
-namespace CyberNet.Core.ActionCard
+using UnityEngine.Serialization;
+namespace CyberNet.Core.AbilityCard
 {
     public struct ActionSelectCardComponent
     {
-        public AbilityCard AbilityCard;
+        public AbilityCardContainer AbilityCard;
         public string SelectGUIDCard;
     }
 }

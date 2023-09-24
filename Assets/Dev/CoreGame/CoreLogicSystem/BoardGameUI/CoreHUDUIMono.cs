@@ -28,6 +28,7 @@ namespace  CyberNet.Core.UI
         public TextMeshProUGUI DownDiscardCount;
         public RectTransform DownDeck;
         public TextMeshProUGUI DownDeckCount;
+        public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
@@ -44,10 +45,22 @@ namespace  CyberNet.Core.UI
             PlayerDownView.Avatar.sprite = avatar;
         }
 
-        public void SetMainPassportViewStats(int unit, int cyberpsychosis)
+        public void SetMainPassportViewStats(int unit, int victoryPoint, int countAgent)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
-            PlayerDownView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
+            PlayerDownView.VictoryPointText.text = victoryPoint.ToString();
+
+            for (int i = 0; i < PlayerDownView.AgentIcons.Count; i++)
+            {
+                if (i < countAgent)
+                {
+                    PlayerDownView.AgentIcons[i].SetActive(true);
+                }
+                else
+                {
+                    PlayerDownView.AgentIcons[i].SetActive(false);
+                }
+            }
         }
         
         public void SetInteractiveButton(string text, Sprite sprite)
@@ -91,13 +104,10 @@ namespace  CyberNet.Core.UI
     [Serializable]
     public struct PlayerTablet
     {
-        public CharacterDamagePassportEffect CharacterDamagePassportEffect;
         public TextMeshProUGUI NameText;
-        [FormerlySerializedAs("HPText")]
         public TextMeshProUGUI UnitCountText;
-        public Image CyberpsychosisImage;
+        public TextMeshProUGUI VictoryPointText;
         public Image Avatar;
-
-        public Transform FrameEffectCard;
+        public List<GameObject> AgentIcons;
     }
 }

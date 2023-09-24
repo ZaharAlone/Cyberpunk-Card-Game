@@ -1,4 +1,4 @@
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -93,11 +93,7 @@ namespace CyberNet.Core.City
                 if (unitComponent.PowerSolidPlayerID == currentPlayerID)
                     return;
                 
-                CityAction.ClearSolidPoint?.Invoke(unitComponent.GUIDPoint, unitComponent.IndexPoint);
-                
-                Object.Destroy(unitComponent.UnitGO);
-                unitEntity.Destroy();
-
+                CityAction.AttackSolidPoint?.Invoke(unitComponent.GUIDPoint, unitComponent.IndexPoint);
                 CityAction.UpdatePresencePlayerInCity?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             }

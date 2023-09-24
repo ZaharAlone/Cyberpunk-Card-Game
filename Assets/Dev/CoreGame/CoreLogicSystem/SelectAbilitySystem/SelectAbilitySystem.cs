@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
 
 namespace CyberNet.Core

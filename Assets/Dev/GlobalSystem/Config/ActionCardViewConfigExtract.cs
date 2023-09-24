@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using Newtonsoft.Json;
 
 namespace CyberNet

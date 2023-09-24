@@ -1,10 +1,11 @@
+using CyberNet.Core.AbilityCard;
 using UnityEngine;
 
 namespace CyberNet.Core
 {
     public static class SetViewAbilityCard
     {
-        public static void SetView(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig, bool chooseAbility = false, bool oneAbility = false)
+        public static void SetView(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, bool chooseAbility = false, bool oneAbility = false)
         {
             if (chooseAbility)
                 Object.Instantiate(boardGameConfig.IconsArrowChooseAbility, container);
@@ -17,7 +18,7 @@ namespace CyberNet.Core
             container.gameObject.SetActive(true);
         }
 
-        private static void SetConfition(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig)
+        private static void SetConfition(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig)
         {
             switch (ability.Condition)
             {
@@ -49,7 +50,7 @@ namespace CyberNet.Core
             im_1.sprite = icons;
         }
 
-        private static void SetAction(Transform container, AbilityCard ability, BoardGameConfig boardGameConfig, bool oneAbility = false)
+        private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, bool oneAbility = false)
         {
             switch (ability.AbilityType)
             {

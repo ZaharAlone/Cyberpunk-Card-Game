@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Core.ActionCard
+namespace CyberNet.Core.AbilityCard
 {
     public static class ActionSelectCardAction
     {

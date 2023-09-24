@@ -7,7 +7,7 @@ using System;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 
-namespace CyberNet.Core.ActionCard
+namespace CyberNet.Core.AbilityCard
 {
     /// <summary>
     /// Визуал выбора карты для action карты

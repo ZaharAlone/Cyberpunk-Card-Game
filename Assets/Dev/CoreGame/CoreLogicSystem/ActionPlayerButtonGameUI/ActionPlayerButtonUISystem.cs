@@ -4,7 +4,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.WinLose;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
@@ -54,17 +54,17 @@ namespace CyberNet.Core.UI
                 .Count();
 
             ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-            actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
+            actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
             
             if (cardInHand > 0)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.PlayAll;
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
             }
             else
             {
                 ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
             }
         }
         
@@ -77,12 +77,12 @@ namespace CyberNet.Core.UI
         private void ClickButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            switch (actionPlayer.ActionPlayerType)
+            switch (actionPlayer.ActionPlayerButtonType)
             {
-                case ActionPlayerType.PlayAll:
+                case ActionPlayerButtonType.PlayAll:
                     PlayAll();
                     break;
-                case ActionPlayerType.EndTurn:
+                case ActionPlayerButtonType.EndTurn:
                     EndTurn();
                     break;
             }
