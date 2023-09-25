@@ -72,6 +72,9 @@ namespace EcsCore
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);
+            #if STEAM
+            ModulesUnityAdapter.world.InitModule<SteamModule>(true);
+            #endif
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)

@@ -48,6 +48,12 @@ namespace CyberNet.Core.UI
                                                .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardDiscardComponent>()
                                                .GetEntities();
+            
+            var entitiesCardInDropMove = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerID)
+                .With<CardMoveToDiscardComponent>()
+                .GetEntities();
+            
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionCardData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
@@ -65,6 +71,12 @@ namespace CyberNet.Core.UI
             }
 
             foreach (var entity in entitiesCardInDrop)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>().CardMono;
+                component.SetStatusInteractiveVFX(false);
+            }
+            
+            foreach (var entity in entitiesCardInDropMove)
             {
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
+using ModulesFramework.Data.Enumerators;
 
 namespace CyberNet.Core
 {
@@ -30,8 +33,9 @@ namespace CyberNet.Core
 
             var width = (204 + 30) * (countCard - 1);
             var start_point = width / -2;
-            
-            foreach (var entity in entities)
+
+            var sortCard = SortingCardInHand(entities, countCard);
+            foreach (var entity in sortCard)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 cardComponent.RectTransform.localRotation = Quaternion.identity;
@@ -44,6 +48,26 @@ namespace CyberNet.Core
                 start_point += (int)(234 * config.SizeCardInTable.x);
             }
         }
+
+        private List<Entity> SortingCardInHand(EntitiesEnumerable entities, int countCard)
+        {
+            var tempList = new List<Entity>();
+
+            foreach (var entity in entities)
+            {
+                tempList.Add(entity);
+            }
+
+            var sortCards = tempList.OrderBy(item => item.GetComponent<CardSortingIndexComponent>().Index);
+            var sortingCardList = new List<Entity>();
+            
+            foreach (var entity in sortCards)
+            {
+                sortingCardList.Add(entity);
+            }
+            
+            return sortingCardList;
+        } 
         
         public void SetMovePositionAnimations(RectTransform transformObject, Vector2 targetPosition, Vector3 scale, Entity entity)
         {
@@ -63,11 +87,11 @@ namespace CyberNet.Core
         {
             ActionCardEvent.UpdateValueResourcePlayedCard?.Invoke();
             await Task.Delay(500);
-
-            AnimationsMoveAtDiscardDeckCorotine(entity);
+            
+            AnimationsMoveAtEndPlayingCardDeck(entity);
         }
         
-        private async void AnimationsMoveAtDiscardDeckCorotine(Entity entity)
+        private void AnimationsMoveAtEndPlayingCardDeck(Entity entity)
         {
             var sizeCard = _dataWorld.OneData<BoardGameData>().BoardGameConfig.SizeCardPlayingDeck;
             var targetPosition = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PositionForUseCardPlayer.position;
@@ -81,10 +105,6 @@ namespace CyberNet.Core
             var sequence = DOTween.Sequence();
             sequence.Append(cardComponent.RectTransform.DOMove(targetPosition, time))
                 .Join(cardComponent.RectTransform.DOScale(sizeCard, time));
-
-            await Task.Delay((int)(1000 * time));
-            entity.RemoveComponent<CardMoveToDiscardComponent>();
-            entity.AddComponent(new CardDiscardComponent());
         }
         
         public void EndRound()

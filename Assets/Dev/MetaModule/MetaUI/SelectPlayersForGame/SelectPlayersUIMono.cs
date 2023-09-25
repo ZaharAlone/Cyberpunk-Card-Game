@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace CyberNet.Meta.SelectPlayersForGame
 {
     public class SelectPlayersUIMono : MonoBehaviour

@@ -154,9 +154,9 @@ namespace CyberNet.Core
                 componentCard.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 
+                VFXCardInteractivAction.UpdateVFXCard?.Invoke();
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-                VFXCardInteractivAction.UpdateVFXCard?.Invoke();
                 CardShopAction.CheckPoolShopCard?.Invoke();
             }
             else

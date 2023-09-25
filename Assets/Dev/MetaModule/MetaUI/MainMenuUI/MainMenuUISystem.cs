@@ -2,20 +2,14 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFrameworkUnity;
 using UnityEngine;
+using CyberNet.Core.AI;
+using CyberNet.Global;
+using CyberNet.Platform;
+using CyberNet.Tools;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using CyberNet.Core;
-using CyberNet.Core.AI;
-using CyberNet.Global;
-using CyberNet.Server;
-using CyberNet.Tools;
-using Random = UnityEngine.Random;
 
 namespace CyberNet.Meta
 {
@@ -23,7 +17,7 @@ namespace CyberNet.Meta
     /// Система управляющая переключением окон в главном меню
     /// </summary>
     [EcsSystem(typeof(MetaModule))]
-    public class MainMenuUISystem : IPreInitSystem
+    public class MainMenuUISystem : IPreInitSystem, IInitSystem
     {
         private DataWorld _dataWorld;
 
@@ -38,6 +32,20 @@ namespace CyberNet.Meta
             MainMenuAction.OpenExitGame += OpenExitGame;
             MainMenuAction.ExitGame += Exit;
         }
+
+        public void Init()
+        {
+            #if STEAM && DEMO
+            ShowPreviewDemoScreen();
+            #endif
+        }
+
+        private void ShowPreviewDemoScreen()
+        {
+            ref var metaUI = ref _dataWorld.OneData<MetaUIData>().MetaUIMono;
+            metaUI.PreviewStartDemoGameMono.OpenWindow();
+        } 
+        
         private void OpenCampaign()
         {
             CampaignUIAction.OpenCampaignUI?.Invoke();
@@ -46,6 +54,11 @@ namespace CyberNet.Meta
         
         private void OpenExitGame()
         {
+            #if STEAM && DEMO
+            OpenPreviewDemoExitGame();
+            return;
+            #endif
+            
             ref var popupViewConfig = ref _dataWorld.OneData<PopupData>().PopupViewConfig;
             var popupView = new PopupConfimStruct();
             popupView.HeaderLoc = popupViewConfig.HeaderPopupConfim;
@@ -54,6 +67,12 @@ namespace CyberNet.Meta
             popupView.ButtonCancelLoc = popupViewConfig.CancelButtonPopupConfim;
             popupView.ButtonConfimAction = MainMenuAction.ExitGame;
             PopupAction.ConfirmPopup?.Invoke(popupView);
+        }
+
+        private void OpenPreviewDemoExitGame()
+        {
+            ref var metaUI = ref _dataWorld.OneData<MetaUIData>().MetaUIMono;
+            metaUI.PreviewEndDemoGameMono.OpenWindow();
         }
         
         private void OpenSettingsGame()
@@ -81,12 +100,14 @@ namespace CyberNet.Meta
             var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
+            var playerName = "";
+            playerName = PlatformAction.GetPlayerName?.Invoke();
             
             var playerLeaderData = new SelectLeaderData {
                 PlayerID = 0,
                 PlayerType = PlayerType.Player,
                 SelectLeader = "cyberpsycho",
-                NamePlayer = "Zakhar",
+                NamePlayer = playerName,
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[0]
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);

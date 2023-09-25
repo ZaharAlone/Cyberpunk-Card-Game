@@ -10,10 +10,11 @@ namespace CyberNet
     {
         [Header ("Базовые параметры игрока")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
-        public int StartCountUnit = 40;
+        public int StartCountSquad = 40;
         public int CountAgentPlayer = 4;
-        public int PriceKillUnit = 3;
+        public int PriceKillSquad = 3;
         public int PricePostAgent = 3;
+        public int RewardKillSquad = 1;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]

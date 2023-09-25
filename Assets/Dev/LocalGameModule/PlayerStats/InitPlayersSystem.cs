@@ -39,7 +39,7 @@ namespace CyberNet.Core
             entity.AddComponent(new PlayerComponent {
                 PlayerType = selectLeaderData.PlayerType,
                 PlayerID = selectLeaderData.PlayerID, 
-                UnitCount = config.StartCountUnit, 
+                UnitCount = config.StartCountSquad, 
                 VictoryPoint = 0,
                 UnitAgentCountInHand = config.CountAgentPlayer,
                 PositionInTurnQueue = positionInTurnQueue
