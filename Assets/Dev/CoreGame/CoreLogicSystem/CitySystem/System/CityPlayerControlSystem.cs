@@ -26,7 +26,7 @@ namespace CyberNet.Core.City
         public void CheckClick()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.PlayerType != PlayerType.Player)
+            if (roundData.playerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
             var inputData = _dataWorld.OneData<InputData>();
@@ -42,7 +42,7 @@ namespace CyberNet.Core.City
                     return;
                 }
 
-                var solidPoint = hit.collider.gameObject.GetComponent<SolidPointMono>();
+                var solidPoint = hit.collider.gameObject.GetComponent<SquadPointMono>();
                 if (solidPoint)
                 {
                     ClickSolidPoint(solidPoint, roundData.CurrentPlayerID);
@@ -66,33 +66,35 @@ namespace CyberNet.Core.City
             }
         }
         
-        private void ClickSolidPoint(SolidPointMono solidPoint, int currentPlayerID)
+        private void ClickSolidPoint(SquadPointMono squadPoint, int currentPlayerID)
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             if (actionData.TotalAttack - actionData.SpendAttack == 0)
                 return;
 
+            ref var rulesGame = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
                 .SelectFirstEntity();
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             
-            var isUnitPoint = _dataWorld.Select<UnitComponent>()
-                .Where<UnitComponent>(unit => unit.GUIDPoint == solidPoint.GUID && unit.IndexPoint == solidPoint.Index)
+            var isUnitPoint = _dataWorld.Select<SquadComponent>()
+                .Where<SquadComponent>(unit => unit.GUIDPoint == squadPoint.GUID && unit.IndexPoint == squadPoint.Index)
                 .TrySelectFirstEntity(out var unitEntity);
 
             if (isUnitPoint)
             {
-                if (actionData.TotalAttack - actionData.SpendAttack < 3)
+                if (actionData.TotalAttack - actionData.SpendAttack < rulesGame.PriceKillSquad)
                     return;
                 
-                actionData.SpendAttack += 3;
+                actionData.SpendAttack += rulesGame.PriceKillSquad;
 
-                ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
+                ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
                 if (unitComponent.PowerSolidPlayerID == currentPlayerID)
                     return;
-                
+
+                playerComponent.VictoryPoint += rulesGame.RewardKillSquad;
                 CityAction.AttackSolidPoint?.Invoke(unitComponent.GUIDPoint, unitComponent.IndexPoint);
                 CityAction.UpdatePresencePlayerInCity?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
@@ -104,7 +106,7 @@ namespace CyberNet.Core.City
                 
                 var initUnit = new InitUnitStruct {
                     KeyUnit = playerVisualComponent.KeyCityVisual,
-                    SolidPoint  = solidPoint,
+                    squadPoint  = squadPoint,
                     PlayerControl = PlayerControlEnum.Player,
                     TargetPlayerID = currentPlayerID
                 };

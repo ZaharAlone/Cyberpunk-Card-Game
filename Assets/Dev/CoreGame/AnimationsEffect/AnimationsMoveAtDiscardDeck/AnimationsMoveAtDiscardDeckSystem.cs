@@ -53,13 +53,11 @@ namespace CyberNet.Core
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             
-            await Task.Delay(400);
-
             var targetPosition = targetTransform.position;
             var distance = Vector2.Distance(cardComponent.RectTransform.position, targetPosition);
-            var time = distance / 100;
-            if (time > 0.8f)
-                time = 0.8f;
+            var time = distance / 600;
+            if (time > 0.7f)
+                time = 0.7f;
             
             sequence.Append(cardComponent.RectTransform.DOMove(targetPosition, time))
                      .Join(cardComponent.RectTransform.DOScale(scale, time))

@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core.AI;
 using CyberNet.Global;
+using CyberNet.Meta.SettingsUI;
 using CyberNet.Platform;
 using CyberNet.Tools;
 #if UNITY_EDITOR
@@ -77,7 +78,8 @@ namespace CyberNet.Meta
         
         private void OpenSettingsGame()
         {
-
+            SettingsUIAction.OpenSettingsUI?.Invoke();
+            CloseMainMenu();
         }
         
         private void OpenServerGame()
@@ -105,7 +107,7 @@ namespace CyberNet.Meta
             
             var playerLeaderData = new SelectLeaderData {
                 PlayerID = 0,
-                PlayerType = PlayerType.Player,
+                playerTypeEnum = PlayerTypeEnum.Player,
                 SelectLeader = "cyberpsycho",
                 NamePlayer = playerName,
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[0]
@@ -120,7 +122,7 @@ namespace CyberNet.Meta
                 
                 selectPlayerData.SelectLeaders.Add(new SelectLeaderData {
                     PlayerID = i,
-                    PlayerType = PlayerType.AIEasy,
+                    playerTypeEnum = PlayerTypeEnum.AIEasy,
                     SelectLeader = enemyLeaders[i-1],
                     NamePlayer = botName,
                     KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]

@@ -29,14 +29,14 @@ namespace CyberNet.Core.City
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            var unitEntities = _dataWorld.Select<UnitComponent>()
-                .Where<UnitComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
+            var unitEntities = _dataWorld.Select<SquadComponent>()
+                .Where<SquadComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
                 .GetEntities();
 
             var isFindGUID = new List<string>();            
             foreach (var unitEntity in unitEntities)
             {
-                var unitComponent = unitEntity.GetComponent<UnitComponent>();
+                var unitComponent = unitEntity.GetComponent<SquadComponent>();
 
                 var isDouble = false;
                 foreach (var findGUID in isFindGUID)

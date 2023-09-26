@@ -24,7 +24,7 @@ namespace CyberNet.Core
         
         private void CreatePlayer(SelectLeaderData selectLeaderData, int positionInTurnQueue)
         {
-            if (selectLeaderData.PlayerType == PlayerType.None)
+            if (selectLeaderData.playerTypeEnum == PlayerTypeEnum.None)
                 return;
             
             ref var config = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
@@ -37,7 +37,7 @@ namespace CyberNet.Core
             var entity = _dataWorld.NewEntity();
 
             entity.AddComponent(new PlayerComponent {
-                PlayerType = selectLeaderData.PlayerType,
+                playerTypeEnum = selectLeaderData.playerTypeEnum,
                 PlayerID = selectLeaderData.PlayerID, 
                 UnitCount = config.StartCountSquad, 
                 VictoryPoint = 0,

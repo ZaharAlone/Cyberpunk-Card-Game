@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core;
 using UnityEngine;
 
 namespace CyberNet.Core.City
@@ -81,25 +79,25 @@ namespace CyberNet.Core.City
                     GUID = connectPoint.GUID,
                     ConnectPointGO = connectPoint.gameObject,
                     ConnectPointMono = connectPoint,
-                    SolidPointMono = connectPoint.SolidPointMono,
+                    squadPointMono = connectPoint.squadPointMono,
                     ConnectPointsTypeGUID = CityStaticLogic.SetConnectPointGUIDList(connectPoint)
                 };
 
-                InitStartUnit(connectPoint.SolidPointMono);
+                InitStartUnit(connectPoint.squadPointMono);
                 entity.AddComponent(connectPointComponent);
             }
         }
 
-        private void InitStartUnit(SolidPointMono solidPoint)
+        private void InitStartUnit(SquadPointMono squadPoint)
         {
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             
-            if (solidPoint.StartIsNeutralSolid)
+            if (squadPoint.StartIsNeutralSolid)
             {
                 var neutralUnit = new InitUnitStruct 
                 {
                     KeyUnit = "neutral_unit",
-                    SolidPoint = solidPoint,
+                    squadPoint = squadPoint,
                     PlayerControl = PlayerControlEnum.Neutral,
                     TargetPlayerID = -1
                 };
@@ -108,7 +106,7 @@ namespace CyberNet.Core.City
             }
             else
             {
-                solidPoint.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, solidPoint.transform);
+                squadPoint.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, squadPoint.transform);
             }
         }
 
@@ -118,22 +116,22 @@ namespace CyberNet.Core.City
             var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
             cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
 
-            if (unit.SolidPoint.transform.childCount > 0) 
-                Object.Destroy(unit.SolidPoint.transform.GetChild(0).gameObject);
+            if (unit.squadPoint.transform.childCount > 0) 
+                Object.Destroy(unit.squadPoint.transform.GetChild(0).gameObject);
             
-            var solidPointVFX = Object.Instantiate(cityVisualSO.SolidPointVFXMono, unit.SolidPoint.transform);
+            var solidPointVFX = Object.Instantiate(cityVisualSO.squadPointVFXMono, unit.squadPoint.transform);
             solidPointVFX.SetColor(visualUnit.ColorUnit);
-            unit.SolidPoint.PointVFX = solidPointVFX.gameObject;
+            unit.squadPoint.PointVFX = solidPointVFX.gameObject;
             
-            var unitMono = Object.Instantiate(visualUnit.UnitMono, solidConteiner.transform);
-            unitMono.transform.position = unit.SolidPoint.transform.position;
+            var unitMono = Object.Instantiate(visualUnit.squadMono, solidConteiner.transform);
+            unitMono.transform.position = unit.squadPoint.transform.position;
             
-            var unitComponent = new UnitComponent
+            var unitComponent = new SquadComponent
             {
-                GUIDPoint = unit.SolidPoint.GUID,
-                IndexPoint = unit.SolidPoint.Index,
-                UnitGO = unitMono.gameObject,
-                UnitMono = unitMono,
+                GUIDPoint = unit.squadPoint.GUID,
+                IndexPoint = unit.squadPoint.Index,
+                SquadGO = unitMono.gameObject,
+                SquadMono = unitMono,
                 PlayerControl = unit.PlayerControl,
                 PowerSolidPlayerID = unit.TargetPlayerID
             };
@@ -151,13 +149,13 @@ namespace CyberNet.Core.City
 
         private void AttackSolidPoint(string guid, int indexPoint)
         {
-            var unitEntity = _dataWorld.Select<UnitComponent>()
-                .Where<UnitComponent>(unit => unit.GUIDPoint == guid && unit.IndexPoint == indexPoint)
+            var squadEntity = _dataWorld.Select<SquadComponent>()
+                .Where<SquadComponent>(squad => squad.GUIDPoint == guid && squad.IndexPoint == indexPoint)
                 .SelectFirstEntity();
             
-            ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
-            Object.Destroy(unitComponent.UnitGO);
-            unitEntity.Destroy();
+            ref var squadComponent = ref squadEntity.GetComponent<SquadComponent>();
+            Object.Destroy(squadComponent.SquadGO);
+            squadEntity.Destroy();
 
             ClearSolidPoint(guid, indexPoint);
         }
@@ -183,8 +181,8 @@ namespace CyberNet.Core.City
                     .SelectFirstEntity();
 
                 ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
-                Object.Destroy(connectPointComponent.ConnectPointMono.SolidPointMono.PointVFX);
-                connectPointComponent.ConnectPointMono.SolidPointMono.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, connectPointComponent.ConnectPointMono.SolidPointMono.transform);
+                Object.Destroy(connectPointComponent.ConnectPointMono.squadPointMono.PointVFX);
+                connectPointComponent.ConnectPointMono.squadPointMono.PointVFX = Object.Instantiate(cityVisual.ClearSolidPointVFX, connectPointComponent.ConnectPointMono.squadPointMono.transform);
             }
         }
     }

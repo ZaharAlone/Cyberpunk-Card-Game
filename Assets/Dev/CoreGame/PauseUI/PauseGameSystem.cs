@@ -2,8 +2,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
+using CyberNet.Meta;
 using Input;
 
 namespace CyberNet.Core.PauseUI
@@ -12,11 +11,13 @@ namespace CyberNet.Core.PauseUI
     public class PauseGameSystem : IPreInitSystem, IRunSystem
     {
         private DataWorld _dataWorld;
-
+        private bool _isOpenPopupExitGame;
+        
         public void PreInit()
         {
             PauseGameAction.OnPauseGame += OnPauseGame;
             PauseGameAction.OffPauseGame += OffPauseGame;
+            PauseGameAction.OpenPopupExitGame += OpenPopupExitGame;
         }
 
         public void Run()
@@ -28,9 +29,18 @@ namespace CyberNet.Core.PauseUI
         private void SwitchPauseGame()
         {
             var isPause = _dataWorld.Select<OnPauseGameComponent>().Count() > 0;
-            
+
             if (isPause)
-                OffPauseGame();
+            {
+                if (_isOpenPopupExitGame)
+                {
+                    ClosePopupExitGame();
+                }
+                else
+                {
+                    OffPauseGame();
+                }
+            }
             else
             {
                 OnPauseGame();
@@ -45,12 +55,24 @@ namespace CyberNet.Core.PauseUI
             
             PauseGameAction.OpenUIPauseGame?.Invoke();
         }
-        
+
         private void OffPauseGame()
         {
             _dataWorld.Select<OnPauseGameComponent>().SelectFirstEntity().Destroy();
             PauseGameAction.CloseUIPauseGame?.Invoke();
             //Logic
+        }
+        
+        private void OpenPopupExitGame()
+        {
+            _isOpenPopupExitGame = true;
+        }
+
+        private void ClosePopupExitGame()
+        {
+            _isOpenPopupExitGame = false;
+            PopupAction.CloseConfirmPopup?.Invoke();
+            PauseGameAction.ShowPanelUIPauseGame?.Invoke();
         }
     }
 }

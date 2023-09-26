@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
 {
-    public struct UnitComponent
+    public struct SquadComponent
     {
         public string GUIDPoint;
         public int IndexPoint;
 
-        public GameObject UnitGO;
-        public UnitMono UnitMono;
+        public GameObject SquadGO;
+        public SquadMono SquadMono;
         
         //Кому принадлежит данный юнит
         public PlayerControlEnum PlayerControl;

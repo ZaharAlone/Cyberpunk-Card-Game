@@ -17,6 +17,7 @@ using CyberNet.Core.AI;
 using CyberNet.Core.Sound;
 using CyberNet.Core.City;
 using CyberNet.Global.GameCamera;
+using CyberNet.Meta.SettingsUI;
 
 namespace EcsCore
 {
@@ -32,6 +33,7 @@ namespace EcsCore
             var camera = Load<GameObject>("GameCamera", tasks);
             var input = Load<GameObject>("Input", tasks);
             var metaUI = Load<GameObject>("MetaUI", tasks);
+            var settingsUI = Load<GameObject>("SettingsUI", tasks);
             var popupUI = Load<GameObject>("PopupCanvas", tasks);
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
@@ -51,13 +53,21 @@ namespace EcsCore
             var cameraObject = Object.Instantiate(camera.Result);
             var inputGO = Object.Instantiate(input.Result);
             var metaUIGO = Object.Instantiate(metaUI.Result);
+            var settingsUIGO = Object.Instantiate(settingsUI.Result);
             var popupUIGO = Object.Instantiate(popupUI.Result);
             Object.DontDestroyOnLoad(popupUIGO);
 
             world.CreateOneData(new GameCameraData { CameraGO = cameraObject });
             world.CreateOneData(new InputData { PlayerInput = inputGO.GetComponent<PlayerInput>() });
-            world.CreateOneData(new MetaUIData { UIGO = metaUIGO, MetaUIMono = metaUIGO.GetComponent<MetaUIMono>()});
-            world.CreateOneData(new PopupData { PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(), PopupViewConfig = popupViewConfig.Result});
+            world.CreateOneData(new MetaUIData {
+                UIGO = metaUIGO,
+                MetaUIMono = metaUIGO.GetComponent<MetaUIMono>(),
+                SettingsUIMono = settingsUIGO.GetComponent<SettingsUIMono>()
+            });
+            world.CreateOneData(new PopupData {
+                PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(),
+                PopupViewConfig = popupViewConfig.Result
+            });
             world.CreateOneData(new BoardGameData {
                 BoardGameConfig = boardGameConfig.Result,
                 BoardGameRule = boardGameRule.Result,

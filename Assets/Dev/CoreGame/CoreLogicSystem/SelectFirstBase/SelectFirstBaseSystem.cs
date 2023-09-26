@@ -34,7 +34,7 @@ namespace CyberNet.Core.SelectFirstBase
             
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
 
-            if (isNotInstallFirstBase && playerComponent.PlayerType == PlayerType.Player)
+            if (isNotInstallFirstBase && playerComponent.playerTypeEnum == PlayerTypeEnum.Player)
             {
                 SelectFirstBase();
             }
@@ -65,21 +65,21 @@ namespace CyberNet.Core.SelectFirstBase
 
             ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
             
-            var entitiesUnit = _dataWorld.Select<UnitComponent>()
-                .Where<UnitComponent>(unit => unit.GUIDPoint == towerGUID)
+            var entitiesUnit = _dataWorld.Select<SquadComponent>()
+                .Where<SquadComponent>(unit => unit.GUIDPoint == towerGUID)
                 .GetEntities();
 
             var closeSolidPoint = -1;
             foreach (var entityUnit in entitiesUnit)
             {
-                var unitComponent = entityUnit.GetComponent<UnitComponent>();
+                var unitComponent = entityUnit.GetComponent<SquadComponent>();
                 if (unitComponent.IndexPoint > closeSolidPoint)
                     closeSolidPoint = unitComponent.IndexPoint;
             }
 
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
-                SolidPoint  = towerComponent.SolidPointMono[closeSolidPoint +1],
+                squadPoint  = towerComponent.SolidPointMono[closeSolidPoint +1],
                 PlayerControl = PlayerControlEnum.Player,
                 TargetPlayerID = currentPlayerID
             };

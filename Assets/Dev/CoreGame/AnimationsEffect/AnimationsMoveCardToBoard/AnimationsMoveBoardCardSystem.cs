@@ -74,9 +74,9 @@ namespace CyberNet.Core
             _sequence = DOTween.Sequence();
             var distance = Vector2.Distance(transformObject.anchoredPosition, targetPosition);
             
-            var time = distance / 600;
-            if (time > 0.8f)
-                time = 0.8f;
+            var time = distance / 800;
+            if (time > 0.5f)
+                time = 0.5f;
             
             _sequence.Append(transformObject.DOAnchorPos(targetPosition, time))
                 .Join(transformObject.DOScale(scale, time))
@@ -86,7 +86,7 @@ namespace CyberNet.Core
         public async void EndMoveCardAnimations(Entity entity)
         {
             ActionCardEvent.UpdateValueResourcePlayedCard?.Invoke();
-            await Task.Delay(500);
+            await Task.Delay(150);
             
             AnimationsMoveAtEndPlayingCardDeck(entity);
         }
@@ -98,9 +98,9 @@ namespace CyberNet.Core
             var cardComponent = entity.GetComponent<CardComponent>();
             
             var distance = Vector2.Distance(cardComponent.RectTransform.position, targetPosition);
-            var time = distance / 100;
-            if (time > 0.8f)
-                time = 0.8f;
+            var time = distance / 500;
+            if (time > 0.6f)
+                time = 0.6f;
             
             var sequence = DOTween.Sequence();
             sequence.Append(cardComponent.RectTransform.DOMove(targetPosition, time))

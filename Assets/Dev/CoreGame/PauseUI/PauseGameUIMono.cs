@@ -17,6 +17,16 @@ namespace CyberNet.Core.PauseUI
             Background.SetActive(false);
             Panel.SetActive(false);
         }
+
+        public void HidePanelMenu()
+        {
+            Panel.SetActive(false);
+        }
+
+        public void ShowPanelMenu()
+        {
+            Panel.SetActive(true);
+        }
         
         public void OnClickResumeGame()
         {

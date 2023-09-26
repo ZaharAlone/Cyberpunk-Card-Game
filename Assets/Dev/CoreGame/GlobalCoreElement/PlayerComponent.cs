@@ -6,7 +6,8 @@ namespace CyberNet.Core
 {
     public struct PlayerComponent
     {
-        public PlayerType PlayerType;
+        [FormerlySerializedAs("PlayerType")]
+        public PlayerTypeEnum playerTypeEnum;
         public int PlayerID;
         
         public int UnitCount;

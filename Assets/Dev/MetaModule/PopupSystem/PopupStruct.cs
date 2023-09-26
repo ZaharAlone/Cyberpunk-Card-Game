@@ -9,5 +9,6 @@ namespace CyberNet.Meta
         public string ButtonConfimLoc;
         public string ButtonCancelLoc;
         public Action ButtonConfimAction;
+        public Action ButtonCancelAction;
     }
 }

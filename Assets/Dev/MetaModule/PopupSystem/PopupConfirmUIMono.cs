@@ -14,22 +14,29 @@ namespace CyberNet.Meta
         [Header("View element")]
         public TextMeshProUGUI Header;
         public TextMeshProUGUI Descr;
-        public TextMeshProUGUI ButtonTextLeft;
-        public TextMeshProUGUI ButtonTextRight;
+        public InteractiveButtonHideShowElement ButtonLeft;
+        public InteractiveButtonHideShowElement ButtonRight;
 
         //Element for animations
         
         private Action ActionConfim;
+        private Action ActionCancel;
+
+        public void Awake()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
+        }
 
         public void OpenPopup(PopupConfimStruct popupData)
         {
             Debug.Log(popupData.HeaderLoc);
             Header.text = popupData.HeaderLoc;
             Descr.text = popupData.DescrLoc;
-            ButtonTextRight.text = popupData.ButtonConfimLoc;
-            ButtonTextLeft.text = popupData.ButtonCancelLoc;
+            ButtonRight.SetText(popupData.ButtonConfimLoc);
+            ButtonLeft.SetText(popupData.ButtonCancelLoc);
             ActionConfim = popupData.ButtonConfimAction;
-            
+            ActionCancel = popupData.ButtonCancelAction;
             OpenPopupAnimations();
         }
 
@@ -47,6 +54,7 @@ namespace CyberNet.Meta
         public void OnClickCancel()
         {
             ClosePopupAnimation();
+            ActionCancel?.Invoke();
         }
 
         public void ClosePopupAnimation()

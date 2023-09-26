@@ -32,12 +32,12 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var unitCountInTower  = _dataWorld.Select<UnitComponent>()
-                    .Where<UnitComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitCountInTower  = _dataWorld.Select<SquadComponent>()
+                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
                     .Count();
                 
-                var unitInTowerEntities  = _dataWorld.Select<UnitComponent>()
-                    .Where<UnitComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitInTowerEntities  = _dataWorld.Select<SquadComponent>()
+                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
                     .GetEntities();
                 
                 if (towerComponent.SolidPointMono.Count > unitCountInTower)
@@ -54,7 +54,7 @@ namespace CyberNet.Core.AI
 
                         foreach (var unitInTowerEntity in unitInTowerEntities)
                         {
-                            ref var unitComponent = ref unitInTowerEntity.GetComponent<UnitComponent>();
+                            ref var unitComponent = ref unitInTowerEntity.GetComponent<SquadComponent>();
                             if (solidPoint.Index == unitComponent.IndexPoint)
                             {
                                 isClose = true;
@@ -84,8 +84,8 @@ namespace CyberNet.Core.AI
             foreach (var connectPointEntity in connectPointEntities)
             {
                 var connectPointComponent = connectPointEntity.GetComponent<ConnectPointComponent>();
-                var unitCountInConnectPoint = _dataWorld.Select<UnitComponent>()
-                    .Where<UnitComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID)
+                var unitCountInConnectPoint = _dataWorld.Select<SquadComponent>()
+                    .Where<SquadComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID)
                     .Count();
                 
                 if (unitCountInConnectPoint == 0)
@@ -93,9 +93,9 @@ namespace CyberNet.Core.AI
                     var buildSlot = new BuildFreeSlotStruct {
                         CountFreeSlot = 1,
                         GUID = connectPointComponent.GUID,
-                        SolidPointsMono = new List<SolidPointMono>()
+                        SolidPointsMono = new List<SquadPointMono>()
                     };
-                    buildSlot.SolidPointsMono.Add(connectPointComponent.SolidPointMono);
+                    buildSlot.SolidPointsMono.Add(connectPointComponent.squadPointMono);
                     buildFreeSlot.Add(buildSlot);
                 }
             }
@@ -115,13 +115,13 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var enemyUnitEntities = _dataWorld.Select<UnitComponent>()
-                    .Where<UnitComponent>(unit => unit.GUIDPoint == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
+                var enemyUnitEntities = _dataWorld.Select<SquadComponent>()
+                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
                     .GetEntities();
 
                 foreach (var unitEntity in enemyUnitEntities)
                 {
-                    ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
+                    ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
                     enemyInBuild.Add(new EnemyInBuildLink {
                         Index = unitComponent.IndexPoint,
                         GUID = unitComponent.GUIDPoint,
@@ -137,13 +137,13 @@ namespace CyberNet.Core.AI
             foreach (var connectPointEntity in connectPointEntities)
             {
                 var connectPointComponent = connectPointEntity.GetComponent<ConnectPointComponent>();
-                var enemyUnitEntities = _dataWorld.Select<UnitComponent>()
-                    .Where<UnitComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
+                var enemyUnitEntities = _dataWorld.Select<SquadComponent>()
+                    .Where<SquadComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
                     .GetEntities();
 
                 foreach (var unitEntity in enemyUnitEntities)
                 {
-                    ref var unitComponent = ref unitEntity.GetComponent<UnitComponent>();
+                    ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
                     enemyInBuild.Add(new EnemyInBuildLink {
                         Index = unitComponent.IndexPoint,
                         GUID = unitComponent.GUIDPoint,

@@ -23,7 +23,7 @@ namespace CyberNet.Local
                 CurrentRound = 0,
                 CurrentTurn = 1,
                 CurrentPlayerID = selectLeader[0].PlayerID,
-                PlayerType = PlayerType.Player
+                playerTypeEnum = PlayerTypeEnum.Player
             });
         }
         
@@ -59,7 +59,7 @@ namespace CyberNet.Local
             var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
 
             var nextRoundPlayerID = 0;
-            var nextRoundPlayerType = PlayerType.None;
+            var nextRoundPlayerType = PlayerTypeEnum.None;
             foreach (var entityPlayer in entitiesPlayer)
             {
                 ref var componentPlayer = ref entityPlayer.GetComponent<PlayerComponent>();
@@ -71,12 +71,12 @@ namespace CyberNet.Local
                 if (componentPlayer.PositionInTurnQueue == 0)
                 {
                     nextRoundPlayerID = componentPlayer.PlayerID;
-                    nextRoundPlayerType = componentPlayer.PlayerType;
+                    nextRoundPlayerType = componentPlayer.playerTypeEnum;
                 }
             }
 
             roundData.CurrentPlayerID = nextRoundPlayerID;
-            roundData.PlayerType = nextRoundPlayerType;
+            roundData.playerTypeEnum = nextRoundPlayerType;
             
             _dataWorld.RiseEvent(new EventDistributionCard {
                 TargetPlayerID = roundData.CurrentPlayerID,
@@ -105,9 +105,9 @@ namespace CyberNet.Local
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
             uiRound.NewRoundView(playerViewComponent.Avatar, playerViewComponent.Name);
-            await Task.Delay(2000);
+            await Task.Delay(1500);
 
-            if (playerComponent.PlayerType == PlayerType.Player)
+            if (playerComponent.playerTypeEnum == PlayerTypeEnum.Player)
             {
                 if (SelectFirstBaseAction.CheckInstallFirstBase.Invoke())
                     StartTurn();   

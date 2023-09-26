@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace CyberNet.Core.City
 {
-    public class SolidPointVFXMono : MonoBehaviour
+    public class SquadPointVFXMono : MonoBehaviour
     {
         [SerializeField]
         private MeshRenderer LightCube;

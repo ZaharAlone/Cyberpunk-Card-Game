@@ -7,6 +7,7 @@ namespace CyberNet.Meta
 {
     public static class MainMenuAction
     {
+        public static Action StartTutorial;
         public static Action OpenCampaign;
         public static Action OpenMainMenu;
         public static Action CloseMainMenu;

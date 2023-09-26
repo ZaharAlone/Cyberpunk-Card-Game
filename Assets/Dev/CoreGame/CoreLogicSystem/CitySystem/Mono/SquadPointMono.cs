@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace CyberNet.Core.City
 {
-    public class SolidPointMono : MonoBehaviour
+    public class SquadPointMono : MonoBehaviour
     {
         public bool StartIsNeutralSolid;
         public int Index;

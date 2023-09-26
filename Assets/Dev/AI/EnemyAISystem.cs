@@ -70,13 +70,13 @@ namespace CyberNet.Core.AI
         private async void LogicAI()
         {
             Debug.LogError("Enter Start Turn Enemy");
-            await Task.Delay(1000);
+            await Task.Delay(800);
             PlayAll();
-            await Task.Delay(1000);
+            await Task.Delay(800);
             SelectTradeCard();
-            await Task.Delay(1000);
+            await Task.Delay(800);
             Attack();
-            await Task.Delay(1000);
+            await Task.Delay(800);
             ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
 
@@ -242,16 +242,23 @@ namespace CyberNet.Core.AI
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var attackPoint = actionData.TotalAttack - actionData.SpendAttack;
+            ref var rulesGame = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             
             if (attackPoint == 0)
                 return;
 
-            if (attackPoint >= 3)
+            if (attackPoint >= rulesGame.PriceKillSquad)
             {
                 var enemyInPlayerSlot = EnemyAIAttackSupportAction.CheckEnemyPresenceInBuild.Invoke();
-                Debug.LogError("Check attack");
+
                 if (enemyInPlayerSlot.Count != 0)
                 {
+                    var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+                    var playerEntity = _dataWorld.Select<PlayerComponent>()
+                        .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                        .SelectFirstEntity();
+                    ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+                    
                     var selectTargetIndex = -1;
                     var counter = 0;
                     foreach (var enemyLink in enemyInPlayerSlot)
@@ -265,9 +272,9 @@ namespace CyberNet.Core.AI
 
                     if (selectTargetIndex == -1)
                         selectTargetIndex = 0;
-                    
-                    Debug.LogError("Attack Bot");
-                    actionData.SpendAttack += 3;
+
+                    actionData.SpendAttack += rulesGame.PriceKillSquad;
+                    playerComponent.VictoryPoint += rulesGame.RewardKillSquad;
                     
                     CityAction.AttackSolidPoint?.Invoke(enemyInPlayerSlot[selectTargetIndex].GUID, enemyInPlayerSlot[selectTargetIndex].Index);
                 }
@@ -285,9 +292,12 @@ namespace CyberNet.Core.AI
                     }
                     else
                     {
-                        
+                        return;
                     }
                 }
+                
+                UpdateViewPlayer();
+                Attack();
             }
             else if (attackPoint >= 1)
             {
@@ -303,11 +313,12 @@ namespace CyberNet.Core.AI
                         SpawnUnit(connectPointFreeSlot, attackPoint);
                 }
             }
-            
+        }
+
+        private void UpdateViewPlayer()
+        {
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
-            Attack();
         }
 
         private void SpawnUnit(List<BuildFreeSlotStruct> freeSlotList, int countUnit)
@@ -331,7 +342,7 @@ namespace CyberNet.Core.AI
                     var unit = new InitUnitStruct 
                     {
                         KeyUnit = playerViewComponent.KeyCityVisual,
-                        SolidPoint = solidPoint,
+                        squadPoint = solidPoint,
                         PlayerControl = PlayerControlEnum.Player,
                         TargetPlayerID = currentPlayerID
                     };
@@ -346,6 +357,8 @@ namespace CyberNet.Core.AI
                 if (counter >= countUnit)
                     break;
             }
+
+            UpdateViewPlayer();
         }
     }
 }

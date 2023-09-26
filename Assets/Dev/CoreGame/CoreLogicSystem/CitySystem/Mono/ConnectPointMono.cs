@@ -1,35 +1,38 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
 {
     public class ConnectPointMono : MonoBehaviour
     {
-        public CountPlayerEnum ActiveOnCountPlayer;
+        [FormerlySerializedAs("ActiveOnCountPlayer")]
+        public CountPlayerInGameEnum activeOnCountPlayerInGame;
         public ConnectPointStruct PreviousPoint;
         public ConnectPointStruct NextPoint;
         
+        [FormerlySerializedAs("SolidPointMono")]
         [Space]
-        public SolidPointMono SolidPointMono;
+        public SquadPointMono squadPointMono;
         public string GUID;
 
         public void GetSolid()
         {
-            SolidPointMono = transform.GetChild(0).GetComponent<SolidPointMono>();
-            SolidPointMono.SetGUID(GUID);
-            SolidPointMono.SetIndex(0);
-            SolidPointMono.GetCollider();
+            squadPointMono = transform.GetChild(0).GetComponent<SquadPointMono>();
+            squadPointMono.SetGUID(GUID);
+            squadPointMono.SetIndex(0);
+            squadPointMono.GetCollider();
         }
         
         public void ActivateSolidPointCollider()
         {
-            SolidPointMono.ActivateCollider();
+            squadPointMono.ActivateCollider();
         }
 
         public void DeactivateSolidPointCollider()
         {
-            SolidPointMono.DeactivateCollider();
+            squadPointMono.DeactivateCollider();
         }
         
         #if UNITY_EDITOR

@@ -9,7 +9,7 @@ namespace CyberNet.Core.City
         public string Key;
         public TowerMono TowerMono;
         public GameObject TowerGO;
-        public List<SolidPointMono> SolidPointMono;
+        public List<SquadPointMono> SolidPointMono;
         public ParticleSystem SelectTowerEffect;
         
         //Кому принадлежит контроль над башней?

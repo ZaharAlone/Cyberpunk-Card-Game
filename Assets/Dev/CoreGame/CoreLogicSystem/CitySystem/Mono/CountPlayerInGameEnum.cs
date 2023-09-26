@@ -1,6 +1,6 @@
 namespace CyberNet.Core.City
 {
-    public enum CountPlayerEnum
+    public enum CountPlayerInGameEnum
     {
         Two,
         Three,

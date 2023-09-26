@@ -9,8 +9,9 @@ namespace CyberNet.Core.City
         public string GUID;
         public string Key = "tower_1";
         public bool IsFirstBasePlayer;
-        public CountPlayerEnum ActiveOnCountPlayer;
-        public List<SolidPointMono> SolidPoints = new List<SolidPointMono>();
+        [FormerlySerializedAs("ActiveOnCountPlayer")]
+        public CountPlayerInGameEnum activeOnCountPlayerInGame;
+        public List<SquadPointMono> SolidPoints = new List<SquadPointMono>();
         public BoxCollider ColliderTower;
 
         public void GetAllSolidPoint()
@@ -21,7 +22,7 @@ namespace CyberNet.Core.City
                 SolidPoints.Clear();
                 foreach (Transform child in transform)
                 {
-                    var solidPoint = child.GetComponent<SolidPointMono>();
+                    var solidPoint = child.GetComponent<SquadPointMono>();
                     if (solidPoint == null)
                         continue;
                     solidPoint.SetIndex(counter);

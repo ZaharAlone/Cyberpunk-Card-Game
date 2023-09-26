@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
 {
@@ -10,7 +11,8 @@ namespace CyberNet.Core.City
     {
         public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
-        public SolidPointVFXMono SolidPointVFXMono;
+        [FormerlySerializedAs("SolidPointVFXMono")]
+        public SquadPointVFXMono squadPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
         public TextAsset TowerConfig;
@@ -21,7 +23,8 @@ namespace CyberNet.Core.City
     [Serializable]
     public struct UnitVisual
     {
-        public UnitMono UnitMono;
+        [FormerlySerializedAs("UnitMono")]
+        public SquadMono squadMono;
         public Color32 ColorUnit;
     }
 }

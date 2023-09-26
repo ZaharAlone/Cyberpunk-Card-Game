@@ -41,7 +41,7 @@ namespace CyberNet
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
-        public Dictionary<PlayerType, LocalizedString> PlayerTypeLoc;
+        public Dictionary<PlayerTypeEnum, LocalizedString> PlayerTypeLoc;
 
         [Header("Size")]
         public Vector3 SizeCardInDeck = new Vector3(0.25f, 0.25f, 1f);

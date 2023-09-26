@@ -317,11 +317,11 @@
     "image": "card_netrunners_agent",
     "nations": "Netrunners",
     "count": 4,
-    "price": 3,
-    "cyberpsychosis_count": 2,
+    "price": 2,
+    "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "attack",
-      "count": 2
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "netrunners_ai": {
@@ -333,7 +333,7 @@
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "drawCard",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -346,7 +346,7 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "destroyCard",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -359,8 +359,8 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "attack",
-      "count": 2
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "netrunners_cracker": {
@@ -372,7 +372,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "destroyCard",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -385,7 +385,7 @@
     "price": 1,
     "cyberpsychosis_count": 0,
     "ability_0": {
-      "action": "Attack",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -398,7 +398,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "attack",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -411,7 +411,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "drawCard",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -424,7 +424,7 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "Attack",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -437,7 +437,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "Attack",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -450,7 +450,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "destroyCard",
+      "action": "AddNoiseCard",
       "count": 1
     }
   },
@@ -463,8 +463,8 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "attack",
-      "count": 2
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "nomads_blueBlade": {
@@ -476,8 +476,8 @@
     "price": 5,
     "cyberpsychosis_count": 4,
     "ability_0": {
-      "action": "attack",
-      "count": 5
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "nomads_demon": {
@@ -489,8 +489,8 @@
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "attack",
-      "count": 3
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "nomads_doctor": {
@@ -502,8 +502,8 @@
     "price": 6,
     "cyberpsychosis_count": 5,
     "ability_0": {
-      "action": "attack",
-      "count": 5
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "nomads_outcast": {
@@ -515,8 +515,8 @@
     "price": 4,
     "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "attack",
-      "count": 3
+      "action": "AddNoiseCard",
+      "count": 1
     }
   },
   "nomads_racer": {
@@ -596,5 +596,14 @@
       "action": "drawCard",
       "count": 1
     }
+  },
+  "neutral_noise": {
+    "name": "neutral_noise",
+    "header": "BoardGameCard/$bgc_neutral_noise_name",
+    "image": "card_neutral_noise",
+    "nations": "Neutral",
+    "count": 0,
+    "price": 0,
+    "cyberpsychosis_count": 0
   }
 }

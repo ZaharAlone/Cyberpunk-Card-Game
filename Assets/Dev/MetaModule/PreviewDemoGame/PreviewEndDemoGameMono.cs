@@ -37,11 +37,6 @@ namespace CyberNet.Meta.DemoGame
         {
             Application.OpenURL("Steam://openurl/https://store.steampowered.com/app/1965780/");
         }
-
-        public void OnClickTakeSurvey()
-        {
-            //Ling Survey
-        }
         
         public void OnClickBack()
         {

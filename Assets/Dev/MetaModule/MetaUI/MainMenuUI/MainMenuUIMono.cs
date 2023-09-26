@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+
 namespace CyberNet.Meta
 {
     public class MainMenuUIMono : MonoBehaviour
@@ -17,6 +18,11 @@ namespace CyberNet.Meta
         {
             Background.SetActive(false);
             Panel.SetActive(false);
+        }
+
+        public void OnClickTutorial()
+        {
+            MainMenuAction.StartTutorial?.Invoke();
         }
         
         public void OnClickCampaign()
@@ -42,6 +48,11 @@ namespace CyberNet.Meta
         public void OnClickExitGame()
         {
             MainMenuAction.OpenExitGame?.Invoke();
+        }
+        
+        public void OnClickAddWishlist()
+        {
+            Application.OpenURL("Steam://openurl/https://store.steampowered.com/app/1965780/");
         }
     }
 }

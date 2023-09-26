@@ -30,7 +30,7 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.PlayerType == PlayerType.Player)
+            if (roundData.playerTypeEnum == PlayerTypeEnum.Player)
                 UpdateVFX(roundData.CurrentPlayerID);
         }
 

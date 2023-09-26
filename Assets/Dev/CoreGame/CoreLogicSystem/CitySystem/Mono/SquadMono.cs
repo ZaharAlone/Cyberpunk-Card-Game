@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CyberNet.Core.City
 {
-    public class UnitMono : MonoBehaviour
+    public class SquadMono : MonoBehaviour
     {
         
     }

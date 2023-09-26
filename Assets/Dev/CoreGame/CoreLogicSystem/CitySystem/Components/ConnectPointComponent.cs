@@ -10,7 +10,8 @@ namespace CyberNet.Core.City
         public string GUID;
         public GameObject ConnectPointGO;
         public ConnectPointMono ConnectPointMono;
-        public SolidPointMono SolidPointMono;
+        [FormerlySerializedAs("SolidPointMono")]
+        public SquadPointMono squadPointMono;
         public List<ConnectPointTypeGUID> ConnectPointsTypeGUID;
     }
     

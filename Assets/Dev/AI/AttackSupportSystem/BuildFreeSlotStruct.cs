@@ -8,6 +8,6 @@ namespace CyberNet.Core.AI
     {
         public int CountFreeSlot;
         public string GUID;
-        public List<SolidPointMono> SolidPointsMono;
+        public List<SquadPointMono> SolidPointsMono;
     }
 }

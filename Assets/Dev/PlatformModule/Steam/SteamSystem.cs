@@ -20,9 +20,17 @@ namespace CyberNet.Platform.Steam
 
         private string GetPlayerName()
         {
+            #if UNITY_EDITOR
+            return "Zakhar";
+            #endif
+            
             var playerName = "";
             if(SteamManager.Initialized) {
                 playerName = SteamFriends.GetPersonaName();
+            }
+            else
+            {
+                playerName = "Player";
             }
 
             return playerName;

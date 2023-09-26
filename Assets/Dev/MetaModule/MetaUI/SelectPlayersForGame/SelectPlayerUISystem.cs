@@ -47,7 +47,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             
             selectLeaders.Add(new SelectLeaderData {
                 PlayerID = newPlayerID,
-                PlayerType = PlayerType.AIEasy,
+                playerTypeEnum = PlayerTypeEnum.AIEasy,
                 SelectLeader = enemyLeaders[0],
                 NamePlayer = botName,
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[indexSlot]
@@ -96,7 +96,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
                     playerSlot.SetViewLeader(imCardLeaders, imAbility, leadersConfig.NameLoc);
                     playerSlot.SetBaseNamePlayer(selectPlayers[counter].NamePlayer);
                     
-                    playerTypeLoc.TryGetValue(selectPlayers[counter].PlayerType, out var locSelectTypePlayer);
+                    playerTypeLoc.TryGetValue(selectPlayers[counter].playerTypeEnum, out var locSelectTypePlayer);
                     playerSlot.SetLocTypePlayer(locSelectTypePlayer);
                 }
                 
@@ -129,21 +129,28 @@ namespace CyberNet.Meta.SelectPlayersForGame
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             
-            var indexPlayerType = selectLeaders[indexSlot].PlayerType.GetHashCode();
+            var indexPlayerType = selectLeaders[indexSlot].playerTypeEnum.GetHashCode();
             
             if (isRightMove)
                 indexPlayerType++;
             else
                 indexPlayerType--;
 
+            if (indexPlayerType == 3)
+                indexPlayerType = 1;
+            if (indexPlayerType == 0)
+                indexPlayerType = 2;
+            
+            //TODO: вернуть после демки
+            /*+
             if (indexPlayerType == 5)
                 indexPlayerType = 1;
             if (indexPlayerType == 0)
                 indexPlayerType = 4;
-
+*/
             var selectLeaderEdit = selectLeaders[indexSlot];
-            selectLeaderEdit.PlayerType = (PlayerType)Enum.ToObject(typeof(PlayerType), indexPlayerType);
-            if (selectLeaderEdit.PlayerType == PlayerType.Player)
+            selectLeaderEdit.playerTypeEnum = (PlayerTypeEnum)Enum.ToObject(typeof(PlayerTypeEnum), indexPlayerType);
+            if (selectLeaderEdit.playerTypeEnum == PlayerTypeEnum.Player)
                 selectLeaderEdit.NamePlayer = $"Player {(indexSlot + 1).ToString()}";
             else
                 selectLeaderEdit.NamePlayer = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectLeaders);

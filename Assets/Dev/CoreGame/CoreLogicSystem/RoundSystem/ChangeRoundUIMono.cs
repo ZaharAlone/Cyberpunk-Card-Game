@@ -38,9 +38,9 @@ namespace CyberNet.Core.UI
             NewRoundGO.SetActive(true);
             NewRoundRect.position = new Vector3(-_deltaSize, NewRoundRect.position.y, NewRoundRect.position.z);
             _sequence = DOTween.Sequence();
-            _sequence.Append(NewRoundRect.DOAnchorPos(new Vector2(0,0), 0.7f))
-                .AppendInterval(2f)
-                .Append(NewRoundRect.DOAnchorPos(new Vector2(_deltaSize, 0), 0.7f))
+            _sequence.Append(NewRoundRect.DOAnchorPos(new Vector2(0,100), 0.5f))
+                .AppendInterval(1.5f)
+                .Append(NewRoundRect.DOAnchorPos(new Vector2(_deltaSize, 100), 0.5f))
                 .OnComplete(()=> CompleteAnimatios());
         }
 

@@ -33,7 +33,7 @@ namespace CyberNet.Core.AbilityCard
 
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             
-            if (playerComponent.PlayerType != PlayerType.Player)
+            if (playerComponent.playerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
             var entity = _dataWorld.Select<CardComponent>().With<ActionSelectCardComponent>().SelectFirstEntity();
