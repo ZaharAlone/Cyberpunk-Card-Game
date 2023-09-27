@@ -80,8 +80,8 @@ namespace CyberNet.Core
             uiSelectAbility.LeftCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.CyberpsychosisCount, nationsImage);
             uiSelectAbility.RightCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.CyberpsychosisCount, nationsImage);
             
-            SetViewAbilityCard.SetView(uiSelectAbility.LeftCard.AbilityContainer, cardConfig.Ability_0, boardGameConfig, false, true);
-            SetViewAbilityCard.SetView(uiSelectAbility.RightCard.AbilityContainer, cardConfig.Ability_1, boardGameConfig, false, true);
+            SetViewAbilityCard.SetView(uiSelectAbility.LeftCard.AbilityContainer, cardConfig.Ability_0, boardGameConfig, cardsConfig, false, true);
+            SetViewAbilityCard.SetView(uiSelectAbility.RightCard.AbilityContainer, cardConfig.Ability_1, boardGameConfig, cardsConfig, false, true);
             uiSelectAbility.OpenFrame();
         }
         

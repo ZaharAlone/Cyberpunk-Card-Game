@@ -15,8 +15,8 @@ namespace CyberNet.Core.AbilityCard
 
         public void PreInit()
         {
-            ActionCardEvent.UpdateValueResourcePlayedCard += CalculateValueCard;
-            ActionCardEvent.ClearActionView += ClearAction;
+            AbilityCardAction.UpdateValueResourcePlayedCard += CalculateValueCard;
+            AbilityCardAction.ClearActionView += ClearAction;
         }
         
         public void Init()
@@ -52,6 +52,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CheckComboEffect(CardComponent cardComponent, EntitiesEnumerable entities)
         {
+            //TODO: дописать скорее всего сейчас нифига не работает так как нет проверки условий
             foreach (var entity in entities)
             {
                 ref var cardComponentDeck = ref entity.GetComponent<CardComponent>();
@@ -75,10 +76,18 @@ namespace CyberNet.Core.AbilityCard
             switch (abilityCardStruct.AbilityType)
             {
                 case AbilityType.Attack:
-                    entity.AddComponent(new ActionCardAddResourceComponent {AbilityType = abilityCardStruct.AbilityType, Count = abilityCardStruct.Count});
+                    entity.AddComponent(new ActionCardAddResourceComponent {
+                        AbilityType = abilityCardStruct.AbilityType,
+                        Count = abilityCardStruct.Count
+                    });
+                    AbilityCardAction.AddResource?.Invoke();
                     break;
                 case AbilityType.Trade:
-                    entity.AddComponent(new ActionCardAddResourceComponent {AbilityType = abilityCardStruct.AbilityType, Count = abilityCardStruct.Count});
+                    entity.AddComponent(new ActionCardAddResourceComponent {
+                        AbilityType = abilityCardStruct.AbilityType,
+                        Count = abilityCardStruct.Count
+                    });
+                    AbilityCardAction.AddResource?.Invoke();
                     break;
                 case AbilityType.DrawCard:
                     ActionDrawCard(abilityCardStruct.Count);
@@ -86,23 +95,27 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.DestroyCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     break;
+                case AbilityType.EnemyDiscardCard:
+                    AbilityCardAction.DiscardCard?.Invoke();
+                    break;
+                case AbilityType.AddNoiseCard:
+                    AbilityCardAction.AddNoiseCard?.Invoke();
+                    break;
             }
         }
 
         private void ActionSelectCardAddComponent(AbilityCardContainer abilityCardStruct, Entity entity)
         {
-            entity.AddComponent(new ActionSelectCardComponent {
+            entity.AddComponent(new ActionSelectElementComponent {
                 AbilityCard = abilityCardStruct
             });
-            ActionSelectCardAction.OpenSelectAbilityCard?.Invoke();
+            ActionSelectElementAction.OpenSelectAbilityCard?.Invoke();
         }
-
+        
         private void ActionDrawCard(int value)
         {
             ref var targetPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             _dataWorld.RiseEvent(new EventDistributionCard { TargetPlayerID = targetPlayerID, Count = value });
-            
-            //View Effect
         }
 
         private void ClearAction()

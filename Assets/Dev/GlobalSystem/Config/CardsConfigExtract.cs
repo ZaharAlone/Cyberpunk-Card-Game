@@ -19,8 +19,9 @@ namespace CyberNet
         public void PreInit()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(boardGameData.BoardGameConfig.CardConfigJson.text);
-            _dataWorld.CreateOneData(new CardsConfig { Cards = dictionary });
+            var cardConfig = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(boardGameData.BoardGameConfig.CardConfigJson.text);
+            var abilityCardConfig = JsonConvert.DeserializeObject<Dictionary<string, AbilityCardConfig>>(boardGameData.BoardGameConfig.AbilityCardConfigJson.text);
+            _dataWorld.CreateOneData(new CardsConfig { Cards = cardConfig, AbilityCard = abilityCardConfig});
         }
     }
 }

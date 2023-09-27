@@ -12,6 +12,7 @@ namespace CyberNet
     public struct CardsConfig
     {
         public Dictionary<string, CardConfigJson> Cards;
+        public Dictionary<string, AbilityCardConfig> AbilityCard;
     }
 
     [Serializable]
@@ -63,5 +64,16 @@ namespace CyberNet
         Nomads,
         Netrunners,
         Destroy
+    }
+
+    [Serializable]
+    public struct AbilityCardConfig
+    {
+        [JsonProperty("abilityLoc")]
+        public string AbilityLoc;
+        [JsonProperty("selectFrame_headerLoc")]
+        public string SelectFrameHeader;
+        [JsonProperty("selectFrame_descrLoc")]
+        public string SelectFrameDescr;
     }
 }

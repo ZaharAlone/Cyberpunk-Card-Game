@@ -1,4 +1,4 @@
-namespace CyberNet.Core
+namespace CyberNet.Core.Player
 {
     public struct PlayerNotInstallFirstBaseComponent
     {

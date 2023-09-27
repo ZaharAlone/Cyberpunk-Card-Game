@@ -1,17 +1,51 @@
 {
-  "DrawCard": "AbilityCard/$cardAbility_drawCard",
-  "DestroyCard": "AbilityCard/$cardAbility_destroyCard",
-  "CloneCard": "AbilityCard/$cardAbility_cloneCard",
-  "DestroyTradeCard": "AbilityCard/$cardAbility_destroyTradeCard",
-  "SwitchNeutralSquad": "AbilityCard/$cardAbility_switchNeutralSquad",
-  "SwitchEnemySquad": "AbilityCard/$cardAbility_switchEnemySquad",
-  "PostAgent": "AbilityCard/$cardAbility_postAgent",
-  "ReturnAgent": "AbilityCard/$cardAbility_returnAgent",
-  "DrawCardEnemyDiscardCard": "AbilityCard/$cardAbility_drawCardEnemyDiscardCard",
-  "DestroyNeutralSquad": "AbilityCard/$cardAbility_destroyNeutralSquad",
-  "DestroyEnemySquad": "AbilityCard/$cardAbility_destroyEnemySquad",
-  "DestroyEnemyAgentPresence": "AbilityCard/$cardAbility_destroyEnemyAgentPresence",
-  "PostSquad": "AbilityCard/$cardAbility_postSquad",
-  "AddNoiseCard": "AbilityCard/$cardAbility_addNoiseCard",
-  "EnemyDiscardCard": "AbilityCard/$cardAbility_enemyDiscardCard"
+  "DrawCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_drawCard"
+  },
+  "DestroyCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyCard"
+  },
+  "CloneCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_cloneCard"
+  },
+  "DestroyTradeCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyTradeCard"
+  },
+  "SwitchNeutralSquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_switchNeutralSquad"
+  },
+  "SwitchEnemySquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_switchEnemySquad"
+  },
+  "PostAgent": {
+    "abilityLoc": "AbilityCard/$cardAbility_postAgent"
+  },
+  "ReturnAgent": {
+    "abilityLoc": "AbilityCard/$cardAbility_returnAgent"
+  },
+  "DrawCardEnemyDiscardCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_drawCardEnemyDiscardCard"
+  },
+  "DestroyNeutralSquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyNeutralSquad"
+  },
+  "DestroyEnemySquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyEnemySquad"
+  },
+  "DestroyEnemyAgentPresence": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyEnemyAgentPresence"
+  },
+  "PostSquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_postSquad"
+  },
+  "AddNoiseCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_addNoiseCard",
+    "selectFrame_headerLoc": "CoreGame/$bg_selectPlayerAddNoiseCard_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_selectPlayerAddNoiseCard_descr"
+  },
+  "EnemyDiscardCard": {
+    "abilityLoc": "AbilityCard/$cardAbility_enemyDiscardCard",
+    "selectFrame_headerLoc": "CoreGame/$bg_selectPlayerDiscardCard_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_selectPlayerDiscardCard_discard"
+  }
 }

@@ -85,7 +85,7 @@ namespace CyberNet.Core
 
         public async void EndMoveCardAnimations(Entity entity)
         {
-            ActionCardEvent.UpdateValueResourcePlayedCard?.Invoke();
+            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             await Task.Delay(150);
             
             AnimationsMoveAtEndPlayingCardDeck(entity);

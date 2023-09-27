@@ -133,7 +133,7 @@ namespace CyberNet.Core.UI
             newEntity.AddComponent(new WaitEndRoundComponent());
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
-            ActionCardEvent.ClearActionView.Invoke();
+            AbilityCardAction.ClearActionView.Invoke();
         }
     }
 }

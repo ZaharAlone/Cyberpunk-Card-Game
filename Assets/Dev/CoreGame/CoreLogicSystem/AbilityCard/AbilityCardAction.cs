@@ -2,13 +2,15 @@ using System;
 
 namespace CyberNet.Core.AbilityCard
 {
-    public static class ActionCardEvent
+    public static class AbilityCardAction
     {
         //Считаем сколько ресурсов стало
         public static Action UpdateValueResourcePlayedCard;
         public static Action ClearActionView;
         
-        //Делегаты для вызова/проверки определенных абилок
-        public static Action CheckDiscardCard;
+        //Делегаты вызова абилки
+        public static Action AddResource;
+        public static Action DiscardCard;
+        public static Action AddNoiseCard;
     }   
 }

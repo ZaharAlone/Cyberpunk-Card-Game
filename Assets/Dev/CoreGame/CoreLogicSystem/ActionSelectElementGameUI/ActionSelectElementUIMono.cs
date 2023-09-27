@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
-    public class ActionSelectCardUIMono : MonoBehaviour
+    public class ActionSelectElementUIMono : MonoBehaviour
     {
         public GameObject Background;
         public GameObject Panel;
@@ -46,12 +46,12 @@ namespace CyberNet.Core.AbilityCard
 
         public void OnClickCancelButton()
         {
-            ActionSelectCardAction.CloseWindowAbilitySelectCard?.Invoke();
+            ActionSelectElementAction.CloseWindowAbilitySelectCard?.Invoke();
         }
 
         public void OnClickConfimButton()
         {
-            ActionSelectCardAction.SelectCard?.Invoke();
+            ActionSelectElementAction.SelectCard?.Invoke();
         }
     }
 }

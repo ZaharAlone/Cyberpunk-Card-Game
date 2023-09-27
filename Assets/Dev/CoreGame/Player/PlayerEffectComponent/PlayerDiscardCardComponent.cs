@@ -1,4 +1,4 @@
-namespace Dev.CoreGame.GlobalCoreElement.PlayerEffectComponent
+namespace CyberNet.Core.Player
 {
     public struct PlayerDiscardCardComponent
     {

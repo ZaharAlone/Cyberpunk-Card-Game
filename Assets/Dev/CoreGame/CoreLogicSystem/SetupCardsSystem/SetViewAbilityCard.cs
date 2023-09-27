@@ -5,7 +5,7 @@ namespace CyberNet.Core
 {
     public static class SetViewAbilityCard
     {
-        public static void SetView(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, bool chooseAbility = false, bool oneAbility = false)
+        public static void SetView(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsConfig cardConfig, bool chooseAbility = false, bool oneAbility = false)
         {
             if (chooseAbility)
                 Object.Instantiate(boardGameConfig.IconsArrowChooseAbility, container);
@@ -13,7 +13,7 @@ namespace CyberNet.Core
             if (ability.Condition != AbilityCondition.None)
                 SetConfition(container, ability, boardGameConfig);
 
-            SetAction(container, ability, boardGameConfig, oneAbility);
+            SetAction(container, ability, boardGameConfig, cardConfig, oneAbility);
 
             container.gameObject.SetActive(true);
         }
@@ -50,30 +50,23 @@ namespace CyberNet.Core
             im_1.sprite = icons;
         }
 
-        private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, bool oneAbility = false)
+        private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsConfig cardConfig, bool oneAbility = false)
         {
-            switch (ability.AbilityType)
+            if (ability.AbilityType == AbilityType.Attack)
             {
-                case AbilityType.Attack:
-                    boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
-                    AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
-                    break;
-                case AbilityType.Trade:
-                    boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
-                    AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
-                    break;
-                case AbilityType.DrawCard:
-                    var textDraw = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDraw.text = "Draw Card";
-                    break;
-                case AbilityType.DestroyCard:
-                    var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDestroy.text = "Destroy Card";
-                    break;
-                case AbilityType.CloneCard:
-                    var textClone = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textClone.text = "Clone card in hand";
-                    break;
+                boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
+                AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
+            }
+            else if (ability.AbilityType == AbilityType.Trade)
+            {
+                boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
+                AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
+            }
+            else
+            {
+                cardConfig.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
+                var textCard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
+                textCard.text = I2.Loc.LocalizationManager.GetTranslation(abilityCardConfig.AbilityLoc);
             }
         }
 

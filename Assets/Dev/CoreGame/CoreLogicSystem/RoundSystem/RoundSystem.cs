@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Core.City;
+using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -41,6 +42,7 @@ namespace CyberNet.Local
                 .SelectFirstEntity();
 
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            playerEntity.AddComponent(new CurrentPlayerComponent());
             
             _dataWorld.RiseEvent(new EventDistributionCard {
                 TargetPlayerID = playerComponent.PlayerID,
@@ -60,16 +62,20 @@ namespace CyberNet.Local
 
             var nextRoundPlayerID = 0;
             var nextRoundPlayerType = PlayerTypeEnum.None;
-            foreach (var entityPlayer in entitiesPlayer)
+            foreach (var playerEntity in entitiesPlayer)
             {
-                ref var componentPlayer = ref entityPlayer.GetComponent<PlayerComponent>();
+                ref var componentPlayer = ref playerEntity.GetComponent<PlayerComponent>();
                 componentPlayer.PositionInTurnQueue--;
 
                 if (componentPlayer.PositionInTurnQueue < 0)
+                {
                     componentPlayer.PositionInTurnQueue = countPlayers -1;
+                    playerEntity.RemoveComponent<CurrentPlayerComponent>();
+                }
 
                 if (componentPlayer.PositionInTurnQueue == 0)
                 {
+                    playerEntity.AddComponent(new CurrentPlayerComponent());
                     nextRoundPlayerID = componentPlayer.PlayerID;
                     nextRoundPlayerType = componentPlayer.playerTypeEnum;
                 }
@@ -91,6 +97,8 @@ namespace CyberNet.Local
             else
                 roundData.CurrentTurn++;
             
+            
+            
             UpdateUIRound(nextRoundPlayerID);
         }
 
@@ -98,7 +106,7 @@ namespace CyberNet.Local
         {
             var uiRound = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ChangeRoundUI;
             var entityPlayer = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == playerID)
+                .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             var playerComponent = entityPlayer.GetComponent<PlayerComponent>();

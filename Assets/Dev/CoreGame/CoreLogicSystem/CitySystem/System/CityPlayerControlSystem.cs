@@ -1,4 +1,5 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Player;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;

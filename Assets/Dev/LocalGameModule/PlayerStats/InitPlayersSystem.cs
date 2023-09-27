@@ -1,3 +1,4 @@
+using CyberNet.Core.Player;
 using CyberNet.Global;
 using CyberNet.Meta;
 using EcsCore;

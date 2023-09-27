@@ -2,29 +2,31 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
-using Object = UnityEngine.Object;
 
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionCardAddResourceSystem : IRunSystem
+    public class ActionCardAddResourceSystem : IPreInitSystem, IDeactivateSystem
     {
         private DataWorld _dataWorld;
 
-        public void Run()
+        public void PreInit()
+        {
+            AbilityCardAction.AddResource += CalculateAddResource;
+        }
+        
+        private void CalculateAddResource()
         {
             var entities = _dataWorld.Select<ActionCardAddResourceComponent>()
-                                     .Without<CardComponentAnimations>()
-                                     .GetEntities();
+                .Without<CardComponentAnimations>()
+                .GetEntities();
 
             foreach (var entity in entities)
             {
                 AddResource(entity);
-            }
+            }    
         }
 
         private void AddResource(Entity entity)
@@ -49,6 +51,11 @@ namespace CyberNet.Core
             
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+        }
+
+        public void Deactivate()
+        {
+            AbilityCardAction.AddResource -= CalculateAddResource;
         }
     }
 }

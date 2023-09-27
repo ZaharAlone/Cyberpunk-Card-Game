@@ -50,6 +50,7 @@ namespace CyberNet.Core
         private void SetViewCard(CardMono card, CardConfigJson cardConfigJson)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var cardConfig = _dataWorld.OneData<CardsConfig>();
             var cardsImage = _dataWorld.OneData<BoardGameData>().CardsImage;
             cardsImage.TryGetValue(cardConfigJson.ImageKey, out var cardImage);
 
@@ -88,14 +89,14 @@ namespace CyberNet.Core
             if (cardConfigJson.Ability_0.AbilityType != AbilityType.None)
             {
                 if (onlyOneAbility)
-                    SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfigJson.Ability_0, boardGameConfig, chooseAbility, onlyOneAbility);
+                    SetViewAbilityCard.SetView(card.AbilityBlock_OneShot_Container, cardConfigJson.Ability_0, boardGameConfig, cardConfig, chooseAbility, onlyOneAbility);
                 else
-                    SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfigJson.Ability_0, boardGameConfig, chooseAbility);
+                    SetViewAbilityCard.SetView(card.AbilityBlock_1_Container, cardConfigJson.Ability_0, boardGameConfig, cardConfig, chooseAbility);
             }
             if (cardConfigJson.Ability_1.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfigJson.Ability_1, boardGameConfig, chooseAbility);
+                SetViewAbilityCard.SetView(card.AbilityBlock_2_Container, cardConfigJson.Ability_1, boardGameConfig, cardConfig, chooseAbility);
             if (cardConfigJson.Ability_2.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfigJson.Ability_2, boardGameConfig);
+                SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfigJson.Ability_2, boardGameConfig, cardConfig);
 
             card.CardOnBack();
         }

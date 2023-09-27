@@ -1,7 +1,7 @@
 using UnityEngine.Serialization;
 namespace CyberNet.Core.AbilityCard
 {
-    public struct ActionSelectCardComponent
+    public struct ActionSelectElementComponent
     {
         public AbilityCardContainer AbilityCard;
         public string SelectGUIDCard;

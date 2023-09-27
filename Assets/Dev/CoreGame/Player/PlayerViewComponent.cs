@@ -1,5 +1,6 @@
 using UnityEngine;
-namespace CyberNet.Core
+
+namespace CyberNet.Core.Player
 {
     public struct PlayerViewComponent
     {

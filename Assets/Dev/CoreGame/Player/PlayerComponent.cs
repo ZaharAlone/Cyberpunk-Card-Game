@@ -2,7 +2,7 @@ using CyberNet.Global;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.Player
 {
     public struct PlayerComponent
     {
