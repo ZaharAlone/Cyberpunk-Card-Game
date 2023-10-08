@@ -5,9 +5,8 @@ using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
-    public class ActionSelectElementUIMono : MonoBehaviour
+    public class AbilitySelectElementUIMono : MonoBehaviour
     {
-        public GameObject Background;
         public GameObject Panel;
         
         public Localize HeaderText;
@@ -23,13 +22,11 @@ namespace CyberNet.Core.AbilityCard
             ConfimButton.SetLocalizeTerm(NoneLocButton);
             CancelButton.gameObject.SetActive(isEnableCancelButton);
             
-            Background.SetActive(true);
             Panel.SetActive(true);
         }
 
         public void CloseWindow()
         {
-            Background.SetActive(false);
             Panel.SetActive(false);
         }
 
@@ -46,12 +43,12 @@ namespace CyberNet.Core.AbilityCard
 
         public void OnClickCancelButton()
         {
-            ActionSelectElementAction.CloseWindowAbilitySelectCard?.Invoke();
+            AbilitySelectElementAction.CancelSelect?.Invoke();
         }
 
         public void OnClickConfimButton()
         {
-            ActionSelectElementAction.SelectCard?.Invoke();
+            AbilitySelectElementAction.ConfimSelect?.Invoke();
         }
     }
 }

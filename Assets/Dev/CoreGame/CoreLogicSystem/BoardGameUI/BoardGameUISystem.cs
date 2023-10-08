@@ -17,7 +17,8 @@ namespace CyberNet.Core.UI
 
         public void PreInit()
         {
-            BoardGameUIAction.UpdateStatsPlayersPassportUI += UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI += UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI += ViewPlayerPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
             RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
@@ -57,7 +58,12 @@ namespace CyberNet.Core.UI
                 }
                 else
                 {
-                    ShowLeftPassportPlayer(playerComponent, playerViewComponent);
+                    var countDiscardCard = 0;
+                    if (entity.HasComponent<PlayerDiscardCardComponent>())
+                    {
+                        countDiscardCard = entity.GetComponent<PlayerDiscardCardComponent>().Count;
+                    }
+                    ShowLeftPassportPlayer(playerComponent, playerViewComponent, countDiscardCard);
                 }
 
                 counter++;
@@ -78,7 +84,7 @@ namespace CyberNet.Core.UI
             coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, playerComponent.UnitAgentCountInHand);
         }
 
-        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent, int countDiscardCard)
         {
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
@@ -88,6 +94,8 @@ namespace CyberNet.Core.UI
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(playerComponent.UnitCount);
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStatsColor(playerUnitVisual.ColorUnit);
+            
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);
         }
 
         private void UpdatePlayerCurrency()
@@ -112,7 +120,6 @@ namespace CyberNet.Core.UI
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
             gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.Cyberpsychosis, playerComponent.UnitAgentCountInHand);
         }
-
 
         private void UpdateCountCard()
         {

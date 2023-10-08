@@ -1,10 +1,44 @@
 using System.Collections.Generic;
+using CyberNet.Core.AbilityCard;
 using UnityEngine;
 
 namespace CyberNet.Core.AI
 {
-    public static class CalculateOptimalBuyCard
+    public static class CalculateOptimalCard
     {
+        public static float CalculateCardScore(AbilityCardContainer abilityCard, BotConfigData botConfigData)
+        {
+            if (abilityCard.AbilityType == AbilityType.None)
+                return 0f;
+            
+            var value = 0f;
+            var isFindConfig = botConfigData.BotScoreCard.TryGetValue(abilityCard.AbilityType.ToString(), out var multValueAction);
+
+            //TODO: Заглушка пока еще не все конфиги заданы для карт
+            if (!isFindConfig)
+                return value;
+            switch (abilityCard.AbilityType)
+            {
+                case AbilityType.Attack:
+                    value = multValueAction * abilityCard.Count;
+                    break;
+                case AbilityType.Trade:
+                    value = multValueAction * abilityCard.Count;
+                    break;
+                case AbilityType.DrawCard:
+                    value = multValueAction;
+                    break;
+                case AbilityType.DestroyCard:
+                    value = multValueAction;
+                    break;
+                case AbilityType.CloneCard:
+                    value = multValueAction;
+                    break;
+            }
+            
+            return value;
+        }
+        
         public static List<string> FindOptimalPurchase(List<ScoreCardToBuy> scoreCardToBuy, int budget)
         {
             var countCard = scoreCardToBuy.Count;

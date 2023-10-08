@@ -8,7 +8,6 @@ namespace CyberNet.Core
 	{
 		public string CardName;
 		public int IDPositions;
-		public CardStage PlayerStageCard;
 	}
 
 	[Serializable]
@@ -16,15 +15,5 @@ namespace CyberNet.Core
 	{
 		public int IndexPlayer;
 		public List<CardData> Cards;
-	}
-
-	[Serializable]
-	public enum CardStage
-	{
-		Hand,
-		Deck,
-		Table,
-		Discard,
-		Destroy
 	}
 }

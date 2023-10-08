@@ -25,7 +25,7 @@ namespace CyberNet.Core
                 return;
 
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (!roundData.EndPreparationRound)
+            if (roundData.PauseInteractive)
                 return;
 
             var isEntity = _dataWorld.Select<CardComponent>()
@@ -162,7 +162,7 @@ namespace CyberNet.Core
                 return;
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (!roundData.EndPreparationRound)
+            if (roundData.PauseInteractive)
                 return;
 
             var isEntity = _dataWorld.Select<CardComponent>()

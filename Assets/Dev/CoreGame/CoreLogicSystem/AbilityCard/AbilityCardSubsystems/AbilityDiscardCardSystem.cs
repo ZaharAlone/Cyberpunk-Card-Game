@@ -1,13 +1,11 @@
+using CyberNet.Core.AI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
-using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
-using Object = UnityEngine.Object;
+using CyberNet.Global;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -19,18 +17,28 @@ namespace CyberNet.Core.AbilityCard
         public void PreInit()
         {
             AbilityCardAction.DiscardCard += DiscardCardAbility;
-            RoundAction.StartTurn += CheckDiscardCard;
+            AbilityCardAction.CancelDiscardCard += CancelDiscardCard;
+            AbilityCardAction.PlayerDiscardCard += PlayerDiscardCard;
         }
-        
+
         private void DiscardCardAbility()
         {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
 
+            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            {
+                AbilityAIAction.DiscardCardSelectPlayer?.Invoke();
+                return;
+            }
 
-            //EnemyPassportAction.SelectPlayer += SelectPlayerDiscardCard;
+            roundData.PauseInteractive = true;
+            AbilitySelectElementAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
+            AbilityCardAction.SelectPlayer += SelectPlayerDiscardCard;
         }
-        
+
         private void SelectPlayerDiscardCard(int targetPlayerID)
         {
+            AbilityCardAction.SelectPlayer -= SelectPlayerDiscardCard;
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
                 .SelectFirstEntity();
@@ -42,30 +50,29 @@ namespace CyberNet.Core.AbilityCard
             }
             else
             {
-                playerEntity.AddComponent(new PlayerDiscardCardComponent());
+                playerEntity.AddComponent(new PlayerDiscardCardComponent {Count = 1});
             }
+            
+            _dataWorld.OneData<RoundData>().PauseInteractive = false;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
+        }
+        
+        private void CancelDiscardCard()
+        {
+            _dataWorld.OneData<RoundData>().PauseInteractive = false;
+            AbilityCardAction.SelectPlayer -= SelectPlayerDiscardCard;
         }
 
-
-
-
-
-
-
-
-        private void CheckDiscardCard()
+        private void PlayerDiscardCard()
         {
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            var isDiscardPlayerCard = _dataWorld.Select<PlayerComponent>()
-                .With<PlayerDiscardCardComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
-                .TrySelectFirstEntity(out var playerEntity);
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
 
-            if (isDiscardPlayerCard)
-            {
-                ref var discardCardComponent = ref playerEntity.GetComponent<PlayerDiscardCardComponent>();
-                //Discard Card method
-            }
+            ref var discardCardComponent = ref playerEntity.GetComponent<PlayerDiscardCardComponent>();
+            
+            
+            RoundAction.StartTurn?.Invoke();
         }
 
 

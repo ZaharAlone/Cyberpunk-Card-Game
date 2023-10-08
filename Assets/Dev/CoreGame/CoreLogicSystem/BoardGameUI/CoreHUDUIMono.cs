@@ -99,6 +99,22 @@ namespace  CyberNet.Core.UI
         {
             ShowViewDeckCardAction.OpenDiscard?.Invoke();
         }
+
+        public void OnSelectPlayer()
+        {
+            foreach (var enemyPassport in EnemyPassports)
+            {
+                enemyPassport.OnEffectSelectPlayerStatus();
+            }
+        }
+        
+        public void OffSelectPlayer()
+        {
+            foreach (var enemyPassport in EnemyPassports)
+            {
+                enemyPassport.OffEffectSelectPlayerStatus();
+            }
+        }
     }
     
     [Serializable]

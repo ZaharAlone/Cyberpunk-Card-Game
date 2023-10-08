@@ -33,7 +33,7 @@ namespace CyberNet.Core
         {
             ref var abilityAddResourceComponent = ref entity.GetComponent<ActionCardAddResourceComponent>();
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var abilityVFX = _dataWorld.OneData<ActionCardConfigData>().ActionCardConfig;
+            var abilityVFX = _dataWorld.OneData<AbilityCardConfigData>().AbilityCardConfig;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             

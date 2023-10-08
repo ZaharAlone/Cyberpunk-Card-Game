@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
@@ -24,7 +25,7 @@ namespace CyberNet.Local
                 CurrentRound = 0,
                 CurrentTurn = 1,
                 CurrentPlayerID = selectLeader[0].PlayerID,
-                playerTypeEnum = PlayerTypeEnum.Player
+                PlayerTypeEnum = PlayerTypeEnum.Player
             });
         }
         
@@ -49,13 +50,13 @@ namespace CyberNet.Local
                 Count = rules.CountDropCard
             });
             
-            UpdateUIRound(playerComponent.PlayerID);
+            UpdateUIRound();
         }
         
         private void SwitchRound()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.EndPreparationRound = false;
+            roundData.PauseInteractive = true;
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             var entitiesPlayer = _dataWorld.Select<PlayerComponent>().GetEntities();
             var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
@@ -82,7 +83,7 @@ namespace CyberNet.Local
             }
 
             roundData.CurrentPlayerID = nextRoundPlayerID;
-            roundData.playerTypeEnum = nextRoundPlayerType;
+            roundData.PlayerTypeEnum = nextRoundPlayerType;
             
             _dataWorld.RiseEvent(new EventDistributionCard {
                 TargetPlayerID = roundData.CurrentPlayerID,
@@ -97,12 +98,10 @@ namespace CyberNet.Local
             else
                 roundData.CurrentTurn++;
             
-            
-            
-            UpdateUIRound(nextRoundPlayerID);
+            UpdateUIRound();
         }
 
-        private async void UpdateUIRound(int playerID)
+        private async void UpdateUIRound()
         {
             var uiRound = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ChangeRoundUI;
             var entityPlayer = _dataWorld.Select<PlayerComponent>()
@@ -117,8 +116,14 @@ namespace CyberNet.Local
 
             if (playerComponent.playerTypeEnum == PlayerTypeEnum.Player)
             {
+                if (entityPlayer.HasComponent<PlayerDiscardCardComponent>())
+                {
+                    AbilityCardAction.PlayerDiscardCard?.Invoke();
+                    return;
+                }
+                
                 if (SelectFirstBaseAction.CheckInstallFirstBase.Invoke())
-                    StartTurn();   
+                    StartTurn();  
             }
             else
             {
@@ -129,7 +134,7 @@ namespace CyberNet.Local
         private void StartTurn()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.EndPreparationRound = true;
+            roundData.PauseInteractive = false;
             
             VFXCardInteractivAction.UpdateVFXCard?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();

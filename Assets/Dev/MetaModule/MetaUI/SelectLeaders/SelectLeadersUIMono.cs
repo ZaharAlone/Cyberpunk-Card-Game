@@ -1,6 +1,8 @@
 using System;
+using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Global;
+using DG.Tweening;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
@@ -13,8 +15,10 @@ namespace CyberNet.Meta
         [Header("Global UI")]
         public GameObject Background;
         public GameObject Panel;
-        
+
         [Header("Select Leaders Info")]
+        [SerializeField]
+        private RectTransform _frameSelectPlayer;
         public Image SelectLeadersImageCard;
         public Localize SelectLeadersNameLoc;
         public Localize SelectLeadersDescrLoc;
@@ -27,6 +31,8 @@ namespace CyberNet.Meta
         [Header("Header 2 current select player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
 
+        private Sequence _sequence;
+        
         public void Awake()
         {
             Background.SetActive(false);

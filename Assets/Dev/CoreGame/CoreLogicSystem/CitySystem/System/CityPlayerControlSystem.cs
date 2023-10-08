@@ -27,7 +27,7 @@ namespace CyberNet.Core.City
         public void CheckClick()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.playerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
             var inputData = _dataWorld.OneData<InputData>();
@@ -114,7 +114,7 @@ namespace CyberNet.Core.City
 
                 CityAction.InitUnit?.Invoke(initUnit);
                 CityAction.UpdatePresencePlayerInCity?.Invoke();
-                BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
+                BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             }
         }

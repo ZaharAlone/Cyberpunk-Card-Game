@@ -29,7 +29,7 @@ namespace CyberNet.Core
                 .SelectFirstEntity();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (!roundData.EndPreparationRound)
+            if (roundData.PauseInteractive)
                 return;
             
             ref var component = ref entity.GetComponent<CardComponent>();
@@ -54,7 +54,7 @@ namespace CyberNet.Core
         private void UpClickCard()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (!roundData.EndPreparationRound)
+            if (roundData.PauseInteractive)
                 return;
             
             var isMove = _dataWorld.Select<InteractiveMoveComponent>().Count();

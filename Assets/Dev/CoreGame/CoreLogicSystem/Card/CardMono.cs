@@ -118,15 +118,14 @@ namespace CyberNet.Core
             Canvas.gameObject.SetActive(true);
         }
 
-        public void SetMovePositionAnimations(Vector3 positions, Vector3 scale)
+        public void SetMovePositionAnimations(Vector3 positions)
         {
             _sequence = DOTween.Sequence();
             var distance = Vector3.Distance(transform.position, positions);
             var time = distance / 600;
-            if (time > 0.8f)
-                time = 0.8f;
-            _sequence.Append(transform.DOMove(positions, time))
-                     .Join(transform.DOScale(scale, time));
+            if (time > 0.7f)
+                time = 0.7f;
+            _sequence.Append(transform.DOMove(positions, time));
         }
 
         public void OnDisable()

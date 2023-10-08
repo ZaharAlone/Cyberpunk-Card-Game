@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 using CyberNet.Global;
 using CyberNet.Meta.SelectPlayersForGame;
 using CyberNet.Meta.StartGame;
@@ -62,16 +63,17 @@ namespace CyberNet.Meta
         {
             var leadersView = _dataWorld.OneData<LeadersViewData>().LeadersView;
             var leadersConfigData = _dataWorld.OneData<LeadersConfigData>();
+            var uiSelectLeader = _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
+            
             leadersConfigData.LeadersConfig.TryGetValue(nameLeader, out var leadersConfig);
             leadersConfigData.AbilityConfig.TryGetValue(leadersConfig.Ability, out var abilityConfig);
-
             leadersView.TryGetValue(leadersConfig.ImageCardLeaders, out var imCardLeaders);
             leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
-            
-            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
+
+
             uiSelectLeader.SetSelectViewLeader(imCardLeaders, leadersConfig.NameLoc, leadersConfig.DescrLoc);
-            
             uiSelectLeader.SetSelectViewLeaderAbility(imAbility, abilityConfig.NameLoc, abilityConfig.DescrLoc);
+            
             WriteInComponentSelectLeader(nameLeader);
         }
 
@@ -84,7 +86,6 @@ namespace CyberNet.Meta
             {
                 //TODO add select first button view
                 SelectLeaderView(nameLeader);
-                WriteInComponentSelectLeader(nameLeader);
             }
 
             return imageButton;

@@ -15,13 +15,6 @@ namespace  CyberNet.Meta
         
         public void Start()
         {
-            //TO-DO убрать когда будет полный конфиг
-            if (string.IsNullOrEmpty(KeyLeaders))
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-
             Button.onClick.AddListener(OnClicked);
             ImageButton.sprite = SelectLeaderAction.InitButtonLeader?.Invoke(KeyLeaders, IsFirstButton);
         }

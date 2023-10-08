@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.AbilityCard
 {
     [CreateAssetMenu(fileName = "CardAbilityEffect", menuName = "Scriptable Object/Board Game/Card Ability Effect")]
-    public class ActionCardConfig : ScriptableObject
+    public class AbilityCardConfig : ScriptableObject
     {
         [Header("Visual Effect")]
         public ActionCardEffectMono attackVFX;

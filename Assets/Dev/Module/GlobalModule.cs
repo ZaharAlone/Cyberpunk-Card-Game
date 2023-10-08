@@ -18,6 +18,7 @@ using CyberNet.Core.Sound;
 using CyberNet.Core.City;
 using CyberNet.Global.GameCamera;
 using CyberNet.Meta.SettingsUI;
+using AbilityCardConfig = CyberNet.Core.AbilityCard.AbilityCardConfig;
 
 namespace EcsCore
 {
@@ -41,7 +42,7 @@ namespace EcsCore
             var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
             var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
-            var actionCardEffect = Load<ActionCardConfig>("ActionCardEffect", tasks);
+            var abilityCardEffect = Load<AbilityCardConfig>("AbilityCardEffect", tasks);
             var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
             var botConfig = Load<BotConfigSO>("BotConfig", tasks);
             var popupViewConfig = Load<PopupViewConfigSO>("PopupViewConfig", tasks);
@@ -76,7 +77,7 @@ namespace EcsCore
             });
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });
-            world.CreateOneData(new ActionCardConfigData {ActionCardConfig = actionCardEffect.Result});
+            world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
             _resource.Add(cameraObject);

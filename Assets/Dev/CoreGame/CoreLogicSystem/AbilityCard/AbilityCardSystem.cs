@@ -96,9 +96,11 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     break;
                 case AbilityType.EnemyDiscardCard:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke();
                     break;
                 case AbilityType.AddNoiseCard:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.AddNoiseCard?.Invoke();
                     break;
             }
@@ -106,10 +108,9 @@ namespace CyberNet.Core.AbilityCard
 
         private void ActionSelectCardAddComponent(AbilityCardContainer abilityCardStruct, Entity entity)
         {
-            entity.AddComponent(new ActionSelectElementComponent {
+            entity.AddComponent(new AbilitySelectElementComponent {
                 AbilityCard = abilityCardStruct
             });
-            ActionSelectElementAction.OpenSelectAbilityCard?.Invoke();
         }
         
         private void ActionDrawCard(int value)

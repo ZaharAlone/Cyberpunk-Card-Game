@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ namespace CyberNet.Core.EnemyPassport
         [SerializeField] private Image StatsFrame;
         [SerializeField] private TextMeshProUGUI StatsText;
         [SerializeField] private GameObject EffectSelectPlayer;
-        [SerializeField] private GameObject DiscardCardImageStatus;
+        [SerializeField] private List<GameObject> DiscardCardImages = new List<GameObject>();
 
         private int _playerID;
         
@@ -22,6 +23,11 @@ namespace CyberNet.Core.EnemyPassport
         public void SetPlayerID(int playerID)
         {
             _playerID = playerID;
+        }
+
+        public int GetPlayerID()
+        {
+            return _playerID;
         }
 
         public void SetStatsColor(Color32 color)
@@ -40,14 +46,12 @@ namespace CyberNet.Core.EnemyPassport
             EnemyPassportAction.SelectPlayer?.Invoke(_playerID);
         }
 
-        public void OnDiscardCardStatus()
+        public void DiscardCardStatus(int count)
         {
-            DiscardCardImageStatus.SetActive(true);
-        }
-
-        public void OffDiscardCardStatus()
-        {
-            DiscardCardImageStatus.SetActive(false);
+            for (int i = 0; i < DiscardCardImages.Count; i++)
+            {
+                DiscardCardImages[i].SetActive(count > i);
+            }
         }
         
         public void OnEffectSelectPlayerStatus()

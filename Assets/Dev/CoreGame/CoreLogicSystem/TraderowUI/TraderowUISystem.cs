@@ -44,9 +44,10 @@ namespace CyberNet.Core.Traderow
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             
-            if (roundData.EndPreparationRound)
-                uiTraderow.ShowTraderow();
-
+            if (roundData.PauseInteractive)
+                return;
+            
+            uiTraderow.ShowTraderow();
             _statusTraderow = true;
         }
         
@@ -63,9 +64,10 @@ namespace CyberNet.Core.Traderow
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             
-            if (roundData.EndPreparationRound)
-                uiTraderow.HideTraderow();
+            //if (roundData.PauseInteractive)
+            //    return;
             
+            uiTraderow.HideTraderow();
             _statusTraderow = false;
         }
 

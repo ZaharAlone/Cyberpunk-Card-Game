@@ -8,7 +8,6 @@ namespace CyberNet.Meta
     {
         public int PlayerID;
         public string NamePlayer;
-        [FormerlySerializedAs("PlayerType")]
         public PlayerTypeEnum playerTypeEnum;
         public string SelectLeader;
         public string KeyVisualCity;

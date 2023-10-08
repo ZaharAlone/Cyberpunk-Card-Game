@@ -1,5 +1,5 @@
 using CyberNet.Global;
-using UnityEngine.Serialization;
+
 namespace CyberNet.Core
 {
     public struct RoundData
@@ -7,8 +7,7 @@ namespace CyberNet.Core
         public int CurrentRound;
         public int CurrentTurn;
         public int CurrentPlayerID;
-        [FormerlySerializedAs("PlayerType")]
-        public PlayerTypeEnum playerTypeEnum;
-        public bool EndPreparationRound;
+        public PlayerTypeEnum PlayerTypeEnum;
+        public bool PauseInteractive;
     }
 }

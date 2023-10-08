@@ -96,7 +96,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
         }
     }
 }

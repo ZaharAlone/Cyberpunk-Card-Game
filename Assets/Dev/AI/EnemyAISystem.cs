@@ -28,16 +28,19 @@ namespace CyberNet.Core.AI
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(playerComponent => playerComponent.PlayerID == roundData.CurrentPlayerID)
+                .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
                 SelectFirstBase();
             
-            roundData.EndPreparationRound = true;
+            if (playerEntity.HasComponent<PlayerDiscardCardComponent>())
+                AbilityAIAction.DiscardCardSelectCard?.Invoke();
+            
+            roundData.PauseInteractive = true;
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             
-            LogicAI();   
+            LogicAI();
         }
 
         private void SelectFirstBase()
@@ -159,6 +162,7 @@ namespace CyberNet.Core.AI
             if (tradePoint == 0)
                 return;
 
+            ref var botConfigData = ref _dataWorld.OneData<BotConfigData>();
             var availableTradeRowCardEntities = _dataWorld.Select<CardComponent>()
                 .With<CardTradeRowComponent>()
                 .Where<CardComponent>(card => card.Price <= tradePoint)
@@ -168,47 +172,15 @@ namespace CyberNet.Core.AI
             foreach (var cardEntity in availableTradeRowCardEntities)
             {
                 ref var cardComponent = ref cardEntity.GetComponent<CardComponent>();
-                var scoreCard = CalculateCardScore(cardComponent.Ability_0) + CalculateCardScore(cardComponent.Ability_1) + CalculateCardScore(cardComponent.Ability_2);
+                var scoreCard = CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_0, botConfigData)
+                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_1, botConfigData)
+                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_2, botConfigData);
                 scoreCard /= cardComponent.Price;
                 scoresCard.Add(new ScoreCardToBuy { GUID = cardComponent.GUID, ScoreCard = scoreCard, Cost = cardComponent.Price});
             }
 
-            var cardForPurchase = CalculateOptimalBuyCard.FindOptimalPurchase(scoresCard, tradePoint);
+            var cardForPurchase = CalculateOptimalCard.FindOptimalPurchase(scoresCard, tradePoint);
             PurchaseCard(cardForPurchase);
-        }
-
-        private float CalculateCardScore(AbilityCardContainer abilityCard)
-        {
-            if (abilityCard.AbilityType == AbilityType.None)
-                return 0f;
-            
-            var value = 0f;
-            ref var configScoreCard = ref _dataWorld.OneData<BotConfigData>().BotScoreCard;
-            var isFindConfig = configScoreCard.TryGetValue(abilityCard.AbilityType.ToString(), out var multValueAction);
-
-            //TODO: Заглушка пока еще не все конфиги заданы для карт
-            if (!isFindConfig)
-                return value;
-            switch (abilityCard.AbilityType)
-            {
-                case AbilityType.Attack:
-                    value = multValueAction * abilityCard.Count;
-                    break;
-                case AbilityType.Trade:
-                    value = multValueAction * abilityCard.Count;
-                    break;
-                case AbilityType.DrawCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.DestroyCard:
-                    value = multValueAction;
-                    break;
-                case AbilityType.CloneCard:
-                    value = multValueAction;
-                    break;
-            }
-            
-            return value;
         }
 
         private void PurchaseCard(List<string> cardForPurchase)

@@ -26,7 +26,7 @@ namespace CyberNet.Core.UI
         [Header("Select Ability Mono")]
         public SelectAbilityUIMono SelectAbilityUIMono;
         [Header("Ability Action UI Mono")]
-        public ActionSelectElementUIMono actionSelectElementUIMono;
+        public AbilitySelectElementUIMono AbilitySelectElementUIMono;
 
         [Header("Visual Effect")]
         public CharacterDamageScreenEffect DamageScreen;
