@@ -234,18 +234,7 @@ namespace CyberNet.Core.AI
                     
                     var selectTargetIndex = -1;
                     var counter = 0;
-                    foreach (var enemyLink in enemyInPlayerSlot)
-                    {
-                        if (enemyLink.TypeCityPoint == TypeCityPoint.Tower)
-                        {
-                            selectTargetIndex = counter;
-                            break;
-                        }
-                    }
-
-                    if (selectTargetIndex == -1)
-                        selectTargetIndex = 0;
-
+                    //TODO проверить
                     actionData.SpendAttack += rulesGame.PriceKillSquad;
                     playerComponent.VictoryPoint += rulesGame.RewardKillSquad;
                     
@@ -279,12 +268,6 @@ namespace CyberNet.Core.AI
                 {
                     SpawnUnit(towerFreeSlot, attackPoint);
                 }
-                else
-                {
-                    var connectPointFreeSlot = EnemyAIAttackSupportAction.GetConnectPointFreeSlotPlayerPresence.Invoke();
-                    if (connectPointFreeSlot.Count > 0)
-                        SpawnUnit(connectPointFreeSlot, attackPoint);
-                }
             }
         }
 
@@ -315,7 +298,7 @@ namespace CyberNet.Core.AI
                     var unit = new InitUnitStruct 
                     {
                         KeyUnit = playerViewComponent.KeyCityVisual,
-                        squadPoint = solidPoint,
+                        SquadZone = solidPoint,
                         PlayerControl = PlayerControlEnum.Player,
                         TargetPlayerID = currentPlayerID
                     };

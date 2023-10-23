@@ -43,7 +43,7 @@ namespace CyberNet.Core.City
                     return;
                 }
 
-                var solidPoint = hit.collider.gameObject.GetComponent<SquadPointMono>();
+                var solidPoint = hit.collider.gameObject.GetComponent<SquadZoneMono>();
                 if (solidPoint)
                 {
                     ClickSolidPoint(solidPoint, roundData.CurrentPlayerID);
@@ -67,7 +67,7 @@ namespace CyberNet.Core.City
             }
         }
         
-        private void ClickSolidPoint(SquadPointMono squadPoint, int currentPlayerID)
+        private void ClickSolidPoint(SquadZoneMono squadZone, int currentPlayerID)
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             if (actionData.TotalAttack - actionData.SpendAttack == 0)
@@ -80,8 +80,8 @@ namespace CyberNet.Core.City
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             
-            var isUnitPoint = _dataWorld.Select<SquadComponent>()
-                .Where<SquadComponent>(unit => unit.GUIDPoint == squadPoint.GUID && unit.IndexPoint == squadPoint.Index)
+            var isUnitPoint = _dataWorld.Select<SquadMapComponent>()
+                .Where<SquadMapComponent>(unit => unit.GUIDPoint == squadZone.GUID && unit.IndexPoint == squadZone.Index)
                 .TrySelectFirstEntity(out var unitEntity);
 
             if (isUnitPoint)
@@ -91,7 +91,7 @@ namespace CyberNet.Core.City
                 
                 actionData.SpendAttack += rulesGame.PriceKillSquad;
 
-                ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
+                ref var unitComponent = ref unitEntity.GetComponent<SquadMapComponent>();
                 if (unitComponent.PowerSolidPlayerID == currentPlayerID)
                     return;
 
@@ -107,7 +107,7 @@ namespace CyberNet.Core.City
                 
                 var initUnit = new InitUnitStruct {
                     KeyUnit = playerVisualComponent.KeyCityVisual,
-                    squadPoint  = squadPoint,
+                    SquadZone  = squadZone,
                     PlayerControl = PlayerControlEnum.Player,
                     TargetPlayerID = currentPlayerID
                 };

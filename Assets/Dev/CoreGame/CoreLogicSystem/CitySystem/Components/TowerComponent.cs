@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
 {
@@ -9,14 +10,12 @@ namespace CyberNet.Core.City
         public string Key;
         public TowerMono TowerMono;
         public GameObject TowerGO;
-        public List<SquadPointMono> SolidPointMono;
+        public List<SquadZoneMono> SquadZonesMono;
         public ParticleSystem SelectTowerEffect;
         
         //Кому принадлежит контроль над башней?
         public PlayerControlEnum playerIsBelong;
         public int TowerBelongPlyaerID;
-        //Контроль полный?
-        public bool IsFullTowerControl;
     }
 
     public enum PlayerControlEnum

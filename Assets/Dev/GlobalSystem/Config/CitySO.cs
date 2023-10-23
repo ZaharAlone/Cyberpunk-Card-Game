@@ -23,8 +23,8 @@ namespace CyberNet.Core.City
     [Serializable]
     public struct UnitVisual
     {
-        [FormerlySerializedAs("UnitMono")]
-        public SquadMono squadMono;
+        public GameObject IconsUnitMap;
+        public SquadMono SquadMono;
         public Color32 ColorUnit;
     }
 }

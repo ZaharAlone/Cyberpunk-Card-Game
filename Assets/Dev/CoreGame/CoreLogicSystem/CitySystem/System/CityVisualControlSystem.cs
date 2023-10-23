@@ -23,10 +23,11 @@ namespace CyberNet.Core.City
                 .With<FirstBasePlayerComponent>()
                 .GetEntities();
 
+            //TODO переписать
             foreach (var entityTower in entitiesTower)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 255);
+                //towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 255);
                 towerComponent.TowerMono.ActivateCollider();
             }
         }
@@ -36,10 +37,11 @@ namespace CyberNet.Core.City
             var entitiesTower = _dataWorld.Select<TowerComponent>()
                 .GetEntities();
 
+            //TODO переписать
             foreach (var entityTower in entitiesTower)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 25);
+                //towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 25);
                 towerComponent.TowerMono.DeactivateCollider();
             }
         }

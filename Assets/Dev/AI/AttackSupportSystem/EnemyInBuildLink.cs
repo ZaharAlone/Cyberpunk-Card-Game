@@ -5,6 +5,5 @@ namespace CyberNet.Core.AI
     {
         public string GUID;
         public int Index;
-        public TypeCityPoint TypeCityPoint;
     }
 }

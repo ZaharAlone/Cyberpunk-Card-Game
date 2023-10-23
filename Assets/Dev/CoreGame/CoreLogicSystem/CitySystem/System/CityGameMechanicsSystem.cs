@@ -29,14 +29,14 @@ namespace CyberNet.Core.City
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            var unitEntities = _dataWorld.Select<SquadComponent>()
-                .Where<SquadComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
+            var unitEntities = _dataWorld.Select<SquadMapComponent>()
+                .Where<SquadMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
                 .GetEntities();
 
             var isFindGUID = new List<string>();            
             foreach (var unitEntity in unitEntities)
             {
-                var unitComponent = unitEntity.GetComponent<SquadComponent>();
+                var unitComponent = unitEntity.GetComponent<SquadMapComponent>();
 
                 var isDouble = false;
                 foreach (var findGUID in isFindGUID)
@@ -64,21 +64,11 @@ namespace CyberNet.Core.City
                 towerEntity.AddComponent(new PresencePlayerPointCityComponent());
                 FindNeighboringTowerPoint(guidUnit);
             }
-            else
-            {
-                var connectPointEntity = _dataWorld.Select<ConnectPointComponent>()
-                    .Where<ConnectPointComponent>(connectPoint => connectPoint.GUID == guidUnit)
-                    .SelectFirstEntity();
-
-                connectPointEntity.AddComponent(new PresencePlayerPointCityComponent());
-
-                ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
-                FindNeighboringConnectPoint(connectPointComponent.ConnectPointsTypeGUID);
-            }
         }
 
         private void FindNeighboringTowerPoint(string towerGUID)
         {
+            /*
             var connectPointEntities = _dataWorld.Select<ConnectPointComponent>().GetEntities();
 
             foreach (var connectPointEntity in connectPointEntities)
@@ -90,30 +80,7 @@ namespace CyberNet.Core.City
                     if (connectPointTypeGuid.GUIDPoint == towerGUID)
                         connectPointEntity.AddComponent(new PresencePlayerPointCityComponent());
                 }
-            }
-        }
-        
-        private void FindNeighboringConnectPoint(List<ConnectPointTypeGUID> connectPoints)
-        {
-            foreach (var connectPoint in connectPoints)
-            {
-                if (connectPoint.TypeCityPoint == TypeCityPoint.Tower)
-                {
-                    var towerEntity = _dataWorld.Select<TowerComponent>()
-                        .Where<TowerComponent>(tower => tower.GUID == connectPoint.GUIDPoint)
-                        .SelectFirstEntity();
-
-                    towerEntity.AddComponent(new PresencePlayerPointCityComponent());
-                }
-                else
-                {
-                    var connectPointEntity = _dataWorld.Select<ConnectPointComponent>()
-                        .Where<ConnectPointComponent>(point => point.GUID == connectPoint.GUIDPoint)
-                        .SelectFirstEntity();
-
-                    connectPointEntity.AddComponent(new PresencePlayerPointCityComponent());
-                }
-            }
+            }*/
         }
 
         private void ClearOldPresencePlayerComponent()
@@ -123,17 +90,6 @@ namespace CyberNet.Core.City
             foreach (var towerEntity in towerEntities)
             {
                 towerEntity.RemoveComponent<PresencePlayerPointCityComponent>();
-                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.DeactivateSolidPointCollider();
-            }
-            
-            var connectPointEntities = _dataWorld.Select<ConnectPointComponent>().GetEntities();
-
-            foreach (var connectPointEntity in connectPointEntities)
-            {
-                connectPointEntity.RemoveComponent<PresencePlayerPointCityComponent>();
-                ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
-                connectPointComponent.ConnectPointMono.DeactivateSolidPointCollider();
             }
         }
         
@@ -142,22 +98,6 @@ namespace CyberNet.Core.City
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .With<PresencePlayerPointCityComponent>()
                 .GetEntities();
-
-            foreach (var towerEntity in towerEntities)
-            {
-                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.ActivateSolidPointCollider();
-            }
-            
-            var connectPointEntities = _dataWorld.Select<ConnectPointComponent>()
-                .With<PresencePlayerPointCityComponent>()
-                .GetEntities();
-
-            foreach (var connectPointEntity in connectPointEntities)
-            {
-                ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
-                connectPointComponent.ConnectPointMono.ActivateSolidPointCollider();
-            }
         }
     }
 }

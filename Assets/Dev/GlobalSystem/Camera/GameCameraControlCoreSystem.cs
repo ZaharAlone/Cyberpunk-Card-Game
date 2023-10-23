@@ -3,8 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
-using Cinemachine;
 using CyberNet.Core;
 using Input;
 
@@ -15,8 +13,9 @@ namespace CyberNet.Global.GameCamera
     {
         private DataWorld _dataWorld;
 
-        private float MinZoomCamera = 10;
-        private float MaxZoomCamera = 45;
+        private float MinZoomCamera = 35;
+        private float MaxZoomCamera = 55;
+        
         public void PreInit()
         {
             GlobalCoreAction.FinishInitGameResource += ActivateCoreCamera;
@@ -67,8 +66,8 @@ namespace CyberNet.Global.GameCamera
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
             var followOffset = camera.CoreCinemachineTransposer.m_FollowOffset;
-            followOffset.x += moveVector.x;
-            followOffset.z += moveVector.y;
+            followOffset.x += moveVector.x / 15f;
+            followOffset.z += moveVector.y / 15f;
             camera.CoreCinemachineTransposer.m_FollowOffset = followOffset;
         }
 
@@ -83,10 +82,11 @@ namespace CyberNet.Global.GameCamera
             var value = camera.CoreVirtualCamera.m_Lens.FieldOfView - 3 * Mathf.Sign(zoomValue);
             value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera);
             camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(camera.CoreVirtualCamera.m_Lens.FieldOfView, value, Time.deltaTime * 50f);
-            
-            var angle = Mathf.Lerp(45f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
+            /*
+            var angle = Mathf.Lerp(55f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
             var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
             camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
+            */
         }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using I2.Loc;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -10,7 +11,9 @@ namespace CyberNet
     {
         [Header ("Базовые параметры игрока")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
-        public int StartCountSquad = 40;
+        [FormerlySerializedAs("StartCountSquad")]
+        public int CountSquad = 12;
+        public int StartInitCountSquad = 2;
         public int CountAgentPlayer = 4;
         public int PriceKillSquad = 3;
         public int PricePostAgent = 3;

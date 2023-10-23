@@ -16,7 +16,6 @@ namespace CyberNet.Core.AI
         public void PreInit()
         {
             EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence += GetTowerFreeSlotPlayerPresence;
-            EnemyAIAttackSupportAction.GetConnectPointFreeSlotPlayerPresence += GetConnectPointFreeSlotPlayerPresence;
             EnemyAIAttackSupportAction.CheckEnemyPresenceInBuild += CheckEnemyPresenceInBuild;
             EnemyAIAttackSupportAction.SelectTargetAttack += SelectTargetAttack;
         }
@@ -32,29 +31,29 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var unitCountInTower  = _dataWorld.Select<SquadComponent>()
-                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitCountInTower  = _dataWorld.Select<SquadMapComponent>()
+                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
                     .Count();
                 
-                var unitInTowerEntities  = _dataWorld.Select<SquadComponent>()
-                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitInTowerEntities  = _dataWorld.Select<SquadMapComponent>()
+                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
                     .GetEntities();
                 
-                if (towerComponent.SolidPointMono.Count > unitCountInTower)
+                if (towerComponent.SquadZonesMono.Count > unitCountInTower)
                 {
                     var buildSlot = new BuildFreeSlotStruct {
-                        CountFreeSlot = towerComponent.SolidPointMono.Count - unitCountInTower,
+                        CountFreeSlot = towerComponent.SquadZonesMono.Count - unitCountInTower,
                         GUID = towerComponent.GUID,
                         SolidPointsMono = new()
                     };
 
-                    foreach (var solidPoint in towerComponent.SolidPointMono)
+                    foreach (var solidPoint in towerComponent.SquadZonesMono)
                     {
                         var isClose = false;
 
                         foreach (var unitInTowerEntity in unitInTowerEntities)
                         {
-                            ref var unitComponent = ref unitInTowerEntity.GetComponent<SquadComponent>();
+                            ref var unitComponent = ref unitInTowerEntity.GetComponent<SquadMapComponent>();
                             if (solidPoint.Index == unitComponent.IndexPoint)
                             {
                                 isClose = true;
@@ -73,36 +72,6 @@ namespace CyberNet.Core.AI
             return buildFreeSlot;
         }
         
-        private List<BuildFreeSlotStruct> GetConnectPointFreeSlotPlayerPresence()
-        {
-            var connectPointEntities = _dataWorld.Select<ConnectPointComponent>()
-                .With<PresencePlayerPointCityComponent>()
-                .GetEntities();
-
-            var buildFreeSlot = new List<BuildFreeSlotStruct>();
-            
-            foreach (var connectPointEntity in connectPointEntities)
-            {
-                var connectPointComponent = connectPointEntity.GetComponent<ConnectPointComponent>();
-                var unitCountInConnectPoint = _dataWorld.Select<SquadComponent>()
-                    .Where<SquadComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID)
-                    .Count();
-                
-                if (unitCountInConnectPoint == 0)
-                {
-                    var buildSlot = new BuildFreeSlotStruct {
-                        CountFreeSlot = 1,
-                        GUID = connectPointComponent.GUID,
-                        SolidPointsMono = new List<SquadPointMono>()
-                    };
-                    buildSlot.SolidPointsMono.Add(connectPointComponent.squadPointMono);
-                    buildFreeSlot.Add(buildSlot);
-                }
-            }
-            
-            return buildFreeSlot;
-        }
-
         public List<EnemyInBuildLink> CheckEnemyPresenceInBuild()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
@@ -115,39 +84,16 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var enemyUnitEntities = _dataWorld.Select<SquadComponent>()
-                    .Where<SquadComponent>(unit => unit.GUIDPoint == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
+                var enemyUnitEntities = _dataWorld.Select<SquadMapComponent>()
+                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
                     .GetEntities();
 
                 foreach (var unitEntity in enemyUnitEntities)
                 {
-                    ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
+                    ref var unitComponent = ref unitEntity.GetComponent<SquadMapComponent>();
                     enemyInBuild.Add(new EnemyInBuildLink {
                         Index = unitComponent.IndexPoint,
                         GUID = unitComponent.GUIDPoint,
-                        TypeCityPoint = TypeCityPoint.Tower
-                    });
-                }
-            }
-            
-            var connectPointEntities = _dataWorld.Select<ConnectPointComponent>()
-                .With<PresencePlayerPointCityComponent>()
-                .GetEntities();
-            
-            foreach (var connectPointEntity in connectPointEntities)
-            {
-                var connectPointComponent = connectPointEntity.GetComponent<ConnectPointComponent>();
-                var enemyUnitEntities = _dataWorld.Select<SquadComponent>()
-                    .Where<SquadComponent>(unit => unit.GUIDPoint == connectPointComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
-                    .GetEntities();
-
-                foreach (var unitEntity in enemyUnitEntities)
-                {
-                    ref var unitComponent = ref unitEntity.GetComponent<SquadComponent>();
-                    enemyInBuild.Add(new EnemyInBuildLink {
-                        Index = unitComponent.IndexPoint,
-                        GUID = unitComponent.GUIDPoint,
-                        TypeCityPoint = TypeCityPoint.ConnectPoint
                     });
                 }
             }

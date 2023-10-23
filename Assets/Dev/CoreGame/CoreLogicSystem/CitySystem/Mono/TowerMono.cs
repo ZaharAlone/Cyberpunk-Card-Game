@@ -9,30 +9,30 @@ namespace CyberNet.Core.City
         public string GUID;
         public string Key = "tower_1";
         public bool IsFirstBasePlayer;
-        [FormerlySerializedAs("ActiveOnCountPlayer")]
-        public CountPlayerInGameEnum activeOnCountPlayerInGame;
-        public List<SquadPointMono> SolidPoints = new List<SquadPointMono>();
-        public BoxCollider ColliderTower;
+        public CountPlayerInGameEnum ActiveOnCountPlayerInGame;
+        public Collider ColliderTower;
 
-        public void GetAllSolidPoint()
+        public List<SquadZoneMono> SquadZonesMono = new List<SquadZoneMono>();
+
+        public void GetAllSquadZone()
         {
             try
             {
                 var counter = 0;
-                SolidPoints.Clear();
                 foreach (Transform child in transform)
                 {
-                    var solidPoint = child.GetComponent<SquadPointMono>();
-                    if (solidPoint == null)
+                    var squadZone = child.GetComponent<SquadZoneMono>();
+                    if (squadZone == null)
                         continue;
-                    solidPoint.SetIndex(counter);
-                    solidPoint.SetGUID(GUID);
-                    solidPoint.GetCollider();
-                    SolidPoints.Add(solidPoint);
+                    
+                    squadZone.SetIndex(counter);
+                    squadZone.SetGUID(GUID);
+                    squadZone.GetCollider();
+                    SquadZonesMono.Add(squadZone);
                     counter++;
                 }
 
-                ColliderTower = gameObject.GetComponent<BoxCollider>();
+                ColliderTower = gameObject.GetComponent<Collider>();
                 if (ColliderTower == null)
                     Debug.LogError($"Collider is null go name {gameObject.name}");
             }
@@ -50,27 +50,6 @@ namespace CyberNet.Core.City
         public void ActivateCollider()
         {
             ColliderTower.enabled = true;
-        }
-
-        public void ActivateSolidPointCollider()
-        {
-            foreach (var solidPoint in SolidPoints)
-            {
-                solidPoint.ActivateCollider();
-            }
-        }
-
-        public void DeactivateSolidPointCollider()
-        {
-            foreach (var solidPoint in SolidPoints)
-            {
-                solidPoint.DeactivateCollider();
-            }
-        }
-
-        public Vector3 GetColliderSize()
-        {
-            return ColliderTower.size;;
         }
     }
 }
