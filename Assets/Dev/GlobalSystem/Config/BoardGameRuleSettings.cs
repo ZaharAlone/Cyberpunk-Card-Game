@@ -15,9 +15,6 @@ namespace CyberNet
         public int CountSquad = 12;
         public int StartInitCountSquad = 2;
         public int CountAgentPlayer = 4;
-        public int PriceKillSquad = 3;
-        public int PricePostAgent = 3;
-        public int RewardKillSquad = 1;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]

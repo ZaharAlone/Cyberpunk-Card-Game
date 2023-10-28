@@ -17,37 +17,31 @@
   "SwitchEnemySquad": {
     "abilityLoc": "AbilityCard/$cardAbility_switchEnemySquad"
   },
-  "PostAgent": {
-    "abilityLoc": "AbilityCard/$cardAbility_postAgent"
-  },
-  "ReturnAgent": {
-    "abilityLoc": "AbilityCard/$cardAbility_returnAgent"
-  },
-  "DrawCardEnemyDiscardCard": {
-    "abilityLoc": "AbilityCard/$cardAbility_drawCardEnemyDiscardCard"
-  },
-  "DestroyNeutralSquad": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroyNeutralSquad"
-  },
-  "DestroyEnemySquad": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroyEnemySquad"
-  },
-  "DestroyEnemyAgentPresence": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroyEnemyAgentPresence"
-  },
-  "PostSquad": {
-    "abilityLoc": "AbilityCard/$cardAbility_postSquad"
-  },
-  "AddNoiseCard": {
-    "abilityLoc": "AbilityCard/$cardAbility_addNoiseCard",
-    "selectFrame_headerLoc": "CoreGame/$bg_selectPlayerAddNoiseCard_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_selectPlayerAddNoiseCard_descr"
-  },
   "EnemyDiscardCard": {
     "abilityLoc": "AbilityCard/$cardAbility_enemyDiscardCard",
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_discardCard_header",
     "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_discardCard_descr",
     "selectPlayerFrame_headerLoc": "CoreGame/$bg_selectPlayerDiscardCard_header",
     "selectPlayerFrame_descrLoc": "CoreGame/$bg_selectPlayerDiscardCard_discard"
+  },
+  "SquadMove": {
+    "abilityLoc": "AbilityCard/$cardAbility_squadMove",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_squadMove_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_squadMove_descr"
+  },
+  "SetIce": {
+    "abilityLoc": "AbilityCard/$cardAbility_setIce",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_setIce_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_setIce_descr"
+  },
+  "DestroyIce": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroyIce",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyIce_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyIce_descr"
+  },
+  "DestroySquad": {
+    "abilityLoc": "AbilityCard/$cardAbility_destroySquad",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroySquad_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroySquad_descr"
   }
 }

@@ -40,21 +40,15 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.SwitchEnemySquad:
                     break;
-                case AbilityType.PostAgent:
-                    break;
-                case AbilityType.ReturnAgent:
-                    break;
-                case AbilityType.DrawCardEnemyDiscardCard:
-                    break;
                 case AbilityType.DestroyNeutralSquad:
                     break;
-                case AbilityType.DestroyEnemySquad:
+                case AbilityType.DestroySquad:
                     break;
-                case AbilityType.DestroyEnemyAgentPresence:
+                case AbilityType.SquadMove:
                     break;
-                case AbilityType.PostSquad:
+                case AbilityType.SetIce:
                     break;
-                case AbilityType.AddNoiseCard:
+                case AbilityType.DestroyIce:
                     break;
                 case AbilityType.EnemyDiscardCard:
                     AbilitySelectElementAction.CancelSelectPlayer?.Invoke();

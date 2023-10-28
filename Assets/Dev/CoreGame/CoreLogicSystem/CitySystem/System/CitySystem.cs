@@ -3,7 +3,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CyberNet.Core.City
@@ -39,20 +38,12 @@ namespace CyberNet.Core.City
         //Инициализируем все интерактивные объекты на карте
         private void SetupInteractiveElement()
         {
-            //TODO Пересмотреть
+            //TODO Пересмотреть Добавить визуал к кускам карты
             var cityData = _dataWorld.OneData<CityData>();
-            var cityVisual = _dataWorld.OneData<BoardGameData>().CitySO;
             
             foreach (var tower in cityData.CityMono.Towers)
             {
                 var entity = _dataWorld.NewEntity();
-                
-                /*
-                var towerEffect = Object.Instantiate(cityVisual.TowerSelectVFX, tower.transform);
-                towerEffect.transform.localScale = tower.GetColliderSize();
-                towerEffect.transform.localPosition = new Vector3(0, 0.5f, 0);
-                towerEffect.startColor = new Color32(255, 255, 255, 25);
-                */
                 tower.DeactivateCollider();
                 
                 var towerComponent = new TowerComponent 
@@ -62,23 +53,31 @@ namespace CyberNet.Core.City
                     TowerMono = tower,
                     TowerGO = tower.gameObject,
                     SquadZonesMono = tower.SquadZonesMono,
-                    //SelectTowerEffect = towerEffect,
-                    playerIsBelong = PlayerControlEnum.None,
+                    VisualEffectZone = tower.VisualEffectZone,
+                    PlayerIsBelong = PlayerControlEnum.None,
                 };
-
+                
                 foreach (var squadZone in tower.SquadZonesMono)
                 {
-                    InitStartUnit(squadZone);
+                    var countUnit =  InitStartUnitReturnCount(squadZone);
+                    if (countUnit > 0)
+                    {
+                        towerComponent.PlayerIsBelong = PlayerControlEnum.Neutral;
+                    }
                 }
 
                 entity.AddComponent(towerComponent);
                 if (tower.IsFirstBasePlayer)
                     entity.AddComponent(new FirstBasePlayerComponent());
             }
+            
+            CityAction.UpdatePlayerViewCity?.Invoke();
         }
 
-        private void InitStartUnit(SquadZoneMono squadZone)
+        private int InitStartUnitReturnCount(SquadZoneMono squadZone)
         {
+            var countInit = 0;
+            
             if (squadZone.StartIsNeutralSolid)
             {
                 var neutralUnit = new InitUnitStruct 
@@ -90,7 +89,10 @@ namespace CyberNet.Core.City
                 };
                 
                 InitUnit(neutralUnit);
+                countInit++;
             }
+
+            return countInit;
         }
 
         public void InitUnit(InitUnitStruct unit)
@@ -111,10 +113,10 @@ namespace CyberNet.Core.City
             {
                 positionAllPoint.Add(entity.GetComponent<SquadMapComponent>().UnitIconsGO.transform.position);
             }
-            unitIcons.transform.position = SelectPosition(unit.SquadZone.Collider, unit.SquadZone.transform.position, positionAllPoint);
-            //unit.SquadZone.transform.position;
-
             
+            unitIcons.transform.position = CitySupportStatic.SelectPosition(unit.SquadZone.Collider,
+                unit.SquadZone.transform.position, positionAllPoint);
+
             var squadMapComponent = new SquadMapComponent
             {
                 GUIDPoint = unit.SquadZone.GUID,
@@ -144,38 +146,6 @@ namespace CyberNet.Core.City
             ref var squadComponent = ref squadEntity.GetComponent<SquadMapComponent>();
             Object.Destroy(squadComponent.UnitIconsGO);
             squadEntity.Destroy();
-        }
-        
-        private Vector3 SelectPosition(BoxCollider collider, Vector3 positions, List<Vector3> positionsOtherItem)
-        {
-            var y = positions.y;
-            var x = collider.size.x / 2;
-            var z = collider.size.z / 2;
-            var newPos = new Vector3();
-
-            var noDouble = false;
-            while (!noDouble)
-            {
-                newPos = new Vector3(Random.Range(-x, x), y, Random.Range(-z, z));
-                newPos.x += collider.center.x + positions.x;
-                newPos.z += collider.center.z + positions.z;
-
-                noDouble = CheckDistanceObject(newPos, positionsOtherItem);
-            }
-            return newPos;
-        }
-
-        //check the distance between other objects so as not to plant plants too close
-        private bool CheckDistanceObject(Vector3 positions, List<Vector3> positionsOtherItem)
-        {
-            if (positionsOtherItem.Count == 0)
-                return true;
-
-            var result = true;
-            foreach (var item in positionsOtherItem)
-                if (Vector3.Distance(item, positions) < 1)
-                    result = false;
-            return result;
         }
     }
 }

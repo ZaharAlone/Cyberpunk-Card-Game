@@ -215,53 +215,11 @@ namespace CyberNet.Core.AI
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var attackPoint = actionData.TotalAttack - actionData.SpendAttack;
-            ref var rulesGame = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             
             if (attackPoint == 0)
                 return;
-
-            if (attackPoint >= rulesGame.PriceKillSquad)
-            {
-                var enemyInPlayerSlot = EnemyAIAttackSupportAction.CheckEnemyPresenceInBuild.Invoke();
-
-                if (enemyInPlayerSlot.Count != 0)
-                {
-                    var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-                    var playerEntity = _dataWorld.Select<PlayerComponent>()
-                        .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
-                        .SelectFirstEntity();
-                    ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-                    
-                    var selectTargetIndex = -1;
-                    var counter = 0;
-                    //TODO проверить
-                    actionData.SpendAttack += rulesGame.PriceKillSquad;
-                    playerComponent.VictoryPoint += rulesGame.RewardKillSquad;
-                    
-                    CityAction.AttackSolidPoint?.Invoke(enemyInPlayerSlot[selectTargetIndex].GUID, enemyInPlayerSlot[selectTargetIndex].Index);
-                }
-                else
-                {
-                    var towerFreeSlot = EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
-                    
-                    var countAllFreeSlot = 0;
-                    foreach (var towerSlot in towerFreeSlot)
-                        countAllFreeSlot += towerSlot.CountFreeSlot;
-                    
-                    if (towerFreeSlot.Count > 0 && countAllFreeSlot > attackPoint)
-                    {
-                        SpawnUnit(towerFreeSlot, attackPoint);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                
-                UpdateViewPlayer();
-                Attack();
-            }
-            else if (attackPoint >= 1)
+            
+            if (attackPoint >= 1)
             {
                 var towerFreeSlot = EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
                 if (towerFreeSlot.Count > 0)

@@ -99,10 +99,11 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke();
                     break;
+                /*
                 case AbilityType.AddNoiseCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.AddNoiseCard?.Invoke();
-                    break;
+                    break;*/
             }
         }
 

@@ -29,13 +29,11 @@ namespace CyberNet
         [Header("Color Resource")]
         public Color32 ColorAttackText;
         public Color32 ColorTradeText;
-        public Color32 ColorInfluenceText;
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;
         public TextAsset AbilityCardConfigJson;
 
-        [FormerlySerializedAs("HeroesConfigJson")]
         [Header("Leader Config")]
         public TextAsset LeaderConfigJson;
         [FormerlySerializedAs("AbilityConfigJson")]

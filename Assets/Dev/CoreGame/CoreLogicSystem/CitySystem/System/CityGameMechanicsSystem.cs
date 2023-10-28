@@ -3,7 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace CyberNet.Core.City
 {
@@ -15,14 +14,25 @@ namespace CyberNet.Core.City
         public void PreInit()
         {
             CityAction.UpdatePresencePlayerInCity += UpdatePresencePlayerInCity;
-            CityAction.EnableNewPresencePlayerInCity += EnableAllPresencePlayerPoint;
         }
 
         public void UpdatePresencePlayerInCity()
         {
             ClearOldPresencePlayerComponent();
             AddComponentPresencePlayer();
-            EnableAllPresencePlayerPoint();
+        }
+        
+        private void ClearOldPresencePlayerComponent()
+        {
+            var towerEntities = _dataWorld.Select<TowerComponent>()
+                .With<PresencePlayerTowerComponent>()
+                .GetEntities();
+
+            foreach (var towerEntity in towerEntities)
+            {
+                towerEntity.RemoveComponent<PresencePlayerTowerComponent>();
+                towerEntity.GetComponent<TowerComponent>().TowerMono.DeactivateCollider();
+            }
         }
 
         public void AddComponentPresencePlayer()
@@ -47,57 +57,20 @@ namespace CyberNet.Core.City
 
                 if (!isDouble)
                 {
-                    FindUnitContainer(unitComponent.GUIDPoint);
+                    AddPresenceComponent(unitComponent.GUIDPoint);
                     isFindGUID.Add(unitComponent.GUIDPoint);
                 }
             }
         }
 
-        private void FindUnitContainer(string guidUnit)
+        private void AddPresenceComponent(string guidUnit)
         {
-            var isFindTower = _dataWorld.Select<TowerComponent>()
+            var towerEntity = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.GUID == guidUnit)
-                .TrySelectFirstEntity(out var towerEntity);
+                .SelectFirstEntity();
 
-            if (isFindTower)
-            {
-                towerEntity.AddComponent(new PresencePlayerPointCityComponent());
-                FindNeighboringTowerPoint(guidUnit);
-            }
-        }
-
-        private void FindNeighboringTowerPoint(string towerGUID)
-        {
-            /*
-            var connectPointEntities = _dataWorld.Select<ConnectPointComponent>().GetEntities();
-
-            foreach (var connectPointEntity in connectPointEntities)
-            {
-                ref var connectPointComponent = ref connectPointEntity.GetComponent<ConnectPointComponent>();
-
-                foreach (var connectPointTypeGuid in connectPointComponent.ConnectPointsTypeGUID)
-                {
-                    if (connectPointTypeGuid.GUIDPoint == towerGUID)
-                        connectPointEntity.AddComponent(new PresencePlayerPointCityComponent());
-                }
-            }*/
-        }
-
-        private void ClearOldPresencePlayerComponent()
-        {
-            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
-
-            foreach (var towerEntity in towerEntities)
-            {
-                towerEntity.RemoveComponent<PresencePlayerPointCityComponent>();
-            }
-        }
-        
-        private void EnableAllPresencePlayerPoint()
-        {
-            var towerEntities = _dataWorld.Select<TowerComponent>()
-                .With<PresencePlayerPointCityComponent>()
-                .GetEntities();
+            towerEntity.AddComponent(new PresencePlayerTowerComponent());
+            towerEntity.GetComponent<TowerComponent>().TowerMono.ActivateCollider();
         }
     }
 }

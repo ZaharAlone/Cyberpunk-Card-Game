@@ -14,14 +14,11 @@ namespace CyberNet.Core.AbilityCard
         DestroyTradeCard,
         SwitchNeutralSquad,
         SwitchEnemySquad,
-        PostAgent,
-        ReturnAgent,
-        DrawCardEnemyDiscardCard,
         DestroyNeutralSquad,
-        DestroyEnemySquad,
-        DestroyEnemyAgentPresence,
-        PostSquad,
-        AddNoiseCard,
+        DestroySquad,
         EnemyDiscardCard,
+        SquadMove,
+        SetIce,
+        DestroyIce
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 namespace CyberNet.Core.City
 {
     public class TowerMono : MonoBehaviour
@@ -9,16 +9,21 @@ namespace CyberNet.Core.City
         public string GUID;
         public string Key = "tower_1";
         public bool IsFirstBasePlayer;
+
+        public MeshRenderer VisualEffectZone;
         public CountPlayerInGameEnum ActiveOnCountPlayerInGame;
         public Collider ColliderTower;
 
         public List<SquadZoneMono> SquadZonesMono = new List<SquadZoneMono>();
+        public List<TowerMono> ZoneConnect = new List<TowerMono>();
 
         public void GetAllSquadZone()
         {
             try
             {
+                SquadZonesMono.Clear();
                 var counter = 0;
+                
                 foreach (Transform child in transform)
                 {
                     var squadZone = child.GetComponent<SquadZoneMono>();

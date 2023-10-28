@@ -63,7 +63,50 @@ namespace CyberNet.Core.City
             }
             else
             {
-                //TODO: установка шпиона, когда-нибудь
+                ref var actionData = ref _dataWorld.OneData<ActionCardData>();
+                if (actionData.TotalAttack - actionData.SpendAttack == 0)
+                    return;
+                
+                ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+                ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
+                
+                actionData.SpendAttack++;
+                playerComponent.UnitCount--;
+                
+                var towerEntity = _dataWorld.Select<TowerComponent>()
+                    .Where<TowerComponent>(tower => tower.GUID == towerMono.GUID)
+                    .SelectFirstEntity();
+                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+                
+                var targetSquadZone = 0;
+                foreach (var squadZone in towerComponent.SquadZonesMono)
+                {
+                    var isClose = _dataWorld.Select<SquadMapComponent>()
+                        .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerMono.GUID
+                            && unit.IndexPoint == squadZone.Index
+                            && unit.PowerSolidPlayerID != playerID)
+                        .TrySelectFirstEntity(out var t);
+
+                    if (isClose)
+                        targetSquadZone = squadZone.Index+1;
+                    else
+                    {
+                        targetSquadZone = squadZone.Index;
+                        break;
+                    }
+                }
+                
+                var initUnit = new InitUnitStruct {
+                    KeyUnit = playerVisualComponent.KeyCityVisual,
+                    SquadZone  = towerMono.SquadZonesMono[targetSquadZone],
+                    PlayerControl = PlayerControlEnum.Player,
+                    TargetPlayerID = playerID
+                };
+
+                CityAction.InitUnit?.Invoke(initUnit);
+                CityAction.UpdatePresencePlayerInCity?.Invoke();
+                BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
+                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             }
         }
         
@@ -75,7 +118,7 @@ namespace CyberNet.Core.City
 
             ref var rulesGame = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
             var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
@@ -84,6 +127,7 @@ namespace CyberNet.Core.City
                 .Where<SquadMapComponent>(unit => unit.GUIDPoint == squadZone.GUID && unit.IndexPoint == squadZone.Index)
                 .TrySelectFirstEntity(out var unitEntity);
 
+            /*
             if (isUnitPoint)
             {
                 if (actionData.TotalAttack - actionData.SpendAttack < rulesGame.PriceKillSquad)
@@ -116,7 +160,7 @@ namespace CyberNet.Core.City
                 CityAction.UpdatePresencePlayerInCity?.Invoke();
                 BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            }
+            }*/
         }
     }
 }

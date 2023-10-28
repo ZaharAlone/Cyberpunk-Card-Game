@@ -11,10 +11,12 @@ namespace CyberNet.Core.City
         public TowerMono TowerMono;
         public GameObject TowerGO;
         public List<SquadZoneMono> SquadZonesMono;
-        public ParticleSystem SelectTowerEffect;
+        [FormerlySerializedAs("SelectTowerEffect")]
+        public MeshRenderer VisualEffectZone;
         
         //Кому принадлежит контроль над башней?
-        public PlayerControlEnum playerIsBelong;
+        [FormerlySerializedAs("playerIsBelong")]
+        public PlayerControlEnum PlayerIsBelong;
         public int TowerBelongPlyaerID;
     }
 

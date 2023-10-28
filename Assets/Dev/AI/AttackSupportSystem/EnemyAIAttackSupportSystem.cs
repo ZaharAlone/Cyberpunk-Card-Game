@@ -23,7 +23,7 @@ namespace CyberNet.Core.AI
         private List<BuildFreeSlotStruct> GetTowerFreeSlotPlayerPresence()
         {
             var towerEntities = _dataWorld.Select<TowerComponent>()
-                .With<PresencePlayerPointCityComponent>()
+                .With<PresencePlayerTowerComponent>()
                 .GetEntities();
 
             var buildFreeSlot = new List<BuildFreeSlotStruct>();
@@ -78,7 +78,7 @@ namespace CyberNet.Core.AI
             var enemyInBuild = new List<EnemyInBuildLink>();
 
             var towerEntities = _dataWorld.Select<TowerComponent>()
-                .With<PresencePlayerPointCityComponent>()
+                .With<PresencePlayerTowerComponent>()
                 .GetEntities();
             
             foreach (var towerEntity in towerEntities)
@@ -115,7 +115,7 @@ namespace CyberNet.Core.AI
             
             foreach (var towerEntity in towerEntities)
             {
-                if (towerEntity.HasComponent<PresencePlayerPointCityComponent>())
+                if (towerEntity.HasComponent<PresencePlayerTowerComponent>())
                     continue;
                 
                 ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();

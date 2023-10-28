@@ -25,19 +25,16 @@ MonoBehaviour:
   - Item: neutral_hunter
     Value: 2
   - Item: neutral_scout
-    Value: 8
-  StartCountUnit: 40
+    Value: 7
+  - Item: neutral_explorer
+    Value: 1
+  CountSquad: 12
+  StartInitCountSquad: 2
+  CountAgentPlayer: 4
   OpenCardInShop: 5
-  KeyCardsInShopAdd: neutral_explorer
   CountDropCard: 5
   ActionPlayAll_loc:
     mTerm: CoreGame/$bg_play_all_button
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  ActionAttack_loc:
-    mTerm: CoreGame/$bg_attack_button
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
@@ -48,15 +45,7 @@ MonoBehaviour:
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
-  ChoseOneCard_Loc:
-    mTerm: CoreGame/$bg_choose_one
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
   ActionPlayAll_image: {fileID: 1583462850, guid: 95efd8ae8b6d4a44f90883933e343c4c,
-    type: 3}
-  ActionAttack_image: {fileID: 317831370, guid: 95efd8ae8b6d4a44f90883933e343c4c,
     type: 3}
   ActionEndTurn_image: {fileID: -353957088, guid: 95efd8ae8b6d4a44f90883933e343c4c,
     type: 3}
