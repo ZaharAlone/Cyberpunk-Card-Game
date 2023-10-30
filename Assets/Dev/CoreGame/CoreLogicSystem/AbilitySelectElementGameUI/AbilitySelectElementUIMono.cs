@@ -16,6 +16,7 @@ namespace CyberNet.Core.AbilityCard
         public InteractiveButtonHideShowElement ConfimButton;
 
         public LocalizedString NoneLocButton;
+        public LocalizedString ConfimLocButton;
         
         public void OpenWindow(bool isEnableCancelButton)
         {

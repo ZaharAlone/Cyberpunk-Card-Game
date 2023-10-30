@@ -7,5 +7,7 @@ namespace CyberNet.Core.AI
         public static Action DiscardCardSelectCard;
 
         public static Action AddNoiseSelectPlayer;
+        
+        public static Action MoveUnit;
     }
 }

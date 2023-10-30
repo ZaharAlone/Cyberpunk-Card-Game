@@ -8,17 +8,20 @@ using UnityEngine;
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CitySystem : IPreInitSystem, IDestroySystem
+    public class CitySystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            SetupBoard();
-            SetupInteractiveElement();
-            
             CityAction.InitUnit += InitUnit;
             CityAction.AttackSolidPoint += AttackSolidPoint;
+        }
+
+        public void Init()
+        {
+            SetupBoard();
+            SetupInteractiveElement();
         }
 
         //Создаем поле
@@ -45,6 +48,7 @@ namespace CyberNet.Core.City
             {
                 var entity = _dataWorld.NewEntity();
                 tower.DeactivateCollider();
+                tower.CloseInteractiveZoneVisualEffect();
                 
                 var towerComponent = new TowerComponent 
                 {

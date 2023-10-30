@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Core.City;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -15,5 +16,9 @@ namespace CyberNet.Core.AbilityCard
         public static Action CancelDiscardCard;
         public static Action PlayerDiscardCard;
         public static Action AddNoiseCard;
+        
+        public static Action MoveUnit;
+        public static Action<TowerMono> ConfimSelectTower;
+        public static Action<TowerMono> SelectTower;
     }   
 }

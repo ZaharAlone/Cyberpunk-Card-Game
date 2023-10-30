@@ -95,6 +95,8 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
+            towerComponent.PlayerIsBelong = PlayerControlEnum.Player;
+            towerComponent.TowerBelongPlyaerID = playerComponent.PlayerID;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
@@ -104,6 +106,7 @@ namespace CyberNet.Core.SelectFirstBase
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
             BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
+            CityAction.UpdatePlayerViewCity?.Invoke();
         }
     }
 }

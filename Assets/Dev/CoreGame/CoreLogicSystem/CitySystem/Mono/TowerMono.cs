@@ -12,6 +12,7 @@ namespace CyberNet.Core.City
 
         public MeshRenderer VisualEffectZone;
         public CountPlayerInGameEnum ActiveOnCountPlayerInGame;
+        public GameObject CloseInteractiveZoneEffect;
         public Collider ColliderTower;
 
         public List<SquadZoneMono> SquadZonesMono = new List<SquadZoneMono>();
@@ -52,9 +53,20 @@ namespace CyberNet.Core.City
             ColliderTower.enabled = false;
         }
 
+
         public void ActivateCollider()
         {
             ColliderTower.enabled = true;
+        }
+        
+        public void CloseInteractiveZoneVisualEffect()
+        {
+            CloseInteractiveZoneEffect.SetActive(true);
+        }
+        
+        public void OpenInteractiveZoneVisualEffect()
+        {
+            CloseInteractiveZoneEffect.SetActive(false);
         }
     }
 }

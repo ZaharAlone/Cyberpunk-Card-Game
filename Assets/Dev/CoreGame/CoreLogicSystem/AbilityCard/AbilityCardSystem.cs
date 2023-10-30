@@ -4,7 +4,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Data.Enumerators;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -98,6 +97,10 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.EnemyDiscardCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke();
+                    break;
+                case AbilityType.SquadMove:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.MoveUnit?.Invoke();
                     break;
                 /*
                 case AbilityType.AddNoiseCard:

@@ -1,4 +1,4 @@
-using System;
+using CyberNet.Core.Player;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -21,44 +21,41 @@ namespace CyberNet.Core.City
         
         private void ShowFirstBaseTower()
         {
-            var entitiesTower = _dataWorld.Select<TowerComponent>()
+            var entitiesTowerFirstBase = _dataWorld.Select<TowerComponent>()
                 .With<FirstBasePlayerComponent>()
                 .GetEntities();
 
-            //TODO переписать
-            foreach (var entityTower in entitiesTower)
+
+            foreach (var entityTower in entitiesTowerFirstBase)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                //towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 255);
                 towerComponent.TowerMono.ActivateCollider();
+                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
         }
         
         private void HideFirstBaseTower()
         {
-            var entitiesTower = _dataWorld.Select<TowerComponent>()
-                .GetEntities();
+            var entitiesTower = _dataWorld.Select<TowerComponent>().GetEntities();
 
-            //TODO переписать
             foreach (var entityTower in entitiesTower)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                //towerComponent.SelectTowerEffect.startColor = new Color32(255, 255, 255, 25);
                 towerComponent.TowerMono.DeactivateCollider();
+                towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
             }
         }
 
         private void UpdateTowerControlView()
         {
             var entitiesTower = _dataWorld.Select<TowerComponent>()
-                .With<FirstBasePlayerComponent>()
                 .GetEntities();
 
             foreach (var entityTower in entitiesTower)
             {
-                Debug.LogError("SetColor tower");
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
                 var material = towerComponent.TowerMono.VisualEffectZone.materials[0];
+                
                 switch (towerComponent.PlayerIsBelong)
                 {
                     case PlayerControlEnum.None:
@@ -71,28 +68,42 @@ namespace CyberNet.Core.City
                         material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlyaerID);
                         break;
                 }
+                
                 towerComponent.TowerMono.VisualEffectZone.materials[0] = material;
             }
         }
 
         private Material SetViewNeutralZoneControl(Material material)
         {
-            material.SetColor("_Color", Color.black);
-            material.SetFloat("_Thickness", -0.2f);
-            material.SetFloat("_PowerEmission", 0f);
+            material.SetColor("_Color", Color.white);
+            material.SetFloat("_Thickness", 0.5f);
+            material.SetFloat("_PowerEmission", 0.5f);
+            
             return material;
         }
 
         private Material SetViewPlayerZoneControl(Material material, int playerID)
         {
+            var entityPlayer = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerID)
+                .SelectFirstEntity();
+
+            var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
+            
+            material.SetColor("_Color", playerUnitVisual.ColorUnit);
+            material.SetFloat("_Thickness", 0.5f);
+            material.SetFloat("_PowerEmission", 0.5f);
+            
             return material;
         }
 
         private Material SetFreeZone(Material material)
         {
-            material.SetColor("_Color", Color.white);
-            material.SetFloat("_Thickness", 0.5f);
-            material.SetFloat("_PowerEmission", 0.2f);
+            material.SetColor("_Color", Color.black);
+            material.SetFloat("_Thickness", 0.2f);
+            material.SetFloat("_PowerEmission", 0f);
             return material;
         }
     }

@@ -1,5 +1,3 @@
-using UnityEngine.Serialization;
-
 namespace CyberNet.Core.AbilityCard
 {
     /// <summary>

@@ -75,6 +75,8 @@ namespace CyberNet
         public string SelectFrameHeader;
         [JsonProperty("selectFrame_descrLoc")]
         public string SelectFrameDescr;
+        [JsonProperty("selectFrame_descrLoc_2")]
+        public string SelectFrameDescr_2;
         [JsonProperty("selectPlayerFrame_headerLoc")]
         public string SelectPlayerFrameHeader;
         [JsonProperty("selectPlayerFrame_descrLoc")]

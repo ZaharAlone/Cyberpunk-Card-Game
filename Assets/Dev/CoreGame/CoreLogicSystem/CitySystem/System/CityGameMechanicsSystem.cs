@@ -3,6 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Collections.Generic;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Player;
 
 namespace CyberNet.Core.City
 {
@@ -13,64 +15,79 @@ namespace CyberNet.Core.City
 
         public void PreInit()
         {
-            CityAction.UpdatePresencePlayerInCity += UpdatePresencePlayerInCity;
+            CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
+            CityAction.ShowWhereIsMovePlayer += ShowWhereIsMovePlayer;
         }
 
-        public void UpdatePresencePlayerInCity()
+        private void UpdateCanInteractiveMap()
         {
-            ClearOldPresencePlayerComponent();
-            AddComponentPresencePlayer();
+            var actionData = _dataWorld.OneData<ActionCardData>();
+            var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
+            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+
+            if (valueAttack == 0)
+            {
+                foreach (var entity in towerEntities)
+                {
+                    var towerMono = entity.GetComponent<TowerComponent>().TowerMono;
+                    towerMono.DeactivateCollider();
+                    towerMono.CloseInteractiveZoneVisualEffect();
+                }
+            }
+            else
+            {
+                var playerEntity = _dataWorld.Select<PlayerComponent>()
+                    .With<CurrentPlayerComponent>()
+                    .SelectFirstEntity();
+                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+
+                foreach (var towerEntity in towerEntities)
+                {
+                    var towerComponent = towerEntity.GetComponent<TowerComponent>();
+
+                    if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
+                        && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
+                    {
+                        towerComponent.TowerMono.ActivateCollider();
+                        towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                    }
+                    else
+                    {
+                        towerComponent.TowerMono.DeactivateCollider();
+                        towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+                    }
+                }
+            }
         }
         
-        private void ClearOldPresencePlayerComponent()
+        /// <summary>
+        /// Активирует зоны на которые игрок может передвинуть своего юнита
+        /// </summary>
+        private void ShowWhereIsMovePlayer()
         {
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+
             var towerEntities = _dataWorld.Select<TowerComponent>()
-                .With<PresencePlayerTowerComponent>()
+                .Where<TowerComponent>(tower => tower.PlayerIsBelong == PlayerControlEnum.Player
+                    && tower.TowerBelongPlyaerID == playerComponent.PlayerID)
                 .GetEntities();
 
             foreach (var towerEntity in towerEntities)
             {
-                towerEntity.RemoveComponent<PresencePlayerTowerComponent>();
-                towerEntity.GetComponent<TowerComponent>().TowerMono.DeactivateCollider();
-            }
-        }
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                towerComponent.TowerMono.ActivateCollider();
+                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
 
-        public void AddComponentPresencePlayer()
-        {
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-
-            var unitEntities = _dataWorld.Select<SquadMapComponent>()
-                .Where<SquadMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
-                .GetEntities();
-
-            var isFindGUID = new List<string>();            
-            foreach (var unitEntity in unitEntities)
-            {
-                var unitComponent = unitEntity.GetComponent<SquadMapComponent>();
-
-                var isDouble = false;
-                foreach (var findGUID in isFindGUID)
+                foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
                 {
-                    if (findGUID == unitComponent.GUIDPoint)
-                        isDouble = true;
-                }
-
-                if (!isDouble)
-                {
-                    AddPresenceComponent(unitComponent.GUIDPoint);
-                    isFindGUID.Add(unitComponent.GUIDPoint);
+                    towerConnect.ActivateCollider();
+                    towerConnect.OpenInteractiveZoneVisualEffect();
                 }
             }
-        }
-
-        private void AddPresenceComponent(string guidUnit)
-        {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == guidUnit)
-                .SelectFirstEntity();
-
-            towerEntity.AddComponent(new PresencePlayerTowerComponent());
-            towerEntity.GetComponent<TowerComponent>().TowerMono.ActivateCollider();
         }
     }
 }
