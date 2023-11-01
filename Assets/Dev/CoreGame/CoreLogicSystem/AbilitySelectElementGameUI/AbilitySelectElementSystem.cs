@@ -5,6 +5,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -15,13 +16,15 @@ namespace CyberNet.Core.AbilityCard
     public class AbilitySelectElementSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
-
+        private bool _isSubscription;
+        
         public void PreInit()
         {
             AbilitySelectElementAction.OpenSelectAbilityCard += OpenWindow;
+            AbilitySelectElementAction.SelectElement += SelectElement;
         }
 
-        private void OpenWindow(int indexDescr)
+        private void OpenWindow(AbilityType abilityType, int indexDescr, bool basePositionFrame = true)
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -31,12 +34,10 @@ namespace CyberNet.Core.AbilityCard
             if (playerComponent.playerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
-            var entity = _dataWorld.Select<CardComponent>().With<AbilitySelectElementComponent>().SelectFirstEntity();
-            ref var actionSelectCardComponent = ref entity.GetComponent<AbilitySelectElementComponent>();
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
             ref var abilityConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             
-            abilityConfig.TryGetValue(actionSelectCardComponent.AbilityCard.AbilityType.ToString(), out var actionVisualConfig);
+            abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)
             {
@@ -47,64 +48,28 @@ namespace CyberNet.Core.AbilityCard
                 uiActionSelectCard.SetView(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
             
-            //Зависит от абилки, дописать
-            var isEnableCancelButton = true;
-            uiActionSelectCard.OpenWindow(true);
-            
-            SubscriptionAction(actionSelectCardComponent.AbilityCard.AbilityType);
-        }
-
-        private void SubscriptionAction(AbilityType abilityType)
-        {
-            switch (abilityType)
-            {
-                case AbilityType.DestroyCard:
-                    break;
-                case AbilityType.CloneCard:
-                    break;
-                case AbilityType.DestroyTradeCard:
-                    break;
-                case AbilityType.SwitchNeutralSquad:
-                    break;
-                case AbilityType.SwitchEnemySquad:
-                    break;
-                case AbilityType.DestroyNeutralSquad:
-                    break;
-                case AbilityType.DestroySquad:
-                    break;
-                case AbilityType.SquadMove:
-                    AbilitySelectElementAction.SelectTower += SelectTower;
-                    break;
-                case AbilityType.SetIce:
-                    break;
-                case AbilityType.DestroyIce:
-                    break;
-            }
+            uiActionSelectCard.OpenWindow(true, basePositionFrame);
         }
         
-        private void SelectTower(string towerGUID)
+        private void SelectElement(string textButton)
         {
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
-            uiActionSelectCard.SetTextButtonConfirm(uiActionSelectCard.ConfimLocButton);
-            
-            AbilitySelectElementAction.ConfimSelect += ConfimSelectTower;
-        }
-        
-        private void ConfimSelectTower()
-        {
-            AbilitySelectElementAction.SelectTower -= SelectTower;
-            AbilitySelectElementAction.ConfimSelect -= ConfimSelectTower;
-            
-            var entity = _dataWorld.Select<CardComponent>().With<AbilitySelectElementComponent>().SelectFirstEntity();
-            ref var actionSelectCardComponent = ref entity.GetComponent<AbilitySelectElementComponent>();
+            uiActionSelectCard.SetTextButtonConfirm(textButton);
 
-            if (actionSelectCardComponent.AbilityCard.AbilityType == AbilityType.SquadMove)
+            if (!_isSubscription)
             {
-                
-                return;
+                _isSubscription = true;
+                AbilitySelectElementAction.ConfimSelect += ConfimSelect;
             }
         }
         
-        
+        private void ConfimSelect()
+        {
+            _isSubscription = false;
+            AbilitySelectElementAction.ConfimSelect -= ConfimSelect;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            uiActionSelectCard.CloseWindow();
+            AbilityCardAction.ConfimSelectElement?.Invoke();
+        }
     }
 }

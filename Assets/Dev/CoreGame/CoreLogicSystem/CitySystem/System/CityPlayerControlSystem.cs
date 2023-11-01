@@ -66,7 +66,7 @@ namespace CyberNet.Core.City
             }
             else if (activeAbilityCard)
             {
-                AbilitySelectElementAction.SelectTower?.Invoke(towerMono.GUID);
+                CityAction.SelectTower?.Invoke(towerMono.GUID);
             }
             else if (actionData.TotalAttack - actionData.SpendAttack > 0)
             {

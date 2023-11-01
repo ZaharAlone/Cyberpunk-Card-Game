@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
+using UnityEngine;
 
 namespace CyberNet.Core.City
 {
@@ -16,7 +17,8 @@ namespace CyberNet.Core.City
         public void PreInit()
         {
             CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
-            CityAction.ShowWhereIsMovePlayer += ShowWhereIsMovePlayer;
+            CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
+            CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
         }
 
         private void UpdateCanInteractiveMap()
@@ -63,7 +65,7 @@ namespace CyberNet.Core.City
         /// <summary>
         /// Активирует зоны на которые игрок может передвинуть своего юнита
         /// </summary>
-        private void ShowWhereIsMovePlayer()
+        private void ShowWherePlayerCanMove()
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -87,6 +89,50 @@ namespace CyberNet.Core.City
                     towerConnect.ActivateCollider();
                     towerConnect.OpenInteractiveZoneVisualEffect();
                 }
+            }
+        }
+        
+        /// <summary>
+        /// Активирует зоны с которых игрок может передвинуть своих юнитов в целевую точку
+        /// </summary>
+        private void ShowWherePlayerCanMoveFrom(string GUIDTower)
+        {
+            DeactivateAllTower();
+            
+            var towerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == GUIDTower)
+                .SelectFirstEntity();
+
+            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+            {
+                var towerConnectEntity = _dataWorld.Select<TowerComponent>()
+                    .Where<TowerComponent>(tower => tower.GUID == towerConnect.GUID)
+                    .SelectFirstEntity();
+
+                var towerConnectComponent = towerConnectEntity.GetComponent<TowerComponent>();
+                if (towerConnectComponent.PlayerIsBelong == PlayerControlEnum.Player
+                    && towerConnectComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
+                {
+                    towerConnectComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                }
+            }
+        }
+
+        private void DeactivateAllTower()
+        {
+            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            foreach (var towerEntity in towerEntities)
+            {
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                towerComponent.TowerMono.DeactivateCollider();
+                towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
             }
         }
     }

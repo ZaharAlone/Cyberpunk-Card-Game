@@ -556,8 +556,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 1
   VisualEffectZone: {fileID: 3197979160788654927}
-  CloseInteractiveZoneEffect: {fileID: 596962664656923129}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 596962664656923129}
   ColliderTower: {fileID: 6366624442906722060}
   SquadZonesMono:
   - {fileID: 513605356157348417}
@@ -1079,8 +1079,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 1
   VisualEffectZone: {fileID: 3127809720735215677}
-  CloseInteractiveZoneEffect: {fileID: 6179822307047779702}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 6179822307047779702}
   ColliderTower: {fileID: 861514901361843496}
   SquadZonesMono:
   - {fileID: 6494018385472036217}
@@ -2048,8 +2048,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 3587811580478476559}
-  CloseInteractiveZoneEffect: {fileID: 8225901975980852149}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 8225901975980852149}
   ColliderTower: {fileID: 2863774899315028056}
   SquadZonesMono:
   - {fileID: 6185423013429635779}
@@ -2384,8 +2384,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 489794477291927925}
-  CloseInteractiveZoneEffect: {fileID: 5464462674724030412}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 5464462674724030412}
   ColliderTower: {fileID: 112342847359454516}
   SquadZonesMono:
   - {fileID: 85953124185332137}
@@ -2469,8 +2469,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 8210570525591834553}
-  CloseInteractiveZoneEffect: {fileID: 2918385127058397535}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 2918385127058397535}
   ColliderTower: {fileID: 7104875299244251395}
   SquadZonesMono:
   - {fileID: 2518433718371172102}
@@ -3087,8 +3087,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 1
   VisualEffectZone: {fileID: 8255027823232068790}
-  CloseInteractiveZoneEffect: {fileID: 1426699143160195862}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 1426699143160195862}
   ColliderTower: {fileID: 5605795382160057919}
   SquadZonesMono:
   - {fileID: 2911480475172087621}
@@ -3990,8 +3990,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 2844034775653276026}
-  CloseInteractiveZoneEffect: {fileID: 1555339426270952225}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 1555339426270952225}
   ColliderTower: {fileID: 4854516540801567315}
   SquadZonesMono:
   - {fileID: 1651484285317354054}
@@ -4162,8 +4162,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 1
   VisualEffectZone: {fileID: 4628370978364652771}
-  CloseInteractiveZoneEffect: {fileID: 4690793526492632973}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 4690793526492632973}
   ColliderTower: {fileID: 7340477954268606199}
   SquadZonesMono:
   - {fileID: 7842790735797838954}
@@ -4333,8 +4333,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 1563655174151072503}
-  CloseInteractiveZoneEffect: {fileID: 5341748978324665661}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 5341748978324665661}
   ColliderTower: {fileID: 3492989907690219836}
   SquadZonesMono:
   - {fileID: 8685174616698517594}
@@ -4499,12 +4499,15 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 7536045213635178098}
-  CloseInteractiveZoneEffect: {fileID: 1332799660017613511}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 1332799660017613511}
   ColliderTower: {fileID: 7462255877606374335}
   SquadZonesMono:
   - {fileID: 8839913802417442760}
-  ZoneConnect: []
+  ZoneConnect:
+  - {fileID: 2210778102631278781}
+  - {fileID: 8662714721060430026}
+  - {fileID: 1277325792432442571}
 --- !u!1 &8440331676815627852
 GameObject:
   m_ObjectHideFlags: 0
@@ -4580,8 +4583,8 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 7518286476061440653}
-  CloseInteractiveZoneEffect: {fileID: 4173991144266409173}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 4173991144266409173}
   ColliderTower: {fileID: 1801597934612132607}
   SquadZonesMono:
   - {fileID: 7371442323705306977}
@@ -4917,14 +4920,19 @@ MonoBehaviour:
   Key: tower_1
   IsFirstBasePlayer: 0
   VisualEffectZone: {fileID: 3435972807842081573}
-  CloseInteractiveZoneEffect: {fileID: 6258905505471519678}
   ActiveOnCountPlayerInGame: 0
+  CloseInteractiveZoneEffect: {fileID: 6258905505471519678}
   ColliderTower: {fileID: 4497261193982264415}
   SquadZonesMono:
   - {fileID: 8468109327309554951}
   - {fileID: 3060346417103756467}
   - {fileID: 2510061620330951079}
-  ZoneConnect: []
+  ZoneConnect:
+  - {fileID: 4273552721157428603}
+  - {fileID: 8042618828105057904}
+  - {fileID: 2835459971720447206}
+  - {fileID: 1209958194385788890}
+  - {fileID: 8662714721060430026}
 --- !u!1 &8948803562499792080
 GameObject:
   m_ObjectHideFlags: 0

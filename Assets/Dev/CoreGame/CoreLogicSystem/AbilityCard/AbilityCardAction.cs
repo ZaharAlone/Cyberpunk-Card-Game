@@ -18,7 +18,6 @@ namespace CyberNet.Core.AbilityCard
         public static Action AddNoiseCard;
         
         public static Action MoveUnit;
-        public static Action<TowerMono> ConfimSelectTower;
-        public static Action<TowerMono> SelectTower;
+        public static Action ConfimSelectElement;
     }   
 }

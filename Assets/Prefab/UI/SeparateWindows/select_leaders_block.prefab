@@ -198,7 +198,6 @@ MonoBehaviour:
   Button: {fileID: 5383404403209116733}
   ImageButton: {fileID: 3209939140796318493}
   KeyLeaders: leo
-  IDButton: 4
   IsFirstButton: 0
 --- !u!1 &574938765019772590
 GameObject:
@@ -337,7 +336,6 @@ MonoBehaviour:
   Button: {fileID: 5159602486236436042}
   ImageButton: {fileID: 7879108796286970701}
   KeyLeaders: kira_cat
-  IDButton: 3
   IsFirstButton: 0
 --- !u!1 &984356493044387448
 GameObject:
@@ -406,7 +404,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: "\u041D\u0430\u0437\u0430\u0434"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -582,7 +580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select leader
+  m_text: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043B\u0438\u0434\u0435\u0440\u0430"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -664,7 +662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTerm: MainMenu/$ui_selectLeader_header
+  mTerm: UIGame/$ui_selectLeader_header
   mTermSecondary: 
   PrimaryTermModifier: 0
   SecondaryTermModifier: 0
@@ -828,7 +826,6 @@ MonoBehaviour:
   Button: {fileID: 5716936774848843170}
   ImageButton: {fileID: 2697634467142440208}
   KeyLeaders: japanGirl
-  IDButton: 8
   IsFirstButton: 0
 --- !u!1 &1246608853719424501
 GameObject:
@@ -967,7 +964,6 @@ MonoBehaviour:
   Button: {fileID: 7466283617691247268}
   ImageButton: {fileID: 8346533372830452398}
   KeyLeaders: cyberpsycho
-  IDButton: 1
   IsFirstButton: 1
 --- !u!1 &1325576169753112869
 GameObject:
@@ -1293,7 +1289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cyberpsycho
+  m_text: "\u041A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4da7f049e659c6b48a70df192e624c6e, type: 2}
   m_sharedMaterial: {fileID: 7449432941636958804, guid: 4da7f049e659c6b48a70df192e624c6e,
@@ -1488,7 +1484,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4168514209498568615}
   - component: {fileID: 933931347066601003}
-  - component: {fileID: 4989155616524000107}
   m_Layer: 5
   m_Name: im_frameSelectLeader
   m_TagString: Untagged
@@ -1530,36 +1525,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3934828060130749592}
   m_CullTransparentMesh: 1
---- !u!114 &4989155616524000107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3934828060130749592}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5f022264326e02b4db2e3f87eb6b7c4f, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4112041530845007718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,7 +1662,6 @@ MonoBehaviour:
   Button: {fileID: 6275470685844922876}
   ImageButton: {fileID: 8528361518822314781}
   KeyLeaders: brownGirl
-  IDButton: 6
   IsFirstButton: 0
 --- !u!1 &4358665080140923841
 GameObject:
@@ -2111,7 +2075,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2328049983519501762}
   m_Father: {fileID: 4168514209498568615}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2295,7 +2260,6 @@ MonoBehaviour:
   Button: {fileID: 5686602617706934606}
   ImageButton: {fileID: 2484705128455373328}
   KeyLeaders: chinesGirl
-  IDButton: 7
   IsFirstButton: 0
 --- !u!1 &5296105413261779536
 GameObject:
@@ -2364,7 +2328,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -2610,7 +2574,6 @@ MonoBehaviour:
   Button: {fileID: 1140366511178197338}
   ImageButton: {fileID: 8329817912657602240}
   KeyLeaders: anna_pizza
-  IDButton: 2
   IsFirstButton: 0
 --- !u!1 &5800029482620923208
 GameObject:
@@ -2961,7 +2924,6 @@ MonoBehaviour:
   Button: {fileID: 3223687537042800487}
   ImageButton: {fileID: 4984844558509854499}
   KeyLeaders: blackBoy
-  IDButton: 5
   IsFirstButton: 0
 --- !u!1 &7101100803498547897
 GameObject:
@@ -3139,6 +3101,82 @@ MonoBehaviour:
   mGUI_ShowCallback: 0
   mLocalizeTarget: {fileID: 0}
   mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
+--- !u!1 &7377722986784479646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2328049983519501762}
+  - component: {fileID: 7990762892137175528}
+  - component: {fileID: 2379332079264058036}
+  m_Layer: 5
+  m_Name: im_frame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2328049983519501762
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377722986784479646}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3648895066131969371}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7990762892137175528
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377722986784479646}
+  m_CullTransparentMesh: 1
+--- !u!114 &2379332079264058036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377722986784479646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.89411765, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 1b5baba121cda8846ad412a1d782d9aa, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7889359110192307625
 GameObject:
   m_ObjectHideFlags: 0

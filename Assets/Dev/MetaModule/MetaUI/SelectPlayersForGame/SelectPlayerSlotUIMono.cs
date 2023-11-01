@@ -20,8 +20,12 @@ namespace CyberNet.Meta.SelectPlayersForGame
 
         [Header("Leader View")]
         public Image LeaderImage;
+        public Image FrameLeaderImage;
         public Image LeaderAbility;
         public Localize LeaderName;
+
+        public Color32 FrameBaseColor;
+        public Color32 FrameDeleteColor;
 
         [Header("Player name")]
         public TextMeshProUGUI NamePlayer;
@@ -57,6 +61,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             LeaderImage.sprite = leaderSprite;
             LeaderAbility.sprite = abilitySprite;
             LeaderName.Term = leaderName;
+            FrameLeaderImage.color = FrameBaseColor;
         }
 
         public void SetLocTypePlayer(string nameTypePlayer)
@@ -106,11 +111,13 @@ namespace CyberNet.Meta.SelectPlayersForGame
         public void OnSelectSlot()
         {
             SelectSlotGO.SetActive(true);
+            FrameLeaderImage.color = FrameDeleteColor;
         }
 
         public void OffSelectSlot()
         {
             SelectSlotGO.SetActive(false);
+            FrameLeaderImage.color = FrameBaseColor;
         }
         
         public void OnEndEditPlayerName(string newName)
