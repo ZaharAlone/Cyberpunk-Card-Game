@@ -135,6 +135,7 @@ namespace CyberNet.Local
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.PauseInteractive = false;
+            roundData.CurrentRoundState = RoundState.Map;
             
             VFXCardInteractivAction.UpdateVFXCard?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();

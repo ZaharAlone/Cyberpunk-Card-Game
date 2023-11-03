@@ -1,3 +1,4 @@
+using CyberNet.Core.InteractiveCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;

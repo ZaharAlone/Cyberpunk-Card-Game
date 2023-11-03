@@ -1,3 +1,4 @@
+using CyberNet.Core.UI.CardPopup;
 using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -5,7 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     [EcsSystem(typeof(CoreModule))]
     public class InteractiveSelectCardSystem : IInitSystem
@@ -67,27 +68,30 @@ namespace CyberNet.Core
                 scaleCard = gameConfig.SizeSelectCardTradeRow;
 
             animComponent.Sequence = DOTween.Sequence();
-            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.15f))
-                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.15f));
+            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.1f))
+                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.1f));
 
             cardComponent.Canvas.sortingOrder = 20;
-
-            //TODO не уверен что правильно поправил
+            
             if (cardComponent.PlayerID == currentPlayerID)
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
-                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.15f));
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
                 entity.AddComponent(animComponent);
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
+                
+                CardPopupAction.OpenPopupCard?.Invoke(guid, false);
             }
             else
             {
                 var pos = animComponent.Positions;
                 pos.y = -250;
-                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.15f));
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
                 entity.AddComponent(animComponent);
+                
+                CardPopupAction.OpenPopupCard?.Invoke(guid, true);
             }
         }
 
@@ -176,6 +180,7 @@ namespace CyberNet.Core
             if (!isEntity)
                 return;
 
+            CardPopupAction.ClosePopupCard?.Invoke();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             if (entity.HasComponent<CardHandComponent>())
                 ReturnAllCard();

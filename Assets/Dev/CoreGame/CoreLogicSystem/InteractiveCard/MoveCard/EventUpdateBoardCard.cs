@@ -1,4 +1,4 @@
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     public struct EventUpdateBoardCard { }
 }

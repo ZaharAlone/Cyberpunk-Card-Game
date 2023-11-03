@@ -5,6 +5,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.WinLose;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;

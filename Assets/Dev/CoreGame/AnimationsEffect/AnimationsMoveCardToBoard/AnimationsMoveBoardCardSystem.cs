@@ -34,7 +34,7 @@ namespace CyberNet.Core
             var width = (204 + 30) * (countCard - 1);
             var start_point = width / -2;
 
-            var sortCard = SortingCardInHand(entities, countCard);
+            var sortCard = SortingCardInHand(entities);
             foreach (var entity in sortCard)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
@@ -49,7 +49,7 @@ namespace CyberNet.Core
             }
         }
 
-        private List<Entity> SortingCardInHand(EntitiesEnumerable entities, int countCard)
+        private List<Entity> SortingCardInHand(EntitiesEnumerable entities)
         {
             var tempList = new List<Entity>();
 

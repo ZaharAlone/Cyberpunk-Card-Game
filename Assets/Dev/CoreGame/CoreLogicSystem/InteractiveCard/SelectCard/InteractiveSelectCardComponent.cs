@@ -1,7 +1,4 @@
-using UnityEngine;
-using DG.Tweening;
-
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     public struct InteractiveSelectCardComponent { }
 }

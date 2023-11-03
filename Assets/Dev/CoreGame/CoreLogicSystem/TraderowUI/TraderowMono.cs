@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,8 @@ namespace CyberNet.Core.Traderow
         public RectTransform TraderowContainerForCard;
 
         private Sequence _sequence;
-
+        private float _timeAnimations = 0.35f;
+        
         public void Start()
         {
             _sequence = DOTween.Sequence();
@@ -23,9 +25,18 @@ namespace CyberNet.Core.Traderow
 
         public void ShowTraderow()
         {
-            _sequence.Append(TraderowContainerForCard.DOAnchorPos(new Vector2(0, 0), 0.5f));
+            _sequence.Append(TraderowContainerForCard
+                .DOAnchorPos(new Vector2(0, 0), _timeAnimations));
+            EndShowAnimations();
         }
 
+        private async void EndShowAnimations()
+        {
+            var waitTime = (int)(_timeAnimations * 1000);
+            await Task.Delay(waitTime);
+            TraderowUIAction.EndShowAnimations?.Invoke();
+        }
+        
         public void OnPointerExit(PointerEventData eventData)
         {
             TraderowUIAction.HideTraderow?.Invoke();
@@ -33,7 +44,7 @@ namespace CyberNet.Core.Traderow
 
         public void HideTraderow()
         {
-            _sequence.Append(TraderowContainerForCard.DOAnchorPos(new Vector2(0, 250), 0.5f));
+            _sequence.Append(TraderowContainerForCard.DOAnchorPos(new Vector2(0, 250), _timeAnimations));
         }
     }
 }

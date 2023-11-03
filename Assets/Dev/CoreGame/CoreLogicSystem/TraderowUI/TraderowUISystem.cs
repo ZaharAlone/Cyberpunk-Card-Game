@@ -1,4 +1,3 @@
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -9,7 +8,7 @@ using UnityEngine;
 namespace CyberNet.Core.Traderow
 {
     [EcsSystem(typeof(CoreModule))]
-    public class TraderowUISystem : IPreInitSystem
+    public class TraderowUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private bool _statusTraderow;
@@ -19,6 +18,7 @@ namespace CyberNet.Core.Traderow
             BoardGameUIAction.UpdateStatsPlayersCurrency += CheckTraderow;
             TraderowUIAction.ShowTraderow += ShowTraderow;
             TraderowUIAction.HideTraderow += HideTraderow;
+            TraderowUIAction.EndShowAnimations += EndShowAnimations;
         }
 
         private void CheckTraderow()
@@ -30,7 +30,7 @@ namespace CyberNet.Core.Traderow
             else if (!tradePoint && _statusTraderow)
                 HideTradeRowAnimation();
         }
-        
+
         private void ShowTraderow()
         {
             if (CheckTradePoint())
@@ -51,6 +51,11 @@ namespace CyberNet.Core.Traderow
             _statusTraderow = true;
         }
         
+        private void EndShowAnimations()
+        {
+            _dataWorld.NewEntity().AddComponent(new TraderowIsShowComponent());
+        }
+
         private void HideTraderow()
         {
             if (CheckTradePoint())
@@ -62,13 +67,15 @@ namespace CyberNet.Core.Traderow
         private void HideTradeRowAnimation()
         {
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            
-            //if (roundData.PauseInteractive)
-            //    return;
             
             uiTraderow.HideTraderow();
             _statusTraderow = false;
+            
+            var traderowIsShowEntities = _dataWorld.Select<TraderowIsShowComponent>().GetEntities();
+            foreach (var entity in traderowIsShowEntities)
+            {
+                entity.Destroy();
+            }
         }
 
         private bool CheckTradePoint()
@@ -78,6 +85,14 @@ namespace CyberNet.Core.Traderow
                 .Count();
             
             return countCardFreeToBuy > 0;
+        }
+
+        public void Destroy()
+        {
+            BoardGameUIAction.UpdateStatsPlayersCurrency -= CheckTraderow;
+            TraderowUIAction.ShowTraderow -= ShowTraderow;
+            TraderowUIAction.HideTraderow -= HideTraderow;
+            TraderowUIAction.EndShowAnimations -= EndShowAnimations;
         }
     }
 }

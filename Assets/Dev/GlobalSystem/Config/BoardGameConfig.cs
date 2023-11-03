@@ -32,6 +32,7 @@ namespace CyberNet
 
         [Header("Config Card")]
         public TextAsset CardConfigJson;
+        public TextAsset PopupCardConfigJson;
         public TextAsset AbilityCardConfigJson;
 
         [Header("Leader Config")]

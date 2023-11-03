@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     public static class InteractiveActionCard
     {

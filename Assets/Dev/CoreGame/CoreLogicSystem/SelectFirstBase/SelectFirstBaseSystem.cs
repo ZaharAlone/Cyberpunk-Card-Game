@@ -43,6 +43,7 @@ namespace CyberNet.Core.SelectFirstBase
 
         private void SelectFirstBase()
         {
+            _dataWorld.OneData<RoundData>().PauseInteractive = true;
             ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
             uiSelectFirstBase.OpenWindow();
             CityAction.ShowFirstBaseTower?.Invoke();

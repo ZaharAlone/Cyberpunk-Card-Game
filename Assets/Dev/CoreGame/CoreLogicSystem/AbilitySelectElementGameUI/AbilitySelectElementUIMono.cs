@@ -42,7 +42,6 @@ namespace CyberNet.Core.AbilityCard
 
         public void CloseWindow()
         {
-            Debug.LogError("close panel");
             Panel.SetActive(false);
         }
 

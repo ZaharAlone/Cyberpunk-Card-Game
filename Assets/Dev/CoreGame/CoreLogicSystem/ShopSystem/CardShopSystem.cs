@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using UnityEngine;
 

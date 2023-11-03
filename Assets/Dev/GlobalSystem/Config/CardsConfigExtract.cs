@@ -1,5 +1,4 @@
 using EcsCore;
-using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ModulesFramework.Attributes;
@@ -21,7 +20,14 @@ namespace CyberNet
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var cardConfig = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(boardGameData.BoardGameConfig.CardConfigJson.text);
             var abilityCardConfig = JsonConvert.DeserializeObject<Dictionary<string, AbilityCardConfig>>(boardGameData.BoardGameConfig.AbilityCardConfigJson.text);
-            _dataWorld.CreateOneData(new CardsConfig { Cards = cardConfig, AbilityCard = abilityCardConfig});
+            var popupCardConfig = JsonConvert.DeserializeObject<Dictionary<string, CardPopupConfig>>(boardGameData.BoardGameConfig.PopupCardConfigJson.text);
+            
+            _dataWorld.CreateOneData(new CardsConfig 
+            {
+                Cards = cardConfig,
+                AbilityCard = abilityCardConfig,
+                PopupCard = popupCardConfig
+            });
         }
     }
 }

@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
-using UnityEngine;
 using Newtonsoft.Json;
-using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -13,6 +10,7 @@ namespace CyberNet
     {
         public Dictionary<string, CardConfigJson> Cards;
         public Dictionary<string, AbilityCardConfig> AbilityCard;
+        public Dictionary<string, CardPopupConfig> PopupCard;
     }
 
     [Serializable]
@@ -71,6 +69,10 @@ namespace CyberNet
     {
         [JsonProperty("abilityLoc")]
         public string AbilityLoc;
+        [JsonProperty("visualPlayingCard_Map")]
+        public string VisualPlayingCardMap;
+        [JsonProperty("visualPlayingCard_Arena")]
+        public string VisualPlayingCardArena;
         [JsonProperty("selectFrame_headerLoc")]
         public string SelectFrameHeader;
         [JsonProperty("selectFrame_descrLoc")]

@@ -1,5 +1,4 @@
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using EcsCore;
 using Input;
@@ -9,49 +8,19 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class InteractiveMoveCardSystem : IInitSystem, IRunSystem, IDestroySystem
+    public class InteractiveMoveCardSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
-            InteractiveActionCard.StartInteractiveCard += DownClickCard;
-            InteractiveActionCard.EndInteractiveCard += UpClickCard;
+            InteractiveActionCard.EndInteractiveCard += EndInteractiveCard;
         }
 
-        private void DownClickCard(string guid)
-        {
-            var entity = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.GUID == guid)
-                .SelectFirstEntity();
-            
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive)
-                return;
-            
-            ref var component = ref entity.GetComponent<CardComponent>();
-            //TODO дописать что нельзя двигать карты
-            
-            if (entity.HasComponent<PlayerComponent>())
-                return;
-
-            if (entity.HasComponent<CardHandComponent>() || entity.HasComponent<CardFreeToBuyComponent>())
-            {
-                ref var inputData = ref _dataWorld.OneData<InputData>();
-
-                entity.AddComponent(new InteractiveMoveComponent
-                {
-                    StartCardPosition = component.RectTransform.anchoredPosition,
-                    StartCardRotation = component.RectTransform.localRotation,
-                    StartMousePositions = inputData.MousePosition
-                });
-            }
-        }
-
-        private void UpClickCard()
+        private void EndInteractiveCard()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
@@ -172,8 +141,7 @@ namespace CyberNet.Core
 
         public void Destroy()
         {
-            InteractiveActionCard.StartInteractiveCard -= DownClickCard;
-            InteractiveActionCard.EndInteractiveCard -= UpClickCard;
+            InteractiveActionCard.EndInteractiveCard -= EndInteractiveCard;
         }
     }
 }

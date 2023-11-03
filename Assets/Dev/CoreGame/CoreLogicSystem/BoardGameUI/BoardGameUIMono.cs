@@ -1,17 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
-using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
 using CyberNet.Core.TaskUI;
 using CyberNet.Core.Traderow;
-using UnityEngine.Serialization;
+using CyberNet.Core.UI.CardPopup;
 
 namespace CyberNet.Core.UI
 {
@@ -48,5 +42,8 @@ namespace CyberNet.Core.UI
 
         [Header("Select First Base")]
         public SelectFirstBaseUIMono SelectFirstBaseUIMono;
+
+        [Header("Popup Card")]
+        public CardPopupMono CardPopupMono;
     }
 }
