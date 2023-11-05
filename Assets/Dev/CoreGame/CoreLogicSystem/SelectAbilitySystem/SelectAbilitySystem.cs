@@ -2,9 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
-using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
 
@@ -20,6 +17,7 @@ namespace CyberNet.Core
 
         public void PreInit()
         {
+            //Follow button select ability
             SelectAbilityAction.SelectFirstAbility += OnClickSelectFirstAbility;
             SelectAbilityAction.SelectSecondAbility += OnClickSelectSecondAbility;
         }

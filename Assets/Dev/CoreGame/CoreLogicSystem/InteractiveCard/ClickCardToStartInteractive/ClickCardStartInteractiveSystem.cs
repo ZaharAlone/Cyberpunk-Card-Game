@@ -33,6 +33,9 @@ namespace CyberNet.Core.InteractiveCard
                 return;
 
             CardPopupAction.ClosePopupCard?.Invoke();
+            entity.AddComponent(new CardSelectAbilityComponent());
+            
+            /*
             var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
             
             
@@ -47,7 +50,7 @@ namespace CyberNet.Core.InteractiveCard
                     StartCardRotation = component.RectTransform.localRotation,
                     StartMousePositions = inputData.MousePosition
                 });
-            }
+            }*/
         }
         
         public void Destroy()

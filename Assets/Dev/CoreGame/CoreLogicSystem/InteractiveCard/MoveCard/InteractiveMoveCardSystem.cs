@@ -85,11 +85,13 @@ namespace CyberNet.Core.InteractiveCard
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
 
+                /*
+                //TODO перенести при изменение взаимодействия
                 entity.AddComponent(new CardSelectAbilityComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
                 AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = currentPlayerID });
+                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = currentPlayerID });*/
             }
             else
             {
