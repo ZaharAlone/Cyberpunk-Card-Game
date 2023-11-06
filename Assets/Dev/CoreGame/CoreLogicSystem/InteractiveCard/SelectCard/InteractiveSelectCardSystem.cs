@@ -1,4 +1,4 @@
-using CyberNet.Core.UI.CardPopup;
+using CyberNet.Core.UI.CorePopup;
 using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -82,7 +82,7 @@ namespace CyberNet.Core.InteractiveCard
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
                 
-                CardPopupAction.OpenPopupCard?.Invoke(guid, false);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, false);
             }
             else
             {
@@ -91,7 +91,7 @@ namespace CyberNet.Core.InteractiveCard
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
                 entity.AddComponent(animComponent);
                 
-                CardPopupAction.OpenPopupCard?.Invoke(guid, true);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, true);
             }
         }
 
@@ -180,7 +180,7 @@ namespace CyberNet.Core.InteractiveCard
             if (!isEntity)
                 return;
 
-            CardPopupAction.ClosePopupCard?.Invoke();
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             if (entity.HasComponent<CardHandComponent>())
                 ReturnAllCard();

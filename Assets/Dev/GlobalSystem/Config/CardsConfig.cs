@@ -10,7 +10,6 @@ namespace CyberNet
     {
         public Dictionary<string, CardConfigJson> Cards;
         public Dictionary<string, AbilityCardConfig> AbilityCard;
-        public Dictionary<string, CardPopupConfig> PopupCard;
     }
 
     [Serializable]

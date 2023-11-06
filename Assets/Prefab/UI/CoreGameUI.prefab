@@ -925,7 +925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 49.999996, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3039068833433588346
@@ -1334,7 +1334,7 @@ MonoBehaviour:
   TraderowMono: {fileID: 4473464082496060882}
   TaskUIMono: {fileID: 6172917736585312058}
   SelectFirstBaseUIMono: {fileID: 7212886529966174478}
-  CardPopupMono: {fileID: 2020487112361571459}
+  GameElementInfoPopupMono: {fileID: 2020487112361571459}
   AbilityCancelButtonUIMono: {fileID: 570607267760327973}
 --- !u!1 &8572248688153124105
 GameObject:
@@ -2445,7 +2445,7 @@ PrefabInstance:
     - target: {fileID: 3081519904053102815, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}
       propertyPath: m_Name
-      value: PopupCard
+      value: CorePopup
       objectReference: {fileID: 0}
     - target: {fileID: 3755932251960749763, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}
@@ -2465,7 +2465,7 @@ PrefabInstance:
     - target: {fileID: 3755932251960749763, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 3755932251960749763, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}
@@ -2495,7 +2495,7 @@ PrefabInstance:
     - target: {fileID: 8893368437257153375, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 8893368437257153375, guid: e4cecb3407175e64babd238df28fe748,
         type: 3}

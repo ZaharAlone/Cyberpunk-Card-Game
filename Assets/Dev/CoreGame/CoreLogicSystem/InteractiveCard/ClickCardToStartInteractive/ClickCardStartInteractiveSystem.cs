@@ -3,8 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.Player;
-using CyberNet.Core.UI.CardPopup;
-using Input;
+using CyberNet.Core.UI.CorePopup;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -32,8 +31,16 @@ namespace CyberNet.Core.InteractiveCard
             if (entity.HasComponent<PlayerComponent>())
                 return;
 
-            CardPopupAction.ClosePopupCard?.Invoke();
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             entity.AddComponent(new CardSelectAbilityComponent());
+            
+            
+            /* Смотрим есть ли выбор способности, если есть выбираем одну из них.
+             * Если нет играем по правилам конфига - стрелка/либо на стол.
+             * Если выбор то после выбора:
+             * 1) Если абилка играется на стол - играем её сразу.
+             * 2) Если стрелкой - то стрелка активируется сразу
+             */
             
             /*
             var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;

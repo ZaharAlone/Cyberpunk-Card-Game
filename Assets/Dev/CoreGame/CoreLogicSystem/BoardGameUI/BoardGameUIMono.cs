@@ -6,7 +6,8 @@ using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
 using CyberNet.Core.TaskUI;
 using CyberNet.Core.Traderow;
-using CyberNet.Core.UI.CardPopup;
+using CyberNet.Core.UI.CorePopup;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
 {
@@ -45,7 +46,7 @@ namespace CyberNet.Core.UI
         public SelectFirstBaseUIMono SelectFirstBaseUIMono;
 
         [Header("Popup Card")]
-        public CardPopupMono CardPopupMono;
+        public CoreElementInfoPopupUIMono GameElementInfoPopupMono;
 
         [Header("Ability Cancel Button UI")]
         public AbilityCancelButtonUIMono AbilityCancelButtonUIMono;
