@@ -73,7 +73,6 @@ namespace CyberNet.Core.UI.CorePopup
             
             uiPopup.SetView(popupViewConfig.DescrLoc, popupViewConfig.HeaderLoc, popupViewConfig.ArtisticDescrLoc);
             uiPopup.PositioningUp(rectTransform, 10);
-            Debug.LogError("Show up popup");
         }
         
         private void ClosePopupCard()

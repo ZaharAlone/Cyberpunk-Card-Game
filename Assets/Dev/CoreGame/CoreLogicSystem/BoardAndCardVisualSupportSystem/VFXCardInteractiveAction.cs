@@ -1,7 +1,7 @@
 using System;
 namespace CyberNet.Core.UI
 {
-    public static class VFXCardInteractivAction
+    public static class VFXCardInteractiveAction
     {
         public static Action UpdateVFXCard;
     }

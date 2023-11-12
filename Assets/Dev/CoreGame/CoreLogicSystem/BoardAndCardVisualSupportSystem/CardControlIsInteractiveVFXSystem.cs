@@ -4,8 +4,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
-using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -18,13 +16,13 @@ namespace CyberNet.Core.UI
     /// При покупке карт
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class CardControlIsInteractiveVFXSystem : IPreInitSystem
+    public class CardControlIsInteractiveVFXSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            VFXCardInteractivAction.UpdateVFXCard += UpdateVFXViewCurrentPlayer;
+            VFXCardInteractiveAction.UpdateVFXCard += UpdateVFXViewCurrentPlayer;
         }
 
         private void UpdateVFXViewCurrentPlayer()
@@ -42,7 +40,7 @@ namespace CyberNet.Core.UI
                                                .GetEntities();
             var entitiesCardInDeck = _dataWorld.Select<CardComponent>()
                                                .Where<CardComponent>(card => card.PlayerID == playerID)
-                                               .With<CardTableComponent>()
+                                               .With<CardAbilitySelectionCompletedComponent>()
                                                .GetEntities();
             var entitiesCardInDrop = _dataWorld.Select<CardComponent>()
                                                .Where<CardComponent>(card => card.PlayerID == playerID)
@@ -90,6 +88,11 @@ namespace CyberNet.Core.UI
                 else
                     component.CardMono.SetStatusInteractiveVFX(false);
             }
+        }
+
+        public void Destroy()
+        {
+            VFXCardInteractiveAction.UpdateVFXCard -= UpdateVFXViewCurrentPlayer;
         }
     }
 }

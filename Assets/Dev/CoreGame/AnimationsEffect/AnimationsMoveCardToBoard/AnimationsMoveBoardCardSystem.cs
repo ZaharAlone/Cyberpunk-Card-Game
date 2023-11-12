@@ -27,8 +27,8 @@ namespace CyberNet.Core
 
         private void AnimationsMoveBoardCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
-            var countCard = _dataWorld.Select<CardComponent>().With<CardTableComponent>().Count();
+            var entities = _dataWorld.Select<CardComponent>().With<CardMoveToTableComponent>().GetEntities();
+            var countCard = _dataWorld.Select<CardComponent>().With<CardMoveToTableComponent>().Count();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
             var width = (204 + 30) * (countCard - 1);
@@ -104,17 +104,24 @@ namespace CyberNet.Core
             
             var sequence = DOTween.Sequence();
             sequence.Append(cardComponent.RectTransform.DOMove(targetPosition, time))
-                .Join(cardComponent.RectTransform.DOScale(sizeCard, time));
+                .Join(cardComponent.RectTransform.DOScale(sizeCard, time))
+                .OnComplete(() => EndAnimation(entity));
+        }
+
+        private void EndAnimation(Entity entity)
+        {
+            entity.RemoveComponent<CardMoveToTableComponent>();
+            entity.AddComponent(new CardInTableComponent());
         }
         
         public void EndRound()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardInTableComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
                 entity.AddComponent(new CardMoveToDiscardComponent());
-                entity.RemoveComponent<CardTableComponent>();
+                entity.RemoveComponent<CardInTableComponent>();
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             }
         }

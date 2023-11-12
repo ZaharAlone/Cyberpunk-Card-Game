@@ -69,9 +69,9 @@ namespace CyberNet
         [JsonProperty("abilityLoc")]
         public string AbilityLoc;
         [JsonProperty("visualPlayingCard_Map")]
-        public string VisualPlayingCardMap;
+        public VisualPlayingCardType VisualPlayingCardMap;
         [JsonProperty("visualPlayingCard_Arena")]
-        public string VisualPlayingCardArena;
+        public VisualPlayingCardType VisualPlayingCardArena;
         [JsonProperty("selectFrame_headerLoc")]
         public string SelectFrameHeader;
         [JsonProperty("selectFrame_descrLoc")]
@@ -82,5 +82,13 @@ namespace CyberNet
         public string SelectPlayerFrameHeader;
         [JsonProperty("selectPlayerFrame_descrLoc")]
         public string SelectPlayerFrameDescr;
+    }
+
+    [Serializable]
+    public enum VisualPlayingCardType
+    {
+        None,
+        Table,
+        Target
     }
 }

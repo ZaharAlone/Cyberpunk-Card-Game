@@ -1,12 +1,13 @@
-using UnityEngine.Serialization;
 namespace CyberNet.Core
 {
-    public struct CardTableComponent
+    public struct CardAbilitySelectionCompletedComponent
     {
         public SelectAbilityEnum SelectAbility;
 
         public bool CalculateBaseAbility;
         public bool CalculateComboAbility;
+
+        public bool OneAbilityInCard;
     }
 
     public enum SelectAbilityEnum

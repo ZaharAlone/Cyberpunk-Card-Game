@@ -3,7 +3,9 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
+using UnityEngine;
 
 namespace CyberNet.Core
 {
@@ -11,7 +13,7 @@ namespace CyberNet.Core
     /// Система отвечает за UI выбора абилки карты, если абилка одна, ничего не происходит. Две - открывается UI выбора
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class SelectAbilitySystem : IPreInitSystem, IRunSystem
+    public class SelectAbilitySystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -24,24 +26,28 @@ namespace CyberNet.Core
 
         public void Run()
         {
-            var selectPlayerAbilityCard = _dataWorld.Select<SelectPlayerAbilityComponent>().Count();
+            
+            //Add cancel button select ability
+            var selectPlayerAbilityCard = _dataWorld.Select<SelectingPlayerAbilityComponent>().Count();
             if (selectPlayerAbilityCard != 0)
                 return;
             
-            var cardSelectPlayerAbilityCard = _dataWorld.Select<CardSelectAbilityComponent>().Count();   
+            var cardSelectPlayerAbilityCard = _dataWorld.Select<NeedToSelectAbilityCardComponent>().Count();   
             if (cardSelectPlayerAbilityCard == 0)
                 return;
             
-            var entities = _dataWorld.Select<CardSelectAbilityComponent>().GetEntities();
+            var entities = _dataWorld.Select<NeedToSelectAbilityCardComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
                 var isOneAbility = SelectAbility(entity);
                 if (!isOneAbility)
+                {
                     break;
+                }
             }
-            
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            //???
+            //            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
 
         private bool SelectAbility(Entity entity)
@@ -51,13 +57,19 @@ namespace CyberNet.Core
             
             if (cardComponent.Ability_1.AbilityType == AbilityType.None)
             {
-                entity.RemoveComponent<CardSelectAbilityComponent>();
-                entity.AddComponent(new CardTableComponent { SelectAbility = SelectAbilityEnum.Ability_0});
+                entity.RemoveComponent<NeedToSelectAbilityCardComponent>();
+                entity.AddComponent(new CardAbilitySelectionCompletedComponent
+                { 
+                    SelectAbility = SelectAbilityEnum.Ability_0,
+                    OneAbilityInCard = true
+                });
                 isOneAbility = true;
+                
+                InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
             }
             else
             {
-                entity.AddComponent(new SelectPlayerAbilityComponent());
+                entity.AddComponent(new SelectingPlayerAbilityComponent());
                 OpenUISelectAbilityCard(cardComponent);
                 return isOneAbility;
             }
@@ -95,13 +107,22 @@ namespace CyberNet.Core
 
         private void SelectConfimAbility(SelectAbilityEnum targetAbility)
         {
-            var entity = _dataWorld.Select<CardSelectAbilityComponent>().With<SelectPlayerAbilityComponent>().SelectFirstEntity();
-            entity.RemoveComponent<CardSelectAbilityComponent>();
-            entity.RemoveComponent<SelectPlayerAbilityComponent>();
-            entity.AddComponent(new CardTableComponent { SelectAbility = targetAbility});
+            var entity = _dataWorld.Select<NeedToSelectAbilityCardComponent>().With<SelectingPlayerAbilityComponent>().SelectFirstEntity();
+            entity.RemoveComponent<NeedToSelectAbilityCardComponent>();
+            entity.RemoveComponent<SelectingPlayerAbilityComponent>();
+            entity.AddComponent(new CardAbilitySelectionCompletedComponent { SelectAbility = targetAbility});
+            
             var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;
             uiSelectAbility.CloseFrame();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+
+            var cardComponent = entity.GetComponent<CardComponent>();
+            InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
+        }
+
+        public void Destroy()
+        {
+            SelectAbilityAction.SelectFirstAbility -= OnClickSelectFirstAbility;
+            SelectAbilityAction.SelectSecondAbility -= OnClickSelectSecondAbility;
         }
     }
 }

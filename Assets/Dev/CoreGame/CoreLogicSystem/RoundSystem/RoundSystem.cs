@@ -137,7 +137,7 @@ namespace CyberNet.Local
             roundData.PauseInteractive = false;
             roundData.CurrentRoundState = RoundState.Map;
             
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
         }

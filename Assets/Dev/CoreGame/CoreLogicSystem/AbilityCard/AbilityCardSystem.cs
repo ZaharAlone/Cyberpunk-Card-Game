@@ -26,12 +26,12 @@ namespace CyberNet.Core.AbilityCard
         //Производим расчет карт, только когда выкладываем карты на стол
         private void CalculateValueCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
+            var entities = _dataWorld.Select<CardComponent>().With<CardAbilitySelectionCompletedComponent>().GetEntities();
 
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                ref var cardTableComponent = ref entity.GetComponent<CardTableComponent>();
+                ref var cardTableComponent = ref entity.GetComponent<CardAbilitySelectionCompletedComponent>();
 
                 if (!cardTableComponent.CalculateBaseAbility)
                 {
@@ -62,7 +62,7 @@ namespace CyberNet.Core.AbilityCard
                 if (cardComponentDeck.Nations == cardComponent.Nations)
                 {
                     AddAbilityComponent(cardComponent.Ability_2, entity);
-                    ref var cardTableComponent = ref entity.GetComponent<CardTableComponent>();
+                    ref var cardTableComponent = ref entity.GetComponent<CardAbilitySelectionCompletedComponent>();
                     cardTableComponent.CalculateComboAbility = true;
                     break;
                 }

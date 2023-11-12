@@ -6,6 +6,7 @@ using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
 using DG.Tweening;
+using ModulesFramework.Systems;
 
 namespace CyberNet.Core.UI
 {
@@ -13,30 +14,35 @@ namespace CyberNet.Core.UI
     /// Анимация карт - расположение в руке полукругом
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsFanCardInHandSystem : IPostRunEventSystem<EventCardAnimationsHand>
+    public class AnimationsFanCardInHandSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventCardAnimationsHand value)
+        public void PreInit()
         {
-            
+            CardAnimationsHandAction.AnimationsFanCardInHand += AnimationsFanCardInHand;
+        }
+        
+        private void AnimationsFanCardInHand()
+        {
+            var currentRoundPlayer = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCardInHand = _dataWorld.Select<CardComponent>()
-                                .Where<CardComponent>(card => card.PlayerID == value.TargetPlayerID)
-                                .With<CardHandComponent>()
-                                .Without<CardTableComponent>()
-                                .Without<WaitAnimationsDrawHandCardComponent>()
-                                .Count();
+                .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
+                .With<CardHandComponent>()
+                .Without<CardAbilitySelectionCompletedComponent>()
+                .Without<WaitAnimationsDrawHandCardComponent>()
+                .Count();
 
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.PlayerID == value.TargetPlayerID)
-                                     .With<CardHandComponent>()
-                                     .Without<CardTableComponent>()
-                                     .Without<WaitAnimationsDrawHandCardComponent>()
-                                     .GetEntities();
+                .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
+                .With<CardHandComponent>()
+                .Without<CardAbilitySelectionCompletedComponent>()
+                .Without<WaitAnimationsDrawHandCardComponent>()
+                .GetEntities();
             
-            UpdateView(entities, countCardInHand, value.TargetPlayerID);
+            UpdateView(entities, countCardInHand, currentRoundPlayer);
         }
-
+        
         private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
         {
             var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
@@ -120,10 +126,15 @@ namespace CyberNet.Core.UI
 
         private void ClearAnimationComponent(Entity entity)
         {
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
+        }
+
+        public void Destroy()
+        {
+            CardAnimationsHandAction.AnimationsFanCardInHand -= AnimationsFanCardInHand;
         }
     }
 }

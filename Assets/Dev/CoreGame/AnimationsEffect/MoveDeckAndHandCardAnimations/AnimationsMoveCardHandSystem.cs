@@ -84,7 +84,7 @@ namespace CyberNet.Core
             ref var waitDistributionComponent = ref waitDistributionEntity.GetComponent<WaitDistributionCardHandComponent>();
             waitDistributionComponent.CurrentDistributionCard++;
 
-            _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = cardComponent.PlayerID });
+            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
         }
     }

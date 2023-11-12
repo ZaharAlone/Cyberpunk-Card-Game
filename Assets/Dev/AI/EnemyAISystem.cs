@@ -106,7 +106,7 @@ namespace CyberNet.Core.AI
 
             if (cardComponent.Ability_1.AbilityType == AbilityType.None)
             {
-                entity.AddComponent(new CardTableComponent {
+                entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_0
                 });
                 return;
@@ -117,7 +117,7 @@ namespace CyberNet.Core.AI
 
             if (valueAbility_0 > valueAbility_1)
             {
-                entity.AddComponent(new CardTableComponent {
+                entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_0
                 });
                 Debug.LogError("Select Ability 0");
@@ -125,7 +125,7 @@ namespace CyberNet.Core.AI
             else
             {
                 Debug.LogError("Select Ability 1");
-                entity.AddComponent(new CardTableComponent {
+                entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_1
                 });
             }

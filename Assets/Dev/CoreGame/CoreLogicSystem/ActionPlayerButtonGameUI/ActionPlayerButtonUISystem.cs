@@ -100,7 +100,7 @@ namespace CyberNet.Core.UI
             foreach (var entity in entities)
             {
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardSelectAbilityComponent());
+                entity.AddComponent(new NeedToSelectAbilityCardComponent());
             }
             
             UpdateButton();
@@ -121,11 +121,11 @@ namespace CyberNet.Core.UI
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
-            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
+            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardAbilitySelectionCompletedComponent>().GetEntities();
 
             foreach (var entity in cardInDeck)
             {
-                entity.RemoveComponent<CardTableComponent>();
+                entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 

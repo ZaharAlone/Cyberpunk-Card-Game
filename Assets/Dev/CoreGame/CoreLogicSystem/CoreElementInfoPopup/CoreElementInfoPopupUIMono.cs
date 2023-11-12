@@ -1,13 +1,12 @@
 ﻿using I2.Loc;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.UI.CorePopup
 {
     /// <summary>
-    ///     For different kind of hints
+    /// Вспомогательный попап показывающий информацию в коре о картах и кнопках
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     public class CoreElementInfoPopupUIMono : MonoBehaviour

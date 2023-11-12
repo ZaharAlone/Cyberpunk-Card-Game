@@ -107,7 +107,7 @@ namespace CyberNet.Core
                     entity.AddComponent(new CardFreeToBuyComponent());
             }
             
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
         }
 
         private void ClearComponentInShop()

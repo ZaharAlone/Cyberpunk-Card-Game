@@ -9,7 +9,7 @@ using UnityEngine;
 namespace CyberNet.Core.InteractiveCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class InteractiveSelectCardSystem : IInitSystem
+    public class InteractiveSelectCardSystem : IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -31,7 +31,7 @@ namespace CyberNet.Core.InteractiveCard
 
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
-                        .Without<CardTableComponent>()
+                        .Without<CardAbilitySelectionCompletedComponent>()
                         .Without<CardDrawComponent>()
                         .Without<CardDistributionComponent>()
                         .TrySelectFirstEntity(out var entity);
@@ -162,7 +162,8 @@ namespace CyberNet.Core.InteractiveCard
 
         private void DeselectCard(string guid)
         {
-            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
+            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1 
+                || _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
                 return;
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
@@ -218,6 +219,13 @@ namespace CyberNet.Core.InteractiveCard
         private void FinishDeselect(Entity entity)
         {
             entity.RemoveComponent<CardComponentAnimations>();
+        }
+
+        public void Destroy()
+        {
+            InteractiveActionCard.SelectCard -= SelectCard;
+            InteractiveActionCard.DeselectCard -= DeselectCard;
+            InteractiveActionCard.ReturnAllCardInHand -= ReturnAllCard;
         }
     }
 }

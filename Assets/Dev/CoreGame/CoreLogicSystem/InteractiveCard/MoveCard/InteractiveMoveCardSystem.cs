@@ -69,7 +69,7 @@ namespace CyberNet.Core.InteractiveCard
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var distance = cardComponent.RectTransform.anchoredPosition.y - moveComponent.StartCardPosition.y;
-            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
@@ -84,17 +84,17 @@ namespace CyberNet.Core.InteractiveCard
                     animationCard.Sequence.Kill();
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
-
-                /*
-                //TODO перенести при изменение взаимодействия
-                entity.AddComponent(new CardSelectAbilityComponent());
+                
+                
+                entity.AddComponent(new CardMoveToTableComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
                 AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-                _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayerID = currentPlayerID });*/
+                CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             }
             else
             {
+                entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             }
             
@@ -126,7 +126,7 @@ namespace CyberNet.Core.InteractiveCard
                 componentCard.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 
-                VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+                VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
                 CardShopAction.CheckPoolShopCard?.Invoke();

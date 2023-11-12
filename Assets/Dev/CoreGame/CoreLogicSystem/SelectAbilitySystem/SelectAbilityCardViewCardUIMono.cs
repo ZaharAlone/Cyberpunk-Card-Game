@@ -17,6 +17,8 @@ namespace CyberNet.Core
         {
             ImageCard.sprite = cardImage;
             TextHeader.Term = header;
+            
+            ImageNations.gameObject.SetActive(nationsImage != null);
             ImageNations.sprite = nationsImage;
             TextPriceCard.text = price.ToString();
             TextDestroyCard.text = destroy.ToString();
