@@ -930,6 +930,24 @@ MonoBehaviour:
         \u043A\u0430\u0440\u0442 \u0441 \u0440\u044B\u043D\u043A\u0430."
       Flags: 0000
       Languages_Touch: []
+    - Term: CorePopup/$popupTask_selectStartAreal_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one of the starting territories
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
+        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u0439"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CorePopup/$popupTask_chooseCardAbility_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose card ability
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u044C
+        \u043A\u0430\u0440\u0442\u044B"
+      Flags: 0000
+      Languages_Touch: []
     - Term: CoreGame/$bg_play_all_button
       TermType: 0
       Description: 
@@ -1124,15 +1142,6 @@ MonoBehaviour:
       - "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044F"
       Flags: 0000
       Languages_Touch: []
-    - Term: CoreGame/$bg_selectStartAreal_name
-      TermType: 0
-      Description: 
-      Languages:
-      - Choose one of the starting territories
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
-        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u0439"
-      Flags: 0000
-      Languages_Touch: []
     - Term: CoreGame/$bg_passTo_name
       TermType: 0
       Description: 
@@ -1268,6 +1277,14 @@ MonoBehaviour:
       - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0431\u043E\u0439\u0446\u0430
         \u043A\u043E\u0442\u043E\u0440\u043E\u0433\u043E \u0445\u043E\u0442\u0438\u0442\u0435
         \u0443\u0431\u0438\u0442\u044C"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_freeMercenaries_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Free Mercenaries
+      - "\u0412\u043E\u043B\u044C\u043D\u044B\u0435 \u043D\u0430\u0435\u043C\u043D\u0438\u043A\u0438"
       Flags: 0000
       Languages_Touch: []
     - Term: BoardGameCard/$bgc_neutral_scout_name
@@ -2253,7 +2270,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1699205174855
+    Google_LastUpdatedVersion: 1699815314052
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2

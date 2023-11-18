@@ -13,7 +13,7 @@ namespace CyberNet.Global.GameCamera
     {
         private DataWorld _dataWorld;
 
-        private float MinZoomCamera = 35;
+        private float MinZoomCamera = 25;
         private float MaxZoomCamera = 55;
         
         public void PreInit()
@@ -82,11 +82,9 @@ namespace CyberNet.Global.GameCamera
             var value = camera.CoreVirtualCamera.m_Lens.FieldOfView - 3 * Mathf.Sign(zoomValue);
             value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera);
             camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(camera.CoreVirtualCamera.m_Lens.FieldOfView, value, Time.deltaTime * 50f);
-            /*
-            var angle = Mathf.Lerp(55f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
+            var angle = Mathf.Lerp(65f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
             var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
             camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
-            */
         }
     }
 }

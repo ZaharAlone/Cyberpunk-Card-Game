@@ -1,6 +1,7 @@
 using UnityEngine;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
+using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
@@ -50,5 +51,7 @@ namespace CyberNet.Core.UI
 
         [Header("Ability Cancel Button UI")]
         public AbilityCancelButtonUIMono AbilityCancelButtonUIMono;
+
+        public TestBezierUIMono TestBezierUIMono;
     }
 }

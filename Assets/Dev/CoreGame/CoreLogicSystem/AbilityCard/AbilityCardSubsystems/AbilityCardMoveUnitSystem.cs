@@ -41,7 +41,7 @@ namespace CyberNet.Core.AbilityCard
         private void SelectTower(string towerGUID)
         {
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
-            AbilitySelectElementAction.SelectElement?.Invoke(uiActionSelectCard.ConfimLocButton);
+            //AbilitySelectElementAction.SelectElement?.Invoke();
 
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             ref var moveCardComponent = ref entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>();

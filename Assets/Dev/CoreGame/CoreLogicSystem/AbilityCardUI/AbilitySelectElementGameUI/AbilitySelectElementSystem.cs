@@ -41,35 +41,34 @@ namespace CyberNet.Core.AbilityCard
 
             if (indexDescr == 0)
             {
-                uiActionSelectCard.SetView(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
+                uiActionSelectCard.OpenWindow(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
             }
             else
             {
-                uiActionSelectCard.SetView(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
+                uiActionSelectCard.OpenWindow(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
-            
-            uiActionSelectCard.OpenWindow(true, basePositionFrame);
         }
         
         private void SelectElement(string textButton)
         {
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
-            uiActionSelectCard.SetTextButtonConfirm(textButton);
 
+            /*
             if (!_isSubscription)
             {
                 _isSubscription = true;
                 AbilitySelectElementAction.ConfimSelect += ConfimSelect;
-            }
+            }*/
         }
         
         private void ConfimSelect()
         {
+            /*
             _isSubscription = false;
             AbilitySelectElementAction.ConfimSelect -= ConfimSelect;
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
             uiActionSelectCard.CloseWindow();
-            AbilityCardAction.ConfimSelectElement?.Invoke();
+            AbilityCardAction.ConfimSelectElement?.Invoke();*/
         }
     }
 }

@@ -3,9 +3,12 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
+using Input;
 using UnityEngine;
+using DG.Tweening;
 
 namespace CyberNet.Core
 {
@@ -26,11 +29,15 @@ namespace CyberNet.Core
 
         public void Run()
         {
-            
             //Add cancel button select ability
             var selectPlayerAbilityCard = _dataWorld.Select<SelectingPlayerAbilityComponent>().Count();
             if (selectPlayerAbilityCard != 0)
-                return;
+            {
+                var inputData = _dataWorld.OneData<InputData>();
+                if (inputData.RightClick)
+                    CancelSelectAbility();
+                return;   
+            }
             
             var cardSelectPlayerAbilityCard = _dataWorld.Select<NeedToSelectAbilityCardComponent>().Count();   
             if (cardSelectPlayerAbilityCard == 0)
@@ -50,6 +57,20 @@ namespace CyberNet.Core
             //            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
         }
 
+        private void CancelSelectAbility()
+        {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .With<SelectingPlayerAbilityComponent>()
+                .SelectFirstEntity();
+
+            entityCard.RemoveComponent<SelectingPlayerAbilityComponent>();
+            entityCard.RemoveComponent<NeedToSelectAbilityCardComponent>();
+            
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono.CloseFrame();
+            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+        }
+        
         private bool SelectAbility(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
@@ -71,9 +92,27 @@ namespace CyberNet.Core
             {
                 entity.AddComponent(new SelectingPlayerAbilityComponent());
                 OpenUISelectAbilityCard(cardComponent);
+                AbilityCancelButtonUIAction.ShowCancelButton?.Invoke();
+                AnimationShowCard(entity);
                 return isOneAbility;
             }
             return isOneAbility;
+        }
+        
+        private void AnimationShowCard(Entity entity)
+        {
+            Debug.LogError("animation Card");
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
+            ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+
+            var targetPosition = animationsCard.Positions;
+            targetPosition.y += 75;
+            animationsCard.Sequence.Kill();
+            animationsCard.Sequence = DOTween.Sequence();
+            animationsCard.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(animationsCard.Rotate, 0.3f))
+                .Join(cardComponent.RectTransform.DOAnchorPos(targetPosition, 0.3f))
+                .Join(cardComponent.RectTransform.DOScale(new Vector3(1f, 1f,1f), 0.3f));
         }
 
         private void OpenUISelectAbilityCard(CardComponent cardComponent)
@@ -117,6 +156,7 @@ namespace CyberNet.Core
 
             var cardComponent = entity.GetComponent<CardComponent>();
             InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
+            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
         }
 
         public void Destroy()

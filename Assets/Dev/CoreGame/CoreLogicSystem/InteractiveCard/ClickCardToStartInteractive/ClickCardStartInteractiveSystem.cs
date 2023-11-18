@@ -1,10 +1,10 @@
+using CyberNet.Core.AbilityCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
 using Input;
-using UnityEngine;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -99,6 +99,7 @@ namespace CyberNet.Core.InteractiveCard
             {
                 entity.AddComponent(new SelectTargetCardAbilityComponent());
                 SelectTargetCardAbilityAction.SelectTarget?.Invoke();
+                AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
         }
         

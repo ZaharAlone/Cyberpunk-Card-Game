@@ -38,17 +38,8 @@ namespace CyberNet.Core
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
-            switch (abilityAddResourceComponent.AbilityType)
-            {
-                case AbilityType.Attack:
-                    actionData.TotalAttack += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.attackVFX, cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
-                    break;
-                case AbilityType.Trade:
-                    actionData.TotalTrade += abilityAddResourceComponent.Count;
-                    ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
-                    break;
-            }
+            actionData.TotalTrade += abilityAddResourceComponent.Count;
+            ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
             
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();

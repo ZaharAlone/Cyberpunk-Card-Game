@@ -17,6 +17,7 @@ namespace CyberNet.Core.AbilityCard
         public static Action PlayerDiscardCard;
         public static Action AddNoiseCard;
         
+        public static Action AddUnitMap;
         public static Action MoveUnit;
         public static Action ConfimSelectElement;
     }   

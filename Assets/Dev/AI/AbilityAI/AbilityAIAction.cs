@@ -9,5 +9,6 @@ namespace CyberNet.Core.AI
         public static Action AddNoiseSelectPlayer;
         
         public static Action MoveUnit;
+        public static Action AddUnitMap;
     }
 }

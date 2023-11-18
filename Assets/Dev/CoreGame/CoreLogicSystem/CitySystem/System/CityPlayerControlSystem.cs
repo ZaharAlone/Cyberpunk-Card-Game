@@ -30,31 +30,31 @@ namespace CyberNet.Core.City
             if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
                 return;
 
-            InputData inputData = _dataWorld.OneData<InputData>();
-            GameCameraData camera = _dataWorld.OneData<GameCameraData>();
-            Ray ray = camera.MainCamera.ScreenPointToRay(inputData.MousePosition);
+            var inputData = _dataWorld.OneData<InputData>();
+            var camera = _dataWorld.OneData<GameCameraData>();
+            var ray = camera.MainCamera.ScreenPointToRay(inputData.MousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
                 TowerMono towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
                 if (towerMono)
                 {
-                    ClickTower(towerMono, roundData.CurrentPlayerID);
+                    ClickTower(towerMono);
                     return;
                 }
-
+/*
                 SquadZoneMono solidPoint = hit.collider.gameObject.GetComponent<SquadZoneMono>();
                 if (solidPoint)
                 {
                     ClickSolidPoint(solidPoint, roundData.CurrentPlayerID);
-                }
+                }*/
             }
         }
 
-        private void ClickTower(TowerMono towerMono, int playerID)
+        private void ClickTower(TowerMono towerMono)
         {
-            Entity playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == playerID)
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             ref ActionCardData actionData = ref _dataWorld.OneData<ActionCardData>();
@@ -68,10 +68,6 @@ namespace CyberNet.Core.City
             {
                 CityAction.SelectTower?.Invoke(towerMono.GUID);
             }
-            else if (actionData.TotalAttack - actionData.SpendAttack > 0)
-            {
-                AddUnitTower(towerMono, playerID);
-            }
         }
 
         private bool CheckAbilityCard()
@@ -79,54 +75,7 @@ namespace CyberNet.Core.City
             var isElementAbilityAction = _dataWorld.Select<AbilitySelectElementComponent>().Count();
             return isElementAbilityAction > 0;
         }
-
-        private void AddUnitTower(TowerMono towerMono, int playerID)
-        {
-            Entity playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == playerID)
-                .SelectFirstEntity();
-
-            ref ActionCardData actionData = ref _dataWorld.OneData<ActionCardData>();
-            ref PlayerComponent playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-            ref PlayerViewComponent playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
-
-            actionData.SpendAttack++;
-            playerComponent.UnitCount--;
-
-            Entity towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerMono.GUID)
-                .SelectFirstEntity();
-            ref TowerComponent towerComponent = ref towerEntity.GetComponent<TowerComponent>();
-
-            int targetSquadZone = 0;
-            foreach (SquadZoneMono squadZone in towerComponent.SquadZonesMono)
-            {
-                bool isClose = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerMono.GUID
-                        && unit.IndexPoint == squadZone.Index
-                        && unit.PowerSolidPlayerID != playerID)
-                    .TrySelectFirstEntity(out Entity t);
-
-                if (isClose)
-                    targetSquadZone = squadZone.Index + 1;
-                else
-                {
-                    targetSquadZone = squadZone.Index;
-                    break;
-                }
-            }
-
-            InitUnitStruct initUnit = new InitUnitStruct {
-                KeyUnit = playerVisualComponent.KeyCityVisual, SquadZone = towerMono.SquadZonesMono[targetSquadZone], PlayerControl = PlayerControlEnum.Player, TargetPlayerID = playerID,
-            };
-
-            CityAction.InitUnit?.Invoke(initUnit);
-            CityAction.UpdatePresencePlayerInCity?.Invoke();
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            CityAction.UpdateCanInteractiveMap?.Invoke();
-        }
-
+/*
         private void ClickSolidPoint(SquadZoneMono squadZone, int currentPlayerID)
         {
             ref ActionCardData actionData = ref _dataWorld.OneData<ActionCardData>();
@@ -177,7 +126,7 @@ namespace CyberNet.Core.City
                 CityAction.UpdatePresencePlayerInCity?.Invoke();
                 BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            }*/
-        }
+            }
+        }*/
     }
 }

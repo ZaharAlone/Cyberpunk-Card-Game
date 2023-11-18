@@ -1,20 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using CyberNet.Core.EnemyPassport;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace  CyberNet.Core.UI
 {
     public class CoreHUDUIMono : MonoBehaviour
     {
-        [Header("Action Table")]
-        public TextMeshProUGUI ValueAttackText;
-        public TextMeshProUGUI ValueTradeText;
-
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
 
@@ -32,12 +26,6 @@ namespace  CyberNet.Core.UI
 
         [Header("Enemy Passport")]
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
-        
-        public void SetInteractiveValue(int attackValue, int tradeValue)
-        {
-            ValueAttackText.text = attackValue.ToString();
-            ValueTradeText.text = tradeValue.ToString();
-        }
 
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar)
         {

@@ -103,10 +103,9 @@ namespace CyberNet.Core.UI
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>();
 
-            var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            gameUI.BoardGameUIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
+            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue);
         }
         
         private void UpdateStatsPlayersPassport()

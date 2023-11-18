@@ -75,11 +75,8 @@ namespace CyberNet.Core.AbilityCard
             switch (abilityCardStruct.AbilityType)
             {
                 case AbilityType.Attack:
-                    entity.AddComponent(new ActionCardAddResourceComponent {
-                        AbilityType = abilityCardStruct.AbilityType,
-                        Count = abilityCardStruct.Count
-                    });
-                    AbilityCardAction.AddResource?.Invoke();
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.AddUnitMap?.Invoke();
                     break;
                 case AbilityType.Trade:
                     entity.AddComponent(new ActionCardAddResourceComponent {
@@ -126,9 +123,7 @@ namespace CyberNet.Core.AbilityCard
         private void ClearAction()
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            actionData.TotalAttack = 0;
             actionData.TotalTrade = 0;
-            actionData.SpendAttack = 0;
             actionData.SpendTrade = 0;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();

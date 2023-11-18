@@ -26,8 +26,7 @@ namespace CyberNet.Core.AbilityCard
             ref var actionConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             actionConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
             
-            boardGameUI.AbilitySelectElementUIMono.SetView(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
-            boardGameUI.AbilitySelectElementUIMono.OpenWindow(true);
+            boardGameUI.AbilitySelectElementUIMono.OpenWindow(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
             boardGameUI.CoreHudUIMono.OnSelectPlayer();
             
             EnemyPassportAction.SelectPlayer += SelectPlayer;
@@ -35,26 +34,11 @@ namespace CyberNet.Core.AbilityCard
         
         private void SelectPlayer(int targetPlayerID)
         {
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
-                .SelectFirstEntity();
-
-            ref var playerViewComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
-            ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.AbilitySelectElementUIMono.SetTextButtonConfirm(playerViewComponent.Name);
-            _selectPlayerID = targetPlayerID;
-            
-            AbilitySelectElementAction.ConfimSelect += ConfimSelectPlayer;
-        }
-        
-        private void ConfimSelectPlayer()
-        {
             EnemyPassportAction.SelectPlayer -= SelectPlayer;
-            AbilitySelectElementAction.ConfimSelect -= ConfimSelectPlayer;
-            AbilityCardAction.SelectPlayer?.Invoke(_selectPlayerID);
+            AbilityCardAction.SelectPlayer?.Invoke(targetPlayerID);
             OffSelectEnemyPlayer();
         }
-
+        
         private void OffSelectEnemyPlayer()
         {
             ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
@@ -73,7 +57,6 @@ namespace CyberNet.Core.AbilityCard
             boardGameUI.AbilitySelectElementUIMono.CloseWindow();
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
             EnemyPassportAction.SelectPlayer -= SelectPlayer;
-            AbilitySelectElementAction.ConfimSelect -= ConfimSelectPlayer;
         }
     }
 }

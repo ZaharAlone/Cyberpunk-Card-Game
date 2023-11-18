@@ -15,7 +15,7 @@ namespace CyberNet.Core.AbilityCard
 
         public void PreInit()
         {
-            AbilitySelectElementAction.CancelSelect += CancelSelect;
+            //AbilitySelectElementAction.CancelSelect += CancelSelect;
         }
         
         private void CancelSelect()

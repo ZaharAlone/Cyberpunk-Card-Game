@@ -1,6 +1,6 @@
-using System;
 using System.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,14 +8,22 @@ namespace CyberNet.Core.Traderow
 {
     public class TraderowMono : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        [SerializeField]
+        private TextMeshProUGUI _tradeValueText;
+        public RectTransform TraderowContainer;
         public RectTransform TraderowContainerForCard;
 
         private Sequence _sequence;
-        private float _timeAnimations = 0.35f;
+        private float _timeAnimations = 0.5f;
         
         public void Start()
         {
             _sequence = DOTween.Sequence();
+        }
+        
+        public void SetTradeValue(int tradeValue)
+        {
+            _tradeValueText.text = tradeValue.ToString();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -25,7 +33,7 @@ namespace CyberNet.Core.Traderow
 
         public void ShowTraderow()
         {
-            _sequence.Append(TraderowContainerForCard
+            _sequence.Append(TraderowContainer
                 .DOAnchorPos(new Vector2(0, 0), _timeAnimations));
             EndShowAnimations();
         }
@@ -44,7 +52,7 @@ namespace CyberNet.Core.Traderow
 
         public void HideTraderow()
         {
-            _sequence.Append(TraderowContainerForCard.DOAnchorPos(new Vector2(0, 250), _timeAnimations));
+            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 300), _timeAnimations));
         }
     }
 }

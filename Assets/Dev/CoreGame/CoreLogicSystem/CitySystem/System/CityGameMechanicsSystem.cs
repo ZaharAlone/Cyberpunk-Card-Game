@@ -16,15 +16,16 @@ namespace CyberNet.Core.City
 
         public void PreInit()
         {
-            CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
+            //CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
         }
 
+        //TODO Поправить
+        /*
         private void UpdateCanInteractiveMap()
         {
             var actionData = _dataWorld.OneData<ActionCardData>();
-            var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
             var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
 
             if (valueAttack == 0)
@@ -60,7 +61,7 @@ namespace CyberNet.Core.City
                     }
                 }
             }
-        }
+        }*/
         
         /// <summary>
         /// Активирует зоны на которые игрок может передвинуть своего юнита

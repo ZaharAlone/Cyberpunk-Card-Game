@@ -213,6 +213,8 @@ namespace CyberNet.Core.AI
 
         private void Attack()
         {
+            //TODO Поправить
+            /*
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var attackPoint = actionData.TotalAttack - actionData.SpendAttack;
             
@@ -226,7 +228,7 @@ namespace CyberNet.Core.AI
                 {
                     SpawnUnit(towerFreeSlot, attackPoint);
                 }
-            }
+            }*/
         }
 
         private void UpdateViewPlayer()
@@ -245,9 +247,9 @@ namespace CyberNet.Core.AI
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerViewComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            actionData.SpendAttack += countUnit;
+            //actionData.SpendAttack += countUnit;
             playerComponent.UnitCount -= countUnit;
-            
+            //TODO Поправить
             var counter = 0;
             foreach (var freeSlot in freeSlotList)
             {

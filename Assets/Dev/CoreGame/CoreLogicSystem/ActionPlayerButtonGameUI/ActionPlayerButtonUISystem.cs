@@ -1,15 +1,10 @@
-using CyberNet.Core.Sound;
-using CyberNet.Global.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.WinLose;
 using CyberNet.Global;
-using CyberNet.Global.GameCamera;
-using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI
 {
@@ -17,7 +12,7 @@ namespace CyberNet.Core.UI
     /// Система управляющая Action кнопкой - позволяющей разыгрывать все карты, атаковать, заканчивать раунд
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class ActionPlayerButtonUISystem : IPreInitSystem, IInitSystem
+    public class ActionPlayerButtonUISystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -26,7 +21,7 @@ namespace CyberNet.Core.UI
             RoundAction.EndCurrentTurn += HideButton;
             RoundAction.StartTurn += UpdateButton;
             ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
-            ActionPlayerButtonEvent.ClickActionButton += ClickButton;
+            ActionPlayerButtonEvent.ClickActionButton += EndTurn;
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
@@ -56,17 +51,6 @@ namespace CyberNet.Core.UI
 
             ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
             actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
-            
-            if (cardInHand > 0)
-            {
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
-            }
-            else
-            {
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
-            }
         }
         
         private void HideButton()
@@ -75,37 +59,6 @@ namespace CyberNet.Core.UI
             ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
         }
 
-        private void ClickButton()
-        {
-            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            switch (actionPlayer.ActionPlayerButtonType)
-            {
-                case ActionPlayerButtonType.PlayAll:
-                    PlayAll();
-                    break;
-                case ActionPlayerButtonType.EndTurn:
-                    EndTurn();
-                    break;
-            }
-        }
-
-        private void PlayAll()
-        {
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            var entities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
-                .With<CardHandComponent>()
-                .GetEntities();
-            
-            foreach (var entity in entities)
-            {
-                entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new NeedToSelectAbilityCardComponent());
-            }
-            
-            UpdateButton();
-        }
-        
         private void EndTurn()
         {
             var roundData = _dataWorld.OneData<RoundData>();
@@ -135,6 +88,15 @@ namespace CyberNet.Core.UI
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             AbilityCardAction.ClearActionView.Invoke();
+        }
+
+        public void Destroy()
+        {
+            RoundAction.EndCurrentTurn -= HideButton;
+            RoundAction.StartTurn -= UpdateButton;
+            ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
+            ActionPlayerButtonEvent.ClickActionButton -= EndTurn;
+            ActionPlayerButtonEvent.ActionEndTurnBot -= EndTurn;
         }
     }
 }

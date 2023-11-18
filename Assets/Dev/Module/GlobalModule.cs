@@ -14,6 +14,7 @@ using CyberNet;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
+using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Sound;
 using CyberNet.Core.City;
 using CyberNet.Global.GameCamera;
@@ -46,6 +47,7 @@ namespace EcsCore
             var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
             var botConfig = Load<BotConfigSO>("BotConfig", tasks);
             var popupViewConfig = Load<PopupViewConfigSO>("PopupViewConfig", tasks);
+            var bezierCurveConfigSO = Load<BezierCurveConfigSO>("BezierCurveConfigSO", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -80,6 +82,7 @@ namespace EcsCore
             world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
+            world.CreateOneData(new BezierData { BezierCurveConfigSO = bezierCurveConfigSO.Result});
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);

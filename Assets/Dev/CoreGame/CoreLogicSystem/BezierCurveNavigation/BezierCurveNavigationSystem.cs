@@ -6,6 +6,10 @@ using Input;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.UI;
+using CyberNet.Global.GameCamera;
+using UnityEngine.Rendering.Universal;
+using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.BezierCurveNavigation
 {
@@ -13,16 +17,11 @@ namespace CyberNet.Core.BezierCurveNavigation
     public class BezierCurveNavigationSystem : IPreInitSystem, IRunSystem
     {
         private DataWorld _dataWorld;
-
-        [Header("Config")]
-        private GameObject plotPointPrefab; //The prefab for the point that will represent the curve
-        private List<Transform> controlPoints = new List<Transform>(); //A list of control points. These can be any Transform
-
+        
         [Header("No. points used to plot the curve")]
         private int pointCount = 20; //The number of points that should be plotted to graph the curve
 
         private List<GameObject> graphPoints = new List<GameObject>(); //A list of all the points that are spawned to graph the curve
-
         
         public void PreInit()
         {
@@ -43,31 +42,34 @@ namespace CyberNet.Core.BezierCurveNavigation
                 return;
             
             FollowMousePosition();
-            CheckExitCurve();
+            //CheckExitCurve();
         }
 
         private void FollowMousePosition()
         {
-            //Destroy previous points and clear the list
-            /*
             foreach (GameObject g in graphPoints)
             {
-                Destroy(g);
+                Object.Destroy(g);
             }
+            
             graphPoints.Clear();
-*/
-            if (pointCount < 2)
-            {
-                pointCount = 10;
-                Debug.LogWarning("Point count cannot be less than 2");
-            }
-        
-            //Loop through values of t to create the graph, spawning points at each step
-            for (float i = 0; i < 1; i += 1f / pointCount)
-            {
-                var position = Bezier.NOrderBezierInterp(controlPoints, i);
+            var input = _dataWorld.OneData<InputData>();
+            var uiBezier = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TestBezierUIMono;
+            
+            uiBezier.ControlPoints[2].position = input.MousePosition;
+            var distancePoint = Vector3.Distance(uiBezier.ControlPoints[0].position, uiBezier.ControlPoints[2].position);
 
-                //graphPoints.Add(Instantiate(plotPointPrefab, position, Quaternion.identity));
+            var distanceValue = Mathf.InverseLerp(0, 1300, distancePoint);
+            Debug.LogError($"distance value {distanceValue}");
+            var countPoint = Mathf.Lerp(1, 22, distanceValue);
+            Debug.LogError($"count point {countPoint}");
+            var bezierPoint = _dataWorld.OneData<BezierData>().BezierCurveConfigSO.VisualArrowPointPrefab;
+            //Loop through values of t to create the graph, spawning points at each step
+            for (float i = 0; i < 1; i += 1f / countPoint)
+            {
+                var position = Bezier.NOrderBezierInterp(uiBezier.ControlPoints, i);
+
+                graphPoints.Add(Object.Instantiate(bezierPoint, position, Quaternion.identity, uiBezier.Canvas));
             }
         }
         
