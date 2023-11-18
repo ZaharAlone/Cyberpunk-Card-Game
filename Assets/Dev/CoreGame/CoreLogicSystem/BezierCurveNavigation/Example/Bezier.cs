@@ -16,8 +16,8 @@ public static class Bezier
     //Interpolates between three control points with a quadratic bezier curve, with the interpolant t
     public static Vector2 QuadraticBezierInterp(Transform p1, Transform p2, Transform p3, float t)
     {
-        Vector2 a = LineLerp(p1.position, p2.position, t);
-        Vector2 b = LineLerp(p2.position, p3.position, t);
+        var a = LineLerp(p1.position, p2.position, t);
+        var b = LineLerp(p2.position, p3.position, t);
 
         return LineLerp(a, b, t);
     }
@@ -25,25 +25,24 @@ public static class Bezier
     //Interpolates between four control points with a cubic bezier curve, with the interpolant t
     public static Vector2 CubicBezierInterp(Transform p1, Transform p2, Transform p3, Transform p4, float t)
     {      
-        Vector2 a = LineLerp(p1.position, p2.position, t);
-        Vector2 b = LineLerp(p2.position, p3.position, t);
-        Vector2 c = LineLerp(p3.position, p4.position, t);
+        var a = LineLerp(p1.position, p2.position, t);
+        var b = LineLerp(p2.position, p3.position, t);
+        var c = LineLerp(p3.position, p4.position, t);
 
-        Vector2 d = LineLerp(a, b, t);
-        Vector2 e = LineLerp(b, c, t);
+        var d = LineLerp(a, b, t);
+        var e = LineLerp(b, c, t);
 
         return LineLerp(d, e, t);
     }
 
     //Interpolates between any number of control points in the points list, using a bezier curve and the interpolant, t. 
-    public static Vector2 NOrderBezierInterp(List<Transform> points, float t)
+    public static (Vector2, Quaternion) NOrderBezierInterp(List<Transform> points, float t)
     {
         if (points.Count < 2)
             throw new System.Exception("Bezier Curve needs atleast 3 points, or 2 for a linear interpolation");
 
         //Convert the list of Transform's to a list of Vector2
-        List<Vector2> vecp = new List<Vector2>();
-
+        var vecp = new List<Vector2>();
         foreach (Transform p in points)
         {
             vecp.Add(p.position);
@@ -53,21 +52,32 @@ public static class Bezier
     }
 
     //Underlying recursive function to calculate n order bezier curves
-    private static Vector2 NOrderBezier_R(List<Vector2> points, float t)
+    private static (Vector2, Quaternion) NOrderBezier_R(List<Vector2> points, float t)
     {
         if (points.Count == 2)
         {
-            return LineLerp(points[0], points[1], t);
+            var position = LineLerp(points[0], points[1], t);
+            var rotate = TargetRotate(points[0], points[1]);
+            return (position, rotate);
         }
 
         List<Vector2> lines = new List<Vector2>();
 
         for (int i = 0; i < points.Count - 1; i++)
         {
-            Vector2 line = LineLerp(points[i], points[i + 1], t);
+            var line = LineLerp(points[i], points[i + 1], t);
             lines.Add(line);
         }
 
         return NOrderBezier_R(lines, t);
+    }
+
+    private static Quaternion TargetRotate(Vector2 pointA, Vector2 pointB)
+    {
+        var direction = pointB - pointA;
+        var normalizedDirection = direction.normalized;
+        var quaternion = Quaternion.LookRotation(normalizedDirection);
+        
+        return quaternion;
     }
 }

@@ -4,11 +4,8 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using Input;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using CyberNet.Core.UI;
-using CyberNet.Global.GameCamera;
-using UnityEngine.Rendering.Universal;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.BezierCurveNavigation
@@ -60,16 +57,15 @@ namespace CyberNet.Core.BezierCurveNavigation
             var distancePoint = Vector3.Distance(uiBezier.ControlPoints[0].position, uiBezier.ControlPoints[2].position);
 
             var distanceValue = Mathf.InverseLerp(0, 1300, distancePoint);
-            Debug.LogError($"distance value {distanceValue}");
-            var countPoint = Mathf.Lerp(1, 22, distanceValue);
-            Debug.LogError($"count point {countPoint}");
+            var countPoint = (int)(Mathf.Lerp(1, 22, distanceValue));
             var bezierPoint = _dataWorld.OneData<BezierData>().BezierCurveConfigSO.VisualArrowPointPrefab;
             //Loop through values of t to create the graph, spawning points at each step
+            
             for (float i = 0; i < 1; i += 1f / countPoint)
             {
-                var position = Bezier.NOrderBezierInterp(uiBezier.ControlPoints, i);
+                var valuePosRot = Bezier.NOrderBezierInterp(uiBezier.ControlPoints, i);
 
-                graphPoints.Add(Object.Instantiate(bezierPoint, position, Quaternion.identity, uiBezier.Canvas));
+                graphPoints.Add(Object.Instantiate(bezierPoint, valuePosRot.Item1, valuePosRot.Item2, uiBezier.Canvas));
             }
         }
         
@@ -84,9 +80,12 @@ namespace CyberNet.Core.BezierCurveNavigation
             //Return Card
 
             var entityBezier = _dataWorld.Select<BezierCurveNavigationComponent>().SelectFirstEntity();
-            
-            
             entityBezier.Destroy();
+            
+            foreach (GameObject g in graphPoints)
+            {
+                Object.Destroy(g);
+            }
         }
     }
 }
