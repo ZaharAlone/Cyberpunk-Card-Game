@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Global;
@@ -31,6 +32,8 @@ namespace CyberNet.Meta
         [Header("Header 2 current select player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
 
+        public List<LeaderAvatarButtonUIMono> LeaderButtonUI = new List<LeaderAvatarButtonUIMono>();
+        
         private Sequence _sequence;
         
         public void Awake()
@@ -68,6 +71,17 @@ namespace CyberNet.Meta
         public void SetLocSelectPlayer(string namePlayer)
         {
             HeaderSelectTargetPlayer.text = namePlayer;
+        }
+
+        public void SelectButton(string namePlayer)
+        {
+            foreach (var leaderButton in LeaderButtonUI)
+            {
+                if (leaderButton.KeyLeaders == namePlayer)
+                    leaderButton.SelectButton();
+                else
+                    leaderButton.DeselectButton();
+            }
         }
 
         public void OnClickBackMainMenu()

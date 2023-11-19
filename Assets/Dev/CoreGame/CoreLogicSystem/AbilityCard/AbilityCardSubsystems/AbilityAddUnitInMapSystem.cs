@@ -34,7 +34,7 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
             
-            //roundData.PauseInteractive = true;
+            roundData.PauseInteractive = true;
             //AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
             BezierCurveNavigationAction.StartBezierCurve?.Invoke();
             //CityAction.SelectTower += SelectTower;

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using CyberNet.Core;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
+using CyberNet.Core.UI;
 using CyberNet.Meta;
 
 namespace CyberNet.Server
@@ -49,7 +50,7 @@ namespace CyberNet.Server
             var menu = _dataWorld.OneData<MetaUIData>();
             menu.UIGO.SetActive(false);
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
+            BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
 
         private void InitRoundData(RoundData roundData)

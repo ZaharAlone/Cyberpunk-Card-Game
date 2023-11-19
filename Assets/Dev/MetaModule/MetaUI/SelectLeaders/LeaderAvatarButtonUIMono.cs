@@ -9,19 +9,36 @@ namespace  CyberNet.Meta
         [Required]
         public Button Button;
         public Image ImageButton;
+        public GameObject SelectLeaderImage;
+
+        [SerializeField]
+        private Color32 _baseColor;
+        [SerializeField]
+        private Color32 _deactiveColor;
         
         public string KeyLeaders;
         public bool IsFirstButton;
         
         public void Start()
         {
-            Button.onClick.AddListener(OnClicked);
             ImageButton.sprite = SelectLeaderAction.InitButtonLeader?.Invoke(KeyLeaders, IsFirstButton);
         }
         
-        private void OnClicked()
+        public void OnClicked()
         {
             SelectLeaderAction.SelectLeader?.Invoke(KeyLeaders);
+        }
+
+        public void SelectButton()
+        {
+            SelectLeaderImage.SetActive(true);
+            ImageButton.color = _baseColor;
+        }
+
+        public void DeselectButton()
+        {
+            SelectLeaderImage.SetActive(false);
+            ImageButton.color = _deactiveColor;
         }
         
         #if UNITY_EDITOR

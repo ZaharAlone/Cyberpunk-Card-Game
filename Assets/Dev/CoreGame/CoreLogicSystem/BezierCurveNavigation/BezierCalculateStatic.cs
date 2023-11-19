@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Bezier
+public static class BezierCalculateStatic
 {
     //Gets a point along a line defined by the two ends p1 and p2, with the interpolant t
     public static Vector2 LineLerp(Vector2 p1, Vector2 p2, float t)
     {
-        float x = Mathf.Lerp(p1.x, p2.x, t);
-        float y = Mathf.Lerp(p1.y, p2.y, t);
+        var x = Mathf.Lerp(p1.x, p2.x, t);
+        var y = Mathf.Lerp(p1.y, p2.y, t);
 
         return new Vector2(x, y);
     }
@@ -61,7 +61,7 @@ public static class Bezier
             return (position, rotate);
         }
 
-        List<Vector2> lines = new List<Vector2>();
+        var lines = new List<Vector2>();
 
         for (int i = 0; i < points.Count - 1; i++)
         {

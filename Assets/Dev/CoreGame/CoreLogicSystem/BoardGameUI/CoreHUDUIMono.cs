@@ -72,10 +72,10 @@ namespace  CyberNet.Core.UI
             ActionPlayerButtonEvent.ClickActionButton?.Invoke();
         }
 
-        public void SetCountCard(int downDiscard, int downDeck)
+        public void SetCountCard(int discardCount, int deckCount)
         {
-            DownDiscardCount.text = downDiscard.ToString();
-            DownDeckCount.text = downDeck.ToString();
+            DownDiscardCount.text = discardCount.ToString();
+            DownDeckCount.text = deckCount.ToString();
         }
         
         public void OnClickOpenDrawDeckCard()

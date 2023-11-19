@@ -1,10 +1,7 @@
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
-using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using UnityEngine;
-using CyberNet.Core.UI;
 
 namespace CyberNet.Core
 {

@@ -93,7 +93,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
                     leadersView.TryGetValue(leadersConfig.ImageCardLeaders, out var imCardLeaders);
                     leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
                     
-                    playerSlot.SetViewLeader(imCardLeaders, imAbility, leadersConfig.NameLoc);
+                    playerSlot.SetViewLeader(imCardLeaders, imAbility, abilityConfig.NameLoc);
                     playerSlot.SetBaseNamePlayer(selectPlayers[counter].NamePlayer);
                     
                     playerTypeLoc.TryGetValue(selectPlayers[counter].playerTypeEnum, out var locSelectTypePlayer);

@@ -15,9 +15,6 @@ namespace CyberNet.Core.BezierCurveNavigation
     {
         private DataWorld _dataWorld;
         
-        [Header("No. points used to plot the curve")]
-        private int pointCount = 20; //The number of points that should be plotted to graph the curve
-
         private List<GameObject> graphPoints = new List<GameObject>(); //A list of all the points that are spawned to graph the curve
         
         public void PreInit()
@@ -56,17 +53,22 @@ namespace CyberNet.Core.BezierCurveNavigation
             uiBezier.ControlPoints[2].position = input.MousePosition;
             var distancePoint = Vector3.Distance(uiBezier.ControlPoints[0].position, uiBezier.ControlPoints[2].position);
 
-            var distanceValue = Mathf.InverseLerp(0, 1300, distancePoint);
-            var countPoint = (int)(Mathf.Lerp(1, 22, distanceValue));
-            var bezierPoint = _dataWorld.OneData<BezierData>().BezierCurveConfigSO.VisualArrowPointPrefab;
+            var distanceValue = Mathf.InverseLerp(100, 1200, distancePoint);
+            var countPoint = (int)(Mathf.Lerp(0, 15, distanceValue));
+            var bezierConfig = _dataWorld.OneData<BezierData>().BezierCurveConfigSO;
             //Loop through values of t to create the graph, spawning points at each step
             
             for (float i = 0; i < 1; i += 1f / countPoint)
             {
-                var valuePosRot = Bezier.NOrderBezierInterp(uiBezier.ControlPoints, i);
+                var valuePosRot = BezierCalculateStatic.NOrderBezierInterp(uiBezier.ControlPoints, i);
 
-                graphPoints.Add(Object.Instantiate(bezierPoint, valuePosRot.Item1, valuePosRot.Item2, uiBezier.Canvas));
+                graphPoints.Add(Object.Instantiate(bezierConfig.BezierArrowPrefab.gameObject, valuePosRot.Item1, valuePosRot.Item2, uiBezier.Canvas));
             }
+            
+            if (countPoint == 0)
+                return;
+            var valuePosRotEndPoint = BezierCalculateStatic.NOrderBezierInterp(uiBezier.ControlPoints, 1);
+            graphPoints.Add(Object.Instantiate(bezierConfig.BezierArrowPrefab.gameObject, valuePosRotEndPoint.Item1, valuePosRotEndPoint.Item2, uiBezier.Canvas));
         }
         
         private void CheckExitCurve()

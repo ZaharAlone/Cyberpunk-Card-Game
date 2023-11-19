@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 6928155035775252183}
   - component: {fileID: 4666968394387906051}
   - component: {fileID: 1418806333170347331}
+  - component: {fileID: 2882693589214838122}
   m_Layer: 5
   m_Name: bt_back
   m_TagString: Untagged
@@ -736,20 +737,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1418806333170347331}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 195895704969162393}
-        m_TargetAssemblyTypeName: CyberNet.Meta.SelectPlayersForGame.SelectPlayersUIMono,
-          Assembly-CSharp
-        m_MethodName: OnClickBack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1418806333170347331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,6 +768,49 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2882693589214838122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4497567330862543219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3811a413984d709b909de04aefc1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 4666968394387906051}
+  _soundButtonClick:
+    Guid:
+      Data1: 1881451933
+      Data2: 1209549807
+      Data3: -1295622521
+      Data4: -268090766
+    Path: event:/VFX/ui_click_button
+  _soundButtonSelect:
+    Guid:
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/ui_select_button
+  _buttonClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 195895704969162393}
+        m_TargetAssemblyTypeName: CyberNet.Meta.SelectPlayersForGame.SelectPlayersUIMono,
+          Assembly-CSharp
+        m_MethodName: OnClickBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5296105413261779536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,6 +1115,7 @@ GameObject:
   - component: {fileID: 2662586839869217535}
   - component: {fileID: 293525438583026219}
   - component: {fileID: 1829798287798003413}
+  - component: {fileID: 1960229272073610441}
   m_Layer: 5
   m_Name: bt_startGame
   m_TagString: Untagged
@@ -1164,20 +1196,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1829798287798003413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 195895704969162393}
-        m_TargetAssemblyTypeName: CyberNet.Meta.SelectPlayersForGame.SelectPlayersUIMono,
-          Assembly-CSharp
-        m_MethodName: OnClickStartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1829798287798003413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1227,49 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1960229272073610441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8844006970358357339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3811a413984d709b909de04aefc1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 293525438583026219}
+  _soundButtonClick:
+    Guid:
+      Data1: 1881451933
+      Data2: 1209549807
+      Data3: -1295622521
+      Data4: -268090766
+    Path: event:/VFX/ui_click_button
+  _soundButtonSelect:
+    Guid:
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/ui_select_button
+  _buttonClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 195895704969162393}
+        m_TargetAssemblyTypeName: CyberNet.Meta.SelectPlayersForGame.SelectPlayersUIMono,
+          Assembly-CSharp
+        m_MethodName: OnClickStartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2348084836508466756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1373,7 +1435,7 @@ PrefabInstance:
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120.5
+      value: 114.24
       objectReference: {fileID: 0}
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -1558,7 +1620,7 @@ PrefabInstance:
     - target: {fileID: 8864805056933962383, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_text
-      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u0438\u0434\u0435\u0440\u0430"
+      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"
       objectReference: {fileID: 0}
     - target: {fileID: 9003320654665186305, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -1755,7 +1817,7 @@ PrefabInstance:
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120.5
+      value: 114.24
       objectReference: {fileID: 0}
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -1940,7 +2002,7 @@ PrefabInstance:
     - target: {fileID: 8864805056933962383, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_text
-      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u0438\u0434\u0435\u0440\u0430"
+      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"
       objectReference: {fileID: 0}
     - target: {fileID: 9003320654665186305, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -2132,7 +2194,7 @@ PrefabInstance:
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120.5
+      value: 114.24
       objectReference: {fileID: 0}
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -2317,7 +2379,7 @@ PrefabInstance:
     - target: {fileID: 8864805056933962383, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_text
-      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u0438\u0434\u0435\u0440\u0430"
+      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"
       objectReference: {fileID: 0}
     - target: {fileID: 9003320654665186305, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -2514,7 +2576,7 @@ PrefabInstance:
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 120.5
+      value: 114.24
       objectReference: {fileID: 0}
     - target: {fileID: 6244027610891622231, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
@@ -2699,7 +2761,7 @@ PrefabInstance:
     - target: {fileID: 8864805056933962383, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}
       propertyPath: m_text
-      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043B\u0438\u0434\u0435\u0440\u0430"
+      value: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"
       objectReference: {fileID: 0}
     - target: {fileID: 9003320654665186305, guid: 543a0117a60c63d41be2838c4ac35dca,
         type: 3}

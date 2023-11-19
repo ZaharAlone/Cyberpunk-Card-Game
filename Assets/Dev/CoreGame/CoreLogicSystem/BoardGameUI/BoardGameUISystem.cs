@@ -11,7 +11,7 @@ using UnityEngine;
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>, IDestroySystem
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -20,23 +20,14 @@ namespace CyberNet.Core.UI
             BoardGameUIAction.UpdateStatsMainPlayersPassportUI += UpdateStatsPlayersPassport;
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI += ViewPlayerPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
+            BoardGameUIAction.UpdateCountCardInHand += UpdateCountCard;
             RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
 
         public void Init()
         {
-            UpdateView();
-            ViewPlayerPassport();
-        }
-
-        public void PostRunEvent(EventBoardGameUpdate _)
-        {
-            UpdateView();
-        }
-
-        private void UpdateView()
-        {
             UpdateCountCard();
+            ViewPlayerPassport();
         }
 
         private void ViewPlayerPassport()
@@ -139,6 +130,12 @@ namespace CyberNet.Core.UI
         public void Destroy()
         {
             _dataWorld.RemoveOneData<CoreGameUIData>();
+            
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI -= UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI -= ViewPlayerPassport;
+            BoardGameUIAction.UpdateStatsPlayersCurrency -= UpdatePlayerCurrency;
+            BoardGameUIAction.UpdateCountCardInHand -= UpdateCountCard;
+            RoundAction.EndCurrentTurn -= ViewPlayerPassport;
         }
     }
 }

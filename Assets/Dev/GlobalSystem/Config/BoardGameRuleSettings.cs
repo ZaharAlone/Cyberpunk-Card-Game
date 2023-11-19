@@ -24,11 +24,9 @@ namespace CyberNet
         public int CountDropCard = 5;
 
         [Header("Localize")]
-        public LocalizedString ActionPlayAll_loc;
         public LocalizedString ActionEndTurn_loc;
 
         [Header("Icons")]
-        public Sprite ActionPlayAll_image;
         public Sprite ActionEndTurn_image;
     }
 }

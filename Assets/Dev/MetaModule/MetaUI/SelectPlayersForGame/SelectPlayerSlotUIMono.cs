@@ -1,7 +1,7 @@
-using System;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Meta.SelectPlayersForGame
@@ -22,7 +22,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
         public Image LeaderImage;
         public Image FrameLeaderImage;
         public Image LeaderAbility;
-        public Localize LeaderName;
+        public Localize LeaderAbilityName;
 
         public Color32 FrameBaseColor;
         public Color32 FrameDeleteColor;
@@ -56,11 +56,11 @@ namespace CyberNet.Meta.SelectPlayersForGame
             DefaultPlayerNameInput.text = namePlayer;
         }
         
-        public void SetViewLeader(Sprite leaderSprite, Sprite abilitySprite, string leaderName)
+        public void SetViewLeader(Sprite leaderSprite, Sprite abilitySprite, string abilityName)
         {
             LeaderImage.sprite = leaderSprite;
             LeaderAbility.sprite = abilitySprite;
-            LeaderName.Term = leaderName;
+            LeaderAbilityName.Term = abilityName;
             FrameLeaderImage.color = FrameBaseColor;
         }
 
