@@ -57,7 +57,6 @@ namespace CyberNet.Core.City
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
-            ref ActionCardData actionData = ref _dataWorld.OneData<ActionCardData>();
             var activeAbilityCard = CheckAbilityCard();
             
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())

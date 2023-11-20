@@ -19,9 +19,37 @@ namespace CyberNet.Core.City
             //CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
+            CityAction.ShowWherePlayerCanAddUnit += ShowWherePlayerCanAddUnit;
         }
+        private void ShowWherePlayerCanAddUnit()
+        {
+            DeactivateAllTower();
+            
+            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
 
-        //TODO Поправить
+            foreach (var towerEntity in towerEntities)
+            {
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+
+                if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
+                    && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
+                {
+                    towerComponent.TowerMono.ActivateCollider();
+                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                }
+                else
+                {
+                    towerComponent.TowerMono.DeactivateCollider();
+                    towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+                }
+            }
+        }
+        
         /*
         private void UpdateCanInteractiveMap()
         {

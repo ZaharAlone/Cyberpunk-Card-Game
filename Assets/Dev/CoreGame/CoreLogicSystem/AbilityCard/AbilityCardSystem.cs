@@ -76,6 +76,9 @@ namespace CyberNet.Core.AbilityCard
             {
                 case AbilityType.Attack:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    entity.AddComponent(new AbilityCardAddUnitComponent {
+                        ListTowerAddUnit = new()
+                    });
                     AbilityCardAction.AddUnitMap?.Invoke();
                     break;
                 case AbilityType.Trade:

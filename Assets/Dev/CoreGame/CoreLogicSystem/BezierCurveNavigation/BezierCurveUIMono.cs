@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace CyberNet.Core.BezierCurveNavigation
 {
-    public class TestBezierUIMono : MonoBehaviour
+    public class BezierCurveUIMono : MonoBehaviour
     {
-        public List<Transform> ControlPoints = new List<Transform>();
+        public List<RectTransform> ControlPoints = new List<RectTransform>();
         public Transform Canvas;
     }
 }

@@ -6,6 +6,7 @@ namespace CyberNet.Core.City
         public static Action ShowFirstBaseTower;
         public static Action HideFirstBaseTower;
         public static Action UpdatePlayerViewCity;
+        public static Action ShowWherePlayerCanAddUnit;
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
         public static Action ViewAllAvailableTower;

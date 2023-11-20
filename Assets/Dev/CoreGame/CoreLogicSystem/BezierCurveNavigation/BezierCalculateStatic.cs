@@ -36,7 +36,7 @@ public static class BezierCalculateStatic
     }
 
     //Interpolates between any number of control points in the points list, using a bezier curve and the interpolant, t. 
-    public static (Vector2, Quaternion) NOrderBezierInterp(List<Transform> points, float t)
+    public static (Vector2, Quaternion) NOrderBezierInterp(List<RectTransform> points, float t)
     {
         if (points.Count < 2)
             throw new System.Exception("Bezier Curve needs atleast 3 points, or 2 for a linear interpolation");

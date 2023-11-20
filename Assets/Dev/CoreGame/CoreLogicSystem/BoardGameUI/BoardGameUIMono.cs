@@ -52,6 +52,6 @@ namespace CyberNet.Core.UI
         [Header("Ability Cancel Button UI")]
         public AbilityCancelButtonUIMono AbilityCancelButtonUIMono;
 
-        public TestBezierUIMono TestBezierUIMono;
+        public BezierCurveUIMono BezierCurveUIMono;
     }
 }
