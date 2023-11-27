@@ -10,7 +10,7 @@ namespace CyberNet.Core.City
         public string Key;
         public TowerMono TowerMono;
         public GameObject TowerGO;
-        public List<SquadZoneMono> SquadZonesMono;
+        public List<UnitZoneMono> SquadZonesMono;
         [FormerlySerializedAs("SelectTowerEffect")]
         public MeshRenderer VisualEffectZone;
         

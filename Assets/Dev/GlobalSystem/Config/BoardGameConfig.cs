@@ -4,8 +4,10 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
+using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Global;
+using CyberNet.Global.Cursor;
 using I2.Loc;
 using UnityEngine.Serialization;
 
@@ -17,6 +19,7 @@ namespace CyberNet
         [Header("Prefab")]
         public CityMono CityMono;
         public CardMono CardGO;
+        public ArenaMono ArenaMono;
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;
@@ -54,5 +57,9 @@ namespace CyberNet
         public Vector3 NormalSize = Vector3.one;
         public Vector3 SizeSelectCardHand = new Vector3(1.4f, 1.4f, 1.4f);
         public Vector3 SizeSelectCardTradeRow = new Vector3(1.8f, 1.8f, 1.8f);
+
+        [Header("Other config")]
+        public CursorConfigSO CursorConfigSO;
+        public ArenaConfigSO ArenaConfigSO;
     }
 }

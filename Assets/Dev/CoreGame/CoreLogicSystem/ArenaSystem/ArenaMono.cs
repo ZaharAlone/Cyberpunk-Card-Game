@@ -1,17 +1,46 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Arena
 {
     public class ArenaMono : MonoBehaviour
     {
         [SerializeField]
+        private GameObject _arenaContainer;
+        [SerializeField]
+        private GameObject _camera;
+        [SerializeField]
         private List<SlotUnit> _rightUnitPosition = new List<SlotUnit>();
         [SerializeField]
         private List<SlotUnit> _leftUnitPosition = new List<SlotUnit>();
 
+        public void OnEnable()
+        {
+            DisableArena();
+            DisableCamera();
+        }
+
+        public void EnableCamera()
+        {
+            _camera.SetActive(true);
+        }
+        
+        public void DisableCamera()
+        {
+            _camera.SetActive(false);
+        }
+
+        public void EnableArena()
+        {
+            _arenaContainer.SetActive(true);
+        }
+
+        public void DisableArena()
+        {
+            _arenaContainer.SetActive(false);
+        }
+        
         public void ClearArena()
         {
             foreach (var unitSlot in _rightUnitPosition)

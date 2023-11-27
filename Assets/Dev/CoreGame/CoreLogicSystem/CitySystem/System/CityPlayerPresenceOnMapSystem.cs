@@ -43,34 +43,34 @@ namespace CyberNet.Core.City
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            var unitEntities = _dataWorld.Select<SquadMapComponent>()
-                .Where<SquadMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
+            var unitEntities = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID)
                 .GetEntities();
 
-            var isFindGUID = new List<string>();            
+            var isFindGUIDTower = new List<string>();            
             foreach (var unitEntity in unitEntities)
             {
-                var unitComponent = unitEntity.GetComponent<SquadMapComponent>();
+                var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
 
                 var isDouble = false;
-                foreach (var findGUID in isFindGUID)
+                foreach (var findGUID in isFindGUIDTower)
                 {
-                    if (findGUID == unitComponent.GUIDPoint)
+                    if (findGUID == unitComponent.GUIDTower)
                         isDouble = true;
                 }
 
                 if (!isDouble)
                 {
-                    AddPresenceComponent(unitComponent.GUIDPoint);
-                    isFindGUID.Add(unitComponent.GUIDPoint);
+                    AddPresenceComponent(unitComponent.GUIDTower);
+                    isFindGUIDTower.Add(unitComponent.GUIDTower);
                 }
             }
         }
 
-        private void AddPresenceComponent(string guidUnit)
+        private void AddPresenceComponent(string guidPoint)
         {
             var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == guidUnit)
+                .Where<TowerComponent>(tower => tower.GUID == guidPoint)
                 .SelectFirstEntity();
 
             towerEntity.AddComponent(new PresencePlayerTowerComponent());

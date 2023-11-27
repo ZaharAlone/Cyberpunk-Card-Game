@@ -31,12 +31,12 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var unitCountInTower  = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitCountInTower  = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID)
                     .Count();
                 
-                var unitInTowerEntities  = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID)
+                var unitInTowerEntities  = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID)
                     .GetEntities();
                 
                 if (towerComponent.SquadZonesMono.Count > unitCountInTower)
@@ -53,7 +53,7 @@ namespace CyberNet.Core.AI
 
                         foreach (var unitInTowerEntity in unitInTowerEntities)
                         {
-                            ref var unitComponent = ref unitInTowerEntity.GetComponent<SquadMapComponent>();
+                            ref var unitComponent = ref unitInTowerEntity.GetComponent<UnitMapComponent>();
                             if (solidPoint.Index == unitComponent.IndexPoint)
                             {
                                 isClose = true;
@@ -84,16 +84,16 @@ namespace CyberNet.Core.AI
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                var enemyUnitEntities = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
+                var enemyUnitEntities = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID && unit.PowerSolidPlayerID != currentPlayerID)
                     .GetEntities();
 
                 foreach (var unitEntity in enemyUnitEntities)
                 {
-                    ref var unitComponent = ref unitEntity.GetComponent<SquadMapComponent>();
+                    ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
                     enemyInBuild.Add(new EnemyInBuildLink {
                         Index = unitComponent.IndexPoint,
-                        GUID = unitComponent.GUIDPoint,
+                        GUID = unitComponent.GUIDTower,
                     });
                 }
             }

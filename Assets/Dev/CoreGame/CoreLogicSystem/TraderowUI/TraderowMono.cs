@@ -20,6 +20,16 @@ namespace CyberNet.Core.Traderow
         {
             _sequence = DOTween.Sequence();
         }
+
+        public void HideTradeRow()
+        {
+            TraderowContainer.gameObject.SetActive(false);
+        }
+
+        public void ShowTradeRow()
+        {
+            TraderowContainer.gameObject.gameObject.SetActive(false);
+        }
         
         public void SetTradeValue(int tradeValue)
         {
@@ -31,7 +41,7 @@ namespace CyberNet.Core.Traderow
             TraderowUIAction.ShowTraderow?.Invoke();
         }
 
-        public void ShowTraderow()
+        public void ShowTraderowAnimations()
         {
             _sequence.Append(TraderowContainer
                 .DOAnchorPos(new Vector2(0, 0), _timeAnimations));
@@ -50,7 +60,7 @@ namespace CyberNet.Core.Traderow
             TraderowUIAction.HideTraderow?.Invoke();
         }
 
-        public void HideTraderow()
+        public void HideTraderowAnimations()
         {
             _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 300), _timeAnimations));
         }

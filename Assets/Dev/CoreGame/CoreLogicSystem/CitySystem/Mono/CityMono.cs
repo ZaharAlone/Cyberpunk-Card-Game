@@ -10,7 +10,19 @@ namespace CyberNet.Core.City
         public Transform InteractiveObjectContainer;
         public GameObject SolidContainer;
         public List<TowerMono> Towers = new List<TowerMono>();
+        [SerializeField]
+        private GameObject _cityLight;
 
+        public void OnCityLight()
+        {
+            _cityLight.SetActive(true);
+        }
+        
+        public void OffCityLight()
+        {
+            _cityLight.SetActive(false);
+        }
+        
         #if UNITY_EDITOR
         [Button("Заполнить данные в листах")]
         public void SetAllData()

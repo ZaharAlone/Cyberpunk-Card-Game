@@ -36,18 +36,18 @@ namespace CyberNet.Core.City
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
-                TowerMono towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
                 if (towerMono)
                 {
                     ClickTower(towerMono);
                     return;
                 }
-/*
-                SquadZoneMono solidPoint = hit.collider.gameObject.GetComponent<SquadZoneMono>();
-                if (solidPoint)
+
+                var unitPoint = hit.collider.gameObject.GetComponent<IconsUnitInMapMono>();
+                if (unitPoint)
                 {
-                    ClickSolidPoint(solidPoint, roundData.CurrentPlayerID);
-                }*/
+                    ClickSolidPoint(unitPoint, roundData.CurrentPlayerID);
+                }
             }
         }
 
@@ -74,58 +74,23 @@ namespace CyberNet.Core.City
             var isElementAbilityAction = _dataWorld.Select<AbilitySelectElementComponent>().Count();
             return isElementAbilityAction > 0;
         }
-/*
-        private void ClickSolidPoint(SquadZoneMono squadZone, int currentPlayerID)
+
+        private void ClickSolidPoint(IconsUnitInMapMono unitPoint, int currentPlayerID)
         {
-            ref ActionCardData actionData = ref _dataWorld.OneData<ActionCardData>();
-            if (actionData.TotalAttack - actionData.SpendAttack == 0)
-                return;
-
-            ref BoardGameRuleSettings rulesGame = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            Entity playerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-            ref PlayerComponent playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-            ref PlayerViewComponent playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
-
-            bool isUnitPoint = _dataWorld.Select<SquadMapComponent>()
-                .Where<SquadMapComponent>(unit => unit.GUIDPoint == squadZone.GUID && unit.IndexPoint == squadZone.Index)
-                .TrySelectFirstEntity(out Entity unitEntity);
-
-            /*
+            var unitGuid = unitPoint.GetGUID();
+            
+            var isUnitPoint = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.GUIDUnit == unitGuid)
+                .TrySelectFirstEntity(out var unitEntity);
+            
             if (isUnitPoint)
             {
-                if (actionData.TotalAttack - actionData.SpendAttack < rulesGame.PriceKillSquad)
-                    return;
-
-                actionData.SpendAttack += rulesGame.PriceKillSquad;
-
-                ref var unitComponent = ref unitEntity.GetComponent<SquadMapComponent>();
+                ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
                 if (unitComponent.PowerSolidPlayerID == currentPlayerID)
-                    return;
-
-                playerComponent.VictoryPoint += rulesGame.RewardKillSquad;
-                CityAction.AttackSolidPoint?.Invoke(unitComponent.GUIDPoint, unitComponent.IndexPoint);
-                CityAction.UpdatePresencePlayerInCity?.Invoke();
-                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+                {
+                    CityAction.SelectUnit?.Invoke(unitGuid);
+                }
             }
-            else
-            {
-                actionData.SpendAttack++;
-                playerComponent.UnitCount--;
-
-                var initUnit = new InitUnitStruct {
-                    KeyUnit = playerVisualComponent.KeyCityVisual,
-                    SquadZone  = squadZone,
-                    PlayerControl = PlayerControlEnum.Player,
-                    TargetPlayerID = currentPlayerID
-                };
-
-                CityAction.InitUnit?.Invoke(initUnit);
-                CityAction.UpdatePresencePlayerInCity?.Invoke();
-                BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
-                BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            }
-        }*/
+        }
     }
 }

@@ -25,8 +25,9 @@ namespace  CyberNet.Core.UI
         public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
+        public GameObject EnemyPassportContainer;
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
-
+        
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar)
         {
             PlayerDownView.NameText.text = name;
@@ -103,6 +104,17 @@ namespace  CyberNet.Core.UI
                 enemyPassport.OffEffectSelectPlayerStatus();
             }
         }
+
+        public void HideEnemyPassport()
+        {
+            EnemyPassportContainer.SetActive(false);
+        }
+        
+        public void ShowEnemyPassport()
+        {
+            EnemyPassportContainer.SetActive(true);
+        }
+
     }
     
     [Serializable]

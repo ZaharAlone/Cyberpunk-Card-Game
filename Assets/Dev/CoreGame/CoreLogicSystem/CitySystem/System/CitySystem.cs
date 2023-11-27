@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CyberNet.Tools;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -78,22 +79,25 @@ namespace CyberNet.Core.City
             CityAction.UpdatePlayerViewCity?.Invoke();
         }
 
-        private int InitStartUnitReturnCount(SquadZoneMono squadZone)
+        private int InitStartUnitReturnCount(UnitZoneMono UnitZone)
         {
             var countInit = 0;
-            
-            if (squadZone.StartIsNeutralSolid)
+            var countNeutralUnitInTower = _dataWorld.OneData<BoardGameData>().BoardGameRule.CountNeutralUnitInTower;
+            if (UnitZone.StartIsNeutralSolid)
             {
-                var neutralUnit = new InitUnitStruct 
+                for (int i = 0; i < countNeutralUnitInTower; i++)
                 {
-                    KeyUnit = "neutral_unit",
-                    SquadZone = squadZone,
-                    PlayerControl = PlayerControlEnum.Neutral,
-                    TargetPlayerID = -1
-                };
+                    var neutralUnit = new InitUnitStruct 
+                    {
+                        KeyUnit = "neutral_unit",
+                        UnitZone = UnitZone,
+                        PlayerControl = PlayerControlEnum.Neutral,
+                        TargetPlayerID = -1
+                    };
                 
-                InitUnit(neutralUnit);
-                countInit++;
+                    InitUnit(neutralUnit);
+                    countInit++;   
+                }
             }
 
             return countInit;
@@ -105,27 +109,32 @@ namespace CyberNet.Core.City
             var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
             cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
             
-            var unitIcons = Object.Instantiate(visualUnit.IconsUnitMap, solidConteiner.transform);
+            var unitIconsMono = Object.Instantiate(visualUnit.IconsUnitMap, solidConteiner.transform);
             
-            var allEntitySquadTargetPoint = _dataWorld.Select<SquadMapComponent>()
-                .Where<SquadMapComponent>(squadMap => squadMap.GUIDPoint == squadMap.GUIDPoint
-                    && squadMap.IndexPoint == unit.SquadZone.Index)
+            var allEntitySquadTargetPoint = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(squadMap => squadMap.GUIDTower == squadMap.GUIDTower
+                    && squadMap.IndexPoint == unit.UnitZone.Index)
                 .GetEntities();
 
             var positionAllPoint = new List<Vector3>();
             foreach (var entity in allEntitySquadTargetPoint)
             {
-                positionAllPoint.Add(entity.GetComponent<SquadMapComponent>().UnitIconsGO.transform.position);
+                positionAllPoint.Add(entity.GetComponent<UnitMapComponent>().UnitIconsGO.transform.position);
             }
             
-            unitIcons.transform.position = CitySupportStatic.SelectPosition(unit.SquadZone.Collider,
-                unit.SquadZone.transform.position, positionAllPoint);
-
-            var squadMapComponent = new SquadMapComponent
+            unitIconsMono.transform.position = CitySupportStatic.SelectPosition(unit.UnitZone.Collider,
+                unit.UnitZone.transform.position, positionAllPoint);
+            
+            var guidUnit = CreateGUID.Create();
+            unitIconsMono.SetGUID(guidUnit);
+            
+            var squadMapComponent = new UnitMapComponent
             {
-                GUIDPoint = unit.SquadZone.GUID,
-                IndexPoint = unit.SquadZone.Index,
-                UnitIconsGO = unitIcons.gameObject,
+                GUIDTower = unit.UnitZone.GUIDTower,
+                IndexPoint = unit.UnitZone.Index,
+                GUIDUnit = guidUnit,
+                UnitIconsGO = unitIconsMono.gameObject,
+                IconsUnitInMapMono = unitIconsMono,
                 PlayerControl = unit.PlayerControl,
                 PowerSolidPlayerID = unit.TargetPlayerID
             };
@@ -143,11 +152,11 @@ namespace CyberNet.Core.City
 
         private void AttackSolidPoint(string guid, int indexPoint)
         {
-            var squadEntity = _dataWorld.Select<SquadMapComponent>()
-                .Where<SquadMapComponent>(squad => squad.GUIDPoint == guid && squad.IndexPoint == indexPoint)
+            var squadEntity = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(squad => squad.GUIDTower == guid && squad.IndexPoint == indexPoint)
                 .SelectFirstEntity();
             
-            ref var squadComponent = ref squadEntity.GetComponent<SquadMapComponent>();
+            ref var squadComponent = ref squadEntity.GetComponent<UnitMapComponent>();
             Object.Destroy(squadComponent.UnitIconsGO);
             squadEntity.Destroy();
         }

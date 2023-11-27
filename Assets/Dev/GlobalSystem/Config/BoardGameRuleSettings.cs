@@ -22,6 +22,9 @@ namespace CyberNet
 
         [Tooltip("Сколько карт обычно игрок получает в руку в ход")]
         public int CountDropCard = 5;
+        
+        [Tooltip("Количество нейтральных юнитов на клетке в начале игры")]
+        public int CountNeutralUnitInTower = 2;
 
         [Header("Localize")]
         public LocalizedString ActionEndTurn_loc;

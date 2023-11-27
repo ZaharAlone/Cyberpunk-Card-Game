@@ -2,8 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
@@ -45,7 +43,7 @@ namespace CyberNet.Core.AbilityCard
             cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
             
             CityAction.ShowWherePlayerCanAddUnit?.Invoke();
-            //AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
             BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
             CityAction.SelectTower += AddUnitTower;
         }
@@ -88,7 +86,7 @@ namespace CyberNet.Core.AbilityCard
             */
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
-                SquadZone = towerComponent.TowerMono.SquadZonesMono[0],
+                UnitZone = towerComponent.TowerMono.SquadZonesMono[0],
                 PlayerControl = PlayerControlEnum.Player, TargetPlayerID = playerID,
             };
 
@@ -143,6 +141,7 @@ namespace CyberNet.Core.AbilityCard
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
+            AbilitySelectElementAction.ClosePopup?.Invoke();
             AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.SelectTower -= AddUnitTower;

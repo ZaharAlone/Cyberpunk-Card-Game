@@ -15,7 +15,7 @@ namespace CyberNet.Core.City
         public GameObject CloseInteractiveZoneEffect;
         public Collider ColliderTower;
 
-        public List<SquadZoneMono> SquadZonesMono = new List<SquadZoneMono>();
+        public List<UnitZoneMono> SquadZonesMono = new List<UnitZoneMono>();
         public List<TowerMono> ZoneConnect = new List<TowerMono>();
 
         public void GetAllSquadZone()
@@ -27,12 +27,12 @@ namespace CyberNet.Core.City
                 
                 foreach (Transform child in transform)
                 {
-                    var squadZone = child.GetComponent<SquadZoneMono>();
+                    var squadZone = child.GetComponent<UnitZoneMono>();
                     if (squadZone == null)
                         continue;
                     
                     squadZone.SetIndex(counter);
-                    squadZone.SetGUID(GUID);
+                    squadZone.SetGUIDTower(GUID);
                     squadZone.GetCollider();
                     SquadZonesMono.Add(squadZone);
                     counter++;

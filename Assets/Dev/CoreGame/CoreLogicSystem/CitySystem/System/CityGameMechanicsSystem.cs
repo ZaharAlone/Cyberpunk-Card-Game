@@ -16,7 +16,7 @@ namespace CyberNet.Core.City
 
         public void PreInit()
         {
-            //CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
+            CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
             CityAction.ShowWherePlayerCanAddUnit += ShowWherePlayerCanAddUnit;
@@ -50,46 +50,31 @@ namespace CyberNet.Core.City
             }
         }
         
-        /*
         private void UpdateCanInteractiveMap()
         {
-            var actionData = _dataWorld.OneData<ActionCardData>();
             var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
 
-            if (valueAttack == 0)
+            foreach (var towerEntity in towerEntities)
             {
-                foreach (var entity in towerEntities)
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+
+                if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
+                    && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
                 {
-                    var towerMono = entity.GetComponent<TowerComponent>().TowerMono;
-                    towerMono.DeactivateCollider();
-                    towerMono.CloseInteractiveZoneVisualEffect();
+                    towerComponent.TowerMono.ActivateCollider();
+                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                }
+                else
+                {
+                    towerComponent.TowerMono.DeactivateCollider();
+                    towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
                 }
             }
-            else
-            {
-                var playerEntity = _dataWorld.Select<PlayerComponent>()
-                    .With<CurrentPlayerComponent>()
-                    .SelectFirstEntity();
-                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-
-                foreach (var towerEntity in towerEntities)
-                {
-                    var towerComponent = towerEntity.GetComponent<TowerComponent>();
-
-                    if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
-                        && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
-                    {
-                        towerComponent.TowerMono.ActivateCollider();
-                        towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
-                    }
-                    else
-                    {
-                        towerComponent.TowerMono.DeactivateCollider();
-                        towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
-                    }
-                }
-            }
-        }*/
+        }
         
         /// <summary>
         /// Активирует зоны на которые игрок может передвинуть своего юнита

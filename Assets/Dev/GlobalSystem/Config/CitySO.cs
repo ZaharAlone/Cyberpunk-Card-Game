@@ -11,8 +11,8 @@ namespace CyberNet.Core.City
     {
         public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
-        [FormerlySerializedAs("SolidPointVFXMono")]
-        public SquadPointVFXMono squadPointVFXMono;
+        [FormerlySerializedAs("SquadPointVFXMono")]
+        public UnitPointVFXMono UnitPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
         public TextAsset TowerConfig;
@@ -23,8 +23,8 @@ namespace CyberNet.Core.City
     [Serializable]
     public struct UnitVisual
     {
-        public GameObject IconsUnitMap;
-        public SquadMono SquadMono;
+        public IconsUnitInMapMono IconsUnitMap;
+        public UnitMono UnitMono;
         public Color32 ColorUnit;
     }
 }

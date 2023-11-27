@@ -5,6 +5,10 @@ namespace CyberNet.Core.City
     {
         public static Action ShowFirstBaseTower;
         public static Action HideFirstBaseTower;
+
+        public static Action<string> EnableInteractiveTower;
+        public static Action<string> DisableInteractiveTower;
+        
         public static Action UpdatePlayerViewCity;
         public static Action ShowWherePlayerCanAddUnit;
         public static Action ShowWherePlayerCanMove;
@@ -18,6 +22,6 @@ namespace CyberNet.Core.City
         public static Action<InitUnitStruct> InitUnit;
         public static Action<string, int> AttackSolidPoint;
         public static Action<string> SelectTower;
-        public static Action<string, int> SelectUnit;
+        public static Action<string> SelectUnit;
     }
 }

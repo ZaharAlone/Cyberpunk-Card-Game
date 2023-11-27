@@ -53,14 +53,13 @@ namespace CyberNet.Core.BezierCurveNavigation
                 return;
             _oldMousePos = input.MousePosition;
 
-            UpdateBezierPoint();
+            UpdateBezierPoint(input.MousePosition);
             UpdateBezierVector();
-            CheckTarget();
+            CheckIsSelectTarget();
         }
 
-        private void UpdateBezierPoint()
+        private void UpdateBezierPoint(Vector3 targetPosition)
         {
-            var input = _dataWorld.OneData<InputData>();
             foreach (var point in graphPoints)
             {
                 Object.Destroy(point.gameObject);
@@ -69,7 +68,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             graphPoints.Clear();
             
             var uiBezier = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BezierCurveUIMono;
-            uiBezier.ControlPoints[2].position = input.MousePosition;
+            uiBezier.ControlPoints[2].position = targetPosition;
             var distancePoint = Vector3.Distance(uiBezier.ControlPoints[0].position, uiBezier.ControlPoints[1].position) + Vector3.Distance(uiBezier.ControlPoints[1].position, uiBezier.ControlPoints[2].position);
 
             var distanceValue = Mathf.InverseLerp(100, 1200, distancePoint);
@@ -102,7 +101,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             
             var distancePointY = uiBezier.ControlPoints[2].position.y - uiBezier.ControlPoints[0].position.y;
             var distanceNormalizeY = Mathf.InverseLerp(0, 400, distancePointY);
-            var pozitionY = (int)(Mathf.Lerp(100, 0, distanceNormalizeY));
+            var pozitionY = (int)(Mathf.Lerp(50, 0, distanceNormalizeY));
             
             var pos = uiBezier.ControlPoints[1].anchoredPosition;
             pos.x = pozitionX;
@@ -110,7 +109,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             uiBezier.ControlPoints[1].anchoredPosition = pos;
         }
 
-        private void CheckTarget()
+        private void CheckIsSelectTarget()
         {
             var bezierEntity = _dataWorld.Select<BezierCurveNavigationComponent>().SelectFirstEntity();
             var bezierComponent = bezierEntity.GetComponent<BezierCurveNavigationComponent>();
@@ -141,6 +140,7 @@ namespace CyberNet.Core.BezierCurveNavigation
                 if (towerMono)
                 {
                     UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+                    
                 }
                 else
                 {

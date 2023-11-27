@@ -21,6 +21,7 @@ namespace CyberNet.Core.AbilityCard
         public void PreInit()
         {
             AbilitySelectElementAction.OpenSelectAbilityCard += OpenWindow;
+            AbilitySelectElementAction.ClosePopup += CloseWindow;
             AbilitySelectElementAction.SelectElement += SelectElement;
         }
 
@@ -48,7 +49,7 @@ namespace CyberNet.Core.AbilityCard
                 uiActionSelectCard.OpenWindow(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
         }
-        
+
         private void SelectElement(string textButton)
         {
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
@@ -60,7 +61,7 @@ namespace CyberNet.Core.AbilityCard
                 AbilitySelectElementAction.ConfimSelect += ConfimSelect;
             }*/
         }
-        
+
         private void ConfimSelect()
         {
             /*
@@ -69,6 +70,12 @@ namespace CyberNet.Core.AbilityCard
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
             uiActionSelectCard.CloseWindow();
             AbilityCardAction.ConfimSelectElement?.Invoke();*/
+        }
+        
+        private void CloseWindow()
+        {
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            uiActionSelectCard.CloseWindow();
         }
     }
 }

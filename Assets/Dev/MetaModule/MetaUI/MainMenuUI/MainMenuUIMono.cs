@@ -1,23 +1,32 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace CyberNet.Meta
 {
     public class MainMenuUIMono : MonoBehaviour
     {
-        public GameObject Background;
-        public GameObject Panel;
+        [SerializeField]
+        private GameObject _background;
+        [SerializeField]
+        private GameObject _panel;
+        [SerializeField]
+        private GameObject _wishlistButton;
         
         public void OpenMainMenu()
         {
-            Background.SetActive(true);
-            Panel.SetActive(true);
+            _background.SetActive(true);
+            _panel.SetActive(true);
+            
+            #if DEMO && STEAM
+            _wishlistButton.SetActive(true);
+            #else
+            _wishlistButton.SetActive(false);
+            #endif
         }
         
         public void CloseMainMenu()
         {
-            Background.SetActive(false);
-            Panel.SetActive(false);
+            _background.SetActive(false);
+            _panel.SetActive(false);
         }
 
         public void OnClickTutorial()

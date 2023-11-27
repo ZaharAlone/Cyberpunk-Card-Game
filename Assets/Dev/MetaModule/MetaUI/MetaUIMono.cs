@@ -1,7 +1,6 @@
 using UnityEngine;
 using CyberNet.Meta.DemoGame;
 using CyberNet.Meta.SelectPlayersForGame;
-using CyberNet.Meta.SettingsUI;
 
 namespace CyberNet.Meta
 {

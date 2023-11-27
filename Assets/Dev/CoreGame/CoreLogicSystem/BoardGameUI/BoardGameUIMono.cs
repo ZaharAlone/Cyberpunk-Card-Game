@@ -1,6 +1,7 @@
 using UnityEngine;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
+using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.SelectFirstBase;
@@ -53,5 +54,8 @@ namespace CyberNet.Core.UI
         public AbilityCancelButtonUIMono AbilityCancelButtonUIMono;
 
         public BezierCurveUIMono BezierCurveUIMono;
+
+        [Header("Arena")]
+        public ArenaHUDUIMono ArenaHUDUIMono;
     }
 }

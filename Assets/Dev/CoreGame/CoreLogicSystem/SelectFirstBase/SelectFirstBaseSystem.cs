@@ -67,8 +67,8 @@ namespace CyberNet.Core.SelectFirstBase
             var targetSquadZone = 0;
             foreach (var squadZone in towerComponent.SquadZonesMono)
             {
-                var isClose = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerGUID
+                var isClose = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
                         && unit.IndexPoint == squadZone.Index)
                     .TrySelectFirstEntity(out var t);
 
@@ -83,7 +83,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
-                SquadZone  = towerComponent.SquadZonesMono[targetSquadZone],
+                UnitZone  = towerComponent.SquadZonesMono[targetSquadZone],
                 PlayerControl = PlayerControlEnum.Player,
                 TargetPlayerID = playerComponent.PlayerID
             };

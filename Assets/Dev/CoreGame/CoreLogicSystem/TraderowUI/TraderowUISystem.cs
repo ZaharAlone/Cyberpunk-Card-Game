@@ -47,7 +47,7 @@ namespace CyberNet.Core.Traderow
             if (roundData.PauseInteractive)
                 return;
             
-            uiTraderow.ShowTraderow();
+            uiTraderow.ShowTraderowAnimations();
             _statusTraderow = true;
         }
         
@@ -68,7 +68,7 @@ namespace CyberNet.Core.Traderow
         {
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             
-            uiTraderow.HideTraderow();
+            uiTraderow.HideTraderowAnimations();
             _statusTraderow = false;
             
             var traderowIsShowEntities = _dataWorld.Select<TraderowIsShowComponent>().GetEntities();

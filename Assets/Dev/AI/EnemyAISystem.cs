@@ -258,7 +258,7 @@ namespace CyberNet.Core.AI
                     var unit = new InitUnitStruct 
                     {
                         KeyUnit = playerViewComponent.KeyCityVisual,
-                        SquadZone = solidPoint,
+                        UnitZone = solidPoint,
                         PlayerControl = PlayerControlEnum.Player,
                         TargetPlayerID = currentPlayerID
                     };

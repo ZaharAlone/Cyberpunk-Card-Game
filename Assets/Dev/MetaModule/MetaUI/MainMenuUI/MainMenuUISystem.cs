@@ -38,6 +38,8 @@ namespace CyberNet.Meta
         {
             #if STEAM && DEMO
             ShowPreviewDemoScreen();
+            #else
+            OpenMainMenu();
             #endif
         }
 

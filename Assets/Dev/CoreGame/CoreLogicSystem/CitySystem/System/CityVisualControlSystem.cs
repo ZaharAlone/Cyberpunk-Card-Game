@@ -17,6 +17,9 @@ namespace CyberNet.Core.City
             CityAction.ShowFirstBaseTower += ShowFirstBaseTower;
             CityAction.HideFirstBaseTower += HideFirstBaseTower;
             CityAction.UpdatePlayerViewCity += UpdateTowerControlView;
+
+            CityAction.EnableInteractiveTower += EnableInteractiveTower;
+            CityAction.DisableInteractiveTower += DisableInteractiveTower;
         }
         
         private void ShowFirstBaseTower()
@@ -33,7 +36,7 @@ namespace CyberNet.Core.City
                 towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
         }
-        
+
         private void HideFirstBaseTower()
         {
             var entitiesTower = _dataWorld.Select<TowerComponent>().GetEntities();
@@ -105,6 +108,25 @@ namespace CyberNet.Core.City
             material.SetFloat("_Thickness", 0.2f);
             material.SetFloat("_PowerEmission", 0f);
             return material;
+        }
+        
+        private void EnableInteractiveTower(string towerGuid)
+        {
+            var towerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == towerGuid)
+                .SelectFirstEntity();
+            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+            towerComponent.TowerMono.ActivateCollider();
+            towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+        }
+        private void DisableInteractiveTower(string towerGuid)
+        {
+            var towerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == towerGuid)
+                .SelectFirstEntity();
+            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+            towerComponent.TowerMono.DeactivateCollider();
+            towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
         }
     }
 }
