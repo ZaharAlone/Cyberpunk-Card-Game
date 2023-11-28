@@ -86,8 +86,13 @@ namespace EcsCore
             _resource.Add(cameraObject);
 
             ModulesUnityAdapter.world.InitModule<MetaModule>(true);
+            
             #if STEAM
             ModulesUnityAdapter.world.InitModule<SteamModule>(true);
+            #endif
+            
+            #if UNITY_EDITOR
+            ModulesUnityAdapter.world.InitModule<DebugModule>(true);
             #endif
         }
 

@@ -200,14 +200,14 @@ namespace CyberNet.Core.AbilityCard
                 foreach (var entity in entitiesUnitEntityIsDefensePosition)
                 {
                     entity.AddComponent(new UnitInBattleArenaComponent {
-                        AttackingSide = false
+                        Forwards = false
                     });
                 }
                 
                 foreach (var entity in selectUnitEntities)
                 {
                     entity.AddComponent(new UnitInBattleArenaComponent {
-                        AttackingSide = true
+                        Forwards = true
                     });
                 }
                 
