@@ -17,6 +17,9 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         private Vector2 _scaleBaseAvatar;
         [SerializeField]
         private Vector2 _scaleSelectAvatar;
+
+        [HideInInspector]
+        public int PositionInTurnQueue;
         
         public void SetVisualCharacter(Sprite spriteAvatar, Color32 frameColor)
         {

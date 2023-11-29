@@ -11,6 +11,8 @@ namespace CyberNet.Tools.DebugGame
         [SerializeField]
         private GameObject _panel;
         [SerializeField]
+        private GameObject _debugButton;
+        [SerializeField]
         private TMP_Dropdown _dropdown;
 
         private List<string> _listCardGame;
@@ -45,6 +47,12 @@ namespace CyberNet.Tools.DebugGame
         public void OnClickGetCard()
         {
             DebugAction.GetCard?.Invoke(_listCardGame[_selectCard]);
+        }
+
+        public void OnClickHideDebug()
+        {
+            _panel.SetActive(false);
+            _debugButton.SetActive(false);
         }
     }
 }

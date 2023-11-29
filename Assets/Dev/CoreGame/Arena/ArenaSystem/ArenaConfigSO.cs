@@ -6,6 +6,5 @@ namespace CyberNet.Core.Arena
     public class ArenaConfigSO : ScriptableObject
     {
         public ArenaContainerUICharacterMono ContainerAvatarUnitPrefab;
-        public Sprite NeutralUnitSprite;
     }
 }

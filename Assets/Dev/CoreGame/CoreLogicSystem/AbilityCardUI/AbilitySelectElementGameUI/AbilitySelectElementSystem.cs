@@ -32,7 +32,7 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity();
 
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-            if (playerComponent.playerTypeEnum != PlayerTypeEnum.Player)
+            if (playerComponent.PlayerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;

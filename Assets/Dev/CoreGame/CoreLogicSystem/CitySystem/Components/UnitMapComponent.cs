@@ -6,7 +6,6 @@ namespace CyberNet.Core.City
     public struct UnitMapComponent
     {
         //GUID башни где стоит юнит
-        [FormerlySerializedAs("GUIDPoint")]
         public string GUIDTower;
         //Индекс пойнта в башне
         public int IndexPoint;

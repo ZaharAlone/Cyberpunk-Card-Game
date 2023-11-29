@@ -62,7 +62,7 @@ namespace CyberNet.Core.Traderow
 
         public void HideTraderowAnimations()
         {
-            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 300), _timeAnimations));
+            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));
         }
     }
 }

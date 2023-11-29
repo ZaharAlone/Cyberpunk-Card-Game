@@ -38,7 +38,7 @@ namespace CyberNet.Core
             var entity = _dataWorld.NewEntity();
 
             entity.AddComponent(new PlayerComponent {
-                playerTypeEnum = selectLeaderData.playerTypeEnum,
+                PlayerTypeEnum = selectLeaderData.playerTypeEnum,
                 PlayerID = selectLeaderData.PlayerID, 
                 UnitCount = config.CountSquad, 
                 VictoryPoint = 0,

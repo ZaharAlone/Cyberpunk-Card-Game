@@ -78,7 +78,7 @@ namespace CyberNet.Local
                 {
                     playerEntity.AddComponent(new CurrentPlayerComponent());
                     nextRoundPlayerID = componentPlayer.PlayerID;
-                    nextRoundPlayerType = componentPlayer.playerTypeEnum;
+                    nextRoundPlayerType = componentPlayer.PlayerTypeEnum;
                 }
             }
 
@@ -114,7 +114,7 @@ namespace CyberNet.Local
             uiRound.NewRoundView(playerViewComponent.Avatar, playerViewComponent.Name);
             await Task.Delay(1500);
 
-            if (playerComponent.playerTypeEnum == PlayerTypeEnum.Player)
+            if (playerComponent.PlayerTypeEnum == PlayerTypeEnum.Player)
             {
                 if (entityPlayer.HasComponent<PlayerDiscardCardComponent>())
                 {

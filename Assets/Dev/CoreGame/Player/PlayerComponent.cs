@@ -1,13 +1,10 @@
 using CyberNet.Global;
-using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Player
 {
     public struct PlayerComponent
     {
-        [FormerlySerializedAs("PlayerType")]
-        public PlayerTypeEnum playerTypeEnum;
+        public PlayerTypeEnum PlayerTypeEnum;
         public int PlayerID;
         
         public int UnitCount;

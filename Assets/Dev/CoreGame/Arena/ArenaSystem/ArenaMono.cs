@@ -61,10 +61,33 @@ namespace CyberNet.Core.Arena
                 }
             }
         }
-
-        public void InitUnitInPosition(UnitArenaMono unitMono, GameObject vfxUnit)
+        
+        public void InitUnitInPosition(UnitArenaMono unitMono, bool isLeft) //, GameObject vfxUnit
         {
-            
+            if (isLeft)
+            {
+                SetUnitPositionOnArena(unitMono, _leftUnitPosition);
+            }
+            else
+            {
+                SetUnitPositionOnArena(unitMono, _rightUnitPosition);
+            }
+        }
+
+        private void SetUnitPositionOnArena(UnitArenaMono unitMono, List<SlotUnit> slots)
+        {
+            foreach (var slot in slots)
+            {
+                if (!slot.SlotOccupied)
+                {
+                    slot.SlotOccupied = true;
+                    unitMono.transform.SetParent(slot.UnitPosition);
+                    unitMono.transform.localPosition = Vector3.zero;
+                    unitMono.transform.localRotation = Quaternion.identity;
+                    
+                    break;
+                }
+            }
         }
     }
 

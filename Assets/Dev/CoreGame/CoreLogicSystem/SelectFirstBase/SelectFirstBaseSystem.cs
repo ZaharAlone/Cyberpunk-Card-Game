@@ -33,7 +33,7 @@ namespace CyberNet.Core.SelectFirstBase
             
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
 
-            if (isNotInstallFirstBase && playerComponent.playerTypeEnum == PlayerTypeEnum.Player)
+            if (isNotInstallFirstBase && playerComponent.PlayerTypeEnum == PlayerTypeEnum.Player)
             {
                 SelectFirstBase();
             }

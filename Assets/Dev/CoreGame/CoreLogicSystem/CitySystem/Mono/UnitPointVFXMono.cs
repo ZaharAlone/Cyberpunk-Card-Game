@@ -1,19 +1,40 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 namespace CyberNet.Core.City
 {
     public class UnitPointVFXMono : MonoBehaviour
     {
+        [FormerlySerializedAs("LightCube")]
         [SerializeField]
-        private MeshRenderer LightCube;
+        private MeshRenderer _lightCube;
+        [FormerlySerializedAs("GroundParticle")]
         [SerializeField]
-        private ParticleSystem GroundParticle;
+        private ParticleSystem _groundParticle;
 
+        public void OnEnable()
+        {
+            DisableEffect();
+        }
+
+        public void EnableEffect()
+        {
+            _lightCube.gameObject.SetActive(true);   
+            _groundParticle.gameObject.SetActive(true);   
+        }
+
+        public void DisableEffect()
+        {
+            _lightCube.gameObject.SetActive(false);   
+            _groundParticle.gameObject.SetActive(false);  
+        }
+        
         public void SetColor(Color32 color)
         {
-            var material = LightCube.materials[0];
+            var material = _lightCube.materials[0];
             material.SetColor("_TintColor", new Color32(color.r, color.g, color.b, 18));
-            LightCube.materials[0] = material;
-            GroundParticle.startColor = new Color32(color.r, color.g, color.b, 134);
+            _lightCube.materials[0] = material;
+            _groundParticle.startColor = new Color32(color.r, color.g, color.b, 134);
         }
     }
 }

@@ -65,17 +65,15 @@ namespace CyberNet.Tools.DebugGame
             entity.AddComponent(new CardPlayerComponent());
             
             entity.AddComponent(new CardHandComponent());
-            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.PlayerID);
-            waitTimeAnim += 0.175f;
-            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = waitTimeAnim });
+            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = 0f});
             cardComponent.CardMono.ShowCard();
             
-            WaitEndGetCard(waitTimeAnim);
+            WaitEndGetCard();
         }
 
-        private async void WaitEndGetCard(float time)
+        private async void WaitEndGetCard()
         {
-            await Task.Delay(450);
+            await Task.Delay(300);
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
         }
     }
