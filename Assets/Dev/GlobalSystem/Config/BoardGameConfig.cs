@@ -7,6 +7,7 @@ using CyberNet.Core;
 using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Global;
+using CyberNet.Global.Config;
 using CyberNet.Global.Cursor;
 using I2.Loc;
 using UnityEngine.Serialization;
@@ -61,5 +62,6 @@ namespace CyberNet
         [Header("Other config")]
         public CursorConfigSO CursorConfigSO;
         public ArenaConfigSO ArenaConfigSO;
+        public ColorsGameConfigSO ColorsGameConfigSO;
     }
 }

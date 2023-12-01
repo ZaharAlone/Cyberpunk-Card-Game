@@ -43,7 +43,7 @@ namespace CyberNet.Core.Arena
             CreateUnitInArena();
             EnableVisualArena();
             
-            _dataWorld.InitModule<ArenaModule>();
+            _dataWorld.InitModule<ArenaModule>(true);
         }
 
         private void CreateBattleData()
@@ -106,7 +106,8 @@ namespace CyberNet.Core.Arena
 
                 unitDictionary.TryGetValue(visualKeyUnit, out var unitVisual);
                 var unitArenaMono = Object.Instantiate(unitVisual.UnitArenaMono);
-
+                unitArenaMono.GUID = unitMapComponent.GUIDUnit;
+                
                 var unitArenaComponent = new ArenaUnitComponent
                 {
                     UnitArenaMono = unitArenaMono,

@@ -77,6 +77,16 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
             _actionRetreatButton.SetActive(false);
         }
 
+        public void OnClickAttack()
+        {
+            ArenaUIAction.ClickAttack?.Invoke();
+        }
+
+        public void OnClickRetreat()
+        {
+            ArenaUIAction.ClickRetreat?.Invoke();
+        }
+
         [Button]
         public void NextRoundTest()
         {

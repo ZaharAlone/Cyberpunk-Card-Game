@@ -4,6 +4,7 @@ namespace CyberNet.Core.Arena
 {
     public class ArenaCameraMono : MonoBehaviour
     {
+        public Camera ArenaCamera;
         [SerializeField]
         private GameObject _mainCamera;
         [SerializeField]

@@ -3566,6 +3566,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2224775007519198803, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5481474805599112984}
+    - target: {fileID: 2224775007519198803, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickRetreat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2224775007519198803, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CyberNet.Core.Arena.ArenaHUDUI.ArenaHUDUIMono, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716729842659428846, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5481474805599112984}
+    - target: {fileID: 2716729842659428846, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716729842659428846, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CyberNet.Core.Arena.ArenaHUDUI.ArenaHUDUIMono, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6565604549098156541, guid: f3f1e62df3dbc6a40a1d04fca46f03a8,
         type: 3}
       propertyPath: m_Name

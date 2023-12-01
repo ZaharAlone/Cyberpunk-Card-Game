@@ -150,19 +150,19 @@ namespace CyberNet.Core.BezierCurveNavigation
 
         public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
-            var bezierConfig = _dataWorld.OneData<BezierData>().BezierCurveConfigSO;
+            var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             var color = new Color32();
             
             switch (status)
             {
                 case BezierCurveStatusEnum.Base:
-                    color = bezierConfig.BaseArrowColor;
+                    color = colorsConfig.BaseColor;
                     break;
                 case BezierCurveStatusEnum.SelectCurrentTarget:
-                    color = bezierConfig.SelectCurrentTargetArrowColor;
+                    color = colorsConfig.SelectCurrentTargetBlueColor;
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
-                    color = bezierConfig.SelectWrongTargetArrowColor;
+                    color = colorsConfig.SelectWrongTargetRedColor;
                     break;
             }
 

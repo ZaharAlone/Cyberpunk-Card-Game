@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8509373441690554156}
   - component: {fileID: 5714077248810172243}
+  - component: {fileID: -5000428198849286198}
   m_Layer: 0
   m_Name: unit_red
   m_TagString: Untagged
@@ -48,7 +49,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GUID: 
   UnitPointVFXMono: {fileID: 5694483683233913483}
+  _unitCollider: {fileID: 0}
   _animator: {fileID: 4622591655809914020}
+--- !u!136 &-5000428198849286198
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474020764788180826}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.35
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &1005057647776205489
 PrefabInstance:
   m_ObjectHideFlags: 0

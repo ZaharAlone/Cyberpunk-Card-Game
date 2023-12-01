@@ -8,5 +8,8 @@ namespace CyberNet.Core.Arena
         public static Action DisableArenaBattle;
 
         public static Action UpdateRound;
+
+        public static Action ArenaUnitStartAttack;
+        public static Action ArenaUnitFinishAttack;
     }
 }
