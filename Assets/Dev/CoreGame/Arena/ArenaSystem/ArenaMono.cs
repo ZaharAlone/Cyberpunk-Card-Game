@@ -10,6 +10,8 @@ namespace CyberNet.Core.Arena
         private GameObject _arenaContainer;
         [SerializeField]
         private GameObject _camera;
+        public ArenaCameraMono ArenaCameraMono;
+        
         [SerializeField]
         private List<SlotUnit> _rightUnitPosition = new List<SlotUnit>();
         [SerializeField]

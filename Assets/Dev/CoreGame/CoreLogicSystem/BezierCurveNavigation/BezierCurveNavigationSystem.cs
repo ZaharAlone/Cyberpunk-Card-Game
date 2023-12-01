@@ -100,8 +100,8 @@ namespace CyberNet.Core.BezierCurveNavigation
             var pozitionX = (int)(Mathf.Lerp(300, -300, distanceNormalizeX));
             
             var distancePointY = uiBezier.ControlPoints[2].position.y - uiBezier.ControlPoints[0].position.y;
-            var distanceNormalizeY = Mathf.InverseLerp(0, 400, distancePointY);
-            var pozitionY = (int)(Mathf.Lerp(50, 0, distanceNormalizeY));
+            var distanceNormalizeY = Mathf.InverseLerp(30, 250, distancePointY);
+            var pozitionY = (int)(Mathf.Lerp(220, -100, distanceNormalizeY));
             
             var pos = uiBezier.ControlPoints[1].anchoredPosition;
             pos.x = pozitionX;
@@ -140,7 +140,6 @@ namespace CyberNet.Core.BezierCurveNavigation
                 if (towerMono)
                 {
                     UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
-                    
                 }
                 else
                 {

@@ -12,7 +12,7 @@ namespace CyberNet.Core.City
         [SerializeField]
         private ParticleSystem _groundParticle;
 
-        public void OnEnable()
+        private void OnEnable()
         {
             DisableEffect();
         }

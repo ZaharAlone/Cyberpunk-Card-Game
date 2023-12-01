@@ -96,7 +96,8 @@ namespace CyberNet.Core.Arena
                 .GetEntities();
 
             var unitDictionary = _dataWorld.OneData<BoardGameData>().CitySO.UnitDictionary;
-            
+
+            var indexUnit = 0;
             foreach (var unitEntity in unitEntities)
             {
                 var unitMapComponent = unitEntity.GetComponent<UnitMapComponent>();
@@ -112,11 +113,13 @@ namespace CyberNet.Core.Arena
                     PlayerControlID = unitMapComponent.PowerSolidPlayerID,
                     PlayerControlEnum = unitMapComponent.PlayerControl,
                     UnitGO = unitArenaMono.gameObject,
-                    GUID = unitMapComponent.GUIDUnit
+                    GUID = unitMapComponent.GUIDUnit,
+                    IndexTurnOrder = indexUnit
                 };
 
                 unitEntity.AddComponent(unitArenaComponent);
                 arenaData.ArenaMono.InitUnitInPosition(unitArenaMono, unitInBattleComponent.Forwards);
+                indexUnit++;
             }
         }
         

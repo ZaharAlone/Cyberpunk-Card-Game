@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,9 +9,19 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
     public class ArenaHUDUIMono : MonoBehaviour
     {
         public Transform ContainerListCharacter;
+
+        [SerializeField]
+        private GameObject _actionAttackButton;
+        [SerializeField]
+        private GameObject _actionRetreatButton;
         
         private List<ArenaContainerUICharacterMono> _characterAvatars = new List<ArenaContainerUICharacterMono>();
-        
+
+        private void OnEnable()
+        {
+            HideArenaUI();
+        }
+
         public void OnArenaHUD()
         {
             ContainerListCharacter.gameObject.SetActive(true);
@@ -52,6 +63,18 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
                 currentIndexPosition++;
                 listSlot.RemoveAt(selectSlot);
             }
+        }
+
+        public void ShowArenaUI(bool showRetreatButton = true)
+        {
+            _actionAttackButton.SetActive(true);
+            _actionRetreatButton.SetActive(showRetreatButton);
+        }
+        
+        public void HideArenaUI()
+        {
+            _actionAttackButton.SetActive(false);
+            _actionRetreatButton.SetActive(false);
         }
 
         [Button]

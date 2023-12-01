@@ -6,5 +6,7 @@ namespace CyberNet.Core.Arena
     {
         public static Action StartArenaBattle;
         public static Action DisableArenaBattle;
+
+        public static Action UpdateRound;
     }
 }

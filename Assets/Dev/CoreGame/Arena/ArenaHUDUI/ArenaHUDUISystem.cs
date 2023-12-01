@@ -2,7 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 using CyberNet.Core.UI;
 using Object = UnityEngine.Object;
 
@@ -21,6 +20,10 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         public void Init()
         {
             InitStartVisual();
+
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
+            //Temp
+            UpdateUIButton();
         }
         
         private void InitStartVisual()
@@ -47,9 +50,16 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
             arenaUI.UpdateOrderAvatarSlot();
         }
 
+        private void UpdateUIButton()
+        {
+            var arenaUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono;
+            arenaUI.ShowArenaUI();
+        }
+
         public void Destroy()
         {
-            
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono.HideArenaUI();
         }
     }
 }
