@@ -37,9 +37,9 @@ namespace CyberNet.Core.AbilityCard
                 {
                     cardTableComponent.CalculateBaseAbility = true;
                     if (cardTableComponent.SelectAbility == SelectAbilityEnum.Ability_0)
-                        AddAbilityComponent(cardComponent.Ability_0, entity);
+                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_0, entity);
                     else
-                        AddAbilityComponent(cardComponent.Ability_1, entity);
+                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_1, entity);
                 }
 
                 if (!cardTableComponent.CalculateComboAbility)
@@ -61,7 +61,7 @@ namespace CyberNet.Core.AbilityCard
                 
                 if (cardComponentDeck.Nations == cardComponent.Nations)
                 {
-                    AddAbilityComponent(cardComponent.Ability_2, entity);
+                    AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_2, entity);
                     ref var cardTableComponent = ref entity.GetComponent<CardAbilitySelectionCompletedComponent>();
                     cardTableComponent.CalculateComboAbility = true;
                     break;
@@ -70,7 +70,7 @@ namespace CyberNet.Core.AbilityCard
         }
 
         //Add component ability
-        private void AddAbilityComponent(AbilityCardContainer abilityCardStruct, Entity entity)
+        private void AddAbilityComponent(string guidCard, AbilityCardContainer abilityCardStruct, Entity entity)
         {
             switch (abilityCardStruct.AbilityType)
             {
@@ -79,7 +79,7 @@ namespace CyberNet.Core.AbilityCard
                     entity.AddComponent(new AbilityCardAddUnitComponent {
                         ListTowerAddUnit = new()
                     });
-                    AbilityCardAction.AddUnitMap?.Invoke();
+                    AbilityCardAction.AddUnitMap?.Invoke(guidCard);
                     break;
                 case AbilityType.Trade:
                     entity.AddComponent(new ActionCardAddResourceComponent {
@@ -100,7 +100,7 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.SquadMove:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.MoveUnit?.Invoke();
+                    AbilityCardAction.MoveUnit?.Invoke(guidCard);
                     break;
                 /*
                 case AbilityType.AddNoiseCard:

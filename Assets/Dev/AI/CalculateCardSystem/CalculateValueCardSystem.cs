@@ -4,6 +4,8 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using CyberNet.Core.City;
+using CyberNet.Core.Player;
 
 namespace CyberNet.Core.AI
 {
@@ -14,12 +16,37 @@ namespace CyberNet.Core.AI
 
         public void PreInit()
         {
+            CalculateValueCardAction.AttackAction += AttackAction;
+            CalculateValueCardAction.MoveUnitAction += MoveUnitAction;
             CalculateValueCardAction.TradeAction += TradeAction;
             CalculateValueCardAction.DrawCardAction += DrawCardAction;
             CalculateValueCardAction.DestroyCardAction += DestroyCardAction;
             CalculateValueCardAction.DiscardCardAction += DiscardCardAction;
             CalculateValueCardAction.NoiseCardAction += NoiseCardAction;
         }
+
+        private int AttackAction(int count)
+        {
+            //TODO: поправить
+            return 15 * count;
+        }
+        
+        private int MoveUnitAction()
+        {
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+
+            var countUnitInMap = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == playerComponent.PlayerID)
+                .Count();
+
+            var result = countUnitInMap * 5;
+            
+            return result;
+        }
+
         private int TradeAction(int count)
         {
             //TODO: поправить

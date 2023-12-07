@@ -10,6 +10,7 @@ using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -23,13 +24,13 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.AddUnitMap += AddUnitMap;
         }
         
-        private void AddUnitMap()
+        private void AddUnitMap(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
             {
-                AbilityAIAction.AddUnitMap?.Invoke();
+                AbilityAIAction.AddUnitMap?.Invoke(guidCard);
                 return;
             }
             
@@ -90,6 +91,7 @@ namespace CyberNet.Core.AbilityCard
                 PlayerControl = PlayerControlEnum.Player, TargetPlayerID = playerID,
             };
 
+            Debug.LogError("Create unit struct");
             CityAction.InitUnit?.Invoke(initUnit);
             BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
 

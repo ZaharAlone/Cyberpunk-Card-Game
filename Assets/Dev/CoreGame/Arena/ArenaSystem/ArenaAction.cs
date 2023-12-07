@@ -11,5 +11,7 @@ namespace CyberNet.Core.Arena
 
         public static Action ArenaUnitStartAttack;
         public static Action ArenaUnitFinishAttack;
+
+        public static Action FinishRound;
     }
 }

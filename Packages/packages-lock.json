@@ -19,7 +19,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "86c2908f45897ddd27131b30f5a346eca6a5b976"
+      "hash": "408a40c8f2a6f75a12c75575b3617eda426ced9d"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -129,6 +129,15 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.postprocessing": {
+      "version": "3.2.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {

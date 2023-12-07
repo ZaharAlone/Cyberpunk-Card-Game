@@ -51,40 +51,47 @@ namespace CyberNet.Core.Arena
             var unitEntities = _dataWorld.Select<UnitInBattleArenaComponent>().GetEntities();
             var unitDictionary = _dataWorld.OneData<BoardGameData>().CitySO.UnitDictionary;
 
-            var playersInBattleID = new List<int>();
+            var playersInBattle = new List<PlayersInBattleStruct>();
             foreach (var unit in unitEntities)
             {
                 var unitComponent = unit.GetComponent<UnitMapComponent>();
                 var unitBattleComponent = unit.GetComponent<UnitInBattleArenaComponent>();
                 var isUnique = true;
                 
-                foreach (var playerInBattle in playersInBattleID)
+                foreach (var playerInBattle in playersInBattle)
                 {
-                    if (playerInBattle == unitComponent.PowerSolidPlayerID)
+                    if (playerInBattle.PlayerID == unitComponent.PowerSolidPlayerID)
                         isUnique = false;
                 }
 
                 if (isUnique)
                 {
-                    var visualKeyPlayer = GetKeyPlayerVisual(unitComponent.PlayerControl, unitComponent.PowerSolidPlayerID);
-                    unitDictionary.TryGetValue(visualKeyPlayer, out var visualPlayer);
-                    var avatar = GetAvatarPlayerVisual(unitComponent.PlayerControl, unitComponent.PowerSolidPlayerID);
-                    var positionInTurnQueue = GetPositionInTurnQueue(unitComponent.PlayerControl, unitComponent.PowerSolidPlayerID);
-                    
-                    var playerBattleComponent = new PlayerArenaInBattleComponent
-                    {
-                        PlayerID   = unitComponent.PowerSolidPlayerID,
-                        PlayerControlEnum = unitComponent.PlayerControl,
-                        Forwards = unitBattleComponent.Forwards,
-                        KeyCityVisual = visualKeyPlayer,
-                        ColorVisual = visualPlayer.ColorUnit,
-                        Avatar = avatar,
-                        PositionInTurnQueue = positionInTurnQueue
-                    };
-                    _dataWorld.NewEntity().AddComponent(playerBattleComponent);
-                    
-                    playersInBattleID.Add(unitComponent.PowerSolidPlayerID);
+                    playersInBattle.Add(new PlayersInBattleStruct {
+                        PlayerID = unitComponent.PowerSolidPlayerID,
+                        PlayerControl = unitComponent.PlayerControl,
+                        Forwards = unitBattleComponent.Forwards
+                    });
                 }
+            }
+
+            foreach (var player in playersInBattle)
+            {
+                var visualKeyPlayer = GetKeyPlayerVisual(player.PlayerControl, player.PlayerID);
+                unitDictionary.TryGetValue(visualKeyPlayer, out var visualPlayer);
+                var avatar = GetAvatarPlayerVisual(player.PlayerControl, player.PlayerID);
+                var positionInTurnQueue = GetPositionInTurnQueue(player.PlayerControl, player.PlayerID, playersInBattle.Count);
+                    
+                var playerBattleComponent = new PlayerArenaInBattleComponent
+                {
+                    PlayerID   = player.PlayerID,
+                    PlayerControlEnum = player.PlayerControl,
+                    Forwards = player.Forwards,
+                    KeyCityVisual = visualKeyPlayer,
+                    ColorVisual = visualPlayer.ColorUnit,
+                    Avatar = avatar,
+                    PositionInTurnQueue = positionInTurnQueue
+                };
+                _dataWorld.NewEntity().AddComponent(playerBattleComponent);
             }
         }
         
@@ -163,12 +170,12 @@ namespace CyberNet.Core.Arena
             return avatar;
         }
 
-        public int GetPositionInTurnQueue(PlayerControlEnum playerControlEnum, int playerID)
+        public int GetPositionInTurnQueue(PlayerControlEnum playerControlEnum, int playerID, int countUnitInBattle)
         {
             var position = -1;
             if (playerControlEnum == PlayerControlEnum.Neutral)
             {
-                position = 5;
+                position = countUnitInBattle - 1;
             }
             else
             {

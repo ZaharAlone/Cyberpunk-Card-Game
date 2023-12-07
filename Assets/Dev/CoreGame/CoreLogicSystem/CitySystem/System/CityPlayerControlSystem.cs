@@ -1,8 +1,6 @@
-using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
-using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using EcsCore;

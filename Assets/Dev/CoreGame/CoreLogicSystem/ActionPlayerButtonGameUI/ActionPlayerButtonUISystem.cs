@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {

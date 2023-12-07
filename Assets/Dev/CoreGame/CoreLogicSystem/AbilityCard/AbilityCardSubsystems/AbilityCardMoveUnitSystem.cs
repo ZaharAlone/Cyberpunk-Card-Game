@@ -27,13 +27,14 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.MoveUnit += MoveUnit;
         }
         
-        private void MoveUnit()
+        private void MoveUnit(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
             {
-                AbilityAIAction.MoveUnit?.Invoke();
+                Debug.LogError("move unit ai");
+                AbilityAIAction.MoveUnit?.Invoke(guidCard);
                 return;
             }
 

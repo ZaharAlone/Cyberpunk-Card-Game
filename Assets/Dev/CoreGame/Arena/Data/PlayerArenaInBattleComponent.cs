@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using UnityEngine;

@@ -19,9 +19,11 @@ namespace CyberNet.Global.GameCamera
         public void PreInit()
         {
             GlobalCoreAction.FinishInitGameResource += ActivateCoreCamera;
+            GlobalCoreAction.StartFocusCameraArena += StartFocusCameraArena;
+            GlobalCoreAction.FinishFocusCameraArena += FinishFocusCameraArena;
             ModuleAction.DeactivateCoreModule += DeactivateCoreCamera;
         }
-        
+
         private void ActivateCoreCamera()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
@@ -39,7 +41,7 @@ namespace CyberNet.Global.GameCamera
             camera.CoreVirtualCamera.gameObject.SetActive(false);
             camera.IsCore = false;
         }
-        
+
         public void Run()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
@@ -47,7 +49,7 @@ namespace CyberNet.Global.GameCamera
             if (camera.IsCore)
                 CheckInput();
         }
-        
+
         private void CheckInput()
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
@@ -85,6 +87,23 @@ namespace CyberNet.Global.GameCamera
             var angle = Mathf.Lerp(65f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
             var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
             camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
+        }
+        
+        private void StartFocusCameraArena()
+        {
+            /*
+            ref var camera = ref _dataWorld.OneData<GameCameraData>();
+            var value = camera.CoreVirtualCamera.m_Lens.FieldOfView - 3 * Mathf.Sign(zoomValue);
+            value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera);
+            camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(camera.CoreVirtualCamera.m_Lens.FieldOfView, value, Time.deltaTime * 50f);
+            var angle = Mathf.Lerp(65f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
+            var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
+            camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z); */
+        }
+        
+        private void FinishFocusCameraArena()
+        {
+            
         }
     }
 }

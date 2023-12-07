@@ -4,13 +4,13 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.CorePopup;
 
 namespace CyberNet.Core.AI
 {
@@ -38,6 +38,8 @@ namespace CyberNet.Core.AI
                 AbilityAIAction.DiscardCardSelectCard?.Invoke();
             
             roundData.PauseInteractive = true;
+            
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             
             LogicAI();
@@ -75,12 +77,13 @@ namespace CyberNet.Core.AI
         {
             Debug.LogError("Enter Start Turn Enemy");
             await Task.Delay(800);
+            Debug.LogError("Play All card AI");
             PlayAll();
             await Task.Delay(800);
+            Debug.LogError("Select Trader Card AI");
             SelectTradeCard();
             await Task.Delay(800);
-            Attack();
-            await Task.Delay(800);
+            Debug.LogError("End round AI");
             ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
 
@@ -98,6 +101,7 @@ namespace CyberNet.Core.AI
             }
             
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
         }
 
         private void SelectionAbility(Entity entity)
@@ -147,6 +151,9 @@ namespace CyberNet.Core.AI
                     break;
                 case AbilityType.DestroyCard:
                     value = CalculateValueCardAction.DestroyCardAction.Invoke();
+                    break;
+                case AbilityType.SquadMove:
+                    
                     break;
             }
 
@@ -209,72 +216,6 @@ namespace CyberNet.Core.AI
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
-        }
-
-        private void Attack()
-        {
-            //TODO Поправить
-            /*
-            ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var attackPoint = actionData.TotalAttack - actionData.SpendAttack;
-            
-            if (attackPoint == 0)
-                return;
-            
-            if (attackPoint >= 1)
-            {
-                var towerFreeSlot = EnemyAIAttackSupportAction.GetTowerFreeSlotPlayerPresence.Invoke();
-                if (towerFreeSlot.Count > 0)
-                {
-                    SpawnUnit(towerFreeSlot, attackPoint);
-                }
-            }*/
-        }
-
-        private void UpdateViewPlayer()
-        {
-            CityAction.UpdatePresencePlayerInCity?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-        }
-
-        private void SpawnUnit(List<BuildFreeSlotStruct> freeSlotList, int countUnit)
-        {
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
-                .SelectFirstEntity();
-
-            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-            ref var playerViewComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
-            ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            //actionData.SpendAttack += countUnit;
-            playerComponent.UnitCount -= countUnit;
-            //TODO Поправить
-            var counter = 0;
-            foreach (var freeSlot in freeSlotList)
-            {
-                foreach (var solidPoint in freeSlot.SolidPointsMono)
-                {
-                    var unit = new InitUnitStruct 
-                    {
-                        KeyUnit = playerViewComponent.KeyCityVisual,
-                        UnitZone = solidPoint,
-                        PlayerControl = PlayerControlEnum.Player,
-                        TargetPlayerID = currentPlayerID
-                    };
-                    CityAction.InitUnit?.Invoke(unit);
-
-                    counter++;
-                    
-                    if (counter >= countUnit)
-                        break;
-                }
-                
-                if (counter >= countUnit)
-                    break;
-            }
-
-            UpdateViewPlayer();
         }
     }
 }

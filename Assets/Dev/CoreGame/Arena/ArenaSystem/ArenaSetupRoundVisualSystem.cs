@@ -1,3 +1,7 @@
+using CyberNet.Core.Arena.ArenaHUDUI;
+using CyberNet.Core.City;
+using CyberNet.Core.Player;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -13,8 +17,9 @@ namespace CyberNet.Core.Arena
         public void PreInit()
         {
             ArenaAction.UpdateRound += UpdateRoundVisual;
+            ArenaAction.FinishRound += FinishRound;
         }
-        
+
         public void Init()
         {
             _dataWorld.CreateOneData(new ArenaRoundData());
@@ -25,10 +30,35 @@ namespace CyberNet.Core.Arena
         {
             ref var roundData = ref _dataWorld.OneData<ArenaRoundData>();
             roundData.ArenaCurrentStage = ArenaCurrentStageEnum.Action;
+
+            //Отключаем визуал юнитов игрока ходившего раньше, и он перестает быть текущим игроком
+            DeselectPlayer();
             
+            // Ищем следующего игрока, и включаем весь его визуал
             FindPlayerInCurrentRound();
             SwitchRoundCamera();
             SelectCurrentUnitVisual();
+
+            // Выдаем контроль игроку, или AI
+            EnableControlPlayer();
+        }
+        private void DeselectPlayer()
+        {
+            var unitsEntities = _dataWorld.Select<ArenaUnitComponent>()
+                .GetEntities();
+
+            foreach (var unitsEntity in unitsEntities)
+            {
+                var unitComponent = unitsEntity.GetComponent<ArenaUnitComponent>();
+                unitComponent.UnitArenaMono.UnitPointVFXMono.DisableEffect();
+            }
+
+            var isEntityCurrentPlayer = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .With<CurrentPlayerComponent>()
+                .TrySelectFirstEntity(out var currentPlayerEntity);
+
+            if (isEntityCurrentPlayer)
+                currentPlayerEntity.RemoveComponent<CurrentPlayerComponent>();
         }
 
         private void FindPlayerInCurrentRound()
@@ -43,10 +73,19 @@ namespace CyberNet.Core.Arena
                 var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
                 if (playerComponent.PositionInTurnQueue < positionInTurnQueue)
                 {
+                    positionInTurnQueue = playerComponent.PositionInTurnQueue;
+                    
                     roundData.PlayerControlEnum = playerComponent.PlayerControlEnum;
-                    roundData.CurrentPlayerID = playerComponent.PositionInTurnQueue;
+                    roundData.CurrentPlayerID = playerComponent.PlayerID;
                 }
             }
+
+            var currentPlayerID = roundData.CurrentPlayerID;
+            
+            var playerEntityCurrentRound = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == currentPlayerID)
+                .SelectFirstEntity();
+            playerEntityCurrentRound.AddComponent(new CurrentPlayerComponent());
         }
 
         private void SwitchRoundCamera()
@@ -125,7 +164,59 @@ namespace CyberNet.Core.Arena
             var unitComponent = selectUnitEntity.GetComponent<ArenaUnitComponent>();
             unitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
         }
+
+        private void FinishRound()
+        {
+            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .GetEntities();
+            
+            var playersCountInBattle = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .Count();
+
+            foreach (var playerEntity in playersInBattleEntities)
+            {
+                ref var playerComponent = ref playerEntity.GetComponent<PlayerArenaInBattleComponent>();
+                playerComponent.PositionInTurnQueue--;
+
+                if (playerComponent.PositionInTurnQueue < 0)
+                {
+                    playerComponent.PositionInTurnQueue = playersCountInBattle -1;
+                }
+            }
+            
+            UpdateRoundVisual();
+        }
         
+        private void EnableControlPlayer()
+        {
+            var currentPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
+
+            if (currentPlayerComponent.PlayerControlEnum == PlayerControlEnum.Neutral)
+            {
+                ArenaAIAction.StartAINeutralLogic?.Invoke();
+            }
+            else
+            {
+                var playerGlobalEntity = _dataWorld.Select<PlayerComponent>()
+                    .Where<PlayerComponent>(player => player.PlayerID == currentPlayerComponent.PlayerID)
+                    .SelectFirstEntity();
+                var playerGlobalComponent = playerGlobalEntity.GetComponent<PlayerComponent>();
+
+                if (playerGlobalComponent.PlayerTypeEnum == PlayerTypeEnum.Player)
+                {
+                    ArenaUIAction.ShowHUDButton?.Invoke();
+                }
+                else
+                {
+                    
+                }
+            }
+        }
+
         public void Destroy()
         {
             ArenaAction.UpdateRound -= UpdateRoundVisual;

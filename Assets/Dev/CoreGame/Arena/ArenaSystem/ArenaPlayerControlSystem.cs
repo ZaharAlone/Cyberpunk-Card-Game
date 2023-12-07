@@ -7,6 +7,7 @@ using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
+using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.GameCamera;
 using Input;
@@ -42,6 +43,8 @@ namespace CyberNet.Core.Arena
 
         private void PlayerSelectEnemy()
         {
+            //Держим в уме отбирать у игрока управление если не его ход
+            
             var inputData = _dataWorld.OneData<InputData>();
             var camera = _dataWorld.OneData<ArenaData>().ArenaMono.ArenaCameraMono.ArenaCamera;
             var ray = camera.ScreenPointToRay(inputData.MousePosition);
@@ -75,19 +78,34 @@ namespace CyberNet.Core.Arena
 
         private void ClickInUnit(UnitArenaMono unitMono)
         {
+            var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
+            
+            //Проверяем, есть ли уже выбранные юниты
+            var isSelectUnitForAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
+                .TrySelectFirstEntity(out var entitySelectUnit);
+
+            if (isSelectUnitForAttack)
+            {
+                entitySelectUnit.RemoveComponent<ArenaSelectUnitForAttackComponent>();
+                var selectUnitComponent = entitySelectUnit.GetComponent<ArenaUnitComponent>();
+                
+                selectUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.BaseColor);
+                selectUnitComponent.UnitArenaMono.UnitPointVFXMono.DisableEffect();
+            }
+
             var unitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .Where<ArenaUnitComponent>(unit => unit.GUID == unitMono.GUID)
                 .SelectFirstEntity();
-
             unitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
 
-            var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             unitMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor);
             unitMono.UnitPointVFXMono.EnableEffect();
         }
         
         private void ClickAttack()
         {
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
+            
             var isEnemyAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
                 .TrySelectFirstEntity(out var unitAttackEntity);
 
@@ -104,6 +122,7 @@ namespace CyberNet.Core.Arena
                 if (unitComponent.PlayerControlEnum == PlayerControlEnum.Neutral)
                 {
                     EndReactionStage();
+                    ArenaUIAction.HideHUDButton?.Invoke();
                 }
                 else
                 {
@@ -114,13 +133,7 @@ namespace CyberNet.Core.Arena
         }
         private void EndReactionStage()
         {
-            var isEnemyAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
-                .TrySelectFirstEntity(out var unitAttackEntity);
-
-            if (isEnemyAttack)
-            {
-                ArenaAction.ArenaUnitStartAttack?.Invoke();
-            }
+            ArenaAction.ArenaUnitStartAttack?.Invoke();
         }
 
         private void ClearStage()

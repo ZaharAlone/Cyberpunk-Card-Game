@@ -22,7 +22,6 @@ namespace CyberNet.Core
         public void PreInit()
         {
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard += AnimationsMoveBoardCard;
-            RoundAction.EndCurrentTurn += EndRound;
         }
 
         private void AnimationsMoveBoardCard()
@@ -112,18 +111,6 @@ namespace CyberNet.Core
         {
             entity.RemoveComponent<CardMoveToTableComponent>();
             entity.AddComponent(new CardInTableComponent());
-        }
-        
-        public void EndRound()
-        {
-            var entities = _dataWorld.Select<CardComponent>().With<CardInTableComponent>().GetEntities();
-
-            foreach (var entity in entities)
-            {
-                entity.AddComponent(new CardMoveToDiscardComponent());
-                entity.RemoveComponent<CardInTableComponent>();
-                AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
-            }
         }
     }
 }

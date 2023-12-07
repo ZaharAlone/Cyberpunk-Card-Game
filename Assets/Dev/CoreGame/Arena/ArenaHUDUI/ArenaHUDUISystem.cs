@@ -14,18 +14,20 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
         public void PreInit()
         {
-            
+            ArenaUIAction.ShowHUDButton += ShowHUDButton;
+            ArenaUIAction.HideHUDButton += HideHUDButton;
         }
-        
+
+
         public void Init()
         {
             InitStartVisual();
 
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
             //Temp
-            UpdateUIButton();
+            ShowHUDButton();
         }
-        
+
         private void InitStartVisual()
         {
             var arenaConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ArenaConfigSO;
@@ -49,11 +51,17 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
             arenaUI.UpdateOrderAvatarSlot();
         }
-
-        private void UpdateUIButton()
+        
+        private void ShowHUDButton()
         {
             var arenaUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono;
             arenaUI.ShowArenaUI();
+        }
+        
+        private void HideHUDButton()
+        {
+            var arenaUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono;
+            arenaUI.HideArenaUI();
         }
 
         public void Destroy()

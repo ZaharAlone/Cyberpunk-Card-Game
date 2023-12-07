@@ -49,6 +49,8 @@ namespace CyberNet.Core.Arena
             Object.Destroy(targetUnitMapComponent.UnitIconsGO);
             
             targetUnitEntity.Destroy();
+            
+            ArenaAction.FinishRound?.Invoke();
         }
     }
 }

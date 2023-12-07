@@ -51,6 +51,7 @@ MonoBehaviour:
   UnitPointVFXMono: {fileID: 1593807653607901122}
   _unitCollider: {fileID: 3836430136443679171}
   _animator: {fileID: 7236493398820769161}
+  _shootingVFX: {fileID: 1638740688468584357}
 --- !u!136 &3836430136443679171
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -812,3 +813,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec291e63f4e6ef34bacb96ff6e4ad6be, type: 3}
+--- !u!1 &1638740688468584357 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7714927151165165778, guid: ec291e63f4e6ef34bacb96ff6e4ad6be,
+    type: 3}
+  m_PrefabInstance: {fileID: 9055917133708490615}
+  m_PrefabAsset: {fileID: 0}
