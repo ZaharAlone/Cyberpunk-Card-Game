@@ -3,7 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
@@ -21,7 +20,7 @@ namespace CyberNet.Core.Arena
         public void PreInit()
         {
             ArenaAction.StartArenaBattle += StartArenaBattle;
-            ArenaAction.DisableArenaBattle += DisableArena;
+            ArenaAction.EndBattleArena += EndBattleArena;
         }
         
         public void Init()
@@ -219,25 +218,44 @@ namespace CyberNet.Core.Arena
             }
         }
         
-        private void DisableArena()
+        private void EndBattleArena()
         {
             var arenaData = _dataWorld.OneData<ArenaData>();
             var cameraData = _dataWorld.OneData<GameCameraData>();
             var cityData = _dataWorld.OneData<CityData>();
             
+            AnimationsStartArenaCameraAction.ReturnCamera?.Invoke();
             arenaData.ArenaMono.DisableArena();
             arenaData.ArenaMono.DisableCamera();
             cameraData.CameraGO.SetActive(true);
             cityData.CityMono.OnCityLight();
+
+            var playerInArenaEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
             
-            _dataWorld.RemoveOneData<PlayerArenaInBattleComponent>();
+            foreach (var playerEntity in playerInArenaEntities)
+            {
+                playerEntity.Destroy();
+            }
+
+            var unitInArenaEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();
+
+            foreach (var unitEntity in unitInArenaEntities)
+            {
+                var unitComponent = unitEntity.GetComponent<ArenaUnitComponent>();
+                Object.Destroy(unitComponent.UnitGO);
+                unitEntity.RemoveComponent<ArenaUnitComponent>();
+            }
+
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.PauseInteractive = false;
+            
             _dataWorld.DestroyModule<ArenaModule>();
         }
         
         public void Destroy()
         {
             ArenaAction.StartArenaBattle -= StartArenaBattle;
-            ArenaAction.DisableArenaBattle -= DisableArena;
+            ArenaAction.EndBattleArena -= EndBattleArena;
             
             Object.Destroy(_dataWorld.OneData<ArenaData>().ArenaMono.gameObject);
             _dataWorld.RemoveOneData<ArenaData>();

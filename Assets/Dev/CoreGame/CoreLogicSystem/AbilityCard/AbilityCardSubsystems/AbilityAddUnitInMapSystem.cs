@@ -65,33 +65,29 @@ namespace CyberNet.Core.AbilityCard
             playerComponent.UnitCount--;
             var playerID = playerComponent.PlayerID;
             
-            //TODO ГД вопрос, подумать и возможно переписать на только одну фракцию на территории
-            /*
             var targetSquadZone = 0;
-            foreach (SquadZoneMono squadZone in towerComponent.SquadZonesMono)
+            foreach (var squadZone in towerComponent.SquadZonesMono)
             {
-                bool isClose = _dataWorld.Select<SquadMapComponent>()
-                    .Where<SquadMapComponent>(unit => unit.GUIDPoint == towerGUID
+                var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
                         && unit.IndexPoint == squadZone.Index
-                        && unit.PowerSolidPlayerID != playerID)
-                    .TrySelectFirstEntity(out Entity t);
+                        && unit.PowerSolidPlayerID == playerID)
+                    .Count() > 0;
 
-                if (isClose)
-                    targetSquadZone = squadZone.Index + 1;
+                if (isTargetSlot)
+                    break;
                 else
                 {
-                    targetSquadZone = squadZone.Index;
-                    break;
+                    targetSquadZone = squadZone.Index + 1;
                 }
             }
-            */
+
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
-                UnitZone = towerComponent.TowerMono.SquadZonesMono[0],
+                UnitZone = towerComponent.TowerMono.SquadZonesMono[targetSquadZone],
                 PlayerControl = PlayerControlEnum.Player, TargetPlayerID = playerID,
             };
 
-            Debug.LogError("Create unit struct");
             CityAction.InitUnit?.Invoke(initUnit);
             BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
 
@@ -112,7 +108,6 @@ namespace CyberNet.Core.AbilityCard
                 .With<AbilitySelectElementComponent>()
                 .With<AbilityCardAddUnitComponent>()
                 .SelectFirstEntity();
-            
             
             var abilitySelectElementComponent = entityCard.GetComponent<AbilitySelectElementComponent>();
             var abilityAddComponentComponent = entityCard.GetComponent<AbilityCardAddUnitComponent>();

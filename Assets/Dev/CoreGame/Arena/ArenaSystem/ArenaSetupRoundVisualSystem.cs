@@ -167,6 +167,14 @@ namespace CyberNet.Core.Arena
 
         private void FinishRound()
         {
+            var isEndRound = CheckEndRound();
+
+            if (isEndRound)
+            {
+                ArenaAction.EndBattleArena?.Invoke();
+                return;
+            }
+            
             var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
                 .GetEntities();
             
@@ -187,6 +195,30 @@ namespace CyberNet.Core.Arena
             UpdateRoundVisual();
         }
         
+        private bool CheckEndRound()
+        {
+            var forwardsArenaPlayerID = 0;
+            
+            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .GetEntities();
+
+            foreach (var playerEntity in playersInBattleEntities)
+            {
+                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
+                if (playerComponent.Forwards)
+                {
+                    forwardsArenaPlayerID = playerComponent.PlayerID;
+                    break;
+                }
+            }
+            
+            var countForwardsUnit = _dataWorld.Select<ArenaUnitComponent>()
+                .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == forwardsArenaPlayerID)
+                .Count();
+
+            return countForwardsUnit == 0;
+        }
+
         private void EnableControlPlayer()
         {
             var currentPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
@@ -216,7 +248,7 @@ namespace CyberNet.Core.Arena
                 }
             }
         }
-
+        
         public void Destroy()
         {
             ArenaAction.UpdateRound -= UpdateRoundVisual;
