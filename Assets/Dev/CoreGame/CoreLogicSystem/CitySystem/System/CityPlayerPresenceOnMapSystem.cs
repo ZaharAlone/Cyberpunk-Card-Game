@@ -21,9 +21,10 @@ namespace CyberNet.Core.City
         public void UpdatePresencePlayerInCity()
         {
             ClearOldPresencePlayerComponent();
+            UpdatePlayerControlTower();
             AddComponentPresencePlayer();
         }
-        
+
         private void ClearOldPresencePlayerComponent()
         {
             var towerEntities = _dataWorld.Select<TowerComponent>()
@@ -36,6 +37,74 @@ namespace CyberNet.Core.City
                 var towerMono = towerEntity.GetComponent<TowerComponent>().TowerMono;
                 towerMono.DeactivateCollider();
                 towerMono.CloseInteractiveZoneVisualEffect();
+            }
+        }
+        
+        private void UpdatePlayerControlTower()
+        {
+            var towerEntities = _dataWorld.Select<TowerComponent>()
+                .GetEntities();
+
+            
+            foreach (var towerEntity in towerEntities)
+            {
+                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+                var towerGUID = towerComponent.GUID;
+                
+                var unitInTowerEntities = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID)
+                    .GetEntities();
+                
+                var playersInTower = new List<int>();
+                
+                foreach (var unitEntity in unitInTowerEntities)
+                {
+                    var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+                    var isDouble = false;
+                    var newPlayerID = -10;
+                    
+                    foreach (var playerID in playersInTower)
+                    {
+                        if (playerID == unitComponent.PowerSolidPlayerID)
+                        {
+                            isDouble = true;
+                            break;
+                        }
+                    }
+
+                    if (!isDouble)
+                    {
+                        playersInTower.Add(unitComponent.PowerSolidPlayerID);
+                    }
+                }
+                
+                var maxUnit = 0;
+                var IDPlayerControlTower = -10;
+
+                foreach (var playerID in playersInTower)
+                {
+                    var countCurrentPlayerUnit = _dataWorld.Select<UnitMapComponent>()
+                        .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                        && unit.PowerSolidPlayerID == playerID)
+                        .Count();
+
+                    if (countCurrentPlayerUnit > maxUnit)
+                        IDPlayerControlTower = playerID;
+                }
+                
+                if (IDPlayerControlTower == -10)
+                    return;
+                
+                if (IDPlayerControlTower == -1)
+                {
+                    towerComponent.TowerBelongPlyaerID = IDPlayerControlTower;
+                    towerComponent.PlayerIsBelong = PlayerControlEnum.Neutral;
+                }
+                else
+                {
+                    towerComponent.TowerBelongPlyaerID = IDPlayerControlTower;
+                    towerComponent.PlayerIsBelong = PlayerControlEnum.Player;
+                }
             }
         }
 

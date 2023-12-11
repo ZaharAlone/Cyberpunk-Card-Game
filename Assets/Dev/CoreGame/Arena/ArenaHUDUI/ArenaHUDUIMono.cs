@@ -29,6 +29,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         
         public void OffArenaHUD()
         {
+            ClearCharacters();
             ContainerListCharacter.gameObject.SetActive(false);
         }
 
@@ -85,6 +86,16 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         public void OnClickRetreat()
         {
             ArenaUIAction.ClickRetreat?.Invoke();
+        }
+
+        private void ClearCharacters()
+        {
+            foreach (var character in _characterAvatars)
+            {
+                Destroy(character);
+            }
+            
+            _characterAvatars.Clear();
         }
 
         [Button]

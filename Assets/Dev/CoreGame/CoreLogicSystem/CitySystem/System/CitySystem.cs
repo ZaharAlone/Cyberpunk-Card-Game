@@ -148,6 +148,9 @@ namespace CyberNet.Core.City
             Object.Destroy(resourceTable.CityGO);
 
             _dataWorld.RemoveOneData<CityData>();
+            
+            CityAction.InitUnit -= InitUnit;
+            CityAction.AttackSolidPoint -= AttackSolidPoint;
         }
 
         private void AttackSolidPoint(string guid, int indexPoint)

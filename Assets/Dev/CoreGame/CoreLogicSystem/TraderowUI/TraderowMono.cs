@@ -28,7 +28,7 @@ namespace CyberNet.Core.Traderow
 
         public void ShowTradeRow()
         {
-            TraderowContainer.gameObject.gameObject.SetActive(false);
+            TraderowContainer.gameObject.gameObject.SetActive(true);
         }
         
         public void SetTradeValue(int tradeValue)

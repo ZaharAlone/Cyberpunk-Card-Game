@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Player;
+using CyberNet.Global;
 
 namespace CyberNet.Core.Arena
 {
@@ -19,6 +20,15 @@ namespace CyberNet.Core.Arena
         }
         
         private void StartAINeutralLogic()
+        {
+            _dataWorld.NewEntity().AddComponent(new TimeComponent
+            {
+                Time = 1f,
+                Action = () => AttackEnemy()
+            });
+        }
+
+        private void AttackEnemy()
         {
             var selectEnemyPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
                 .Without<CurrentPlayerComponent>()

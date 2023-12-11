@@ -6,6 +6,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.Arena
 {
@@ -47,10 +48,13 @@ namespace CyberNet.Core.Arena
             var unitsEntities = _dataWorld.Select<ArenaUnitComponent>()
                 .GetEntities();
 
-            foreach (var unitsEntity in unitsEntities)
+            foreach (var unitEntity in unitsEntities)
             {
-                var unitComponent = unitsEntity.GetComponent<ArenaUnitComponent>();
+                var unitComponent = unitEntity.GetComponent<ArenaUnitComponent>();
                 unitComponent.UnitArenaMono.UnitPointVFXMono.DisableEffect();
+
+                if (unitEntity.HasComponent<ArenaUnitCurrentComponent>())
+                    unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
             }
 
             var isEntityCurrentPlayer = _dataWorld.Select<PlayerArenaInBattleComponent>()
@@ -167,6 +171,8 @@ namespace CyberNet.Core.Arena
 
         private void FinishRound()
         {
+            ClearPlayersNotUnit();
+            
             var isEndRound = CheckEndRound();
 
             if (isEndRound)
@@ -195,8 +201,28 @@ namespace CyberNet.Core.Arena
             UpdateRoundVisual();
         }
         
+        private void ClearPlayersNotUnit()
+        {
+            var playerEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
+            
+            foreach (var playerEntity in playerEntities)
+            {
+                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
+
+                var countUnit = _dataWorld.Select<ArenaUnitComponent>()
+                    .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == playerComponent.PlayerID)
+                    .Count();
+                if (countUnit == 0)
+                    playerEntity.Destroy();
+            }
+        }
+
         private bool CheckEndRound()
         {
+            var playersCountInArena = _dataWorld.Select<PlayerArenaInBattleComponent>().Count();
+            if (playersCountInArena == 1)
+                return true;
+            
             var forwardsArenaPlayerID = 0;
             
             var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
@@ -252,6 +278,7 @@ namespace CyberNet.Core.Arena
         public void Destroy()
         {
             ArenaAction.UpdateRound -= UpdateRoundVisual;
+            ArenaAction.FinishRound -= FinishRound;
         }
     }
 }

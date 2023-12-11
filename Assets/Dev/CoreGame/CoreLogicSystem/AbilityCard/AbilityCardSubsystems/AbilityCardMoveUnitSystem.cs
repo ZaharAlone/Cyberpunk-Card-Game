@@ -179,6 +179,7 @@ namespace CyberNet.Core.AbilityCard
         {
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             ref var abilityCardMoveUnitComponent = ref entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>();
+            
             if (guid != abilityCardMoveUnitComponent.SelectTowerGUID)
                 return;
             
@@ -233,7 +234,7 @@ namespace CyberNet.Core.AbilityCard
             foreach (var unitEntity in selectUnitEntities)
             {
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
-                var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+                ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
                 
                 var targetPosition = CitySupportStatic.SelectPosition
                 (
@@ -249,6 +250,10 @@ namespace CyberNet.Core.AbilityCard
                     TargetSlotID = targetSlotZone
                 });
 
+                unitComponent.GUIDTower = selectTowerForAttackGuid;
+                unitComponent.IndexPoint = targetSlotZone;
+                
+                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
                 unitComponent.UnitIconsGO.transform.SetParent(targetTowerComponent.SquadZonesMono[targetSlotZone].transform);
             }
             
@@ -373,7 +378,9 @@ namespace CyberNet.Core.AbilityCard
             var isMoveUnit = _dataWorld.Select<MoveUnitToTargetComponent>().Count() > 0;
 
             if (!isMoveUnit)
+            {
                 ZoomCameraToBattle();
+            }
         }
 
         private void ZoomCameraToBattle()

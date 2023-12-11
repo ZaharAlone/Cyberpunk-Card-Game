@@ -119,10 +119,11 @@ namespace CyberNet.Core.Arena
                 //Reaction Stage
 
                 var unitComponent = unitAttackEntity.GetComponent<ArenaUnitComponent>();
+                
                 if (unitComponent.PlayerControlEnum == PlayerControlEnum.Neutral)
                 {
-                    EndReactionStage();
                     ArenaUIAction.HideHUDButton?.Invoke();
+                    EndReactionStage();
                 }
                 else
                 {

@@ -204,26 +204,31 @@ namespace CyberNet.Core.Arena
         
         public void ControlViewGameUI(bool isOpenArena)
         {
+            Debug.LogError($"{isOpenArena} ui view arena");
             var uiCoreMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             
             if (isOpenArena)
             {
                 uiCoreMono.TraderowMono.HideTradeRow();
                 uiCoreMono.CoreHudUIMono.HideEnemyPassport();
+                uiCoreMono.ArenaHUDUIMono.OnArenaHUD();
             }
             else
             {
                 uiCoreMono.TraderowMono.ShowTradeRow();
                 uiCoreMono.CoreHudUIMono.ShowEnemyPassport();
+                uiCoreMono.ArenaHUDUIMono.OffArenaHUD();
             }
         }
         
         private void EndBattleArena()
         {
+            Debug.LogError("End battle arena");
             var arenaData = _dataWorld.OneData<ArenaData>();
             var cameraData = _dataWorld.OneData<GameCameraData>();
             var cityData = _dataWorld.OneData<CityData>();
-            
+
+            ControlViewGameUI(false);
             AnimationsStartArenaCameraAction.ReturnCamera?.Invoke();
             arenaData.ArenaMono.DisableArena();
             arenaData.ArenaMono.DisableCamera();
@@ -244,6 +249,8 @@ namespace CyberNet.Core.Arena
                 var unitComponent = unitEntity.GetComponent<ArenaUnitComponent>();
                 Object.Destroy(unitComponent.UnitGO);
                 unitEntity.RemoveComponent<ArenaUnitComponent>();
+                unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
+                unitEntity.RemoveComponent<UnitInBattleArenaComponent>();
             }
 
             ref var roundData = ref _dataWorld.OneData<RoundData>();

@@ -157,7 +157,6 @@ namespace CyberNet.Core.AI
                     break;
             }
 
-            Debug.LogError($"Ability {abilityCard.AbilityType.ToString()} Value {value}");
             return value;
         }
 

@@ -2,22 +2,22 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.City;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.Arena
 {
     [EcsSystem(typeof(ArenaModule))]
-    public class ArenaUnitAttackSystem : IPreInitSystem
+    public class ArenaUnitAttackSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
             ArenaAction.ArenaUnitStartAttack += ArenaUnitStartAttack;
+            ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
         }
+        
         private void ArenaUnitStartAttack()
         {
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
@@ -32,13 +32,10 @@ namespace CyberNet.Core.Arena
 
             currentUnitComponent.UnitArenaMono.ShowTargetUnit(targetUnitComponent.UnitGO.transform);
             currentUnitComponent.UnitArenaMono.Shooting();
-
-            ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
         }
+        
         private void ArenaUnitFinishAttack()
         {
-            ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
-            
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirstEntity();
@@ -51,6 +48,12 @@ namespace CyberNet.Core.Arena
             targetUnitEntity.Destroy();
             
             ArenaAction.FinishRound?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            ArenaAction.ArenaUnitStartAttack -= ArenaUnitStartAttack;
+            ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
         }
     }
 }
