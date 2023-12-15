@@ -19,35 +19,8 @@ namespace CyberNet.Core.City
             CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
-            CityAction.ShowWherePlayerCanAddUnit += ShowWherePlayerCanAddUnit;
-        }
-        private void ShowWherePlayerCanAddUnit()
-        {
-            DeactivateAllTower();
-            
-            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
-            
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-
-            foreach (var towerEntity in towerEntities)
-            {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
-
-                if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
-                    && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
-                {
-                    towerComponent.TowerMono.ActivateCollider();
-                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
-                }
-                else
-                {
-                    towerComponent.TowerMono.DeactivateCollider();
-                    towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
-                }
-            }
+            CityAction.ShowWhereZoneToPlayerID += ShowWhereZoneNeutralUnit;
+            CityAction.ShowManyZonePlayerInMap += ShowManyZonePlayerInMap;
         }
         
         private void UpdateCanInteractiveMap()
@@ -147,6 +120,59 @@ namespace CyberNet.Core.City
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
                 towerComponent.TowerMono.DeactivateCollider();
                 towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+            }
+        }
+        
+        private void ShowWhereZoneNeutralUnit(int targetPlayerID) // Select Type zone
+        {
+            DeactivateAllTower();
+            SelectZoneOneUnit(targetPlayerID);
+        }
+
+        private void ShowManyZonePlayerInMap(List<int> targetPlayerID)
+        {
+            DeactivateAllTower();
+
+            foreach (var playerID in targetPlayerID)
+            {
+                SelectZoneOneUnit(playerID);
+            }
+        }
+
+        private void SelectZoneOneUnit(int targetPlayerID)
+        {
+            var unitEntities = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == targetPlayerID)
+                .GetEntities();
+
+            var uniqueTowerGUID = new List<string>();
+            foreach (var unitEntity in unitEntities)
+            {
+                var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+                var isDouble = false;
+
+                foreach (var towerGuid in uniqueTowerGUID)
+                {
+                    if (towerGuid == unitComponent.GUIDTower)
+                    {
+                        isDouble = true;
+                        break;
+                    }
+                }
+                
+                if (!isDouble)
+                    uniqueTowerGUID.Add(unitComponent.GUIDTower);
+            }
+
+            foreach (var towerGUID in uniqueTowerGUID)
+            {
+                var towerEntity = _dataWorld.Select<TowerComponent>()
+                    .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+                    .SelectFirstEntity();
+                
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                towerComponent.TowerMono.ActivateCollider();
+                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
         }
     }

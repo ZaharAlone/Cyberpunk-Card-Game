@@ -101,7 +101,6 @@ namespace CyberNet.Core
         
         private void AnimationShowCard(Entity entity)
         {
-            Debug.LogError("animation Card");
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();

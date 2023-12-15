@@ -41,9 +41,10 @@ namespace CyberNet.Core.Arena
         public void DisableArena()
         {
             _arenaContainer.SetActive(false);
+            ClearArena();
         }
         
-        public void ClearArena()
+        private void ClearArena()
         {
             foreach (var unitSlot in _rightUnitPosition)
             {

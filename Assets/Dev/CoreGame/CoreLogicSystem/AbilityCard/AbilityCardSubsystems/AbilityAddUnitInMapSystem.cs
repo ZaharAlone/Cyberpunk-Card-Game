@@ -21,7 +21,7 @@ namespace CyberNet.Core.AbilityCard
 
          public void PreInit()
         {
-            AbilityCardAction.AddUnitMap += AddUnitMap;
+            AbilityCardAction.AbilityAddUnitMap += AddUnitMap;
         }
         
         private void AddUnitMap(string guidCard)
@@ -43,7 +43,7 @@ namespace CyberNet.Core.AbilityCard
             var cardPosition = cardComponent.RectTransform.position;
             cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
             
-            CityAction.ShowWherePlayerCanAddUnit?.Invoke();
+            CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
             BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
             CityAction.SelectTower += AddUnitTower;
@@ -51,45 +51,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void AddUnitTower(string towerGUID)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
-                .SelectFirstEntity();
-            ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
-            
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-
-            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
-            ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
-            playerComponent.UnitCount--;
-            var playerID = playerComponent.PlayerID;
-            
-            var targetSquadZone = 0;
-            foreach (var squadZone in towerComponent.SquadZonesMono)
-            {
-                var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
-                        && unit.IndexPoint == squadZone.Index
-                        && unit.PowerSolidPlayerID == playerID)
-                    .Count() > 0;
-
-                if (isTargetSlot)
-                    break;
-                else
-                {
-                    targetSquadZone = squadZone.Index + 1;
-                }
-            }
-
-            var initUnit = new InitUnitStruct {
-                KeyUnit = playerVisualComponent.KeyCityVisual,
-                UnitZone = towerComponent.TowerMono.SquadZonesMono[targetSquadZone],
-                PlayerControl = PlayerControlEnum.Player, TargetPlayerID = playerID,
-            };
-
-            CityAction.InitUnit?.Invoke(initUnit);
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
+            AbilityCardAction.AddTowerUnit?.Invoke(towerGUID);
 
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()

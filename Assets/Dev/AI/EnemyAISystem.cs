@@ -75,15 +75,11 @@ namespace CyberNet.Core.AI
 
         private async void LogicAI()
         {
-            Debug.LogError("Enter Start Turn Enemy");
             await Task.Delay(800);
-            Debug.LogError("Play All card AI");
             PlayAll();
             await Task.Delay(800);
-            Debug.LogError("Select Trader Card AI");
             SelectTradeCard();
             await Task.Delay(800);
-            Debug.LogError("End round AI");
             ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
 

@@ -10,5 +10,11 @@ namespace CyberNet.Core.AI
         
         public static Action<string> MoveUnit;
         public static Action<string> AddUnitMap;
+        
+        //Not working
+        public static Action<string> DestroyNeutralUnit;
+        public static Action<string> DestroyEnemyUnit;
+        public static Action<string> SetIce;
+        public static Action<string> DestroyIce;
     }
 }

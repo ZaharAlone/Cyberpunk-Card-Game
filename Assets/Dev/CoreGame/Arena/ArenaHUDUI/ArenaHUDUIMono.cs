@@ -15,6 +15,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         [SerializeField]
         private GameObject _actionRetreatButton;
         
+        [SerializeField]
         private List<ArenaContainerUICharacterMono> _characterAvatars = new List<ArenaContainerUICharacterMono>();
 
         private void OnEnable()
@@ -25,6 +26,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         public void OnArenaHUD()
         {
             ContainerListCharacter.gameObject.SetActive(true);
+            _characterAvatars = new List<ArenaContainerUICharacterMono>();
         }
         
         public void OffArenaHUD()
@@ -35,6 +37,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
         public void AddCharacterAvatars(ArenaContainerUICharacterMono characterMono)
         {
+            Debug.LogError($"Add character avatars {characterMono.name}");
             _characterAvatars.Add(characterMono);
         }
 
@@ -92,7 +95,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         {
             foreach (var character in _characterAvatars)
             {
-                Destroy(character);
+                Destroy(character.gameObject);
             }
             
             _characterAvatars.Clear();

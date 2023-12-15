@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace CyberNet.Core.City
 {
     public static class CityAction
@@ -10,10 +12,12 @@ namespace CyberNet.Core.City
         public static Action<string> DisableInteractiveTower;
         
         public static Action UpdatePlayerViewCity;
-        public static Action ShowWherePlayerCanAddUnit;
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
         public static Action ViewAllAvailableTower;
+        
+        public static Action<int> ShowWhereZoneToPlayerID;
+        public static Action<List<int>> ShowManyZonePlayerInMap;
 
         public static Action UpdatePresencePlayerInCity;
         public static Action EnableNewPresencePlayerInCity;

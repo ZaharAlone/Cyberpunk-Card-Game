@@ -1,5 +1,4 @@
 using System;
-using CyberNet.Core.City;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -17,8 +16,18 @@ namespace CyberNet.Core.AbilityCard
         public static Action PlayerDiscardCard;
         public static Action AddNoiseCard;
         
-        public static Action<string> AddUnitMap;
+        public static Action<string> AbilityAddUnitMap;
         public static Action<string> MoveUnit;
+        public static Action<string> DestroyNeutralUnit;
+        public static Action<string> DestroyEnemyUnit;
+        public static Action<string> SetIce;
+        public static Action<string> DestroyIce;
+        public static Action<string> SwitchEnemyUnitMap;
+        public static Action<string> SwitchNeutralUnitMap;
         public static Action ConfimSelectElement;
+
+        //Вспомогательные делегаты, общие для систем
+        public static Action<string> AddTowerUnit;
+        public static Action CurrentAbilityEndPlaying;
     }   
 }

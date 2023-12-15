@@ -204,7 +204,6 @@ namespace CyberNet.Core.Arena
         
         public void ControlViewGameUI(bool isOpenArena)
         {
-            Debug.LogError($"{isOpenArena} ui view arena");
             var uiCoreMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             
             if (isOpenArena)
@@ -223,7 +222,6 @@ namespace CyberNet.Core.Arena
         
         private void EndBattleArena()
         {
-            Debug.LogError("End battle arena");
             var arenaData = _dataWorld.OneData<ArenaData>();
             var cameraData = _dataWorld.OneData<GameCameraData>();
             var cityData = _dataWorld.OneData<CityData>();

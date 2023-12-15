@@ -18,6 +18,9 @@ namespace CyberNet.Core.City
         public List<UnitZoneMono> SquadZonesMono = new List<UnitZoneMono>();
         public List<TowerMono> ZoneConnect = new List<TowerMono>();
 
+        [SerializeField]
+        private GameObject _iceZone;
+
         public void GetAllSquadZone()
         {
             try
@@ -52,8 +55,7 @@ namespace CyberNet.Core.City
         {
             ColliderTower.enabled = false;
         }
-
-
+        
         public void ActivateCollider()
         {
             ColliderTower.enabled = true;
@@ -67,6 +69,16 @@ namespace CyberNet.Core.City
         public void OpenInteractiveZoneVisualEffect()
         {
             CloseInteractiveZoneEffect.SetActive(false);
+        }
+
+        public void EnableIceZone()
+        {
+            _iceZone.SetActive(true);
+        }
+
+        public void DisableIceZone()
+        {
+            _iceZone.SetActive(false);
         }
     }
 }

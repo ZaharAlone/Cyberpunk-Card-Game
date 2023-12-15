@@ -4,6 +4,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Data.Enumerators;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -79,7 +80,7 @@ namespace CyberNet.Core.AbilityCard
                     entity.AddComponent(new AbilityCardAddUnitComponent {
                         ListTowerAddUnit = new()
                     });
-                    AbilityCardAction.AddUnitMap?.Invoke(guidCard);
+                    AbilityCardAction.AbilityAddUnitMap?.Invoke(guidCard);
                     break;
                 case AbilityType.Trade:
                     entity.AddComponent(new ActionCardAddResourceComponent {
@@ -102,6 +103,33 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.MoveUnit?.Invoke(guidCard);
                     break;
+                case AbilityType.DestroyNeutralSquad:
+                    Debug.LogError("add call event Destroy neutral unit");
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.DestroyNeutralUnit?.Invoke(guidCard);
+                    break;
+                case AbilityType.DestroySquad:
+                    Debug.LogError("add call event Destroy enemy unit");
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.DestroyEnemyUnit?.Invoke(guidCard);
+                    break;
+                case AbilityType.SetIce:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.SetIce?.Invoke(guidCard);
+                    break;
+                case AbilityType.DestroyIce:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.DestroyIce?.Invoke(guidCard);
+                    break;
+                case AbilityType.SwitchEnemySquad:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.SwitchEnemyUnitMap?.Invoke(guidCard);
+                    break;
+                case AbilityType.SwitchNeutralSquad:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.SwitchNeutralUnitMap?.Invoke(guidCard);
+                    break;
+
                 /*
                 case AbilityType.AddNoiseCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);

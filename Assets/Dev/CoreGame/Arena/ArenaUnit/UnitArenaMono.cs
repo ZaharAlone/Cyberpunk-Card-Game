@@ -51,7 +51,6 @@ namespace CyberNet.Core.Arena
 
         public void ShootingAnimationsEvent()
         {
-            Debug.LogError("animationEvent_shot");
         }
     }
 }

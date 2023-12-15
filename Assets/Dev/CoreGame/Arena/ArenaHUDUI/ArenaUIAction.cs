@@ -8,5 +8,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         
         public static Action ClickAttack;
         public static Action ClickRetreat;
+        
+        public static Action StartNewRoundUpdateOrderPlayer;
     }
 }

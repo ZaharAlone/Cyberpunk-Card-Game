@@ -16,8 +16,8 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         {
             ArenaUIAction.ShowHUDButton += ShowHUDButton;
             ArenaUIAction.HideHUDButton += HideHUDButton;
+            ArenaUIAction.StartNewRoundUpdateOrderPlayer += StartNewRoundUpdateOrderPlayer;
         }
-
 
         public void Init()
         {
@@ -43,6 +43,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
                 var playerSlot = Object.Instantiate(arenaConfig.ContainerAvatarUnitPrefab,
                     arenaUI.ContainerListCharacter);
                 playerBattleComponent.ArenaContainerUICharacterMono = playerSlot;
+                
                 arenaUI.AddCharacterAvatars(playerSlot);
                 
                 playerSlot.SetVisualCharacter(playerBattleComponent.Avatar, playerBattleComponent.ColorVisual);
@@ -64,10 +65,20 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
             arenaUI.HideArenaUI();
         }
 
+        private void StartNewRoundUpdateOrderPlayer()
+        {
+            var arenaUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono;
+            arenaUI.UpdateOrderAvatarSlot();
+        }
+
         public void Destroy()
         {
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono.HideArenaUI();
+            
+            ArenaUIAction.ShowHUDButton -= ShowHUDButton;
+            ArenaUIAction.HideHUDButton -= HideHUDButton;
+            ArenaUIAction.StartNewRoundUpdateOrderPlayer -= StartNewRoundUpdateOrderPlayer;
         }
     }
 }
