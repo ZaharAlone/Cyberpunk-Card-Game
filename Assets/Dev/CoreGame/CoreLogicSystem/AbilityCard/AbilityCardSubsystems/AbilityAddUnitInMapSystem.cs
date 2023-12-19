@@ -101,7 +101,7 @@ namespace CyberNet.Core.AbilityCard
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
             AbilitySelectElementAction.ClosePopup?.Invoke();
-            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.SelectTower -= AddUnitTower;
             CityAction.UpdatePresencePlayerInCity?.Invoke();

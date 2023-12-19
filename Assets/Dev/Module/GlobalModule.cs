@@ -1,6 +1,5 @@
 using Input;
 using ModulesFramework.Attributes;
-using ModulesFramework.Data;
 using ModulesFramework.Modules;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using CyberNet.Meta;
 using UnityEngine;
-using CyberNet.Core;
 using CyberNet;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
@@ -17,6 +15,7 @@ using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Sound;
 using CyberNet.Core.City;
+using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
 using CyberNet.Meta.SettingsUI;
 using AbilityCardConfig = CyberNet.Core.AbilityCard.AbilityCardConfig;
@@ -47,6 +46,7 @@ namespace EcsCore
             var dialogConfig = Load<DialogConfigSO>("DialogConfigSO", tasks);
             var botConfig = Load<BotConfigSO>("BotConfig", tasks);
             var popupViewConfig = Load<PopupViewConfigSO>("PopupViewConfig", tasks);
+            var supportLocalize = Load<SupportLocalizeSO>("SupportLocalizeSO", tasks);
             var bezierCurveConfigSO = Load<BezierCurveConfigSO>("BezierCurveConfigSO", tasks);
             tasks.Add(input);
 
@@ -75,7 +75,8 @@ namespace EcsCore
                 BoardGameConfig = boardGameConfig.Result,
                 BoardGameRule = boardGameRule.Result,
                 CardsImage = cardsImage.Result.Cards, 
-                CitySO = cityVisualSO.Result
+                CitySO = cityVisualSO.Result,
+                SupportLocalize = supportLocalize.Result
             });
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
             world.CreateOneData(new SoundData { Sound = soundList.Result });

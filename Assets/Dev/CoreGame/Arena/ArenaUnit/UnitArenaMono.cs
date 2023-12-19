@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CyberNet.Core.City;
 using UnityEngine;
@@ -16,8 +17,16 @@ namespace CyberNet.Core.Arena
         [SerializeField]
         private GameObject _shootingVFX;
 
+        [SerializeField]
+        private GameObject _shield;
+
         private bool isShoot;
-        
+
+        public void OnEnable()
+        {
+            OffShield();
+        }
+
         public void PlayAnimation()
         {
             
@@ -47,6 +56,16 @@ namespace CyberNet.Core.Arena
             _animator.SetTrigger("Idle");
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
             _shootingVFX.SetActive(false);
+        }
+
+        public void OnShield()
+        {
+            _shield.SetActive(true);
+        }
+
+        public void OffShield()
+        {
+            _shield.SetActive(false);
         }
 
         public void ShootingAnimationsEvent()

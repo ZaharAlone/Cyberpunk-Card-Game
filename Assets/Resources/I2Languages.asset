@@ -1335,6 +1335,35 @@ MonoBehaviour:
       - "\u041E\u0442\u0441\u0442\u0443\u043F\u0438\u0442\u044C"
       Flags: 0000
       Languages_Touch: []
+    - Term: CoreGame/$bg_discardCard_button
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard card
+      - "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u0443"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_takeDamage_button
+      TermType: 0
+      Description: 
+      Languages:
+      - Take Damage
+      - "\u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0443\u0440\u043E\u043D"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_takeDamageInfo_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - <color=#e90613>Deal damage phase:</color> <color=#00E4FE>Discard a card</color>
+        to protection or <color=#00E4FE>Take the damage</color>
+      - "<color=#e90613>\u0424\u0430\u0437\u0430 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F
+        \u0443\u0440\u043E\u043D\u0430:</color> <color=#00E4FE>\u0421\u0431\u0440\u043E\u0441\u044C\u0442\u0435
+        \u043A\u0430\u0440\u0442\u0443</color> \u0434\u043B\u044F \u0437\u0430\u0449\u0438\u0442\u044B
+        \u0438\u043B\u0438 <color=#00E4FE>\u041F\u043E\u043B\u0443\u0447\u0438\u0442\u0435
+        \u0443\u0440\u043E\u043D</color>"
+      Flags: 0000
+      Languages_Touch: []
     - Term: BoardGameCard/$bgc_neutral_scout_name
       TermType: 0
       Description: 
@@ -2318,7 +2347,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1701402599039
+    Google_LastUpdatedVersion: 1702960201860
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 2
     GoogleInEditorCheckFrequency: 2

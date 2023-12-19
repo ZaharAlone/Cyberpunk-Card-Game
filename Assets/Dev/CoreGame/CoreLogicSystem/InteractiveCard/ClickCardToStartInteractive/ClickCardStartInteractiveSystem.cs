@@ -26,7 +26,7 @@ namespace CyberNet.Core.InteractiveCard
                 .SelectFirstEntity();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive)
+            if (roundData.PauseInteractive || roundData.CurrentRoundState == RoundState.Arena)
                 return;
             
             if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>())

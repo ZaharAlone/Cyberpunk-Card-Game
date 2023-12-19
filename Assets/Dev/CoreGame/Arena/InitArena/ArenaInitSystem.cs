@@ -38,6 +38,9 @@ namespace CyberNet.Core.Arena
         
         private void StartArenaBattle()
         {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.CurrentRoundState = RoundState.Arena;
+            
             CreateBattleData();
             CreateUnitInArena();
             EnableVisualArena();
@@ -200,6 +203,7 @@ namespace CyberNet.Core.Arena
             cityData.CityMono.OffCityLight();
             
             ControlViewGameUI(true);
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
         }
         
         public void ControlViewGameUI(bool isOpenArena)
@@ -253,6 +257,8 @@ namespace CyberNet.Core.Arena
 
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.PauseInteractive = false;
+            roundData.CurrentRoundState = RoundState.Map;
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             
             _dataWorld.DestroyModule<ArenaModule>();
         }

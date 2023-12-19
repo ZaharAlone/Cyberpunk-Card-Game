@@ -67,7 +67,7 @@ namespace CyberNet.Core
             entityCard.RemoveComponent<NeedToSelectAbilityCardComponent>();
             
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono.CloseFrame();
-            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
         }
         
@@ -92,7 +92,7 @@ namespace CyberNet.Core
             {
                 entity.AddComponent(new SelectingPlayerAbilityComponent());
                 OpenUISelectAbilityCard(cardComponent);
-                AbilityCancelButtonUIAction.ShowCancelButton?.Invoke();
+                AbilityInputButtonUIAction.ShowCancelButton?.Invoke();
                 AnimationShowCard(entity);
                 return isOneAbility;
             }
@@ -155,7 +155,7 @@ namespace CyberNet.Core
 
             var cardComponent = entity.GetComponent<CardComponent>();
             InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
-            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
         }
 
         public void Destroy()

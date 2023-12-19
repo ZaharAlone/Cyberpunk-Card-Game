@@ -37,7 +37,6 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
         public void AddCharacterAvatars(ArenaContainerUICharacterMono characterMono)
         {
-            Debug.LogError($"Add character avatars {characterMono.name}");
             _characterAvatars.Add(characterMono);
         }
 

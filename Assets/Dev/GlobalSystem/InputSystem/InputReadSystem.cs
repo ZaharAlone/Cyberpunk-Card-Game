@@ -73,6 +73,11 @@ namespace Input
             inputData.ExitUI = Control.Game.Exit.triggered;
             inputData.Cancel = Control.Game.Cancel.triggered;
             inputData.Submit = Control.Game.Submit.triggered;
+            
+            if (inputData.Click)
+                InputAction.LeftMouseButtonClick?.Invoke();
+            if (inputData.RightClick)
+                InputAction.RightMouseButtonClick?.Invoke();
         }
 
         private void BlockedInput()

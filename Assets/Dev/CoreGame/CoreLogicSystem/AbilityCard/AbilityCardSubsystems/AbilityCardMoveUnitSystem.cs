@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.AI;
 using CyberNet.Core.Arena;
@@ -72,7 +71,6 @@ namespace CyberNet.Core.AbilityCard
 
             FollowSelectUnitToMove();
         }
-
 
         private void FollowSelectUnitToMove()
         {
@@ -281,7 +279,7 @@ namespace CyberNet.Core.AbilityCard
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
             AbilitySelectElementAction.ClosePopup?.Invoke();
-            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
         }

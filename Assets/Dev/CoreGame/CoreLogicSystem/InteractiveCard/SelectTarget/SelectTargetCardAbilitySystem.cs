@@ -38,7 +38,7 @@ namespace CyberNet.Core.InteractiveCard
             if (!isEntity)
                 return;
             
-            AbilityCancelButtonUIAction.ShowCancelButton?.Invoke();
+            AbilityInputButtonUIAction.ShowCancelButton?.Invoke();
             AnimationShowCard(entity);
         }
 
@@ -67,7 +67,7 @@ namespace CyberNet.Core.InteractiveCard
                 entity.RemoveComponent<InteractiveSelectCardComponent>();
             }
             
-            AbilityCancelButtonUIAction.HideCancelButton?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
         }

@@ -50,8 +50,9 @@ namespace CyberNet.Core.UI
         [Header("Popup Card")]
         public CoreElementInfoPopupUIMono GameElementInfoPopupMono;
 
+        [FormerlySerializedAs("AbilityCancelButtonUIMono")]
         [Header("Ability Cancel Button UI")]
-        public AbilityCancelButtonUIMono AbilityCancelButtonUIMono;
+        public AbilityInputButtonUIMono abilityInputButtonUIMono;
 
         public BezierCurveUIMono BezierCurveUIMono;
 

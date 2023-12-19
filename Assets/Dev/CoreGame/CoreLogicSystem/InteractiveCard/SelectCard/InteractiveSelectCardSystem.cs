@@ -45,6 +45,7 @@ namespace CyberNet.Core.InteractiveCard
             if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
             
+            Debug.LogError("Select Card Player");
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -162,14 +163,16 @@ namespace CyberNet.Core.InteractiveCard
 
         private void DeselectCard(string guid)
         {
-            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1 
-                || _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
-                return;
-            
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive)
+            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
                 return;
 
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (roundData.CurrentRoundState == RoundState.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
+                return;
+            
+            if (roundData.PauseInteractive)
+                return;
+            
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()

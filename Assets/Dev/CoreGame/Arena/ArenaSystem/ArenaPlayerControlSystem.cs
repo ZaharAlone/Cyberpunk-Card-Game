@@ -3,13 +3,10 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Cursor;
-using CyberNet.Global.GameCamera;
 using Input;
 
 namespace CyberNet.Core.Arena
@@ -43,8 +40,6 @@ namespace CyberNet.Core.Arena
 
         private void PlayerSelectEnemy()
         {
-            //Держим в уме отбирать у игрока управление если не его ход
-            
             var inputData = _dataWorld.OneData<InputData>();
             var camera = _dataWorld.OneData<ArenaData>().ArenaMono.ArenaCameraMono.ArenaCamera;
             var ray = camera.ScreenPointToRay(inputData.MousePosition);
@@ -118,15 +113,21 @@ namespace CyberNet.Core.Arena
             {
                 //Reaction Stage
 
-                var unitComponent = unitAttackEntity.GetComponent<ArenaUnitComponent>();
+                var unitEnemyComponent = unitAttackEntity.GetComponent<ArenaUnitComponent>();
+                ArenaUIAction.HideHUDButton?.Invoke();
+
+                var countEnemyCardInHand = _dataWorld.Select<CardComponent>()
+                    .With<CardHandComponent>()
+                    .Where<CardComponent>(card => card.PlayerID == unitEnemyComponent.PlayerControlID)
+                    .Count();
                 
-                if (unitComponent.PlayerControlEnum == PlayerControlEnum.Neutral)
+                if (unitEnemyComponent.PlayerControlEnum == PlayerControlEnum.Neutral || countEnemyCardInHand == 0)
                 {
-                    ArenaUIAction.HideHUDButton?.Invoke();
                     EndReactionStage();
                 }
                 else
                 {
+                    
                     //Reaction stage other player
                 }
                 
