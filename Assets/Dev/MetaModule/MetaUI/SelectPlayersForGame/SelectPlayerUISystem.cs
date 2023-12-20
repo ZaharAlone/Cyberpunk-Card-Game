@@ -24,6 +24,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             SelectPlayerAction.OnClickStartGame += OnClickStartGame;
             SelectPlayerAction.OnClickEditLeader += OnClickEditLeader;
             SelectPlayerAction.SwitchTypePlayer += SwitchTypePlayer;
+            SelectPlayerAction.SetPlayerName += SetPlayerName;
             SelectPlayerAction.ClearSlot += ClearSlotPlayer;
             SelectPlayerAction.CreatePlayer += CreatePlayerSlot;
         }
@@ -94,7 +95,17 @@ namespace CyberNet.Meta.SelectPlayersForGame
                     leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
                     
                     playerSlot.SetViewLeader(imCardLeaders, imAbility, abilityConfig.NameLoc);
-                    playerSlot.SetBaseNamePlayer(selectPlayers[counter].NamePlayer);
+                    
+                    playerSlot.SetCustomNamePlayer(selectPlayers[counter].NamePlayer);
+                    
+                    if (counter != 0 && selectPlayers[counter].playerTypeEnum == PlayerTypeEnum.Player)
+                    {
+                        playerSlot.SetCustomNamePlayer(selectPlayers[counter].NamePlayer);
+                    }
+                    else
+                    {
+                        playerSlot.SetBaseNamePlayer(selectPlayers[counter].NamePlayer);
+                    }
                     
                     playerTypeLoc.TryGetValue(selectPlayers[counter].playerTypeEnum, out var locSelectTypePlayer);
                     playerSlot.SetLocTypePlayer(locSelectTypePlayer);
@@ -151,7 +162,9 @@ namespace CyberNet.Meta.SelectPlayersForGame
             var selectLeaderEdit = selectLeaders[indexSlot];
             selectLeaderEdit.playerTypeEnum = (PlayerTypeEnum)Enum.ToObject(typeof(PlayerTypeEnum), indexPlayerType);
             if (selectLeaderEdit.playerTypeEnum == PlayerTypeEnum.Player)
+            {
                 selectLeaderEdit.NamePlayer = $"Player {(indexSlot + 1).ToString()}";
+            }
             else
                 selectLeaderEdit.NamePlayer = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectLeaders);
 
@@ -160,6 +173,14 @@ namespace CyberNet.Meta.SelectPlayersForGame
             UpdateViewPlayers();
         }
         
+        private void SetPlayerName(int indexSlot, string namePlayer)
+        {
+            ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
+            var selectLeaderEdit = selectLeaders[indexSlot];
+            selectLeaderEdit.NamePlayer = namePlayer;
+            selectLeaders[indexSlot] = selectLeaderEdit;
+        }
+
         private void ClearSlotPlayer(int indexSlot)
         {
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;

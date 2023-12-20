@@ -13,8 +13,8 @@ namespace CyberNet.Global.GameCamera
     {
         private DataWorld _dataWorld;
 
-        private float MinZoomCamera = 25;
-        private float MaxZoomCamera = 55;
+        private float MinZoomCamera = 30;
+        private float MaxZoomCamera = 70;
         
         public void PreInit()
         {

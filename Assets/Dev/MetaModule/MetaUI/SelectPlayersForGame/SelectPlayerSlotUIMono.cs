@@ -1,7 +1,6 @@
 using I2.Loc;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Meta.SelectPlayersForGame
@@ -28,10 +27,17 @@ namespace CyberNet.Meta.SelectPlayersForGame
         public Color32 FrameDeleteColor;
 
         [Header("Player name")]
+        public GameObject NamePlayerContainerGO;
         public TextMeshProUGUI NamePlayer;
         public GameObject NamePlayerInput;
         public TextMeshProUGUI DefaultPlayerNameInput;
+        public TMP_InputField InputField;
 
+        [SerializeField]
+        private GameObject _iconsEditName;
+        [SerializeField]
+        private GameObject _iconsApplyNewName;
+        
         [Header("Low bar")]
         public GameObject SwitchEnemyGO;
         public TextMeshProUGUI CurrentEnemyText;
@@ -44,16 +50,17 @@ namespace CyberNet.Meta.SelectPlayersForGame
 
         public void SetBaseNamePlayer(string namePlayer)
         {
-            NamePlayer.gameObject.SetActive(true);
+            NamePlayerContainerGO.SetActive(true);
             NamePlayerInput.SetActive(false);
             NamePlayer.text = namePlayer;
         }
 
         public void SetCustomNamePlayer(string namePlayer)
         {
-            NamePlayer.gameObject.SetActive(true);
-            NamePlayerInput.SetActive(false);
+            NamePlayerContainerGO.SetActive(false);
+            NamePlayerInput.SetActive(true);
             DefaultPlayerNameInput.text = namePlayer;
+            InputField.text = namePlayer;
         }
         
         public void SetViewLeader(Sprite leaderSprite, Sprite abilitySprite, string abilityName)
@@ -119,10 +126,25 @@ namespace CyberNet.Meta.SelectPlayersForGame
             SelectSlotGO.SetActive(false);
             FrameLeaderImage.color = FrameBaseColor;
         }
-        
-        public void OnEndEditPlayerName(string newName)
+
+        public void OnClickEditName()
         {
+            _iconsApplyNewName.SetActive(true);
+            _iconsEditName.SetActive(false);
+        }
+
+        public void OnDeselectEditName()
+        {
+            OnClickEndEditPlayerName();
+        }
+        
+        public void OnClickEndEditPlayerName()
+        {
+            var newName = InputField.text;
             SelectPlayerAction.SetPlayerName?.Invoke(IDPlayerSlot, newName);
+            
+            _iconsApplyNewName.SetActive(false);
+            _iconsEditName.SetActive(true);
         }
     }
 }
