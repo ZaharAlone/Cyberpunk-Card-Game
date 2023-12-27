@@ -18,9 +18,11 @@ namespace Input
         public string CurrentController;
 
         public Vector2 MousePosition;
+        public Vector2 RotateCamera;
         public Vector2 Navigate;
         public Vector2 ScrollWheel;
         public bool Click;
+        public bool ClickDown;
         public bool LeftClickHold;
         public bool RightClick;
         public bool Submit;

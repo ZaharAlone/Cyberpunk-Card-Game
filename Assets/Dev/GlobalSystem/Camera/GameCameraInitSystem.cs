@@ -16,6 +16,8 @@ namespace CyberNet.Global.GameCamera
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
             camera.GameCameraMono = camera.CameraGO.GetComponent<GameCameraMono>();
             camera.MainCamera = camera.GameCameraMono.MainCamera;
+            camera.CoreCameraRig = camera.GameCameraMono.CoreCameraRig;
+            camera.CoreCameraTransform = camera.GameCameraMono.CoreCameraTransform;
             camera.CoreVirtualCamera = camera.GameCameraMono.CoreVirtualCamera;
             camera.CoreCinemachineTransposer = camera.CoreVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
             camera.MetaVirtualCamera = camera.GameCameraMono.MetaVirtualCamera;

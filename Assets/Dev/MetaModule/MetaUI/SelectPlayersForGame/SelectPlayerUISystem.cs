@@ -124,14 +124,14 @@ namespace CyberNet.Meta.SelectPlayersForGame
         private void OnClickBack()
         {
             ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.PrevSelectLeader);
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.PrevSelectLeader, false);
             CloseWindow();
         }
 
         private void OnClickEditLeader(int idSlot)
         {
             ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.SelectLeaders[idSlot]);
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(selectPlayersData.SelectLeaders[idSlot], false);
             CloseWindow();
         }
 

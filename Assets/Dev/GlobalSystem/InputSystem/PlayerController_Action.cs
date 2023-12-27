@@ -125,6 +125,15 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""d5559b5f-f6a1-4ce6-b4bf-7d7719ee209e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -655,6 +664,17 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""action"": ""LeftClickHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62dd0e88-4520-4a5d-b54b-1cc06115d98f"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -702,6 +722,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         m_Game_NavigateHorizontal = m_Game.FindAction("NavigateHorizontal", throwIfNotFound: true);
         m_Game_MousePositions = m_Game.FindAction("MousePositions", throwIfNotFound: true);
         m_Game_Exit = m_Game.FindAction("Exit", throwIfNotFound: true);
+        m_Game_RotateCamera = m_Game.FindAction("RotateCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -772,6 +793,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
     private readonly InputAction m_Game_NavigateHorizontal;
     private readonly InputAction m_Game_MousePositions;
     private readonly InputAction m_Game_Exit;
+    private readonly InputAction m_Game_RotateCamera;
     public struct GameActions
     {
         private @PlayerController_Action m_Wrapper;
@@ -787,6 +809,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         public InputAction @NavigateHorizontal => m_Wrapper.m_Game_NavigateHorizontal;
         public InputAction @MousePositions => m_Wrapper.m_Game_MousePositions;
         public InputAction @Exit => m_Wrapper.m_Game_Exit;
+        public InputAction @RotateCamera => m_Wrapper.m_Game_RotateCamera;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -829,6 +852,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Exit.started -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
+                @RotateCamera.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -866,6 +892,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
+                @RotateCamera.started += instance.OnRotateCamera;
+                @RotateCamera.performed += instance.OnRotateCamera;
+                @RotateCamera.canceled += instance.OnRotateCamera;
             }
         }
     }
@@ -901,5 +930,6 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         void OnNavigateHorizontal(InputAction.CallbackContext context);
         void OnMousePositions(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnRotateCamera(InputAction.CallbackContext context);
     }
 }

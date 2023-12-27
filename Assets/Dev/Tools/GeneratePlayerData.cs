@@ -14,13 +14,13 @@ namespace CyberNet.Tools
             var isUniqueName = false;
             while (!isUniqueName)
             {
-                botName = namesList.ElementAt(random.Next(namesList.Count));   
-                
+                botName = namesList.ElementAt(random.Next(namesList.Count));
+                isUniqueName = true;
                 foreach (var leader in selectLeaders)
                 {
-                    if (leader.NamePlayer != botName)
+                    if (leader.NamePlayer == botName)
                     {
-                        isUniqueName = true;
+                        isUniqueName = false;
                     }
                 }
             }

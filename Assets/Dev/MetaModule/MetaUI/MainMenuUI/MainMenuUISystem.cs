@@ -93,16 +93,14 @@ namespace CyberNet.Meta
         private void OpenLocalGame()
         {
             var playerConfig = CreatePlayerDataLocalGame();
-            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(playerConfig);
+            SelectLeaderAction.OpenSelectLeaderUI?.Invoke(playerConfig, true);
             CloseMainMenu();
         }
 
         private SelectLeaderData CreatePlayerDataLocalGame()
         {
             var selectPlayerData = new SelectPlayerData();
-            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
             var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
-            ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             selectPlayerData.SelectLeaders = new();
             var playerName = "";
             playerName = PlatformAction.GetPlayerName?.Invoke();
@@ -115,21 +113,6 @@ namespace CyberNet.Meta
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[0]
             };
             selectPlayerData.SelectLeaders.Add(playerLeaderData);
-            
-            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3);
-            
-            for (int i = 1; i < 4; i++)
-            {
-                var botName = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectPlayerData.SelectLeaders);
-                
-                selectPlayerData.SelectLeaders.Add(new SelectLeaderData {
-                    PlayerID = i,
-                    playerTypeEnum = PlayerTypeEnum.AIEasy,
-                    SelectLeader = enemyLeaders[i-1],
-                    NamePlayer = botName,
-                    KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]
-                });
-            }
 
             _dataWorld.CreateOneData(selectPlayerData);
             return playerLeaderData;

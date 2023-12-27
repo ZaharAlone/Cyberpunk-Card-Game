@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Input
 {
     [EcsSystem(typeof(GlobalModule))]
-    public class InputReadSystem : IInitSystem, IRunSystem
+    public class InputReadSystem : IInitSystem, IRunSystem, IPostRunSystem
     {
         public enum StateInput
         {
@@ -18,6 +18,7 @@ namespace Input
         private DataWorld _dataWorld;
         private StateInput _stateInput;
         public PlayerController_Action Control;
+        private IPostRunSystem _postRunSystemImplementation;
 
         public void Init()
         {
@@ -26,6 +27,16 @@ namespace Input
             _stateInput = StateInput.Game;
 
             UpdateTypeInput();
+            SubscriptionCallback();
+        }
+        private void SubscriptionCallback()
+        {
+            Control.Game.Click.started += ClickDownCallback;
+        }
+        private void ClickDownCallback(UnityEngine.InputSystem.InputAction.CallbackContext callback)
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            inputData.ClickDown = true;
         }
 
         public void Run()
@@ -65,6 +76,7 @@ namespace Input
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
             inputData.MousePosition = Control.Game.MousePositions.ReadValue<Vector2>();
+            inputData.RotateCamera = Control.Game.RotateCamera.ReadValue<Vector2>();
             inputData.Navigate = Control.Game.Navigate.ReadValue<Vector2>();
             inputData.ScrollWheel = Control.Game.ScrollWheel.ReadValue<Vector2>();
             inputData.Click = Control.Game.Click.triggered;
@@ -80,6 +92,12 @@ namespace Input
                 InputAction.RightMouseButtonClick?.Invoke();
         }
 
+        public void PostRun()
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            inputData.ClickDown = false;
+        }
+        
         private void BlockedInput()
         {
 

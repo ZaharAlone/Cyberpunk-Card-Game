@@ -5,9 +5,11 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using CyberNet.Core.AI;
 using CyberNet.Global;
 using CyberNet.Meta.SelectPlayersForGame;
 using CyberNet.Meta.StartGame;
+using CyberNet.Tools;
 
 namespace CyberNet.Meta
 {
@@ -15,7 +17,8 @@ namespace CyberNet.Meta
     public class SelectLeadersUISystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
-
+        private bool _isFirstSelectLeader;
+        
         public void PreInit()
         {
             SelectLeaderAction.OpenSelectLeaderUI += OpenSelectLeaderUI;
@@ -25,8 +28,9 @@ namespace CyberNet.Meta
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
         
-        private void OpenSelectLeaderUI(SelectLeaderData selectLeaderConfig)
+        private void OpenSelectLeaderUI(SelectLeaderData selectLeaderConfig, bool isStartGame)
         {
+            _isFirstSelectLeader = isStartGame;
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
             _dataWorld.CreateOneData(selectLeaderConfig);
             
@@ -52,11 +56,38 @@ namespace CyberNet.Meta
                 counter++;
             }
 
-
             selectPlayersData.PrevSelectLeader = selectLeadersData;
+            
+            if (_isFirstSelectLeader)
+            {
+                SelectStartEnemyLeader();
+            }
+            
             _dataWorld.RemoveOneData<SelectLeaderData>();
             CloseSelectLeader(); 
             SelectPlayerAction.OpenSelectPlayerUI?.Invoke();
+        }
+
+        private void SelectStartEnemyLeader()
+        {
+            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3);
+            ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
+            ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
+            
+            for (int i = 1; i < 4; i++)
+            {
+                var botName = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectPlayersData.SelectLeaders);
+                
+                selectPlayersData.SelectLeaders.Add(new SelectLeaderData {
+                    PlayerID = i,
+                    playerTypeEnum = PlayerTypeEnum.AIEasy,
+                    SelectLeader = enemyLeaders[i-1],
+                    NamePlayer = botName,
+                    KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]
+                });
+            }
         }
 
         private void SelectLeaderView(string nameLeader)
