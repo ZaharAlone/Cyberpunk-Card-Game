@@ -64,5 +64,20 @@ namespace CyberNet.Core.Traderow
         {
             _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));
         }
+
+        public void ForceFullHidePanel()
+        {
+            TraderowContainer.anchoredPosition = new Vector2(0, 400);
+        }
+
+        public void ShowPanelBaseViewAnimations()
+        {
+            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));
+        }
+
+        public void HideFullPanelAnimations()
+        {
+            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 400), _timeAnimations));
+        }
     }
 }

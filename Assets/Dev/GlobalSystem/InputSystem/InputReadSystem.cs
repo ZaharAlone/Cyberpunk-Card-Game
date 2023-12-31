@@ -85,6 +85,7 @@ namespace Input
             inputData.ExitUI = Control.Game.Exit.triggered;
             inputData.Cancel = Control.Game.Cancel.triggered;
             inputData.Submit = Control.Game.Submit.triggered;
+            inputData.FastMoveCamera = Control.Game.FastMoveCamera.IsPressed();
             
             if (inputData.Click)
                 InputAction.LeftMouseButtonClick?.Invoke();

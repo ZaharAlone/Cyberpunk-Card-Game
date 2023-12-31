@@ -1,3 +1,5 @@
+using System;
+using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -138,6 +140,54 @@ namespace CyberNet.Core.AbilityCard
             }
         }
 
+        private void CancelAbility()
+        {
+            var entity = _dataWorld.Select<CardAbilitySelectionCompletedComponent>().SelectFirstEntity();
+            var cardSelectAbilityComponent = entity.GetComponent<CardAbilitySelectionCompletedComponent>();
+
+            var cardComponent = entity.GetComponent<CardComponent>();
+            var selectAbility = AbilityType.None;
+
+            if (cardSelectAbilityComponent.SelectAbility == SelectAbilityEnum.Ability_0)
+                selectAbility = cardComponent.Ability_0.AbilityType;
+            else
+                selectAbility = cardComponent.Ability_1.AbilityType;
+
+            switch (selectAbility)
+            {
+                case AbilityType.Attack:
+                    break;
+                case AbilityType.DestroyCard:
+                    break;
+                case AbilityType.CloneCard:
+                    break;
+                case AbilityType.DestroyTradeCard:
+                    break;
+                case AbilityType.SwitchNeutralSquad:
+                    break;
+                case AbilityType.SwitchEnemySquad:
+                    break;
+                case AbilityType.DestroyNeutralSquad:
+                    break;
+                case AbilityType.DestroySquad:
+                    break;
+                case AbilityType.EnemyDiscardCard:
+                    break;
+                case AbilityType.SquadMove:
+                    break;
+                case AbilityType.SetIce:
+                    break;
+                case AbilityType.DestroyIce:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            
+            entity.RemoveComponent<SelectTargetCardAbilityComponent>();
+            entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
+        }
+        
         private void ActionSelectCardAddComponent(AbilityCardContainer abilityCardStruct, Entity entity)
         {
             entity.AddComponent(new AbilitySelectElementComponent {

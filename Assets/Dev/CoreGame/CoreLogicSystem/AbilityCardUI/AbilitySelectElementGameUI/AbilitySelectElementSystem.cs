@@ -35,24 +35,24 @@ namespace CyberNet.Core.AbilityCard
             if (playerComponent.PlayerTypeEnum != PlayerTypeEnum.Player)
                 return;
             
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             ref var abilityConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             
             abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)
             {
-                uiActionSelectCard.OpenWindow(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
+                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
             }
             else
             {
-                uiActionSelectCard.OpenWindow(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
+                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
         }
 
         private void SelectElement(string textButton)
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
 
             /*
             if (!_isSubscription)
@@ -74,7 +74,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CloseWindow()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             uiActionSelectCard.CloseWindow();
         }
     }

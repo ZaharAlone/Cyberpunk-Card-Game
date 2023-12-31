@@ -12,5 +12,10 @@ namespace CyberNet.Global.Config
         public LocalizedString CancelButton;
         public LocalizedString DiscardCard;
         public LocalizedString TakeDamage;
+
+        [Header("Popup Support Localize")]
+        [Header("Choose First Base")]
+        public LocalizedString ChooseFirstBaseHeader;
+        public LocalizedString ChooseFirstBaseDescr;
     }
 }

@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "FastMoveCamera",
+                    "type": "Button",
+                    "id": "52e97226-1046-4b9b-a2fa-7ad761c7c3a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -651,6 +660,17 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c28f1555-1925-4515-8089-41099f469f2a",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "FastMoveCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

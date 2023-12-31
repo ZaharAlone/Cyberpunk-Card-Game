@@ -69,7 +69,6 @@ namespace CyberNet.Core.InteractiveCard
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var distance = cardComponent.RectTransform.anchoredPosition.y - moveComponent.StartCardPosition.y;
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();

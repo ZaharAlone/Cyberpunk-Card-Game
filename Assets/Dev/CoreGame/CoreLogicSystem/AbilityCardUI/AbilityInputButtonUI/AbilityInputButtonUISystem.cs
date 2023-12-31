@@ -21,20 +21,20 @@ namespace CyberNet.Core.AbilityCard.UI
         private void ShowCancelButton()
         {
             var supportLocalize = _dataWorld.OneData<BoardGameData>().SupportLocalize;
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.abilityInputButtonUIMono.SetView("", supportLocalize.CancelButton, "");
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.abilityInputButtonUIMono.EnableButton();
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilityInputButtonUIMono.SetView("", supportLocalize.CancelButton, "");
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilityInputButtonUIMono.EnableButton();
         }
         
         private void ShowTakeDamageBattleButton()
         {
             var supportLocalize = _dataWorld.OneData<BoardGameData>().SupportLocalize;
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.abilityInputButtonUIMono.SetView(supportLocalize.HeaderTakeDamage, supportLocalize.TakeDamage, supportLocalize.DiscardCard);
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.abilityInputButtonUIMono.EnableButton();
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilityInputButtonUIMono.SetView(supportLocalize.HeaderTakeDamage, supportLocalize.TakeDamage, supportLocalize.DiscardCard);
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilityInputButtonUIMono.EnableButton();
         }
 
         private void HideCancelButton()
         {
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.abilityInputButtonUIMono.DisableButton();
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilityInputButtonUIMono.DisableButton();
         }
 
         public void Destroy()

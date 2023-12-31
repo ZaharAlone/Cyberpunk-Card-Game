@@ -28,5 +28,6 @@ namespace Input
         public bool Submit;
         public bool Cancel;
         public bool ExitUI;
+        public bool FastMoveCamera;
     }
 }

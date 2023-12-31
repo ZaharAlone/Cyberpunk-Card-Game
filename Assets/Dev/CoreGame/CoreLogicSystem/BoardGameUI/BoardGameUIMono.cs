@@ -1,5 +1,4 @@
 using UnityEngine;
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.BezierCurveNavigation;
@@ -9,6 +8,7 @@ using CyberNet.Core.WinLose;
 using CyberNet.Core.TaskUI;
 using CyberNet.Core.Traderow;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Core.UI.TaskPlayerPopup;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
@@ -23,8 +23,8 @@ namespace CyberNet.Core.UI
         public ChangeRoundUIMono ChangeRoundUI;
         [Header("Select Ability Mono")]
         public SelectAbilityUIMono SelectAbilityUIMono;
-        [Header("Ability Action UI Mono")]
-        public AbilitySelectElementUIMono AbilitySelectElementUIMono;
+        [Header("Task Player Popup UI Mono")]
+        public TaskPlayerPopupUIMono TaskPlayerPopupUIMono;
 
         [Header("Visual Effect")]
         public CharacterDamageScreenEffect DamageScreen;
@@ -43,16 +43,14 @@ namespace CyberNet.Core.UI
 
         [Header("TaskUI")]
         public TaskUIMono TaskUIMono;
-
-        [Header("Select First Base")]
-        public SelectFirstBaseUIMono SelectFirstBaseUIMono;
-
+        
         [Header("Popup Card")]
         public CoreElementInfoPopupUIMono GameElementInfoPopupMono;
 
+        [FormerlySerializedAs("abilityInputButtonUIMono")]
         [FormerlySerializedAs("AbilityCancelButtonUIMono")]
         [Header("Ability Cancel Button UI")]
-        public AbilityInputButtonUIMono abilityInputButtonUIMono;
+        public AbilityInputButtonUIMono AbilityInputButtonUIMono;
 
         public BezierCurveUIMono BezierCurveUIMono;
 

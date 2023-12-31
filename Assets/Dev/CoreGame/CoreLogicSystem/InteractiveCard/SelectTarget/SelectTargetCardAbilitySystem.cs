@@ -1,4 +1,6 @@
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
+using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.UI;
 using DG.Tweening;
 using EcsCore;
@@ -58,18 +60,15 @@ namespace CyberNet.Core.InteractiveCard
         
         private void CancelSelectTarget()
         {
-            var entities = _dataWorld.Select<SelectTargetCardAbilityComponent>().GetEntities();
-
-            foreach (var entity in entities)
-            {
-                entity.RemoveComponent<SelectTargetCardAbilityComponent>();
-                entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
-                entity.RemoveComponent<InteractiveSelectCardComponent>();
-            }
+            var entity = _dataWorld.Select<SelectTargetCardAbilityComponent>().SelectFirstEntity();
             
+            entity.RemoveComponent<InteractiveSelectCardComponent>();
+            
+            AbilitySelectElementAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+            BezierCurveNavigationAction.OffBezierCurve?.Invoke();
         }
 
         public void Destroy()

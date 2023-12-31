@@ -20,7 +20,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CancelSelect()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             uiActionSelectCard.CloseWindow();
             
             var entitySelectAbilityTarget = _dataWorld.Select<CardComponent>()

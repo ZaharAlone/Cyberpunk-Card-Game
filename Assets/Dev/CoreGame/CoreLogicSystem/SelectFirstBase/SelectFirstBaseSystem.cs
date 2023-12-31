@@ -44,8 +44,13 @@ namespace CyberNet.Core.SelectFirstBase
         private void SelectFirstBase()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = true;
-            ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
-            uiSelectFirstBase.OpenWindow();
+            ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
+            ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            var supportLoc = _dataWorld.OneData<BoardGameData>().SupportLocalize;
+            
+            taskPlayerPopupUI.OpenWindowSetText(supportLoc.ChooseFirstBaseHeader, supportLoc.ChooseFirstBaseDescr);
+            tradeRowUI.ForceFullHidePanel();
+            
             CityAction.ShowFirstBaseTower?.Invoke();
         }
         
@@ -101,8 +106,12 @@ namespace CyberNet.Core.SelectFirstBase
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
-            ref var uiSelectFirstBase = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectFirstBaseUIMono;
-            uiSelectFirstBase.CloseWindow();
+             
+            ref var taskPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
+            taskPopupUI.CloseWindow();
+            
+            ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            tradeRowUI.ShowPanelBaseViewAnimations();
 
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();

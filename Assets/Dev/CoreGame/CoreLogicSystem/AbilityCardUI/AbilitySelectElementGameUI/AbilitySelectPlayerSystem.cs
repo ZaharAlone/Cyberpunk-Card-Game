@@ -26,7 +26,7 @@ namespace CyberNet.Core.AbilityCard
             ref var actionConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             actionConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
             
-            boardGameUI.AbilitySelectElementUIMono.OpenWindow(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
+            boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
             boardGameUI.CoreHudUIMono.OnSelectPlayer();
             
             EnemyPassportAction.SelectPlayer += SelectPlayer;
@@ -42,7 +42,7 @@ namespace CyberNet.Core.AbilityCard
         private void OffSelectEnemyPlayer()
         {
             ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.AbilitySelectElementUIMono.CloseWindow();
+            boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
 
             var entitySelectAbilityTarget = _dataWorld.Select<CardComponent>()
@@ -54,7 +54,7 @@ namespace CyberNet.Core.AbilityCard
         private void CancelSelectPlayer()
         {
             ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.AbilitySelectElementUIMono.CloseWindow();
+            boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
             EnemyPassportAction.SelectPlayer -= SelectPlayer;
         }

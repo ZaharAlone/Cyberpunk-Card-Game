@@ -13,17 +13,24 @@ namespace CyberNet.Global.GameCamera
     {
         private DataWorld _dataWorld;
 
-        private float MinZoomCamera = 2;
-        private float MaxZoomCamera = 8;
+        private float MinZoomCamera = 0;
+        private float MaxZoomCamera = 150;
+        
+        private float MinFOVCamera = 25;
+        private float MaxFOVCamera = 15;
+        
+        private float _cameraZoomMoveSpeed = 0.16f;
+        private float _movementTimeZoom = 4.5f;
 
         private Vector3 _newPosition;
         private Vector3 _oldPosition;
         private Vector3 _newZoom;
         private Quaternion _newRotateCamera;
         
-        private Vector3 _zoomAmount = new Vector3(0, -5, 5);
-        private float _cameraMoveSpeed = 0.06f;
-        private float _cameraMoveSpeedEndScreen = 0.05f;
+        private Vector3 _zoomAmount = new Vector3(0, -50, 0);
+        private float _cameraMoveSpeed = 0.14f;
+        private float _cameraFastMoveSpeed = 0.35f;
+        private float _cameraMoveSpeedEndScreen = 0.07f;
         private float _movementTime = 3;
         private float edgeTolerance = 0.05f;
         private Vector3 startDrag;
@@ -82,7 +89,7 @@ namespace CyberNet.Global.GameCamera
                 ReadInputMoveKeyboard();
             }
 
-            CheckMouseAtScreenEdge();
+            //CheckMouseAtScreenEdge();
             //DragCamera();
             //Read mouse Move
             MoveCamera();
@@ -99,9 +106,15 @@ namespace CyberNet.Global.GameCamera
         private void ReadInputMoveKeyboard()
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
-            _newPosition += new Vector3(inputData.Navigate.x * _cameraMoveSpeed, 0, inputData.Navigate.y * _cameraMoveSpeed);
+            
+            var cameraSpeed = _cameraMoveSpeed;
+            if (inputData.FastMoveCamera)
+                cameraSpeed = _cameraFastMoveSpeed;
+            
+            _newPosition += new Vector3(inputData.Navigate.x * cameraSpeed, 0, inputData.Navigate.y * cameraSpeed);
         }
         
+        //GD вопрос, подумать и решить нужно или нет
         private void CheckMouseAtScreenEdge()
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
@@ -132,7 +145,7 @@ namespace CyberNet.Global.GameCamera
         private void MoveCamera()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
-
+            
             if (Physics.Raycast(camera.CoreCameraRig.position, _newPosition, out RaycastHit hit, 15))
             {
                 Debug.DrawRay(camera.CoreCameraRig.position, _newPosition, Color.green);
@@ -149,26 +162,26 @@ namespace CyberNet.Global.GameCamera
         private void ZoomCamera()
         {
             var camera = _dataWorld.OneData<GameCameraData>();
-            camera.CoreCameraTransform.localPosition = Vector3.Lerp(camera.CoreCameraTransform.localPosition, _newZoom, Time.deltaTime * _movementTime);
+            camera.CoreCameraTransform.localPosition = Vector3.Lerp(camera.CoreCameraTransform.localPosition, _newZoom, Time.deltaTime * _movementTimeZoom);
 
             var valueDistanceCamera = Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, camera.CoreCameraTransform.localPosition.y);
             var angle = Mathf.Lerp(75f, 90f, valueDistanceCamera);
             var cameraRotate = camera.CoreCameraTransform.transform;
             _newRotateCamera = Quaternion.Euler(angle, cameraRotate.rotation.y, cameraRotate.rotation.z);
-            cameraRotate.rotation = Quaternion.Lerp(camera.CoreCameraTransform.rotation, _newRotateCamera, Time.deltaTime * _movementTime);
+            cameraRotate.rotation = Quaternion.Lerp(camera.CoreCameraTransform.rotation, _newRotateCamera, Time.deltaTime * _movementTimeZoom);
             
-            camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(7, 40, valueDistanceCamera);
+            camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(MinFOVCamera, MaxFOVCamera, valueDistanceCamera);
         }
 
         private void ZoomCameraReadInput(float zoomValue)
         {
             if (zoomValue > 0)
             {
-                _newZoom += _zoomAmount * _cameraMoveSpeed;
+                _newZoom += _zoomAmount * _cameraZoomMoveSpeed;
             }
             else
             {
-                _newZoom -= _zoomAmount * _cameraMoveSpeed;
+                _newZoom -= _zoomAmount * _cameraZoomMoveSpeed;
             }
 
             _newZoom = new Vector3(Mathf.Clamp(_newZoom.x, MinZoomCamera, MaxZoomCamera),

@@ -134,6 +134,15 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FastMoveCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""52e97226-1046-4b9b-a2fa-7ad761c7c3a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -675,6 +684,17 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""action"": ""RotateCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c28f1555-1925-4515-8089-41099f469f2a"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""FastMoveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -723,6 +743,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         m_Game_MousePositions = m_Game.FindAction("MousePositions", throwIfNotFound: true);
         m_Game_Exit = m_Game.FindAction("Exit", throwIfNotFound: true);
         m_Game_RotateCamera = m_Game.FindAction("RotateCamera", throwIfNotFound: true);
+        m_Game_FastMoveCamera = m_Game.FindAction("FastMoveCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -794,6 +815,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
     private readonly InputAction m_Game_MousePositions;
     private readonly InputAction m_Game_Exit;
     private readonly InputAction m_Game_RotateCamera;
+    private readonly InputAction m_Game_FastMoveCamera;
     public struct GameActions
     {
         private @PlayerController_Action m_Wrapper;
@@ -810,6 +832,7 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         public InputAction @MousePositions => m_Wrapper.m_Game_MousePositions;
         public InputAction @Exit => m_Wrapper.m_Game_Exit;
         public InputAction @RotateCamera => m_Wrapper.m_Game_RotateCamera;
+        public InputAction @FastMoveCamera => m_Wrapper.m_Game_FastMoveCamera;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -855,6 +878,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @RotateCamera.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
                 @RotateCamera.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
                 @RotateCamera.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @FastMoveCamera.started -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
+                @FastMoveCamera.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
+                @FastMoveCamera.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -895,6 +921,9 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @RotateCamera.started += instance.OnRotateCamera;
                 @RotateCamera.performed += instance.OnRotateCamera;
                 @RotateCamera.canceled += instance.OnRotateCamera;
+                @FastMoveCamera.started += instance.OnFastMoveCamera;
+                @FastMoveCamera.performed += instance.OnFastMoveCamera;
+                @FastMoveCamera.canceled += instance.OnFastMoveCamera;
             }
         }
     }
@@ -931,5 +960,6 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         void OnMousePositions(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
+        void OnFastMoveCamera(InputAction.CallbackContext context);
     }
 }
