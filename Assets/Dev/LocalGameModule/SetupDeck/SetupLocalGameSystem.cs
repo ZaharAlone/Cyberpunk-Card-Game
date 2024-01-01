@@ -71,6 +71,7 @@ namespace CyberNet.Core
             }
 
             shopCard = SortingCard.SortingDeckCards(shopCard);
+            
             var sortingPlayerDeckCard = new List<PlayerCardData>();
             foreach (var playerDeck in playerDeckCard)
             {

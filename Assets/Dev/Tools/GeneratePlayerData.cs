@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CyberNet.Meta;
+using UnityEngine;
 
 namespace CyberNet.Tools
 {
@@ -28,7 +29,7 @@ namespace CyberNet.Tools
             return botName;
         }
         
-        public static List<string> GetRandomLeader(Dictionary<string, LeadersConfig> leadersConfig, int count)
+        public static List<string> GetRandomLeader(Dictionary<string, LeadersConfig> leadersConfig, int count, string keyPlayerLeader)
         {
             var nameLeaders = new List<string>();
 
@@ -45,6 +46,9 @@ namespace CyberNet.Tools
                         isUseLeader = true;
                     }
                 }
+
+                if (selectLeader.Key == keyPlayerLeader)
+                    isUseLeader = true;
                 
                 if (!isUseLeader)
                     nameLeaders.Add(selectLeader.Key);

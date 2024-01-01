@@ -33,6 +33,7 @@ namespace  CyberNet.Meta
         {
             SelectLeaderImage.SetActive(true);
             ImageButton.color = _baseColor;
+            Button.Select();
         }
 
         public void DeselectButton()

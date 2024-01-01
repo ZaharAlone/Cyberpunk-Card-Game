@@ -7,12 +7,12 @@ using UnityEngine.Events;
 
 namespace CyberNet.Meta
 {
-    public class InteractiveButtonNotAnimations : MonoBehaviour, IPointerEnterHandler
+    public class InteractiveButtonNotAnimations : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
     {
         [SerializeField]
         [Required]
         private Button _button;
-        
+
         [SerializeField]
         private EventReference _soundButtonClick;
         [SerializeField]
@@ -36,6 +36,15 @@ namespace CyberNet.Meta
         public void OnPointerEnter(PointerEventData eventData)
         {
             RuntimeManager.CreateInstance(_soundButtonSelect).start();
+        }
+        
+        public void OnSelect(BaseEventData eventData)
+        {
+            OnClicked();
+        }
+
+        public void OnDeselect(BaseEventData eventData)
+        {
         }
         
         public void OnClicked()

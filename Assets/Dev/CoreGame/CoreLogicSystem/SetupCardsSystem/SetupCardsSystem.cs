@@ -1,9 +1,7 @@
-using CyberNet.Core.AbilityCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 using CyberNet.Core.UI;
 
 namespace CyberNet.Core
@@ -59,7 +57,6 @@ namespace CyberNet.Core
             var entitiesPlayerCard = _dataWorld.Select<CardComponent>()
                 .With<CardPlayerComponent>()
                 .GetEntities();
-
 
             foreach (var entity in entitiesPlayerCard)
             {

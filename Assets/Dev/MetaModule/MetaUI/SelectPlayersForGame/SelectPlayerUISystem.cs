@@ -35,7 +35,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             ref var botNameConfig = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             
-            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 1);
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 1, selectLeaders[0].SelectLeader);
             var botName = GeneratePlayerData.GenerateUniquePlayerName(botNameConfig, selectLeaders);
 
             var newPlayerID = 0;

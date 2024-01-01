@@ -12,11 +12,14 @@ using UnityEngine.Events;
 
 namespace CyberNet.Meta
 {
-    public class InteractiveButtonHideShowElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class InteractiveButtonHideShowElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {
         [Required]
         public Button Button;
 
+        [SerializeField]
+        private bool _isFirstButton;
+        
         public GameObject ActiveButton;
         public GameObject DeactiveButton;
 
@@ -41,6 +44,12 @@ namespace CyberNet.Meta
         public void Start()
         {
             Button.onClick.AddListener(OnClicked);
+            
+            if (_isFirstButton)
+            {
+                Button.Select();
+                //SelectButton();
+            }
         }
 
         public void SetText(string text)
@@ -59,7 +68,12 @@ namespace CyberNet.Meta
         {
             if (Time.unscaledTime - _lastClickTime - _delayBetweenClickHandling <= float.Epsilon)
                 return;
+            
+            SelectButton();
+        }
 
+        private void SelectButton()
+        {
             ActiveButton.SetActive(true);
             DeactiveButton.SetActive(false);
             RuntimeManager.CreateInstance(SoundButtonSelect).start();
@@ -71,10 +85,25 @@ namespace CyberNet.Meta
         {
             if (Time.unscaledTime - _lastClickTime - _delayBetweenClickHandling <= float.Epsilon)
                 return;
+            
+            DeselectButton();
+        }
 
+        private void DeselectButton()
+        {
             _sequence = DOTween.Sequence();
             _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 0), 0.25f))
                 .OnComplete(DeactivateButtonAction);
+        }
+        
+        public void OnSelect(BaseEventData eventData)
+        {
+            SelectButton();
+        }
+
+        public void OnDeselect(BaseEventData eventData)
+        {
+            DeselectButton();
         }
 
         public void ActivateButton()

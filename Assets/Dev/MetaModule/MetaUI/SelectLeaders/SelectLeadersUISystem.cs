@@ -71,9 +71,9 @@ namespace CyberNet.Meta
         private void SelectStartEnemyLeader()
         {
             var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
-            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3);
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3, selectPlayersData.SelectLeaders[0].SelectLeader);
             var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
             
             for (int i = 1; i < 4; i++)
