@@ -102,7 +102,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             playerComponent.UnitCount -= gameRuleInitUnit;
             towerComponent.PlayerIsBelong = PlayerControlEnum.Player;
-            towerComponent.TowerBelongPlyaerID = playerComponent.PlayerID;
+            towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             

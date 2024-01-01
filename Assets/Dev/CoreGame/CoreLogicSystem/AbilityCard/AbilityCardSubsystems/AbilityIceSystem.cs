@@ -89,7 +89,7 @@ namespace CyberNet.Core.AbilityCard
             
             foreach (var towerEntity in towerWithIceEntities)
             {
-                listID.Add(towerEntity.GetComponent<TowerComponent>().TowerBelongPlyaerID);
+                listID.Add(towerEntity.GetComponent<TowerComponent>().TowerBelongPlayerID);
             }
             
             CityAction.ShowManyZonePlayerInMap?.Invoke(listID);

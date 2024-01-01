@@ -15,7 +15,7 @@ namespace CyberNet.Core.City
         
         //Кому принадлежит контроль над башней?
         public PlayerControlEnum PlayerIsBelong;
-        public int TowerBelongPlyaerID;
+        public int TowerBelongPlayerID;
     }
 
     public enum PlayerControlEnum

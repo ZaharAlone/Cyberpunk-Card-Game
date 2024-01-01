@@ -45,7 +45,6 @@ namespace CyberNet.Core.InteractiveCard
             if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
             
-            Debug.LogError("Select Card Player");
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 

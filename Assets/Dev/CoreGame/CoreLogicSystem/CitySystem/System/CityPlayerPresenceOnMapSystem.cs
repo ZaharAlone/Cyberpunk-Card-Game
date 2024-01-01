@@ -97,12 +97,12 @@ namespace CyberNet.Core.City
                 
                 if (IDPlayerControlTower == -1)
                 {
-                    towerComponent.TowerBelongPlyaerID = IDPlayerControlTower;
+                    towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerIsBelong = PlayerControlEnum.Neutral;
                 }
                 else
                 {
-                    towerComponent.TowerBelongPlyaerID = IDPlayerControlTower;
+                    towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerIsBelong = PlayerControlEnum.Player;
                 }
             }

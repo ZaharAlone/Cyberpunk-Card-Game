@@ -21,7 +21,7 @@ using UnityEngine;
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityCardMoveUnitSystem : IPreInitSystem, IRunSystem
+    public class AbilityMoveUnitSystem : IPreInitSystem, IRunSystem
     {
         private DataWorld _dataWorld;
         

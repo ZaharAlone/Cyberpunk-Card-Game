@@ -68,7 +68,7 @@ namespace CyberNet.Core.City
                         material = SetViewNeutralZoneControl(material);
                         break;
                     case PlayerControlEnum.Player:
-                        material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlyaerID);
+                        material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlayerID);
                         break;
                 }
                 

@@ -36,7 +36,7 @@ namespace CyberNet.Core.City
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
 
                 if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player
-                    && towerComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
+                    && towerComponent.TowerBelongPlayerID == playerComponent.PlayerID)
                 {
                     towerComponent.TowerMono.ActivateCollider();
                     towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
@@ -62,7 +62,7 @@ namespace CyberNet.Core.City
 
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.PlayerIsBelong == PlayerControlEnum.Player
-                    && tower.TowerBelongPlyaerID == playerComponent.PlayerID)
+                    && tower.TowerBelongPlayerID == playerComponent.PlayerID)
                 .GetEntities();
 
             foreach (var towerEntity in towerEntities)
@@ -105,7 +105,7 @@ namespace CyberNet.Core.City
 
                 var towerConnectComponent = towerConnectEntity.GetComponent<TowerComponent>();
                 if (towerConnectComponent.PlayerIsBelong == PlayerControlEnum.Player
-                    && towerConnectComponent.TowerBelongPlyaerID == playerComponent.PlayerID)
+                    && towerConnectComponent.TowerBelongPlayerID == playerComponent.PlayerID)
                 {
                     towerConnectComponent.TowerMono.OpenInteractiveZoneVisualEffect();
                 }

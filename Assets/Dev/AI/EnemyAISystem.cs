@@ -75,29 +75,75 @@ namespace CyberNet.Core.AI
 
         private async void LogicAI()
         {
-            await Task.Delay(800);
-            PlayAll();
-            await Task.Delay(800);
+            await Task.Delay(600);
+            PlayCard();
+            await Task.Delay(600);
             SelectTradeCard();
-            await Task.Delay(800);
+            await Task.Delay(600);
             ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
         }
 
-        private void PlayAll()
+        private void PlayCard()
+        {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var countCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardHandComponent>()
+                .Count();
+            
+            for (int i = 0; i < countCard; i++)
+            {
+                var selectEntityPlayCard = FindPriorityCardPlay();
+                var cardComponent = selectEntityPlayCard.GetComponent<CardComponent>();
+                Debug.LogError($"Playing card name {cardComponent.Key}");
+                
+                selectEntityPlayCard.RemoveComponent<CardHandComponent>();
+                SelectionAbility(selectEntityPlayCard);   
+                AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
+            }
+            
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+        }
+        
+        //Ищем какую карту стоит разыграть в первую очередь
+        private Entity FindPriorityCardPlay()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                 .With<CardHandComponent>().GetEntities();
+            
+            //Check card add unit
+            foreach (var entity in entities)
+            {
+                var cardComponent = entity.GetComponent<CardComponent>();
+
+                if (cardComponent.Ability_0.AbilityType == AbilityType.Attack
+                    || cardComponent.Ability_0.AbilityType == AbilityType.DrawCard
+                    && cardComponent.Ability_1.AbilityType == AbilityType.None)
+                {
+                    return entity;
+                }
+            }
 
             foreach (var entity in entities)
             {
-                entity.RemoveComponent<CardHandComponent>();
-                SelectionAbility(entity);
+                var cardComponent = entity.GetComponent<CardComponent>();
+
+                if (cardComponent.Ability_0.AbilityType != AbilityType.Trade
+                    && cardComponent.Ability_0.AbilityType != AbilityType.DestroyCard)
+                {
+                    return entity;
+                }
             }
             
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
+            foreach (var entity in entities)
+            {
+                return entity;
+            }
+            
+            Debug.LogError("Not find current ability");
+            return new Entity();
         }
 
         private void SelectionAbility(Entity entity)
@@ -115,16 +161,15 @@ namespace CyberNet.Core.AI
             var valueAbility_0 = CalculateValueCardInterface(cardComponent.Ability_0);
             var valueAbility_1 = CalculateValueCardInterface(cardComponent.Ability_1);
 
+            Debug.LogError($"Select ability value_1 {valueAbility_0}, value 2 {valueAbility_1}");
             if (valueAbility_0 > valueAbility_1)
             {
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_0
                 });
-                Debug.LogError("Select Ability 0");
             }
             else
             {
-                Debug.LogError("Select Ability 1");
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_1
                 });
@@ -149,7 +194,7 @@ namespace CyberNet.Core.AI
                     value = CalculateValueCardAction.DestroyCardAction.Invoke();
                     break;
                 case AbilityType.SquadMove:
-                    
+                    value = CalculateValueCardAction.MoveUnitAction.Invoke();
                     break;
             }
 

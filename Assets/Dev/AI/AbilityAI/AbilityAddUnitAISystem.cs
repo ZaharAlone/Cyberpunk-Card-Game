@@ -42,14 +42,13 @@ namespace CyberNet.Core.AI
 
         private void FindOptimalTower()
         {
-            Debug.LogError("find optimal");
             var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
             var towerEntities = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.TowerBelongPlyaerID == currentPlayerComponent.PlayerID
+                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
                     && tower.PlayerIsBelong == PlayerControlEnum.Player)
                 .GetEntities();
             
@@ -70,7 +69,7 @@ namespace CyberNet.Core.AI
                         .SelectFirstEntity();
                     var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
 
-                    if (connectTowerComponent.TowerBelongPlyaerID != currentPlayerComponent.PlayerID
+                    if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID
                         && connectTowerComponent.PlayerIsBelong == PlayerControlEnum.Player)
                     {
                         guidSelectPotentiallyWeakTower.Add(towerComponent.GUID);
@@ -96,7 +95,7 @@ namespace CyberNet.Core.AI
                             .SelectFirstEntity();
                         var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
         
-                        if (connectTowerComponent.TowerBelongPlyaerID != currentPlayerComponent.PlayerID)
+                        if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID)
                         {
                             countConnectZone++;
                         }
@@ -115,7 +114,6 @@ namespace CyberNet.Core.AI
 
         private string FindZoneMinUnit(List<string> selectTower, int playerID)
         {
-            Debug.LogError("find zone min unit");
             var selectGUID = "";
             var minCountUnit = 99;
             
@@ -138,7 +136,6 @@ namespace CyberNet.Core.AI
         
         private void SpawnUnit(string selectTowerGUID)
         {
-            Debug.LogError("spawn unit");
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
@@ -165,7 +162,6 @@ namespace CyberNet.Core.AI
         
         private void UpdateViewPlayer()
         {
-            Debug.LogError("update view player");
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }

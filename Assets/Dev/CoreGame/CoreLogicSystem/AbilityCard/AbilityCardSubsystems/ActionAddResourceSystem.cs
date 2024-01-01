@@ -9,7 +9,7 @@ using CyberNet.Core.UI;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionCardAddResourceSystem : IPreInitSystem, IDeactivateSystem
+    public class ActionAddResourceSystem : IPreInitSystem, IDeactivateSystem
     {
         private DataWorld _dataWorld;
 
@@ -39,7 +39,7 @@ namespace CyberNet.Core
             ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
             actionData.TotalTrade += abilityAddResourceComponent.Count;
-            ActionCardVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
+            ActionVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
             
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();

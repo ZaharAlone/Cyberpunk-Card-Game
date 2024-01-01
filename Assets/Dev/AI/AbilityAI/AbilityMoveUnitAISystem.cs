@@ -27,28 +27,29 @@ namespace CyberNet.Core.AI
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
             
-            //var cardComponent = entityCard.GetComponent<CardComponent>();
-            //var abilitySelectElementComponent = entityCard.GetComponent<AbilitySelectElementComponent>();
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            var abilitySelectElementComponent = entityCard.GetComponent<AbilitySelectElementComponent>();
             
             Debug.LogError("Move unit AI");
+
+            var selectTower = FindOptimalTowerForMove();
+            
         }
-        /*
-        private void FindOptimalTowerForMove()
+
+        private string FindOptimalTowerForMove()
         {
             var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
-            var towerEntities = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.TowerBelongPlyaerID == currentPlayerComponent.PlayerID
+            var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
                     && tower.PlayerIsBelong == PlayerControlEnum.Player)
                 .GetEntities();
             
-            // 
-            
             var guidSelectPotentiallyWeakTower = new List<string>();
-            foreach (var towerEntity in towerEntities)
+            foreach (var towerEntity in towerEntitiesPlayer)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
                 
@@ -59,8 +60,7 @@ namespace CyberNet.Core.AI
                         .SelectFirstEntity();
                     var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
 
-                    if (connectTowerComponent.TowerBelongPlyaerID != currentPlayerComponent.PlayerID
-                        && connectTowerComponent.PlayerIsBelong == PlayerControlEnum.Player)
+                    if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID)
                     {
                         guidSelectPotentiallyWeakTower.Add(towerComponent.GUID);
                         break;
@@ -70,9 +70,9 @@ namespace CyberNet.Core.AI
             
             if (guidSelectPotentiallyWeakTower.Count == 0)
             {
-                guidSelectPotentiallyWeakTower.Clear();
                 var maxConnectZone = 0;
-                foreach (var towerEntity in towerEntities)
+                
+                foreach (var towerEntity in towerEntitiesPlayer)
                 {
                     var towerComponent = towerEntity.GetComponent<TowerComponent>();
 
@@ -84,7 +84,7 @@ namespace CyberNet.Core.AI
                             .SelectFirstEntity();
                         var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
         
-                        if (connectTowerComponent.TowerBelongPlyaerID != currentPlayerComponent.PlayerID)
+                        if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID)
                         {
                             countConnectZone++;
                         }
@@ -97,6 +97,9 @@ namespace CyberNet.Core.AI
                     }
                 }
             }
+            
+            var selectTower = FindZoneMinUnit(guidSelectPotentiallyWeakTower, currentPlayerComponent.PlayerID);
+            return selectTower;
         }
 
         private string FindZoneMinUnit(List<string> selectTower, int playerID)
@@ -120,10 +123,10 @@ namespace CyberNet.Core.AI
 
             return selectGUID;
         }
-*/
+
         public void Destroy()
         {
-            
+            AbilityAIAction.MoveUnit -= MoveUnit;
         }
     }
 }

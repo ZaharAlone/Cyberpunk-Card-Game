@@ -42,7 +42,7 @@ namespace CyberNet.Core.AI
                 .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == playerComponent.PlayerID)
                 .Count();
 
-            var result = countUnitInMap * 5;
+            var result = countUnitInMap * 6;
             
             return result;
         }

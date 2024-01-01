@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
-    public static class ActionCardVisualEffect
+    public static class ActionVisualEffect
     {
         public static void CreateEffect(ActionCardEffectMono targetEffect, Vector3 position, Transform parent, int count = 0)
         {
