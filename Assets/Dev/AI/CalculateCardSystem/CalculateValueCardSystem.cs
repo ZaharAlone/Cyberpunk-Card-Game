@@ -27,7 +27,7 @@ namespace CyberNet.Core.AI
 
         private int AttackAction(int count)
         {
-            //TODO: поправить
+            //TODO: поправить значение, логика верная
             return 15 * count;
         }
         
@@ -43,7 +43,21 @@ namespace CyberNet.Core.AI
                 .Count();
 
             var result = countUnitInMap * 6;
-            
+
+            if (result <= 12)
+                return result;
+
+            var potentialAttack = AbilityAIAction.CalculatePotentialMoveUnitAttack.Invoke();
+            if (potentialAttack.Value > 0)
+                return 20;
+
+            var potentialMoveMyTower = AbilityAIAction.CalculatePotentialMoveUnit.Invoke();
+
+            result = 0;
+            if (potentialMoveMyTower.Value != 0)
+            {
+                result = 14;
+            }
             return result;
         }
 

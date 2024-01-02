@@ -9,6 +9,8 @@ namespace CyberNet.Core.AI
         public static Action AddNoiseSelectPlayer;
         
         public static Action<string> MoveUnit;
+        public static Func<ItemValue> CalculatePotentialMoveUnitAttack;
+        public static Func<ItemValue> CalculatePotentialMoveUnit;
         public static Action<string> AddUnitMap;
         
         //Not working
