@@ -32,11 +32,25 @@ namespace Input
         private void SubscriptionCallback()
         {
             Control.Game.Click.started += ClickDownCallback;
+            Control.Game.RightClick.started += RightClickDownCallback;
+            Control.Game.MiddleButtonClick.started += MiddleClickDownCallback;
         }
         private void ClickDownCallback(UnityEngine.InputSystem.InputAction.CallbackContext callback)
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
             inputData.ClickDown = true;
+        }
+        
+        private void RightClickDownCallback(UnityEngine.InputSystem.InputAction.CallbackContext callback)
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            inputData.RightClickDown = true;
+        }
+        
+        private void MiddleClickDownCallback(UnityEngine.InputSystem.InputAction.CallbackContext callback)
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            inputData.MiddleClickDown = true;
         }
 
         public void Run()
@@ -81,11 +95,17 @@ namespace Input
             inputData.ScrollWheel = Control.Game.ScrollWheel.ReadValue<Vector2>();
             inputData.Click = Control.Game.Click.triggered;
             inputData.LeftClickHold = Control.Game.LeftClickHold.IsPressed();
+            inputData.RightClickHold = Control.Game.RightClickHold.IsPressed();
+            inputData.MiddleClickHold = Control.Game.MiddleButtonClickHold.IsPressed();
             inputData.RightClick = Control.Game.RightClick.triggered;
+            inputData.MiddleClick = Control.Game.MiddleButtonClick.triggered;
             inputData.ExitUI = Control.Game.Exit.triggered;
             inputData.Cancel = Control.Game.Cancel.triggered;
             inputData.Submit = Control.Game.Submit.triggered;
             inputData.FastMoveCamera = Control.Game.FastMoveCamera.IsPressed();
+            
+            inputData.ZoomAdd = Control.Game.ZoomAdd.IsPressed();
+            inputData.ZoomSub = Control.Game.ZoomSub.IsPressed();
             
             if (inputData.Click)
                 InputAction.LeftMouseButtonClick?.Invoke();
@@ -97,6 +117,8 @@ namespace Input
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
             inputData.ClickDown = false;
+            inputData.RightClickDown = false;
+            inputData.MiddleClickDown = false;
         }
         
         private void BlockedInput()

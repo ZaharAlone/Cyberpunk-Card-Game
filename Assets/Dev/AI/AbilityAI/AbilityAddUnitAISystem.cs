@@ -29,7 +29,7 @@ namespace CyberNet.Core.AI
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
-
+            
             var abilitySelectElementComponent = entityCard.GetComponent<AbilitySelectElementComponent>();
 
             for (int i = 0; i < abilitySelectElementComponent.AbilityCard.Count; i++)
@@ -38,6 +38,7 @@ namespace CyberNet.Core.AI
             }
             
             UpdateViewPlayer();
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
         }
 
         private void FindOptimalTower()
@@ -59,7 +60,6 @@ namespace CyberNet.Core.AI
             var guidSelectPotentiallyWeakTower = new List<string>();
             foreach (var towerEntity in towerEntities)
             {
-                Debug.LogError("find tower other player");
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
                 
                 foreach (var zoneConnectTower in towerComponent.TowerMono.ZoneConnect)
@@ -80,7 +80,6 @@ namespace CyberNet.Core.AI
             
             if (guidSelectPotentiallyWeakTower.Count == 0)
             {
-                Debug.LogError("find tower min unit in you");
                 guidSelectPotentiallyWeakTower.Clear();
                 var maxConnectZone = 0;
                 foreach (var towerEntity in towerEntities)

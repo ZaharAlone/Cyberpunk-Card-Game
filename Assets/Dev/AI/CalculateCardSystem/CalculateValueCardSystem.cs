@@ -44,10 +44,12 @@ namespace CyberNet.Core.AI
 
             var result = countUnitInMap * 6;
 
+            Debug.LogError($"result count unit in map {result}");
             if (result <= 12)
                 return result;
 
             var potentialAttack = AbilityAIAction.CalculatePotentialMoveUnitAttack.Invoke();
+            Debug.LogError($"result count unit potential value {potentialAttack.Value}");
             if (potentialAttack.Value > 0)
                 return 20;
 

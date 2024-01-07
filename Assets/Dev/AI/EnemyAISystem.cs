@@ -94,8 +94,6 @@ namespace CyberNet.Core.AI
             for (int i = 0; i < countCard; i++)
             {
                 var selectEntityPlayCard = FindPriorityCardPlay();
-                var cardComponent = selectEntityPlayCard.GetComponent<CardComponent>();
-                Debug.LogError($"Playing card name {cardComponent.Key}");
                 
                 selectEntityPlayCard.RemoveComponent<CardHandComponent>();
                 SelectionAbility(selectEntityPlayCard);   
@@ -161,7 +159,6 @@ namespace CyberNet.Core.AI
             var valueAbility_0 = CalculateValueCardInterface(cardComponent.Ability_0);
             var valueAbility_1 = CalculateValueCardInterface(cardComponent.Ability_1);
 
-            Debug.LogError($"Select ability value_1 {valueAbility_0}, value 2 {valueAbility_1}");
             if (valueAbility_0 > valueAbility_1)
             {
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
@@ -195,6 +192,7 @@ namespace CyberNet.Core.AI
                     break;
                 case AbilityType.SquadMove:
                     value = CalculateValueCardAction.MoveUnitAction.Invoke();
+                    Debug.LogError($"value squad move {value}");
                     break;
             }
 

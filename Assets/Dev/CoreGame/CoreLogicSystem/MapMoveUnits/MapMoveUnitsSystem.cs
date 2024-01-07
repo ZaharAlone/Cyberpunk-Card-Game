@@ -29,6 +29,7 @@ namespace CyberNet.Core.Map
             var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
             var selectTowerForAttackGuid = entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>().SelectTowerGUID;
             
+            Debug.LogError($"Tower for attack guid {selectTowerForAttackGuid}");
             var targetTowerEntity = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
                 .SelectFirstEntity();

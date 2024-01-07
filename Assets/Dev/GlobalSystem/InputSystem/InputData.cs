@@ -23,11 +23,19 @@ namespace Input
         public Vector2 ScrollWheel;
         public bool Click;
         public bool ClickDown;
+        public bool RightClickDown;
+        public bool MiddleClickDown;
         public bool LeftClickHold;
+        public bool RightClickHold;
+        public bool MiddleClickHold;
         public bool RightClick;
+        public bool MiddleClick;
         public bool Submit;
         public bool Cancel;
         public bool ExitUI;
         public bool FastMoveCamera;
+
+        public bool ZoomAdd;
+        public bool ZoomSub;
     }
 }

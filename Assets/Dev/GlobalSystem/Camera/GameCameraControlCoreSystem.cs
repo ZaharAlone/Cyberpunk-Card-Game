@@ -37,8 +37,8 @@ namespace CyberNet.Global.GameCamera
         private float _timerStartMove;
         private Vector2 _startDragPosition;
 
-        private Vector2 _horizontalMaxMove = new Vector2(-25, 25);
-        private Vector2 _verticalMaxMove = new Vector2(-25, 25);
+        private Vector2 _horizontalClampMove = new Vector2(-20, 20);
+        private Vector2 _verticalClampMove = new Vector2(-30, 20);
         
         public void PreInit()
         {
@@ -89,16 +89,28 @@ namespace CyberNet.Global.GameCamera
                 ReadInputMoveKeyboard();
             }
 
-            //CheckMouseAtScreenEdge();
-            //DragCamera();
+            if (inputData.RightClickDown || inputData.MiddleClickDown)
+            {
+                _startDragPosition = inputData.MousePosition;
+            }
+            
+            if (inputData.RightClickHold || inputData.MiddleClickHold)
+                DragCamera();
+            
             //Read mouse Move
             MoveCamera();
             
-            //if (inputData.LeftClickHold)
-            //    ReadInputMouse(inputData.MousePosition);
-            
-            if (inputData.ScrollWheel.y != 0f)
-                ZoomCameraReadInput(inputData.ScrollWheel.y);
+            if (inputData.ScrollWheel.y != 0f || inputData.ZoomAdd || inputData.ZoomSub)
+            {
+                var valueZoom = Mathf.Sign(inputData.ScrollWheel.y);
+
+                if (inputData.ZoomAdd)
+                    valueZoom = 10 * Time.deltaTime;
+                if (inputData.ZoomSub)
+                    valueZoom = -10 * Time.deltaTime;
+                
+                ZoomCameraReadInput(valueZoom);   
+            }
             
             ZoomCamera();
         }
@@ -145,17 +157,7 @@ namespace CyberNet.Global.GameCamera
         private void MoveCamera()
         {
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
-            
-            if (Physics.Raycast(camera.CoreCameraRig.position, _newPosition, out RaycastHit hit, 15))
-            {
-                Debug.DrawRay(camera.CoreCameraRig.position, _newPosition, Color.green);
-                if (hit.collider.gameObject.layer == 6)
-                {
-                    Debug.LogError("stop camera");
-                    _newPosition = camera.CoreCameraRig.position;
-                    return;
-                }
-            }
+            ClampCamera();
             camera.CoreCameraRig.position = Vector3.Lerp(camera.CoreCameraRig.position, _newPosition, Time.deltaTime * _movementTime);
         }
 
@@ -175,63 +177,30 @@ namespace CyberNet.Global.GameCamera
 
         private void ZoomCameraReadInput(float zoomValue)
         {
-            if (zoomValue > 0)
-            {
-                _newZoom += _zoomAmount * _cameraZoomMoveSpeed;
-            }
-            else
-            {
-                _newZoom -= _zoomAmount * _cameraZoomMoveSpeed;
-            }
+            _newZoom += new Vector3(_zoomAmount.x * zoomValue, _zoomAmount.y * zoomValue, _zoomAmount.z * zoomValue) * _cameraZoomMoveSpeed;
 
             _newZoom = new Vector3(Mathf.Clamp(_newZoom.x, MinZoomCamera, MaxZoomCamera),
                 Mathf.Clamp(_newZoom.y, MinZoomCamera, MaxZoomCamera),
                 Mathf.Clamp(_newZoom.z, MinZoomCamera, MaxZoomCamera));
-/*
-            ref var camera = ref _dataWorld.OneData<GameCameraData>();
-            var cameraRotate = camera.CoreVirtualCamera.transform.rotation;
-            Debug.LogError($"Zoom value {zoomValue}");
-            var value = 3 * Mathf.Sign(zoomValue);
-            Debug.LogError($"Value camera {value}");
-            value = Mathf.Clamp(value, MinZoomCamera, MaxZoomCamera);
-            //camera.CoreVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(camera.CoreVirtualCamera.m_Lens.FieldOfView, value, Time.deltaTime * 50f);
-            var angle = Mathf.Lerp(65f, 90f, Mathf.InverseLerp(MinZoomCamera, MaxZoomCamera, value));
-
-            _newRotateCamera = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
-
-            Debug.LogError($"new rotate {_newRotateCamera}");
-  */ //camera.CoreVirtualCamera.transform.rotation = Quaternion.Euler(angle, cameraRotate.y, cameraRotate.z);
         }
 
         private void DragCamera()
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
-
-            if (inputData.ClickDown)
-            {
-                Debug.LogError("Click down");
-                _startDragPosition = inputData.MousePosition;
-            }
+            var vectorMove = inputData.MousePosition - _startDragPosition;
             
-            if (!inputData.Click)
-            {
-                Debug.LogError("Not click");
-                return;
-            }
-            /*
-            if (_timerStartMove < 0.1f)
-            {
-                _timerStartMove += Time.deltaTime;
-                return;
-            }*/
-
-            var camera = _dataWorld.OneData<GameCameraData>();
-            
-            var pos = camera.MainCamera.ScreenToViewportPoint(inputData.MousePosition + _startDragPosition);
-            _newPosition = new Vector3(pos.x, 0, pos.y);
+            _newPosition += new Vector3(-vectorMove.x * 0.025f, 0, -vectorMove.y * 0.025f);
             _startDragPosition = inputData.MousePosition;
         }
+        
+        private void ClampCamera()
+        {
+            var newX = Mathf.Clamp(_newPosition.x, _horizontalClampMove.x, _horizontalClampMove.y);
+            var newZ = Mathf.Clamp(_newPosition.z, _verticalClampMove.x, _verticalClampMove.y);
 
+            _newPosition = new Vector3(newX, _newPosition.y, newZ);
+        }
+        
         public void Destroy()
         {
             GlobalCoreAction.FinishInitGameResource -= ActivateCoreCamera;

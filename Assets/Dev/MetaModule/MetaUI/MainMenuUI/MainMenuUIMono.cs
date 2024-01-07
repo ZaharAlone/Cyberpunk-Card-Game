@@ -8,6 +8,14 @@ namespace CyberNet.Meta
         private GameObject _background;
         [SerializeField]
         private GameObject _panel;
+
+        [Header("Element UI")]
+        [SerializeField]
+        private GameObject _tutorialButton;
+        [SerializeField]
+        private GameObject _campaignButton;
+        [SerializeField]
+        private GameObject _onlineGameButton;
         [SerializeField]
         private GameObject _wishlistButton;
         
@@ -17,8 +25,14 @@ namespace CyberNet.Meta
             _panel.SetActive(true);
             
             #if DEMO && STEAM
+            _tutorialButton.SetActive(true);
+            _campaignButton.SetActive(false);
+            _onlineGameButton.SetActive(false);
             _wishlistButton.SetActive(true);
             #else
+            _tutorialButton.SetActive(false);
+            _campaignButton.SetActive(true);
+            _onlineGameButton.SetActive(true);
             _wishlistButton.SetActive(false);
             #endif
         }

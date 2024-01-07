@@ -15,15 +15,29 @@ namespace CyberNet.Core.AI
     public class AbilityMoveUnitAISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        private string _guidCard;
         public void PreInit()
         {
-            AbilityAIAction.MoveUnit += MoveUnit;
+            AbilityAIAction.MoveUnit += AbilityMoveUnit;
             AbilityAIAction.CalculatePotentialMoveUnitAttack += CalculatePotentialMoveUnitAttack;
             AbilityAIAction.CalculatePotentialMoveUnit += CalculatePotentialMoveUnitOnItsTerritory;
         }
+
+        private void AbilityMoveUnit(string guidCard)
+        {
+            _guidCard = guidCard;
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+            
+            MoveUnit();
+            Debug.LogError("MoveUnit");
+                        
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+        }
         
-        private void MoveUnit(string guidCard)
+        private void MoveUnit()
         {
             var potentialAttack = CalculatePotentialMoveUnitAttack();
             if (potentialAttack.Value > 0)
@@ -32,6 +46,7 @@ namespace CyberNet.Core.AI
                 return;
             }
 
+            Debug.LogError("Not Attack enemy");
             var potentialMoveMyTower = CalculatePotentialMoveUnitOnItsTerritory();
             
             if (potentialMoveMyTower.Value != 0)
@@ -80,7 +95,7 @@ namespace CyberNet.Core.AI
                             potentialEnemy += 5; // прибавляем базовый максимум карт на руке игрока, у нейтрального нет карт, так что не прибавляем
 
                         var potentialAttackPlayer = CalculatePotentialAttackToTower(towerComponent);
-                        var potentialAttack = potentialAttackPlayer - potentialEnemy;
+                        var potentialAttack = potentialEnemy - potentialAttackPlayer;
                         
                         guidSelectPotentiallyWeakTower.Add(new ItemValue{Item = towerComponent.GUID, Value = potentialAttack});
                         break;
@@ -94,6 +109,7 @@ namespace CyberNet.Core.AI
             
             foreach (var towerPotential in guidSelectPotentiallyWeakTower)
             {
+                Debug.LogError($"tower potential value {towerPotential.Value}");
                 if (towerPotential.Value > maxValuePotentialAttack)
                 {
                     maxValuePotentialAttack = towerPotential.Value;
@@ -280,14 +296,20 @@ namespace CyberNet.Core.AI
                     unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
                 }
             }
-            CityAction.EnableInteractiveTower?.Invoke(targetTower.Item);
+            CityAction.EnableInteractiveTower?.Invoke(targetTowerComponent.GUID);
 
+            Debug.LogError($"Start enemy move units");
+            
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == _guidCard)
+                .SelectFirstEntity();
+            entityCard.AddComponent(new AbilityCardMoveUnitComponent {IsAimOn = true, SelectTowerGUID = targetTowerComponent.GUID});
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }
 
         public void Destroy()
         {
-            AbilityAIAction.MoveUnit -= MoveUnit;
+            AbilityAIAction.MoveUnit -= AbilityMoveUnit;
             AbilityAIAction.CalculatePotentialMoveUnitAttack -= CalculatePotentialMoveUnitAttack;
             AbilityAIAction.CalculatePotentialMoveUnit -= CalculatePotentialMoveUnitOnItsTerritory;
         }

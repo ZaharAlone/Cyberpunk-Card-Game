@@ -201,7 +201,6 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity();
             
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
-            entityCard.RemoveComponent<AbilitySelectElementComponent>();
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();

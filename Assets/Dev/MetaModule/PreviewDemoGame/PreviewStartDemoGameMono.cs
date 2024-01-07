@@ -32,6 +32,7 @@ namespace CyberNet.Meta.DemoGame
         public void OnClickClose()
         {
             CloseWindow();
+            MainMenuAction.OpenMainMenu?.Invoke();
         }
     }
 }

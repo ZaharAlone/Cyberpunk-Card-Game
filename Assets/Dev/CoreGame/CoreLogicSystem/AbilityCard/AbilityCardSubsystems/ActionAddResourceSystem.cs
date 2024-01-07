@@ -41,6 +41,7 @@ namespace CyberNet.Core
             actionData.TotalTrade += abilityAddResourceComponent.Count;
             ActionVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
             
+            entity.RemoveComponent<AbilitySelectElementComponent>();
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
