@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 00712309ee077a64795132b6502a5ed2, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -34,7 +35,19 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: dialogue_character_April
+    - Name: $v
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -44,4 +57,4 @@ MonoBehaviour:
   DialogConfigJson: {fileID: 4900000, guid: 4d518fa7d5238774fb7262745235070f, type: 3}
   CharacterDialogConfigJson: {fileID: 4900000, guid: b57fdb3cb273ad54588e4537bfbe92ec,
     type: 3}
-  folderPath: Assets/Art/2d/DialogAvatars
+  folderPath: Assets/Art/2D/DialogueCharacter

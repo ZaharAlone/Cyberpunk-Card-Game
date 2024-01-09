@@ -10,6 +10,7 @@ using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using CyberNet.Tutorial;
 
 namespace CyberNet.Local
 {
@@ -50,7 +51,10 @@ namespace CyberNet.Local
                 Count = rules.CountDropCard
             });
             
-            UpdateUIRound();
+            if (_dataWorld.IsModuleActive<TutorialGameModule>())
+                TutorialAction.StartFirstPlayerRound?.Invoke();
+            else
+                UpdateUIRound();
         }
         
         private void SwitchRound()

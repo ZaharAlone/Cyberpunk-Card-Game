@@ -5,9 +5,12 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core.AI;
 using CyberNet.Global;
+using CyberNet.Meta.SelectPlayersForGame;
 using CyberNet.Meta.SettingsUI;
+using CyberNet.Meta.StartGame;
 using CyberNet.Platform;
 using CyberNet.Tools;
+using CyberNet.Tutorial;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -27,6 +30,7 @@ namespace CyberNet.Meta
             MainMenuAction.OpenMainMenu += OpenMainMenu;
             MainMenuAction.CloseMainMenu += CloseMainMenu;
             MainMenuAction.OpenCampaign += OpenCampaign;
+            MainMenuAction.StartTutorial += StartTutorial;
             MainMenuAction.OpenLocalGame += OpenLocalGame;
             MainMenuAction.OpenServerGame += OpenServerGame;
             MainMenuAction.OpenSettingsGame += OpenSettingsGame;
@@ -47,8 +51,16 @@ namespace CyberNet.Meta
         {
             ref var metaUI = ref _dataWorld.OneData<MetaUIData>().MetaUIMono;
             metaUI.PreviewStartDemoGameMono.OpenWindow();
-        } 
+        }
         
+        private void StartTutorial()
+        {
+            CreatePlayerDataLocalGame();
+            SelectPlayerAction.CreatePlayer?.Invoke(1);
+            StartGameAction.StartTutorial?.Invoke();
+            CloseMainMenu();
+        }
+
         private void OpenCampaign()
         {
             CampaignUIAction.OpenCampaignUI?.Invoke();

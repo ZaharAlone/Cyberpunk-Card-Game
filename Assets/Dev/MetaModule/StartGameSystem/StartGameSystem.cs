@@ -22,6 +22,7 @@ namespace CyberNet.Meta.StartGame
         public void PreInit()
         {
             StartGameAction.StartLocalGame += StartLocalGame;
+            StartGameAction.StartTutorial += StartTutorial;
         }
 
         private async void StartLocalGame()
@@ -30,6 +31,15 @@ namespace CyberNet.Meta.StartGame
 
             await Task.Delay(100);
             _dataWorld.InitModule<LocalGameModule>(true);
+        }
+        
+        private async void StartTutorial()
+        {
+            LoadingGameScreenAction.OpenLoadingGameScreen?.Invoke();
+
+            await Task.Delay(100);
+            _dataWorld.InitModule<LocalGameModule>(true);
+            _dataWorld.InitModule<TutorialGameModule>(true);
         }
         
         private void OnlineGame()

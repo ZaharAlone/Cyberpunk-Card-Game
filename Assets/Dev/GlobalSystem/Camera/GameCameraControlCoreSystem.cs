@@ -69,6 +69,10 @@ namespace CyberNet.Global.GameCamera
 
         public void Run()
         {
+            var isStopCameraInput = _dataWorld.Select<BlockCameraInputComponent>().Count() != 0;
+            if (isStopCameraInput)
+                return;
+            
             var roundData = _dataWorld.OneData<RoundData>();
             if (roundData.CurrentRoundState == RoundState.Arena)
                 return;

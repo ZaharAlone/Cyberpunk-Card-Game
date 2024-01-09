@@ -3,6 +3,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.Dialog
 {
@@ -21,6 +22,7 @@ namespace CyberNet.Core.Dialog
         {
             _dataWorld.CreateOneData(new CurrentDialogData { DialogKey = keyDialog, CurrentIndexPhrase = 0 });
             ShowDialog(0);
+            BlockCamera();
         }
 
         private void ShowDialog(int phrase)
@@ -51,6 +53,7 @@ namespace CyberNet.Core.Dialog
             
             _dataWorld.RemoveOneData<CurrentDialogData>();
             DialogAction.EndDialog?.Invoke();
+            UnblockCamera();
         }
 
         private void NextDialog()
@@ -58,10 +61,25 @@ namespace CyberNet.Core.Dialog
             ref var CurrentDialogData = ref _dataWorld.OneData<CurrentDialogData>();
             ref var dialogConfigData = ref _dataWorld.OneData<DialogConfigData>();
             dialogConfigData.DialogConfig.TryGetValue(CurrentDialogData.DialogKey, out var currentDialog);
+            Debug.LogError("Next dialog");
             if (CurrentDialogData.CurrentIndexPhrase + 1 < currentDialog.Phrase.Count)
                 ShowDialog(CurrentDialogData.CurrentIndexPhrase + 1);
             else
+            {
                 EndDialog();
+            }
+        }
+
+        private void BlockCamera()
+        {
+            var blockCamera = _dataWorld.NewEntity();
+            blockCamera.AddComponent(new BlockCameraInputComponent());
+        }
+
+        private void UnblockCamera()
+        {
+            var blockCameraEntity = _dataWorld.Select<BlockCameraInputComponent>().SelectFirstEntity();
+            blockCameraEntity.Destroy();
         }
     }
 }
