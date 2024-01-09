@@ -9,6 +9,11 @@ namespace CyberNet.Core.UI.CorePopup
         private string _key;
         [SerializeField]
         private RectTransform _rectTransform;
+
+        public void SetKeyPopup(string key)
+        {
+            _key = key;
+        }
         
         public void OnPointerEnter(PointerEventData eventData)
         {

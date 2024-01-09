@@ -28,8 +28,14 @@ namespace CyberNet
 
         [Header("Localize")]
         public LocalizedString ActionEndTurn_loc;
+        public LocalizedString ActionPlayAll_loc;
 
         [Header("Icons")]
         public Sprite ActionEndTurn_image;
+        public Sprite ActionPlayAll_image;
+
+        [Header("Popup Action Button")]
+        public string EndRoundPopup;
+        public string PlayAllPopup;
     }
 }

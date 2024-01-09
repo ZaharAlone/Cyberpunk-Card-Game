@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.City;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 
 namespace CyberNet.Core.AbilityCard
@@ -116,6 +117,7 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.CurrentAbilityEndPlaying?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         public void Destroy() { }

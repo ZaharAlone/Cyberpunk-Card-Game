@@ -215,6 +215,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
     }
 }

@@ -107,6 +107,8 @@ namespace CyberNet.Core.AbilityCard
             CityAction.SelectTower -= AddUnitTower;
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
         
         private void CancelAddUnitMap(string obj)

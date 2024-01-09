@@ -84,7 +84,6 @@ namespace CyberNet.Core.InteractiveCard
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
                 
-                
                 entity.AddComponent(new CardMoveToTableComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 

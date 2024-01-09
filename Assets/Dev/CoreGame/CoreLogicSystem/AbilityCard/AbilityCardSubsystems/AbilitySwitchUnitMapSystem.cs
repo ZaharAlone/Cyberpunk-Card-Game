@@ -8,6 +8,7 @@ using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 using Object = UnityEngine.Object;
 
@@ -87,6 +88,7 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.CurrentAbilityEndPlaying?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         private void StartWorkAbility()

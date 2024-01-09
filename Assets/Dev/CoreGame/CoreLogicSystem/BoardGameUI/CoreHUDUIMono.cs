@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CyberNet.Core.EnemyPassport;
+using CyberNet.Core.UI.CorePopup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ namespace  CyberNet.Core.UI
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
         public Image ActionButtonImage;
+        public CoreElementInfoPopupButtonMono PopupActionButton;
 
         [Header("Draw and Discard")]
         public RectTransform DownDiscard;

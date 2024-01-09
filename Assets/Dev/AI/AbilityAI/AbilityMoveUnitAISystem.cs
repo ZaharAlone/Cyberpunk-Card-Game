@@ -31,7 +31,6 @@ namespace CyberNet.Core.AI
                 .SelectFirstEntity();
             
             MoveUnit();
-            Debug.LogError("MoveUnit");
                         
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
             entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
@@ -71,6 +70,7 @@ namespace CyberNet.Core.AI
                     && tower.PlayerIsBelong == PlayerControlEnum.Player)
                 .GetEntities();
             
+            // Смотрим соседей башни игрока, куда можно отправить юнитов
             var guidSelectPotentiallyWeakTower = new List<ItemValue>();
             foreach (var towerEntity in towerEntitiesPlayer)
             {
@@ -97,7 +97,7 @@ namespace CyberNet.Core.AI
                         var potentialAttackPlayer = CalculatePotentialAttackToTower(towerComponent);
                         var potentialAttack = potentialEnemy - potentialAttackPlayer;
                         
-                        guidSelectPotentiallyWeakTower.Add(new ItemValue{Item = towerComponent.GUID, Value = potentialAttack});
+                        guidSelectPotentiallyWeakTower.Add(new ItemValue{Item = connectTowerComponent.GUID, Value = potentialAttack});
                         break;
                     }
                 }
@@ -297,13 +297,12 @@ namespace CyberNet.Core.AI
                 }
             }
             CityAction.EnableInteractiveTower?.Invoke(targetTowerComponent.GUID);
-
-            Debug.LogError($"Start enemy move units");
             
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == _guidCard)
                 .SelectFirstEntity();
             entityCard.AddComponent(new AbilityCardMoveUnitComponent {IsAimOn = true, SelectTowerGUID = targetTowerComponent.GUID});
+            
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }
 
