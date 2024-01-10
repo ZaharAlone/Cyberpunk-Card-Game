@@ -1,0 +1,316 @@
+using EcsCore;
+using ModulesFramework.Attributes;
+using ModulesFramework.Data;
+using ModulesFramework.Systems;
+using UnityEngine;
+using System.Collections.Generic;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.City;
+using CyberNet.Core.Map;
+using CyberNet.Core.Player;
+
+namespace CyberNet.Core.AI
+{
+    [EcsSystem(typeof(CoreModule))]
+    public class AbilityMoveUnitAISystem : IPreInitSystem, IDestroySystem
+    {
+        private DataWorld _dataWorld;
+        private string _guidCard;
+        public void PreInit()
+        {
+            AbilityAIAction.MoveUnit += AbilityMoveUnit;
+            AbilityAIAction.CalculatePotentialMoveUnitAttack += CalculatePotentialMoveUnitAttack;
+            AbilityAIAction.CalculatePotentialMoveUnit += CalculatePotentialMoveUnitOnItsTerritory;
+        }
+
+        private void AbilityMoveUnit(string guidCard)
+        {
+            _guidCard = guidCard;
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+            
+            MoveUnit();
+                        
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+        }
+        
+        private void MoveUnit()
+        {
+            var potentialAttack = CalculatePotentialMoveUnitAttack();
+            if (potentialAttack.Value > 0)
+            {
+                AttackTower(potentialAttack);
+                return;
+            }
+
+            Debug.LogError("Not Attack enemy");
+            var potentialMoveMyTower = CalculatePotentialMoveUnitOnItsTerritory();
+            
+            if (potentialMoveMyTower.Value != 0)
+            {
+                
+            }
+            else
+            {
+                Debug.LogError("Некоректное применение абилки перемещение юнитов, применить абилку не является целесообразным");
+            }
+        }
+
+        private ItemValue CalculatePotentialMoveUnitAttack()
+        {
+            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
+            var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
+                    && tower.PlayerIsBelong == PlayerControlEnum.Player)
+                .GetEntities();
+            
+            // Смотрим соседей башни игрока, куда можно отправить юнитов
+            var guidSelectPotentiallyWeakTower = new List<ItemValue>();
+            foreach (var towerEntity in towerEntitiesPlayer)
+            {
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                
+                foreach (var zoneConnectTower in towerComponent.TowerMono.ZoneConnect)
+                {
+                    var connectTowerEntity = _dataWorld.Select<TowerComponent>()
+                        .Where<TowerComponent>(tower => tower.GUID == zoneConnectTower.GUID)
+                        .SelectFirstEntity();
+                    var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
+
+                    if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID)
+                    {
+                        var countUnitInTower = _dataWorld.Select<UnitMapComponent>()
+                            .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID != currentPlayerComponent.PlayerID
+                                && unit.GUIDTower == towerComponent.GUID)
+                            .Count();
+
+                        var potentialEnemy = countUnitInTower;
+                        if (towerComponent.PlayerIsBelong == PlayerControlEnum.Player)
+                            potentialEnemy += 5; // прибавляем базовый максимум карт на руке игрока, у нейтрального нет карт, так что не прибавляем
+
+                        var potentialAttackPlayer = CalculatePotentialAttackToTower(towerComponent);
+                        var potentialAttack = potentialEnemy - potentialAttackPlayer;
+                        
+                        guidSelectPotentiallyWeakTower.Add(new ItemValue{Item = connectTowerComponent.GUID, Value = potentialAttack});
+                        break;
+                    }
+                }
+            }
+
+            var maxValuePotentialAttack = 0;
+            var selectIndex = 0;
+            var index = 0;
+            
+            foreach (var towerPotential in guidSelectPotentiallyWeakTower)
+            {
+                Debug.LogError($"tower potential value {towerPotential.Value}");
+                if (towerPotential.Value > maxValuePotentialAttack)
+                {
+                    maxValuePotentialAttack = towerPotential.Value;
+                    selectIndex = index;
+                }
+                index++;
+            }
+            
+            return guidSelectPotentiallyWeakTower[selectIndex];
+        }
+        
+        private int CalculatePotentialAttackToTower(TowerComponent towerComponent)
+        {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+
+            var countUnitForBattle = 0;
+            foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+            {
+                var countPlayerUnit = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
+                        && unit.PowerSolidPlayerID == currentPlayerID)
+                    .Count();
+
+                var freeUnitForBattle = countPlayerUnit - 2;
+                if (freeUnitForBattle < 0)
+                    freeUnitForBattle = 0;
+
+                countUnitForBattle += freeUnitForBattle;
+            }
+
+            var countCardInHand = _dataWorld.Select<CardComponent>()
+                .With<CardHandComponent>()
+                .Count();
+
+            var potentialAttack = countUnitForBattle + countCardInHand - 1;
+            return potentialAttack;
+        }
+
+        private ItemValue CalculatePotentialMoveUnitOnItsTerritory()
+        {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+
+            var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerID
+                    && tower.PlayerIsBelong == PlayerControlEnum.Player)
+                .GetEntities();
+            
+            var selectPotentiallyTower = new List<ItemValue>();
+            foreach (var towerEntity in towerEntitiesPlayer)
+            {
+                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                var countPlayerUnitInTower = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID
+                        && unit.PowerSolidPlayerID == currentPlayerID
+                        && unit.PlayerControl == PlayerControlEnum.Player)
+                    .Count();
+
+                var isSelectTower = false;
+                foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+                {
+                    var countEnemyUnitInTower = _dataWorld.Select<UnitMapComponent>()
+                        .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
+                            && unit.PowerSolidPlayerID != currentPlayerID)
+                        .Count();
+
+                    if (countPlayerUnitInTower < countEnemyUnitInTower)
+                    {
+                        isSelectTower = true;
+                        break;
+                    }
+                }
+
+                if (isSelectTower)
+                {
+                    foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+                    {
+                        var countPlayerNeighboringUnitInTower = _dataWorld.Select<UnitMapComponent>()
+                            .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
+                                && unit.PowerSolidPlayerID == currentPlayerID
+                                && unit.PlayerControl == PlayerControlEnum.Player)
+                            .Count();
+
+                        if (countPlayerNeighboringUnitInTower - 2 > countPlayerUnitInTower)
+                        {
+                            selectPotentiallyTower.Add(new ItemValue {Item = towerComponent.GUID, Value = countPlayerUnitInTower});
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (selectPotentiallyTower.Count == 0)
+                return new ItemValue();
+            else
+            {
+                var targetTower = new ItemValue();
+                var minUnit = 0;
+                
+                foreach (var potentialTower in selectPotentiallyTower)
+                {
+                    if (potentialTower.Value > minUnit)
+                    {
+                        minUnit = potentialTower.Value;
+                        targetTower = potentialTower;
+                    }    
+                }
+
+                return targetTower;
+            }
+        }
+
+        private void AttackTower(ItemValue targetTower)
+        {
+            var towerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == targetTower.Item)
+                .SelectFirstEntity();
+            var targetTowerComponent = towerEntity.GetComponent<TowerComponent>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var needCountUnit = 0;
+
+            if (targetTowerComponent.PlayerIsBelong == PlayerControlEnum.Neutral)
+                needCountUnit = 2;
+            else
+            {
+                var countEnemyUnit = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == targetTowerComponent.GUID
+                        && unit.PowerSolidPlayerID != currentPlayerID)
+                    .Count();
+
+                needCountUnit = countEnemyUnit + 5;
+            }
+
+            var countPlayerCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardHandComponent>()
+                .Count();
+
+            needCountUnit -= countPlayerCard;
+            
+            var unitsForAttacks = new List<ItemValue>();
+            var sumCountAddUnit = 0;
+            
+            // Выбираем каких сколько юнитов и с каких зон отправим в бой
+            foreach (var towerConnect in targetTowerComponent.TowerMono.ZoneConnect)
+            {
+                var countPlayerUnit = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
+                        && unit.PowerSolidPlayerID == currentPlayerID)
+                    .Count();
+
+                if (countPlayerUnit - 2 > 0)
+                {
+                    var needUnit = needCountUnit - (sumCountAddUnit + (countPlayerUnit - 2));
+                    if (needUnit < 0)
+                    {
+                        var countUnit = countPlayerUnit - 2 - Mathf.Abs(needUnit);
+                        unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
+                        sumCountAddUnit += countUnit;
+                    }
+                    else
+                    {
+                        var countUnit = countPlayerUnit - 2;
+                        unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
+                        sumCountAddUnit += countUnit;
+                    }
+                    
+                    if (sumCountAddUnit >= needCountUnit)
+                        break;
+                }
+            }
+
+            foreach (var unitForAttackValue in unitsForAttacks)
+            {
+                for (int i = 0; i < unitForAttackValue.Value; i++)
+                {
+                    var entityUnit = _dataWorld.Select<UnitMapComponent>()
+                        .Without<UnitMapComponent>()
+                        .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID
+                            && unit.GUIDTower == unitForAttackValue.Item)
+                        .SelectFirstEntity();
+                    
+                    entityUnit.AddComponent(new SelectUnitMapComponent());
+                    var unitComponent = entityUnit.GetComponent<UnitMapComponent>();
+                    unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
+                }
+            }
+            CityAction.EnableInteractiveTower?.Invoke(targetTowerComponent.GUID);
+            
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == _guidCard)
+                .SelectFirstEntity();
+            entityCard.AddComponent(new AbilityCardMoveUnitComponent {IsAimOn = true, SelectTowerGUID = targetTowerComponent.GUID});
+            
+            MapMoveUnitsAction.StartMoveUnits?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            AbilityAIAction.MoveUnit -= AbilityMoveUnit;
+            AbilityAIAction.CalculatePotentialMoveUnitAttack -= CalculatePotentialMoveUnitAttack;
+            AbilityAIAction.CalculatePotentialMoveUnit -= CalculatePotentialMoveUnitOnItsTerritory;
+        }
+    }
+}

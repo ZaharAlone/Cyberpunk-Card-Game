@@ -9,7 +9,7 @@ namespace CyberNet.Meta
     {
         public static Action<string> WaitPopup;
         public static Action<string, string, string, Action> WarningPopup;
-        public static Action<string, string, string, string, Action> ConfirmPopup;
+        public static Action<PopupConfimStruct> ConfirmPopup;
 
         public static Action CloseWaitPopup;
         public static Action CloseWarningPopup;

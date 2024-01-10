@@ -1,0 +1,268 @@
+{
+  "neutral_scout": {
+    "name": "neutral_scout",
+    "header": "BoardGameCard/$bgc_neutral_scout_name",
+    "image": "card_neutral_scout",
+    "nations": "Neutral",
+    "count": 32,
+    "price": 0,
+    "cyberpsychosis_count": 1,
+    "ability_0": {
+      "action": "trade",
+      "count": 1
+    }
+  },
+  "neutral_explorer": {
+    "name": "neutral_explorer",
+    "header": "BoardGameCard/$bgc_neutral_explorer_name",
+    "image": "card_neutral_explorer",
+    "nations": "Neutral",
+    "count": 4,
+    "price": 0,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SquadMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "attack",
+      "count": 1
+    }
+  },
+  "neutral_hunter": {
+    "name": "neutral_hunter",
+    "header": "BoardGameCard/$bgc_neutral_hunter_name",
+    "image": "card_neutral_hunter",
+    "nations": "Neutral",
+    "count": 8,
+    "price": 0,
+    "cyberpsychosis_count": 1,
+    "ability_0": {
+      "action": "attack",
+      "count": 1
+    }
+  },
+  "corporates_administrator": {
+    "name": "corporates_administrator",
+    "header": "BoardGameCard/$bgc_corporates_administrator_name",
+    "image": "card_corporates_administrator",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "trade",
+      "count": 3
+    }
+  },
+  "corporates_director": {
+    "name": "corporates_director",
+    "header": "BoardGameCard/$bgc_corporates_director_name",
+    "image": "card_corporates_director",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 2,
+    "cyberpsychosis_count": 1,
+    "ability_0": {
+      "action": "Attack",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "DestroyCard",
+      "count": 1
+    }
+  },
+  "corporates_droid": {
+    "name": "corporates_droid",
+    "header": "BoardGameCard/$bgc_corporates_droid_name",
+    "image": "card_corporates_droid",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SwitchEnemySquad",
+      "count": 1
+    }
+  },
+  "corporates_engineer": {
+    "name": "corporates_engineer",
+    "header": "BoardGameCard/$bgc_corporates_engineer_name",
+    "image": "card_corporates_engineer",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DrawCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "CloneCard",
+      "count": 1
+    }
+  },
+  "corporates_head_hunter": {
+    "name": "corporates_head_hunter",
+    "header": "BoardGameCard/$bgc_corporates_head_hunter_name",
+    "image": "card_corporates_head_hunter",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SquadMove",
+      "count": 1
+    }
+  },
+  "corporates_pathfinder": {
+    "name": "corporates_pathfinder",
+    "header": "BoardGameCard/$bgc_corporates_pathfinder_name",
+    "image": "card_corporates_pathfinder",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SquadMove",
+      "count": 2
+    }
+  },
+  "corporates_R52": {
+    "name": "corporates_R52",
+    "header": "BoardGameCard/$bgc_corporates_R52_name",
+    "image": "card_corporates_R52",
+    "nations": "Corporates",
+    "count": 3,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SwitchNeutralSquad",
+      "count": 1
+    }
+  },
+  "corporates_sergeant": {
+    "name": "corporates_sergeant",
+    "header": "BoardGameCard/$bgc_corporates_sergeant_name",
+    "image": "card_corporates_sergeant",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SetIce",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "SquadMove",
+      "count": 1
+    }
+  },
+  "corporates_brothers": {
+    "name": "corporates_brothers",
+    "header": "BoardGameCard/$bgc_corporates_brothers_name",
+    "image": "card_corporates_brothers",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "SquadMove",
+      "count": 3
+    }
+  },
+  "corporates_yellow_eyed": {
+    "name": "corporates_yellow_eyed",
+    "header": "BoardGameCard/$bgc_corporates_yellow_eyed_name",
+    "image": "card_corporates_yellow_eyed",
+    "nations": "Corporates",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "Trade",
+      "count": 2
+    }
+  },
+  "guns_biker": {
+    "name": "guns_biker",
+    "header": "BoardGameCard/$bgc_guns_biker_name",
+    "image": "card_guns_biker",
+    "nations": "Guns",
+    "count": 3,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DestroySquad",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Attack",
+      "count": 2
+    }
+  },
+  "guns_bloody_eye": {
+    "name": "guns_bloody_eye",
+    "header": "BoardGameCard/$bgc_guns_bloody_eye_name",
+    "image": "card_guns_bloody_eye",
+    "nations": "Guns",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "Trade",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "SquadMove",
+      "count": 1
+    }
+  },
+  "guns_chimney": {
+    "name": "guns_chimney",
+    "header": "BoardGameCard/$bgc_guns_chimney_name",
+    "image": "card_guns_chimney",
+    "nations": "Guns",
+    "count": 1,
+    "price": 6,
+    "cyberpsychosis_count": 5,
+    "ability_0": {
+      "action": "Attack",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "DestroySquad",
+      "count": 1
+    }
+  },
+  "guns_killer": {
+    "name": "guns_killer",
+    "header": "BoardGameCard/$bgc_guns_killer_name",
+    "image": "card_guns_killer",
+    "nations": "Guns",
+    "count": 1,
+    "price": 6,
+    "cyberpsychosis_count": 5,
+    "ability_0": {
+      "action": "DestroyNeutralSquad",
+      "count": 2
+    }
+  },
+  "guns_leader": {
+    "name": "guns_leader",
+    "header": "BoardGameCard/$bgc_guns_leader_name",
+    "image": "card_guns_leader",
+    "nations": "Guns",
+    "count": 4,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "Attack",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "SwitchNeutralSquad",
+      "count": 1
+    }
+  }
+}

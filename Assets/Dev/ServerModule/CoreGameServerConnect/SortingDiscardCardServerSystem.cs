@@ -18,7 +18,7 @@ namespace CyberNet.Core
             GlobalCoreGameAction.SortingDiscardCard += SortingCard;
         }
 
-        private void SortingCard(PlayerEnum targetPlayer)
+        private void SortingCard(int targetPlayerID)
         {
 
         }

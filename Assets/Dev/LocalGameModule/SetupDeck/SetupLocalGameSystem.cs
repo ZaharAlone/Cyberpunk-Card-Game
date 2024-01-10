@@ -4,6 +4,8 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFrameworkUnity;
 using System.Collections.Generic;
+using System.Linq;
+using CyberNet.Global;
 using UnityEngine;
 
 namespace CyberNet.Core
@@ -23,15 +25,22 @@ namespace CyberNet.Core
         private void SetupCard()
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
-
+            ref var playerSelect = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             var shopCard = new List<CardData>();
             var neutralShopCard = new List<CardData>();
-            var player_1 = new List<CardData>();
-            var player_2 = new List<CardData>();
+            var playerDeckCard = new List<PlayerCardData>();
 
-            foreach (var cardKV in cardsConfig.Cards)
+            foreach (var player in playerSelect)
             {
-                var card = cardKV.Value;
+                playerDeckCard.Add(new PlayerCardData {
+                    IndexPlayer = player.PlayerID,
+                    Cards = new()
+                });
+            }
+
+            foreach (var cardKeyValue in cardsConfig.Cards)
+            {
+                var card = cardKeyValue.Value;
                 for (var i = 0; i < card.Count; i++)
                 {
                     if (card.Nations != "Neutral")
@@ -39,23 +48,44 @@ namespace CyberNet.Core
                     else
                     {
                         if (!CheckCardIsPlayer(card.Name))
-                            neutralShopCard.Add(new CardData { IDPositions = neutralShopCard.Count, CardName = card.Name });
+                        {
+                            neutralShopCard.Add(new CardData {
+                                IDPositions = neutralShopCard.Count,
+                                CardName = card.Name
+                            });
+                        }
                         else
                         {
-                            if (CardIsFirstPlayer(player_1, card.Name))
-                                player_1.Add(new CardData { IDPositions = player_1.Count, CardName = card.Name });
-                            else
-                                player_2.Add(new CardData { IDPositions = player_2.Count, CardName = card.Name });
+                            var selectPlayerIndex = WhatPlayerGetCard(playerDeckCard, card.Name);
+                            
+                            if (selectPlayerIndex == -1)
+                                continue;
+                            playerDeckCard[selectPlayerIndex].Cards.Add(new CardData 
+                            {
+                                IDPositions = playerDeckCard[selectPlayerIndex].Cards.Count(),
+                                CardName = card.Name
+                            });
                         }
                     }
                 }
             }
 
-            SortingCard.SortingDeckCards(shopCard);
-            SortingCard.SortingDeckCards(player_1);
-            SortingCard.SortingDeckCards(player_2);
+            shopCard = SortingCard.SortingDeckCards(shopCard);
+            
+            var sortingPlayerDeckCard = new List<PlayerCardData>();
+            foreach (var playerDeck in playerDeckCard)
+            {
+                sortingPlayerDeckCard.Add(new PlayerCardData {
+                    Cards = SortingCard.SortingDeckCards(playerDeck.Cards),
+                    IndexPlayer = playerDeck.IndexPlayer
+                });
+            }
 
-            _dataWorld.CreateOneData(new DeckCardsData { ShopCards = shopCard, NeutralShopCards = neutralShopCard, PlayerCards_1 = player_1, PlayerCards_2 = player_2 });
+            _dataWorld.CreateOneData(new DeckCardsData {
+                ShopCards = shopCard,
+                NeutralShopCards = neutralShopCard,
+                PlayerDeckCard = sortingPlayerDeckCard
+            });
         }
 
         private bool CheckCardIsPlayer(string Key)
@@ -64,27 +94,37 @@ namespace CyberNet.Core
             var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
-                if (item.Key == Key)
+                if (item.Item == Key)
                     isPlayer = true;
             return isPlayer;
         }
 
-        private bool CardIsFirstPlayer(List<CardData> playerCard, string Key)
+        //Какому по индексу игроку подходит данная карта?
+        private int WhatPlayerGetCard(List<PlayerCardData> playerDeckCard, string KeyCard)
         {
             var targetCountCard = 0;
             var boardGameData = _dataWorld.OneData<BoardGameData>();
 
             foreach (var item in boardGameData.BoardGameRule.BasePoolCard)
-                if (item.Key == Key)
+                if (item.Item == KeyCard)
                     targetCountCard = item.Value;
+            
+            var selectPlayerIndex = 0;
+            foreach (var playerDeck in playerDeckCard)
+            {
+                var countCardSelectPlayer = 0;
+                foreach (var playerCard in playerDeck.Cards)
+                {
+                    if (playerCard.CardName == KeyCard)
+                        countCardSelectPlayer++;
+                }
 
-            var countCardPlayerOne = 0;
-
-            foreach (var card in playerCard)
-                if (card.CardName == Key)
-                    countCardPlayerOne++;
-
-            return countCardPlayerOne < targetCountCard;
+                if (countCardSelectPlayer < targetCountCard)
+                    return selectPlayerIndex;
+                else
+                    selectPlayerIndex++;
+            }
+            return -1;
         }
     }
 }

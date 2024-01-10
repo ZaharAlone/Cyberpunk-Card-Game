@@ -4,7 +4,12 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
+using CyberNet.Core.AI;
 using CyberNet.Global;
+using CyberNet.Meta.SelectPlayersForGame;
+using CyberNet.Meta.StartGame;
+using CyberNet.Tools;
 
 namespace CyberNet.Meta
 {
@@ -12,58 +17,76 @@ namespace CyberNet.Meta
     public class SelectLeadersUISystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
-
+        private bool _isFirstSelectLeader;
+        
         public void PreInit()
         {
-            SelectLeaderAction.OpenSelectLeaderUI += OpenFirstSelectLeaderUI;
+            SelectLeaderAction.OpenSelectLeaderUI += OpenSelectLeaderUI;
             SelectLeaderAction.SelectLeader += SelectLeaderView;
             SelectLeaderAction.BackMainMenu += BackMainMenu;
-            SelectLeaderAction.StartGame += StartGame;
+            SelectLeaderAction.ConfirmSelect += ConfirmSelectLeader;
             SelectLeaderAction.InitButtonLeader += InitButtonLeader;
         }
-        private void OpenFirstSelectLeaderUI(GameModeEnum gameModeEnum)
-        {
-            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
-            uiSelectLeader.OpenWindow(gameModeEnum);
-
-            _dataWorld.CreateOneData(new SelectLeadersData {SelectGameMode = gameModeEnum });
-        }
         
-        private void OpenSecondSelectLeaderUI()
+        private void OpenSelectLeaderUI(SelectLeaderData selectLeaderConfig, bool isStartGame)
         {
-            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
+            _isFirstSelectLeader = isStartGame;
             ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
-            uiSelectLeader.OpenWindow(selectLeaderData.SelectGameMode);
-        }
-        
-        private void StartGame()
-        {
-            ref var selectLeadersData = ref _dataWorld.OneData<SelectLeadersData>();
-            var isNextSelectPlayer2 = false;
+            _dataWorld.CreateOneData(selectLeaderConfig);
             
-            switch (selectLeadersData.SelectGameMode)
+            SelectLeaderView(selectLeaderConfig.SelectLeader);
+            
+            uiSelectLeader.SetLocSelectPlayer(selectLeaderConfig.NamePlayer);
+            uiSelectLeader.OpenWindow();
+        }
+        
+        private void ConfirmSelectLeader()
+        {
+            ref var selectLeadersData = ref _dataWorld.OneData<SelectLeaderData>();
+            ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
+
+            var counter = 0;
+            foreach (var selectLeader in selectPlayersData.SelectLeaders)
             {
-                case GameModeEnum.Campaign:
+                if (selectLeader.PlayerID == selectLeadersData.PlayerID)
+                {
+                    selectPlayersData.SelectLeaders[counter] = selectLeadersData;
                     break;
-                case GameModeEnum.LocalVSAI:
-                    StartGameAction.StartGameLocalVSAI?.Invoke(selectLeadersData.CurrentSelectLeader_Player1);
-                    break;
-                case GameModeEnum.LocalVSPlayer:
-                    isNextSelectPlayer2 = true;
-                    selectLeadersData.SelectGameMode = GameModeEnum.LocalVSPlayer2;
-                    OpenSecondSelectLeaderUI();
-                    break;
-                case GameModeEnum.LocalVSPlayer2:
-                    StartGameAction.StartGameLocalVSPlayer?.Invoke(selectLeadersData.CurrentSelectLeader_Player1, selectLeadersData.CurrentSelectLeader_Player2);
-                    break;
-                case GameModeEnum.OnlineGame:
-                    break;
+                }
+                counter++;
             }
 
-            if (!isNextSelectPlayer2)
+            selectPlayersData.PrevSelectLeader = selectLeadersData;
+            
+            if (_isFirstSelectLeader)
             {
-                _dataWorld.RemoveOneData<SelectLeadersData>();
-                CloseSelectLeader();   
+                SelectStartEnemyLeader();
+            }
+            
+            _dataWorld.RemoveOneData<SelectLeaderData>();
+            CloseSelectLeader(); 
+            SelectPlayerAction.OpenSelectPlayerUI?.Invoke();
+        }
+
+        private void SelectStartEnemyLeader()
+        {
+            var leadersConfig = _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
+            ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
+            ref var selectPlayersData = ref _dataWorld.OneData<SelectPlayerData>();
+            var enemyLeaders = GeneratePlayerData.GetRandomLeader(leadersConfig, 3, selectPlayersData.SelectLeaders[0].SelectLeader);
+            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
+            
+            for (int i = 1; i < 4; i++)
+            {
+                var botName = GeneratePlayerData.GenerateUniquePlayerName(botNames, selectPlayersData.SelectLeaders);
+                
+                selectPlayersData.SelectLeaders.Add(new SelectLeaderData {
+                    PlayerID = i,
+                    playerTypeEnum = PlayerTypeEnum.AIEasy,
+                    SelectLeader = enemyLeaders[i-1],
+                    NamePlayer = botName,
+                    KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]
+                });
             }
         }
 
@@ -71,16 +94,17 @@ namespace CyberNet.Meta
         {
             var leadersView = _dataWorld.OneData<LeadersViewData>().LeadersView;
             var leadersConfigData = _dataWorld.OneData<LeadersConfigData>();
+            var uiSelectLeader = _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
+            
             leadersConfigData.LeadersConfig.TryGetValue(nameLeader, out var leadersConfig);
             leadersConfigData.AbilityConfig.TryGetValue(leadersConfig.Ability, out var abilityConfig);
-
             leadersView.TryGetValue(leadersConfig.ImageCardLeaders, out var imCardLeaders);
             leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
             
-            ref var uiSelectLeader = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
             uiSelectLeader.SetSelectViewLeader(imCardLeaders, leadersConfig.NameLoc, leadersConfig.DescrLoc);
-            
             uiSelectLeader.SetSelectViewLeaderAbility(imAbility, abilityConfig.NameLoc, abilityConfig.DescrLoc);
+            uiSelectLeader.SelectButton(nameLeader);
+            
             WriteInComponentSelectLeader(nameLeader);
         }
 
@@ -91,9 +115,8 @@ namespace CyberNet.Meta
 
             if (isFirstButton)
             {
-                //TO-DO add select first button
+                //TODO add select first button view
                 SelectLeaderView(nameLeader);
-                WriteInComponentSelectLeader(nameLeader);
             }
 
             return imageButton;
@@ -101,21 +124,14 @@ namespace CyberNet.Meta
 
         private void WriteInComponentSelectLeader(string nameLeader)
         {
-            ref var selectLeaderData = ref _dataWorld.OneData<SelectLeadersData>();
-            if (selectLeaderData.SelectGameMode != GameModeEnum.LocalVSPlayer2)
-            {
-                selectLeaderData.CurrentSelectLeader_Player1 = nameLeader;
-            }
-            else
-            {
-                selectLeaderData.CurrentSelectLeader_Player2 = nameLeader;
-            }
+            _dataWorld.OneData<SelectLeaderData>().SelectLeader = nameLeader;
         }
 
         private void BackMainMenu()
         {
             MainMenuAction.OpenMainMenu?.Invoke();
-            _dataWorld.RemoveOneData<SelectLeadersData>();
+            _dataWorld.RemoveOneData<SelectLeaderData>();
+            _dataWorld.RemoveOneData<SelectPlayerData>();
             CloseSelectLeader();
         }
 

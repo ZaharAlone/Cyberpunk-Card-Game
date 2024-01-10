@@ -1,29 +1,66 @@
 using I2.Loc;
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace CyberNet.Meta
 {
     public class PopupConfirmUIMono : MonoBehaviour
     {
-        public Localize Header;
-        public Localize Descr;
-        public Localize ButtonTextLeft;
-        public Localize ButtonTextRight;
-        private Action TargetAction;
+        [Header("Main Element")]
+        public GameObject Background;
+        public GameObject Panel;
+        
+        [Header("View element")]
+        public TextMeshProUGUI Header;
+        public TextMeshProUGUI Descr;
+        public InteractiveButtonHideShowElement ButtonLeft;
+        public InteractiveButtonHideShowElement ButtonRight;
 
-        public void OpenPopup(string header, string descr, string buttonRight, string buttonLeft, Action action)
+        //Element for animations
+        
+        private Action ActionConfim;
+        private Action ActionCancel;
+
+        public void Awake()
         {
-            Header.Term = header;
-            Descr.Term = descr;
-            ButtonTextRight.Term = buttonRight;
-            ButtonTextLeft.Term = buttonLeft;
-            TargetAction = action;
+            Background.SetActive(false);
+            Panel.SetActive(false);
         }
 
-        public void OnClick()
+        public void OpenPopup(PopupConfimStruct popupData)
         {
-            TargetAction?.Invoke();
+            Debug.Log(popupData.HeaderLoc);
+            Header.text = popupData.HeaderLoc;
+            Descr.text = popupData.DescrLoc;
+            ButtonRight.SetText(popupData.ButtonConfimLoc);
+            ButtonLeft.SetText(popupData.ButtonCancelLoc);
+            ActionConfim = popupData.ButtonConfimAction;
+            ActionCancel = popupData.ButtonCancelAction;
+            OpenPopupAnimations();
+        }
+
+        private void OpenPopupAnimations()
+        {
+            Background.SetActive(true);
+            Panel.SetActive(true);
+        }
+
+        public void OnConfimClick()
+        {
+            ActionConfim?.Invoke();
+        }
+
+        public void OnClickCancel()
+        {
+            ClosePopupAnimation();
+            ActionCancel?.Invoke();
+        }
+
+        public void ClosePopupAnimation()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
         }
     }
 }

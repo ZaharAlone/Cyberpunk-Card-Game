@@ -4,6 +4,6 @@ namespace CyberNet.Core
 {
     public static class GlobalCoreGameAction
     {
-        public static Action<PlayerEnum> SortingDiscardCard;
+        public static Action<int> SortingDiscardCard;
     }
 }

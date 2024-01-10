@@ -1,10 +1,7 @@
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
-using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using UnityEngine;
-using CyberNet.Core.UI;
 
 namespace CyberNet.Core
 {
@@ -26,37 +23,40 @@ namespace CyberNet.Core
             for (int i = 0; i < eventValue.Count; i++)
             {
                 var countPlayerEntities = _dataWorld.Select<CardComponent>()
-                           .Where<CardComponent>(card => card.Player == eventValue.Target)
+                           .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                            .With<CardDrawComponent>()
                            .Count();
 
                 if (countPlayerEntities == 0)
-                    GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.Target);
+                    GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.TargetPlayerID);
 
                 var playerEntities = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == eventValue.Target)
+                                               .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                                                .With<CardDrawComponent>()
                                                .GetEntities();
 
                 var id = SortingCard.ChooseNearestCard(playerEntities);
                 AddCard(id);
             }
+            
             var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new WaitDistributionCardHandComponent { Player = eventValue.Target, CountCard = eventValue.Count });
+            entity.AddComponent(new WaitDistributionCardHandComponent {
+                PlayerID = eventValue.TargetPlayerID,
+                CountCard = eventValue.Count
+            });
         }
 
         private void AddCard(int entityId)
         {
             var entity = _dataWorld.GetEntity(entityId);
-            var viewData = _dataWorld.OneData<ViewPlayerData>();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
             entity.AddComponent(new CardDistributionComponent());
-            var waitTimeAnim = WaitCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.Player);
-            waitTimeAnim += 0.25f;
-            entity.AddComponent(new WaitCardAnimationsDrawHandComponent { Player = cardComponent.Player, WaitTime = waitTimeAnim });
+            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.PlayerID);
+            waitTimeAnim += 0.175f;
+            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = waitTimeAnim });
             cardComponent.CardMono.ShowCard();
         }
     }

@@ -29,11 +29,20 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
             ""actions"": [
                 {
                     ""name"": ""RightClick"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""936e8e9b-74d0-4117-b3fe-79746200884e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MiddleButtonClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e707039-7357-42ee-8875-9c195f8c8e52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -47,11 +56,38 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 },
                 {
                     ""name"": ""Click"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""a2e8e707-f79e-4a0f-9080-c632de8805db"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ada69e3-b415-4725-8159-06e045dee24c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RightClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""8bd4e486-eacc-46c3-8146-fa99cd2eefc4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MiddleButtonClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""b74638e4-0b32-4b58-8418-304c292e2d8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -67,6 +103,24 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""2fe142bc-526e-4e29-b0a6-2a431990ef53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ZoomAdd"",
+                    ""type"": ""Button"",
+                    ""id"": ""837262a3-acad-4229-bfbb-876abb267d2a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ZoomSub"",
+                    ""type"": ""Button"",
+                    ""id"": ""757bed69-2018-49ea-9037-71f97490066f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -116,6 +170,24 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""d5559b5f-f6a1-4ce6-b4bf-7d7719ee209e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FastMoveCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""52e97226-1046-4b9b-a2fa-7ad761c7c3a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -624,6 +696,127 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                     ""action"": ""NavigateHorizontal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ba79cdf-d6db-44a9-83c2-0d9651424f52"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""LeftClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39daf840-704e-4282-bdb0-041f07e2b127"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LeftClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62dd0e88-4520-4a5d-b54b-1cc06115d98f"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c28f1555-1925-4515-8089-41099f469f2a"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""FastMoveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8edd24d-96a0-4108-8009-49a4328df2c5"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""RightClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5c8ed13-1744-4c85-8f90-72b1876ad4ce"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""MiddleButtonClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92c624a7-4a36-46a5-a7ef-400ad7bbb213"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""MiddleButtonClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""faddd18d-0a7a-4c7b-b942-01afede37ebb"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ZoomAdd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""999813db-1ca5-49f5-8d66-443de91ca54a"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ZoomAdd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""347d2ac2-849a-47e8-ae4f-886a6cfaa6ed"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ZoomSub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40789e04-8b5e-41a5-b027-e6ecd8f750dc"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ZoomSub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -661,15 +854,23 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_RightClick = m_Game.FindAction("RightClick", throwIfNotFound: true);
+        m_Game_MiddleButtonClick = m_Game.FindAction("MiddleButtonClick", throwIfNotFound: true);
         m_Game_ScrollWheel = m_Game.FindAction("ScrollWheel", throwIfNotFound: true);
         m_Game_Click = m_Game.FindAction("Click", throwIfNotFound: true);
+        m_Game_LeftClickHold = m_Game.FindAction("LeftClickHold", throwIfNotFound: true);
+        m_Game_RightClickHold = m_Game.FindAction("RightClickHold", throwIfNotFound: true);
+        m_Game_MiddleButtonClickHold = m_Game.FindAction("MiddleButtonClickHold", throwIfNotFound: true);
         m_Game_Point = m_Game.FindAction("Point", throwIfNotFound: true);
         m_Game_Cancel = m_Game.FindAction("Cancel", throwIfNotFound: true);
+        m_Game_ZoomAdd = m_Game.FindAction("ZoomAdd", throwIfNotFound: true);
+        m_Game_ZoomSub = m_Game.FindAction("ZoomSub", throwIfNotFound: true);
         m_Game_Submit = m_Game.FindAction("Submit", throwIfNotFound: true);
         m_Game_Navigate = m_Game.FindAction("Navigate", throwIfNotFound: true);
         m_Game_NavigateHorizontal = m_Game.FindAction("NavigateHorizontal", throwIfNotFound: true);
         m_Game_MousePositions = m_Game.FindAction("MousePositions", throwIfNotFound: true);
         m_Game_Exit = m_Game.FindAction("Exit", throwIfNotFound: true);
+        m_Game_RotateCamera = m_Game.FindAction("RotateCamera", throwIfNotFound: true);
+        m_Game_FastMoveCamera = m_Game.FindAction("FastMoveCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -730,29 +931,45 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
     private readonly InputActionMap m_Game;
     private IGameActions m_GameActionsCallbackInterface;
     private readonly InputAction m_Game_RightClick;
+    private readonly InputAction m_Game_MiddleButtonClick;
     private readonly InputAction m_Game_ScrollWheel;
     private readonly InputAction m_Game_Click;
+    private readonly InputAction m_Game_LeftClickHold;
+    private readonly InputAction m_Game_RightClickHold;
+    private readonly InputAction m_Game_MiddleButtonClickHold;
     private readonly InputAction m_Game_Point;
     private readonly InputAction m_Game_Cancel;
+    private readonly InputAction m_Game_ZoomAdd;
+    private readonly InputAction m_Game_ZoomSub;
     private readonly InputAction m_Game_Submit;
     private readonly InputAction m_Game_Navigate;
     private readonly InputAction m_Game_NavigateHorizontal;
     private readonly InputAction m_Game_MousePositions;
     private readonly InputAction m_Game_Exit;
+    private readonly InputAction m_Game_RotateCamera;
+    private readonly InputAction m_Game_FastMoveCamera;
     public struct GameActions
     {
         private @PlayerController_Action m_Wrapper;
         public GameActions(@PlayerController_Action wrapper) { m_Wrapper = wrapper; }
         public InputAction @RightClick => m_Wrapper.m_Game_RightClick;
+        public InputAction @MiddleButtonClick => m_Wrapper.m_Game_MiddleButtonClick;
         public InputAction @ScrollWheel => m_Wrapper.m_Game_ScrollWheel;
         public InputAction @Click => m_Wrapper.m_Game_Click;
+        public InputAction @LeftClickHold => m_Wrapper.m_Game_LeftClickHold;
+        public InputAction @RightClickHold => m_Wrapper.m_Game_RightClickHold;
+        public InputAction @MiddleButtonClickHold => m_Wrapper.m_Game_MiddleButtonClickHold;
         public InputAction @Point => m_Wrapper.m_Game_Point;
         public InputAction @Cancel => m_Wrapper.m_Game_Cancel;
+        public InputAction @ZoomAdd => m_Wrapper.m_Game_ZoomAdd;
+        public InputAction @ZoomSub => m_Wrapper.m_Game_ZoomSub;
         public InputAction @Submit => m_Wrapper.m_Game_Submit;
         public InputAction @Navigate => m_Wrapper.m_Game_Navigate;
         public InputAction @NavigateHorizontal => m_Wrapper.m_Game_NavigateHorizontal;
         public InputAction @MousePositions => m_Wrapper.m_Game_MousePositions;
         public InputAction @Exit => m_Wrapper.m_Game_Exit;
+        public InputAction @RotateCamera => m_Wrapper.m_Game_RotateCamera;
+        public InputAction @FastMoveCamera => m_Wrapper.m_Game_FastMoveCamera;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -765,18 +982,36 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @RightClick.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClick;
                 @RightClick.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClick;
                 @RightClick.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClick;
+                @MiddleButtonClick.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClick;
+                @MiddleButtonClick.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClick;
+                @MiddleButtonClick.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClick;
                 @ScrollWheel.started -= m_Wrapper.m_GameActionsCallbackInterface.OnScrollWheel;
                 @ScrollWheel.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnScrollWheel;
                 @ScrollWheel.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnScrollWheel;
                 @Click.started -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
                 @Click.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnClick;
+                @LeftClickHold.started -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnLeftClickHold;
+                @RightClickHold.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClickHold;
+                @RightClickHold.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClickHold;
+                @RightClickHold.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRightClickHold;
+                @MiddleButtonClickHold.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClickHold;
+                @MiddleButtonClickHold.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClickHold;
+                @MiddleButtonClickHold.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMiddleButtonClickHold;
                 @Point.started -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
                 @Point.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
                 @Point.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnPoint;
                 @Cancel.started -= m_Wrapper.m_GameActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnCancel;
+                @ZoomAdd.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomAdd;
+                @ZoomAdd.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomAdd;
+                @ZoomAdd.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomAdd;
+                @ZoomSub.started -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomSub;
+                @ZoomSub.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomSub;
+                @ZoomSub.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnZoomSub;
                 @Submit.started -= m_Wrapper.m_GameActionsCallbackInterface.OnSubmit;
                 @Submit.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnSubmit;
                 @Submit.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnSubmit;
@@ -792,6 +1027,12 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Exit.started -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnExit;
+                @RotateCamera.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRotateCamera;
+                @FastMoveCamera.started -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
+                @FastMoveCamera.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
+                @FastMoveCamera.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnFastMoveCamera;
             }
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
@@ -799,18 +1040,36 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @RightClick.started += instance.OnRightClick;
                 @RightClick.performed += instance.OnRightClick;
                 @RightClick.canceled += instance.OnRightClick;
+                @MiddleButtonClick.started += instance.OnMiddleButtonClick;
+                @MiddleButtonClick.performed += instance.OnMiddleButtonClick;
+                @MiddleButtonClick.canceled += instance.OnMiddleButtonClick;
                 @ScrollWheel.started += instance.OnScrollWheel;
                 @ScrollWheel.performed += instance.OnScrollWheel;
                 @ScrollWheel.canceled += instance.OnScrollWheel;
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
+                @LeftClickHold.started += instance.OnLeftClickHold;
+                @LeftClickHold.performed += instance.OnLeftClickHold;
+                @LeftClickHold.canceled += instance.OnLeftClickHold;
+                @RightClickHold.started += instance.OnRightClickHold;
+                @RightClickHold.performed += instance.OnRightClickHold;
+                @RightClickHold.canceled += instance.OnRightClickHold;
+                @MiddleButtonClickHold.started += instance.OnMiddleButtonClickHold;
+                @MiddleButtonClickHold.performed += instance.OnMiddleButtonClickHold;
+                @MiddleButtonClickHold.canceled += instance.OnMiddleButtonClickHold;
                 @Point.started += instance.OnPoint;
                 @Point.performed += instance.OnPoint;
                 @Point.canceled += instance.OnPoint;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @ZoomAdd.started += instance.OnZoomAdd;
+                @ZoomAdd.performed += instance.OnZoomAdd;
+                @ZoomAdd.canceled += instance.OnZoomAdd;
+                @ZoomSub.started += instance.OnZoomSub;
+                @ZoomSub.performed += instance.OnZoomSub;
+                @ZoomSub.canceled += instance.OnZoomSub;
                 @Submit.started += instance.OnSubmit;
                 @Submit.performed += instance.OnSubmit;
                 @Submit.canceled += instance.OnSubmit;
@@ -826,6 +1085,12 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
+                @RotateCamera.started += instance.OnRotateCamera;
+                @RotateCamera.performed += instance.OnRotateCamera;
+                @RotateCamera.canceled += instance.OnRotateCamera;
+                @FastMoveCamera.started += instance.OnFastMoveCamera;
+                @FastMoveCamera.performed += instance.OnFastMoveCamera;
+                @FastMoveCamera.canceled += instance.OnFastMoveCamera;
             }
         }
     }
@@ -851,14 +1116,22 @@ public partial class @PlayerController_Action : IInputActionCollection2, IDispos
     public interface IGameActions
     {
         void OnRightClick(InputAction.CallbackContext context);
+        void OnMiddleButtonClick(InputAction.CallbackContext context);
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnLeftClickHold(InputAction.CallbackContext context);
+        void OnRightClickHold(InputAction.CallbackContext context);
+        void OnMiddleButtonClickHold(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnZoomAdd(InputAction.CallbackContext context);
+        void OnZoomSub(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
         void OnNavigateHorizontal(InputAction.CallbackContext context);
         void OnMousePositions(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnRotateCamera(InputAction.CallbackContext context);
+        void OnFastMoveCamera(InputAction.CallbackContext context);
     }
 }

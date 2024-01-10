@@ -4,13 +4,15 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
-using CyberNet.Core.Ability;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.InteractiveCard;
+using CyberNet.Core.UI;
 using UnityEngine;
 
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CardShopSystem : IActivateSystem, IPostRunEventSystem<EventBoardGameUpdate>
+    public class CardShopSystem : IActivateSystem, IPreInitSystem
     {
         private DataWorld _dataWorld;
 
@@ -19,12 +21,12 @@ namespace CyberNet.Core
             CheckPoolShopCard();
         }
 
-        public void PostRunEvent(EventBoardGameUpdate _)
+        public void PreInit()
         {
-            CheckPoolShopCard();
-            SelectCardFreeToBuy();
+            CardShopAction.CheckPoolShopCard += CheckPoolShopCard;
+            BoardGameUIAction.UpdateStatsPlayersCurrency += SelectCardFreeToBuy;
         }
-
+        
         private void CheckPoolShopCard()
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
@@ -50,6 +52,7 @@ namespace CyberNet.Core
             }
 
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            SelectCardFreeToBuy();
         }
 
         private List<int> GetFreeSlotInTradeRow()
@@ -76,15 +79,14 @@ namespace CyberNet.Core
 
         private void AddTradeRowCard(int entityId, int indexPositionCard)
         {
+            ref var sizeCard = ref _dataWorld.OneData<BoardGameData>().BoardGameConfig.SizeCardInTraderow;
             var entity = _dataWorld.GetEntity(entityId);
             entity.RemoveComponent<CardTradeDeckComponent>();
 
-            var pos = new Vector2(Screen.resolutions.Length/2 - 360, 200);
-            pos.x += 20 + indexPositionCard * 224;
-            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard, Positions = pos });
+            entity.AddComponent(new CardTradeRowComponent { Index = indexPositionCard});
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            cardComponent.Transform.position = pos;
+            cardComponent.CardMono.RectTransform.localScale = sizeCard;
             cardComponent.CardMono.ShowCard();
             cardComponent.CardMono.CardOnFace();
         }
@@ -93,23 +95,25 @@ namespace CyberNet.Core
         {
             ClearComponentInShop();
 
-            var enteties = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
-            var action = _dataWorld.OneData<AbilityData>();
+            var entities = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
+            var action = _dataWorld.OneData<ActionCardData>();
             var tradePoint = action.TotalTrade - action.SpendTrade;
 
-            foreach (var entity in enteties)
+            foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
                 if (cardComponent.Stats.Price <= tradePoint)
                     entity.AddComponent(new CardFreeToBuyComponent());
             }
+            
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
         }
 
         private void ClearComponentInShop()
         {
-            var enteties = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
-            foreach (var entity in enteties)
+            var entities = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
+            foreach (var entity in entities)
                 entity.RemoveComponent<CardFreeToBuyComponent>();
         }
     }

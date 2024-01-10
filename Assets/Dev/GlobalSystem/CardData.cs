@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CyberNet.Core
 {
@@ -7,16 +8,12 @@ namespace CyberNet.Core
 	{
 		public string CardName;
 		public int IDPositions;
-		public CardStage PlayerStageCard;
 	}
 
 	[Serializable]
-	public enum CardStage
+	public struct PlayerCardData
 	{
-		Hand,
-		Deck,
-		Table,
-		Discard,
-		Destroy
+		public int IndexPlayer;
+		public List<CardData> Cards;
 	}
 }

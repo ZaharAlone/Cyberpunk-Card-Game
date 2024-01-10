@@ -1,6 +1,7 @@
 using ModulesFramework.Data.Enumerators;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CyberNet.Core
 {
@@ -9,6 +10,7 @@ namespace CyberNet.Core
         public static List<CardData> SortingDeckCards(List<CardData> Cards)
         {
             var sorting = Sorting(Cards.Count);
+            
             for (int i = 0; i < Cards.Count; i++)
             {
                 var card = Cards[i];
@@ -24,19 +26,17 @@ namespace CyberNet.Core
             var sorting = new int[count];
             for (int i = 0; i < sorting.Length; i++)
                 sorting[i] = i;
-
-            var random = RandomSystem.RandomTime();
-
-            for (var i = 0; i < count; i++)
+            
+            var random = new System.Random();
+            var n = count;
+            
+            while (n > 1)
             {
-                var newPos = random.Next(0, count);
-                var tempIndex = sorting[i];
-
-                sorting[i] = sorting[newPos];
-                sorting[newPos] = tempIndex;
-
-                if (i % (count / 4f) == 0)
-                    random = RandomSystem.RandomShift(count);
+                n--;
+                int k = random.Next(n + 1);
+                var value = sorting[k];
+                sorting[k] = sorting[n];
+                sorting[n] = value;
             }
 
             return sorting;

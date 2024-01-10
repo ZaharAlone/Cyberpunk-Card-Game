@@ -1,0 +1,81 @@
+using CyberNet.Core.Player;
+using EcsCore;
+using ModulesFramework.Attributes;
+using ModulesFramework.Data;
+using ModulesFramework.Systems;
+using CyberNet.Core.UI;
+using CyberNet.Global;
+using UnityEngine;
+
+namespace CyberNet.Core.AbilityCard
+{
+    /// <summary>
+    /// Визуал выбора карты для ability карты
+    /// </summary>
+    [EcsSystem(typeof(CoreModule))]
+    public class AbilitySelectElementSystem : IPreInitSystem
+    {
+        private DataWorld _dataWorld;
+        private bool _isSubscription;
+        
+        public void PreInit()
+        {
+            AbilitySelectElementAction.OpenSelectAbilityCard += OpenWindow;
+            AbilitySelectElementAction.ClosePopup += CloseWindow;
+            AbilitySelectElementAction.SelectElement += SelectElement;
+        }
+
+        private void OpenWindow(AbilityType abilityType, int indexDescr, bool basePositionFrame = true)
+        {
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+            if (playerComponent.PlayerTypeEnum != PlayerTypeEnum.Player)
+                return;
+            
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
+            ref var abilityConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
+            
+            abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
+
+            if (indexDescr == 0)
+            {
+                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
+            }
+            else
+            {
+                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
+            }
+        }
+
+        private void SelectElement(string textButton)
+        {
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
+
+            /*
+            if (!_isSubscription)
+            {
+                _isSubscription = true;
+                AbilitySelectElementAction.ConfimSelect += ConfimSelect;
+            }*/
+        }
+
+        private void ConfimSelect()
+        {
+            /*
+            _isSubscription = false;
+            AbilitySelectElementAction.ConfimSelect -= ConfimSelect;
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
+            uiActionSelectCard.CloseWindow();
+            AbilityCardAction.ConfimSelectElement?.Invoke();*/
+        }
+        
+        private void CloseWindow()
+        {
+            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
+            uiActionSelectCard.CloseWindow();
+        }
+    }
+}

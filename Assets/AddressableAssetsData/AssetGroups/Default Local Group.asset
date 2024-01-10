@@ -28,7 +28,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
   - m_GUID: a25c53695416b5f469dfd273382ad8a5
-    m_Address: BoardGameCamera
+    m_Address: GameCamera
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -55,12 +55,8 @@ MonoBehaviour:
     m_Address: LeadersView
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 638a4813a05c6c34b825aadf1d76621e
-    m_Address: BotName
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 3b4e2408a4e208c49a1331711692d6bf
-    m_Address: CanvasViewCard
+    m_Address: ViewCardUI
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: d5545afcc1991064980cdcb2e00d346a
@@ -72,15 +68,43 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 94fe1b52c5b71c44a93bd4a8583b86db
-    m_Address: CardAbilityEffect
+    m_Address: AbilityCardEffect
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 21aafbac168cef64dbff487dcbcd1565
-    m_Address: ability_settings
+  - m_GUID: 2b39898b78ba00742befae52ac16d532
+    m_Address: DialogConfigSO
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 38b4bb30bb0361849871c5a2765ef2ee
-    m_Address: heroes_settings
+  - m_GUID: ce84bdecea134534c80a34dc96df616c
+    m_Address: BotConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 13faec071dbc339438415d1c8af6d8a9
+    m_Address: PopupViewConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fdd3b3d21911b29458d770052fdf8e1d
+    m_Address: PauseUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e6f4939631063d743adf46496e992658
+    m_Address: CityVisualSO
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4bee0391183e40f45af4b8bd3450319b
+    m_Address: SettingsUI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2f00454990fcfba428f1fbd9a11a28bd
+    m_Address: BezierCurveConfigSO
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9dd28122305335941803d6f96a9970e6
+    m_Address: DebugCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78fa4c87056313f46b9e5c7c446108b2
+    m_Address: SupportLocalizeSO
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

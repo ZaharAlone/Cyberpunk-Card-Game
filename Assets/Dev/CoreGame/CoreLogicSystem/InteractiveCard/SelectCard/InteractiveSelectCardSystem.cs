@@ -1,3 +1,4 @@
+using CyberNet.Core.UI.CorePopup;
 using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -5,10 +6,10 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class InteractiveSelectCardSystem : IInitSystem
+    public class InteractiveSelectCardSystem : IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -24,9 +25,13 @@ namespace CyberNet.Core
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
 
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (roundData.PauseInteractive)
+                return;
+
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
-                        .Without<CardTableComponent>()
+                        .Without<CardAbilitySelectionCompletedComponent>()
                         .Without<CardDrawComponent>()
                         .Without<CardDistributionComponent>()
                         .TrySelectFirstEntity(out var entity);
@@ -35,10 +40,11 @@ namespace CyberNet.Core
                 return;
 
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var view = ref _dataWorld.OneData<ViewPlayerData>();
+            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            if (view.PlayerView != cardComponent.Player && !entity.HasComponent<CardTradeRowComponent>())
+            if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
+            
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -50,9 +56,9 @@ namespace CyberNet.Core
             }
             else
             {
-                animComponent.Positions = cardComponent.Transform.position;
-                animComponent.Rotate = cardComponent.Transform.rotation;
-                animComponent.Scale = cardComponent.Transform.localScale;
+                animComponent.Positions = cardComponent.RectTransform.anchoredPosition;
+                animComponent.Rotate = cardComponent.RectTransform.localRotation;
+                animComponent.Scale = cardComponent.RectTransform.localScale;
                 animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
             }
 
@@ -62,22 +68,31 @@ namespace CyberNet.Core
                 scaleCard = gameConfig.SizeSelectCardTradeRow;
 
             animComponent.Sequence = DOTween.Sequence();
-            animComponent.Sequence.Append(cardComponent.Transform.DORotateQuaternion(Quaternion.identity, 0.15f))
-                                  .Join(cardComponent.Transform.DOScale(scaleCard, 0.15f));
+            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.1f))
+                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.1f));
 
             cardComponent.Canvas.sortingOrder = 20;
-
-            if (cardComponent.Player != PlayerEnum.None)
+            
+            if (cardComponent.PlayerID == currentPlayerID)
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
-                animComponent.Sequence.Join(cardComponent.Transform.DOMove(pos, 0.15f));
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
                 entity.AddComponent(animComponent);
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
+                
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, false);
             }
             else
+            {
+                var pos = animComponent.Positions;
+                pos.y = -250;
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
                 entity.AddComponent(animComponent);
+                
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, true);
+            }
         }
 
         private void ClearSelectComponent()
@@ -92,9 +107,9 @@ namespace CyberNet.Core
 
         private void MoveOtherCards(int targetIndex)
         {
-            var view = _dataWorld.OneData<ViewPlayerData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                     .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                      .With<CardHandComponent>()
                                      .With<CardSortingIndexComponent>()
                                      .Without<InteractiveSelectCardComponent>()
@@ -113,9 +128,9 @@ namespace CyberNet.Core
                 }
                 else
                 {
-                    cardAnimations.Positions = cardComponent.Transform.position;
-                    cardAnimations.Rotate = cardComponent.Transform.rotation;
-                    cardAnimations.Scale = cardComponent.Transform.localScale;
+                    cardAnimations.Positions = cardComponent.RectTransform.anchoredPosition;
+                    cardAnimations.Rotate = cardComponent.RectTransform.localRotation;
+                    cardAnimations.Scale = cardComponent.RectTransform.localScale;
                     cardAnimations.SortingOrder = cardComponent.Canvas.sortingOrder;
                 }
                 cardAnimations.Sequence = DOTween.Sequence();
@@ -136,9 +151,9 @@ namespace CyberNet.Core
                         targetPos.x += 25;
                 }
 
-                cardAnimations.Sequence.Append(cardComponent.Transform.DOMove(targetPos, 0.15f))
-                                       .Join(cardComponent.Transform.DORotateQuaternion(cardAnimations.Rotate, 0.3f))
-                                       .Join(cardComponent.Transform.DOScale(cardAnimations.Scale, 0.3f));
+                cardAnimations.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(targetPos, 0.15f))
+                                       .Join(cardComponent.RectTransform.DOLocalRotateQuaternion(cardAnimations.Rotate, 0.3f))
+                                       .Join(cardComponent.RectTransform.DOScale(cardAnimations.Scale, 0.3f));
 
                 cardComponent.Canvas.sortingOrder = cardAnimations.SortingOrder;
                 entity.AddComponent(cardAnimations);
@@ -150,6 +165,13 @@ namespace CyberNet.Core
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
                 return;
 
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (roundData.CurrentRoundState == RoundState.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
+                return;
+            
+            if (roundData.PauseInteractive)
+                return;
+            
             var isEntity = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guid)
                         .With<InteractiveSelectCardComponent>()
@@ -161,6 +183,7 @@ namespace CyberNet.Core
             if (!isEntity)
                 return;
 
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             if (entity.HasComponent<CardHandComponent>())
                 ReturnAllCard();
@@ -170,9 +193,9 @@ namespace CyberNet.Core
 
         private void ReturnAllCard()
         {
-            var view = _dataWorld.OneData<ViewPlayerData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                        .Where<CardComponent>(card => card.Player == view.PlayerView)
+                                        .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                         .With<CardHandComponent>()
                                         .With<CardComponentAnimations>()
                                         .GetEntities();
@@ -183,23 +206,28 @@ namespace CyberNet.Core
 
         private void ReturnCardAnimations(Entity entity)
         {
-            var index = entity.GetComponent<CardSortingIndexComponent>().Index;
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
+            
             animationsCard.Sequence.Kill();
+            cardComponent.Canvas.sortingOrder = animationsCard.SortingOrder;
             animationsCard.Sequence = DOTween.Sequence();
-            animationsCard.Sequence.Append(cardComponent.Transform.DORotateQuaternion(animationsCard.Rotate, 0.3f))
-                                .Join(cardComponent.Transform.DOMove(animationsCard.Positions, 0.3f))
-                                .Join(cardComponent.Transform.DOScale(animationsCard.Scale, 0.3f))
+            animationsCard.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(animationsCard.Rotate, 0.3f))
+                                .Join(cardComponent.RectTransform.DOAnchorPos(animationsCard.Positions, 0.3f))
+                                .Join(cardComponent.RectTransform.DOScale(animationsCard.Scale, 0.3f))
                                 .OnComplete(() => FinishDeselect(entity));
         }
 
         private void FinishDeselect(Entity entity)
         {
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            var animationsCard = entity.GetComponent<CardComponentAnimations>();
-            cardComponent.Canvas.sortingOrder = animationsCard.SortingOrder;
             entity.RemoveComponent<CardComponentAnimations>();
+        }
+
+        public void Destroy()
+        {
+            InteractiveActionCard.SelectCard -= SelectCard;
+            InteractiveActionCard.DeselectCard -= DeselectCard;
+            InteractiveActionCard.ReturnAllCardInHand -= ReturnAllCard;
         }
     }
 }

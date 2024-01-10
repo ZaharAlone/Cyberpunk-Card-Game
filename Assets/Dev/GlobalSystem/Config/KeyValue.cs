@@ -1,6 +1,7 @@
+using UnityEngine.Serialization;
 [System.Serializable]
 public struct KeyValue
 {
-    public string Key;
+    public string Item;
     public int Value;
 }

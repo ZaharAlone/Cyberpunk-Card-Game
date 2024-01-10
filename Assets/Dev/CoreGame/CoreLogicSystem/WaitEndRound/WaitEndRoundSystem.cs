@@ -21,7 +21,7 @@ namespace CyberNet.Core.UI
                 if (countMoveCard == 0)
                 {
                     entity.Destroy();
-                    _dataWorld.RiseEvent(new EventEndCurrentTurn());
+                    RoundAction.EndCurrentTurn?.Invoke();
                 }
             }
         }
