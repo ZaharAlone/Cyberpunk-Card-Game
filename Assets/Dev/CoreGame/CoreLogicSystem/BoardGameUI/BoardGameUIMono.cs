@@ -5,7 +5,6 @@ using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
-using CyberNet.Core.TaskUI;
 using CyberNet.Core.Traderow;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Core.UI.TaskPlayerPopup;
@@ -40,9 +39,6 @@ namespace CyberNet.Core.UI
 
         [Header("Traderow")]
         public TraderowMono TraderowMono;
-
-        [Header("TaskUI")]
-        public TaskUIMono TaskUIMono;
         
         [Header("Popup Card")]
         public CoreElementInfoPopupUIMono GameElementInfoPopupMono;

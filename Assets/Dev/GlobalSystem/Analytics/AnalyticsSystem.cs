@@ -8,6 +8,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if !UNITY_EDITOR
 namespace CyberNet.Global.Analytics
 {
     [EcsSystem(typeof(GlobalModule))]
@@ -53,3 +54,4 @@ namespace CyberNet.Global.Analytics
         }
     }
 }
+#endif
