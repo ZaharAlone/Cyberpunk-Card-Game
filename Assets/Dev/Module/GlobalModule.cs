@@ -92,7 +92,7 @@ namespace EcsCore
             ModulesUnityAdapter.world.InitModule<SteamModule>(true);
             #endif
             
-            #if UNITY_EDITOR
+            #if UNITY_EDITOR || TEST_BUILD
             ModulesUnityAdapter.world.InitModule<DebugModule>(true);
             #endif
         }

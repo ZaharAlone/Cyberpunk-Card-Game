@@ -14,13 +14,25 @@ namespace CyberNet.Tools.DebugGame
         private GameObject _debugButton;
         [SerializeField]
         private TMP_Dropdown _dropdown;
+        [SerializeField]
+        private TextMeshProUGUI _logs;
 
+        private string logInfo;
         private List<string> _listCardGame;
         private int _selectCard;
 
         public void OnEnable()
         {
             _panel.SetActive(false);
+            Application.logMessageReceived += ShowLog;
+        }
+        private void ShowLog(string condition, string stacktrace, LogType type)
+        {
+            if (type != LogType.Error)
+                return;
+            
+            logInfo += condition;
+            _logs.text = logInfo;
         }
 
         public void OnClickOpenDebug()
