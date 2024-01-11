@@ -6,25 +6,82 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using CyberNet.Core;
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
-using CyberNet.Global;
 using CyberNet.Global.Analytics;
-using CyberNet.Tutorial;
+using CyberNet.Tutorial.UI;
+using Input;
 
 namespace CyberNet.Tutorial
 {
     [EcsSystem(typeof(TutorialGameModule))]
-    public class TutorialSystem : IPreInitSystem, IDestroySystem
+    public class TutorialSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
+        private bool _checkMoveCameraInput;
+        private bool _followMoveCameraMouse;
+        private bool _followMoveCameraKeyboard;
+        private bool _checkZoomCameraInput;
+        private bool _followZoomCamera;
+        
         public void PreInit()
         {
             TutorialAction.StartFirstPlayerRound += StartTutorialPlayerRound;
+        }
+
+        public void Run()
+        {
+            if (_checkMoveCameraInput)
+            {
+                CheckMoveCamera();
+            }
+            
+            if (_checkZoomCameraInput)
+            {
+                CheckZoomCamera();
+            }
+        }
+
+        private void CheckMoveCamera()
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            if (inputData.Navigate != Vector2.zero)
+            {
+                _followMoveCameraKeyboard = true;
+            }
+            else
+            {
+                if (_followMoveCameraKeyboard)
+                    MoveCameraComplete();
+            }
+
+            
+            if (inputData.RightClickHold || inputData.MiddleClickHold)
+            {
+                _followMoveCameraMouse = true;
+            }
+            else
+            {
+                if (_followMoveCameraMouse)
+                    MoveCameraComplete();
+            }
+        }
+
+        private void CheckZoomCamera()
+        {
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+            if (inputData.ScrollWheel.y != 0f || inputData.ZoomAdd || inputData.ZoomSub)
+            {
+                _followZoomCamera = true;
+            }
+            else
+            {
+                if (_followZoomCamera)
+                    ZoomCameraComplete();
+            }
         }
 
         private async void StartTutorialPlayerRound()
@@ -47,12 +104,41 @@ namespace CyberNet.Tutorial
         private void FinishIntroDialog()
         {
             DialogAction.EndDialog -= FinishIntroDialog;
-            AnalyticsEvent.CompleteProgressEvent?.Invoke("intro_dialog");
-            
-            AnalyticsEvent.FailProgressEvent?.Invoke("fail_tutorial");
-            AnalyticsEvent.SessionTime?.Invoke(30);
+            ShowZoomCamera();
         }
 
+        private async void ShowZoomCamera()
+        {
+            await Task.Delay(500);
+            TutorialUIAction.OpenPopupZoomCamera?.Invoke();
+            _checkZoomCameraInput = true;
+        }
+
+        private async void ZoomCameraComplete()
+        {
+            _checkZoomCameraInput = false;
+            TutorialUIAction.ClosePopup?.Invoke();
+
+            await Task.Delay(500);
+            TutorialUIAction.OpenPopupMoveCamera?.Invoke();
+            _checkMoveCameraInput = true;
+        }
+        
+        private async void MoveCameraComplete()
+        {
+            _checkMoveCameraInput = false;
+            TutorialUIAction.ClosePopup?.Invoke();
+            await Task.Delay(500);
+            DialogAction.StartDialog?.Invoke("tutorial_end_move_camera");
+            DialogAction.EndDialog += StartSelectFirstBase;
+        }
+
+        private void StartSelectFirstBase()
+        {
+            DialogAction.EndDialog -= StartSelectFirstBase;
+            SelectFirstBaseAction.CheckInstallFirstBase.Invoke();
+        }
+        
         public void Destroy()
         {
             

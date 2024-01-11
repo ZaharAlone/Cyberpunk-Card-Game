@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core;
+using CyberNet.Tutorial;
 using Input;
 
 namespace CyberNet.Global.GameCamera
@@ -97,9 +98,11 @@ namespace CyberNet.Global.GameCamera
             {
                 _startDragPosition = inputData.MousePosition;
             }
-            
+
             if (inputData.RightClickHold || inputData.MiddleClickHold)
+            {
                 DragCamera();
+            }
             
             //Read mouse Move
             MoveCamera();
@@ -113,7 +116,7 @@ namespace CyberNet.Global.GameCamera
                 if (inputData.ZoomSub)
                     valueZoom = -10 * Time.deltaTime;
                 
-                ZoomCameraReadInput(valueZoom);   
+                ZoomCameraReadInput(valueZoom);
             }
             
             ZoomCamera();
@@ -192,6 +195,9 @@ namespace CyberNet.Global.GameCamera
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
             var vectorMove = inputData.MousePosition - _startDragPosition;
+            
+            if (vectorMove == Vector2.zero)
+                return;
             
             _newPosition += new Vector3(-vectorMove.x * 0.025f, 0, -vectorMove.y * 0.025f);
             _startDragPosition = inputData.MousePosition;
