@@ -16,7 +16,7 @@ namespace CyberNet.Core.City
         public IconsUnitInMapMono IconsUnitInMapMono; 
         
         //Кому принадлежит данный юнит
-        public PlayerControlEnum PlayerControl;
+        public PlayerControlEntity PlayerControl;
         public int PowerSolidPlayerID;
     }
 }

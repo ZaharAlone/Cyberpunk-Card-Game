@@ -1,5 +1,6 @@
 using CyberNet.Core.City;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Arena
 {
@@ -8,7 +9,8 @@ namespace CyberNet.Core.Arena
         public string GUID;
         public GameObject UnitGO;
         public UnitArenaMono UnitArenaMono;
-        public PlayerControlEnum PlayerControlEnum;
+        [FormerlySerializedAs("PlayerControlTower")]
+        public PlayerControlEntity playerControlEntity;
         public int PlayerControlID;
 
         public bool IsActionCurrentRound;

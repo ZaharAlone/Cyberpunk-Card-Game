@@ -59,15 +59,15 @@ namespace CyberNet.Core.City
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
                 var material = towerComponent.TowerMono.VisualEffectZone.materials[0];
                 
-                switch (towerComponent.PlayerIsBelong)
+                switch (towerComponent.PlayerControlEntity)
                 {
-                    case PlayerControlEnum.None:
+                    case PlayerControlEntity.None:
                         material = SetFreeZone(material);
                         break;
-                    case PlayerControlEnum.Neutral:
+                    case PlayerControlEntity.Neutral:
                         material = SetViewNeutralZoneControl(material);
                         break;
-                    case PlayerControlEnum.Player:
+                    case PlayerControlEntity.Player:
                         material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlayerID);
                         break;
                 }

@@ -70,7 +70,7 @@ namespace CyberNet.Core.Arena
                 {
                     playersInBattle.Add(new PlayersInBattleStruct {
                         PlayerID = unitComponent.PowerSolidPlayerID,
-                        PlayerControl = unitComponent.PlayerControl,
+                        PlayerControlEntity = unitComponent.PlayerControl,
                         Forwards = unitBattleComponent.Forwards
                     });
                 }
@@ -78,15 +78,15 @@ namespace CyberNet.Core.Arena
 
             foreach (var player in playersInBattle)
             {
-                var visualKeyPlayer = GetKeyPlayerVisual(player.PlayerControl, player.PlayerID);
+                var visualKeyPlayer = GetKeyPlayerVisual(player.PlayerControlEntity, player.PlayerID);
                 unitDictionary.TryGetValue(visualKeyPlayer, out var visualPlayer);
-                var avatar = GetAvatarPlayerVisual(player.PlayerControl, player.PlayerID);
-                var positionInTurnQueue = GetPositionInTurnQueue(player.PlayerControl, player.PlayerID, playersInBattle.Count);
+                var avatar = GetAvatarPlayerVisual(player.PlayerControlEntity, player.PlayerID);
+                var positionInTurnQueue = GetPositionInTurnQueue(player.PlayerControlEntity, player.PlayerID, playersInBattle.Count);
                     
                 var playerBattleComponent = new PlayerArenaInBattleComponent
                 {
                     PlayerID   = player.PlayerID,
-                    PlayerControlEnum = player.PlayerControl,
+                    PlayerControlEntity = player.PlayerControlEntity,
                     Forwards = player.Forwards,
                     KeyCityVisual = visualKeyPlayer,
                     ColorVisual = visualPlayer.ColorUnit,
@@ -121,7 +121,7 @@ namespace CyberNet.Core.Arena
                 {
                     UnitArenaMono = unitArenaMono,
                     PlayerControlID = unitMapComponent.PowerSolidPlayerID,
-                    PlayerControlEnum = unitMapComponent.PlayerControl,
+                    playerControlEntity = unitMapComponent.PlayerControl,
                     UnitGO = unitArenaMono.gameObject,
                     GUID = unitMapComponent.GUIDUnit,
                     IndexTurnOrder = indexUnit
@@ -133,10 +133,10 @@ namespace CyberNet.Core.Arena
             }
         }
         
-        public string GetKeyPlayerVisual(PlayerControlEnum playerControlEnum, int playerID)
+        public string GetKeyPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             var visualKeyUnit = "";
-            if (playerControlEnum == PlayerControlEnum.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.Neutral)
             {
                 visualKeyUnit = "neutral_unit";
             }
@@ -153,10 +153,10 @@ namespace CyberNet.Core.Arena
             return visualKeyUnit;
         }
         
-        public Sprite GetAvatarPlayerVisual(PlayerControlEnum playerControlEnum, int playerID)
+        public Sprite GetAvatarPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             Sprite avatar;
-            if (playerControlEnum == PlayerControlEnum.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.Neutral)
             {
                 _dataWorld.OneData<LeadersViewData>().LeadersView.TryGetValue("im_avatar_neutral", out avatar);
             }
@@ -172,10 +172,10 @@ namespace CyberNet.Core.Arena
             return avatar;
         }
 
-        public int GetPositionInTurnQueue(PlayerControlEnum playerControlEnum, int playerID, int countUnitInBattle)
+        public int GetPositionInTurnQueue(PlayerControlEntity PlayerControlEntity, int playerID, int countUnitInBattle)
         {
             var position = -1;
-            if (playerControlEnum == PlayerControlEnum.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.Neutral)
             {
                 position = countUnitInBattle - 1;
             }

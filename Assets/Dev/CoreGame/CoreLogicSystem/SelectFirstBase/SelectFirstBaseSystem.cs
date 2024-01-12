@@ -89,7 +89,7 @@ namespace CyberNet.Core.SelectFirstBase
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
                 UnitZone  = towerComponent.SquadZonesMono[targetSquadZone],
-                PlayerControl = PlayerControlEnum.Player,
+                PlayerControl = PlayerControlEntity.Player,
                 TargetPlayerID = playerComponent.PlayerID
             };
 
@@ -101,7 +101,7 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
-            towerComponent.PlayerIsBelong = PlayerControlEnum.Player;
+            towerComponent.PlayerControlEntity = PlayerControlEntity.Player;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();

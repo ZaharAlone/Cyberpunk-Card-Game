@@ -1,3 +1,4 @@
+using CyberNet.Core.AI.Arena;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
@@ -79,7 +80,7 @@ namespace CyberNet.Core.Arena
                 {
                     positionInTurnQueue = playerComponent.PositionInTurnQueue;
                     
-                    roundData.PlayerControlEnum = playerComponent.PlayerControlEnum;
+                    roundData.PlayerControlEntity = playerComponent.PlayerControlEntity;
                     roundData.CurrentPlayerID = playerComponent.PlayerID;
                 }
             }
@@ -97,7 +98,7 @@ namespace CyberNet.Core.Arena
             var roundData = _dataWorld.OneData<ArenaRoundData>();
             var playersInBattleEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
                 .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == roundData.CurrentPlayerID 
-                    && player.PlayerControlEnum == roundData.PlayerControlEnum)
+                    && player.PlayerControlEntity == roundData.PlayerControlEntity)
                 .SelectFirstEntity();
 
             var playerComponent = playersInBattleEntity.GetComponent<PlayerArenaInBattleComponent>();
@@ -118,7 +119,7 @@ namespace CyberNet.Core.Arena
             var roundData = _dataWorld.OneData<ArenaRoundData>();
             var unitsEntities = _dataWorld.Select<ArenaUnitComponent>()
                 .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == roundData.CurrentPlayerID
-                    && unit.PlayerControlEnum == roundData.PlayerControlEnum)
+                    && unit.playerControlEntity == roundData.PlayerControlEntity)
                 .GetEntities();
 
             var isUnitNotAction = false;
@@ -171,9 +172,7 @@ namespace CyberNet.Core.Arena
 
         private void FinishRound()
         {
-            ClearPlayersNotUnit();
-            
-            var isEndRound = CheckEndRound();
+            var isEndRound = ArenaAction.CheckFinishArenaBattle.Invoke();
 
             if (isEndRound)
             {
@@ -181,68 +180,8 @@ namespace CyberNet.Core.Arena
                 return;
             }
             
-            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .GetEntities();
-            
-            var playersCountInBattle = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .Count();
-
-            foreach (var playerEntity in playersInBattleEntities)
-            {
-                ref var playerComponent = ref playerEntity.GetComponent<PlayerArenaInBattleComponent>();
-                playerComponent.PositionInTurnQueue--;
-
-                if (playerComponent.PositionInTurnQueue < 0)
-                {
-                    playerComponent.PositionInTurnQueue = playersCountInBattle -1;
-                }
-            }
-            
+            ArenaAction.UpdateTurnOrderArena?.Invoke();
             UpdateRoundVisual();
-        }
-        
-        private void ClearPlayersNotUnit()
-        {
-            var playerEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
-            
-            foreach (var playerEntity in playerEntities)
-            {
-                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
-
-                var countUnit = _dataWorld.Select<ArenaUnitComponent>()
-                    .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == playerComponent.PlayerID)
-                    .Count();
-                if (countUnit == 0)
-                    playerEntity.Destroy();
-            }
-        }
-
-        private bool CheckEndRound()
-        {
-            var playersCountInArena = _dataWorld.Select<PlayerArenaInBattleComponent>().Count();
-            if (playersCountInArena == 1)
-                return true;
-            
-            var forwardsArenaPlayerID = 0;
-            
-            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .GetEntities();
-
-            foreach (var playerEntity in playersInBattleEntities)
-            {
-                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
-                if (playerComponent.Forwards)
-                {
-                    forwardsArenaPlayerID = playerComponent.PlayerID;
-                    break;
-                }
-            }
-            
-            var countForwardsUnit = _dataWorld.Select<ArenaUnitComponent>()
-                .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == forwardsArenaPlayerID)
-                .Count();
-
-            return countForwardsUnit == 0;
         }
 
         private void EnableControlPlayer()
@@ -253,7 +192,7 @@ namespace CyberNet.Core.Arena
 
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
 
-            if (currentPlayerComponent.PlayerControlEnum == PlayerControlEnum.Neutral)
+            if (currentPlayerComponent.PlayerControlEntity == PlayerControlEntity.Neutral)
             {
                 ArenaAIAction.StartAINeutralLogic?.Invoke();
             }
@@ -270,7 +209,7 @@ namespace CyberNet.Core.Arena
                 }
                 else
                 {
-                    
+                    AIBattleArenaAction.StartAIRound?.Invoke();
                 }
             }
         }

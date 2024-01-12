@@ -1,12 +1,13 @@
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Arena
 {
     public struct PlayerArenaInBattleComponent
     {
-        public PlayerControlEnum PlayerControlEnum;
+        public PlayerControlEntity PlayerControlEntity;
         public int PlayerID;
         public ArenaContainerUICharacterMono ArenaContainerUICharacterMono;
         

@@ -14,11 +14,11 @@ namespace CyberNet.Core.City
         public MeshRenderer VisualEffectZone;
         
         //Кому принадлежит контроль над башней?
-        public PlayerControlEnum PlayerIsBelong;
+        public PlayerControlEntity PlayerControlEntity;
         public int TowerBelongPlayerID;
     }
 
-    public enum PlayerControlEnum
+    public enum PlayerControlEntity
     {
         None,
         Neutral,

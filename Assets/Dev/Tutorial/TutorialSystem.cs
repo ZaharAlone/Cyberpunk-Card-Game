@@ -87,7 +87,6 @@ namespace CyberNet.Tutorial
         private async void StartTutorialPlayerRound()
         {
             AnalyticsEvent.StartProgressEvent?.Invoke("start_tutorial");
-            Debug.LogError("Start tutorial player Round");
             var uiRound = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ChangeRoundUI;
             var entityPlayer = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -104,10 +103,24 @@ namespace CyberNet.Tutorial
         private void FinishIntroDialog()
         {
             DialogAction.EndDialog -= FinishIntroDialog;
-            ShowZoomCamera();
+            StartMoveCamera();
         }
 
-        private async void ShowZoomCamera()
+        private async void StartMoveCamera()
+        {
+            await Task.Delay(500);
+            TutorialUIAction.OpenPopupMoveCamera?.Invoke();
+            _checkMoveCameraInput = true;
+        }
+        
+        private void MoveCameraComplete()
+        {
+            _checkMoveCameraInput = false;
+            TutorialUIAction.ClosePopup?.Invoke();
+            StartZoomCamera();
+        }
+        
+        private async void StartZoomCamera()
         {
             await Task.Delay(500);
             TutorialUIAction.OpenPopupZoomCamera?.Invoke();
@@ -118,20 +131,13 @@ namespace CyberNet.Tutorial
         {
             _checkZoomCameraInput = false;
             TutorialUIAction.ClosePopup?.Invoke();
-
-            await Task.Delay(500);
-            TutorialUIAction.OpenPopupMoveCamera?.Invoke();
-            _checkMoveCameraInput = true;
-        }
-        
-        private async void MoveCameraComplete()
-        {
-            _checkMoveCameraInput = false;
-            TutorialUIAction.ClosePopup?.Invoke();
+            AnalyticsEvent.CompleteTwoProgressEvent?.Invoke("tutorial_step_complete", "move_camera");
+            
             await Task.Delay(500);
             DialogAction.StartDialog?.Invoke("tutorial_end_move_camera");
             DialogAction.EndDialog += StartSelectFirstBase;
         }
+
 
         private void StartSelectFirstBase()
         {

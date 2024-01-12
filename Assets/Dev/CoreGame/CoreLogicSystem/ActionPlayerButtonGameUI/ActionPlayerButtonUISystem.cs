@@ -158,6 +158,13 @@ namespace CyberNet.Core.UI
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
+            var cardCanUse = _dataWorld.Select<CardCanUseComponent>().GetEntities();
+
+            foreach (var cardEntity in cardCanUse)
+            {
+                cardEntity.RemoveComponent<CardCanUseComponent>();
+            }
+            
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new WaitEndRoundComponent());

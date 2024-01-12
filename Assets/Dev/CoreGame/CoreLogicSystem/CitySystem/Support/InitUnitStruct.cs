@@ -6,7 +6,7 @@ namespace CyberNet.Core.City
     {
         public string KeyUnit;
         public UnitZoneMono UnitZone;
-        public PlayerControlEnum PlayerControl;
+        public PlayerControlEntity PlayerControl;
         public int TargetPlayerID;
     }
 }
