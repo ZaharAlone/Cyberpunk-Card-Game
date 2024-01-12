@@ -8,7 +8,7 @@ namespace CyberNet.Global.Analytics
         public static Action<string> CompleteProgressEvent;
         public static Action<string> FailProgressEvent;
         
-        
+        public static Action<string, string> CompleteTwoProgressEvent;
         public static Action<int> SessionTime;
     }
 }

@@ -48,7 +48,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             
             selectLeaders.Add(new SelectLeaderData {
                 PlayerID = newPlayerID,
-                playerTypeEnum = PlayerTypeEnum.AIEasy,
+                PlayerOrAI = PlayerOrAI.AIEasy,
                 SelectLeader = enemyLeaders[0],
                 NamePlayer = botName,
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[indexSlot]
@@ -98,7 +98,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
                     
                     playerSlot.SetCustomNamePlayer(selectPlayers[counter].NamePlayer);
                     
-                    if (counter != 0 && selectPlayers[counter].playerTypeEnum == PlayerTypeEnum.Player)
+                    if (counter != 0 && selectPlayers[counter].PlayerOrAI == PlayerOrAI.Player)
                     {
                         playerSlot.SetCustomNamePlayer(selectPlayers[counter].NamePlayer);
                     }
@@ -107,7 +107,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
                         playerSlot.SetBaseNamePlayer(selectPlayers[counter].NamePlayer);
                     }
                     
-                    playerTypeLoc.TryGetValue(selectPlayers[counter].playerTypeEnum, out var locSelectTypePlayer);
+                    playerTypeLoc.TryGetValue(selectPlayers[counter].PlayerOrAI, out var locSelectTypePlayer);
                     playerSlot.SetLocTypePlayer(locSelectTypePlayer);
                 }
                 
@@ -140,7 +140,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
             ref var selectLeaders = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             ref var botNames = ref _dataWorld.OneData<BotConfigData>().BotNameList;
             
-            var indexPlayerType = selectLeaders[indexSlot].playerTypeEnum.GetHashCode();
+            var indexPlayerType = selectLeaders[indexSlot].PlayerOrAI.GetHashCode();
             
             if (isRightMove)
                 indexPlayerType++;
@@ -160,8 +160,8 @@ namespace CyberNet.Meta.SelectPlayersForGame
                 indexPlayerType = 4;
 */
             var selectLeaderEdit = selectLeaders[indexSlot];
-            selectLeaderEdit.playerTypeEnum = (PlayerTypeEnum)Enum.ToObject(typeof(PlayerTypeEnum), indexPlayerType);
-            if (selectLeaderEdit.playerTypeEnum == PlayerTypeEnum.Player)
+            selectLeaderEdit.PlayerOrAI = (PlayerOrAI)Enum.ToObject(typeof(PlayerOrAI), indexPlayerType);
+            if (selectLeaderEdit.PlayerOrAI == PlayerOrAI.Player)
             {
                 selectLeaderEdit.NamePlayer = $"Player {(indexSlot + 1).ToString()}";
             }

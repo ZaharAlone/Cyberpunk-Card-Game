@@ -12,7 +12,7 @@ using Input;
 namespace CyberNet.Core.Arena
 {
     [EcsSystem(typeof(ArenaModule))]
-    public class ArenaPlayerControlSystem : IPreInitSystem, IRunSystem
+    public class ArenaPlayerControlSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -99,13 +99,12 @@ namespace CyberNet.Core.Arena
         
         private void ClickAttack()
         {
-            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
-            
             var isEnemyAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
                 .TrySelectFirstEntity(out var unitAttackEntity);
 
             if (!isEnemyAttack)
             {
+                return;
                 //Show Warning frame
                 Debug.LogError("Not select unit for attack");
             }
@@ -121,7 +120,7 @@ namespace CyberNet.Core.Arena
                     .Where<CardComponent>(card => card.PlayerID == unitEnemyComponent.PlayerControlID)
                     .Count();
                 
-                if (unitEnemyComponent.PlayerControlEnum == PlayerControlEnum.Neutral || countEnemyCardInHand == 0)
+                if (unitEnemyComponent.playerControlEntity == PlayerControlEntity.NeutralUnits || countEnemyCardInHand == 0)
                 {
                     EndReactionStage();
                 }
@@ -132,6 +131,8 @@ namespace CyberNet.Core.Arena
                 }
                 
             }
+            
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
         }
         private void EndReactionStage()
         {
@@ -141,6 +142,11 @@ namespace CyberNet.Core.Arena
         private void ClearStage()
         {
             
+        }
+
+        public void Destroy()
+        {
+            ArenaUIAction.ClickAttack -= ClickAttack;
         }
     }
 }

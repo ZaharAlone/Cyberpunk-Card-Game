@@ -59,7 +59,7 @@ namespace CyberNet.Core.City
                     TowerGO = tower.gameObject,
                     SquadZonesMono = tower.SquadZonesMono,
                     VisualEffectZone = tower.VisualEffectZone,
-                    PlayerIsBelong = PlayerControlEnum.None,
+                    PlayerControlEntity = PlayerControlEntity.None,
                 };
                 
                 foreach (var squadZone in tower.SquadZonesMono)
@@ -67,7 +67,7 @@ namespace CyberNet.Core.City
                     var countUnit =  InitStartUnitReturnCount(squadZone);
                     if (countUnit > 0)
                     {
-                        towerComponent.PlayerIsBelong = PlayerControlEnum.Neutral;
+                        towerComponent.PlayerControlEntity = PlayerControlEntity.NeutralUnits;
                     }
                 }
 
@@ -91,7 +91,7 @@ namespace CyberNet.Core.City
                     {
                         KeyUnit = "neutral_unit",
                         UnitZone = UnitZone,
-                        PlayerControl = PlayerControlEnum.Neutral,
+                        PlayerControl = PlayerControlEntity.NeutralUnits,
                         TargetPlayerID = -1
                     };
                 

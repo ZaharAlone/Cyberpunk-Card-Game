@@ -24,15 +24,19 @@ namespace CyberNet.Meta
             _background.SetActive(true);
             _panel.SetActive(true);
             
-            #if DEMO && STEAM
+            #if DEMO
             _tutorialButton.SetActive(true);
             _campaignButton.SetActive(false);
             _onlineGameButton.SetActive(false);
-            _wishlistButton.SetActive(true);
             #else
             _tutorialButton.SetActive(false);
             _campaignButton.SetActive(true);
             _onlineGameButton.SetActive(true);
+            #endif
+            
+            #if DEMO && STEAM
+            _wishlistButton.SetActive(true);
+            #else
             _wishlistButton.SetActive(false);
             #endif
         }

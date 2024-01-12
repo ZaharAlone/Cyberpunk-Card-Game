@@ -35,7 +35,7 @@ namespace CyberNet.Core.AbilityCard
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 Debug.LogError("move unit ai");
                 AbilityAIAction.MoveUnit?.Invoke(guidCard);

@@ -45,7 +45,7 @@ namespace CyberNet.Core.Arena
 
         private void Attack()
         {
-            if (CheckBlockAttack())
+            if (ArenaAction.CheckBlockAttack.Invoke())
             {
                 AbilityInputButtonUIAction.ShowTakeDamageBattleButton?.Invoke();
                 VFXCardInteractiveAction.EnableVFXAllCardInHand?.Invoke();
@@ -132,21 +132,6 @@ namespace CyberNet.Core.Arena
             currentUnitComponent.UnitArenaMono.Shooting();
             ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
         }
-
-        private bool CheckBlockAttack()
-        {
-            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaSelectUnitForAttackComponent>()
-                .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-
-            var countCardInHandPlayer = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == targetUnitComponent.PlayerControlID)
-                .With<CardHandComponent>()
-                .Count();
-
-            return countCardInHandPlayer > 0;
-        } 
         
         private void ArenaUnitFinishAttack()
         {

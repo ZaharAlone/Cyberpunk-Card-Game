@@ -50,7 +50,7 @@ namespace CyberNet.Core.AI
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
-                    && tower.PlayerIsBelong == PlayerControlEnum.Player)
+                    && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
             
             //Сначала ищем есть ли зоны которые соприкасаются с зонами другого игрока
@@ -70,7 +70,7 @@ namespace CyberNet.Core.AI
                     var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
 
                     if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID
-                        && connectTowerComponent.PlayerIsBelong == PlayerControlEnum.Player)
+                        && connectTowerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                     {
                         guidSelectPotentiallyWeakTower.Add(towerComponent.GUID);
                         break;
@@ -153,7 +153,7 @@ namespace CyberNet.Core.AI
             {
                 KeyUnit = playerViewComponent.KeyCityVisual,
                 UnitZone = towerComponent.SquadZonesMono[0],
-                PlayerControl = PlayerControlEnum.Player,
+                PlayerControl = PlayerControlEntity.PlayerControl,
                 TargetPlayerID = playerComponent.PlayerID
             };
             CityAction.InitUnit?.Invoke(unit);

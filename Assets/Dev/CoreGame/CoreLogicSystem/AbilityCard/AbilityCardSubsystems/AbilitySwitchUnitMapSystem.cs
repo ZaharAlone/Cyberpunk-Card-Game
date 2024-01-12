@@ -29,7 +29,7 @@ namespace CyberNet.Core.AbilityCard
             Debug.LogError("Ability Card Enemy");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 AbilityAIAction.DestroyEnemyUnit?.Invoke(guidCard);
                 return;
@@ -56,7 +56,7 @@ namespace CyberNet.Core.AbilityCard
             Debug.LogError("Ability Card Switch neutral");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 AbilityAIAction.DestroyNeutralUnit?.Invoke(guidCard);
                 return;

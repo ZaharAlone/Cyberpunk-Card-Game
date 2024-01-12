@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4526517248025595397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0410\u0442\u0430\u043A\u0430"
+  m_text: Attack
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -728,7 +728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7710933262266413348
 RectTransform:
   m_ObjectHideFlags: 0
@@ -803,9 +803,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CyberNet.Core.UI.CoreHUDUIMono, Assembly-CSharp
-        m_MethodName: OnClickActionButton
+      - m_Target: {fileID: 3075948960203963755}
+        m_TargetAssemblyTypeName: CyberNet.Core.Arena.ArenaHUDUI.ArenaHUDUIMono,
+          Assembly-CSharp
+        m_MethodName: OnClickRetreat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -896,7 +897,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041E\u0442\u0441\u0442\u0443\u043F\u0438\u0442\u044C"
+  m_text: Retreat
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d1d6772543df2248b06cf87f56e6ecc, type: 2}
   m_sharedMaterial: {fileID: -4148942661674317363, guid: 4d1d6772543df2248b06cf87f56e6ecc,
@@ -1060,6 +1061,7 @@ MonoBehaviour:
   ContainerListCharacter: {fileID: 4526517248025595397}
   _actionAttackButton: {fileID: 7931930290642151629}
   _actionRetreatButton: {fileID: 4103444981965963104}
+  _characterAvatars: []
 --- !u!1 &7768533215221649259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6765457451518503503
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1267,9 +1269,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CyberNet.Core.UI.CoreHUDUIMono, Assembly-CSharp
-        m_MethodName: OnClickActionButton
+      - m_Target: {fileID: 3075948960203963755}
+        m_TargetAssemblyTypeName: CyberNet.Core.Arena.ArenaHUDUI.ArenaHUDUIMono,
+          Assembly-CSharp
+        m_MethodName: OnClickAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

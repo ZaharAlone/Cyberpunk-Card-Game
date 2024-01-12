@@ -49,7 +49,7 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.PlayerTypeEnum == PlayerTypeEnum.Player)
+            if (roundData.playerOrAI == PlayerOrAI.Player)
                 UpdateVFX(roundData.CurrentPlayerID);
         }
 
@@ -81,12 +81,18 @@ namespace CyberNet.Core.UI
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 var cardMono = cardComponent.CardMono;
-                
+
                 if (CheckAbilityCardToShowCard(cardComponent))
+                {
                     cardMono.SetStatusInteractiveVFX(true);
+                    entity.AddComponent(new CardCanUseComponent());
+                }
                 else
                 {
                     cardMono.SetStatusInteractiveVFX(false);
+                    
+                    if(entity.HasComponent<CardCanUseComponent>())
+                        entity.RemoveComponent<CardCanUseComponent>();
                 }
             }
 

@@ -29,7 +29,7 @@ namespace CyberNet.Core.AbilityCard
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 AbilityAIAction.AddUnitMap?.Invoke(guidCard);
                 return;

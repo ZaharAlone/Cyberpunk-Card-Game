@@ -25,7 +25,7 @@ namespace CyberNet.Core.City
         public void CheckClick()
         {
             RoundData roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
                 return;
 
             var inputData = _dataWorld.OneData<InputData>();
