@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AI.Arena;
 using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
@@ -21,10 +22,12 @@ namespace CyberNet.Core.Map
         public void PreInit()
         {
             MapMoveUnitsAction.StartMoveUnits += StartMoveUnit;
+            MapMoveUnitsAction.ZoomCameraToBattle += ZoomCameraToBattle;
         }
         
         private void StartMoveUnit()
         {
+            // Сейчас зону атаки выбирает верно, но не выбирает юнитов для атаки
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
             var selectTowerForAttackGuid = entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>().SelectTowerGUID;
@@ -186,10 +189,19 @@ namespace CyberNet.Core.Map
         private void CheckFinishMoveUnit()
         {
             var isMoveUnit = _dataWorld.Select<MoveUnitToTargetComponent>().Count() > 0;
-
+            
             if (!isMoveUnit)
             {
-                ZoomCameraToBattle();
+                var playerType = _dataWorld.OneData<RoundData>().PlayerTypeEnum;
+
+                if (playerType != PlayerTypeEnum.Player)
+                {
+                    AIBattleArenaAction.CheckEnemyBattle?.Invoke();
+                }
+                else
+                {
+                    ZoomCameraToBattle();
+                }
             }
         }
 

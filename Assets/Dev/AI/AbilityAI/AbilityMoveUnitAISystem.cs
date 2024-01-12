@@ -248,30 +248,33 @@ namespace CyberNet.Core.AI
                 .Count();
 
             needCountUnit -= countPlayerCard;
+            if (needCountUnit <= 0)
+                needCountUnit = 1;
             
             var unitsForAttacks = new List<ItemValue>();
             var sumCountAddUnit = 0;
             
             // Выбираем каких сколько юнитов и с каких зон отправим в бой
+            // Считает неверно
             foreach (var towerConnect in targetTowerComponent.TowerMono.ZoneConnect)
             {
-                var countPlayerUnit = _dataWorld.Select<UnitMapComponent>()
+                var countPlayerUnitInZone = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
                         && unit.PowerSolidPlayerID == currentPlayerID)
                     .Count();
-
-                if (countPlayerUnit - 2 > 0)
+                
+                if (countPlayerUnitInZone - 2 > 0)
                 {
-                    var needUnit = needCountUnit - (sumCountAddUnit + (countPlayerUnit - 2));
+                    var needUnit = needCountUnit - (sumCountAddUnit + (countPlayerUnitInZone - 2));
                     if (needUnit < 0)
                     {
-                        var countUnit = countPlayerUnit - 2 - Mathf.Abs(needUnit);
+                        var countUnit = countPlayerUnitInZone - 2 - Mathf.Abs(needUnit);
                         unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
                         sumCountAddUnit += countUnit;
                     }
                     else
                     {
-                        var countUnit = countPlayerUnit - 2;
+                        var countUnit = countPlayerUnitInZone - 2;
                         unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
                         sumCountAddUnit += countUnit;
                     }
@@ -286,7 +289,7 @@ namespace CyberNet.Core.AI
                 for (int i = 0; i < unitForAttackValue.Value; i++)
                 {
                     var entityUnit = _dataWorld.Select<UnitMapComponent>()
-                        .Without<UnitMapComponent>()
+                        .Without<SelectUnitMapComponent>()
                         .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID == currentPlayerID
                             && unit.GUIDTower == unitForAttackValue.Item)
                         .SelectFirstEntity();
