@@ -192,9 +192,9 @@ namespace CyberNet.Core.Map
             
             if (!isMoveUnit)
             {
-                var playerType = _dataWorld.OneData<RoundData>().PlayerTypeEnum;
+                var playerType = _dataWorld.OneData<RoundData>().playerOrAI;
 
-                if (playerType != PlayerTypeEnum.Player)
+                if (playerType != PlayerOrAI.Player)
                 {
                     AIBattleArenaAction.CheckEnemyBattle?.Invoke();
                 }

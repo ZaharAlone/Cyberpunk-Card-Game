@@ -136,7 +136,7 @@ namespace CyberNet.Core.Arena
         public string GetKeyPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             var visualKeyUnit = "";
-            if (PlayerControlEntity == PlayerControlEntity.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 visualKeyUnit = "neutral_unit";
             }
@@ -156,7 +156,7 @@ namespace CyberNet.Core.Arena
         public Sprite GetAvatarPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             Sprite avatar;
-            if (PlayerControlEntity == PlayerControlEntity.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 _dataWorld.OneData<LeadersViewData>().LeadersView.TryGetValue("im_avatar_neutral", out avatar);
             }
@@ -175,7 +175,7 @@ namespace CyberNet.Core.Arena
         public int GetPositionInTurnQueue(PlayerControlEntity PlayerControlEntity, int playerID, int countUnitInBattle)
         {
             var position = -1;
-            if (PlayerControlEntity == PlayerControlEntity.Neutral)
+            if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 position = countUnitInBattle - 1;
             }

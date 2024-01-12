@@ -64,10 +64,10 @@ namespace CyberNet.Core.City
                     case PlayerControlEntity.None:
                         material = SetFreeZone(material);
                         break;
-                    case PlayerControlEntity.Neutral:
+                    case PlayerControlEntity.NeutralUnits:
                         material = SetViewNeutralZoneControl(material);
                         break;
-                    case PlayerControlEntity.Player:
+                    case PlayerControlEntity.PlayerControl:
                         material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlayerID);
                         break;
                 }

@@ -44,7 +44,7 @@ namespace CyberNet.Core.AbilityCard
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
                 UnitZone = towerComponent.TowerMono.SquadZonesMono[targetSquadZone],
-                PlayerControl = PlayerControlEntity.Player, TargetPlayerID = playerID,
+                PlayerControl = PlayerControlEntity.PlayerControl, TargetPlayerID = playerID,
             };
 
             CityAction.InitUnit?.Invoke(initUnit);

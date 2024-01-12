@@ -67,7 +67,7 @@ namespace CyberNet.Core.City
                     var countUnit =  InitStartUnitReturnCount(squadZone);
                     if (countUnit > 0)
                     {
-                        towerComponent.PlayerControlEntity = PlayerControlEntity.Neutral;
+                        towerComponent.PlayerControlEntity = PlayerControlEntity.NeutralUnits;
                     }
                 }
 
@@ -91,7 +91,7 @@ namespace CyberNet.Core.City
                     {
                         KeyUnit = "neutral_unit",
                         UnitZone = UnitZone,
-                        PlayerControl = PlayerControlEntity.Neutral,
+                        PlayerControl = PlayerControlEntity.NeutralUnits,
                         TargetPlayerID = -1
                     };
                 

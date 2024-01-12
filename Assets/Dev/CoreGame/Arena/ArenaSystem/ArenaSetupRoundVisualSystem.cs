@@ -37,7 +37,7 @@ namespace CyberNet.Core.Arena
             DeselectPlayer();
             
             // Ищем следующего игрока, и включаем весь его визуал
-            FindPlayerInCurrentRound();
+            ArenaAction.FindPlayerInCurrentRound();
             SwitchRoundCamera();
             SelectCurrentUnitVisual();
 
@@ -64,33 +64,6 @@ namespace CyberNet.Core.Arena
 
             if (isEntityCurrentPlayer)
                 currentPlayerEntity.RemoveComponent<CurrentPlayerComponent>();
-        }
-
-        private void FindPlayerInCurrentRound()
-        {
-            ref var roundData = ref _dataWorld.OneData<ArenaRoundData>();
-            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .GetEntities();
-
-            var positionInTurnQueue = 50;
-            foreach (var playerEntity in playersInBattleEntities)
-            {
-                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
-                if (playerComponent.PositionInTurnQueue < positionInTurnQueue)
-                {
-                    positionInTurnQueue = playerComponent.PositionInTurnQueue;
-                    
-                    roundData.PlayerControlEntity = playerComponent.PlayerControlEntity;
-                    roundData.CurrentPlayerID = playerComponent.PlayerID;
-                }
-            }
-
-            var currentPlayerID = roundData.CurrentPlayerID;
-            
-            var playerEntityCurrentRound = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == currentPlayerID)
-                .SelectFirstEntity();
-            playerEntityCurrentRound.AddComponent(new CurrentPlayerComponent());
         }
 
         private void SwitchRoundCamera()
@@ -192,7 +165,7 @@ namespace CyberNet.Core.Arena
 
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
 
-            if (currentPlayerComponent.PlayerControlEntity == PlayerControlEntity.Neutral)
+            if (currentPlayerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 ArenaAIAction.StartAINeutralLogic?.Invoke();
             }
@@ -203,7 +176,7 @@ namespace CyberNet.Core.Arena
                     .SelectFirstEntity();
                 var playerGlobalComponent = playerGlobalEntity.GetComponent<PlayerComponent>();
 
-                if (playerGlobalComponent.PlayerTypeEnum == PlayerTypeEnum.Player)
+                if (playerGlobalComponent.playerOrAI == PlayerOrAI.Player)
                 {
                     ArenaUIAction.ShowHUDButton?.Invoke();
                 }

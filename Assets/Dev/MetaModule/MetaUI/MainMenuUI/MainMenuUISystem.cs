@@ -119,7 +119,7 @@ namespace CyberNet.Meta
             
             var playerLeaderData = new SelectLeaderData {
                 PlayerID = 0,
-                playerTypeEnum = PlayerTypeEnum.Player,
+                PlayerOrAI = PlayerOrAI.Player,
                 SelectLeader = "cyberpsycho",
                 NamePlayer = playerName,
                 KeyVisualCity = cityVisualSO.PlayerVisualKeyList[0]

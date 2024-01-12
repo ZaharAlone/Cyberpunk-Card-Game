@@ -67,7 +67,7 @@ namespace CyberNet.Core.AI
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
             var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
-                    && tower.PlayerControlEntity == PlayerControlEntity.Player)
+                    && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
             
             // Смотрим соседей башни игрока, куда можно отправить юнитов
@@ -91,7 +91,7 @@ namespace CyberNet.Core.AI
                             .Count();
 
                         var potentialEnemy = countUnitInTower;
-                        if (towerComponent.PlayerControlEntity == PlayerControlEntity.Player)
+                        if (towerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                             potentialEnemy += 5; // прибавляем базовый максимум карт на руке игрока, у нейтрального нет карт, так что не прибавляем
 
                         var potentialAttackPlayer = CalculatePotentialAttackToTower(towerComponent);
@@ -154,7 +154,7 @@ namespace CyberNet.Core.AI
 
             var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerID
-                    && tower.PlayerControlEntity == PlayerControlEntity.Player)
+                    && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
             
             var selectPotentiallyTower = new List<ItemValue>();
@@ -164,7 +164,7 @@ namespace CyberNet.Core.AI
                 var countPlayerUnitInTower = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID
                         && unit.PowerSolidPlayerID == currentPlayerID
-                        && unit.PlayerControl == PlayerControlEntity.Player)
+                        && unit.PlayerControl == PlayerControlEntity.PlayerControl)
                     .Count();
 
                 var isSelectTower = false;
@@ -189,7 +189,7 @@ namespace CyberNet.Core.AI
                         var countPlayerNeighboringUnitInTower = _dataWorld.Select<UnitMapComponent>()
                             .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
                                 && unit.PowerSolidPlayerID == currentPlayerID
-                                && unit.PlayerControl == PlayerControlEntity.Player)
+                                && unit.PlayerControl == PlayerControlEntity.PlayerControl)
                             .Count();
 
                         if (countPlayerNeighboringUnitInTower - 2 > countPlayerUnitInTower)
@@ -230,7 +230,7 @@ namespace CyberNet.Core.AI
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var needCountUnit = 0;
 
-            if (targetTowerComponent.PlayerControlEntity == PlayerControlEntity.Neutral)
+            if (targetTowerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
                 needCountUnit = 2;
             else
             {

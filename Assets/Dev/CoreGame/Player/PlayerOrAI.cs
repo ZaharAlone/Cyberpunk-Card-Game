@@ -1,7 +1,8 @@
 using UnityEngine.Serialization;
+
 namespace CyberNet.Global
 {
-    public enum PlayerTypeEnum
+    public enum PlayerOrAI
     {
         None = 0,
         Player = 1,

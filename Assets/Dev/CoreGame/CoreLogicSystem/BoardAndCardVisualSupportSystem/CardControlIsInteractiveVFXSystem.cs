@@ -49,7 +49,7 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.PlayerTypeEnum == PlayerTypeEnum.Player)
+            if (roundData.playerOrAI == PlayerOrAI.Player)
                 UpdateVFX(roundData.CurrentPlayerID);
         }
 

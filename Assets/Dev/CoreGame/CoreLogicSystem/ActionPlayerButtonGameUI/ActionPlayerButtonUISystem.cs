@@ -37,7 +37,7 @@ namespace CyberNet.Core.UI
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
             
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player || roundData.PauseInteractive)
+            if (roundData.playerOrAI != PlayerOrAI.Player || roundData.PauseInteractive)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;

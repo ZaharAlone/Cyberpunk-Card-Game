@@ -18,5 +18,6 @@ namespace CyberNet.Core.Arena
         public static Func<bool> CheckBlockAttack;
         public static Func<bool> CheckFinishArenaBattle;
         public static Action UpdateTurnOrderArena;
+        public static Action FindPlayerInCurrentRound;
     }
 }

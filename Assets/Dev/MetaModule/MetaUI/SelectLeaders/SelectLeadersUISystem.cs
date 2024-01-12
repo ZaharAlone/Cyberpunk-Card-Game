@@ -82,7 +82,7 @@ namespace CyberNet.Meta
                 
                 selectPlayersData.SelectLeaders.Add(new SelectLeaderData {
                     PlayerID = i,
-                    playerTypeEnum = PlayerTypeEnum.AIEasy,
+                    PlayerOrAI = PlayerOrAI.AIEasy,
                     SelectLeader = enemyLeaders[i-1],
                     NamePlayer = botName,
                     KeyVisualCity = cityVisualSO.PlayerVisualKeyList[i]

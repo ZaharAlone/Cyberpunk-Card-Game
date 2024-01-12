@@ -21,7 +21,7 @@ namespace CyberNet.Core.City
     public enum PlayerControlEntity
     {
         None,
-        Neutral,
-        Player
+        NeutralUnits,
+        PlayerControl
     }
 }

@@ -120,7 +120,7 @@ namespace CyberNet.Core.Arena
                     .Where<CardComponent>(card => card.PlayerID == unitEnemyComponent.PlayerControlID)
                     .Count();
                 
-                if (unitEnemyComponent.playerControlEntity == PlayerControlEntity.Neutral || countEnemyCardInHand == 0)
+                if (unitEnemyComponent.playerControlEntity == PlayerControlEntity.NeutralUnits || countEnemyCardInHand == 0)
                 {
                     EndReactionStage();
                 }

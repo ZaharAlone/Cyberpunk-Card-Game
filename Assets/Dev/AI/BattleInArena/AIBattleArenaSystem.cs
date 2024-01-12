@@ -21,10 +21,11 @@ namespace CyberNet.Core.AI.Arena
         public void PreInit()
         {
             AIBattleArenaAction.CheckEnemyBattle += CheckEnemy;
-            AIBattleArenaAction.StartAIRound += StartAIRound;
+            AIBattleArenaAction.StartAIRound += BattleAILogic;
         }
         
         //Перед началом боя проверяем есть ли у нас противники игроки
+        //Эта логика вызывается когда на территорию нападает бот
         private void CheckEnemy()
         {
             var unitEntities = _dataWorld.Select<UnitInBattleArenaComponent>().GetEntities();
@@ -35,45 +36,41 @@ namespace CyberNet.Core.AI.Arena
             foreach (var unitEntity in unitEntities)
             {
                 var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
-                if (unitComponent.PlayerControl != PlayerControlEntity.Player)
+                if (unitComponent.PlayerControl != PlayerControlEntity.PlayerControl)
                     continue;
-
+                
                 var playerEntity = _dataWorld.Select<PlayerComponent>()
                     .Where<PlayerComponent>(player => player.PlayerID == unitComponent.PowerSolidPlayerID)
                     .SelectFirstEntity();
-                if (playerEntity.GetComponent<PlayerComponent>().PlayerTypeEnum == PlayerTypeEnum.Player)
+                if (playerEntity.GetComponent<PlayerComponent>().playerOrAI == PlayerOrAI.Player)
                 {
                     isEnemyPlayers = true;
                     break;
                 }
             }
 
-            //А точно ли так? Смущает что следующая логика называется проводим битву без визуала, хотя по сути мы везде его чекаем
             if (!isEnemyPlayers)
             {
                 ref var arenaData = ref _dataWorld.OneData<ArenaData>();
                 arenaData.IsCurrentBattleShowView = false;
-                BattleNotView();
+                BattleAILogic();
             }
             else
             {
                 ref var arenaData = ref _dataWorld.OneData<ArenaData>();
                 arenaData.IsCurrentBattleShowView = true;
+                //Нужно добавить остановку розыгрыш карт (основную логику бота на карте)
                 MapMoveUnitsAction.ZoomCameraToBattle?.Invoke();
             }
         }
-        
-        private void StartAIRound()
-        {
-            //Пока так
-            BattleNotView();
-        }
 
-        //Проводим битву без визуала
-        private void BattleNotView()
+        //Логика бота
+        private void BattleAILogic()
         {
             CheckUseCardInHand();
             SelectTargetForAttack();
+
+            AttackSelectEnemy();
         }
 
         //Бот смотрит карты в руке, может ли что то разыграть, если да, то смотрит насколько это эффективно
@@ -100,9 +97,7 @@ namespace CyberNet.Core.AI.Arena
             return true;
         }
 
-        //Бот выбирает цель для атаки и атакует её
-        //Логика разная в зависимости от того:
-        //есть ли на арене игрок или одни боты (показываем вьюху или нет)
+        //Бот выбирает цель для атаки
         private void SelectTargetForAttack()
         {
             var selectPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
@@ -115,7 +110,17 @@ namespace CyberNet.Core.AI.Arena
                 .SelectFirstEntity();
             
             selectEnemyUnitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
-
+        }
+        
+        //Атакуем выбранного противника
+        //Логика разная в зависимости от того:
+        //есть ли на арене игрок или одни боты (показываем вьюху или нет)
+        private void AttackSelectEnemy()
+        {
+            var selectEnemyUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaSelectUnitForAttackComponent>()
+                .SelectFirstEntity();
+            
             var showViewBattle = _dataWorld.OneData<ArenaData>().IsCurrentBattleShowView;
             if (showViewBattle)
             {
@@ -125,10 +130,13 @@ namespace CyberNet.Core.AI.Arena
                 selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor);
                 selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
             
-                ArenaAction.ArenaUnitStartAttack?.Invoke();   
+                ArenaAction.ArenaUnitStartAttack?.Invoke();
             }
             else
             {
+                KillUnitWithoutVisual();
+                EndRound();
+                /*
                 if (ArenaAction.CheckBlockAttack.Invoke())
                 {
                     
@@ -138,10 +146,13 @@ namespace CyberNet.Core.AI.Arena
                 {
                     KillUnitWithoutVisual();
                     EndRound();
-                }
+                }*/
             }
         }
 
+        /// <summary>
+        /// Kills a unit without displaying any visual effects.
+        /// </summary>
         private void KillUnitWithoutVisual()
         {
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
@@ -156,6 +167,9 @@ namespace CyberNet.Core.AI.Arena
             targetUnitEntity.Destroy();
         }
 
+        /// <summary>
+        /// Ends the current round of the battle.
+        /// </summary>
         private void EndRound()
         {
             var isVisual = _dataWorld.OneData<ArenaData>().IsCurrentBattleShowView;
@@ -168,7 +182,7 @@ namespace CyberNet.Core.AI.Arena
             else
             {
                 //Проверяем не закончилась ли битва
-                //Если закончилась заканчиваем,нет, обновляем порядок хода игроков.
+                //Если закончилась заканчиваем, если нет - обновляем порядок хода игроков.
                 var isEnd = ArenaAction.CheckFinishArenaBattle.Invoke();
 
                 if (isEnd)
@@ -178,7 +192,8 @@ namespace CyberNet.Core.AI.Arena
                 else
                 {
                     ArenaAction.UpdateTurnOrderArena?.Invoke();
-                    BattleNotView();
+                    ArenaAction.FindPlayerInCurrentRound();
+                    BattleAILogic();
                 }
             }
         }

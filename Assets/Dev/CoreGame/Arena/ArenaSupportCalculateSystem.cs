@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using CyberNet.Core.Player;
 
 namespace CyberNet.Core.Arena
 {
@@ -17,6 +18,7 @@ namespace CyberNet.Core.Arena
             ArenaAction.CheckBlockAttack += CheckBlockAttack;
             ArenaAction.CheckFinishArenaBattle += CheckEndRound;
             ArenaAction.UpdateTurnOrderArena += UpdateTurnOrderArena;
+            ArenaAction.UpdateTurnOrderArena += FindPlayerInCurrentRound;
         }
 
         private bool CheckBlockAttack()
@@ -98,6 +100,33 @@ namespace CyberNet.Core.Arena
                     playerComponent.PositionInTurnQueue = playersCountInBattle -1;
                 }
             }
+        }
+        
+        private void FindPlayerInCurrentRound()
+        {
+            ref var roundData = ref _dataWorld.OneData<ArenaRoundData>();
+            var playersInBattleEntities = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .GetEntities();
+
+            var positionInTurnQueue = 50;
+            foreach (var playerEntity in playersInBattleEntities)
+            {
+                var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
+                if (playerComponent.PositionInTurnQueue < positionInTurnQueue)
+                {
+                    positionInTurnQueue = playerComponent.PositionInTurnQueue;
+                    
+                    roundData.PlayerControlEntity = playerComponent.PlayerControlEntity;
+                    roundData.CurrentPlayerID = playerComponent.PlayerID;
+                }
+            }
+
+            var currentPlayerID = roundData.CurrentPlayerID;
+            
+            var playerEntityCurrentRound = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == currentPlayerID)
+                .SelectFirstEntity();
+            playerEntityCurrentRound.AddComponent(new CurrentPlayerComponent());
         }
 
         public void Destroy() { }

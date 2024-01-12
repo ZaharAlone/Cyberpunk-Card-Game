@@ -28,7 +28,7 @@ namespace CyberNet.Core.AbilityCard
             Debug.LogError("Ability Set Ice");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 AbilityAIAction.SetIce?.Invoke(guidCard);
                 return;
@@ -73,7 +73,7 @@ namespace CyberNet.Core.AbilityCard
             Debug.LogError("Ability Destroy Ice");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
-            if (roundData.PlayerTypeEnum != PlayerTypeEnum.Player)
+            if (roundData.playerOrAI != PlayerOrAI.Player)
             {
                 AbilityAIAction.DestroyIce?.Invoke(guidCard);
                 return;
