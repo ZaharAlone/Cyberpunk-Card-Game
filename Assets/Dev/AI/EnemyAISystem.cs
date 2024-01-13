@@ -156,8 +156,8 @@ namespace CyberNet.Core.AI
                 return;
             }
 
-            var valueAbility_0 = CalculateValueCardInterface(cardComponent.Ability_0);
-            var valueAbility_1 = CalculateValueCardInterface(cardComponent.Ability_1);
+            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_0);
+            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_1);
 
             if (valueAbility_0 > valueAbility_1)
             {
@@ -171,32 +171,6 @@ namespace CyberNet.Core.AI
                     SelectAbility = SelectAbilityEnum.Ability_1
                 });
             }
-        }
-
-        private int CalculateValueCardInterface(AbilityCardContainer abilityCard)
-        {
-            var value = 0;
-            
-            switch (abilityCard.AbilityType)
-            {
-                case AbilityType.Attack:
-                    value = CalculateValueCardAction.AttackAction.Invoke(abilityCard.Count);
-                    break;
-                case AbilityType.Trade:
-                    value = CalculateValueCardAction.TradeAction.Invoke(abilityCard.Count);
-                    break;
-                case AbilityType.DrawCard:
-                    break;
-                case AbilityType.DestroyCard:
-                    value = CalculateValueCardAction.DestroyCardAction.Invoke();
-                    break;
-                case AbilityType.SquadMove:
-                    value = CalculateValueCardAction.MoveUnitAction.Invoke();
-                    Debug.LogError($"value squad move {value}");
-                    break;
-            }
-
-            return value;
         }
 
         private void SelectTradeCard()

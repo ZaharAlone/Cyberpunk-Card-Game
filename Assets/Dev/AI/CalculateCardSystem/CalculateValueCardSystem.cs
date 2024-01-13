@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 
@@ -16,13 +17,32 @@ namespace CyberNet.Core.AI
 
         public void PreInit()
         {
-            CalculateValueCardAction.AttackAction += AttackAction;
-            CalculateValueCardAction.MoveUnitAction += MoveUnitAction;
-            CalculateValueCardAction.TradeAction += TradeAction;
-            CalculateValueCardAction.DrawCardAction += DrawCardAction;
-            CalculateValueCardAction.DestroyCardAction += DestroyCardAction;
-            CalculateValueCardAction.DiscardCardAction += DiscardCardAction;
-            CalculateValueCardAction.NoiseCardAction += NoiseCardAction;
+            CalculateValueCardAction.CalculateValueCardAbility += CalculateValueCardAbility;
+        }
+        
+        private int CalculateValueCardAbility(AbilityCardContainer abilityCard)
+        {
+            var value = 0;
+            
+            switch (abilityCard.AbilityType)
+            {
+                case AbilityType.Attack:
+                    value = AttackAction(abilityCard.Count);
+                    break;
+                case AbilityType.Trade:
+                    value = TradeAction(abilityCard.Count);
+                    break;
+                case AbilityType.DrawCard:
+                    break;
+                case AbilityType.DestroyCard:
+                    value = DestroyCardAction();
+                    break;
+                case AbilityType.SquadMove:
+                    value = MoveUnitAction();
+                    break;
+            }
+
+            return value;
         }
 
         private int AttackAction(int count)
@@ -30,7 +50,7 @@ namespace CyberNet.Core.AI
             //TODO: поправить значение, логика верная
             return 15 * count;
         }
-        
+
         private int MoveUnitAction()
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
@@ -44,12 +64,10 @@ namespace CyberNet.Core.AI
 
             var result = countUnitInMap * 6;
 
-            Debug.LogError($"result count unit in map {result}");
             if (result <= 12)
                 return result;
 
             var potentialAttack = AbilityAIAction.CalculatePotentialMoveUnitAttack.Invoke();
-            Debug.LogError($"result count unit potential value {potentialAttack.Value}");
             if (potentialAttack.Value > 0)
                 return 20;
 

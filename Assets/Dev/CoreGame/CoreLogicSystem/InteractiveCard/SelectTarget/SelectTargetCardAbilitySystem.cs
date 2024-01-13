@@ -46,6 +46,12 @@ namespace CyberNet.Core.InteractiveCard
 
         private void AnimationShowCard(Entity entity)
         {
+            if (!entity.HasComponent<CardComponentAnimations>())
+            {
+                Debug.LogError("not animation show card");
+                return;
+            }
+            
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 

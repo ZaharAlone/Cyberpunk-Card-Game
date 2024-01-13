@@ -37,7 +37,6 @@ namespace CyberNet.Core.AbilityCard
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
             {
-                Debug.LogError("move unit ai");
                 AbilityAIAction.MoveUnit?.Invoke(guidCard);
                 return;
             }
