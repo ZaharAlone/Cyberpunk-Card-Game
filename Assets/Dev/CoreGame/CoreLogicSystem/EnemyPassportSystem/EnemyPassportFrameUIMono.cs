@@ -1,23 +1,45 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.EnemyPassport
 {
     public class EnemyPassportFrameUIMono : MonoBehaviour
     {
-        [SerializeField] private Image Avatar;
-        [SerializeField] private Image StatsFrame;
-        [SerializeField] private TextMeshProUGUI StatsText;
-        [SerializeField] private GameObject EffectSelectPlayer;
-        [SerializeField] private List<GameObject> DiscardCardImages = new List<GameObject>();
+        [SerializeField]
+        private Image _avatar;
+        [SerializeField]
+        private TextMeshProUGUI _namePlayer;
+        [SerializeField]
+        private Image _iconsUnit;
+        [SerializeField]
+        private TextMeshProUGUI _countCardInHandText;
+        [SerializeField]
+        private TextMeshProUGUI _countCardInDiscardText;
+        [SerializeField]
+        private TextMeshProUGUI _countLeftUnitText;
+        [SerializeField]
+        private List<GameObject> _progressWinGame;
+        [SerializeField]
+        private Image _iconsProgressGame;
+        [SerializeField]
+        private GameObject _vfxTurnPlayer;
+        
+        [SerializeField]
+        private GameObject _effectSelectPlayer;
+        [SerializeField]
+        private List<GameObject> DiscardCardImages = new List<GameObject>();
 
         private int _playerID;
         
-        public void SetAvatar(Sprite imageAvatar)
+        public void SetViewPlayer(Sprite imageAvatar, string namePlayer, Sprite iconsUnit, Color32 colorUnit)
         {
-            Avatar.sprite = imageAvatar;
+            _avatar.sprite = imageAvatar;
+            _namePlayer.text = namePlayer;
+            _iconsUnit.sprite = iconsUnit;
+            _iconsUnit.color = colorUnit;
         }
 
         public void SetPlayerID(int playerID)
@@ -30,15 +52,11 @@ namespace CyberNet.Core.EnemyPassport
             return _playerID;
         }
 
-        public void SetStatsColor(Color32 color)
+        public void SetStats(int countCardHand, int countCardDiscard,int countUnit)
         {
-            StatsFrame.color = color;
-            StatsText.color = color;
-        }
-
-        public void SetStats(int value)
-        {
-            StatsText.text = value.ToString();
+            _countLeftUnitText.text = countUnit.ToString();
+            _countCardInHandText.text = countCardHand.ToString();
+            _countCardInDiscardText.text = countCardDiscard.ToString();
         }
 
         public void OnSelectPlayer()
@@ -56,12 +74,12 @@ namespace CyberNet.Core.EnemyPassport
         
         public void OnEffectSelectPlayerStatus()
         {
-            EffectSelectPlayer.SetActive(true);
+            _effectSelectPlayer.SetActive(true);
         }
 
         public void OffEffectSelectPlayerStatus()
         {
-            EffectSelectPlayer.SetActive(false);
+            _effectSelectPlayer.SetActive(false);
         }
     }
 }

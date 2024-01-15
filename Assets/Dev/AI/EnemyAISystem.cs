@@ -11,6 +11,7 @@ using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global;
 
 namespace CyberNet.Core.AI
 {
@@ -19,6 +20,8 @@ namespace CyberNet.Core.AI
     {
         private DataWorld _dataWorld;
 
+        private float _timeWaitActionBot = 0.6f;
+        
         public void PreInit()
         {
             RoundAction.StartTurnAI += StartTurn;
@@ -42,7 +45,7 @@ namespace CyberNet.Core.AI
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             
-            LogicAI();
+            StartTurnBot();
         }
 
         private void SelectFirstBase()
@@ -73,14 +76,29 @@ namespace CyberNet.Core.AI
             }
         }
 
-        private async void LogicAI()
+        private void StartTurnBot()
         {
-            await Task.Delay(600);
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = _timeWaitActionBot, Action = () => StartPlayingCard()
+            });
+        }
+
+        private void StartPlayingCard()
+        {
             PlayCard();
-            await Task.Delay(600);
+            BotAIAction.EndPlayingCards += EndPlayingCards;
+        }
+
+        private void EndPlayingCards()
+        {
+            BotAIAction.EndPlayingCards -= EndPlayingCards;
             SelectTradeCard();
-            await Task.Delay(600);
-            ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
+            
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
+            });
         }
 
         private void PlayCard()
@@ -101,6 +119,8 @@ namespace CyberNet.Core.AI
             }
             
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            
+            BotAIAction.EndPlayingCards?.Invoke();
         }
         
         //Ищем какую карту стоит разыграть в первую очередь
@@ -156,8 +176,8 @@ namespace CyberNet.Core.AI
                 return;
             }
 
-            var valueAbility_0 = CalculateValueCardInterface(cardComponent.Ability_0);
-            var valueAbility_1 = CalculateValueCardInterface(cardComponent.Ability_1);
+            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_0);
+            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_1);
 
             if (valueAbility_0 > valueAbility_1)
             {
@@ -171,32 +191,6 @@ namespace CyberNet.Core.AI
                     SelectAbility = SelectAbilityEnum.Ability_1
                 });
             }
-        }
-
-        private int CalculateValueCardInterface(AbilityCardContainer abilityCard)
-        {
-            var value = 0;
-            
-            switch (abilityCard.AbilityType)
-            {
-                case AbilityType.Attack:
-                    value = CalculateValueCardAction.AttackAction.Invoke(abilityCard.Count);
-                    break;
-                case AbilityType.Trade:
-                    value = CalculateValueCardAction.TradeAction.Invoke(abilityCard.Count);
-                    break;
-                case AbilityType.DrawCard:
-                    break;
-                case AbilityType.DestroyCard:
-                    value = CalculateValueCardAction.DestroyCardAction.Invoke();
-                    break;
-                case AbilityType.SquadMove:
-                    value = CalculateValueCardAction.MoveUnitAction.Invoke();
-                    Debug.LogError($"value squad move {value}");
-                    break;
-            }
-
-            return value;
         }
 
         private void SelectTradeCard()

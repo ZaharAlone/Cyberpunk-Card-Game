@@ -34,7 +34,7 @@ namespace CyberNet.Core.Arena
             roundData.ArenaCurrentStage = ArenaCurrentStageEnum.Action;
 
             //Отключаем визуал юнитов игрока ходившего раньше, и он перестает быть текущим игроком
-            DeselectPlayer();
+            ArenaAction.DeselectPlayer?.Invoke();
             
             // Ищем следующего игрока, и включаем весь его визуал
             ArenaAction.FindPlayerInCurrentRound();
@@ -43,27 +43,6 @@ namespace CyberNet.Core.Arena
 
             // Выдаем контроль игроку, или AI
             EnableControlPlayer();
-        }
-        private void DeselectPlayer()
-        {
-            var unitsEntities = _dataWorld.Select<ArenaUnitComponent>()
-                .GetEntities();
-
-            foreach (var unitEntity in unitsEntities)
-            {
-                var unitComponent = unitEntity.GetComponent<ArenaUnitComponent>();
-                unitComponent.UnitArenaMono.UnitPointVFXMono.DisableEffect();
-
-                if (unitEntity.HasComponent<ArenaUnitCurrentComponent>())
-                    unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
-            }
-
-            var isEntityCurrentPlayer = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .With<CurrentPlayerComponent>()
-                .TrySelectFirstEntity(out var currentPlayerEntity);
-
-            if (isEntityCurrentPlayer)
-                currentPlayerEntity.RemoveComponent<CurrentPlayerComponent>();
         }
 
         private void SwitchRoundCamera()

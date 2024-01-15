@@ -9,6 +9,7 @@ using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.AI.Arena
@@ -52,13 +53,16 @@ namespace CyberNet.Core.AI.Arena
             if (!isEnemyPlayers)
             {
                 ref var arenaData = ref _dataWorld.OneData<ArenaData>();
-                arenaData.IsCurrentBattleShowView = false;
+                arenaData.IsShowVisualBattle = false;
+                ArenaAction.CreateBattleData?.Invoke();
+                ArenaAction.FindPlayerInCurrentRound();
+                ArenaAction.CreateUnitInArena?.Invoke();
                 BattleAILogic();
             }
             else
             {
                 ref var arenaData = ref _dataWorld.OneData<ArenaData>();
-                arenaData.IsCurrentBattleShowView = true;
+                arenaData.IsShowVisualBattle = true;
                 //Нужно добавить остановку розыгрыш карт (основную логику бота на карте)
                 MapMoveUnitsAction.ZoomCameraToBattle?.Invoke();
             }
@@ -67,6 +71,7 @@ namespace CyberNet.Core.AI.Arena
         //Логика бота
         private void BattleAILogic()
         {
+            Debug.LogError("Battle AI Logic");
             CheckUseCardInHand();
             SelectTargetForAttack();
 
@@ -100,16 +105,18 @@ namespace CyberNet.Core.AI.Arena
         //Бот выбирает цель для атаки
         private void SelectTargetForAttack()
         {
-            var selectPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
+            //Находим первого попавшегося противника на арене
+            var selectEnemyPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
                 .Without<CurrentPlayerComponent>()
                 .SelectFirstEntity();
-            var selectPlayerComponent = selectPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
+            var selectEnemyPlayerComponent = selectEnemyPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
 
             var selectEnemyUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .Where<ArenaUnitComponent>(unit => unit.PlayerControlID != selectPlayerComponent.PlayerID)
+                .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == selectEnemyPlayerComponent.PlayerID)
                 .SelectFirstEntity();
             
             selectEnemyUnitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
+            Debug.LogError("Select unit for attack");
         }
         
         //Атакуем выбранного противника
@@ -121,7 +128,7 @@ namespace CyberNet.Core.AI.Arena
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirstEntity();
             
-            var showViewBattle = _dataWorld.OneData<ArenaData>().IsCurrentBattleShowView;
+            var showViewBattle = _dataWorld.OneData<ArenaData>().IsShowVisualBattle;
             if (showViewBattle)
             {
                 var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
@@ -134,22 +141,65 @@ namespace CyberNet.Core.AI.Arena
             }
             else
             {
-                KillUnitWithoutVisual();
-                EndRound();
-                /*
+                var isDiscardCard = false;
                 if (ArenaAction.CheckBlockAttack.Invoke())
-                {
-                    
-                    //TODO: дописать выбор карты для сброса ботом
+                { 
+                    Debug.LogError("Is can discard card");
+                    isDiscardCard = SelectAndDiscardCardToBlockAttack();
                 }
-                else
+                
+                Debug.LogError($"Discard card {isDiscardCard}");
+                if (!isDiscardCard)
                 {
                     KillUnitWithoutVisual();
-                    EndRound();
-                }*/
+                    EndRound();   
+                }
             }
         }
 
+        private bool SelectAndDiscardCardToBlockAttack()
+        {
+            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaSelectUnitForAttackComponent>()
+                .SelectFirstEntity();
+            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
+
+            var cardsEntities = _dataWorld.Select<CardComponent>()
+                .With<CardHandComponent>()
+                .Where<CardComponent>(card => card.PlayerID == targetUnitComponent.PlayerControlID)
+                .GetEntities();
+
+            var minValueCard = 99;
+            var selectCardGUID = "";
+                    
+            foreach (var cardEntity in cardsEntities)
+            {
+                var cardComponent = cardEntity.GetComponent<CardComponent>();
+                var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_0);
+                var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_1);
+
+                var maxValueCard = Mathf.Max(valueAbility_0, valueAbility_1);
+
+                if (maxValueCard < minValueCard)
+                {
+                    minValueCard = maxValueCard;
+                    selectCardGUID = cardComponent.GUID;
+                }
+            }
+                    
+            if (selectCardGUID == "")
+                return false;
+
+            var cardToDiscardEntity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == selectCardGUID)
+                .SelectFirstEntity();
+                    
+            cardToDiscardEntity.RemoveComponent<CardHandComponent>();
+            cardToDiscardEntity.AddComponent(new CardMoveToTableComponent());
+            
+            return true;
+        }
+        
         /// <summary>
         /// Kills a unit without displaying any visual effects.
         /// </summary>
@@ -158,13 +208,12 @@ namespace CyberNet.Core.AI.Arena
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
             var targetUnitMapComponent = targetUnitEntity.GetComponent<UnitMapComponent>();
             
-            Object.Destroy(targetUnitComponent.UnitGO);
             Object.Destroy(targetUnitMapComponent.UnitIconsGO);
             
             targetUnitEntity.Destroy();
+            Debug.LogError("Kill unit");
         }
 
         /// <summary>
@@ -172,7 +221,8 @@ namespace CyberNet.Core.AI.Arena
         /// </summary>
         private void EndRound()
         {
-            var isVisual = _dataWorld.OneData<ArenaData>().IsCurrentBattleShowView;
+            Debug.LogError("End Round");
+            var isVisual = _dataWorld.OneData<ArenaData>().IsShowVisualBattle;
 
             if (isVisual)
             {
@@ -187,43 +237,40 @@ namespace CyberNet.Core.AI.Arena
 
                 if (isEnd)
                 {
-                    FinishBattle();
+                    Debug.LogError("Battle is finish");
+                    FinishBattleNotVisual();
                 }
                 else
                 {
+                    Debug.LogError("Init new round");
+                    ArenaAction.DeselectPlayer?.Invoke();
                     ArenaAction.UpdateTurnOrderArena?.Invoke();
                     ArenaAction.FindPlayerInCurrentRound();
+                    Debug.LogError("Start new round");
                     BattleAILogic();
                 }
             }
         }
 
-        private void FinishBattle()
+        private void FinishBattleNotVisual()
         {
             var playerInArenaEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
-            
+
             foreach (var playerEntity in playerInArenaEntities)
             {
                 playerEntity.Destroy();
             }
+            Debug.LogError("Destroy entity player in battle");
 
             var unitInArenaEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();
 
             foreach (var unitEntity in unitInArenaEntities)
             {
-                var unitComponent = unitEntity.GetComponent<ArenaUnitComponent>();
-                Object.Destroy(unitComponent.UnitGO);
                 unitEntity.RemoveComponent<ArenaUnitComponent>();
                 unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
                 unitEntity.RemoveComponent<UnitInBattleArenaComponent>();
             }
-
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.PauseInteractive = false;
-            roundData.CurrentRoundState = RoundState.Map;
-            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
-            
-            _dataWorld.DestroyModule<ArenaModule>();
+            Debug.LogError("Clear extra component in units");
         }
         
         public void Destroy()

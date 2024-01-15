@@ -25,6 +25,7 @@ namespace CyberNet.Core.City
     {
         public IconsUnitInMapMono IconsUnitMap;
         public UnitArenaMono UnitArenaMono;
+        public Sprite IconsUnit;
         public Color32 ColorUnit;
     }
 }

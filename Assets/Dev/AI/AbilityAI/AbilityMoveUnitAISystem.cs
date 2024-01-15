@@ -109,7 +109,6 @@ namespace CyberNet.Core.AI
             
             foreach (var towerPotential in guidSelectPotentiallyWeakTower)
             {
-                Debug.LogError($"tower potential value {towerPotential.Value}");
                 if (towerPotential.Value > maxValuePotentialAttack)
                 {
                     maxValuePotentialAttack = towerPotential.Value;

@@ -49,12 +49,7 @@ namespace CyberNet.Core.UI
                 }
                 else
                 {
-                    var countDiscardCard = 0;
-                    if (entity.HasComponent<PlayerDiscardCardComponent>())
-                    {
-                        countDiscardCard = entity.GetComponent<PlayerDiscardCardComponent>().Count;
-                    }
-                    ShowLeftPassportPlayer(playerComponent, playerViewComponent, countDiscardCard);
+                    ShowLeftPassportPlayer(playerComponent, playerViewComponent);
                 }
 
                 counter++;
@@ -75,18 +70,34 @@ namespace CyberNet.Core.UI
             coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, playerComponent.UnitAgentCountInHand);
         }
 
-        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent, int countDiscardCard)
+        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
+
+            var countCardHand = _dataWorld.Select<CardComponent>()
+                .With<CardHandComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
+                .Count();
+            
+            var countCardDiscard = _dataWorld.Select<CardComponent>()
+                .With<CardDiscardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
+                .Count();
             
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetAvatar(playerViewComponent.Avatar);
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(playerComponent.UnitCount);
-            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStatsColor(playerUnitVisual.ColorUnit);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHand, countCardDiscard, playerComponent.UnitCount);
             
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);
+            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
+            
+            /*
+            var countDiscardCard = 0;
+            if (entity.HasComponent<PlayerDiscardCardComponent>())
+            {
+                countDiscardCard = entity.GetComponent<PlayerDiscardCardComponent>().Count;
+            }
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);*/
         }
 
         private void UpdatePlayerCurrency()
