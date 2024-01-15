@@ -11,6 +11,7 @@ using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global;
 
 namespace CyberNet.Core.AI
 {
@@ -19,6 +20,8 @@ namespace CyberNet.Core.AI
     {
         private DataWorld _dataWorld;
 
+        private float _timeWaitActionBot = 0.6f;
+        
         public void PreInit()
         {
             RoundAction.StartTurnAI += StartTurn;
@@ -42,7 +45,7 @@ namespace CyberNet.Core.AI
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             
-            LogicAI();
+            StartTurnBot();
         }
 
         private void SelectFirstBase()
@@ -73,14 +76,29 @@ namespace CyberNet.Core.AI
             }
         }
 
-        private async void LogicAI()
+        private void StartTurnBot()
         {
-            await Task.Delay(600);
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = _timeWaitActionBot, Action = () => StartPlayingCard()
+            });
+        }
+
+        private void StartPlayingCard()
+        {
             PlayCard();
-            await Task.Delay(600);
+            BotAIAction.EndPlayingCards += EndPlayingCards;
+        }
+
+        private void EndPlayingCards()
+        {
+            BotAIAction.EndPlayingCards -= EndPlayingCards;
             SelectTradeCard();
-            await Task.Delay(600);
-            ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke();
+            
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
+            });
         }
 
         private void PlayCard()
@@ -101,6 +119,8 @@ namespace CyberNet.Core.AI
             }
             
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            
+            BotAIAction.EndPlayingCards?.Invoke();
         }
         
         //Ищем какую карту стоит разыграть в первую очередь
