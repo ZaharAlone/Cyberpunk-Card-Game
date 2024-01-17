@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace CyberNet.Meta
 {
-    public class InteractiveButtonNotAnimations : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
+    public class InteractiveButtonNotAnimations : MonoBehaviour, IPointerEnterHandler/*, ISelectHandler, IDeselectHandler*/
     {
         [SerializeField]
         [Required]

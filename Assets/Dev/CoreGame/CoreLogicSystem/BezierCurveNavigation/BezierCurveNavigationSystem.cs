@@ -72,7 +72,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             var distancePoint = Vector3.Distance(uiBezier.ControlPoints[0].position, uiBezier.ControlPoints[1].position) + Vector3.Distance(uiBezier.ControlPoints[1].position, uiBezier.ControlPoints[2].position);
 
             var distanceValue = Mathf.InverseLerp(100, 1200, distancePoint);
-            var countPoint = (int)(Mathf.Lerp(0, 10, distanceValue));
+            var countPoint = (int)(Mathf.Lerp(0, 16, distanceValue));
             var bezierConfig = _dataWorld.OneData<BezierData>().BezierCurveConfigSO;
             
             //Loop through values of t to create the graph, spawning points at each step

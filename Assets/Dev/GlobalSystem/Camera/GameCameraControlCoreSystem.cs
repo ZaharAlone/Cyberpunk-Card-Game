@@ -20,7 +20,7 @@ namespace CyberNet.Global.GameCamera
         private float MinFOVCamera = 25;
         private float MaxFOVCamera = 15;
         
-        private float _cameraZoomMoveSpeed = 0.16f;
+        private float _cameraZoomMoveSpeed = 0.20f;
         private float _movementTimeZoom = 4.5f;
 
         private Vector3 _newPosition;
