@@ -1,3 +1,6 @@
+using CyberNet.Core.InteractiveCard;
+using CyberNet.Core.Player;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -20,33 +23,45 @@ namespace CyberNet.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
+            var playerEntity = _dataWorld.Select<PlayerComponent>().With<CurrentPlayerComponent>().SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            
+            var isShowView = playerComponent.playerOrAI == PlayerOrAI.Player;
+            
             for (int i = 0; i < eventValue.Count; i++)
             {
-                var countPlayerEntities = _dataWorld.Select<CardComponent>()
+                var countCardsPlayerEntities = _dataWorld.Select<CardComponent>()
                            .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                            .With<CardDrawComponent>()
                            .Count();
 
-                if (countPlayerEntities == 0)
+                if (countCardsPlayerEntities == 0)
                     GlobalCoreGameAction.SortingDiscardCard?.Invoke(eventValue.TargetPlayerID);
 
-                var playerEntities = _dataWorld.Select<CardComponent>()
+                var cardEntities = _dataWorld.Select<CardComponent>()
                                                .Where<CardComponent>(card => card.PlayerID == eventValue.TargetPlayerID)
                                                .With<CardDrawComponent>()
                                                .GetEntities();
 
-                var id = SortingCard.ChooseNearestCard(playerEntities);
-                AddCard(id);
+                var id = SortingCard.ChooseNearestCard(cardEntities);
+                AddCard(id, isShowView);
             }
-            
-            var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new WaitDistributionCardHandComponent {
-                PlayerID = eventValue.TargetPlayerID,
-                CountCard = eventValue.Count
-            });
+
+            if (isShowView)
+            {
+                var entity = _dataWorld.NewEntity();
+                entity.AddComponent(new WaitDistributionCardHandComponent {
+                    PlayerID = eventValue.TargetPlayerID,
+                    CountCard = eventValue.Count
+                });   
+            }
+            else
+            {
+                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            }
         }
 
-        private void AddCard(int entityId)
+        private void AddCard(int entityId, bool isShowView)
         {
             var entity = _dataWorld.GetEntity(entityId);
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
@@ -54,10 +69,14 @@ namespace CyberNet.Core
             entity.RemoveComponent<CardDrawComponent>();
             entity.AddComponent(new CardHandComponent());
             entity.AddComponent(new CardDistributionComponent());
-            var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.PlayerID);
-            waitTimeAnim += 0.175f;
-            entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = waitTimeAnim });
-            cardComponent.CardMono.ShowCard();
+
+            if (isShowView)
+            {
+                var waitTimeAnim = SortingDeckCardAnimationsAction.GetTimeCardToHand.Invoke(cardComponent.PlayerID);
+                waitTimeAnim += 0.175f;
+                entity.AddComponent(new WaitAnimationsDrawHandCardComponent { PlayerID = cardComponent.PlayerID, WaitTime = waitTimeAnim });
+                cardComponent.CardMono.ShowCard();   
+            }
         }
     }
 }

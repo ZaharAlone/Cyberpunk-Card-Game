@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
+using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using UnityEngine;
 
@@ -36,28 +37,59 @@ namespace CyberNet.Core.UI
             var entitiesPlayer = _dataWorld.Select<PlayerComponent>()
                                                          .With<PlayerViewComponent>()
                                                          .GetEntities();
+            
+            var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
 
-            var counter = 0;
+            //Check need switch position player
+            var switchPositionPassport = false;
             foreach (var entity in entitiesPlayer)
             {
                 var playerComponent = entity.GetComponent<PlayerComponent>();
-                var playerViewComponent = entity.GetComponent<PlayerViewComponent>();
-
-                if (playerComponent.PositionInTurnQueue == 0)
+                
+                if (playerComponent.playerOrAI == PlayerOrAI.Player && playerComponent.PositionInTurnQueue == 0)
                 {
-                    ShowMainPassportPlayer(playerComponent, playerViewComponent);
+                    switchPositionPassport = true;
+                    break;
+                }
+            }
+
+            //Switch positions players
+            if (switchPositionPassport)
+            {
+                foreach (var entity in entitiesPlayer)
+                {
+                    var playerComponent = entity.GetComponent<PlayerComponent>();
+                    var playerViewComponent = entity.GetComponent<PlayerViewComponent>();
+                
+                    if (playerComponent.PositionInTurnQueue == 0)
+                    {
+                        ShowMainPassportPlayer(playerComponent, playerViewComponent);
+                    }
+                    else
+                    {
+                        ShowLeftPassportPlayer(playerComponent, playerViewComponent);
+                    }
+                }
+            }
+            
+            //Enable/Disable effect current player
+            foreach (var entity in entitiesPlayer)
+            {
+                var playerComponent = entity.GetComponent<PlayerComponent>();
+                
+                if (playerComponent.playerOrAI == PlayerOrAI.Player)
+                {
+                    coreUIHud.EnableMainPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0);
                 }
                 else
                 {
-                    ShowLeftPassportPlayer(playerComponent, playerViewComponent);
+                    coreUIHud.EnableLeftPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0, playerComponent.PlayerID);
                 }
-
-                counter++;
             }
 
             for (int i = 0; i < coreUIHud.EnemyPassports.Count; i++)
             {
-                if ((counter - 1) > i)
+                if ((countPlayers - 1) > i)
                     continue;
                 coreUIHud.EnemyPassports[i].gameObject.SetActive(false);
             }
@@ -70,7 +102,7 @@ namespace CyberNet.Core.UI
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             
             coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
-            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
         }
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
@@ -122,7 +154,7 @@ namespace CyberNet.Core.UI
                 .SelectFirstEntity();
 
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
-            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
         }
 
         private void UpdateCountCard()

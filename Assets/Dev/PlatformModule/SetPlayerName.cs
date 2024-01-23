@@ -2,14 +2,12 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using Steamworks;
 
-namespace CyberNet.Platform.Steam
+namespace CyberNet.Platform
 {
-    [EcsSystem(typeof(SteamModule))]
-    public class SteamSystem : IPreInitSystem
+    [EcsSystem(typeof(GlobalModule))]
+    public class SetPlayerName : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -20,20 +18,20 @@ namespace CyberNet.Platform.Steam
 
         private string GetPlayerName()
         {
-            #if UNITY_EDITOR
-            return "Zakhar";
-            #endif
+            var playerName = "Player";
             
-            var playerName = "";
+            #if STEAM
             if(SteamManager.Initialized) {
                 playerName = SteamFriends.GetPersonaName();
             }
-            else
-            {
-                playerName = "Player";
-            }
+            #endif
 
             return playerName;
+        }
+
+        public void Destroy()
+        {
+            PlatformAction.GetPlayerName -= GetPlayerName;
         }
     }
 }

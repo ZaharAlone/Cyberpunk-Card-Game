@@ -83,5 +83,10 @@ namespace CyberNet.Core.EnemyPassport
         {
             _effectSelectPlayer.SetActive(false);
         }
+
+        public void EnableCurrentTurnPlayer(bool status)
+        {
+            _vfxTurnPlayer.SetActive(status);
+        }
     }
 }

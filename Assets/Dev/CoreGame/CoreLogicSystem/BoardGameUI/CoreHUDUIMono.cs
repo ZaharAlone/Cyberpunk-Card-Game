@@ -14,7 +14,9 @@ namespace  CyberNet.Core.UI
         public PlayerTablet PlayerDownView;
         [SerializeField]
         private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
-
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
+        
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
@@ -31,6 +33,7 @@ namespace  CyberNet.Core.UI
         [Header("Enemy Passport")]
         public GameObject EnemyPassportContainer;
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
+        public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
         
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {
@@ -40,10 +43,27 @@ namespace  CyberNet.Core.UI
             PlayerDownView.IconsUnit.color = colorUnit;
         }
 
-        public void SetMainPassportViewStats(int unit, int countControlTerritory)
+        public void EnableMainPlayerCurrentRound(bool status)
+        {
+            PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
+        }
+
+        public void EnableLeftPlayerCurrentRound(bool status, int playerID)
+        {
+            foreach (var enemy in EnemyPassports)
+            {
+                if (enemy.GetPlayerID() == playerID)
+                {
+                    enemy.EnableCurrentTurnPlayer(status);
+                }
+            }
+        }
+        
+        public void SetMainPassportViewStats(int unit, int countControlTerritory, int countBase)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
             _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
+            _playerPassportCountBaseView.SetCountValue(countBase);
         }
         
         public void SetInteractiveButton(string text, Sprite sprite)
@@ -113,7 +133,6 @@ namespace  CyberNet.Core.UI
         {
             EnemyPassportContainer.SetActive(true);
         }
-
     }
     
     [Serializable]
