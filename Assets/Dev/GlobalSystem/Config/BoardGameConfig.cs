@@ -64,5 +64,6 @@ namespace CyberNet
         public CursorConfigSO CursorConfigSO;
         public ArenaConfigSO ArenaConfigSO;
         public ColorsGameConfigSO ColorsGameConfigSO;
+        public ViewEnemySO ViewEnemySO;
     }
 }

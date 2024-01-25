@@ -6,7 +6,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.SelectFirstBase
 {
@@ -101,6 +100,7 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
+            playerComponent.CurrentCountControlTerritory++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
@@ -115,7 +115,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             CityAction.UpdatePlayerViewCity?.Invoke();
         }
     }

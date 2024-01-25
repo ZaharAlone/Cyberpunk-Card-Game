@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
+using CyberNet.Core.EnemyTurnView;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
@@ -69,10 +70,8 @@ namespace CyberNet.Core.AI
                     SelectFirstBaseAction.SelectBase?.Invoke(towerComponent.GUID);
                     break;
                 }
-                else
-                {
-                    counter++;
-                }
+                
+                counter++;
             }
         }
 
@@ -93,6 +92,7 @@ namespace CyberNet.Core.AI
         private void EndPlayingCards()
         {
             BotAIAction.EndPlayingCards -= EndPlayingCards;
+            EnemyTurnViewUIAction.HideView?.Invoke();
             SelectTradeCard();
             
             var timeEntity = _dataWorld.NewEntity();
@@ -101,26 +101,29 @@ namespace CyberNet.Core.AI
             });
         }
 
-        private void PlayCard()
+        private async void PlayCard()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                 .With<CardHandComponent>()
                 .Count();
-            
-            for (int i = 0; i < countCard; i++)
+
+            if (countCard == 0)
             {
-                var selectEntityPlayCard = FindPriorityCardPlay();
-                
-                selectEntityPlayCard.RemoveComponent<CardHandComponent>();
-                SelectionAbility(selectEntityPlayCard);   
-                AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
+                BotAIAction.EndPlayingCards?.Invoke();
+                return;
             }
             
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-            
-            BotAIAction.EndPlayingCards?.Invoke();
+            var selectEntityPlayCard = FindPriorityCardPlay();
+                
+            selectEntityPlayCard.RemoveComponent<CardHandComponent>();
+            SelectionAbility(selectEntityPlayCard);   
+            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
+            var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
+            EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
+            await Task.Delay(100);
+            PlayCard();
         }
         
         //Ищем какую карту стоит разыграть в первую очередь

@@ -142,7 +142,8 @@ namespace CyberNet.Core.UI
 
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue);
+            // TODO временно всегда воспроизводим эффект
+            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue, true);
         }
         
         private void UpdateStatsPlayersPassport()

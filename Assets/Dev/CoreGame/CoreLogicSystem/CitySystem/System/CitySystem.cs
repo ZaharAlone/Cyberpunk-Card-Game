@@ -110,6 +110,7 @@ namespace CyberNet.Core.City
             cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
             
             var unitIconsMono = Object.Instantiate(visualUnit.IconsUnitMap, solidConteiner.transform);
+            unitIconsMono.SetColorUnit(visualUnit.ColorUnit);
             
             var allEntitySquadTargetPoint = _dataWorld.Select<UnitMapComponent>()
                 .Where<UnitMapComponent>(squadMap => squadMap.GUIDTower == squadMap.GUIDTower
