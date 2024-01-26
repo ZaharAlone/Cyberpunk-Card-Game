@@ -38,13 +38,13 @@ namespace CyberNet.Core.UI
         {
             _panelGO.SetActive(true);
             _sequence = DOTween.Sequence();
-            _sequence.Append(_panelTransform.DOAnchorPos(new Vector2(0, _panelTransform.anchoredPosition.y), 0.2f));
+            _sequence.Append(_panelTransform.DOAnchorPos(new Vector2(0, _panelTransform.anchoredPosition.y), 0.3f));
         }
 
         public void DisableFrame()
         {
             _sequence = DOTween.Sequence();
-            _sequence.Append(_panelTransform.DOAnchorPos(new Vector2(-300, _panelTransform.anchoredPosition.y), 0.2f))
+            _sequence.Append(_panelTransform.DOAnchorPos(new Vector2(-300, _panelTransform.anchoredPosition.y), 0.4f))
                 .OnComplete(()=> OnDisableFrame());
         }
 

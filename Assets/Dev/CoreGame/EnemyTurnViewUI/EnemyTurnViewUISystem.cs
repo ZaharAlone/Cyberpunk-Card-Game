@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using Object = UnityEngine.Object;
@@ -31,12 +32,14 @@ namespace CyberNet.Core.EnemyTurnView
             {
                 _isShowPanelUI = true;
                 ShowUI(true);
-                await Task.Delay(200);
+                await Task.Delay(300);
             }
             Debug.LogError("show view");
             var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
             var cardContainer = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono.GetCardContainerTransform();
-            var card = Object.Instantiate(viewEnemyConfig.CardForEnemyTurnView, cardContainer);
+            var cardMono = Object.Instantiate(viewEnemyConfig.CardForEnemyTurnView, cardContainer);
+            
+            SetupCardAction.SetViewCardNotInit?.Invoke(cardMono, keyCard);
         }
 
         private void ShowPurchaseCard(string keyCard)
@@ -71,7 +74,7 @@ namespace CyberNet.Core.EnemyTurnView
         {
             var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
             turnUI.DisableFrame();
-            await Task.Delay(200);
+            await Task.Delay(300);
             turnUI.ClearContainerCard();
             _isShowPanelUI = false;
         }

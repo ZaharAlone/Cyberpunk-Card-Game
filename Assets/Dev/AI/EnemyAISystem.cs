@@ -28,27 +28,41 @@ namespace CyberNet.Core.AI
             RoundAction.StartTurnAI += StartTurn;
         }
         
+        /// <summary>
+        /// Начинаем раунд AI
+        /// Проверяем есть ли база, если нет ставим
+        /// Проверяем должны ли мы сбросить карты?
+        /// </summary>
         private void StartTurn()
         {
-            var roundData = _dataWorld.OneData<RoundData>();
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.PauseInteractive = true;
+            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
+            
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
                 SelectFirstBase();
-            
+
             if (playerEntity.HasComponent<PlayerDiscardCardComponent>())
-                AbilityAIAction.DiscardCardSelectCard?.Invoke();
-            
-            roundData.PauseInteractive = true;
-            
-            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
-            CityAction.UpdatePresencePlayerInCity?.Invoke();
-            
+                DiscardCard();
+            else
+            {
+                StartTurnBot();
+            }
+        }
+        
+
+        private void DiscardCard()
+        {
+            //add async, and show view discard card
+            AbilityAIAction.DiscardCardSelectCard?.Invoke();
             StartTurnBot();
         }
 
+        // Выбираем стартовую базу
         private void SelectFirstBase()
         {
             var firstBaseEntities = _dataWorld.Select<TowerComponent>()
@@ -75,16 +89,17 @@ namespace CyberNet.Core.AI
             }
         }
 
+        // Начинаем ход бота
         private void StartTurnBot()
         {
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
+            
+            /*
             var timeEntity = _dataWorld.NewEntity();
             timeEntity.AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => StartPlayingCard()
-            });
-        }
-
-        private void StartPlayingCard()
-        {
+            });*/
+            
             PlayCard();
             BotAIAction.EndPlayingCards += EndPlayingCards;
         }
@@ -122,7 +137,7 @@ namespace CyberNet.Core.AI
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
             EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
-            await Task.Delay(100);
+            await Task.Delay(350);
             PlayCard();
         }
         
