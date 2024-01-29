@@ -15,7 +15,7 @@ namespace CyberNet
         public BoardGameRuleSettings BoardGameRule;
         public Dictionary<string, Sprite> CardsImage;
         public CitySO CitySO;
-        public Dictionary<string, TowerConfig> TowerConfig;
+        public Dictionary<string, DistrictConfig> DistrictConfig;
         public SupportLocalizeSO SupportLocalize;
     }
 }

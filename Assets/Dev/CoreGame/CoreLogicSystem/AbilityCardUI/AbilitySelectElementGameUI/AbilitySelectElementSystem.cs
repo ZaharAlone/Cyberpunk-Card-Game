@@ -1,4 +1,5 @@
 using CyberNet.Core.Player;
+using CyberNet.Core.Traderow;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -48,6 +49,8 @@ namespace CyberNet.Core.AbilityCard
             {
                 uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
+            
+            TraderowUIAction.ForceHideTraderow?.Invoke();
         }
 
         private void SelectElement(string textButton)
@@ -76,6 +79,7 @@ namespace CyberNet.Core.AbilityCard
         {
             ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             uiActionSelectCard.CloseWindow();
+            TraderowUIAction.ForceShowTraderow?.Invoke();
         }
     }
 }

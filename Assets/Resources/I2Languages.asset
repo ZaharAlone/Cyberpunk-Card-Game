@@ -1854,24 +1854,6 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CorePopup/$popupTask_selectStartAreal_header
-      TermType: 0
-      Description: 
-      Languages:
-      - Choose one of the starting territories
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
-        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u0439"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      Flags: 0000000000000000000000
-      Languages_Touch: []
     - Term: CorePopup/$popupTask_chooseCardAbility_header
       TermType: 0
       Description: 
@@ -1895,10 +1877,7 @@ MonoBehaviour:
       Description: 
       Languages:
       - 
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u044E
-        \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u0435
-        \u043D\u043E\u0432\u043E\u0433\u043E \u0431\u043E\u0439\u0446\u0430. \u041E\u0441\u0442\u0430\u043B\u043E\u0441\u044C
-        {count} \u0431\u043E\u0439\u0446\u043E\u0432"
+      - 
       - 
       - 
       - 
@@ -2008,6 +1987,28 @@ MonoBehaviour:
       - Play all the cards in hand
       - "\u0421\u044B\u0433\u0440\u0430\u0442\u044C \u0432\u0441\u0435 \u043A\u0430\u0440\u0442\u044B
         \u0432 \u0440\u0443\u043A\u0435"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CorePopup/$bg_choose_first_base_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose one of the starting districts of the city. From here, your gang will
+        begin its conquest for power.
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u0438\u043D
+        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0440\u0430\u0439\u043E\u043D\u043E\u0432
+        \u0433\u043E\u0440\u043E\u0434\u0430. \u041E\u0442\u0441\u044E\u0434\u0430
+        \u0432\u0430\u0448\u0430 \u0431\u0430\u043D\u0434\u0430 \u043D\u0430\u0447\u043D\u0451\u0442
+        \u0437\u0430\u0445\u0432\u0430\u0442 \u0432\u043B\u0430\u0441\u0442\u0438."
       - 
       - 
       - 
@@ -2785,40 +2786,21 @@ MonoBehaviour:
         kart\u0119</color> dla ochrony lub <color=#00E4FE>Otrzymaj obra\u017Cenia</color>"
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CoreGame/$bg_choose_first_base_header
+    - Term: CoreGame/
       TermType: 0
       Description: 
       Languages:
-      - Choose first territories
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u0443\u044E
-        \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u044E"
-      - "\u6700\u521D\u306E\u9818\u571F\u3092\u9078\u3076"
-      - "Erste Territorien w\xE4hlen"
-      - Elige los primeros territorios
-      - Choisir les premiers territoires
-      - "\uCCAB \uBC88\uC9F8 \uC601\uD1A0 \uC120\uD0DD"
-      - "\u9009\u62E9\u9996\u4E2A\u9886\u571F"
-      - Scegli i primi territori
-      - "Escolher primeiros territ\xF3rios"
-      - Wybierz pierwsze terytoria
-      Flags: 0000000000000000000000
-      Languages_Touch: []
-    - Term: CoreGame/$bg_choose_first_base_descr
-      TermType: 0
-      Description: 
-      Languages:
-      - Choose one of starting territories
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043E\u0434\u043D\u0443
-        \u0438\u0437 \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0445 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u0439"
-      - "\u30B9\u30BF\u30FC\u30C8\u5730\u70B9\u306E\u9818\u571F\u306E\u3046\u3061\u4E00\u3064\u3092\u9078\u3076"
-      - "W\xE4hle eines der Startterritorien"
-      - Elige uno de los territorios iniciales
-      - "Choisissez un des territoires de d\xE9part"
-      - "\uC2DC\uC791 \uC601\uD1A0 \uC911 \uD558\uB098\uB97C \uC120\uD0DD\uD558\uC138\uC694"
-      - "\u9009\u62E9\u4E00\u4E2A\u8D77\u59CB\u9886\u571F"
-      - Scegli uno dei territori di partenza
-      - "Escolha um dos territ\xF3rios iniciais"
-      - "Wybierz jedno z pocz\u0105tkowych terytori\xF3w"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: CoreGame/$bg_played_cards_name
@@ -4748,6 +4730,25 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: AbilityCard/$cardAbility_attack
+      TermType: 0
+      Description: 
+      Languages:
+      - Choose the territory to which you will send the new fighter.
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u044E
+        \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u0435
+        \u043D\u043E\u0432\u043E\u0433\u043E \u0431\u043E\u0439\u0446\u0430."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     - Term: Leaders/$leader_cyberpsycho_name
       TermType: 0
       Description: 
@@ -5360,12 +5361,12 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: Tower/$tower_1
+    - Term: District/$district_kabuki_name
       TermType: 0
       Description: 
       Languages:
-      - Tower_name
-      - Tower_name
+      - Kabuki
+      - "\u041A\u0430\u0431\u0443\u043A\u0438"
       - 
       - 
       - 
@@ -5377,12 +5378,16 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: Tower/$tower_2
+    - Term: District/$district_kabuki_descr
       TermType: 0
       Description: 
       Languages:
-      - Tower_name
-      - Tower_name
+      - CyberNet's entertainment district, where you can find everything from food
+        to braindances.
+      - "\u0420\u0430\u0437\u0432\u043B\u0435\u043A\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0439
+        \u0440\u0430\u0439\u043E\u043D CyberNet, \u0437\u0434\u0435\u0441\u044C \u043C\u043E\u0436\u043D\u043E
+        \u043D\u0430\u0439\u0442\u0438 \u0432\u0441\u0435 \u043E\u0442 \u0435\u0434\u044B
+        \u0434\u043E \u0431\u0440\u044D\u0439\u043D\u0434\u0430\u043D\u0441\u043E\u0432."
       - 
       - 
       - 
@@ -5394,12 +5399,411 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: Tower/$tower_3
+    - Term: District/$district_chiba_name
       TermType: 0
       Description: 
       Languages:
-      - Tower_name
-      - Tower_name
+      - Chiba
+      - "\u0427\u0438\u0431\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_chiba_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Asian business district, half of all shadow deals happen here.
+      - "\u0410\u0437\u0438\u0430\u0442\u0441\u043A\u0438\u0439 \u0434\u0435\u043B\u043E\u0432\u043E\u0439
+        \u0440\u0430\u0439\u043E\u043D, \u043F\u043E\u043B\u043E\u0432\u0438\u043D\u0430
+        \u0432\u0441\u0435\u0445 \u0442\u0435\u043D\u0435\u0432\u044B\u0445 \u0441\u0434\u0435\u043B\u043E\u043A
+        \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u0438\u0442 \u0437\u0434\u0435\u0441\u044C"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_eastside_name
+      TermType: 0
+      Description: 
+      Languages:
+      - East Side
+      - "\u0418\u0441\u0442-\u0421\u0430\u0439\u0434"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_eastside_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Business district of the corporates, better not to get caught here.
+      - "\u0414\u0435\u043B\u043E\u0432\u043E\u0439 \u0440\u0430\u0439\u043E\u043D
+        \u043A\u043E\u0440\u043F\u043E\u0440\u0430\u0442\u043E\u0432, \u043B\u0443\u0447\u0448\u0435
+        \u0437\u0434\u0435\u0441\u044C \u043D\u0435 \u043F\u043E\u043F\u0430\u0434\u0430\u0442\u044C\u0441\u044F."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_plazaPlace_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Plaza Place
+      - "\u041F\u043B\u0430\u0437\u0430-\u041F\u043B\u0435\u0439\u0441"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_plazaPlace_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Premium district for the wealthy, the best housing in CyberNet.
+      - "\u041F\u0440\u0435\u043C\u0438\u0443\u043C \u0440\u0430\u0439\u043E\u043D
+        \u0431\u043E\u0433\u0430\u0442\u0435\u0435\u0432, \u043B\u0443\u0447\u0448\u0435\u0435
+        \u0436\u0438\u043B\u044C\u0435 CyberNet"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_midaru_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Midaru
+      - "\u041C\u0438\u0434\u0430\u0440\u0443"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_midaru_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Slums, nothing interesting here and it's very easy to catch a bullet.
+      - "\u0422\u0440\u0443\u0449\u043E\u0431\u044B, \u0437\u0434\u0435\u0441\u044C
+        \u043D\u0435\u0442 \u043D\u0438\u0447\u0435\u0433\u043E \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E\u0433\u043E
+        \u0438 \u043E\u0447\u0435\u043D\u044C \u043B\u0435\u0433\u043A\u043E \u0441\u043B\u043E\u0432\u0438\u0442\u044C
+        \u043F\u0443\u043B\u044E."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_tyrants_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Tyrants
+      - "\u0422\u0438\u0440\u0430\u043D\u0442\u0441"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_tyrans_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Favorite district of bikers and gangs, a free area from corporates and police.
+      - "\u041B\u044E\u0431\u0438\u043C\u044B\u0439 \u0440\u0430\u0439\u043E\u043D
+        \u0431\u0430\u0439\u043A\u0435\u0440\u043E\u0432 \u0438 \u0431\u0430\u043D\u0434,
+        \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0439 \u0440\u0430\u0439\u043E\u043D
+        \u043E\u0442 \u043A\u043E\u0440\u043F\u043E\u0440\u0430\u0442\u043E\u0432
+        \u0438 \u043F\u043E\u043B\u0438\u0446\u0438\u0438."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_terraNova_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Terra Nova
+      - "\u0422\u0435\u0440\u0440\u0430-\u041D\u043E\u0432\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_terraNova_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Even though there is crime in this district, for citizens, it remains a model
+        of order and prosperity. Many lay down their lives to live here.
+      - "\u041F\u0443\u0441\u0442\u044C \u0438 \u0432 \u044D\u0442\u043E\u043C \u0440\u0430\u0439\u043E\u043D\u0435
+        \u0435\u0441\u0442\u044C \u043F\u0440\u0435\u0441\u0442\u0443\u043F\u043D\u043E\u0441\u0442\u044C.
+        \u041D\u043E \u0434\u043B\u044F \u0433\u0440\u0430\u0436\u0434\u0430\u043D
+        \u043E\u043D \u043E\u0441\u0442\u0430\u0435\u0442\u0441\u044F \u043E\u0431\u0440\u0430\u0437\u0446\u043E\u043C
+        \u043F\u043E\u0440\u044F\u0434\u043A\u0430 \u0438 \u043F\u0440\u043E\u0446\u0432\u0435\u0442\u0430\u043D\u0438\u044F.
+        \u041C\u043D\u043E\u0433\u0438\u0435 \u043B\u043E\u0436\u0430\u0442 \u0441\u0432\u043E\u0438
+        \u0436\u0438\u0437\u043D\u0438, \u0447\u0442\u043E\u0431\u044B \u0436\u0438\u0442\u044C
+        \u0437\u0434\u0435\u0441\u044C."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_aydenticaStreet_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Aydentica Street
+      - "\u0410\u0439\u0434\u0435\u043D\u0442\u0438\u043A\u0430-\u0441\u0442\u0440\u0438\u0442"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_aydenticaStreet_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - City center, skyscrapers and corporates form the face of this district.
+      - "\u0426\u0435\u043D\u0442\u0440 \u0433\u043E\u0440\u043E\u0434\u0430, \u043D\u0435\u0431\u043E\u0441\u043A\u0440\u0435\u0431\u044B
+        \u0438 \u043A\u043E\u0440\u043F\u043E\u0440\u0430\u0442\u044B \u0444\u043E\u0440\u043C\u0438\u0440\u0443\u044E\u0442
+        \u043B\u0438\u043A \u044D\u0442\u043E\u0433\u043E \u0440\u0430\u0439\u043E\u043D\u0430."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_rioway_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Rioway
+      - "\u0420\u0438\u043E\u0432\u044D\u0439"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_rioway_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Imagine a district where every person is your brother or sister. Only everyone
+        has a gun.
+      - "\u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u0441\u0435\u0431\u0435
+        \u0440\u0430\u0439\u043E\u043D, \u0433\u0434\u0435 \u043A\u0430\u0436\u0434\u044B\u0439
+        \u0442\u0432\u043E\u0439 \u0431\u0440\u0430\u0442 \u0438\u043B\u0438 \u0441\u0435\u0441\u0442\u0440\u0430.
+        \u0422\u043E\u043B\u044C\u043A\u043E \u0443 \u043A\u0430\u0436\u0434\u043E\u0433\u043E
+        \u043F\u0440\u0438 \u0441\u0435\u0431\u0435 \u0441\u0442\u0432\u043E\u043B."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_bibi_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Bibi
+      - "\u0411\u0438\u0431\u0438"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_bibi_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - The city's industrial zone, few people live here.
+      - "\u041F\u0440\u043E\u043C\u0437\u043E\u043D\u0430 \u0433\u043E\u0440\u043E\u0434\u0430,
+        \u0437\u0434\u0435\u0441\u044C \u043C\u0430\u043B\u043E \u043A\u0442\u043E
+        \u0436\u0438\u0432\u0435\u0442."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_48_name
+      TermType: 0
+      Description: 
+      Languages:
+      - 48
+      - 48
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_48_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Favorite district of ripperdocs and mechanics. Here you can find any chrome
+        and auto parts, mostly illegal.
+      - "\u0418\u0437\u043B\u044E\u0431\u043B\u0435\u043D\u043D\u044B\u0439 \u0440\u0430\u0439\u043E\u043D
+        \u0440\u0438\u043F\u043F\u0435\u0440\u043E\u0432 \u0438 \u0430\u0432\u0442\u043E\u043C\u0435\u0445\u0430\u043D\u0438\u043A\u043E\u0432.
+        \u0417\u0434\u0435\u0441\u044C \u0432\u044B \u043C\u043E\u0436\u0435\u0442\u0435
+        \u043D\u0430\u0439\u0442\u0438 \u043B\u044E\u0431\u043E\u0439 \u0445\u0440\u043E\u043C
+        \u0438 \u0430\u0432\u0442\u043E\u0437\u0430\u043F\u0447\u0430\u0441\u0442\u0438.
+        \u0412 \u043E\u0441\u043D\u043E\u0432\u043D\u043E\u043C \u043D\u0435\u043B\u0435\u0433\u0430\u043B\u044C\u043D\u044B\u0435."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_sabika_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Sabika
+      - "\u0421\u0430\u0431\u0438\u043A\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: District/$district_sabika_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - Former military training ground of Mirage Network. Now it is full of former
+        military and cyberpsychos.
+      - "\u0411\u044B\u0432\u0448\u0438\u0439 \u0432\u043E\u0435\u043D\u043D\u044B\u0439
+        \u043F\u043E\u043B\u0438\u0433\u043E\u043D \u041C\u0438\u0440\u0430\u0436
+        \u041D\u0435\u0442\u0432\u043E\u0440\u043A. \u0421\u0435\u0439\u0447\u0430\u0441
+        \u0442\u0430\u043C \u0445\u0432\u0430\u0442\u0430\u0435\u0442 \u0431\u044B\u0432\u0448\u0438\u0445
+        \u0432\u043E\u0435\u043D\u043D\u044B\u0445 \u0438 \u043A\u0438\u0431\u0435\u0440\u043F\u0441\u0438\u0445\u043E\u0432."
       - 
       - 
       - 
@@ -5453,7 +5857,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1706304146395
+    Google_LastUpdatedVersion: 1706562087511
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 2

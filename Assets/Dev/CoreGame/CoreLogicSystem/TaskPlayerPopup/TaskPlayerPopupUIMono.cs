@@ -7,7 +7,6 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
 {
     public class TaskPlayerPopupUIMono : MonoBehaviour
     {
-        [FormerlySerializedAs("Panel")]
         [SerializeField]
         private GameObject _panel;
         
@@ -25,6 +24,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         
         public void OpenWindowSetLocalizeTerm(string header, string descr)
         {
+            _headerLocalize.gameObject.SetActive(!string.IsNullOrEmpty(header));
+            _descrLocalize.gameObject.SetActive(!string.IsNullOrEmpty(descr));
+            
             _headerLocalize.Term = header;
             _descrLocalize.Term = descr;
             _panel.SetActive(true);
@@ -32,6 +34,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         
         public void OpenWindowSetText(string header, string descr)
         {
+            _headerText.gameObject.SetActive(header != "");
+            _descrText.gameObject.SetActive(header != "");
+            
             _headerText.text = header;
             _descrText.text = descr;
             _panel.SetActive(true);

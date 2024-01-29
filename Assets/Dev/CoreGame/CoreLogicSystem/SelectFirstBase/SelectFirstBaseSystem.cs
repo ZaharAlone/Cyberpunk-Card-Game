@@ -1,7 +1,9 @@
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global;
+using CyberNet.Meta;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -45,9 +47,9 @@ namespace CyberNet.Core.SelectFirstBase
             _dataWorld.OneData<RoundData>().PauseInteractive = true;
             ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            var supportLoc = _dataWorld.OneData<BoardGameData>().SupportLocalize;
+            _dataWorld.OneData<CorePopupData>().CorePopupTaskConfig.TryGetValue("popupTask_selectStartAreal", out var configPopup);
             
-            taskPlayerPopupUI.OpenWindowSetText(supportLoc.ChooseFirstBaseHeader, supportLoc.ChooseFirstBaseDescr);
+            taskPlayerPopupUI.OpenWindowSetLocalizeTerm(configPopup.HeaderLoc, configPopup.DescrLoc);
             tradeRowUI.ForceFullHidePanel();
             
             CityAction.ShowFirstBaseTower?.Invoke();

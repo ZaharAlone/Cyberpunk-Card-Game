@@ -75,6 +75,11 @@ namespace CyberNet.Core.Traderow
             TraderowContainer.anchoredPosition = new Vector2(0, 400);
         }
 
+        public void SetEnableTradeRow(bool status)
+        {
+            TraderowContainer.gameObject.SetActive(status);
+        }
+
         public void ShowPanelBaseViewAnimations()
         {
             _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));

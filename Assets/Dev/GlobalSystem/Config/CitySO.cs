@@ -15,7 +15,8 @@ namespace CyberNet.Core.City
         public UnitPointVFXMono UnitPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
-        public TextAsset TowerConfig;
+        [FormerlySerializedAs("TowerConfig")]
+        public TextAsset DistrictConfig;
 
         public List<string> PlayerVisualKeyList = new();
     }

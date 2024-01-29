@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using NotImplementedException = System.NotImplementedException;
 namespace CyberNet.Core.UI
 {
     public class PlayerEnemyTurnActionUIMono : MonoBehaviour
@@ -23,6 +25,10 @@ namespace CyberNet.Core.UI
         [SerializeField]
         private Transform _containerCard;
 
+        [SerializeField]
+        private Vector2 _startPosition = new Vector2(127.5f, 110);
+
+        private List<CardMono> _cardsHand = new List<CardMono>();
         private Sequence _sequence;
         
         public void SetViewPlayer(Sprite avatar, string playerName, string actionText, Sprite iconsUnit, Color32 colorUnit)
@@ -53,17 +59,42 @@ namespace CyberNet.Core.UI
             _panelGO.SetActive(false);
         }
 
-        public Transform GetCardContainerTransform()
+        public CardMono CreateNewCard(CardMono cardView)
         {
-            return _containerCard;
+            var cardMono = Instantiate(cardView, _containerCard);
+            cardMono.RectTransform.anchoredPosition = _startPosition;
+            _cardsHand.Add(cardMono);
+            AnimationsCardShift();
+            return cardMono;
+        }
+        
+        private void AnimationsCardShift()
+        {
+            if (_cardsHand.Count <= 1)
+                return;
+            
+            for (int i = 0; i < _cardsHand.Count - 1; i++)
+            {
+                var sequence = DOTween.Sequence();
+
+                var newPos = new Vector2(_cardsHand[i].RectTransform.anchoredPosition.x - 25, _cardsHand[i].RectTransform.anchoredPosition.y);
+                sequence.Append(_cardsHand[i].RectTransform.DOAnchorPos(newPos, 0.35f)).OnComplete(() => sequence.Kill());
+            }    
         }
 
         public void ClearContainerCard()
         {
-            foreach (Transform child in _containerCard)
+            foreach (var card in _cardsHand)
             {
-                Destroy(child.gameObject);
+                Destroy(card.gameObject);
             }
+            
+            _cardsHand.Clear();
+        }
+        
+        public void OnDestroy()
+        {
+            ClearContainerCard();
         }
     }
 }

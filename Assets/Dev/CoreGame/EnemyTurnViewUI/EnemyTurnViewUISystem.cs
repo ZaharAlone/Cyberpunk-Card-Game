@@ -36,8 +36,8 @@ namespace CyberNet.Core.EnemyTurnView
             }
             Debug.LogError("show view");
             var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
-            var cardContainer = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono.GetCardContainerTransform();
-            var cardMono = Object.Instantiate(viewEnemyConfig.CardForEnemyTurnView, cardContainer);
+            var playerEnemyTurnActionUIMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
+            var cardMono = playerEnemyTurnActionUIMono.CreateNewCard(viewEnemyConfig.CardForEnemyTurnView);
             
             SetupCardAction.SetViewCardNotInit?.Invoke(cardMono, keyCard);
         }

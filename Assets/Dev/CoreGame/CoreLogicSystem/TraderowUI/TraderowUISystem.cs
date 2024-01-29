@@ -1,4 +1,6 @@
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -17,14 +19,36 @@ namespace CyberNet.Core.Traderow
         {
             BoardGameUIAction.UpdateStatsPlayersCurrency += CheckTraderow;
             TraderowUIAction.ShowTraderow += ShowTraderow;
+            TraderowUIAction.ForceShowTraderow += ForceShowTraderow;
             TraderowUIAction.HideTraderow += HideTraderow;
+            TraderowUIAction.ForceHideTraderow += ForceHideTraderow;
             TraderowUIAction.EndShowAnimations += EndShowAnimations;
+        }
+        
+        private void ForceHideTraderow()
+        {
+            ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            uiTraderow.SetEnableTradeRow(false);
+        }
+
+        private void ForceShowTraderow()
+        {
+            ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            uiTraderow.SetEnableTradeRow(true);
         }
 
         private void CheckTraderow()
         {
             var tradePoint = CheckTradePoint();
 
+            var playerComponent = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity()
+                .GetComponent<PlayerComponent>();
+
+            if (playerComponent.playerOrAI != PlayerOrAI.Player)
+                return;
+            
             if (tradePoint && !_statusTraderow)
                 ShowTraderowAnimation();
             else if (!tradePoint && _statusTraderow)

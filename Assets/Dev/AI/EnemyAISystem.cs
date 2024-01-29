@@ -263,8 +263,8 @@ namespace CyberNet.Core.AI
                 cardEntity.AddComponent(new CardMoveToDiscardComponent());
             }
             
-            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            //AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
+            //BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
         }
     }
