@@ -12,14 +12,6 @@ namespace CyberNet.Core.UI.PopupDistrictInfo
     {
         [SerializeField]
         private GameObject _panel;
-        [SerializeField]
-        private RectTransform _rectPanel;
-        [SerializeField]
-        private RectTransform _rectHeader;
-        [SerializeField]
-        private HorizontalLayoutGroup _headerLayout;
-        [SerializeField]
-        private VerticalLayoutGroup _descrLayout;
         
         [SerializeField]
         private TextMeshProUGUI _headerText;
@@ -50,8 +42,6 @@ namespace CyberNet.Core.UI.PopupDistrictInfo
                 _isOpenPopup = true;
                 _panel.SetActive(true);
             }
-            
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_rectPanel);
         }
 
         public void SetFractionView(Sprite icons, Color32 colorPlayer, string namePlayer)
