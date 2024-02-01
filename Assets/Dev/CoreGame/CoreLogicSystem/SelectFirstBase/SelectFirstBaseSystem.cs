@@ -2,6 +2,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Core.UI.TaskPlayerPopup;
 using CyberNet.Global;
 using CyberNet.Meta;
 using EcsCore;
@@ -45,13 +46,10 @@ namespace CyberNet.Core.SelectFirstBase
         private void SelectFirstBase()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = true;
-            ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            _dataWorld.OneData<CorePopupData>().CorePopupTaskConfig.TryGetValue("popupTask_selectStartAreal", out var configPopup);
-            
-            taskPlayerPopupUI.OpenWindowSetLocalizeTerm(configPopup.HeaderLoc, configPopup.DescrLoc);
             tradeRowUI.ForceFullHidePanel();
             
+            TaskPlayerPopupAction.OpenPopupSelectFirstBase?.Invoke();
             CityAction.ShowFirstBaseTower?.Invoke();
         }
         
@@ -108,13 +106,10 @@ namespace CyberNet.Core.SelectFirstBase
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
-             
-            ref var taskPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            taskPopupUI.CloseWindow();
-            
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             tradeRowUI.ShowPanelBaseViewAnimations();
 
+            TaskPlayerPopupAction.HidePopup?.Invoke();
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();

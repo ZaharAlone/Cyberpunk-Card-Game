@@ -1,25 +1,25 @@
-using System.Collections.Generic;
-using CyberNet.Tools;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using CyberNet.Core.City;
+using CyberNet.Tools;
+using Object = UnityEngine.Object;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core
 {
+    /// <summary>
+    /// Система первично настраивает город, создает карту и расставляет нейтральных юнитов
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class CitySystem : IPreInitSystem, IInitSystem, IDestroySystem
+    public class CitySetupSystem : IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void PreInit()
-        {
-            CityAction.InitUnit += InitUnit;
-            CityAction.AttackSolidPoint += AttackSolidPoint;
-        }
-
-        public void Init()
+public void Init()
         {
             SetupBoard();
             SetupInteractiveElement();
@@ -95,52 +95,12 @@ namespace CyberNet.Core.City
                         TargetPlayerID = -1
                     };
                 
-                    InitUnit(neutralUnit);
+                    CityAction.InitUnit?.Invoke(neutralUnit);
                     countInit++;   
                 }
             }
 
             return countInit;
-        }
-
-        public void InitUnit(InitUnitStruct unit)
-        {
-            var cityVisualSO = _dataWorld.OneData<BoardGameData>().CitySO;
-            var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
-            cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
-            
-            var unitIconsMono = Object.Instantiate(visualUnit.IconsUnitMap, solidConteiner.transform);
-            unitIconsMono.SetColorUnit(visualUnit.ColorUnit);
-            
-            var allEntitySquadTargetPoint = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(squadMap => squadMap.GUIDTower == squadMap.GUIDTower
-                    && squadMap.IndexPoint == unit.UnitZone.Index)
-                .GetEntities();
-
-            var positionAllPoint = new List<Vector3>();
-            foreach (var entity in allEntitySquadTargetPoint)
-            {
-                positionAllPoint.Add(entity.GetComponent<UnitMapComponent>().UnitIconsGO.transform.position);
-            }
-            
-            unitIconsMono.transform.position = CitySupportStatic.SelectPosition(unit.UnitZone.Collider,
-                unit.UnitZone.transform.position, positionAllPoint);
-            
-            var guidUnit = CreateGUID.Create();
-            unitIconsMono.SetGUID(guidUnit);
-            
-            var squadMapComponent = new UnitMapComponent
-            {
-                GUIDTower = unit.UnitZone.GUIDTower,
-                IndexPoint = unit.UnitZone.Index,
-                GUIDUnit = guidUnit,
-                UnitIconsGO = unitIconsMono.gameObject,
-                IconsUnitInMapMono = unitIconsMono,
-                PlayerControl = unit.PlayerControl,
-                PowerSolidPlayerID = unit.TargetPlayerID
-            };
-
-            _dataWorld.NewEntity().AddComponent(squadMapComponent);
         }
 
         public void Destroy()
@@ -149,20 +109,6 @@ namespace CyberNet.Core.City
             Object.Destroy(resourceTable.CityGO);
 
             _dataWorld.RemoveOneData<CityData>();
-            
-            CityAction.InitUnit -= InitUnit;
-            CityAction.AttackSolidPoint -= AttackSolidPoint;
-        }
-
-        private void AttackSolidPoint(string guid, int indexPoint)
-        {
-            var squadEntity = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(squad => squad.GUIDTower == guid && squad.IndexPoint == indexPoint)
-                .SelectFirstEntity();
-            
-            ref var squadComponent = ref squadEntity.GetComponent<UnitMapComponent>();
-            Object.Destroy(squadComponent.UnitIconsGO);
-            squadEntity.Destroy();
         }
     }
 }

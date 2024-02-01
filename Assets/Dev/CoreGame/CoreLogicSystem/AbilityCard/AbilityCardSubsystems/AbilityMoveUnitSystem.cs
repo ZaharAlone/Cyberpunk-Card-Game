@@ -76,8 +76,15 @@ namespace CyberNet.Core.AbilityCard
         {
             var canMoveUnitComponent = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity()
                 .GetComponent<AbilityCardMoveUnitComponent>();
+
+            var currentPlayerID = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity()
+                .GetComponent<PlayerComponent>()
+                .PlayerID;
             
             CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectTowerGUID);
+            CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectTowerGUID, currentPlayerID);
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SquadMove, 1, false);
             CityAction.SelectUnit += ClickOnUnit;
         }
@@ -189,6 +196,7 @@ namespace CyberNet.Core.AbilityCard
         private void ConfimMove()
         {
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
+            CityAction.DeactivationsColliderAllUnits?.Invoke();
             EndPlayingCard();
         }
 

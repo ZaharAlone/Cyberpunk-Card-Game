@@ -64,12 +64,21 @@ namespace CyberNet.Core.City
                 .Where<TowerComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
                     && tower.TowerBelongPlayerID == playerComponent.PlayerID)
                 .GetEntities();
+            
+            var countTowerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
+                    && tower.TowerBelongPlayerID == playerComponent.PlayerID)
+                .Count();
 
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.ActivateCollider();
-                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+
+                if (countTowerEntity > 1)
+                {
+                    towerComponent.TowerMono.ActivateCollider();
+                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();   
+                }
 
                 foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
                 {

@@ -34,7 +34,7 @@ namespace CyberNet.Core.EnemyTurnView
                 ShowUI(true);
                 await Task.Delay(300);
             }
-            Debug.LogError("show view");
+
             var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
             var playerEnemyTurnActionUIMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
             var cardMono = playerEnemyTurnActionUIMono.CreateNewCard(viewEnemyConfig.CardForEnemyTurnView);

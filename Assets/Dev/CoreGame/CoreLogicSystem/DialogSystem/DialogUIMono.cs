@@ -31,7 +31,6 @@ namespace CyberNet.Core.Dialog
 
         public void OnClickNextDialog()
         {
-            Debug.LogError("OnClick next dialog");
             DialogAction.NextDialog?.Invoke();
         }
 

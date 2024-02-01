@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.TaskPlayerPopup;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -26,7 +27,7 @@ namespace CyberNet.Core.AbilityCard
             ref var actionConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             actionConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
             
-            boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
+            TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectPlayerFrameHeader, actionVisualConfig.SelectPlayerFrameDescr);
             boardGameUI.CoreHudUIMono.OnSelectPlayer();
             
             EnemyPassportAction.SelectPlayer += SelectPlayer;
@@ -42,20 +43,21 @@ namespace CyberNet.Core.AbilityCard
         private void OffSelectEnemyPlayer()
         {
             ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
 
             var entitySelectAbilityTarget = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()
                 .SelectFirstEntity();
             entitySelectAbilityTarget.RemoveComponent<AbilitySelectElementComponent>();
+            
+            TaskPlayerPopupAction.HidePopup?.Invoke();
         }
 
         private void CancelSelectPlayer()
         {
             ref var boardGameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
+            TaskPlayerPopupAction.HidePopup?.Invoke();
             EnemyPassportAction.SelectPlayer -= SelectPlayer;
         }
     }

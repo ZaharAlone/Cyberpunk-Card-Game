@@ -6,6 +6,8 @@ using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.CorePopup;
+using CyberNet.Core.UI.TaskPlayerPopup;
 using Input;
 using UnityEngine;
 using DG.Tweening;

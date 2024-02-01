@@ -5,6 +5,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.TaskPlayerPopup;
 using CyberNet.Global;
 using UnityEngine;
 
@@ -36,18 +37,17 @@ namespace CyberNet.Core.AbilityCard
             if (playerComponent.playerOrAI != PlayerOrAI.Player)
                 return;
             
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             ref var abilityConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
             
             abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)
             {
-                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
+                TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
             }
             else
             {
-                uiActionSelectCard.OpenWindowSetLocalizeTerm(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
+                TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
             }
             
             TraderowUIAction.ForceHideTraderow?.Invoke();
@@ -77,8 +77,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CloseWindow()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            uiActionSelectCard.CloseWindow();
+            TaskPlayerPopupAction.HidePopup?.Invoke();
             TraderowUIAction.ForceShowTraderow?.Invoke();
         }
     }

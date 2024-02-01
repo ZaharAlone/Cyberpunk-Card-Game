@@ -11,13 +11,17 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(LocalGameModule))]
-    public class SetupLocalGameSystem : IPreInitSystem
+    public class SetupLocalGameSystem : IPreInitSystem, IInitSystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
             SetupCard();
+        }
+
+        public void Init()
+        {
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
         }
 
@@ -73,12 +77,29 @@ namespace CyberNet.Core
             shopCard = SortingCard.SortingDeckCards(shopCard);
             
             var sortingPlayerDeckCard = new List<PlayerCardData>();
-            foreach (var playerDeck in playerDeckCard)
+
+            if (_dataWorld.IsModuleActive<TutorialGameModule>())
             {
-                sortingPlayerDeckCard.Add(new PlayerCardData {
-                    Cards = SortingCard.SortingDeckCards(playerDeck.Cards),
-                    IndexPlayer = playerDeck.IndexPlayer
-                });
+                Debug.LogError("Sorting deck");
+                //Sorting deck for tutorial game
+                foreach (var playerDeck in playerDeckCard)
+                {
+                    sortingPlayerDeckCard.Add(new PlayerCardData {
+                        Cards = SortingCard.SortingDeckCardsForTutorial(playerDeck.Cards),
+                        IndexPlayer = playerDeck.IndexPlayer
+                    });
+                }   
+            }
+            else
+            {
+                //Sorting deck for base game
+                foreach (var playerDeck in playerDeckCard)
+                {
+                    sortingPlayerDeckCard.Add(new PlayerCardData {
+                        Cards = SortingCard.SortingDeckCards(playerDeck.Cards),
+                        IndexPlayer = playerDeck.IndexPlayer
+                    });
+                }
             }
 
             _dataWorld.CreateOneData(new DeckCardsData {
