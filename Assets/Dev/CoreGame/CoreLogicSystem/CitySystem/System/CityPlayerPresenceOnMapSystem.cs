@@ -35,7 +35,7 @@ namespace CyberNet.Core.City
             {
                 towerEntity.RemoveComponent<PresencePlayerTowerComponent>();
                 var towerMono = towerEntity.GetComponent<TowerComponent>().TowerMono;
-                towerMono.DeactivateCollider();
+                towerMono.OffInteractiveTower();
                 towerMono.CloseInteractiveZoneVisualEffect();
             }
         }

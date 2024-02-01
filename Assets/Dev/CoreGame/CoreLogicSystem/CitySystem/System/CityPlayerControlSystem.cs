@@ -1,6 +1,7 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using EcsCore;
@@ -20,8 +21,11 @@ namespace CyberNet.Core.City
         {
             if (_dataWorld.OneData<InputData>().Click)
                 CheckClick();
+            
+            if (_dataWorld.OneData<RoundData>().CurrentRoundState == RoundState.Map)
+                ReadMouseInput();    
         }
-
+        
         public void CheckClick()
         {
             RoundData roundData = _dataWorld.OneData<RoundData>();
@@ -37,8 +41,11 @@ namespace CyberNet.Core.City
                 var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
                 if (towerMono)
                 {
-                    ClickTower(towerMono);
-                    return;
+                    if (towerMono.IsInteractiveTower)
+                    {
+                        ClickTower(towerMono);
+                        return;   
+                    }
                 }
 
                 var unitPoint = hit.collider.gameObject.GetComponent<IconsUnitInMapMono>();
@@ -88,6 +95,30 @@ namespace CyberNet.Core.City
                 {
                     CityAction.SelectUnit?.Invoke(unitGuid);
                 }
+            }
+        }
+        
+        private void ReadMouseInput()
+        {
+            var inputData = _dataWorld.OneData<InputData>();
+            var camera = _dataWorld.OneData<GameCameraData>();
+            var ray = camera.MainCamera.ScreenPointToRay(inputData.MousePosition);
+
+            var isRaycastDistrict = false;
+            
+            if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
+            {
+                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                if (towerMono)
+                {
+                    isRaycastDistrict = true;
+                    PopupDistrictInfoAction.OpenPopup?.Invoke(towerMono.GUID);
+                }
+            }
+            
+            if (!isRaycastDistrict)
+            {
+                PopupDistrictInfoAction.ClosePopup?.Invoke();
             }
         }
     }

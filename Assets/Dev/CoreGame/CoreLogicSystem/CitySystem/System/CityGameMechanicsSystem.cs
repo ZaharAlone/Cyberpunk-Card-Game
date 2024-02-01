@@ -38,12 +38,12 @@ namespace CyberNet.Core.City
                 if (towerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
                     && towerComponent.TowerBelongPlayerID == playerComponent.PlayerID)
                 {
-                    towerComponent.TowerMono.ActivateCollider();
+                    towerComponent.TowerMono.OnInteractiveTower();
                     towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
                 }
                 else
                 {
-                    towerComponent.TowerMono.DeactivateCollider();
+                    towerComponent.TowerMono.OffInteractiveTower();
                     towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
                 }
             }
@@ -60,15 +60,12 @@ namespace CyberNet.Core.City
 
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
 
-            var towerEntities = _dataWorld.Select<TowerComponent>()
+            var towerQuery = _dataWorld.Select<TowerComponent>()
                 .Where<TowerComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && tower.TowerBelongPlayerID == playerComponent.PlayerID)
-                .GetEntities();
-            
-            var countTowerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && tower.TowerBelongPlayerID == playerComponent.PlayerID)
-                .Count();
+                    && tower.TowerBelongPlayerID == playerComponent.PlayerID);
+
+            var countTowerEntity = towerQuery.Count();
+            var towerEntities = towerQuery.GetEntities();
 
             foreach (var towerEntity in towerEntities)
             {
@@ -76,13 +73,13 @@ namespace CyberNet.Core.City
 
                 if (countTowerEntity > 1)
                 {
-                    towerComponent.TowerMono.ActivateCollider();
+                    towerComponent.TowerMono.OnInteractiveTower();
                     towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();   
                 }
 
                 foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
                 {
-                    towerConnect.ActivateCollider();
+                    towerConnect.OnInteractiveTower();
                     towerConnect.OpenInteractiveZoneVisualEffect();
                 }
             }
@@ -127,7 +124,7 @@ namespace CyberNet.Core.City
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.DeactivateCollider();
+                towerComponent.TowerMono.OffInteractiveTower();
                 towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
             }
         }
@@ -180,7 +177,7 @@ namespace CyberNet.Core.City
                     .SelectFirstEntity();
                 
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.ActivateCollider();
+                towerComponent.TowerMono.OnInteractiveTower();
                 towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
 {
@@ -20,6 +21,9 @@ namespace CyberNet.Core.City
 
         [SerializeField]
         private GameObject _iceZone;
+
+        [HideInInspector]
+        public bool IsInteractiveTower;
 
         public void GetAllSquadZone()
         {
@@ -51,14 +55,14 @@ namespace CyberNet.Core.City
             }
         }
 
-        public void DeactivateCollider()
+        public void OffInteractiveTower()
         {
-            ColliderTower.enabled = false;
+            IsInteractiveTower = false;
         }
         
-        public void ActivateCollider()
+        public void OnInteractiveTower()
         {
-            ColliderTower.enabled = true;
+            IsInteractiveTower = true;
         }
         
         public void CloseInteractiveZoneVisualEffect()

@@ -159,7 +159,7 @@ namespace CyberNet.Core.AbilityCard
                 var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
                 if (towerMono)
                 {
-                    if (towerMono.GUID == abilityCardMoveUnitComponent.SelectTowerGUID)
+                    if (towerMono.GUID == abilityCardMoveUnitComponent.SelectTowerGUID && towerMono.IsInteractiveTower)
                     {
                         isCurrentTowerSelect = true;
                         if (!abilityCardMoveUnitComponent.IsAimOn)

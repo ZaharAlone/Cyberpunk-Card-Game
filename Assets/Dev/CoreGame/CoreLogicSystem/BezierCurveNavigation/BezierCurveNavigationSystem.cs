@@ -139,12 +139,14 @@ namespace CyberNet.Core.BezierCurveNavigation
                 var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
                 if (towerMono)
                 {
-                    UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+                    if (towerMono.IsInteractiveTower)
+                    {
+                        UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+                        return;
+                    }
                 }
-                else
-                {
-                    UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
-                }
+                
+                UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
             }
         }
 

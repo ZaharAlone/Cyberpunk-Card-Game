@@ -48,7 +48,7 @@ public void Init()
             foreach (var tower in cityData.CityMono.Towers)
             {
                 var entity = _dataWorld.NewEntity();
-                tower.DeactivateCollider();
+                tower.OffInteractiveTower();
                 tower.CloseInteractiveZoneVisualEffect();
                 
                 var towerComponent = new TowerComponent 

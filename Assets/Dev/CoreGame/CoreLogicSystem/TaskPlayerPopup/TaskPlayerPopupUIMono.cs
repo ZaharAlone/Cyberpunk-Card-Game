@@ -2,6 +2,7 @@ using I2.Loc;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace CyberNet.Core.UI.TaskPlayerPopup
 {
@@ -9,6 +10,8 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
     {
         [SerializeField]
         private GameObject _panel;
+        [SerializeField]
+        private RectTransform _rect;
         
         [Header("Localize")]
         [SerializeField]
@@ -29,6 +32,8 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
             
             _headerLocalize.Term = header;
             _descrLocalize.Term = descr;
+            
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
             _panel.SetActive(true);
         }
         
