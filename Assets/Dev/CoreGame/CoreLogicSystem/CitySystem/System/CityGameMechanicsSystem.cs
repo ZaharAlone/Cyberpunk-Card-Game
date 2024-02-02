@@ -29,8 +29,9 @@ namespace CyberNet.Core.City
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
+            
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-
+            
             foreach (var towerEntity in towerEntities)
             {
                 var towerComponent = towerEntity.GetComponent<TowerComponent>();

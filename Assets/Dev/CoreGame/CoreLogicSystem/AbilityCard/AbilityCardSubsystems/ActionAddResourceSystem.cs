@@ -44,7 +44,7 @@ namespace CyberNet.Core
             entity.RemoveComponent<AbilitySelectElementComponent>();
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            CityAction.UpdateCanInteractiveMap?.Invoke();
+            //CityAction.UpdateCanInteractiveMap?.Invoke();
         }
 
         public void Deactivate()

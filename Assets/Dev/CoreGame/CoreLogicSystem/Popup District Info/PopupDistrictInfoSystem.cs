@@ -20,6 +20,7 @@ namespace CyberNet.Core
         {
             PopupDistrictInfoAction.OpenPopup += CheckOpenPopup;
             PopupDistrictInfoAction.ClosePopup += CheckClosePopup;
+            PopupDistrictInfoAction.ForceUpdateViewCurrentPopup += ForceUpdateViewCurrentPopup;
         }
 
         private void CheckOpenPopup(string guidTower)
@@ -45,7 +46,7 @@ namespace CyberNet.Core
                 }
             }
         }
-        
+
         private void CheckClosePopup()
         {
             var openPopupQuery = _dataWorld.Select<PopupDistrictInfoComponent>();
@@ -57,6 +58,17 @@ namespace CyberNet.Core
             }
         }
         
+        private void ForceUpdateViewCurrentPopup()
+        {
+            var openPopupDistrictQuery = _dataWorld.Select<PopupDistrictInfoComponent>();
+            if (openPopupDistrictQuery.Count() == 0)
+                return;
+            
+            var openPopupDistrictComponent = openPopupDistrictQuery.SelectFirstEntity().GetComponent<PopupDistrictInfoComponent>();
+            
+            OpenPopup(openPopupDistrictComponent.TowerGUID);
+        }
+
         private void OpenPopup(string guidTower)
         {
             var towerComponent = _dataWorld.Select<TowerComponent>()
@@ -103,6 +115,7 @@ namespace CyberNet.Core
         {
             PopupDistrictInfoAction.OpenPopup -= CheckOpenPopup;
             PopupDistrictInfoAction.ClosePopup -= CheckClosePopup;
+            PopupDistrictInfoAction.ForceUpdateViewCurrentPopup -= ForceUpdateViewCurrentPopup;
         }
     }
 }

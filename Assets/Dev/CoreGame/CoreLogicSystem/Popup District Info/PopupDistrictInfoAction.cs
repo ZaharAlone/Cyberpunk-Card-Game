@@ -5,5 +5,6 @@ namespace CyberNet.Core.UI.PopupDistrictInfo
     {
         public static Action<string> OpenPopup;
         public static Action ClosePopup;
+        public static Action ForceUpdateViewCurrentPopup;
     }
 }

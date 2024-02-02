@@ -1,4 +1,5 @@
 using CyberNet.Core.Player;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -74,6 +75,8 @@ namespace CyberNet.Core.City
                 
                 towerComponent.TowerMono.VisualEffectZone.materials[0] = material;
             }
+            
+            PopupDistrictInfoAction.ForceUpdateViewCurrentPopup?.Invoke();
         }
 
         private Material SetViewNeutralZoneControl(Material material)

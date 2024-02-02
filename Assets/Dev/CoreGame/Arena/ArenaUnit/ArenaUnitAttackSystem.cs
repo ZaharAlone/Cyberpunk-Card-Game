@@ -75,7 +75,8 @@ namespace CyberNet.Core.Arena
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            CityAction.UpdateCanInteractiveMap?.Invoke();
+            //TODO вроде тут это не нужно
+            //CityAction.UpdateCanInteractiveMap?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
