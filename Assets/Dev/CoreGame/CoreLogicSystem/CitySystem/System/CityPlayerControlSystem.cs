@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
@@ -10,6 +11,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
+using UnityEngine.EventSystems;
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]
@@ -106,10 +108,18 @@ namespace CyberNet.Core.City
 
             var isRaycastDistrict = false;
             
+            var pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = inputData.MousePosition
+            };
+
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+            
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
                 var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
-                if (towerMono)
+                if (towerMono && results.Count == 0)
                 {
                     isRaycastDistrict = true;
                     PopupDistrictInfoAction.OpenPopup?.Invoke(towerMono.GUID);

@@ -8,6 +8,7 @@ using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Global;
+using CyberNet.SaveSystem;
 
 namespace CyberNet.Core
 {
@@ -25,6 +26,11 @@ namespace CyberNet.Core
 
         private void CheckOpenPopup(string guidTower)
         {
+            var isShowPopup = _dataWorld.OneData<SettingsData>().IsShowDistrickPopup;
+            
+            if (!isShowPopup)
+                return;
+            
             var openPopupDistrictQuery = _dataWorld.Select<PopupDistrictInfoComponent>();
 
             if (openPopupDistrictQuery.Count() == 0)
