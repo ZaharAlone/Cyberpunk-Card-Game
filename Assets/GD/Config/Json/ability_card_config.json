@@ -1,7 +1,8 @@
 {
   "Attack": {
     "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
+    "visualPlayingCard_Arena": "None",
+    "selectFrame_descrLoc": "AbilityCard/$cardAbility_attack"
   },
   "Trade": {
     "visualPlayingCard_Map": "Table",
@@ -74,5 +75,10 @@
     "visualPlayingCard_Arena": "None",
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroySquad_header",
     "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroySquad_descr"
+  },
+  "Grenade": {
+    "abilityLoc": "AbilityCard/$cardAbility_grenade",
+    "visualPlayingCard_Map": "None",
+    "visualPlayingCard_Arena": "Zone"
   }
 }

@@ -1,12 +1,14 @@
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.CorePopup;
+using CyberNet.Core.UI.TaskPlayerPopup;
 using CyberNet.Global;
+using CyberNet.Meta;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.SelectFirstBase
 {
@@ -44,13 +46,10 @@ namespace CyberNet.Core.SelectFirstBase
         private void SelectFirstBase()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = true;
-            ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            var supportLoc = _dataWorld.OneData<BoardGameData>().SupportLocalize;
-            
-            taskPlayerPopupUI.OpenWindowSetText(supportLoc.ChooseFirstBaseHeader, supportLoc.ChooseFirstBaseDescr);
             tradeRowUI.ForceFullHidePanel();
             
+            TaskPlayerPopupAction.OpenPopupSelectFirstBase?.Invoke();
             CityAction.ShowFirstBaseTower?.Invoke();
         }
         
@@ -101,21 +100,19 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
+            playerComponent.CurrentCountControlTerritory++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
-             
-            ref var taskPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            taskPopupUI.CloseWindow();
-            
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             tradeRowUI.ShowPanelBaseViewAnimations();
 
+            TaskPlayerPopupAction.HidePopup?.Invoke();
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             CityAction.UpdatePlayerViewCity?.Invoke();
         }
     }

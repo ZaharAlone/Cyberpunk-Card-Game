@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.TaskPlayerPopup;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -20,8 +21,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CancelSelect()
         {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            uiActionSelectCard.CloseWindow();
+            TaskPlayerPopupAction.HidePopup?.Invoke();
             
             var entitySelectAbilityTarget = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()

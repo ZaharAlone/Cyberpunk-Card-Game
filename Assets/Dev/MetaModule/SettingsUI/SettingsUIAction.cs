@@ -6,5 +6,7 @@ namespace CyberNet.Meta.SettingsUI
     {
         public static Action OpenSettingsUI;
         public static Action CloseSettingsUI;
+
+        public static Action<bool> SetShowDistrictPopup;
     }
 }

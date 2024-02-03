@@ -55,6 +55,11 @@ namespace CyberNet.Core.UI
 
         private void UpdateVFX(int playerID)
         {
+            var isInstallFirstBase = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerNotInstallFirstBaseComponent>()
+                .Count() == 0;
+            
             var entitiesCardInHand = _dataWorld.Select<CardComponent>()
                                                .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardHandComponent>()
@@ -82,7 +87,7 @@ namespace CyberNet.Core.UI
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 var cardMono = cardComponent.CardMono;
 
-                if (CheckAbilityCardToShowCard(cardComponent))
+                if (CheckAbilityCardToShowCard(cardComponent) && isInstallFirstBase)
                 {
                     cardMono.SetStatusInteractiveVFX(true);
                     entity.AddComponent(new CardCanUseComponent());
@@ -117,7 +122,7 @@ namespace CyberNet.Core.UI
             foreach (var entity in entitiesCardInShop)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                if (component.Price <= valueTrade)
+                if (component.Price <= valueTrade && isInstallFirstBase)
                     component.CardMono.SetStatusInteractiveVFX(true);
                 else
                     component.CardMono.SetStatusInteractiveVFX(false);

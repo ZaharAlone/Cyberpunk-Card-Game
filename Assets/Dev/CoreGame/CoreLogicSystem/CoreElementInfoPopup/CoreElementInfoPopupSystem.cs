@@ -29,7 +29,7 @@ namespace CyberNet.Core.UI.CorePopup
                 .SelectFirstEntity();
 
             var cardComponent = cardEntity.GetComponent<CardComponent>();
-            var popupConfig = _dataWorld.OneData<CorePopupData>().PopupConfig;
+            var popupConfig = _dataWorld.OneData<CorePopupData>().CorePopupConfig;
             popupConfig.TryGetValue(cardComponent.Key, out var popupCardConfig);
             
             if (!popupCardConfig.IsPoput)
@@ -63,7 +63,7 @@ namespace CyberNet.Core.UI.CorePopup
 
         private void OpenPopupButton(RectTransform rectTransform, string keyPopup)
         {
-            var popupConfig = _dataWorld.OneData<CorePopupData>().PopupConfig;
+            var popupConfig = _dataWorld.OneData<CorePopupData>().CorePopupConfig;
             popupConfig.TryGetValue(keyPopup, out var popupViewConfig);
             
             if (!popupViewConfig.IsPoput)

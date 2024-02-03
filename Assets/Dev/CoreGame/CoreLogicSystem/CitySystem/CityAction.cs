@@ -27,5 +27,9 @@ namespace CyberNet.Core.City
         public static Action<string, int> AttackSolidPoint;
         public static Action<string> SelectTower;
         public static Action<string> SelectUnit;
+        
+        // string = towerGUID, int = playerID
+        public static Action<string, int> ActivationsColliderUnitsInTower;
+        public static Action DeactivationsColliderAllUnits;
     }
 }

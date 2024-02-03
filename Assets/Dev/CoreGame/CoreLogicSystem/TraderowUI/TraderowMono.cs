@@ -10,6 +10,8 @@ namespace CyberNet.Core.Traderow
     {
         [SerializeField]
         private TextMeshProUGUI _tradeValueText;
+        [SerializeField]
+        private ParticleSystem _effectAddEuroDollar;
         public RectTransform TraderowContainer;
         public RectTransform TraderowContainerForCard;
 
@@ -31,9 +33,12 @@ namespace CyberNet.Core.Traderow
             TraderowContainer.gameObject.gameObject.SetActive(true);
         }
         
-        public void SetTradeValue(int tradeValue)
+        public void SetTradeValue(int tradeValue, bool showVfx)
         {
             _tradeValueText.text = tradeValue.ToString();
+
+            if (showVfx)
+                _effectAddEuroDollar.Play();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -68,6 +73,11 @@ namespace CyberNet.Core.Traderow
         public void ForceFullHidePanel()
         {
             TraderowContainer.anchoredPosition = new Vector2(0, 400);
+        }
+
+        public void SetEnableTradeRow(bool status)
+        {
+            TraderowContainer.gameObject.SetActive(status);
         }
 
         public void ShowPanelBaseViewAnimations()

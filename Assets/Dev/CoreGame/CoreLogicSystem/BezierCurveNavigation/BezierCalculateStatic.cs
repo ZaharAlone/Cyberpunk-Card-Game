@@ -12,29 +12,7 @@ public static class BezierCalculateStatic
 
         return new Vector2(x, y);
     }
-
-    //Interpolates between three control points with a quadratic bezier curve, with the interpolant t
-    public static Vector2 QuadraticBezierInterp(Transform p1, Transform p2, Transform p3, float t)
-    {
-        var a = LineLerp(p1.position, p2.position, t);
-        var b = LineLerp(p2.position, p3.position, t);
-
-        return LineLerp(a, b, t);
-    }
-
-    //Interpolates between four control points with a cubic bezier curve, with the interpolant t
-    public static Vector2 CubicBezierInterp(Transform p1, Transform p2, Transform p3, Transform p4, float t)
-    {      
-        var a = LineLerp(p1.position, p2.position, t);
-        var b = LineLerp(p2.position, p3.position, t);
-        var c = LineLerp(p3.position, p4.position, t);
-
-        var d = LineLerp(a, b, t);
-        var e = LineLerp(b, c, t);
-
-        return LineLerp(d, e, t);
-    }
-
+    
     //Interpolates between any number of control points in the points list, using a bezier curve and the interpolant, t. 
     public static (Vector2, Quaternion) NOrderBezierInterp(List<RectTransform> points, float t)
     {

@@ -33,11 +33,11 @@ namespace CyberNet.Core.AI
             foreach (var playerEntity in playerEntities)
             {
                 var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-                if (playerComponent.VictoryPoint < maxVP)
+                if (playerComponent.CurrentCountControlTerritory < maxVP)
                     continue;
                 
                 targetPlayerID = playerComponent.PlayerID;
-                maxVP = playerComponent.VictoryPoint;
+                maxVP = playerComponent.CurrentCountControlTerritory;
             }
             
             var targetPlayerEntity = _dataWorld.Select<PlayerComponent>()

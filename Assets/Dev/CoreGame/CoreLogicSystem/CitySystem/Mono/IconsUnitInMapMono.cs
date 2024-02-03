@@ -13,10 +13,17 @@ namespace CyberNet.Core.City
         private BoxCollider _collider;
         [SerializeField]
         private string _unitGUID;
+        [SerializeField]
+        private SpriteRenderer _iconsUnit;
         
         public void OnEnable()
         {
             _vfxSelectUnit.SetActive(false);
+        }
+
+        public void SetColorUnit(Color32 color)
+        {
+            _iconsUnit.color = color;
         }
 
         public void OnSelectUnitEffect()

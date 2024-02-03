@@ -6,13 +6,15 @@ using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.InteractiveCard;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using UnityEngine;
 
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CardShopSystem : IActivateSystem, IPreInitSystem
+    public class CardShopSystem : IActivateSystem, IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -51,8 +53,19 @@ namespace CyberNet.Core
                 AddTradeRowCard(id, freeCell[i]);
             }
 
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
-            SelectCardFreeToBuy();
+            var playerComponent = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity().GetComponent<PlayerComponent>();
+
+            if (playerComponent.playerOrAI == PlayerOrAI.Player)
+            {
+                _dataWorld.RiseEvent(new EventUpdateBoardCard());
+                SelectCardFreeToBuy();   
+            }
+            else
+            {
+                ClearComponentInShop();
+            }
         }
 
         private List<int> GetFreeSlotInTradeRow()
@@ -115,6 +128,12 @@ namespace CyberNet.Core
             var entities = _dataWorld.Select<CardFreeToBuyComponent>().GetEntities();
             foreach (var entity in entities)
                 entity.RemoveComponent<CardFreeToBuyComponent>();
+        }
+
+        public void Destroy()
+        {
+            CardShopAction.CheckPoolShopCard -= CheckPoolShopCard;
+            BoardGameUIAction.UpdateStatsPlayersCurrency -= SelectCardFreeToBuy;
         }
     }
 }

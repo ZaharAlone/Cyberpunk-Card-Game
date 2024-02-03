@@ -12,7 +12,11 @@ namespace  CyberNet.Core.UI
     {
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
-
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
+        
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
@@ -29,29 +33,37 @@ namespace  CyberNet.Core.UI
         [Header("Enemy Passport")]
         public GameObject EnemyPassportContainer;
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
+        public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
         
-        public void SetMainViewPassportNameAvatar(string name, Sprite avatar)
+        public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {
             PlayerDownView.NameText.text = name;
             PlayerDownView.Avatar.sprite = avatar;
+            PlayerDownView.IconsUnit.sprite = iconsUnit;
+            PlayerDownView.IconsUnit.color = colorUnit;
         }
 
-        public void SetMainPassportViewStats(int unit, int victoryPoint, int countAgent)
+        public void EnableMainPlayerCurrentRound(bool status)
         {
-            PlayerDownView.UnitCountText.text = unit.ToString();
-            PlayerDownView.VictoryPointText.text = victoryPoint.ToString();
+            PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
+        }
 
-            for (int i = 0; i < PlayerDownView.AgentIcons.Count; i++)
+        public void EnableLeftPlayerCurrentRound(bool status, int playerID)
+        {
+            foreach (var enemy in EnemyPassports)
             {
-                if (i < countAgent)
+                if (enemy.GetPlayerID() == playerID)
                 {
-                    PlayerDownView.AgentIcons[i].SetActive(true);
-                }
-                else
-                {
-                    PlayerDownView.AgentIcons[i].SetActive(false);
+                    enemy.EnableCurrentTurnPlayer(status);
                 }
             }
+        }
+        
+        public void SetMainPassportViewStats(int unit, int countControlTerritory, int countBase)
+        {
+            PlayerDownView.UnitCountText.text = unit.ToString();
+            _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
+            _playerPassportCountBaseView.SetCountValue(countBase);
         }
         
         public void SetInteractiveButton(string text, Sprite sprite)
@@ -59,7 +71,12 @@ namespace  CyberNet.Core.UI
             ActionButtonText.text = text;
             ActionButtonImage.sprite = sprite;
         }
-
+        
+        public void SetControlTerritoryEnemyView(int index, int value)
+        {
+            EnemyPassports[index].EnemyPassportControlTerritoryView.SetCountValue(value);
+        }
+        
         public void ShowInteractiveButton()
         {
             ActionButton.SetActive(true);
@@ -116,7 +133,6 @@ namespace  CyberNet.Core.UI
         {
             EnemyPassportContainer.SetActive(true);
         }
-
     }
     
     [Serializable]
@@ -124,8 +140,8 @@ namespace  CyberNet.Core.UI
     {
         public TextMeshProUGUI NameText;
         public TextMeshProUGUI UnitCountText;
-        public TextMeshProUGUI VictoryPointText;
+        public Image IconsUnit;
+        public GameObject VFXEffect_current_turnPlayer;
         public Image Avatar;
-        public List<GameObject> AgentIcons;
     }
 }

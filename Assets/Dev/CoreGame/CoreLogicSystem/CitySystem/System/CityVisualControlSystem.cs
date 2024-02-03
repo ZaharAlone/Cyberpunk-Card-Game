@@ -1,4 +1,5 @@
 using CyberNet.Core.Player;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -32,7 +33,7 @@ namespace CyberNet.Core.City
             foreach (var entityTower in entitiesTowerFirstBase)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.ActivateCollider();
+                towerComponent.TowerMono.OnInteractiveTower();
                 towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
         }
@@ -44,7 +45,7 @@ namespace CyberNet.Core.City
             foreach (var entityTower in entitiesTower)
             {
                 ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.DeactivateCollider();
+                towerComponent.TowerMono.OffInteractiveTower();
                 towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
             }
         }
@@ -74,6 +75,8 @@ namespace CyberNet.Core.City
                 
                 towerComponent.TowerMono.VisualEffectZone.materials[0] = material;
             }
+            
+            PopupDistrictInfoAction.ForceUpdateViewCurrentPopup?.Invoke();
         }
 
         private Material SetViewNeutralZoneControl(Material material)
@@ -116,7 +119,7 @@ namespace CyberNet.Core.City
                 .Where<TowerComponent>(tower => tower.GUID == towerGuid)
                 .SelectFirstEntity();
             var towerComponent = towerEntity.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.ActivateCollider();
+            towerComponent.TowerMono.OnInteractiveTower();
             towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
         }
         private void DisableInteractiveTower(string towerGuid)
@@ -125,7 +128,7 @@ namespace CyberNet.Core.City
                 .Where<TowerComponent>(tower => tower.GUID == towerGuid)
                 .SelectFirstEntity();
             var towerComponent = towerEntity.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.DeactivateCollider();
+            towerComponent.TowerMono.OffInteractiveTower();
             towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
         }
     }

@@ -26,7 +26,6 @@ namespace CyberNet.Core.AbilityCard
         }
         private void SwitchEnemyUnitMap(string guidCard)
         {
-            Debug.LogError("Ability Card Enemy");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)

@@ -38,7 +38,8 @@ namespace CyberNet.Meta.StartGame
             LoadingGameScreenAction.OpenLoadingGameScreen?.Invoke();
 
             await Task.Delay(100);
-            _dataWorld.InitModule<TutorialGameModule>(true);
+            
+            await _dataWorld.InitModuleAsync<TutorialGameModule>(true);
             _dataWorld.InitModule<LocalGameModule>(true);
         }
         

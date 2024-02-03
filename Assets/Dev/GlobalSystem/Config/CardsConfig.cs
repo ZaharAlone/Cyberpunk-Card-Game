@@ -89,6 +89,7 @@ namespace CyberNet
     {
         None,
         Table,
-        Target
+        Target,
+        Zone
     }
 }

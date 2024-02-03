@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 namespace CyberNet.Meta.SettingsUI
 {
     public class SettingsUIMono : MonoBehaviour
@@ -8,6 +9,10 @@ namespace CyberNet.Meta.SettingsUI
         private GameObject _panel;
         [SerializeField]
         private GameObject _background;
+        
+        [Header("Property")]
+        [SerializeField]
+        private Toggle _toglleDistrictPopup;
 
         public void Awake()
         {
@@ -25,6 +30,16 @@ namespace CyberNet.Meta.SettingsUI
         {
             _panel.SetActive(false);
             _background.SetActive(false);
+        }
+        
+        public void SetShowDistrictPopup(bool value)
+        {
+            SettingsUIAction.SetShowDistrictPopup?.Invoke(value);
+        }
+
+        public void SetViewDistrict(bool value)
+        {
+            _toglleDistrictPopup.isOn = value;
         }
 
         public void OnClickBack()

@@ -3,10 +3,10 @@ using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
-using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.WinLose;
 using CyberNet.Core.Traderow;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Core.UI.TaskPlayerPopup;
 using UnityEngine.Serialization;
 
@@ -52,5 +52,8 @@ namespace CyberNet.Core.UI
 
         [Header("Arena")]
         public ArenaHUDUIMono ArenaHUDUIMono;
+
+        [Header("Popup District")]
+        public PopupDistrictInfoUIMono PopupDistrictInfoUIMono;
     }
 }

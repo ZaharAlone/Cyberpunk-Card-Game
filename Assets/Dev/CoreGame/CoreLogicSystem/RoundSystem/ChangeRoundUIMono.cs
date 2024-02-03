@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using I2.Loc;
 using DG.Tweening;

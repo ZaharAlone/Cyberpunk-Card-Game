@@ -61,7 +61,7 @@ namespace CyberNet.Core.Dialog
             ref var CurrentDialogData = ref _dataWorld.OneData<CurrentDialogData>();
             ref var dialogConfigData = ref _dataWorld.OneData<DialogConfigData>();
             dialogConfigData.DialogConfig.TryGetValue(CurrentDialogData.DialogKey, out var currentDialog);
-            Debug.LogError("Next dialog");
+            
             if (CurrentDialogData.CurrentIndexPhrase + 1 < currentDialog.Phrase.Count)
                 ShowDialog(CurrentDialogData.CurrentIndexPhrase + 1);
             else

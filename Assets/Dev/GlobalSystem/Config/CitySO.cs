@@ -3,6 +3,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core.Arena;
+using I2.Loc;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.City
@@ -15,9 +16,12 @@ namespace CyberNet.Core.City
         public UnitPointVFXMono UnitPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
-        public TextAsset TowerConfig;
-
         public List<string> PlayerVisualKeyList = new();
+        
+        [Header("District config")]
+        public TextAsset DistrictConfig;
+        public LocalizedString DistrictClearLoc;
+        public LocalizedString DistrictNeutralLoc;
     }
 
     [Serializable]

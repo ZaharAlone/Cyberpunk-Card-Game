@@ -10,6 +10,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.PopupDistrictInfo;
 
 namespace CyberNet.Core.AbilityCard
 {

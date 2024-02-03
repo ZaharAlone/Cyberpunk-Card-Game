@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CyberNet.Core.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -31,6 +32,7 @@ namespace CyberNet.Core.EnemyPassport
         private GameObject _effectSelectPlayer;
         [SerializeField]
         private List<GameObject> DiscardCardImages = new List<GameObject>();
+        public PlayerPassportValueWinProgressUIMono EnemyPassportControlTerritoryView;
 
         private int _playerID;
         
@@ -80,6 +82,11 @@ namespace CyberNet.Core.EnemyPassport
         public void OffEffectSelectPlayerStatus()
         {
             _effectSelectPlayer.SetActive(false);
+        }
+
+        public void EnableCurrentTurnPlayer(bool status)
+        {
+            _vfxTurnPlayer.SetActive(status);
         }
     }
 }

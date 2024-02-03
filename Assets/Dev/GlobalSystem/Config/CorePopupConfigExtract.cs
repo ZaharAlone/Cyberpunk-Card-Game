@@ -19,10 +19,12 @@ namespace CyberNet.Core.UI.CorePopup
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var popupConfig = JsonConvert.DeserializeObject<Dictionary<string, CorePopupConfig>>(boardGameData.BoardGameConfig.PopupCardConfigJson.text);
+            var popupTaskConfig = JsonConvert.DeserializeObject<Dictionary<string, CorePopupTaskConfig>>(boardGameData.BoardGameConfig.PopupTaskConfigJson.text);
             
             _dataWorld.CreateOneData(new CorePopupData 
             {
-                PopupConfig = popupConfig
+                CorePopupConfig = popupConfig,
+                CorePopupTaskConfig = popupTaskConfig
             });
         }
     }

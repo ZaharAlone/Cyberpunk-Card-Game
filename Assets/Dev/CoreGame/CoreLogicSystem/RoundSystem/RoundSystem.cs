@@ -11,6 +11,7 @@ using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Tutorial;
+using UnityEngine;
 
 namespace CyberNet.Local
 {
@@ -50,11 +51,15 @@ namespace CyberNet.Local
                 TargetPlayerID = playerComponent.PlayerID,
                 Count = rules.CountDropCard
             });
-            
+
             if (_dataWorld.IsModuleActive<TutorialGameModule>())
+            {
                 TutorialAction.StartFirstPlayerRound?.Invoke();
+            }
             else
+            {
                 UpdateUIRound();
+            }
         }
         
         private void SwitchRound()

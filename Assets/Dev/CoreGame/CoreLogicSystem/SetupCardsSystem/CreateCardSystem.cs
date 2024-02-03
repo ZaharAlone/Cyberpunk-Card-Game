@@ -9,15 +9,16 @@ using Object = UnityEngine.Object;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CreateCardSystem : IPreInitSystem
+    public class CreateCardSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
             SetupCardAction.InitCard += InitCard;
+            SetupCardAction.SetViewCardNotInit += SetViewCardNotInit;
         }
-        
+
         private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
@@ -26,7 +27,7 @@ namespace CyberNet.Core
             var cardGO = cardMono.gameObject;
             cardsConfig.Cards.TryGetValue(placeCard.CardName, out var card);
 
-            SetViewCard(cardMono, card);
+            SetViewCard(cardMono, card, true);
 
             var entity = _dataWorld.NewEntity();
             var cardComponent = SetCardComponent.Set(cardGO, card, cardMono);
@@ -45,8 +46,16 @@ namespace CyberNet.Core
             entity.AddComponent(new CardSortingIndexComponent { Index = placeCard.IDPositions });
             return entity;
         }
+
+        private void SetViewCardNotInit(CardMono cardMono, string keyCard)
+        {
+            var cardsConfig = _dataWorld.OneData<CardsConfig>();
+            cardsConfig.Cards.TryGetValue(keyCard, out var cardConfigJson);
+            
+            SetViewCard(cardMono, cardConfigJson, false);
+        }
         
-        private void SetViewCard(CardMono card, CardConfigJson cardConfigJson)
+        private void SetViewCard(CardMono card, CardConfigJson cardConfigJson, bool isBackCard)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var cardConfig = _dataWorld.OneData<CardsConfig>();
@@ -97,7 +106,14 @@ namespace CyberNet.Core
             if (cardConfigJson.Ability_2.AbilityType != AbilityType.None)
                 SetViewAbilityCard.SetView(card.AbilityBlock_3_Container, cardConfigJson.Ability_2, boardGameConfig, cardConfig);
 
-            card.CardOnBack();
+            if (isBackCard)
+                card.CardOnBack();
+        }
+
+        public void Destroy()
+        {
+            SetupCardAction.InitCard -= InitCard;
+            SetupCardAction.SetViewCardNotInit -= SetViewCardNotInit;
         }
     }
 }

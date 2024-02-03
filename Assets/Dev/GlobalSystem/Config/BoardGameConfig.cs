@@ -38,6 +38,7 @@ namespace CyberNet
         [Header("Config Card")]
         public TextAsset CardConfigJson;
         public TextAsset PopupCardConfigJson;
+        public TextAsset PopupTaskConfigJson;
         public TextAsset AbilityCardConfigJson;
 
         [Header("Leader Config")]
@@ -64,5 +65,6 @@ namespace CyberNet
         public CursorConfigSO CursorConfigSO;
         public ArenaConfigSO ArenaConfigSO;
         public ColorsGameConfigSO ColorsGameConfigSO;
+        public ViewEnemySO ViewEnemySO;
     }
 }

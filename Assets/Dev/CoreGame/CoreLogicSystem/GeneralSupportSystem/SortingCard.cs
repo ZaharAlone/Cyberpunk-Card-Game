@@ -1,6 +1,7 @@
 using ModulesFramework.Data.Enumerators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CyberNet.Core
@@ -19,6 +20,51 @@ namespace CyberNet.Core
             }
 
             return Cards;
+        }
+        
+        public static List<CardData> SortingDeckCardsForTutorial(List<CardData> Cards)
+        {
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                Cards[i] = CardSetPosition(Cards[i], -1);
+            }
+
+            var countCardSetPositions = 0;
+            var countHunter = 0;
+            
+            while (countCardSetPositions < Cards.Count)
+            {
+                Debug.LogError("Cicle");
+                for (int i = 0; i < Cards.Count; i++)
+                {
+                    if (Cards[i].IDPositions != -1)
+                        continue;
+                    
+                    if (Cards[i].CardName == "neutral_hunter" && countHunter < 2)
+                    {
+                        Debug.LogError("Card set positions: " + countCardSetPositions);
+                        Cards[i] = CardSetPosition(Cards[i], countCardSetPositions);
+                        countCardSetPositions++;
+                        countHunter++;
+                        break;
+                    }
+
+                    if (Cards[i].CardName != "neutral_hunter" && countHunter == 2)
+                    {
+                        Debug.LogError("Set positions");
+                        Cards[i] = CardSetPosition(Cards[i], countCardSetPositions);
+                        countCardSetPositions++;
+                    }
+                }
+            }
+            
+            return Cards;
+        }
+        
+        private static CardData CardSetPosition(CardData card, int index)
+        {
+            card.IDPositions = index;
+            return card;
         }
 
         public static int[] Sorting(int count)
