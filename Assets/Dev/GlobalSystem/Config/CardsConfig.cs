@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using CyberNet.Core.AbilityCard;
 using Newtonsoft.Json;
-using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -11,6 +9,7 @@ namespace CyberNet
     public struct CardsConfig
     {
         public Dictionary<string, CardConfigJson> Cards;
+        public Dictionary<string, AbilityCardConfig> AbilityCard;
     }
 
     [Serializable]
@@ -33,21 +32,17 @@ namespace CyberNet
         public int Price;
         [JsonProperty("count")]
         public int Count;
-        [JsonProperty("type")]
-        public TypeCard Type;
-        [JsonProperty("shield")]
-        public int Shield;
 
         [JsonProperty("ability_0")]
-        public AbilityCard Ability_0;
+        public AbilityCardContainer Ability_0;
         [JsonProperty("ability_1")]
-        public AbilityCard Ability_1;
+        public AbilityCardContainer Ability_1;
         [JsonProperty("ability_2")]
-        public AbilityCard Ability_2;
+        public AbilityCardContainer Ability_2;
     }
 
     [Serializable]
-    public struct AbilityCard
+    public struct AbilityCardContainer
     {
         [JsonProperty("action")]
         public AbilityType AbilityType;
@@ -55,24 +50,6 @@ namespace CyberNet
         public int Count;
         [JsonProperty("condition")]
         public AbilityCondition Condition;
-    }
-
-    [Serializable]
-    public enum AbilityType
-    {
-        None,
-        Attack,
-        Trade,
-        Influence,
-        DrawCard,
-        DiscardCardEnemy,
-        DestroyCard,
-        DownCyberpsychosisEnemy,
-        CloneCard,
-        NoiseCard,
-        ThiefCard,
-        DestroyTradeCard,
-        DestroyEnemyBase
     }
 
     [Serializable]
@@ -87,9 +64,32 @@ namespace CyberNet
     }
 
     [Serializable]
-    public enum TypeCard
+    public struct AbilityCardConfig
     {
-        Unit,
-        Base
+        [JsonProperty("abilityLoc")]
+        public string AbilityLoc;
+        [JsonProperty("visualPlayingCard_Map")]
+        public VisualPlayingCardType VisualPlayingCardMap;
+        [JsonProperty("visualPlayingCard_Arena")]
+        public VisualPlayingCardType VisualPlayingCardArena;
+        [JsonProperty("selectFrame_headerLoc")]
+        public string SelectFrameHeader;
+        [JsonProperty("selectFrame_descrLoc")]
+        public string SelectFrameDescr;
+        [JsonProperty("selectFrame_descrLoc_2")]
+        public string SelectFrameDescr_2;
+        [JsonProperty("selectPlayerFrame_headerLoc")]
+        public string SelectPlayerFrameHeader;
+        [JsonProperty("selectPlayerFrame_descrLoc")]
+        public string SelectPlayerFrameDescr;
+    }
+
+    [Serializable]
+    public enum VisualPlayingCardType
+    {
+        None,
+        Table,
+        Target,
+        Zone
     }
 }

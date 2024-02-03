@@ -7,7 +7,7 @@ namespace CyberNet.Core
 {
     public static class SortingDeckCardAnimationsAction
     {
-        public static Func<PlayerEnum, float> GetTimeSortingDeck;
-        public static Func<PlayerEnum, float> GetTimeCardToHand;
+        public static Func<int, float> GetTimeSortingDeck;
+        public static Func<int, float> GetTimeCardToHand;
     }
 }

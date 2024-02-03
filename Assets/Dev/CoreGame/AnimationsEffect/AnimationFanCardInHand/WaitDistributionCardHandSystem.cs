@@ -21,15 +21,15 @@ namespace CyberNet.Core
             {
                 ref var component = ref entity.GetComponent<WaitDistributionCardHandComponent>();
                 if (component.CountCard == component.CurrentDistributionCard)
-                    EndDistributionCardHand(entity, component.Player);
+                    EndDistributionCardHand(entity, component.PlayerID);
             }
         }
 
-        public void EndDistributionCardHand(Entity entity, PlayerEnum player)
+        public void EndDistributionCardHand(Entity entity, int playerID)
         {
             entity.Destroy();
             var entitiesCards = _dataWorld.Select<CardComponent>()
-                             .Where<CardComponent>(card => card.Player == player)
+                             .Where<CardComponent>(card => card.PlayerID == playerID)
                              .With<CardDistributionComponent>()
                              .GetEntities();
             foreach (var entityCard in entitiesCards)

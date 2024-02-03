@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.InteractiveCard
 {
     public struct InteractiveMoveComponent
     {

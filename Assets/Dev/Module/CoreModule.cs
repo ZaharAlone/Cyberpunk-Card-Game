@@ -5,12 +5,11 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
-using CyberNet;
 using CyberNet.Core;
+using CyberNet.Core.PauseUI;
 using ModulesFramework.Modules;
-using ModulesFrameworkUnity;
-using ModulesFramework.Data;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace EcsCore
 {
@@ -23,6 +22,7 @@ namespace EcsCore
             var tasks = new List<Task>();
 
             var canvasMainCore = Load<GameObject>("CoreGameUI", tasks);
+            var pauseUI = Load<GameObject>("PauseUI", tasks);
             var canvasViewCard = Load<GameObject>("ViewCardUI", tasks);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -31,10 +31,22 @@ namespace EcsCore
             var canvasMainCoreGO = Object.Instantiate(canvasMainCore.Result);
             var canvasMainMono = canvasMainCoreGO.GetComponent<BoardGameUIMono>();
             var canvasViewCardMono = Object.Instantiate(canvasViewCard.Result).GetComponent<ViewDeckCardUIMono>();
-            world.CreateOneData(new UIData { UIGO = canvasMainCoreGO, UIMono = canvasMainMono, ViewDeckCard = canvasViewCardMono});
+            var pauseUIGO = Object.Instantiate(pauseUI.Result);
+            var pauseUIMono = pauseUIGO.GetComponent<PauseGameUIMono>();
+            world.CreateOneData(new CoreGameUIData 
+            { 
+                UIGO = canvasMainCoreGO, 
+                BoardGameUIMono = canvasMainMono, 
+                ViewDeckCard = canvasViewCardMono, 
+                PauseGameUIMono = pauseUIMono
+                
+            });
 
             _resource.Add(canvasMainCoreGO);
             _resource.Add(canvasViewCardMono.gameObject);
+            _resource.Add(pauseUIGO);
+            
+            ModuleAction.ActivateCoreModule?.Invoke();
         }
 
         private Task<T> Load<T>(string name, List<Task> tasks)
@@ -58,6 +70,8 @@ namespace EcsCore
         {
             foreach (var item in _resource)
                 Object.Destroy(item);
+            
+            ModuleAction.DeactivateCoreModule?.Invoke();
         }
     }
 }

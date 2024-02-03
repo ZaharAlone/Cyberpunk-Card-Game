@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using DG.Tweening;
 
 namespace CyberNet.Core
 {
+    [Serializable]
     public struct CardComponentAnimations
     {
         public Vector3 Positions;

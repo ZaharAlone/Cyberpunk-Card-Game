@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Server;
 using ModulesFrameworkUnity;
@@ -20,57 +21,26 @@ namespace CyberNet.Meta.StartGame
 
         public void PreInit()
         {
-            StartGameAction.StartGameLocalVSAI += StartGameVSAI;
-            StartGameAction.StartGameLocalVSPlayer += StartGameLocalVSPlayer;
+            StartGameAction.StartLocalGame += StartLocalGame;
+            StartGameAction.StartTutorial += StartTutorial;
         }
 
-        private void StartGameVSAI(string nameLeader)
+        private async void StartLocalGame()
         {
-            SelectAvatarPlayer(nameLeader, PlayerEnum.Player1);
-            SelectViewBot();
-            LoadingVSScreenAction.OpenLoadingVSScreen?.Invoke();
-            
-            _dataWorld.InitModule<LocalGameModule>(true);
-            _dataWorld.InitModule<VSAIModule>(true);
-        }
+            LoadingGameScreenAction.OpenLoadingGameScreen?.Invoke();
 
-        private void StartGameLocalVSPlayer(string nameLeaderPlayer1, string nameLeaderPlayer2)
-        {
+            await Task.Delay(100);
             _dataWorld.InitModule<LocalGameModule>(true);
-            _dataWorld.InitModule<PassAndPlayModule>(true);
-            SelectAvatarPlayer(nameLeaderPlayer1, PlayerEnum.Player1);
-            SelectAvatarPlayer(nameLeaderPlayer2, PlayerEnum.Player2);
         }
         
-        private void SelectAvatarPlayer(string nameLeader, PlayerEnum targetPlayer)
+        private async void StartTutorial()
         {
-            _dataWorld.OneData<LeadersConfigData>().LeadersConfig.TryGetValue(nameLeader, out var leadersConfig);
+            LoadingGameScreenAction.OpenLoadingGameScreen?.Invoke();
 
-            if (targetPlayer == PlayerEnum.Player1)
-            {
-                ref var playerView = ref _dataWorld.OneData<Player1ViewData>();
-                playerView.LeaderKey = nameLeader;
-                playerView.AvatarKey = leadersConfig.imageAvatarLeader;   
-            }
-            else if (targetPlayer == PlayerEnum.Player2)
-            {
-                ref var playerView = ref _dataWorld.OneData<Player2ViewData>();
-                playerView.LeaderKey = nameLeader;
-                playerView.AvatarKey = leadersConfig.imageAvatarLeader;  
-            }
-        }
-
-        private void SelectViewBot()
-        {
-            ref var leadersConfigData = ref _dataWorld.OneData<LeadersConfigData>().LeadersConfig;
-            var randomIndex = Random.Range(0, leadersConfigData.Count);
-
-            var leadersConfig = leadersConfigData.ElementAt(randomIndex).Value;
+            await Task.Delay(100);
             
-            ref var playerView = ref _dataWorld.OneData<Player2ViewData>();
-            playerView.LeaderKey = leadersConfig.Name;
-            playerView.Name =  I2.Loc.LocalizationManager.GetTranslation(leadersConfig.NameLoc);
-            playerView.AvatarKey = leadersConfig.imageAvatarLeader;
+            await _dataWorld.InitModuleAsync<TutorialGameModule>(true);
+            _dataWorld.InitModule<LocalGameModule>(true);
         }
         
         private void OnlineGame()

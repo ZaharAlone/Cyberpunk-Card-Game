@@ -1,11 +1,12 @@
-using CyberNet.Core.Sound;
-using CyberNet.Global.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core.ActionCard;
-using CyberNet.Core.WinLose;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.InteractiveCard;
+using CyberNet.Global;
+using DG.Tweening;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -13,131 +14,125 @@ namespace CyberNet.Core.UI
     /// Система управляющая Action кнопкой - позволяющей разыгрывать все карты, атаковать, заканчивать раунд
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class ActionPlayerButtonUISystem : IInitSystem, IRunSystem
+    public class ActionPlayerButtonUISystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
-            ActionPlayerButtonEvent.ClickActionButton += ClickButton;
-            ActionPlayerButtonEvent.ActionAttackBot += Attack;
+            RoundAction.EndCurrentTurn += HideButton;
+            RoundAction.StartTurn += UpdateButton;
+            ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
+            ActionPlayerButtonEvent.ClickActionButton += ClickActionButton;
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
-        //TO-DO перевести на ивент
-        public void Run()
+        public void Init()
         {
-            var round = _dataWorld.OneData<RoundData>();
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var ui = _dataWorld.OneData<UIData>();
-
-            if (round.CurrentPlayer != viewPlayer.PlayerView)
+            HideButton();
+        }
+        
+        private void UpdateButton()
+        {
+            var roundData = _dataWorld.OneData<RoundData>();
+            var ui = _dataWorld.OneData<CoreGameUIData>();
+            
+            if (roundData.playerOrAI != PlayerOrAI.Player || roundData.PauseInteractive)
             {
-                ui.UIMono.CoreHudUIMono.HideInteractiveButton();
+                ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
                 return;
             }
 
-            ui.UIMono.CoreHudUIMono.ShowInteractiveButton();
+            ui.BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            var cardInHand = _dataWorld.Select<CardComponent>()
-                                       .Where<CardComponent>(card => card.Player == viewPlayer.PlayerView)
-                                       .With<CardHandComponent>()
-                                       .Count();
 
-            if (cardInHand > 0)
+            var cardHandEntities = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
+                .With<CardHandComponent>()
+                .GetEntities();
+            
+            var cardHandCount = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
+                .With<CardHandComponent>()
+                .Count();
+
+            var isOnlyCardScout = true;
+
+            foreach (var cardHandEntity in cardHandEntities)
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.PlayAll;
+                var cardComponent = cardHandEntity.GetComponent<CardComponent>();
+                if (cardComponent.Key != "neutral_scout")
+                {
+                    isOnlyCardScout = false;
+                    break;
+                }
             }
-            else if (actionPlayer.TotalAttack - actionPlayer.SpendAttack != 0)
+            
+            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
+            if (isOnlyCardScout && cardHandCount > 0)
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionAttack_loc, config.ActionAttack_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.Attack;
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
+                
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
+                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(config.PlayAllPopup);
             }
             else
             {
-                ui.UIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                actionPlayer.ActionPlayerType = ActionPlayerType.EndTurn;
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
+                
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
+                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(config.EndRoundPopup);
             }
         }
         
-        private void ClickButton()
+        private void HideButton()
         {
-            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            switch (actionPlayer.ActionPlayerType)
-            {
-                case ActionPlayerType.PlayAll:
-                    PlayAll();
-                    break;
-                case ActionPlayerType.Attack:
-                    Attack();
-                    break;
-                case ActionPlayerType.EndTurn:
-                    EndTurn();
-                    break;
-            }
+            var ui = _dataWorld.OneData<CoreGameUIData>();
+            ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
         }
 
+        private void ClickActionButton()
+        {
+            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
+            
+            if (actionPlayer.ActionPlayerButtonType == ActionPlayerButtonType.PlayAll)
+                PlayAll();
+            else
+            {
+                EndTurn();
+            }
+        }
+        
         private void PlayAll()
         {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
-                                     .With<CardHandComponent>()
-                                     .GetEntities();
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardHandComponent>()
+                .GetEntities();
             
             foreach (var entity in entities)
             {
+                entity.AddComponent(new CardAbilitySelectionCompletedComponent
+                { 
+                    SelectAbility = SelectAbilityEnum.Ability_0,
+                    OneAbilityInCard = true
+                });
+
                 entity.RemoveComponent<CardHandComponent>();
-                entity.AddComponent(new CardSelectAbilityComponent());
-            }
-        }
-
-        private void Attack()
-        {
-            ref var boardGameRule = ref _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var roundData = _dataWorld.OneData<RoundData>();
-            var valueAttack = actionData.TotalAttack - actionData.SpendAttack;
-            var percentHP = 0f;
-            
-            if (roundData.CurrentPlayer == PlayerEnum.Player1)
-            {
-                ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-                player2Stats.HP -= valueAttack;
-                percentHP = (float)player2Stats.HP / boardGameRule.BaseInfluenceCount;
-            }
-            else
-            {
-                ref var playerStats = ref _dataWorld.OneData<Player1StatsData>();
-                playerStats.HP -= valueAttack;
-                percentHP = (float)playerStats.HP / boardGameRule.BaseInfluenceCount;
+                if (entity.HasComponent<CardComponentAnimations>())
+                {
+                    var animationCard = entity.GetComponent<CardComponentAnimations>();
+                    animationCard.Sequence.Kill();
+                    entity.RemoveComponent<CardComponentAnimations>();
+                }
+                
+                entity.AddComponent(new CardMoveToTableComponent());
             }
             
-            AttackView(roundData.CurrentPlayer, valueAttack, percentHP);
-
-            ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
-            SoundAction.PlaySound?.Invoke(soundData.AttackSound);
-            actionData.SpendAttack += valueAttack;
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
             
-            BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            BoardGameUIAction.UpdateStatsPlayersPassportUI?.Invoke();
-            WinLoseAction.CheckWin?.Invoke();
-        }
-
-        private void AttackView(PlayerEnum targetAttack, int valueAttack, float percentHP)
-        {
-            ref var boardUI = ref _dataWorld.OneData<UIData>().UIMono;
-            var viewData = _dataWorld.OneData<ViewPlayerData>();
-            if (targetAttack != viewData.PlayerView)
-            {
-                boardUI.CoreHudUIMono.PlayerDownView.CharacterDamagePassportEffect.Attack();
-                boardUI.DamageScreen.Damage(valueAttack, percentHP);
-            }
-            else
-                boardUI.CoreHudUIMono.PlayerUpView.CharacterDamagePassportEffect.Attack();
-            
-            BoardGameCameraEvent.GetDamageCameraShake?.Invoke();
+            UpdateButton();
         }
 
         private void EndTurn()
@@ -146,7 +141,7 @@ namespace CyberNet.Core.UI
 
             var cardInHand = _dataWorld.Select<CardComponent>()
                                        .With<CardHandComponent>()
-                                       .Where<CardComponent>(card => card.Player == roundData.CurrentPlayer)
+                                       .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                        .GetEntities();
 
             foreach (var entity in cardInHand)
@@ -155,20 +150,36 @@ namespace CyberNet.Core.UI
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
-            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardTableComponent>().GetEntities();
+            var cardInDeck = _dataWorld.Select<CardComponent>().With<CardAbilitySelectionCompletedComponent>().GetEntities();
 
             foreach (var entity in cardInDeck)
             {
-                entity.RemoveComponent<CardTableComponent>();
+                entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
+            var cardCanUse = _dataWorld.Select<CardCanUseComponent>().GetEntities();
+
+            foreach (var cardEntity in cardCanUse)
+            {
+                cardEntity.RemoveComponent<CardCanUseComponent>();
+            }
+            
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
             var newEntity = _dataWorld.NewEntity();
             newEntity.AddComponent(new WaitEndRoundComponent());
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
-            ActionCardEvent.ClearActionView.Invoke();
+            AbilityCardAction.ClearActionView.Invoke();
+        }
+
+        public void Destroy()
+        {
+            RoundAction.EndCurrentTurn -= HideButton;
+            RoundAction.StartTurn -= UpdateButton;
+            ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
+            ActionPlayerButtonEvent.ClickActionButton -= EndTurn;
+            ActionPlayerButtonEvent.ActionEndTurnBot -= EndTurn;
         }
     }
 }

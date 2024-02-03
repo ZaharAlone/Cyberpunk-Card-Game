@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using CyberNet.Core.InteractiveCard;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,8 +12,9 @@ namespace CyberNet.Core
     {
         public InteractiveCardMono InteractiveCard;
         public Canvas Canvas;
+        public RectTransform RectTransform;
         public GameObject VFXIsInteractiveCard;
-        public Transform CardConteinerTransform;
+        public GameObject VFXFlashOutlineCard;
 
         [Header("Card")]
         public RectTransform CardFace;  
@@ -74,7 +75,6 @@ namespace CyberNet.Core
         {
             ImageDownBlockRect.sizeDelta = new Vector2(ImageDownBlockRect.sizeDelta.x, 120f);
             AbilityBlockRect.anchoredPosition = new Vector2(AbilityBlockRect.anchoredPosition.x, 120f);
-            
         }
 
         public void CardOnBack()
@@ -103,6 +103,13 @@ namespace CyberNet.Core
             VFXIsInteractiveCard.SetActive(status);
         }
 
+        public async void EnableVFXFlashOutlineCard()
+        {
+            VFXFlashOutlineCard.SetActive(true);
+            await Task.Delay(150);
+            VFXFlashOutlineCard.SetActive(false);
+        }
+
         public void HideCard()
         {
             Canvas.gameObject.SetActive(false);
@@ -116,17 +123,6 @@ namespace CyberNet.Core
         public void ShowCard()
         {
             Canvas.gameObject.SetActive(true);
-        }
-
-        public void SetMovePositionAnimations(Vector3 positions, Vector3 scale)
-        {
-            _sequence = DOTween.Sequence();
-            var distance = Vector3.Distance(transform.position, positions);
-            var time = distance / 600;
-            if (time > 0.8f)
-                time = 0.8f;
-            _sequence.Append(transform.DOMove(positions, time))
-                     .Join(transform.DOScale(scale, time));
         }
 
         public void OnDisable()

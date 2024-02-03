@@ -6,10 +6,10 @@ namespace CyberNet.Core
     public struct CardComponent
     {
         public string GUID;
-        public PlayerEnum Player;
+        public int PlayerID;
         public Canvas Canvas;
         public GameObject GO;
-        public Transform Transform;
+        public RectTransform RectTransform;
         public CardMono CardMono;
         public CardConfigJson Stats;
 
@@ -18,8 +18,8 @@ namespace CyberNet.Core
         public int DestroyPointCount;
         public int Price;
 
-        public AbilityCard Ability_0;
-        public AbilityCard Ability_1;
-        public AbilityCard Ability_2;
+        public AbilityCardContainer Ability_0;
+        public AbilityCardContainer Ability_1;
+        public AbilityCardContainer Ability_2;
     }
 }

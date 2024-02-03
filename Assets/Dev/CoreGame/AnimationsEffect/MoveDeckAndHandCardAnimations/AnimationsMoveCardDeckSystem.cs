@@ -33,19 +33,17 @@ namespace CyberNet.Core
 
         private void AnimationsMoveCardToHand(Entity entity)
         {
-            var viewData = _dataWorld.OneData<ViewPlayerData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             var cardComponent = entity.GetComponent<CardComponent>();
-            var ui = _dataWorld.OneData<UIData>().UIMono;
+            var ui = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             var targetPositions = Vector3.zero;
-
-            if (viewData.PlayerView == cardComponent.Player)
-                targetPositions = ui.CoreHudUIMono.DownDeck.localPosition;
-            else
-                targetPositions = ui.CoreHudUIMono.UpDeck.localPosition;
+            
+            if (roundData.CurrentPlayerID == cardComponent.PlayerID)
+                targetPositions = ui.CoreHudUIMono.DownDeck.position;
 
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(targetPositions, 0.5f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOMove(targetPositions, 0.5f))
                 .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.15f))
                 .Append(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), 0.15f))
                 .OnComplete(() => EndAnimationsMoveCardToHand(entity));
@@ -56,7 +54,7 @@ namespace CyberNet.Core
         private void EndAnimationsMoveCardToHand(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
-            cardComponent.CardMono.CardConteinerTransform.rotation = Quaternion.identity;
+            cardComponent.CardMono.RectTransform.localRotation = Quaternion.identity;
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();

@@ -25,38 +25,38 @@ namespace CyberNet.Meta
 
         private void OpenWaitPopup(string header)
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono;
             popup.OpenWaitPopup(header);
         }
 
         private void OpenWarningPopup(string header, string descr, string buttonText, Action action)
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono;
             popup.OpenWarningPopup(header, descr, buttonText, action);
         }
 
-        private void OpenConfirmPopup(string header, string descr, string buttonRight, string buttonLeft, Action action)
+        private void OpenConfirmPopup(PopupConfimStruct popupData)
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
-            popup.OpenConfirmPopup(header, descr, buttonRight, buttonLeft, action);
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono.PopupConfirmUIMono;
+            popup.OpenPopup(popupData);
         }
 
         private void CloseWaitPopup()
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono;
             popup.CloseWaitPopup();
         }
 
         private void CloseWarningPopup()
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono;
             popup.CloseWarningPopup();
         }
 
         private void CloseConfirmPopup()
         {
-            var popup = _dataWorld.OneData<PopupData>().UIMono;
-            popup.CloseConfirmPopup();
+            var popup = _dataWorld.OneData<PopupData>().PopupUIMono.PopupConfirmUIMono;
+            popup.ClosePopupAnimation();
         }
     }
 }

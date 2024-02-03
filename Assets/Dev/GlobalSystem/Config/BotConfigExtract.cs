@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CyberNet.Core.Enemy;
+using CyberNet.Core.AI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -17,7 +17,7 @@ namespace CyberNet.Core
         {
             ref BotConfigData botData = ref _dataWorld.OneData<BotConfigData>();
             botData.BotScoreCard = JsonConvert.DeserializeObject<Dictionary<string, float>>(botData.BotConfigSO.BotAIConfigJson.text);
-            botData.BotNameConfig = JsonConvert.DeserializeObject<List<string>>(botData.BotConfigSO.BotNameJson.text);
+            botData.BotNameList = JsonConvert.DeserializeObject<List<string>>(botData.BotConfigSO.BotNameConfig.text);
         }
     }
 }

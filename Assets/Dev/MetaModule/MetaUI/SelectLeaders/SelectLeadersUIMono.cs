@@ -1,4 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CyberNet.Core;
 using CyberNet.Global;
+using DG.Tweening;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
@@ -11,8 +16,10 @@ namespace CyberNet.Meta
         [Header("Global UI")]
         public GameObject Background;
         public GameObject Panel;
-        
+
         [Header("Select Leaders Info")]
+        [SerializeField]
+        private RectTransform _frameSelectPlayer;
         public Image SelectLeadersImageCard;
         public Localize SelectLeadersNameLoc;
         public Localize SelectLeadersDescrLoc;
@@ -22,17 +29,23 @@ namespace CyberNet.Meta
         public Localize SelectLeadersAbilityNameLoc;
         public Localize SelectLeadersAbilityDescrLoc;
 
-        [Header("Local Game VS Player")]
+        [Header("Header 2 current select player")]
         public TextMeshProUGUI HeaderSelectTargetPlayer;
-        public LocalizedString SelectPlayer_1_Loc;
-        public LocalizedString SelectPlayer_2_Loc;
+
+        public List<LeaderAvatarButtonUIMono> LeaderButtonUI = new List<LeaderAvatarButtonUIMono>();
         
-        public void OpenWindow(GameModeEnum gameModeEnum)
+        private Sequence _sequence;
+        
+        public void Awake()
+        {
+            Background.SetActive(false);
+            Panel.SetActive(false);
+        }
+
+        public void OpenWindow()
         {
             Background.SetActive(true);
             Panel.SetActive(true);
-
-            SetCurrentMode(gameModeEnum);
         }
 
         public void CloseWindow()
@@ -55,20 +68,19 @@ namespace CyberNet.Meta
             SelectLeadersAbilityDescrLoc.Term = descr;
         }
 
-        private void SetCurrentMode(GameModeEnum gameModeEnum)
+        public void SetLocSelectPlayer(string namePlayer)
         {
-            if (gameModeEnum == GameModeEnum.LocalVSPlayer)
+            HeaderSelectTargetPlayer.text = namePlayer;
+        }
+
+        public void SelectButton(string namePlayer)
+        {
+            foreach (var leaderButton in LeaderButtonUI)
             {
-                HeaderSelectTargetPlayer.gameObject.SetActive(true);
-                HeaderSelectTargetPlayer.text = SelectPlayer_1_Loc;
-            }
-            else if (gameModeEnum == GameModeEnum.LocalVSPlayer2)
-            {
-                HeaderSelectTargetPlayer.text = SelectPlayer_2_Loc;
-            }
-            else
-            {
-                HeaderSelectTargetPlayer.gameObject.SetActive(false);
+                if (leaderButton.KeyLeaders == namePlayer)
+                    leaderButton.SelectButton();
+                else
+                    leaderButton.DeselectButton();
             }
         }
 
@@ -77,9 +89,9 @@ namespace CyberNet.Meta
             SelectLeaderAction.BackMainMenu?.Invoke();
         }
 
-        public void OnClickStartGame()
+        public void OnClickConfirmSelect()
         {
-            SelectLeaderAction.StartGame?.Invoke();
+            SelectLeaderAction.ConfirmSelect?.Invoke();
         }
     }
 }

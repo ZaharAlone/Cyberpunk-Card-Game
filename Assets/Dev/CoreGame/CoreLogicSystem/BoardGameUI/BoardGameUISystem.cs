@@ -3,133 +3,186 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
-using ModulesFrameworkUnity;
-using System.Collections.Generic;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Player;
+using CyberNet.Global;
+using CyberNet.Global.GameCamera;
 using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IPostRunEventSystem<EventBoardGameUpdate>, IDestroySystem
+    public class BoardGameUISystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            InitCameraCanvas();
-            
-            BoardGameUIAction.UpdateStatsPlayersPassportUI += UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI += UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI += ViewPlayerPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
+            BoardGameUIAction.UpdateCountCardInHand += UpdateCountCard;
+            RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
-        
-        private void InitCameraCanvas()
-        {
-            var gameUI = _dataWorld.OneData<UIData>();
-            var camera = _dataWorld.OneData<BoardGameCameraComponent>();
 
-            var canvas = gameUI.UIGO.GetComponent<Canvas>();
-            canvas.worldCamera = camera.MainCamera;
-        }
         public void Init()
         {
-            UpdateView();
-        }
-
-        public void PostRunEvent(EventBoardGameUpdate _)
-        {
-            UpdateView();
-        }
-
-        private void UpdateView()
-        {
-            UpdateViewPassport();
             UpdateCountCard();
+            ViewPlayerPassport();
+        }
+
+        private void ViewPlayerPassport()
+        {
+            ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            var entitiesPlayer = _dataWorld.Select<PlayerComponent>()
+                                                         .With<PlayerViewComponent>()
+                                                         .GetEntities();
+            
+            var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
+
+            //Check need switch position player
+            var switchPositionPassport = false;
+            foreach (var entity in entitiesPlayer)
+            {
+                var playerComponent = entity.GetComponent<PlayerComponent>();
+                
+                if (playerComponent.playerOrAI == PlayerOrAI.Player && playerComponent.PositionInTurnQueue == 0)
+                {
+                    switchPositionPassport = true;
+                    break;
+                }
+            }
+
+            //Switch positions players
+            if (switchPositionPassport)
+            {
+                foreach (var entity in entitiesPlayer)
+                {
+                    var playerComponent = entity.GetComponent<PlayerComponent>();
+                    var playerViewComponent = entity.GetComponent<PlayerViewComponent>();
+                
+                    if (playerComponent.PositionInTurnQueue == 0)
+                    {
+                        ShowMainPassportPlayer(playerComponent, playerViewComponent);
+                    }
+                    else
+                    {
+                        ShowLeftPassportPlayer(playerComponent, playerViewComponent);
+                    }
+                }
+            }
+            
+            //Enable/Disable effect current player
+            foreach (var entity in entitiesPlayer)
+            {
+                var playerComponent = entity.GetComponent<PlayerComponent>();
+                
+                if (playerComponent.playerOrAI == PlayerOrAI.Player)
+                {
+                    coreUIHud.EnableMainPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0);
+                }
+                else
+                {
+                    coreUIHud.EnableLeftPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0, playerComponent.PlayerID);
+                }
+            }
+
+            for (int i = 0; i < coreUIHud.EnemyPassports.Count; i++)
+            {
+                if ((countPlayers - 1) > i)
+                    continue;
+                coreUIHud.EnemyPassports[i].gameObject.SetActive(false);
+            }
+        }
+
+        private void ShowMainPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        {
+            ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
+            
+            coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
+        }
+
+        private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        {
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
+
+            var countCardHand = _dataWorld.Select<CardComponent>()
+                .With<CardHandComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
+                .Count();
+            
+            var countCardDiscard = _dataWorld.Select<CardComponent>()
+                .With<CardDiscardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
+                .Count();
+            
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHand, countCardDiscard, playerComponent.UnitCount);
+            
+            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
+            
+            /*
+            var countDiscardCard = 0;
+            if (entity.HasComponent<PlayerDiscardCardComponent>())
+            {
+                countDiscardCard = entity.GetComponent<PlayerDiscardCardComponent>().Count;
+            }
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);*/
         }
 
         private void UpdatePlayerCurrency()
         {
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>();
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>();
 
-            var attackValue = actionValue.TotalAttack - actionValue.SpendAttack;
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            gameUI.UIMono.CoreHudUIMono.SetInteractiveValue(attackValue, tradeValue);
+            // TODO временно всегда воспроизводим эффект
+            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue, true);
         }
-
+        
         private void UpdateStatsPlayersPassport()
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            ref var player1Stats = ref _dataWorld.OneData<Player1StatsData>();
-            ref var player2Stats = ref _dataWorld.OneData<Player2StatsData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            var roundData = _dataWorld.OneData<RoundData>();
+            var entityPlayer = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player=> player.PlayerID == roundData.CurrentPlayerID)
+                .SelectFirstEntity();
 
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-            {
-                gameUI.CoreHudUIMono.SetViewDownTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-                gameUI.CoreHudUIMono.SetViewUpTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-            }
-            else
-            {
-                gameUI.CoreHudUIMono.SetViewDownTableStats(player2Stats.HP, player2Stats.Cyberpsychosis);
-                gameUI.CoreHudUIMono.SetViewUpTableStats(player1Stats.HP, player1Stats.Cyberpsychosis);
-            }
-        }
-
-        private void UpdateViewPassport()
-        {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var leadersData = _dataWorld.OneData<LeadersViewData>();
-            ref var player1View = ref _dataWorld.OneData<Player1ViewData>();
-            ref var player2View = ref _dataWorld.OneData<Player2ViewData>();
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
-
-            leadersData.LeadersView.TryGetValue(player1View.AvatarKey, out var avatarPlayer1);
-            leadersData.LeadersView.TryGetValue(player2View.AvatarKey, out var avatarPlayer2);
-            
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-            {
-                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player1View.Name, avatarPlayer1);
-                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player2View.Name, avatarPlayer2);
-            }
-            else
-            {
-                gameUI.CoreHudUIMono.SetViewNameAvatarDownTable(player2View.Name, avatarPlayer2);
-                gameUI.CoreHudUIMono.SetViewNameAvatarUpTable(player1View.Name, avatarPlayer1);
-            }
+            ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
         }
 
         private void UpdateCountCard()
         {
-            ref var gameUI = ref _dataWorld.OneData<UIData>().UIMono;
-            ref var viewPlayer = ref _dataWorld.OneData<ViewPlayerData>();
-            var discardCardsPlayer1 = _dataWorld.Select<CardComponent>()
-                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
+            ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            var roundData = _dataWorld.OneData<RoundData>();
+            var discardCard = _dataWorld.Select<CardComponent>()
+                                                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                                 .With<CardDiscardComponent>()
                                                 .Count();
-            var drawCardsPlayer1 = _dataWorld.Select<CardComponent>()
-                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player1)
-                                             .With<CardDrawComponent>()
-                                             .Count();
-            var discardCardsPlayer2 = _dataWorld.Select<CardComponent>()
-                                                .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
-                                                .With<CardDiscardComponent>()
-                                                .Count();
-            var drawCardsPlayer2 = _dataWorld.Select<CardComponent>()
-                                             .Where<CardComponent>(card => card.Player == PlayerEnum.Player2)
+            var drawCard = _dataWorld.Select<CardComponent>()
+                                             .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                                              .With<CardDrawComponent>()
                                              .Count();
 
-            if (viewPlayer.PlayerView == PlayerEnum.Player1)
-                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer1, drawCardsPlayer1, discardCardsPlayer2, drawCardsPlayer2);
-            else
-                gameUI.CoreHudUIMono.SetCountCard(discardCardsPlayer2, drawCardsPlayer2, discardCardsPlayer1, drawCardsPlayer1);
+            gameUI.CoreHudUIMono.SetCountCard(discardCard, drawCard);
         }
 
         public void Destroy()
         {
-            _dataWorld.RemoveOneData<UIData>();
+            _dataWorld.RemoveOneData<CoreGameUIData>();
+            
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI -= UpdateStatsPlayersPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI -= ViewPlayerPassport;
+            BoardGameUIAction.UpdateStatsPlayersCurrency -= UpdatePlayerCurrency;
+            BoardGameUIAction.UpdateCountCardInHand -= UpdateCountCard;
+            RoundAction.EndCurrentTurn -= ViewPlayerPassport;
         }
     }
 }

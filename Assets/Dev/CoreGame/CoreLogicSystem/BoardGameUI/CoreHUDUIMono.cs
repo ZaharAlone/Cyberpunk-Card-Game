@@ -1,6 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using CyberNet.Core.EnemyPassport;
+using CyberNet.Core.UI.CorePopup;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,66 +10,73 @@ namespace  CyberNet.Core.UI
 {
     public class CoreHUDUIMono : MonoBehaviour
     {
-        [Header("Action Table")]
-        public TextMeshProUGUI ValueAttackText;
-        public TextMeshProUGUI ValueTradeText;
-        public Image InteractiveZoneImage;
-
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
-        public PlayerTablet PlayerUpView;
-
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
+        
         [Header("Action Button")]
         public GameObject ActionButton;
         public TextMeshProUGUI ActionButtonText;
         public Image ActionButtonImage;
+        public CoreElementInfoPopupButtonMono PopupActionButton;
 
         [Header("Draw and Discard")]
-        public Transform DownDiscard;
+        public RectTransform DownDiscard;
         public TextMeshProUGUI DownDiscardCount;
-        public Transform DownDeck;
+        public RectTransform DownDeck;
         public TextMeshProUGUI DownDeckCount;
-        public Transform UpDiscard;
-        public TextMeshProUGUI UpDiscardCount;
-        public Transform UpDeck;
-        public TextMeshProUGUI UpDeckCount;
+        public RectTransform PositionForUseCardPlayer;
 
-        public void SetInteractiveValue(int attackValue, int tradeValue)
-        {
-            ValueAttackText.text = attackValue.ToString();
-            ValueTradeText.text = tradeValue.ToString();
-        }
-
-        public void SetViewNameAvatarDownTable(string name, Sprite avatar)
+        [Header("Enemy Passport")]
+        public GameObject EnemyPassportContainer;
+        public List<EnemyPassportFrameUIMono> EnemyPassports = new();
+        public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
+        
+        public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {
             PlayerDownView.NameText.text = name;
             PlayerDownView.Avatar.sprite = avatar;
+            PlayerDownView.IconsUnit.sprite = iconsUnit;
+            PlayerDownView.IconsUnit.color = colorUnit;
         }
 
-        public void SetViewDownTableStats(int hp, int cyberpsychosis)
+        public void EnableMainPlayerCurrentRound(bool status)
         {
-            PlayerDownView.HPText.text = hp.ToString();
-            PlayerDownView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
+            PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
         }
 
-        public void SetViewNameAvatarUpTable(string name, Sprite avatar)
+        public void EnableLeftPlayerCurrentRound(bool status, int playerID)
         {
-            PlayerUpView.NameText.text = name;
-            PlayerUpView.Avatar.sprite = avatar;
+            foreach (var enemy in EnemyPassports)
+            {
+                if (enemy.GetPlayerID() == playerID)
+                {
+                    enemy.EnableCurrentTurnPlayer(status);
+                }
+            }
         }
-
-        public void SetViewUpTableStats(int hp, int cyberpsychosis)
+        
+        public void SetMainPassportViewStats(int unit, int countControlTerritory, int countBase)
         {
-            PlayerUpView.HPText.text = hp.ToString();
-            PlayerUpView.CyberpsychosisImage.fillAmount = (float)cyberpsychosis / 15;
+            PlayerDownView.UnitCountText.text = unit.ToString();
+            _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
+            _playerPassportCountBaseView.SetCountValue(countBase);
         }
-
+        
         public void SetInteractiveButton(string text, Sprite sprite)
         {
             ActionButtonText.text = text;
             ActionButtonImage.sprite = sprite;
         }
-
+        
+        public void SetControlTerritoryEnemyView(int index, int value)
+        {
+            EnemyPassports[index].EnemyPassportControlTerritoryView.SetCountValue(value);
+        }
+        
         public void ShowInteractiveButton()
         {
             ActionButton.SetActive(true);
@@ -84,12 +92,10 @@ namespace  CyberNet.Core.UI
             ActionPlayerButtonEvent.ClickActionButton?.Invoke();
         }
 
-        public void SetCountCard(int downDiscard, int downDeck,int upDiscard, int upDeck)
+        public void SetCountCard(int discardCount, int deckCount)
         {
-            DownDiscardCount.text = downDiscard.ToString();
-            DownDeckCount.text = downDeck.ToString();
-            UpDiscardCount.text = upDiscard.ToString();
-            UpDeckCount.text = upDeck.ToString();
+            DownDiscardCount.text = discardCount.ToString();
+            DownDeckCount.text = deckCount.ToString();
         }
         
         public void OnClickOpenDrawDeckCard()
@@ -101,17 +107,41 @@ namespace  CyberNet.Core.UI
         {
             ShowViewDeckCardAction.OpenDiscard?.Invoke();
         }
+
+        public void OnSelectPlayer()
+        {
+            foreach (var enemyPassport in EnemyPassports)
+            {
+                enemyPassport.OnEffectSelectPlayerStatus();
+            }
+        }
+        
+        public void OffSelectPlayer()
+        {
+            foreach (var enemyPassport in EnemyPassports)
+            {
+                enemyPassport.OffEffectSelectPlayerStatus();
+            }
+        }
+
+        public void HideEnemyPassport()
+        {
+            EnemyPassportContainer.SetActive(false);
+        }
+        
+        public void ShowEnemyPassport()
+        {
+            EnemyPassportContainer.SetActive(true);
+        }
     }
     
     [Serializable]
     public struct PlayerTablet
     {
-        public CharacterDamagePassportEffect CharacterDamagePassportEffect;
         public TextMeshProUGUI NameText;
-        public TextMeshProUGUI HPText;
-        public Image CyberpsychosisImage;
+        public TextMeshProUGUI UnitCountText;
+        public Image IconsUnit;
+        public GameObject VFXEffect_current_turnPlayer;
         public Image Avatar;
-
-        public Transform FrameEffectCard;
     }
 }

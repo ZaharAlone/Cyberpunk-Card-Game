@@ -1,9 +1,10 @@
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Player;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
 using UnityEngine;
 
 namespace CyberNet.Core.UI
@@ -17,45 +18,87 @@ namespace CyberNet.Core.UI
     /// При покупке карт
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class CardControlIsInteractiveVFXSystem : IPreInitSystem
+    public class CardControlIsInteractiveVFXSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            VFXCardInteractivAction.UpdateVFXCard += UpdateVFXViewCurrentPlayer;
+            VFXCardInteractiveAction.UpdateVFXCard += UpdateVFXViewCurrentPlayer;
+            VFXCardInteractiveAction.EnableVFXAllCardInHand += EnableVFXAllCardInHand;
+        }
+
+        private void EnableVFXAllCardInHand()
+        {
+            var playerID = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity()
+                .GetComponent<PlayerComponent>().PlayerID;
+            var entitiesCardInHand = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerID)
+                .With<CardHandComponent>()
+                .GetEntities();
+            
+            foreach (var entity in entitiesCardInHand)
+            {
+                var cardMono = entity.GetComponent<CardComponent>().CardMono;
+                cardMono.SetStatusInteractiveVFX(true);
+            }
         }
 
         private void UpdateVFXViewCurrentPlayer()
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentPlayer == viewPlayer.PlayerView)
-                UpdateVFX(viewPlayer.PlayerView);
+            if (roundData.playerOrAI == PlayerOrAI.Player)
+                UpdateVFX(roundData.CurrentPlayerID);
         }
 
-        private void UpdateVFX(PlayerEnum player)
+        private void UpdateVFX(int playerID)
         {
+            var isInstallFirstBase = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerNotInstallFirstBaseComponent>()
+                .Count() == 0;
+            
             var entitiesCardInHand = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardHandComponent>()
                                                .GetEntities();
             var entitiesCardInDeck = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
-                                               .With<CardTableComponent>()
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
+                                               .With<CardAbilitySelectionCompletedComponent>()
                                                .GetEntities();
             var entitiesCardInDrop = _dataWorld.Select<CardComponent>()
-                                               .Where<CardComponent>(card => card.Player == player)
+                                               .Where<CardComponent>(card => card.PlayerID == playerID)
                                                .With<CardDiscardComponent>()
                                                .GetEntities();
+            
+            var entitiesCardInDropMove = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == playerID)
+                .With<CardMoveToDiscardComponent>()
+                .GetEntities();
+            
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionCardData>();
             var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)
             {
-                ref var component = ref entity.GetComponent<CardComponent>().CardMono;
-                component.SetStatusInteractiveVFX(true);
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                var cardMono = cardComponent.CardMono;
+
+                if (CheckAbilityCardToShowCard(cardComponent) && isInstallFirstBase)
+                {
+                    cardMono.SetStatusInteractiveVFX(true);
+                    entity.AddComponent(new CardCanUseComponent());
+                }
+                else
+                {
+                    cardMono.SetStatusInteractiveVFX(false);
+                    
+                    if(entity.HasComponent<CardCanUseComponent>())
+                        entity.RemoveComponent<CardCanUseComponent>();
+                }
             }
 
             foreach (var entity in entitiesCardInDeck)
@@ -69,15 +112,68 @@ namespace CyberNet.Core.UI
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
                 component.SetStatusInteractiveVFX(false);
             }
+            
+            foreach (var entity in entitiesCardInDropMove)
+            {
+                ref var component = ref entity.GetComponent<CardComponent>().CardMono;
+                component.SetStatusInteractiveVFX(false);
+            }
 
             foreach (var entity in entitiesCardInShop)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
-                if (component.Price <= valueTrade)
+                if (component.Price <= valueTrade && isInstallFirstBase)
                     component.CardMono.SetStatusInteractiveVFX(true);
                 else
                     component.CardMono.SetStatusInteractiveVFX(false);
             }
+        }
+        private bool CheckAbilityCardToShowCard(CardComponent cardComponent)
+        {
+            var showCard = false;
+
+            if (cardComponent.Ability_0.AbilityType != AbilityType.None)
+            {
+                showCard = CheckAbilityCard(cardComponent.Ability_0.AbilityType);
+            }
+            
+            if (cardComponent.Ability_1.AbilityType != AbilityType.None)
+            {
+                showCard = CheckAbilityCard(cardComponent.Ability_1.AbilityType);
+            }
+            
+            if (cardComponent.Ability_2.AbilityType != AbilityType.None)
+            {
+                showCard = CheckAbilityCard(cardComponent.Ability_2.AbilityType);
+            }
+            
+            return showCard;
+        }
+
+        private bool CheckAbilityCard(AbilityType abilityType)
+        {
+            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentRoundState;
+            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
+            
+            var isShow = false;
+            if (currentRoundState == RoundState.Map)
+            {
+                if (configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
+                    isShow = true;
+            }
+            else
+            {
+                if (configCard.VisualPlayingCardArena != VisualPlayingCardType.None)
+                    isShow = true;
+            }
+            return isShow;
+        }
+
+        public void Destroy()
+        {
+            VFXCardInteractiveAction.UpdateVFXCard -= UpdateVFXViewCurrentPlayer;
+            VFXCardInteractiveAction.EnableVFXAllCardInHand -= EnableVFXAllCardInHand;
         }
     }
 }

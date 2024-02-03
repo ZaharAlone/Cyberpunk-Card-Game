@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,13 +11,23 @@ namespace CyberNet.Core.Dialog
 {
     public class DialogUIMono : MonoBehaviour
     {
-        public GameObject Background;
-        public GameObject Panel;
+        [SerializeField]
+        private GameObject _background;
+        [SerializeField]
+        private GameObject _panel;
 
-        [Header("Content WizardLegacy.Core.Dialog")]
-        public Image Avatar;
-        public Localize Name;
-        public Localize TextDialog;
+        [Header("Content Dialog")]
+        [SerializeField]
+        private Image _avatar;
+        [SerializeField]
+        private Localize _name;
+        [SerializeField]
+        private Localize _textDialog;
+
+        public void OnEnable()
+        {
+            CloseDialog();
+        }
 
         public void OnClickNextDialog()
         {
@@ -25,21 +36,21 @@ namespace CyberNet.Core.Dialog
 
         public void SetViewDialog(Sprite avatar, string name, string textDialog)
         {
-            Avatar.sprite = avatar;
-            Name.Term = name;
-            TextDialog.Term = textDialog;
+            _avatar.sprite = avatar;
+            _name.Term = name;
+            _textDialog.Term = textDialog;
         }
 
         public void OpenDialog()
         {
-            Background.SetActive(true);
-            Panel.SetActive(true);
+            _background.SetActive(true);
+            _panel.SetActive(true);
         }
 
         public void CloseDialog()
         {
-            Background.SetActive(false);
-            Panel.SetActive(false);
+            _background.SetActive(false);
+            _panel.SetActive(false);
         }
     }
 }

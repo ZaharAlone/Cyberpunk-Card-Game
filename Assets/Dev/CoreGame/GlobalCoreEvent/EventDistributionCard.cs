@@ -1,3 +1,4 @@
+using UnityEngine.Serialization;
 namespace CyberNet.Core
 {
     /// <summary>
@@ -5,7 +6,7 @@ namespace CyberNet.Core
     /// </summary>
     public struct EventDistributionCard
     {
-        public PlayerEnum Target;
+        public int TargetPlayerID;
         public int Count;
     }
 }

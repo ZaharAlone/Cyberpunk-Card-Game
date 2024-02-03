@@ -22,7 +22,6 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 6626fe5e11c6869478c4440dc0d720d6, type: 3}
     - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
     - {fileID: 21300000, guid: 8254cab71c190c44ab5879d1a47a1880, type: 3}
-    - {fileID: 21300000, guid: 0b4e8bc197be4fe40927330126fcddd0, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -105,7 +104,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
@@ -131,14 +130,88 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: PlayerTypeLoc
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[CyberNet.Global.PlayerOrAI,
+        Assembly-CSharp],[I2.Loc.LocalizedString, Assembly-CSharp-firstpass]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[CyberNet.Global.PlayerOrAI,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Influence
+      Entry: 3
+      Data: 1
     - Name: $v
-      Entry: 10
-      Data: 6
+      Entry: 7
+      Data: I2.Loc.LocalizedString, Assembly-CSharp-firstpass
+    - Name: mTerm
+      Entry: 1
+      Data: UIGame/$bt_player_name
+    - Name: mRTL_IgnoreArabicFix
+      Entry: 5
+      Data: false
+    - Name: mRTL_MaxLineLength
+      Entry: 3
+      Data: 0
+    - Name: mRTL_ConvertNumbers
+      Entry: 5
+      Data: false
+    - Name: m_DontLocalizeParameters
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: I2.Loc.LocalizedString, Assembly-CSharp-firstpass
+    - Name: mTerm
+      Entry: 1
+      Data: UIGame/$bt_AI_name
+    - Name: mRTL_IgnoreArabicFix
+      Entry: 5
+      Data: false
+    - Name: mRTL_MaxLineLength
+      Entry: 3
+      Data: 0
+    - Name: mRTL_ConvertNumbers
+      Entry: 5
+      Data: false
+    - Name: m_DontLocalizeParameters
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -148,10 +221,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  TablePrefab: {fileID: 5185846423585439056, guid: 6f4a5c9a6b1bbd247922d63c41470cea,
+  CityMono: {fileID: 8270648006510623642, guid: fe6d85e905f612f469efaf88f53928d4,
     type: 3}
-  CardUnit: {fileID: 397128050539189007, guid: e52fb57fcd59ce8478e09352bf232527, type: 3}
-  CardBase: {fileID: 0}
+  CardGO: {fileID: 7722546294258958497, guid: 24aad44db34d3924ca7ccd7e3e313739, type: 3}
+  ArenaMono: {fileID: 1239522751055222827, guid: 78530699e1e8dde46968f239891e86ef,
+    type: 3}
+  AnalyticsGO: {fileID: 165288, guid: a9d27d37bab3c447b8eb7a2a6756e952, type: 3}
   IconsBaseAbility: {fileID: 7752582939702526963, guid: 12e2b02019b2bb7419ed88604fc95f12,
     type: 3}
   TextBaseAbilityCountItem: {fileID: 5677971599807528328, guid: dce4aeb69268a564981261a2b9547b31,
@@ -170,21 +245,23 @@ MonoBehaviour:
   ColorTradeText:
     serializedVersion: 2
     rgba: 4278250225
-  ColorInfluenceText:
-    serializedVersion: 2
-    rgba: 4286627689
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
-  HeroesConfigJson: {fileID: 4900000, guid: 38b4bb30bb0361849871c5a2765ef2ee, type: 3}
-  AbilityConfigJson: {fileID: 4900000, guid: 21aafbac168cef64dbff487dcbcd1565, type: 3}
-  StepPosXPlayerDown: 210
-  StepPosXPlayerUp: 170
-  PlayerHandPosition: {x: 0, y: -420}
-  PlayerCardPositionInPlay: {x: 0, y: -120}
-  EnemyHandPosition: {x: -500, y: 100}
+  PopupCardConfigJson: {fileID: 4900000, guid: 47d0622b94d88a74d985dcddb9b55951, type: 3}
+  PopupTaskConfigJson: {fileID: 4900000, guid: fa7bd7156452a1f49b4c37e44f229702, type: 3}
+  AbilityCardConfigJson: {fileID: 4900000, guid: d0298590b2e24d34aa5d35ddb5ca6a32,
+    type: 3}
+  LeaderConfigJson: {fileID: 4900000, guid: 38b4bb30bb0361849871c5a2765ef2ee, type: 3}
+  AbilityLeaderConfigJson: {fileID: 4900000, guid: 21aafbac168cef64dbff487dcbcd1565,
+    type: 3}
   SizeCardInDeck: {x: 0.25, y: 0.25, z: 0.25}
-  SizeCardInTable: {x: 0.9, y: 0.9, z: 0.9}
-  SizeCardPlayerUp: {x: 0.6, y: 0.6, z: 0.6}
-  SizeCardPlayerDown: {x: 0.9, y: 0.9, z: 0.9}
+  SizeCardInTable: {x: 1, y: 1, z: 1}
+  SizeCardInTraderow: {x: 0.9, y: 0.9, z: 1}
+  SizeCardPlayingDeck: {x: 0.5, y: 0.5, z: 1}
+  SizeCardPlayerDown: {x: 0.75, y: 0.75, z: 0.75}
   NormalSize: {x: 1, y: 1, z: 1}
   SizeSelectCardHand: {x: 1.4, y: 1.4, z: 1.4}
   SizeSelectCardTradeRow: {x: 1.6, y: 1.6, z: 1.6}
+  CursorConfigSO: {fileID: 11400000, guid: b89b4223b50f6984896069ce1882c33d, type: 2}
+  ArenaConfigSO: {fileID: 11400000, guid: 1e55a86209eb5e240885f8643995505c, type: 2}
+  ColorsGameConfigSO: {fileID: 11400000, guid: 014ba5dd285ce3a42b30c38ea3a18254, type: 2}
+  ViewEnemySO: {fileID: 11400000, guid: c24eab211e021ab45ac277f6e8fd9a16, type: 2}

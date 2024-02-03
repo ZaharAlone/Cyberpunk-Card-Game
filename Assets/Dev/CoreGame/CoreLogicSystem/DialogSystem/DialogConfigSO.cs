@@ -17,10 +17,10 @@ namespace CyberNet.Core.Dialog
         public TextAsset CharacterDialogConfigJson;
 
 #if UNITY_EDITOR
-        [InfoBox("Найдет ВСЕ спрайты в папке \"Assets/Art/2d/DialogAvatars\" и перезапишет поле \"Avatars\"!")]
+        [InfoBox("Найдет ВСЕ спрайты в папке \"Assets/Art/2D/DialogueCharacter\" и перезапишет поле \"Avatars\"!")]
         [ReadOnly]
         [SerializeField]
-        private string folderPath = "Assets/Art/2d/DialogAvatars";
+        private string folderPath = "Assets/Art/2D/DialogueCharacter";
         [Button("Заполнить Словарь")]
         public void FindAllAvatar()
         {

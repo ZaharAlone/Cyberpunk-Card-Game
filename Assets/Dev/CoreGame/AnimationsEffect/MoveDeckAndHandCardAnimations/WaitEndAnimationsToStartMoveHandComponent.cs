@@ -1,8 +1,9 @@
+using UnityEngine.Serialization;
 namespace CyberNet.Core
 {
     public struct WaitEndAnimationsToStartMoveHandComponent
     {
-        public PlayerEnum Player;
+        public int PlayerID;
         public float WaitTime;
     }
 }

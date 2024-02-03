@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Serialization;
+using CyberNet.Meta.DemoGame;
+using CyberNet.Meta.SelectPlayersForGame;
 
 namespace CyberNet.Meta
 {
@@ -11,8 +9,12 @@ namespace CyberNet.Meta
         public MainMenuUIMono MainMenuUIMono;
         public CampaignUIMono CampaignUIMono;
         public SelectLeadersUIMono SelectLeadersUIMono;
+        public SelectPlayersUIMono SelectPlayersUIMono;
         public OnlineGameUIMono OnlineGameUIMono;
-        [FormerlySerializedAs("VSScreenUIMono")]
-        public LoadingVSScreenUIMono loadingVSScreenUIMono;
+        public LoadingGameScreenUIMono loadingGameScreenUIMono;
+        
+        [Header("Demo Game")]
+        public PreviewStartDemoGameMono PreviewStartDemoGameMono;
+        public PreviewEndDemoGameMono PreviewEndDemoGameMono;
     }
 }

@@ -17,7 +17,7 @@ namespace CyberNet.Core
             SortingDeckCardAnimationsAction.GetTimeCardToHand += GetTimeCardToHand;
         }
 
-        public float GetTimeSortingDeck(PlayerEnum playerTarget)
+        public float GetTimeSortingDeck(int playerTargetID)
         {
             var countWait = _dataWorld.Select<WaitEndAnimationsToStartMoveHandComponent>().Count(); ;
 
@@ -25,7 +25,7 @@ namespace CyberNet.Core
                 return 0;
 
             var entities = _dataWorld.Select<WaitEndAnimationsToStartMoveHandComponent>()
-                                     .Where<WaitEndAnimationsToStartMoveHandComponent>(wait => wait.Player == playerTarget)
+                                     .Where<WaitEndAnimationsToStartMoveHandComponent>(wait => wait.PlayerID == playerTargetID)
                                      .GetEntities();
             var waitTime = 0f;
             foreach (var entity in entities)
@@ -38,7 +38,7 @@ namespace CyberNet.Core
             return waitTime;
         }
 
-        public float GetTimeCardToHand(PlayerEnum playerTarget)
+        public float GetTimeCardToHand(int playerTargetID)
         {
             var countWait = _dataWorld.Select<WaitAnimationsDrawHandCardComponent>().Count(); ;
 
@@ -46,7 +46,7 @@ namespace CyberNet.Core
                 return 0;
 
             var entities = _dataWorld.Select<WaitAnimationsDrawHandCardComponent>()
-                                     .Where<WaitAnimationsDrawHandCardComponent>(wait => wait.Player == playerTarget)
+                                     .Where<WaitAnimationsDrawHandCardComponent>(wait => wait.PlayerID == playerTargetID)
                                      .GetEntities();
             var waitTime = 0f;
             foreach (var entity in entities)

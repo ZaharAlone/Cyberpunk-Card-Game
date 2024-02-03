@@ -7,11 +7,20 @@
             "actions": [
                 {
                     "name": "RightClick",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "936e8e9b-74d0-4117-b3fe-79746200884e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MiddleButtonClick",
+                    "type": "Button",
+                    "id": "3e707039-7357-42ee-8875-9c195f8c8e52",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
@@ -25,11 +34,38 @@
                 },
                 {
                     "name": "Click",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "a2e8e707-f79e-4a0f-9080-c632de8805db",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LeftClickHold",
+                    "type": "Button",
+                    "id": "2ada69e3-b415-4725-8159-06e045dee24c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightClickHold",
+                    "type": "Button",
+                    "id": "8bd4e486-eacc-46c3-8146-fa99cd2eefc4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MiddleButtonClickHold",
+                    "type": "Button",
+                    "id": "b74638e4-0b32-4b58-8418-304c292e2d8d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
                     "initialStateCheck": true
                 },
                 {
@@ -45,6 +81,24 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "2fe142bc-526e-4e29-b0a6-2a431990ef53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ZoomAdd",
+                    "type": "Button",
+                    "id": "837262a3-acad-4229-bfbb-876abb267d2a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ZoomSub",
+                    "type": "Button",
+                    "id": "757bed69-2018-49ea-9037-71f97490066f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -94,6 +148,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RotateCamera",
+                    "type": "Value",
+                    "id": "d5559b5f-f6a1-4ce6-b4bf-7d7719ee209e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FastMoveCamera",
+                    "type": "Button",
+                    "id": "52e97226-1046-4b9b-a2fa-7ad761c7c3a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -602,6 +674,127 @@
                     "action": "NavigateHorizontal",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4ba79cdf-d6db-44a9-83c2-0d9651424f52",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "LeftClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39daf840-704e-4282-bdb0-041f07e2b127",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LeftClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62dd0e88-4520-4a5d-b54b-1cc06115d98f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c28f1555-1925-4515-8089-41099f469f2a",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "FastMoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8edd24d-96a0-4108-8009-49a4328df2c5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "RightClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5c8ed13-1744-4c85-8f90-72b1876ad4ce",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "MiddleButtonClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92c624a7-4a36-46a5-a7ef-400ad7bbb213",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "MiddleButtonClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "faddd18d-0a7a-4c7b-b942-01afede37ebb",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ZoomAdd",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "999813db-1ca5-49f5-8d66-443de91ca54a",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ZoomAdd",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "347d2ac2-849a-47e8-ae4f-886a6cfaa6ed",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ZoomSub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40789e04-8b5e-41a5-b027-e6ecd8f750dc",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ZoomSub",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

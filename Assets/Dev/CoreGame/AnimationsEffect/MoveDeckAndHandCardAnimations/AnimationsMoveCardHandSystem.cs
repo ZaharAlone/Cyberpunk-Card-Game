@@ -1,3 +1,4 @@
+using CyberNet.Core.InteractiveCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -50,17 +51,13 @@ namespace CyberNet.Core
         private void AnimationsDrawToHand(Entity entity)
         {
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
             var cardComponent = entity.GetComponent<CardComponent>();
             var positionsY = -400;
 
-            if (viewPlayer.PlayerView != cardComponent.Player)
-                positionsY = 400;
-
             var animationComponent = new CardComponentAnimations();
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(new Vector3(0, positionsY, 0), 0.25f))
-                                       .Join(cardComponent.Transform.DOScale(boardGameConfig.NormalSize, 0.25f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(new Vector2(0, positionsY), 0.25f))
+                                       .Join(cardComponent.RectTransform.DOScale(boardGameConfig.NormalSize, 0.25f))
                                        .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 255), 0.07f))
                                        .OnComplete(() => EndDrawHandAnimations(entity));
 
@@ -70,25 +67,26 @@ namespace CyberNet.Core
         
         private void EndDrawHandAnimations(Entity entity)
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = entity.GetComponent<CardComponentAnimations>();
 
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
 
-            if (cardComponent.Player == viewPlayer.PlayerView)
+            if (cardComponent.PlayerID == currentPlayerID)
                 cardComponent.CardMono.CardOnFace();
 
             var waitDistributionEntity = _dataWorld.Select<WaitDistributionCardHandComponent>()
-                                                   .Where<WaitDistributionCardHandComponent>(wait => wait.Player == cardComponent.Player)
+                                                   .Where<WaitDistributionCardHandComponent>(wait => wait.PlayerID == cardComponent.PlayerID)
                                                    .SelectFirstEntity();
             
             ref var waitDistributionComponent = ref waitDistributionEntity.GetComponent<WaitDistributionCardHandComponent>();
             waitDistributionComponent.CurrentDistributionCard++;
 
-            _dataWorld.RiseEvent(new EventCardAnimationsHand { TargetPlayer = cardComponent.Player });
+            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
+            BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
     }
 }

@@ -11,7 +11,9 @@ using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 using CyberNet.Core;
-using CyberNet.Core.ActionCard;
+using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Player;
+using CyberNet.Core.UI;
 using CyberNet.Meta;
 
 namespace CyberNet.Server
@@ -36,9 +38,8 @@ namespace CyberNet.Server
 
             _dataWorld.CreateOneData(new DeckCardsData());
             NetworkReader.RegisterHandle<ShopCardComponent>(InitShopCard);
-            NetworkReader.RegisterHandle<PlayersComponent>(InitPlayers);
+            NetworkReader.RegisterHandle<PlayerComponent>(InitPlayers);
             NetworkReader.RegisterHandle<ActionCardData>(InitActionData);
-            NetworkReader.RegisterHandle<ViewPlayerData>(InitPlayerView);
 
             NetworkReader.RegisterHandle<StartGameComponent>(StartGame);
         }
@@ -49,7 +50,7 @@ namespace CyberNet.Server
             var menu = _dataWorld.OneData<MetaUIData>();
             menu.UIGO.SetActive(false);
             ModulesUnityAdapter.world.InitModule<CoreModule>(true);
-            _dataWorld.RiseEvent(new EventBoardGameUpdate());
+            BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
 
         private void InitRoundData(RoundData roundData)
@@ -67,28 +68,25 @@ namespace CyberNet.Server
             deckCard.ShopCards = shopCard.CardTradeRow;
         }
 
-        private void InitPlayers(PlayersComponent playerCard)
+        //TODO: вернуть как до сервера дойду
+        private void InitPlayers(PlayerComponent playerComponent)
         {
+            /*
             Debug.Log("Get Players info");
             ref var deckCard = ref _dataWorld.OneData<DeckCardsData>();
 
             deckCard.PlayerCards_1 = playerCard.Player1.DeckCard;
             deckCard.PlayerCards_2 = playerCard.Player2.DeckCard;
 
-            ref var player1stats = ref _dataWorld.OneData<Player1StatsData>();
+            ref var player1stats = ref _dataWorld.OneData<PlayerStatsComponent>();
             ref var player2stats = ref _dataWorld.OneData<Player2StatsData>();
+            */
         }
 
         private void InitActionData(ActionCardData actionCardData)
         {
             Debug.Log("Get Action Data");
             _dataWorld.CreateOneData(actionCardData);
-        }
-
-        private void InitPlayerView(ViewPlayerData view)
-        {
-            Debug.Log("Get View Player");
-            _dataWorld.CreateOneData(view);
         }
     }
 }

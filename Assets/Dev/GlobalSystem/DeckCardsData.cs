@@ -9,7 +9,6 @@ namespace CyberNet.Core
     {
         public List<CardData> ShopCards;
         public List<CardData> NeutralShopCards;
-        public List<CardData> PlayerCards_1;
-        public List<CardData> PlayerCards_2;
+        public List<PlayerCardData> PlayerDeckCard;
     }
 }

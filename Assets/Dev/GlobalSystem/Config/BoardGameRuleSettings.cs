@@ -2,6 +2,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using I2.Loc;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -10,28 +11,31 @@ namespace CyberNet
     {
         [Header ("Базовые параметры игрока")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
-        public int BaseInfluenceCount = 50;
-        public int BaseCyberpsychosisCount = 0;
+        [FormerlySerializedAs("StartCountSquad")]
+        public int CountSquad = 12;
+        public int StartInitCountSquad = 2;
+        public int CountAgentPlayer = 4;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]
         public int OpenCardInShop = 5;
 
-        [Tooltip("Какие карты присутсвуют в магазине кроме общей колоды")]
-        public string KeyCardsInShopAdd;
-
         [Tooltip("Сколько карт обычно игрок получает в руку в ход")]
         public int CountDropCard = 5;
+        
+        [Tooltip("Количество нейтральных юнитов на клетке в начале игры")]
+        public int CountNeutralUnitInTower = 2;
 
         [Header("Localize")]
-        public LocalizedString ActionPlayAll_loc;
-        public LocalizedString ActionAttack_loc;
         public LocalizedString ActionEndTurn_loc;
-        public LocalizedString ChoseOneCard_Loc;
+        public LocalizedString ActionPlayAll_loc;
 
         [Header("Icons")]
-        public Sprite ActionPlayAll_image;
-        public Sprite ActionAttack_image;
         public Sprite ActionEndTurn_image;
+        public Sprite ActionPlayAll_image;
+
+        [Header("Popup Action Button")]
+        public string EndRoundPopup;
+        public string PlayAllPopup;
     }
 }

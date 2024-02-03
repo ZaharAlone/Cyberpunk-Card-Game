@@ -6,6 +6,7 @@ using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
 using DG.Tweening;
+using ModulesFramework.Systems;
 
 namespace CyberNet.Core.UI
 {
@@ -13,61 +14,51 @@ namespace CyberNet.Core.UI
     /// Анимация карт - расположение в руке полукругом
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsFanCardInHandSystem : IPostRunEventSystem<EventCardAnimationsHand>
+    public class AnimationsFanCardInHandSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void PostRunEvent(EventCardAnimationsHand value)
+        public void PreInit()
         {
+            CardAnimationsHandAction.AnimationsFanCardInHand += AnimationsFanCardInHand;
+        }
+        
+        private void AnimationsFanCardInHand()
+        {
+            var currentRoundPlayer = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCardInHand = _dataWorld.Select<CardComponent>()
-                                .Where<CardComponent>(card => card.Player == value.TargetPlayer)
-                                .With<CardHandComponent>()
-                                .Without<CardTableComponent>()
-                                .Without<WaitAnimationsDrawHandCardComponent>()
-                                .Count();
+                .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
+                .With<CardHandComponent>()
+                .Without<CardAbilitySelectionCompletedComponent>()
+                .Without<WaitAnimationsDrawHandCardComponent>()
+                .Count();
 
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.Player == value.TargetPlayer)
-                                     .With<CardHandComponent>()
-                                     .Without<CardTableComponent>()
-                                     .Without<WaitAnimationsDrawHandCardComponent>()
-                                     .GetEntities();
+                .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
+                .With<CardHandComponent>()
+                .Without<CardAbilitySelectionCompletedComponent>()
+                .Without<WaitAnimationsDrawHandCardComponent>()
+                .GetEntities();
             
-            UpdateView(entities, countCardInHand, value.TargetPlayer);
+            UpdateView(entities, countCardInHand, currentRoundPlayer);
         }
-
-        private void UpdateView(EntitiesEnumerable entities, int countCard, PlayerEnum isPlayer)
+        
+        private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
         {
-            var viewPlayer = _dataWorld.OneData<ViewPlayerData>();
-            var uiRect = _dataWorld.OneData<UIData>().UIMono.UIRect;
+            var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            var screenShift = 0f;
+            var screenShift = uiRect.rect.height / 2 - 125;
             var length = 0f;
-            var multPosY = 0;
-            var radius = 0f;
-            var multiplieSizeCard = Vector3.zero;
-
-            if (viewPlayer.PlayerView == isPlayer)
-            {
-                screenShift = uiRect.rect.height / 2 - 125;
-                multPosY = -1;
-                radius = 2500;
-                multiplieSizeCard = config.SizeCardPlayerDown;
-            }
-            else
-            {
-                screenShift = -uiRect.rect.height / 2 + 70;
-                multPosY = 1;
-                radius = 1500;
-                multiplieSizeCard = config.SizeCardPlayerUp;
-            }
+            var multPosY = -1;
+            var radius = 2500;
+            var multiplieSizeCard = config.SizeCardPlayerDown;
 
             foreach (var entity in entities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                cardComponent.Transform.localScale = multiplieSizeCard;
-                length += 204 * cardComponent.Transform.localScale.x;
+                cardComponent.RectTransform.localScale = multiplieSizeCard;
+                length += 204 * cardComponent.RectTransform.localScale.x;
             }
 
             var sizeCard = length / countCard;
@@ -127,19 +118,23 @@ namespace CyberNet.Core.UI
         {
             var cardComponent = entity.GetComponent<CardComponent>();
             var animationComponent = new CardComponentAnimations();
-
             animationComponent.Sequence = DOTween.Sequence();
-            animationComponent.Sequence.Append(cardComponent.Transform.DOMove(position, 0.4f))
-                                       .Join(cardComponent.Transform.DORotateQuaternion(rotate, 0.4f))
+            animationComponent.Sequence.Append(cardComponent.RectTransform.DOAnchorPos(position, 0.4f))
+                                       .Join(cardComponent.RectTransform.DOLocalRotateQuaternion(rotate, 0.4f))
                                        .OnComplete(() => ClearAnimationComponent(entity));
         }
 
         private void ClearAnimationComponent(Entity entity)
         {
-            VFXCardInteractivAction.UpdateVFXCard?.Invoke();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             ref var animationComponent = ref entity.GetComponent<CardComponentAnimations>();
             animationComponent.Sequence.Kill();
             entity.RemoveComponent<CardComponentAnimations>();
+        }
+
+        public void Destroy()
+        {
+            CardAnimationsHandAction.AnimationsFanCardInHand -= AnimationsFanCardInHand;
         }
     }
 }
