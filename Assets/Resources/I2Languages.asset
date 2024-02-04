@@ -211,15 +211,15 @@ MonoBehaviour:
       Languages:
       - ' '
       - ' '
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Global/$or
@@ -1199,6 +1199,23 @@ MonoBehaviour:
       Languages:
       - Controls
       - "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_language_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Language
+      - "\u042F\u0437\u044B\u043A"
       - 
       - 
       - 
@@ -6084,6 +6101,40 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: Credits/$credits_zakhar_job_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Indie Developer
+      - "\u0418\u043D\u0434\u0438 \u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Credits/$credits_zakhar_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Zakhar Cherviakov
+      - "\u0417\u0430\u0445\u0430\u0440 \u0427\u0435\u0440\u0432\u044F\u043A\u043E\u0432"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -6126,7 +6177,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1706997199648
+    Google_LastUpdatedVersion: 1707079480899
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 2
