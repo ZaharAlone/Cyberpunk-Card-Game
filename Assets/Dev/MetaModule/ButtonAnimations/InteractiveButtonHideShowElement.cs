@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -9,6 +7,7 @@ using DG.Tweening;
 using FMODUnity;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Meta
 {
@@ -20,16 +19,10 @@ namespace CyberNet.Meta
         [SerializeField]
         private bool _isFirstButton;
         
-        public GameObject ActiveButton;
-        public GameObject DeactiveButton;
+        [SerializeField]
+        private GameObject _selectButton;
 
-        public Image ImageActiveButton;
-        
-        public TextMeshProUGUI ButtonTextActive;
         public TextMeshProUGUI ButtonTextDeactive;
-        
-        public Localize ButtonTextActiveLoc;
-        public Localize ButtonTextDeactiveLoc;
         
         public EventReference SoundButtonClick;
         public EventReference SoundButtonSelect;
@@ -54,14 +47,7 @@ namespace CyberNet.Meta
 
         public void SetText(string text)
         {
-            ButtonTextActive.text = text;
             ButtonTextDeactive.text = text;
-        }
-
-        public void SetLocalizeTerm(string locTerm)
-        {
-            ButtonTextActiveLoc.Term = locTerm;
-            ButtonTextDeactiveLoc.Term = locTerm;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -69,16 +55,13 @@ namespace CyberNet.Meta
             if (Time.unscaledTime - _lastClickTime - _delayBetweenClickHandling <= float.Epsilon)
                 return;
             
-            SelectButton();
+            OnSelectButton();
         }
 
-        private void SelectButton()
+        private void OnSelectButton()
         {
-            ActiveButton.SetActive(true);
-            DeactiveButton.SetActive(false);
+            _selectButton.SetActive(true);
             RuntimeManager.CreateInstance(SoundButtonSelect).start();
-            _sequence = DOTween.Sequence();
-            _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 255), 0.25f));
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -91,14 +74,12 @@ namespace CyberNet.Meta
 
         private void DeselectButton()
         {
-            _sequence = DOTween.Sequence();
-            _sequence.Append(ImageActiveButton.DOColor(new Color32(255, 255, 255, 0), 0.25f))
-                .OnComplete(DeactivateButtonAction);
+            _selectButton.SetActive(false);
         }
         
         public void OnSelect(BaseEventData eventData)
         {
-            SelectButton();
+            OnSelectButton();
         }
 
         public void OnDeselect(BaseEventData eventData)
@@ -108,21 +89,19 @@ namespace CyberNet.Meta
 
         public void ActivateButton()
         {
-            ActiveButton.SetActive(true);
+            _selectButton.SetActive(true);
         }
 
         private void DeactivateButtonAction()
         {
-            ActiveButton.SetActive(false);
-            DeactiveButton.SetActive(true);
+            _selectButton.SetActive(false);
         }
         
         public void OnClicked()
         {
             RuntimeManager.CreateInstance(SoundButtonClick).start();
             ButtonClickEvent?.Invoke();
-            ActiveButton.SetActive(false);
-            DeactiveButton.SetActive(true);
+            _selectButton.SetActive(false);
         }
         
         public void OnDisable()

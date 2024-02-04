@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-namespace CyberNet.Meta.SettingsUI
+
+namespace CyberNet.Meta.Settings
 {
     public class SettingsUIMono : MonoBehaviour
     {
