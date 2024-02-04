@@ -17,7 +17,7 @@ using CyberNet.Core.Sound;
 using CyberNet.Core.City;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
-using CyberNet.Meta.SettingsUI;
+using CyberNet.Meta.Settings;
 using AbilityCardConfig = CyberNet.Core.AbilityCard.AbilityCardConfig;
 
 namespace EcsCore

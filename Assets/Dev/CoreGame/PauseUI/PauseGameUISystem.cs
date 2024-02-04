@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.UI;
 using CyberNet.Meta;
 using CyberNet.Meta.EndGame;
-using CyberNet.Meta.SettingsUI;
+using CyberNet.Meta.Settings;
 
 namespace CyberNet.Core.PauseUI
 {

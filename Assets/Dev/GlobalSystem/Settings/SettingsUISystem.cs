@@ -5,7 +5,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 
-namespace CyberNet.Meta.SettingsUI
+namespace CyberNet.Meta.Settings
 {
     [EcsSystem(typeof(MetaModule))]
     public class SettingsUISystem : IPreInitSystem

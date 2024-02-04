@@ -211,15 +211,15 @@ MonoBehaviour:
       Languages:
       - ' '
       - ' '
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
-      - Translation performed by a neural network
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
+      - Translation into this language is done by machine translation
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Global/$or
@@ -1043,8 +1043,179 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Information about the district
-      - "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E \u0440\u0430\u0439\u043E\u043D\u0435"
+      - Popup with information about the district
+      - "\u041F\u043E\u043F\u0430\u043F \u0441 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0435\u0439
+        \u043E \u0440\u0430\u0439\u043E\u043D\u0435"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_music_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Music Volume
+      - "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u041C\u0443\u0437\u044B\u043A\u0438"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_sound_name
+      TermType: 0
+      Description: 
+      Languages:
+      - SFX Volume
+      - "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u042D\u0444\u0444\u0435\u043A\u0442\u043E\u0432"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_volume_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Volume
+      - "\u0417\u0432\u0443\u043A"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_master_volume_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Master Volume
+      - "\u041E\u0431\u0449\u0430\u044F \u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_game_settings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Game
+      - "\u0418\u0433\u0440\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_video_settings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Video
+      - "\u0412\u0438\u0434\u0435\u043E"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_audio_setiings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Audio
+      - "\u0417\u0432\u0443\u043A"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_credits_settings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Credits
+      - "\u0410\u0432\u0442\u043E\u0440\u044B"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_controls_settings_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Controls
+      - "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: UIGame/$ui_language_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Language
+      - "\u042F\u0437\u044B\u043A"
       - 
       - 
       - 
@@ -4848,9 +5019,10 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Choose the territory to which you will send the new fighter.
-      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u044E
-        \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u0435
+      - Choose your territory to which you will send a new fighter.
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0432\u043E\u044E
+        \u0442\u0435\u0440\u0440\u0438\u0442\u043E\u0440\u0438\u044E \u043D\u0430
+        \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u0435
         \u043D\u043E\u0432\u043E\u0433\u043E \u0431\u043E\u0439\u0446\u0430."
       - 
       - 
@@ -5929,6 +6101,40 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: Credits/$credits_zakhar_job_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Indie Developer
+      - "\u0418\u043D\u0434\u0438 \u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Credits/$credits_zakhar_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Zakhar Cherviakov
+      - "\u0417\u0430\u0445\u0430\u0440 \u0427\u0435\u0440\u0432\u044F\u043A\u043E\u0432"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -5971,7 +6177,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1706940144951
+    Google_LastUpdatedVersion: 1707079480899
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 2

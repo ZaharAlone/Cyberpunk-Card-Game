@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Meta.Settings;
 
 namespace CyberNet.SaveSystem
 {
@@ -7,5 +8,6 @@ namespace CyberNet.SaveSystem
     {
         public string Language;
         public bool IsShowDistrickPopup;
+        public AudioSettingsConfig AudioSettings;
     }
 }

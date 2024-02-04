@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Meta.SettingsUI
+namespace CyberNet.Meta.Settings
 {
     public static class SettingsUIAction
     {

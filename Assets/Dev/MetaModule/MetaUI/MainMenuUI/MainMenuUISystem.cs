@@ -6,7 +6,7 @@ using UnityEngine;
 using CyberNet.Core.AI;
 using CyberNet.Global;
 using CyberNet.Meta.SelectPlayersForGame;
-using CyberNet.Meta.SettingsUI;
+using CyberNet.Meta.Settings;
 using CyberNet.Meta.StartGame;
 using CyberNet.Platform;
 using CyberNet.Tools;
