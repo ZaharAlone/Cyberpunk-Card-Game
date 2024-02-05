@@ -26,7 +26,7 @@ namespace CyberNet.Core
 
         private void CheckOpenPopup(string guidTower)
         {
-            var isShowPopup = _dataWorld.OneData<SettingsData>().IsShowDistrickPopup;
+            var isShowPopup = _dataWorld.OneData<SettingsData>().GameSettings.IsShowDistrickPopup;
             
             if (!isShowPopup)
                 return;

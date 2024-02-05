@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-namespace CyberNet.Meta.Settings
+
+namespace CyberNet.Global.Settings
 {
     public class SettingsMenuButtonController : MonoBehaviour
     {
@@ -27,30 +28,35 @@ namespace CyberNet.Meta.Settings
         {
             DeactivateAllButtons();
             _gameButton.ActivateButtonAnimation();
+            SettingsAction.OpenGameTab?.Invoke();
         }
         
         public void OnClickVideoButton()
         {
             DeactivateAllButtons();
             _videoButton.ActivateButtonAnimation();
+            SettingsAction.OpenVideoTab?.Invoke();
         }
         
         public void OnClickAudioButton()
         {
             DeactivateAllButtons();
             _audioButton.ActivateButtonAnimation();
+            SettingsAction.OpenAudioTab?.Invoke();
         }
         
         public void OnClickControlsButton()
         {
             DeactivateAllButtons();
             _controlsButton.ActivateButtonAnimation();
+            SettingsAction.OpenControlsTab?.Invoke();
         }
         
         public void OnClickCreditsButton()
         {
             DeactivateAllButtons();
             _creditsButton.ActivateButtonAnimation();
+            SettingsAction.OpenCreditsTab?.Invoke();
         }
 
         public void OnClickBackButton()

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CyberNet.Meta.Settings
+namespace CyberNet.Global.Settings
 {
     public class SoundSlider : MonoBehaviour, IMoveHandler, IPointerEnterHandler, IPointerClickHandler, ISelectHandler, ISubmitHandler
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Meta.Settings
+namespace CyberNet.Global.Settings
 {
     [Serializable]
     public struct AudioSettingsConfig

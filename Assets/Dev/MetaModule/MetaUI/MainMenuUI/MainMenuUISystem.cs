@@ -6,7 +6,7 @@ using UnityEngine;
 using CyberNet.Core.AI;
 using CyberNet.Global;
 using CyberNet.Meta.SelectPlayersForGame;
-using CyberNet.Meta.Settings;
+using CyberNet.Global.Settings;
 using CyberNet.Meta.StartGame;
 using CyberNet.Platform;
 using CyberNet.Tools;
@@ -92,7 +92,7 @@ namespace CyberNet.Meta
         
         private void OpenSettingsGame()
         {
-            SettingsUIAction.OpenSettingsUI?.Invoke();
+            SettingsAction.OpenSettingsUI?.Invoke();
             CloseMainMenu();
         }
         

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CyberNet.Meta.Settings
+namespace CyberNet.Global.Settings
 {
     public class SettingsUIMono : MonoBehaviour
     {
@@ -11,9 +11,27 @@ namespace CyberNet.Meta.Settings
         [SerializeField]
         private GameObject _background;
         
-        [Header("Property")]
+        [Header("Tabs")]
         [SerializeField]
-        private Toggle _toglleDistrictPopup;
+        private GameObject _gameTab;
+        [SerializeField]
+        private GameObject _videoTab;
+        [SerializeField]
+        private GameObject _audioTab;
+        [SerializeField]
+        private GameObject _controlsTab;
+        [SerializeField]
+        private GameObject _creditsTab;
+
+        [Header("Settings Mono")]
+        [SerializeField]
+        private GameSettingsUIMono _gameSettings;
+        [SerializeField]
+        private VideoSettingsUIMono _videoSettings;
+        [SerializeField]
+        private AudioSettingsUIMono _audioSettings;
+        [SerializeField]
+        private ControlsSettingsUIMono _controlsSettings;
 
         public void Awake()
         {
@@ -25,6 +43,7 @@ namespace CyberNet.Meta.Settings
         {
             _panel.SetActive(true);
             _background.SetActive(true);
+            SetActiveTab(_gameTab);
         }
         
         public void CloseWindow()
@@ -32,20 +51,48 @@ namespace CyberNet.Meta.Settings
             _panel.SetActive(false);
             _background.SetActive(false);
         }
-        
-        public void SetShowDistrictPopup(bool value)
-        {
-            SettingsUIAction.SetShowDistrictPopup?.Invoke(value);
-        }
 
-        public void SetViewDistrict(bool value)
+        public void OpenGameTab(GameSettingsConfig config)
         {
-            _toglleDistrictPopup.isOn = value;
+            _gameSettings.SetView(config);
+            SetActiveTab(_gameTab);
+        }
+        
+        public void OpenVideoTab(VideoSettingsConfig config)
+        {
+            SetActiveTab(_videoTab);
+        }
+        
+        public void OpenAudioTab(AudioSettingsConfig config)
+        {
+            _audioSettings.SetView(config);
+            SetActiveTab(_audioTab);
+        }
+        
+        public void OpenControlsTab(ControlsSettingsConfig config)
+        {
+            SetActiveTab(_controlsTab);
+        }
+        
+        public void OpenCreditsTab()
+        {
+            SetActiveTab(_creditsTab);
         }
 
         public void OnClickBack()
         {
-            SettingsUIAction.CloseSettingsUI?.Invoke();
+            SettingsAction.CloseSettingsUI?.Invoke();
+        }
+
+        private void SetActiveTab(GameObject tab)
+        {
+            _gameTab.SetActive(false);
+            _videoTab.SetActive(false);
+            _audioTab.SetActive(false);
+            _controlsTab.SetActive(false);
+            _creditsTab.SetActive(false);
+            
+            tab.SetActive(true);
         }
     }
 }

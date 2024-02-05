@@ -1,13 +1,14 @@
 using System;
-using CyberNet.Meta.Settings;
+using CyberNet.Global.Settings;
 
 namespace CyberNet.SaveSystem
 {
     [Serializable]
     public struct SettingsData
     {
-        public string Language;
-        public bool IsShowDistrickPopup;
+        public GameSettingsConfig GameSettings;
+        public VideoSettingsConfig VideoSettings;
+        public ControlsSettingsConfig ControlsSettings;
         public AudioSettingsConfig AudioSettings;
     }
 }
