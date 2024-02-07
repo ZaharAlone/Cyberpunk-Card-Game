@@ -7,7 +7,6 @@ namespace CyberNet.Core.Arena
 
         // Используется для отображения вьюхи на арене, если сражаются боты,
         // мы бой не показываем, а показываем только результат.
-        [FormerlySerializedAs("IsCurrentBattleShowView")]
         public bool IsShowVisualBattle;
     }
 }

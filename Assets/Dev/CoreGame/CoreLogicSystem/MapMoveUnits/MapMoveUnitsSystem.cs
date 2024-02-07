@@ -199,6 +199,8 @@ namespace CyberNet.Core.Map
                 }
                 else
                 {
+                    ref var arenaData = ref _dataWorld.OneData<ArenaData>();
+                    arenaData.IsShowVisualBattle = true;
                     ZoomCameraToBattle();
                 }
             }
