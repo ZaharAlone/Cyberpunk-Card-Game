@@ -87,6 +87,9 @@ namespace CyberNet.SaveSystem
             saveData.GameSettings = new GameSettingsConfig();
             
             saveData.GameSettings.IsShowDistrickPopup = true;
+            saveData.AudioSettings.MasterVolume = 100;
+            saveData.AudioSettings.MusicVolume = 100;
+            saveData.AudioSettings.SFXVolume = 100;
             
             SaveSettings();
         }

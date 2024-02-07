@@ -45,11 +45,28 @@ namespace CyberNet.Global.Settings
 
         public void OnClickCancelChanges()
         {
+            SetView(_tempAudioSettings);
             
+            SettingsAction.SetMasterVolume?.Invoke(_tempAudioSettings.MasterVolume);
+            SettingsAction.SetMusicVolume?.Invoke(_tempAudioSettings.MusicVolume);
+            SettingsAction.SetSFXVolume?.Invoke(_tempAudioSettings.SFXVolume);
         }
+        
         public void SetView(AudioSettingsConfig config)
         {
+            _tempAudioSettings = config;
+
+            var masterValueFloat = ConverterValue.ConvertToFloat(config.MasterVolume);
+            _masterSlider.value = masterValueFloat;
+            _masterValueText.text = config.MasterVolume.ToString();
             
+            var musicValueFloat = ConverterValue.ConvertToFloat(config.MusicVolume);
+            _musicSlider.value = musicValueFloat;
+            _musicValueText.text = config.MusicVolume.ToString();
+            
+            var sfxValueFloat = ConverterValue.ConvertToFloat(config.SFXVolume);
+            _sfxSlider.value = sfxValueFloat;
+            _sfxValueText.text = config.SFXVolume.ToString();
         }
     }
 }

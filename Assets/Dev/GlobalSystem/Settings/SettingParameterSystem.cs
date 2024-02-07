@@ -36,6 +36,12 @@ namespace CyberNet.Global.Settings
             _busMaster = FMODUnity.RuntimeManager.GetBus("bus:/");
             _busMusic = FMODUnity.RuntimeManager.GetBus("bus:/Music");
             _busSFX = FMODUnity.RuntimeManager.GetBus("bus:/SFX");
+            
+            ref var audioSettings = ref _dataWorld.OneData<SettingsData>().AudioSettings;
+            
+            _busMaster.setVolume((float)audioSettings.MasterVolume / 100);
+            _busMusic.setVolume((float)audioSettings.MusicVolume / 100);
+            _busSFX.setVolume((float)audioSettings.SFXVolume / 100);
         }
         
         private void SetMasterVolume(int value)
@@ -43,6 +49,7 @@ namespace CyberNet.Global.Settings
             ref var audioSettings = ref _dataWorld.OneData<SettingsData>().AudioSettings;
             audioSettings.MasterVolume = value;
             _busMaster.setVolume((float)value / 100);
+            SaveSettings();
         }
 
         private void SetMusicVolume(int value)
@@ -50,6 +57,7 @@ namespace CyberNet.Global.Settings
             ref var audioSettings = ref _dataWorld.OneData<SettingsData>().AudioSettings;
             audioSettings.MusicVolume = value;
             _busMusic.setVolume((float)value / 100);
+            SaveSettings();
         }
 
         private void SetSFXVolume(int value)
@@ -57,12 +65,18 @@ namespace CyberNet.Global.Settings
             ref var audioSettings = ref _dataWorld.OneData<SettingsData>().AudioSettings;
             audioSettings.SFXVolume = value;
             _busSFX.setVolume((float)value / 100);
+            SaveSettings();
         }
 
         private void SetShowDistrictPopup(bool value)
         {
             ref var settingsData = ref _dataWorld.OneData<SettingsData>();
             settingsData.GameSettings.IsShowDistrickPopup = value;
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
             SaveAction.SaveSettingsGame?.Invoke();
         }
         
