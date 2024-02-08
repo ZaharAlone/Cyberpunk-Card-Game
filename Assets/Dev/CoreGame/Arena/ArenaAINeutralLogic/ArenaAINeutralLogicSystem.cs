@@ -42,7 +42,7 @@ namespace CyberNet.Core.Arena
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             var selectEnemyUnitComponent = selectEnemyUnitEntity.GetComponent<ArenaUnitComponent>();
             
-            selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor);
+            selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
             selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
             
             ArenaAction.ArenaUnitStartAttack?.Invoke();

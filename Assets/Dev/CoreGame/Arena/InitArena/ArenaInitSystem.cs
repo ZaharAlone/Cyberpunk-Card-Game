@@ -38,9 +38,6 @@ namespace CyberNet.Core.Arena
         
         private void StartArenaBattle()
         {
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.CurrentRoundState = RoundState.Arena;
-            
             ArenaAction.CreateBattleData?.Invoke();
             ArenaAction.CreateUnitInArena?.Invoke();
             EnableVisualArena();

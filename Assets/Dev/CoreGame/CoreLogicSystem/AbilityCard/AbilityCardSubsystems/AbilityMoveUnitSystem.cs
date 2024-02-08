@@ -132,7 +132,8 @@ namespace CyberNet.Core.AbilityCard
         
         public void Run()
         {
-            if (_dataWorld.Select<AbilityCardMoveUnitSelectTowerComponent>().Count() == 0)
+            if (_dataWorld.Select<AbilityCardMoveUnitSelectTowerComponent>().Count() == 0
+                || _dataWorld.OneData<RoundData>().CurrentRoundState == RoundState.Arena)
                 return;
 
             DrawTargetStartAttack();

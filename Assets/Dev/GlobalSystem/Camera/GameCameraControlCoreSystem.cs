@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core;
+using CyberNet.Core.Arena;
 using CyberNet.Tutorial;
 using Input;
 
@@ -24,7 +25,6 @@ namespace CyberNet.Global.GameCamera
         private float _movementTimeZoom = 4.5f;
 
         private Vector3 _newPosition;
-        private Vector3 _oldPosition;
         private Vector3 _newZoom;
         private Quaternion _newRotateCamera;
         
@@ -88,7 +88,6 @@ namespace CyberNet.Global.GameCamera
         {
             ref var inputData = ref _dataWorld.OneData<InputData>();
 
-            _oldPosition = _newPosition;
             if (inputData.Navigate != Vector2.zero)
             {
                 ReadInputMoveKeyboard();
