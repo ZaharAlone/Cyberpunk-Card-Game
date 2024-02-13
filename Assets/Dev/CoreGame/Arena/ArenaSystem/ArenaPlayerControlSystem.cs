@@ -84,7 +84,7 @@ namespace CyberNet.Core.Arena
                 entitySelectUnit.RemoveComponent<ArenaSelectUnitForAttackComponent>();
                 var selectUnitComponent = entitySelectUnit.GetComponent<ArenaUnitComponent>();
                 
-                selectUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.BaseColor);
+                selectUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.BaseColor, false);
                 selectUnitComponent.UnitArenaMono.UnitPointVFXMono.DisableEffect();
             }
 
@@ -93,7 +93,7 @@ namespace CyberNet.Core.Arena
                 .SelectFirstEntity();
             unitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
 
-            unitMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor);
+            unitMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
             unitMono.UnitPointVFXMono.EnableEffect();
         }
         

@@ -9,7 +9,7 @@ using CyberNet.Global.GameCamera;
 namespace CyberNet.Core.Arena
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsStartArenaCameraSystem : IPreInitSystem, IRunSystem
+    public class AnimationsStartArenaCameraSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private float _valueFoVCamera;
@@ -59,7 +59,7 @@ namespace CyberNet.Core.Arena
             animationsComponent.Time -= Time.deltaTime;
             ref var camera = ref _dataWorld.OneData<GameCameraData>();
             var value = camera.CoreVirtualCamera.m_Lens.FieldOfView;
-            camera.CoreVirtualCamera.m_Lens.FieldOfView = value - Time.deltaTime * 20;
+            camera.CoreVirtualCamera.m_Lens.FieldOfView = value - Time.deltaTime * 7;
             
             if (animationsComponent.Time <= 0)
                 EndAnimations();
@@ -69,7 +69,12 @@ namespace CyberNet.Core.Arena
         {
             _dataWorld.Select<AnimationsStartArenaCameraComponent>()
                 .SelectFirstEntity().Destroy();
-            
+        }
+
+        public void Destroy()
+        {
+            AnimationsStartArenaCameraAction.StartAnimations -= StartAnimations;
+            AnimationsStartArenaCameraAction.ReturnCamera -= ReturnCameraViewArena;
         }
     }
 }

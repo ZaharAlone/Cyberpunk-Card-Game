@@ -10,6 +10,7 @@ using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Global;
+using CyberNet.Global.Cursor;
 using DG.Tweening;
 
 namespace CyberNet.Core.Map
@@ -22,7 +23,7 @@ namespace CyberNet.Core.Map
         public void PreInit()
         {
             MapMoveUnitsAction.StartMoveUnits += StartMoveUnit;
-            MapMoveUnitsAction.ZoomCameraToBattle += ZoomCameraToBattle;
+            MapMoveUnitsAction.StartArenaBattle += StartArenaBattle;
         }
         
         private void StartMoveUnit()
@@ -199,18 +200,29 @@ namespace CyberNet.Core.Map
                 }
                 else
                 {
-                    ZoomCameraToBattle();
+                    StartArenaBattle();
                 }
             }
         }
 
+        private void StartArenaBattle()
+        {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.CurrentRoundState = RoundState.Arena;
+            ref var arenaData = ref _dataWorld.OneData<ArenaData>();
+            arenaData.IsShowVisualBattle = true;
+            
+            CustomCursorAction.OnBaseCursor?.Invoke();
+            ZoomCameraToBattle();
+        }
+
         private void ZoomCameraToBattle()
         {
-            AnimationsStartArenaCameraAction.StartAnimations?.Invoke(1f);
+            AnimationsStartArenaCameraAction.StartAnimations?.Invoke(0.75f);
 
             var entity = _dataWorld.NewEntity();
             entity.AddComponent(new TimeComponent {
-                Time = 1f,
+                Time = 0.75f,
                 Action = () => {
                     entity.Destroy();
                     FinishAnimation();

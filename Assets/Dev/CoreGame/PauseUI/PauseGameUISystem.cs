@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.UI;
 using CyberNet.Meta;
 using CyberNet.Meta.EndGame;
-using CyberNet.Meta.Settings;
+using CyberNet.Global.Settings;
 
 namespace CyberNet.Core.PauseUI
 {
@@ -63,7 +63,7 @@ namespace CyberNet.Core.PauseUI
         private void SettingsGame()
         {
             HidePanel();
-            SettingsUIAction.OpenSettingsUI?.Invoke();
+            SettingsAction.OpenSettingsUI?.Invoke();
         }
         
         private void ResumeGame()

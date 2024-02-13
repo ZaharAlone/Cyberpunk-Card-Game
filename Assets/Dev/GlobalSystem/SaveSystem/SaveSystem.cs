@@ -1,3 +1,4 @@
+using CyberNet.Global.Settings;
 using EcsCore;
 using UnityEngine;
 using ModulesFramework.Attributes;
@@ -80,7 +81,16 @@ namespace CyberNet.SaveSystem
         private void CreateNewSettings()
         {
             ref var saveData = ref _dataWorld.OneData<SettingsData>();
-            saveData.IsShowDistrickPopup = true;
+            saveData.AudioSettings = new AudioSettingsConfig();
+            saveData.ControlsSettings = new ControlsSettingsConfig();
+            saveData.VideoSettings = new VideoSettingsConfig();
+            saveData.GameSettings = new GameSettingsConfig();
+            
+            saveData.GameSettings.IsShowDistrickPopup = true;
+            saveData.AudioSettings.MasterVolume = 100;
+            saveData.AudioSettings.MusicVolume = 100;
+            saveData.AudioSettings.SFXVolume = 100;
+            
             SaveSettings();
         }
 

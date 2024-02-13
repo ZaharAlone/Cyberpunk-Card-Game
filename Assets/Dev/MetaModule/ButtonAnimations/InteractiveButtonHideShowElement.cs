@@ -37,6 +37,7 @@ namespace CyberNet.Meta
         public void Start()
         {
             Button.onClick.AddListener(OnClicked);
+            _selectButton.SetActive(false);
             
             if (_isFirstButton)
             {

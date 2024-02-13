@@ -1,44 +1,69 @@
 using CyberNet.Core.PauseUI;
+using CyberNet.Meta;
 using CyberNet.SaveSystem;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 
-namespace CyberNet.Meta.Settings
+namespace CyberNet.Global.Settings
 {
     [EcsSystem(typeof(MetaModule))]
-    public class SettingsUISystem : IPreInitSystem
+    public class SettingsUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            SettingsUIAction.OpenSettingsUI += OpenSettingsUI;
-            SettingsUIAction.CloseSettingsUI += CloseSettingsUI;
+            SettingsAction.OpenSettingsUI += OpenSettingsUI;
+            SettingsAction.CloseSettingsUI += CloseSettingsUI;
             
-            SettingsUIAction.SetShowDistrictPopup += SetShowDistrictPopup;
+            SettingsAction.OpenGameTab += OpenGameTab;
+            SettingsAction.OpenVideoTab += OpenVideoTab;
+            SettingsAction.OpenAudioTab += OpenAudioTab;
+            SettingsAction.OpenControlsTab += OpenControlsTab;
+            SettingsAction.OpenCreditsTab += OpenCreditsTab;
         }
+        
+        private void OpenGameTab()
+        {
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            var gameConfig = _dataWorld.OneData<SettingsData>().GameSettings;
+            settingsUI.OpenGameTab(gameConfig);
+        }
+
+        private void OpenVideoTab()
+        {
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            var videoConfig = _dataWorld.OneData<SettingsData>().VideoSettings;
+            settingsUI.OpenVideoTab(videoConfig);
+        }
+
+        private void OpenAudioTab()
+        {
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            var audioConfig = _dataWorld.OneData<SettingsData>().AudioSettings;
+            settingsUI.OpenAudioTab(audioConfig);
+        }
+
+        private void OpenControlsTab()
+        {
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            var controlConfig = _dataWorld.OneData<SettingsData>().ControlsSettings;
+            settingsUI.OpenControlsTab(controlConfig);
+        }
+
+        private void OpenCreditsTab()
+        {
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            settingsUI.OpenCreditsTab();
+        }
+
         private void OpenSettingsUI()
         {
-            ref var settingsUI = ref _dataWorld.OneData<MetaUIData>().SettingsUIMono;
-            UpdateViewSettings();
+            var settingsUI = _dataWorld.OneData<MetaUIData>().SettingsUIMono;
+            OpenGameTab();
             settingsUI.OpenWindow();
-        }
-
-        private void UpdateViewSettings()
-        {
-            var settingsData = _dataWorld.OneData<SettingsData>();
-            ref var settingsUI = ref _dataWorld.OneData<MetaUIData>().SettingsUIMono;
-            
-            settingsUI.SetViewDistrict(settingsData.IsShowDistrickPopup);
-        }
-
-        private void SetShowDistrictPopup(bool value)
-        {
-            ref var settingsData = ref _dataWorld.OneData<SettingsData>();
-            settingsData.IsShowDistrickPopup = value;
-            SaveAction.SaveSettingsGame?.Invoke();
         }
         
         private void CloseSettingsUI()
@@ -55,6 +80,12 @@ namespace CyberNet.Meta.Settings
             }
             
             settingsUI.CloseWindow();
+        }
+
+        public void Destroy()
+        {
+            SettingsAction.OpenSettingsUI -= OpenSettingsUI;
+            SettingsAction.CloseSettingsUI -= CloseSettingsUI;
         }
     }
 }

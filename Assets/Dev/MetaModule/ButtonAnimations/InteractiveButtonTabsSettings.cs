@@ -8,7 +8,7 @@ using FMODUnity;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-namespace CyberNet.Meta
+namespace CyberNet.Global
 {
     public class InteractiveButtonTabsSettings : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {

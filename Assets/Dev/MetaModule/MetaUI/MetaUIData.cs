@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using CyberNet.Meta.Settings;
+using CyberNet.Global.Settings;
 using UnityEngine;
 using UnityEngine.Serialization;
 
