@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace CyberNet.Core.Traderow
 {
-    public class TraderowMono : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class TraderowMono : MonoBehaviour, IPointerExitHandler
     {
         [SerializeField]
         private TextMeshProUGUI _tradeValueText;
@@ -41,11 +41,6 @@ namespace CyberNet.Core.Traderow
                 _effectAddEuroDollar.Play();
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            TraderowUIAction.ShowTraderow?.Invoke();
-        }
-
         public void ShowTraderowAnimations()
         {
             _sequence.Append(TraderowContainer
@@ -58,11 +53,6 @@ namespace CyberNet.Core.Traderow
             var waitTime = (int)(_timeAnimations * 1000);
             await Task.Delay(waitTime);
             TraderowUIAction.EndShowAnimations?.Invoke();
-        }
-        
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            TraderowUIAction.HideTraderow?.Invoke();
         }
 
         public void HideTraderowAnimations()
@@ -88,6 +78,11 @@ namespace CyberNet.Core.Traderow
         public void HideFullPanelAnimations()
         {
             _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 400), _timeAnimations));
+        }
+        
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            TraderowUIAction.HideTraderow?.Invoke();
         }
     }
 }

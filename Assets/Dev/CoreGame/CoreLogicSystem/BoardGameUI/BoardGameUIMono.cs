@@ -1,3 +1,4 @@
+using CyberNet.Core.AbilityCard.DestroyCard;
 using UnityEngine;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
@@ -55,5 +56,8 @@ namespace CyberNet.Core.UI
 
         [Header("Popup District")]
         public PopupDistrictInfoUIMono PopupDistrictInfoUIMono;
+        
+        [Header ("Destroy Card")]
+        public DestroyCardUIMono DestroyCardUIMono;
     }
 }

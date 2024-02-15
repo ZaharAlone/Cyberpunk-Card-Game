@@ -92,6 +92,24 @@ namespace CyberNet.Core.UI.CorePopup
                 _popupRect.position -= new Vector3(_corners[0].x - Screen.width + width + offset, 0, 0);
             }
         }
+        
+        public void PositioningDown(RectTransform target, float offset)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_popupRect);
+            var targetPosition = target.position;
+            targetPosition.x -= _popupRect.sizeDelta.x / 2;
+            targetPosition.y += target.sizeDelta.y - _popupRect.sizeDelta.y / 2 + offset;
+            
+            _popupRect.position = targetPosition;
+            /*
+            _popupRect.GetWorldCorners(_corners);
+            
+            if (_corners[2].x > Screen.width)
+            {
+                var width = _corners[2].x - _corners[0].x;
+                _popupRect.position -= new Vector3(_corners[0].x - Screen.width + width + offset, 0, 0);
+            }*/
+        }
 
         public void ClosePopup()
         {

@@ -96,6 +96,7 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.DestroyCardAbility?.Invoke(guidCard);
                     break;
                 case AbilityType.EnemyDiscardCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);

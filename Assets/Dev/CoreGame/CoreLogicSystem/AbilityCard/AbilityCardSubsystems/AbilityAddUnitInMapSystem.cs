@@ -7,10 +7,8 @@ using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
-using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
