@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace CyberNet.Core.UI
 {
-    public class CharacterDamagePassportEffect : MonoBehaviour
+    public class CharacterDamagePassportEffectMono : MonoBehaviour
     {
         public ParticleSystem AttackEffect;
         public Image ShieldVFX;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Random = System.Random;
 
-public static class RandomSystem
+public static class RandomStaticCalculate
 {
     public static Random RandomTime()
     {

@@ -10,7 +10,7 @@ using CyberNet.Meta.EndGame;
 namespace CyberNet.Core.WinLose
 {
     [EcsSystem(typeof(CoreModule))]
-    public class WinLoseSystem : IPreInitSystem
+    public class WinLoseSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -58,6 +58,12 @@ namespace CyberNet.Core.WinLose
         private void CloseWindow()
         {
             EndGameAction.EndGame?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            WinLoseAction.CloseScreen -= CloseWindow;
+            WinLoseAction.CheckWin -= CheckWin;
         }
     }
 }

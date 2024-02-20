@@ -154,6 +154,9 @@ namespace CyberNet.Local
         public void Destroy()
         {
             _dataWorld.RemoveOneData<RoundData>();
+            
+            RoundAction.EndCurrentTurn -= SwitchRound;
+            RoundAction.StartTurn -= StartTurn;
         }
     }
 }

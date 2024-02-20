@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CityPlayerPresenceOnMapSystem : IPreInitSystem
+    public class CityPlayerPresenceOnMapSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -144,6 +144,11 @@ namespace CyberNet.Core.City
 
             towerEntity.AddComponent(new PresencePlayerTowerComponent());
             CityAction.UpdatePlayerViewCity?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            CityAction.UpdatePresencePlayerInCity -= UpdatePresencePlayerInCity;
         }
     }
 }

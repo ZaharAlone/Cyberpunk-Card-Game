@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace CyberNet.Core.UI
 {
-    public class CharacterDamageScreenEffect : MonoBehaviour
+    public class CharacterDamageScreenEffectMono : MonoBehaviour
     {
         public Image DamageScreen;
 

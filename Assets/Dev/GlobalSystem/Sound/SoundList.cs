@@ -12,5 +12,7 @@ namespace CyberNet.Core.Sound
 
         [Header("Effect")]
         public EventReference AttackSound;
+        public EventReference StartMoveCard;
+        public EventReference AbilityCardSelectCurrentTarget;
     }
 }

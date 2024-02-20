@@ -2,8 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.AI;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -123,6 +121,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         public void Destroy()
         {
             AbilityCardAction.DestroyCardAbility -= DestroyCard;
+            DestroyCardAction.SelectCardToDestroy -= SelectCardToDestroy;
             AbilityCardAction.CancelDestroyCard -= CancelDestroyCard;
         }
     }

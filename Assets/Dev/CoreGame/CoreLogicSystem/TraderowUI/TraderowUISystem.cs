@@ -5,7 +5,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.Traderow
 {
@@ -115,7 +114,9 @@ namespace CyberNet.Core.Traderow
         {
             BoardGameUIAction.UpdateStatsPlayersCurrency -= CheckTraderow;
             TraderowUIAction.ShowTraderow -= ShowTraderow;
+            TraderowUIAction.ForceShowTraderow -= ForceShowTraderow;
             TraderowUIAction.HideTraderow -= HideTraderow;
+            TraderowUIAction.ForceHideTraderow -= ForceHideTraderow;
             TraderowUIAction.EndShowAnimations -= EndShowAnimations;
         }
     }

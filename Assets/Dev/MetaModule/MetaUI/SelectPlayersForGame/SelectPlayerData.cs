@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using CyberNet.Meta;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Global
 {

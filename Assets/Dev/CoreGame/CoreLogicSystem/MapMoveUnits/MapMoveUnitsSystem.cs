@@ -234,7 +234,11 @@ namespace CyberNet.Core.Map
         {
             ArenaAction.StartArenaBattle?.Invoke();
         }
-        
-        public void Destroy() { }
+
+        public void Destroy()
+        {
+            MapMoveUnitsAction.StartMoveUnits -= StartMoveUnit;
+            MapMoveUnitsAction.StartArenaBattle -= StartArenaBattle;
+        }
     }
 }

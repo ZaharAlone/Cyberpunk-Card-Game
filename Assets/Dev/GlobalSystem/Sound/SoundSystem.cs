@@ -10,17 +10,21 @@ using FMODUnity;
 namespace CyberNet.Global.Sound
 {
     [EcsSystem(typeof(GlobalModule))]
-    public class SoundSystem : IInitSystem
+    public class SoundSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
             SoundAction.PlayMusic += PlayMusic;
             SoundAction.PlaySound += PlaySound;
-            
+        }
+        
+        public void Init()
+        {
             StartMeta();
         }
+        
         private void PlaySound(EventReference sound)
         {
             var audioEvent = RuntimeManager.CreateInstance(sound);
@@ -36,6 +40,12 @@ namespace CyberNet.Global.Sound
         {
             ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
             PlayMusic(soundData.BackgroundMusicMainMenu);
+        }
+
+        public void Destroy()
+        {
+            SoundAction.PlayMusic -= PlayMusic;
+            SoundAction.PlaySound -= PlaySound;
         }
     }
 }

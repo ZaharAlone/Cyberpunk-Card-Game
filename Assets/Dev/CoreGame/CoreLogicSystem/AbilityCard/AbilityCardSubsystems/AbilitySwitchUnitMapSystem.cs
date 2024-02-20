@@ -24,6 +24,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.SwitchEnemyUnitMap += SwitchEnemyUnitMap;
             AbilityCardAction.SwitchNeutralUnitMap += StartSwitchNeutralUnit;
         }
+        
         private void SwitchEnemyUnitMap(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();

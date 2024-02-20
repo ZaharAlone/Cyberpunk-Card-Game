@@ -5,7 +5,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI.CorePopup
 {

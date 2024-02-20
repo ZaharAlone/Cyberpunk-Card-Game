@@ -13,7 +13,7 @@ using CyberNet.Global;
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityAddUnitInMapSystem : IPreInitSystem
+    public class AbilityAddUnitInMapSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -112,6 +112,12 @@ namespace CyberNet.Core.AbilityCard
         private void CancelAddUnitMap(string obj)
         {
             
+        }
+
+        public void Destroy()
+        {
+            AbilityCardAction.AbilityAddUnitMap -= AddUnitMap;
+            AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
         }
     }
 }

@@ -14,7 +14,7 @@ using ModulesFramework.Data.Enumerators;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsMoveBoardCardSystem : IPreInitSystem
+    public class AnimationsMoveBoardCardSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private Sequence _sequence;
@@ -111,6 +111,11 @@ namespace CyberNet.Core
         {
             entity.RemoveComponent<CardMoveToTableComponent>();
             entity.AddComponent(new CardInTableComponent());
+        }
+
+        public void Destroy()
+        {
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard -= AnimationsMoveBoardCard;
         }
     }
 }

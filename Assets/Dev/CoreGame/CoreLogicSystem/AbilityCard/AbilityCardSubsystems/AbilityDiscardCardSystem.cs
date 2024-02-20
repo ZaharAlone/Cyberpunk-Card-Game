@@ -10,7 +10,7 @@ using CyberNet.Global;
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityDiscardCardSystem : IPreInitSystem
+    public class AbilityDiscardCardSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -129,5 +129,12 @@ namespace CyberNet.Core.AbilityCard
             });
         }
         */
+
+        public void Destroy()
+        {
+            AbilityCardAction.DiscardCard -= DiscardCardAbility;
+            AbilityCardAction.CancelDiscardCard -= CancelDiscardCard;
+            AbilityCardAction.PlayerDiscardCard -= PlayerDiscardCard;
+        }
     }
 }

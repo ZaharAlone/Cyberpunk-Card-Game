@@ -2,14 +2,12 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using ModulesFramework.Systems.Events;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
-using UnityEngine;
 
 namespace CyberNet.Core
 {

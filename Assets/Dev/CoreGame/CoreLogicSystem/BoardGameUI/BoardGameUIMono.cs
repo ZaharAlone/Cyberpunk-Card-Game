@@ -27,7 +27,7 @@ namespace CyberNet.Core.UI
         public TaskPlayerPopupUIMono TaskPlayerPopupUIMono;
 
         [Header("Visual Effect")]
-        public CharacterDamageScreenEffect DamageScreen;
+        public CharacterDamageScreenEffectMono DamageScreen;
 
         [Header("Dialog")]
         public DialogUIMono DialogUIMono;

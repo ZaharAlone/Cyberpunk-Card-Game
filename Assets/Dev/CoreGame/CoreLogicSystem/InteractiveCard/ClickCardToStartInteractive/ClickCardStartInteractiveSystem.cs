@@ -1,10 +1,11 @@
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.UI;
+using CyberNet.Core.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global.Sound;
 using Input;
 
 namespace CyberNet.Core.InteractiveCard
@@ -116,11 +117,15 @@ namespace CyberNet.Core.InteractiveCard
                 StartMousePositions = inputData.MousePosition
             });
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
+
+            var startMoveSFX = _dataWorld.OneData<SoundData>().Sound.StartMoveCard;
+            SoundAction.PlaySound?.Invoke(startMoveSFX);
         }
         
         public void Destroy()
         {
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
+            InteractiveActionCard.FinishSelectAbilitycard -= FinishSelectAbilityCard;
         }
     }
 }

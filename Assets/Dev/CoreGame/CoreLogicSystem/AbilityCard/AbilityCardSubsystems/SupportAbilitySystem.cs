@@ -2,15 +2,11 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
-using CyberNet.Core.UI.PopupDistrictInfo;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -24,6 +20,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.AddTowerUnit += AddTowerUnit;
             AbilityCardAction.CurrentAbilityEndPlaying += CurrentAbilityEndPlaying;
         }
+        
         private void AddTowerUnit(string towerGUID)
         {
             var towerEntity = _dataWorld.Select<TowerComponent>()

@@ -51,6 +51,7 @@ namespace CyberNet.Core
             entity.AddComponent(animationComponent);
             entity.RemoveComponent<WaitEndAnimationsToStartMoveHandComponent>();
         }
+        
         private void EndAnimationsMoveCardToHand(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();

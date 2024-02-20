@@ -12,6 +12,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]

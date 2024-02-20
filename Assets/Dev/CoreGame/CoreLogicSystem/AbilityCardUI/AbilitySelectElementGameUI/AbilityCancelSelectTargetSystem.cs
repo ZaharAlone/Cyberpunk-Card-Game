@@ -2,9 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
-using CyberNet.Core.UI;
 using CyberNet.Core.UI.TaskPlayerPopup;
 
 namespace CyberNet.Core.AbilityCard

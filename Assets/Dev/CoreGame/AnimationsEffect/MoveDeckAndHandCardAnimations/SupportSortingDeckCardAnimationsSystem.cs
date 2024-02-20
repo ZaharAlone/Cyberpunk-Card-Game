@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class SupportSortingDeckCardAnimationsSystem : IPreInitSystem
+    public class SupportSortingDeckCardAnimationsSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -57,6 +57,12 @@ namespace CyberNet.Core
             }
 
             return waitTime;
+        }
+
+        public void Destroy()
+        {
+            SortingDeckCardAnimationsAction.GetTimeSortingDeck -= GetTimeSortingDeck;
+            SortingDeckCardAnimationsAction.GetTimeCardToHand -= GetTimeCardToHand;
         }
     }
 }

@@ -3,8 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
-using System.Threading.Tasks;
 using CyberNet.Core.UI;
 using DG.Tweening;
 using Input;
@@ -124,11 +122,12 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
                 moveDestroyCardEntity.Destroy();
                 var centerScreen = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.DestroyCardUIMono.CenterScreen.localPosition;
                 
+                var timeAnimations = Vector2.Distance(cardElement.CardMono.RectTransform.localPosition, centerScreen) / 2000;
+
                 cardElement.Sequence = DOTween.Sequence();
-                cardElement.Sequence.Join(cardRect.DOScale(cardElement.StartScale, 0.25f))
-                    .Join(cardRect.DOLocalMove(centerScreen, 0.25f));   
-                
-                WaitEndMoveCard(0.25f, guidCard);
+                cardElement.Sequence.Append(cardRect.DOScale(cardElement.StartScale, timeAnimations))
+                    .Join(cardRect.DOLocalMove(centerScreen, timeAnimations))
+                    .OnComplete(() => WaitEndMoveCard(guidCard));   
             }
             else
             {
@@ -141,10 +140,13 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             }
         }
 
-        private async void WaitEndMoveCard(float timeWait, string guidCard)
+        private void WaitEndMoveCard(string guidCard)
         {
-            await Task.Delay((int)(timeWait * 10000));
             DestroyCard(guidCard);
+            
+            var destroyCardRow = _dataWorld.OneData<DestroyRowCardData>().DestroyCardInRow;
+            destroyCardRow.TryGetValue(guidCard, out var cardElement);
+            cardElement.InteractiveDestroyCardMono.AnimationsDestroy();
         }
 
         private void DestroyCard(string guidCard)

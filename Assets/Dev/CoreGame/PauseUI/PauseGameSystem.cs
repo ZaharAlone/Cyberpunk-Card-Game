@@ -8,7 +8,7 @@ using Input;
 namespace CyberNet.Core.PauseUI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class PauseGameSystem : IPreInitSystem, IRunSystem
+    public class PauseGameSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private bool _isOpenPopupExitGame;
@@ -73,6 +73,17 @@ namespace CyberNet.Core.PauseUI
             _isOpenPopupExitGame = false;
             PopupAction.CloseConfirmPopup?.Invoke();
             PauseGameAction.ShowPanelUIPauseGame?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            PauseGameAction.OnPauseGame -= OnPauseGame;
+            PauseGameAction.OffPauseGame -= OffPauseGame;
+            PauseGameAction.OpenPopupExitGame -= OpenPopupExitGame;
+
+            var OnPauseGameQuery = _dataWorld.Select<OnPauseGameComponent>();
+            if (OnPauseGameQuery.Count() > 0)
+                OnPauseGameQuery.SelectFirstEntity().Destroy();
         }
     }
 }

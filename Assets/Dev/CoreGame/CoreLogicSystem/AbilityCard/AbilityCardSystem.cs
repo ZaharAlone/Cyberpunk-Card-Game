@@ -214,6 +214,9 @@ namespace CyberNet.Core.AbilityCard
         public void Destroy()
         {
             _dataWorld.RemoveOneData<ActionCardData>();
+            
+            AbilityCardAction.UpdateValueResourcePlayedCard -= CalculateValueCard;
+            AbilityCardAction.ClearActionView -= ClearAction;
         }
     }
 }
