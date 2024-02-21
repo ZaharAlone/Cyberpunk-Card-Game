@@ -3,14 +3,13 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.EnemyPassport;
-using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.TaskPlayerPopup;
 
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySelectPlayerSystem : IPreInitSystem
+    public class AbilitySelectPlayerSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private int _selectPlayerID;
@@ -59,6 +58,12 @@ namespace CyberNet.Core.AbilityCard
             boardGameUI.CoreHudUIMono.OffSelectPlayer();
             TaskPlayerPopupAction.HidePopup?.Invoke();
             EnemyPassportAction.SelectPlayer -= SelectPlayer;
+        }
+
+        public void Destroy()
+        {
+            AbilitySelectElementAction.SelectEnemyPlayer -= SelectEnemyPlayer;
+            AbilitySelectElementAction.CancelSelectPlayer -= CancelSelectPlayer;
         }
     }
 }

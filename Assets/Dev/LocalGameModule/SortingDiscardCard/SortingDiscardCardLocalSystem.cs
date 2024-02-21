@@ -10,11 +10,11 @@ namespace CyberNet.Core
     /// Сортировка карт в колоде и старт анимации
     /// </summary>
     [EcsSystem(typeof(LocalGameModule))]
-    public class SortingDiscardCardLocalSystem : IInitSystem
+    public class SortingDiscardCardLocalSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
             GlobalCoreGameAction.SortingDiscardCard += SortingCardPlayer;
         }
@@ -44,6 +44,11 @@ namespace CyberNet.Core
                 cardIndexComponent.Index = sorting[index];
                 index++;
             }
+        }
+
+        public void Destroy()
+        {
+            GlobalCoreGameAction.SortingDiscardCard -= SortingCardPlayer;
         }
     }
 }

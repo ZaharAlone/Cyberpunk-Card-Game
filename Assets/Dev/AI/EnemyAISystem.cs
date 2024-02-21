@@ -17,7 +17,7 @@ using CyberNet.Global;
 namespace CyberNet.Core.AI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class EnemyAISystem : IPreInitSystem
+    public class EnemyAISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -27,7 +27,8 @@ namespace CyberNet.Core.AI
         {
             RoundAction.StartTurnAI += StartTurn;
         }
-        
+
+
         /// <summary>
         /// Начинаем раунд AI
         /// Проверяем есть ли база, если нет ставим
@@ -53,7 +54,7 @@ namespace CyberNet.Core.AI
                 StartTurnBot();
             }
         }
-        
+
 
         private void DiscardCard()
         {
@@ -110,13 +111,13 @@ namespace CyberNet.Core.AI
             EnemyTurnViewUIAction.HideView?.Invoke();
             SelectTradeCard();
             
-            var timeEntity = _dataWorld.NewEntity();
-            timeEntity.AddComponent(new TimeComponent {
+            Debug.LogError($"time wait action bot {_timeWaitActionBot}");
+            _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
             });
         }
 
-        private async void PlayCard()
+        private void PlayCard()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCard = _dataWorld.Select<CardComponent>()
@@ -137,10 +138,13 @@ namespace CyberNet.Core.AI
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
             EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
-            await Task.Delay(350);
-            PlayCard();
+            
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = 0.35f, Action = () => PlayCard()
+            });
         }
-        
+
         //Ищем какую карту стоит разыграть в первую очередь
         private Entity FindPriorityCardPlay()
         {
@@ -266,6 +270,12 @@ namespace CyberNet.Core.AI
             //AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             //BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
+        }
+        
+        public void Destroy()
+        {
+            RoundAction.StartTurnAI -= StartTurn;
+            BotAIAction.EndPlayingCards -= EndPlayingCards;
         }
     }
 }

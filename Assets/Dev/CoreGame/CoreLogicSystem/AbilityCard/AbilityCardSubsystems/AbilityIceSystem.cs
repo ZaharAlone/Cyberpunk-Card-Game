@@ -120,6 +120,10 @@ namespace CyberNet.Core.AbilityCard
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
-        public void Destroy() { }
+        public void Destroy()
+        {
+            AbilityCardAction.SetIce -= SetIce;
+            AbilityCardAction.DestroyIce -= DestroyIce;
+        }
     }
 }

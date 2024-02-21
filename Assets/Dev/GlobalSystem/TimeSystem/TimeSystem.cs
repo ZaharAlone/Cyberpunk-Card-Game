@@ -25,7 +25,9 @@ namespace CyberNet.Global
                 {
                     timeComponent.Action?.Invoke();
                     if (timeEntity.IsAlive())
-                        timeEntity.RemoveComponent<TimeComponent>();
+                    {
+                        timeEntity.Destroy();
+                    }
                 }
             }
         }

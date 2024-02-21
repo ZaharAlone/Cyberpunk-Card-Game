@@ -155,6 +155,7 @@ namespace CyberNet.Core.UI
             foreach (var entity in cardInDeck)
             {
                 entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
+                entity.RemoveComponent<CardInTableComponent>();
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
@@ -166,8 +167,7 @@ namespace CyberNet.Core.UI
             }
             
             _dataWorld.RiseEvent(new EventUpdateBoardCard());
-            var newEntity = _dataWorld.NewEntity();
-            newEntity.AddComponent(new WaitEndRoundComponent());
+            _dataWorld.NewEntity().AddComponent(new WaitEndRoundComponent());
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             AbilityCardAction.ClearActionView.Invoke();
@@ -178,7 +178,7 @@ namespace CyberNet.Core.UI
             RoundAction.EndCurrentTurn -= HideButton;
             RoundAction.StartTurn -= UpdateButton;
             ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
-            ActionPlayerButtonEvent.ClickActionButton -= EndTurn;
+            ActionPlayerButtonEvent.ClickActionButton -= ClickActionButton;
             ActionPlayerButtonEvent.ActionEndTurnBot -= EndTurn;
         }
     }

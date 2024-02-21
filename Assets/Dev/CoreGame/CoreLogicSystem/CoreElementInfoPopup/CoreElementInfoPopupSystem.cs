@@ -5,7 +5,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
 
 namespace CyberNet.Core.UI.CorePopup
 {
@@ -72,7 +71,18 @@ namespace CyberNet.Core.UI.CorePopup
             var uiPopup = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.GameElementInfoPopupMono;
             
             uiPopup.SetView(popupViewConfig.DescrLoc, popupViewConfig.HeaderLoc, popupViewConfig.ArtisticDescrLoc);
-            uiPopup.PositioningUp(rectTransform, 10);
+            if (popupViewConfig.CorePopupTypePosition == CorePopupTypePosition.Up)
+            {
+                uiPopup.PositioningUp(rectTransform, 10);   
+            }
+            else if (popupViewConfig.CorePopupTypePosition == CorePopupTypePosition.LeftRight)
+            {
+                uiPopup.PositioningLeftRight(rectTransform, 10,1f);
+            }
+            else if (popupViewConfig.CorePopupTypePosition == CorePopupTypePosition.Down)
+            {
+                uiPopup.PositioningDown(rectTransform, 10);
+            }
         }
         
         private void ClosePopupCard()

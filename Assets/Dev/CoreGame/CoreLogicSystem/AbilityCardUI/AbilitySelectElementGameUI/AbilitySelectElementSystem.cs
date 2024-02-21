@@ -15,7 +15,7 @@ namespace CyberNet.Core.AbilityCard
     /// Визуал выбора карты для ability карты
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySelectElementSystem : IPreInitSystem
+    public class AbilitySelectElementSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private bool _isSubscription;
@@ -79,6 +79,13 @@ namespace CyberNet.Core.AbilityCard
         {
             TaskPlayerPopupAction.HidePopup?.Invoke();
             TraderowUIAction.ForceShowTraderow?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            AbilitySelectElementAction.OpenSelectAbilityCard -= OpenWindow;
+            AbilitySelectElementAction.ClosePopup -= CloseWindow;
+            AbilitySelectElementAction.SelectElement -= SelectElement;
         }
     }
 }

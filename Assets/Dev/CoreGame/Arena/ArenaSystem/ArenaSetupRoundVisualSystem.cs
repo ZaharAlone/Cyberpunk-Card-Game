@@ -170,6 +170,8 @@ namespace CyberNet.Core.Arena
         {
             ArenaAction.UpdateRound -= UpdateRoundVisual;
             ArenaAction.FinishRound -= FinishRound;
+            
+            _dataWorld.RemoveOneData<ArenaRoundData>();
         }
     }
 }

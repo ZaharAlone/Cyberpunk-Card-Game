@@ -2,11 +2,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
 using CyberNet.Core.City;
-using CyberNet.Tools;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core
@@ -19,7 +15,7 @@ namespace CyberNet.Core
     {
         private DataWorld _dataWorld;
 
-public void Init()
+        public void Init()
         {
             SetupBoard();
             SetupInteractiveElement();
@@ -109,6 +105,12 @@ public void Init()
             Object.Destroy(resourceTable.CityGO);
 
             _dataWorld.RemoveOneData<CityData>();
+
+            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            foreach (var tower in towerEntities)
+            {
+                tower.Destroy();
+            }
         }
     }
 }

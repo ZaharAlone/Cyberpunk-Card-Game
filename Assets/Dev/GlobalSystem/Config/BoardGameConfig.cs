@@ -22,6 +22,7 @@ namespace CyberNet
         public CardMono CardGO;
         public ArenaMono ArenaMono;
         public GameObject AnalyticsGO;
+        public CardMono CardDestroy;
 
         [Header("Element ability card")]
         public Image IconsBaseAbility;

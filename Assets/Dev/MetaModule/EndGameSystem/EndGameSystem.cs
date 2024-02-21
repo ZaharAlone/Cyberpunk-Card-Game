@@ -8,7 +8,7 @@ using System;
 namespace CyberNet.Meta.EndGame
 {
     [EcsSystem(typeof(CoreModule))]
-    public class EndGameSystem : IPreInitSystem
+    public class EndGameSystem : IPreInitSystem//, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -16,6 +16,12 @@ namespace CyberNet.Meta.EndGame
         {
             EndGameAction.EndGame += EndGameLogic;
         }
+
+        public void Destroy()
+        {
+            EndGameLogic();
+        }
+        
         private void EndGameLogic()
         {
             var isLocal = _dataWorld.IsModuleActive<LocalGameModule>();
@@ -25,7 +31,7 @@ namespace CyberNet.Meta.EndGame
             {
                 _dataWorld.DestroyModule<LocalGameModule>();
             }
-            else
+            else if (isServer)
             {
                 _dataWorld.DestroyModule<ServerModule>();
             }

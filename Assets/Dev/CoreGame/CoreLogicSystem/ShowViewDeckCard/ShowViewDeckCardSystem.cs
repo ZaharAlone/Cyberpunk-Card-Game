@@ -2,17 +2,15 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 
 namespace CyberNet.Core.UI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class System : IInitSystem
+    public class ShowViewDeckCardSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
-        public void Init()
+        public void PreInit()
         {
             ShowViewDeckCardAction.OpenDiscard += OpenDiscard;
             ShowViewDeckCardAction.OpenDraw += OpenDraw;
@@ -58,6 +56,13 @@ namespace CyberNet.Core.UI
         private void CloseView()
         {
 
+        }
+
+        public void Destroy()
+        {
+            ShowViewDeckCardAction.OpenDiscard -= OpenDiscard;
+            ShowViewDeckCardAction.OpenDraw -= OpenDraw;
+            ShowViewDeckCardAction.CloseView -= CloseView;
         }
     }
 }

@@ -96,6 +96,7 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.DestroyCardAbility?.Invoke(guidCard);
                     break;
                 case AbilityType.EnemyDiscardCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
@@ -213,6 +214,9 @@ namespace CyberNet.Core.AbilityCard
         public void Destroy()
         {
             _dataWorld.RemoveOneData<ActionCardData>();
+            
+            AbilityCardAction.UpdateValueResourcePlayedCard -= CalculateValueCard;
+            AbilityCardAction.ClearActionView -= ClearAction;
         }
     }
 }

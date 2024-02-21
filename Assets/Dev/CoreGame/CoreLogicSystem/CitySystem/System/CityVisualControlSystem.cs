@@ -9,7 +9,7 @@ using UnityEngine;
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CityVisualControlSystem : IPreInitSystem
+    public class CityVisualControlSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -130,6 +130,16 @@ namespace CyberNet.Core.City
             var towerComponent = towerEntity.GetComponent<TowerComponent>();
             towerComponent.TowerMono.OffInteractiveTower();
             towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+        }
+
+        public void Destroy()
+        {
+            CityAction.ShowFirstBaseTower -= ShowFirstBaseTower;
+            CityAction.HideFirstBaseTower -= HideFirstBaseTower;
+            CityAction.UpdatePlayerViewCity -= UpdateTowerControlView;
+
+            CityAction.EnableInteractiveTower -= EnableInteractiveTower;
+            CityAction.DisableInteractiveTower -= DisableInteractiveTower;
         }
     }
 }

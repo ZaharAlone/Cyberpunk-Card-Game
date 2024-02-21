@@ -1,10 +1,8 @@
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
-using CyberNet.Core.UI.CorePopup;
 using CyberNet.Core.UI.TaskPlayerPopup;
 using CyberNet.Global;
-using CyberNet.Meta;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -13,7 +11,7 @@ using ModulesFramework.Systems;
 namespace CyberNet.Core.SelectFirstBase
 {
     [EcsSystem(typeof(CoreModule))]
-    public class SelectFirstBaseSystem : IPreInitSystem
+    public class SelectFirstBaseSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -114,6 +112,12 @@ namespace CyberNet.Core.SelectFirstBase
             RoundAction.StartTurn?.Invoke();
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             CityAction.UpdatePlayerViewCity?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            SelectFirstBaseAction.CheckInstallFirstBase -= CheckPlayerSelectFirstBase;
+            SelectFirstBaseAction.SelectBase -= SelectBase;
         }
     }
 }

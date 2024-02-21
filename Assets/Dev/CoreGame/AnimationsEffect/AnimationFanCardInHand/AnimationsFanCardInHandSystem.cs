@@ -1,7 +1,6 @@
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
-using ModulesFramework.Systems.Events;
 using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
@@ -40,10 +39,10 @@ namespace CyberNet.Core.UI
                 .Without<WaitAnimationsDrawHandCardComponent>()
                 .GetEntities();
             
-            UpdateView(entities, countCardInHand, currentRoundPlayer);
+            UpdateView(entities, countCardInHand);
         }
         
-        private void UpdateView(EntitiesEnumerable entities, int countCard, int targetPlayerID)
+        private void UpdateView(EntitiesEnumerable entities, int countCard)
         {
             var uiRect = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;

@@ -128,6 +128,15 @@ namespace CyberNet.Core.City
         {
             CityAction.InitUnit -= InitUnit;
             CityAction.AttackSolidPoint -= AttackSolidPoint;
+            CityAction.ActivationsColliderUnitsInTower -= ActivationsColliderUnitsInTower;
+            CityAction.DeactivationsColliderAllUnits -= DeactivationsColliderAllUnits;
+
+            var unitEntities = _dataWorld.Select<UnitMapComponent>().GetEntities();
+
+            foreach (var entity in unitEntities)
+            {
+                entity.Destroy();
+            }
         }
     }
 }

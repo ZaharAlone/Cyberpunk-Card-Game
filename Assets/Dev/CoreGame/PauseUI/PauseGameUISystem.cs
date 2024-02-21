@@ -10,7 +10,7 @@ using CyberNet.Global.Settings;
 namespace CyberNet.Core.PauseUI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class PauseGameUISystem : IPreInitSystem
+    public class PauseGameUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -93,9 +93,25 @@ namespace CyberNet.Core.PauseUI
             popupView.ButtonCancelLoc = popupViewConfig.CancelButtonPopupConfim;
             popupView.ButtonConfimAction = MainMenuAction.ExitGame;
             popupView.ButtonCancelAction = PauseGameAction.ShowPanelUIPauseGame;
+            
             PopupAction.ConfirmPopup?.Invoke(popupView);
             PauseGameAction.OpenPopupExitGame?.Invoke();
             HidePanel();
+        }
+
+        public void Destroy()
+        {
+            PauseGameAction.OpenUIPauseGame -= OpenUIPauseGame;
+            PauseGameAction.CloseUIPauseGame -= CloseUIPauseGame;
+
+            PauseGameAction.ResumeGame -= ResumeGame;
+            PauseGameAction.SettingsGame -= SettingsGame;
+            PauseGameAction.ReturnMenu -= ReturnGame;
+            PauseGameAction.ConfimReturnMenu -= ConfimReturnMenu;
+            PauseGameAction.QuitGame -= QuitGame;
+            
+            PauseGameAction.ShowPanelUIPauseGame -= ShowPanel;
+            PauseGameAction.HidePanelUIPauseGame -= HidePanel;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CyberNet.Global;
 using CyberNet.Tutorial;
 using CyberNet.Tutorial.UI;
 using ModulesFramework.Modules;

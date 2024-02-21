@@ -11,7 +11,7 @@ using ModulesFramework.Data.Enumerators;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AnimationsMoveAtDiscardDeckSystem : IPreInitSystem
+    public class AnimationsMoveAtDiscardDeckSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -70,6 +70,11 @@ namespace CyberNet.Core
             cardComponent.RectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             cardComponent.RectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             cardComponent.RectTransform.position = targetPosition;
+        }
+
+        public void Destroy()
+        {
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck -= UpdateDiscardHub;
         }
     }
 }

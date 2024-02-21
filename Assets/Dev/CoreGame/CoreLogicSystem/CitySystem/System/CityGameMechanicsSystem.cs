@@ -3,14 +3,12 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Collections.Generic;
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
-using UnityEngine;
 
 namespace CyberNet.Core.City
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CityGameMechanicsSystem : IPreInitSystem
+    public class CityGameMechanicsSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -181,6 +179,15 @@ namespace CyberNet.Core.City
                 towerComponent.TowerMono.OnInteractiveTower();
                 towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
             }
+        }
+
+        public void Destroy()
+        {
+            CityAction.UpdateCanInteractiveMap -= UpdateCanInteractiveMap;
+            CityAction.ShowWherePlayerCanMove -= ShowWherePlayerCanMove;
+            CityAction.ShowWherePlayerCanMoveFrom -= ShowWherePlayerCanMoveFrom;
+            CityAction.ShowWhereZoneToPlayerID -= ShowWhereZoneNeutralUnit;
+            CityAction.ShowManyZonePlayerInMap -= ShowManyZonePlayerInMap;
         }
     }
 }

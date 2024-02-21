@@ -1,5 +1,4 @@
 using CyberNet.Global;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Player
 {

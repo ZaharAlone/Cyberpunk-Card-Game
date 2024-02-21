@@ -22,7 +22,7 @@ using UnityEngine;
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityMoveUnitSystem : IPreInitSystem, IRunSystem
+    public class AbilityMoveUnitSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
@@ -224,6 +224,11 @@ namespace CyberNet.Core.AbilityCard
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            AbilityCardAction.MoveUnit -= MoveUnit;
         }
     }
 }

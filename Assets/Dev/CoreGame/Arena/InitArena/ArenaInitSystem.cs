@@ -3,9 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System.Collections.Generic;
 using CyberNet.Core.City;
-using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
 using Object = UnityEngine.Object;
@@ -119,11 +117,26 @@ namespace CyberNet.Core.Arena
         
         public void Destroy()
         {
+            if (_dataWorld.IsModuleActive<ArenaModule>())
+                _dataWorld.DestroyModule<ArenaModule>();
+            
             ArenaAction.StartArenaBattle -= StartArenaBattle;
             ArenaAction.EndBattleArena -= EndBattleArena;
             
             Object.Destroy(_dataWorld.OneData<ArenaData>().ArenaMono.gameObject);
             _dataWorld.RemoveOneData<ArenaData>();
+
+            var arenaUnitEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();
+            foreach (var entity in arenaUnitEntities)
+            {
+                entity.Destroy();
+            }
+            
+            var playerInArenaEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
+            foreach (var entity in playerInArenaEntities)
+            {
+                entity.Destroy();
+            }
         }
     }
 }

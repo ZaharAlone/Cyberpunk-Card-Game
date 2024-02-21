@@ -2,8 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.UI.CorePopup;
 
 namespace CyberNet.Core.UI.TaskPlayerPopup
@@ -38,6 +36,11 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
             taskPlayerPopupUI.CloseWindow();
         }
 
-        public void Destroy() { }
+        public void Destroy()
+        {
+            TaskPlayerPopupAction.OpenPopupSelectFirstBase -= OpenPopupSelectFirstBase;
+            TaskPlayerPopupAction.HidePopup -= HidePopup;
+            TaskPlayerPopupAction.OpenPopup -= OpenPopup;
+        }
     }
 }

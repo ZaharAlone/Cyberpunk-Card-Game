@@ -3,12 +3,11 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.Dialog
 {
     [EcsSystem(typeof(CoreModule))]
-    public class DialogSystem : IPreInitSystem
+    public class DialogSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
@@ -80,6 +79,12 @@ namespace CyberNet.Core.Dialog
         {
             var blockCameraEntity = _dataWorld.Select<BlockCameraInputComponent>().SelectFirstEntity();
             blockCameraEntity.Destroy();
+        }
+
+        public void Destroy()
+        {
+            DialogAction.StartDialog -= StartDialog;
+            DialogAction.NextDialog -= NextDialog;
         }
     }
 }

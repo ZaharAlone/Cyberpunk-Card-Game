@@ -6,14 +6,16 @@ using Input;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.City;
+using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
+using CyberNet.Global.Sound;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.BezierCurveNavigation
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BezierCurveNavigationSystem : IPreInitSystem, IRunSystem
+    public class BezierCurveNavigationSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
@@ -172,6 +174,11 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 arrow.SetColorArrow(color);
             }
+            
+            /*
+            var selectCurrentTargetSFX = _dataWorld.OneData<SoundData>().Sound.AbilityCardSelectCurrentTarget;
+            SoundAction.PlaySound?.Invoke(selectCurrentTargetSFX);
+        */
         }
         
         private void OffBezierCurve()
@@ -183,6 +190,12 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 Object.Destroy(point.gameObject);
             }
+        }
+
+        public void Destroy()
+        {
+            BezierCurveNavigationAction.StartBezierCurve -= StartBezier;
+            BezierCurveNavigationAction.OffBezierCurve -= OffBezierCurve;
         }
     }
 }

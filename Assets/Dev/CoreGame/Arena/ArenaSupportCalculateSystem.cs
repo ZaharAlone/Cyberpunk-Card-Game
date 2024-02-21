@@ -308,7 +308,17 @@ namespace CyberNet.Core.Arena
             if (isEntityCurrentPlayer)
                 currentPlayerEntity.RemoveComponent<CurrentPlayerComponent>();
         }
-        
-        public void Destroy() { }
+
+        public void Destroy()
+        {
+            ArenaAction.CheckBlockAttack -= CheckBlockAttack;
+            ArenaAction.CheckFinishArenaBattle -= CheckEndRound;
+            ArenaAction.UpdateTurnOrderArena -= UpdateTurnOrderArena;
+            ArenaAction.FindPlayerInCurrentRound -= FindPlayerInCurrentRound;
+            ArenaAction.CreateBattleData -= CreateBattleData;
+            ArenaAction.GetKeyPlayerVisual -= GetKeyPlayerVisual;
+            ArenaAction.CreateUnitInArena -= CreateUnitInArena;
+            ArenaAction.DeselectPlayer -= DeselectPlayer;
+        }
     }
 }

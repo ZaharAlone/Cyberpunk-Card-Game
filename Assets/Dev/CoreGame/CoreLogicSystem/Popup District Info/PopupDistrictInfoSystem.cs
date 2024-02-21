@@ -7,7 +7,6 @@ using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.PopupDistrictInfo;
-using CyberNet.Global;
 using CyberNet.SaveSystem;
 
 namespace CyberNet.Core

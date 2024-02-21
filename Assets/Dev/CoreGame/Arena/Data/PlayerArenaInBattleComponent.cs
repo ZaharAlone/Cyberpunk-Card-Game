@@ -1,7 +1,6 @@
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Arena
 {

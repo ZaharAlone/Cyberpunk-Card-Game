@@ -7,15 +7,13 @@ using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
-using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityAddUnitInMapSystem : IPreInitSystem
+    public class AbilityAddUnitInMapSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -114,6 +112,12 @@ namespace CyberNet.Core.AbilityCard
         private void CancelAddUnitMap(string obj)
         {
             
+        }
+
+        public void Destroy()
+        {
+            AbilityCardAction.AbilityAddUnitMap -= AddUnitMap;
+            AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
         }
     }
 }
