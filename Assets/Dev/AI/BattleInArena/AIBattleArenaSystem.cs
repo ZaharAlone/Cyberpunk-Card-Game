@@ -7,7 +7,6 @@ using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
-using CyberNet.Core.UI;
 using CyberNet.Global;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -211,7 +210,6 @@ namespace CyberNet.Core.AI.Arena
             Object.Destroy(targetUnitMapComponent.UnitIconsGO);
             
             targetUnitEntity.Destroy();
-            Debug.LogError("Kill unit");
         }
 
         /// <summary>
@@ -219,7 +217,6 @@ namespace CyberNet.Core.AI.Arena
         /// </summary>
         private void EndRound()
         {
-            Debug.LogError("End Round");
             var isVisual = _dataWorld.OneData<ArenaData>().IsShowVisualBattle;
 
             if (isVisual)
@@ -258,7 +255,6 @@ namespace CyberNet.Core.AI.Arena
             {
                 playerEntity.Destroy();
             }
-            Debug.LogError("Destroy entity player in battle");
 
             var unitInArenaEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();
 
@@ -268,7 +264,8 @@ namespace CyberNet.Core.AI.Arena
                 unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
                 unitEntity.RemoveComponent<UnitInBattleArenaComponent>();
             }
-            Debug.LogError("Clear extra component in units");
+
+            _dataWorld.RemoveOneData<ArenaRoundData>();
         }
         
         public void Destroy()

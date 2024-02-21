@@ -116,7 +116,7 @@ namespace CyberNet.Core.AI
             });
         }
 
-        private async void PlayCard()
+        private void PlayCard()
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCard = _dataWorld.Select<CardComponent>()
@@ -137,8 +137,11 @@ namespace CyberNet.Core.AI
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
             EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
-            await Task.Delay(350);
-            PlayCard();
+            
+            var timeEntity = _dataWorld.NewEntity();
+            timeEntity.AddComponent(new TimeComponent {
+                Time = 0.35f, Action = () => PlayCard()
+            });
         }
         
         //Ищем какую карту стоит разыграть в первую очередь

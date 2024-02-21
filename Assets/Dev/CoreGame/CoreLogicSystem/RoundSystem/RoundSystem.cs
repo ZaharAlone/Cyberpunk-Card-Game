@@ -16,11 +16,19 @@ using UnityEngine;
 namespace CyberNet.Local
 {
     [EcsSystem(typeof(CoreModule))]
-    public class RoundSystem : IActivateSystem, IPreInitSystem, IInitSystem, IDestroySystem
+    public class RoundSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
+        
+        public void PreInit()
+        {
+            RoundAction.EndCurrentTurn += SwitchRound;
+            RoundAction.StartTurn += StartTurn;
 
-        public void Activate()
+            InitRoundData();
+        }
+        
+        private void InitRoundData()
         {
             ref var selectLeader = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             _dataWorld.CreateOneData(new RoundData {
@@ -29,12 +37,6 @@ namespace CyberNet.Local
                 CurrentPlayerID = selectLeader[0].PlayerID,
                 playerOrAI = PlayerOrAI.Player
             });
-        }
-        
-        public void PreInit()
-        {
-            RoundAction.EndCurrentTurn += SwitchRound;
-            RoundAction.StartTurn += StartTurn;
         }
 
         public void Init()

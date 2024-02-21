@@ -26,6 +26,7 @@ namespace CyberNet.Core.PauseUI
             if (inputData.ExitUI)
                 SwitchPauseGame();
         }
+        
         private void SwitchPauseGame()
         {
             var isPause = _dataWorld.Select<OnPauseGameComponent>().Count() > 0;

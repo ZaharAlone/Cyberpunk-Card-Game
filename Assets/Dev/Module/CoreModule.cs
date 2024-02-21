@@ -10,6 +10,7 @@ using CyberNet.Core.PauseUI;
 using ModulesFramework.Modules;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using CyberNet.Local;
 
 namespace EcsCore
 {
@@ -60,13 +61,23 @@ namespace EcsCore
         {
             return new Dictionary<Type, int>
             {
+                { typeof(RoundSystem), -20},
                 { typeof(CardDistributionSystem), -10 },
-                { typeof(AnimationsFanCardInHandSystem), 0},
+                { typeof(AnimationsFanCardInHandSystem), -1},
                 { typeof(EndLoadingSystem), 1000}
             };
         }
 
+        /*
         public override void OnDeactivate()
+        {
+            foreach (var item in _resource)
+                Object.Destroy(item);
+            
+            ModuleAction.DeactivateCoreModule?.Invoke();
+        }*/
+
+        public override void OnDestroy()
         {
             foreach (var item in _resource)
                 Object.Destroy(item);

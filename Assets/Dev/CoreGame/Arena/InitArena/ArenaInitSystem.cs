@@ -117,6 +117,9 @@ namespace CyberNet.Core.Arena
         
         public void Destroy()
         {
+            if (_dataWorld.IsModuleActive<ArenaModule>())
+                _dataWorld.DestroyModule<ArenaModule>();
+            
             ArenaAction.StartArenaBattle -= StartArenaBattle;
             ArenaAction.EndBattleArena -= EndBattleArena;
             

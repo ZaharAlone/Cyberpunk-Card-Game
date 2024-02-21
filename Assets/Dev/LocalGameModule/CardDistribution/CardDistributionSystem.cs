@@ -5,6 +5,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems.Events;
+using UnityEngine;
 
 namespace CyberNet.Core
 {

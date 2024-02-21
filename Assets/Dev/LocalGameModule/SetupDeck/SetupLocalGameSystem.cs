@@ -11,7 +11,7 @@ using UnityEngine;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(LocalGameModule))]
-    public class SetupLocalGameSystem : IPreInitSystem, IInitSystem
+    public class SetupLocalGameSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
@@ -19,12 +19,7 @@ namespace CyberNet.Core
         {
             SetupCard();
         }
-
-        public void Init()
-        {
-            ModulesUnityAdapter.world.InitModule<CoreModule>(true);
-        }
-
+        
         //Инициализируем все карты
         private void SetupCard()
         {

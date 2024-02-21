@@ -9,11 +9,11 @@ using ModulesFramework.Systems;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(LocalGameModule))]
-    public class InitPlayersSystem : IActivateSystem
+    public class InitPlayersSystem : IPreInitSystem
     {
         private DataWorld _dataWorld;
 
-        public void Activate()
+        public void PreInit()
         {
             ref var selectPlayer = ref _dataWorld.OneData<SelectPlayerData>();
 
