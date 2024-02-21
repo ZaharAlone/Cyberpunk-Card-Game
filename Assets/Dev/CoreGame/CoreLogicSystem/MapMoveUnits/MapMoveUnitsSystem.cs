@@ -175,8 +175,8 @@ namespace CyberNet.Core.Map
                 var timeMove = 1;
                 var sequence = DOTween.Sequence();
                 sequence.Append(unitComponent.UnitIconsGO.transform.DOMove(unitMoveComponent.TargetPosition, timeMove));
-
-                unitEntity.AddComponent(new TimeComponent {
+                
+                _dataWorld.NewEntity().AddComponent(new TimeComponent {
                     Time = timeMove,
                     Action = () => {
                         unitEntity.RemoveComponent<MoveUnitToTargetComponent>();
@@ -220,11 +220,9 @@ namespace CyberNet.Core.Map
         {
             AnimationsStartArenaCameraAction.StartAnimations?.Invoke(0.75f);
 
-            var entity = _dataWorld.NewEntity();
-            entity.AddComponent(new TimeComponent {
+            _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = 0.75f,
                 Action = () => {
-                    entity.Destroy();
                     FinishAnimation();
                 }
             });

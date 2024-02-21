@@ -17,7 +17,7 @@ using CyberNet.Global;
 namespace CyberNet.Core.AI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class EnemyAISystem : IPreInitSystem
+    public class EnemyAISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -27,7 +27,8 @@ namespace CyberNet.Core.AI
         {
             RoundAction.StartTurnAI += StartTurn;
         }
-        
+
+
         /// <summary>
         /// Начинаем раунд AI
         /// Проверяем есть ли база, если нет ставим
@@ -53,7 +54,7 @@ namespace CyberNet.Core.AI
                 StartTurnBot();
             }
         }
-        
+
 
         private void DiscardCard()
         {
@@ -110,8 +111,8 @@ namespace CyberNet.Core.AI
             EnemyTurnViewUIAction.HideView?.Invoke();
             SelectTradeCard();
             
-            var timeEntity = _dataWorld.NewEntity();
-            timeEntity.AddComponent(new TimeComponent {
+            Debug.LogError($"time wait action bot {_timeWaitActionBot}");
+            _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
             });
         }
@@ -143,7 +144,7 @@ namespace CyberNet.Core.AI
                 Time = 0.35f, Action = () => PlayCard()
             });
         }
-        
+
         //Ищем какую карту стоит разыграть в первую очередь
         private Entity FindPriorityCardPlay()
         {
@@ -269,6 +270,12 @@ namespace CyberNet.Core.AI
             //AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             //BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
+        }
+        
+        public void Destroy()
+        {
+            RoundAction.StartTurnAI -= StartTurn;
+            BotAIAction.EndPlayingCards -= EndPlayingCards;
         }
     }
 }
