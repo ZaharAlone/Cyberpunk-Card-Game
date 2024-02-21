@@ -118,7 +118,7 @@ namespace CyberNet.Core.InteractiveCard
             });
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
 
-            var startMoveSFX = _dataWorld.OneData<SoundData>().Sound.StartMoveCard;
+            var startMoveSFX = _dataWorld.OneData<SoundData>().Sound.StartInteractiveCard;
             SoundAction.PlaySound?.Invoke(startMoveSFX);
         }
         

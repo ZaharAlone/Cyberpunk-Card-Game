@@ -1,4 +1,6 @@
+using CyberNet.Core.Sound;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global.Sound;
 using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -24,8 +26,7 @@ namespace CyberNet.Core.InteractiveCard
         {
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
-
-            //Debug.LogError("Select card");
+            
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
                 return;
@@ -94,6 +95,8 @@ namespace CyberNet.Core.InteractiveCard
                 
                 CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, true);
             }
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
         }
 
         private void ClearSelectComponent()

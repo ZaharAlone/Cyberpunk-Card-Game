@@ -90,7 +90,6 @@ namespace CyberNet.Core.BezierCurveNavigation
             
             var valuePosRotEndPoint = BezierCalculateStatic.NOrderBezierInterp(uiBezier.ControlPoints, 1);
             graphPoints.Add(Object.Instantiate(bezierConfig.BezierArrowPrefab, valuePosRotEndPoint.Item1, valuePosRotEndPoint.Item2, uiBezier.Canvas));
-
         }
 
         private void UpdateBezierVector()
@@ -164,6 +163,9 @@ namespace CyberNet.Core.BezierCurveNavigation
                     break;
                 case BezierCurveStatusEnum.SelectCurrentTarget:
                     color = colorsConfig.SelectCurrentTargetBlueColor;
+                    //Дописать условие чтобы статус не менялся если он уже был таким и тогда будет нормально воспроизводится звук
+                    
+                    //SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;
@@ -174,11 +176,6 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 arrow.SetColorArrow(color);
             }
-            
-            /*
-            var selectCurrentTargetSFX = _dataWorld.OneData<SoundData>().Sound.AbilityCardSelectCurrentTarget;
-            SoundAction.PlaySound?.Invoke(selectCurrentTargetSFX);
-        */
         }
         
         private void OffBezierCurve()

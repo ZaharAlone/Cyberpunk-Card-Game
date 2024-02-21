@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using CyberNet.Core.Sound;
+using CyberNet.Global.Sound;
 using CyberNet.Tools;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -63,6 +65,8 @@ namespace CyberNet.Core.City
             };
             
             _dataWorld.NewEntity().AddComponent(squadMapComponent);
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
         }
 
         private void AttackSolidPoint(string guid, int indexPoint)
