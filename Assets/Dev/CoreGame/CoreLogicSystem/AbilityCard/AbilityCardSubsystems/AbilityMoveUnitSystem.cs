@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.AI;
-using CyberNet.Core.Arena;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
@@ -11,7 +9,6 @@ using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.GameCamera;
-using DG.Tweening;
 using EcsCore;
 using Input;
 using ModulesFramework.Attributes;
@@ -29,8 +26,9 @@ namespace CyberNet.Core.AbilityCard
         public void PreInit()
         {
             AbilityCardAction.MoveUnit += MoveUnit;
+            AbilityCardAction.CancelMoveUnit += CancelMoveUnit;
         }
-        
+
         private void MoveUnit(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
@@ -41,22 +39,16 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
 
-            _dataWorld.NewEntity().AddComponent(new AbilityCardMoveUnitComponent());
-
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .SelectFirstEntity();
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            var cardPosition = cardComponent.RectTransform.position;
-            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
+            _dataWorld.Select<CardComponent>()
+                .SelectFirstEntity()
+                .AddComponent(new AbilityCardMoveUnitComponent());
             
-            roundData.PauseInteractive = true;
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SquadMove, 0, false);
-            BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
             CityAction.SelectTower += SelectTower;
         }
-        
+
         private void SelectTower(string towerGUID)
         {
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
@@ -129,7 +121,7 @@ namespace CyberNet.Core.AbilityCard
                 CityAction.DisableInteractiveTower?.Invoke(targetTowerGUID);
             }
         }
-        
+
         public void Run()
         {
             if (_dataWorld.Select<AbilityCardMoveUnitSelectTowerComponent>().Count() == 0
@@ -138,7 +130,7 @@ namespace CyberNet.Core.AbilityCard
 
             DrawTargetStartAttack();
         }
-        
+
         private void DrawTargetStartAttack()
         {
             var countSelectUnit = _dataWorld.Select<SelectUnitMapComponent>()
@@ -180,7 +172,7 @@ namespace CyberNet.Core.AbilityCard
                 CityAction.SelectTower -= SelectTowerToMove;
             }
         }
-        
+
         private void SelectTowerToMove(string guid)
         {
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
@@ -209,7 +201,6 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity();
             
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
-            entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
@@ -225,10 +216,23 @@ namespace CyberNet.Core.AbilityCard
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
+        
+        private void CancelMoveUnit(string guidCard)
+        {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+            
+            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+            CityAction.DeactivateAllTower?.Invoke();
+            CityAction.SelectTower -= SelectTower;
+        }
 
         public void Destroy()
         {
             AbilityCardAction.MoveUnit -= MoveUnit;
+            AbilityCardAction.CancelMoveUnit -= CancelMoveUnit;
+            CityAction.SelectTower -= SelectTower;
         }
     }
 }

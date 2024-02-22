@@ -32,7 +32,7 @@ namespace CyberNet.Core.InteractiveCard
 
             var inputData = _dataWorld.OneData<InputData>();
 
-            if (inputData.RightClick)
+            if (inputData.RightClick || inputData.ExitUI)
                 CancelSelectTarget();
         }
         
@@ -67,9 +67,8 @@ namespace CyberNet.Core.InteractiveCard
         }
         
         private void CancelSelectTarget()
-        {
+        { 
             var entity = _dataWorld.Select<SelectTargetCardAbilityComponent>().SelectFirstEntity();
-            
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             
             AbilityCardAction.CancelAbility?.Invoke();

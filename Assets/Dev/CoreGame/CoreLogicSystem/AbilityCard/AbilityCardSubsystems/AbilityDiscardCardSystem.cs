@@ -31,7 +31,6 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
 
-            roundData.PauseInteractive = true;
             AbilitySelectElementAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
             AbilityCardAction.SelectPlayer += SelectPlayerDiscardCard;
         }

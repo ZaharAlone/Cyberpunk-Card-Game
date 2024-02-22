@@ -33,18 +33,9 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
             
-            roundData.PauseInteractive = true;
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .SelectFirstEntity();
-
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            var cardPosition = cardComponent.RectTransform.position;
-            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
-            
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
-            BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.SelectTower += AddUnitTower;
         }
 
@@ -115,13 +106,17 @@ namespace CyberNet.Core.AbilityCard
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
             
+            //Учитывать что можно добавить больше одного юнита за раз и их нужно всех откатить
+            
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
+            CityAction.SelectTower -= AddUnitTower;
         }
 
         public void Destroy()
         {
             AbilityCardAction.AbilityAddUnitMap -= AddUnitMap;
             AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
+            CityAction.SelectTower -= AddUnitTower;
         }
     }
 }

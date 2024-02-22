@@ -1,6 +1,7 @@
 using System;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -76,6 +77,14 @@ namespace CyberNet.Core.AbilityCard
         //Add component ability
         private void AddAbilityComponent(string guidCard, AbilityCardContainer abilityCardStruct, Entity entity)
         {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            
+            if (abilityCardStruct.AbilityType != AbilityType.Trade && roundData.playerOrAI == PlayerOrAI.Player)
+            {
+                _dataWorld.OneData<RoundData>().PauseInteractive = true;
+                AbilityCardAction.ShiftUpCard?.Invoke(guidCard);
+            }
+            
             switch (abilityCardStruct.AbilityType)
             {
                 case AbilityType.Attack:
@@ -177,6 +186,7 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.EnemyDiscardCard:
                     break;
                 case AbilityType.SquadMove:
+                    AbilityCardAction.CancelMoveUnit?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.SetIce:
                     break;

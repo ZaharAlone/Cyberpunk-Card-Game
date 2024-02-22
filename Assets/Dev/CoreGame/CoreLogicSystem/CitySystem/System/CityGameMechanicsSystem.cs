@@ -19,8 +19,10 @@ namespace CyberNet.Core.City
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
             CityAction.ShowWhereZoneToPlayerID += ShowWhereZoneNeutralUnit;
             CityAction.ShowManyZonePlayerInMap += ShowManyZonePlayerInMap;
+
+            CityAction.DeactivateAllTower += DeactivateAllTower;
         }
-        
+
         private void UpdateCanInteractiveMap()
         {
             var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
@@ -47,7 +49,7 @@ namespace CyberNet.Core.City
                 }
             }
         }
-        
+
         /// <summary>
         /// Активирует зоны на которые игрок может передвинуть своего юнита
         /// </summary>
@@ -83,7 +85,7 @@ namespace CyberNet.Core.City
                 }
             }
         }
-        
+
         /// <summary>
         /// Активирует зоны с которых игрок может передвинуть своих юнитов в целевую точку
         /// </summary>
@@ -127,7 +129,7 @@ namespace CyberNet.Core.City
                 towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
             }
         }
-        
+
         private void ShowWhereZoneNeutralUnit(int targetPlayerID) // Select Type zone
         {
             DeactivateAllTower();
@@ -188,6 +190,8 @@ namespace CyberNet.Core.City
             CityAction.ShowWherePlayerCanMoveFrom -= ShowWherePlayerCanMoveFrom;
             CityAction.ShowWhereZoneToPlayerID -= ShowWhereZoneNeutralUnit;
             CityAction.ShowManyZonePlayerInMap -= ShowManyZonePlayerInMap;
+            
+            CityAction.DeactivateAllTower -= DeactivateAllTower;
         }
     }
 }

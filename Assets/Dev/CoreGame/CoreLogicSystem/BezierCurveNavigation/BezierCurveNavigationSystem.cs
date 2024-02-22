@@ -25,9 +25,21 @@ namespace CyberNet.Core.BezierCurveNavigation
         public void PreInit()
         {
             BezierCurveNavigationAction.StartBezierCurve += StartBezier;
+            BezierCurveNavigationAction.StartBezierCurveCard += StartBezierCurveCard;
             BezierCurveNavigationAction.OffBezierCurve += OffBezierCurve;
         }
         
+        private void StartBezierCurveCard(string guidCard, BezierTargetEnum target)
+        {
+            var positionCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity()
+                .GetComponent<CardComponent>()
+                .RectTransform.position;
+            
+            StartBezier(positionCard, target);
+        }
+
         private void StartBezier(Vector3 startPosition, BezierTargetEnum target)
         {
             var bezierEntity = _dataWorld.NewEntity();
@@ -188,8 +200,11 @@ namespace CyberNet.Core.BezierCurveNavigation
         
         private void OffBezierCurve()
         {
-            var entityBezier = _dataWorld.Select<BezierCurveNavigationComponent>().SelectFirstEntity();
-            entityBezier.Destroy();
+            var bezierQuery = _dataWorld.Select<BezierCurveNavigationComponent>();
+            if (bezierQuery.Count() == 0)
+                return;
+            
+            bezierQuery.SelectFirstEntity().Destroy();
             
             foreach (var point in graphPoints)
             {
@@ -200,6 +215,7 @@ namespace CyberNet.Core.BezierCurveNavigation
         public void Destroy()
         {
             BezierCurveNavigationAction.StartBezierCurve -= StartBezier;
+            BezierCurveNavigationAction.StartBezierCurveCard -= StartBezierCurveCard;
             BezierCurveNavigationAction.OffBezierCurve -= OffBezierCurve;
         }
     }

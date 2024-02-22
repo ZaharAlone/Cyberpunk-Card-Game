@@ -34,7 +34,7 @@ namespace CyberNet.Core
             if (selectPlayerAbilityCard != 0)
             {
                 var inputData = _dataWorld.OneData<InputData>();
-                if (inputData.RightClick)
+                if (inputData.RightClick || inputData.ExitUI)
                     CancelSelectAbility();
                 return;   
             }
