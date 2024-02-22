@@ -41,8 +41,11 @@ namespace CyberNet.Core.InteractiveCard
             var isEntity = _dataWorld.Select<SelectTargetCardAbilityComponent>().TrySelectFirstEntity(out var entity);
             if (!isEntity)
                 return;
+
+            var positionCardX = entity.GetComponent<CardComponent>().RectTransform.anchoredPosition.x;
+            var isShowButtonUp = Mathf.Abs(positionCardX) < 200;
             
-            AbilityInputButtonUIAction.ShowCancelButton?.Invoke();
+            AbilityInputButtonUIAction.ShowCancelButton?.Invoke(isShowButtonUp);
             AnimationShowCard(entity);
         }
 

@@ -90,7 +90,7 @@ namespace CyberNet.Core
             {
                 entity.AddComponent(new SelectingPlayerAbilityComponent());
                 OpenUISelectAbilityCard(cardComponent);
-                AbilityInputButtonUIAction.ShowCancelButton?.Invoke();
+                AbilityInputButtonUIAction.ShowCancelButton?.Invoke(false);
                 AnimationShowCard(entity);
                 return isOneAbility;
             }
