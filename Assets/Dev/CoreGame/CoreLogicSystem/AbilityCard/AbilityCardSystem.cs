@@ -19,6 +19,7 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.UpdateValueResourcePlayedCard += CalculateValueCard;
             AbilityCardAction.ClearActionView += ClearAction;
+            AbilityCardAction.CancelAbility += CancelAbility;
         }
         
         public void Init()
@@ -157,6 +158,7 @@ namespace CyberNet.Core.AbilityCard
             switch (selectAbility)
             {
                 case AbilityType.Attack:
+                    AbilityCardAction.CancelAddUnitMap?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.DestroyCard:
                     break;
@@ -184,9 +186,11 @@ namespace CyberNet.Core.AbilityCard
                     throw new ArgumentOutOfRangeException();
             }
             
-            
             entity.RemoveComponent<SelectTargetCardAbilityComponent>();
             entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
+            entity.RemoveComponent<AbilitySelectElementComponent>();
+
+            _dataWorld.OneData<RoundData>().PauseInteractive = false;
         }
         
         private void ActionSelectCardAddComponent(AbilityCardContainer abilityCardStruct, Entity entity)
@@ -217,6 +221,7 @@ namespace CyberNet.Core.AbilityCard
             
             AbilityCardAction.UpdateValueResourcePlayedCard -= CalculateValueCard;
             AbilityCardAction.ClearActionView -= ClearAction;
+            AbilityCardAction.CancelAbility -= CancelAbility;
         }
     }
 }

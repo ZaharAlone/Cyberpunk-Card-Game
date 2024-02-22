@@ -1,7 +1,9 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.BezierCurveNavigation;
+using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using DG.Tweening;
 using EcsCore;
 using Input;
@@ -70,11 +72,14 @@ namespace CyberNet.Core.InteractiveCard
             
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             
+            AbilityCardAction.CancelAbility?.Invoke();
             AbilitySelectElementAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
         }
 
         public void Destroy()

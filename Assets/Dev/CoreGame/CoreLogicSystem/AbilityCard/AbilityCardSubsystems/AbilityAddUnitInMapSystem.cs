@@ -109,9 +109,13 @@ namespace CyberNet.Core.AbilityCard
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
         
-        private void CancelAddUnitMap(string obj)
+        private void CancelAddUnitMap(string guidCard)
         {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
             
+            entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
         }
 
         public void Destroy()

@@ -66,7 +66,9 @@ namespace CyberNet.Core.City
             
             _dataWorld.NewEntity().AddComponent(squadMapComponent);
             
-            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
+            
+            if (_dataWorld.OneData<RoundData>().PauseInteractive)
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
         }
 
         private void AttackSolidPoint(string guid, int indexPoint)

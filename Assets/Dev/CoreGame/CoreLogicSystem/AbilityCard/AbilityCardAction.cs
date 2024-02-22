@@ -8,6 +8,7 @@ namespace CyberNet.Core.AbilityCard
         public static Action UpdateValueResourcePlayedCard;
         public static Action ClearActionView;
         public static Action<int> SelectPlayer;
+        public static Action CancelAbility;
         
         //Делегаты вызова абилки
         public static Action AddResource;

@@ -4,5 +4,6 @@ namespace CyberNet.Core.BezierCurveNavigation
     {
         public BezierTargetEnum Target;
         public bool SelectTarget;
+        public BezierCurveStatusEnum BezierCurveStatusEnum;
     }
 }

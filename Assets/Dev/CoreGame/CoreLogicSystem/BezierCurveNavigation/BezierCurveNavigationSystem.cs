@@ -37,6 +37,8 @@ namespace CyberNet.Core.BezierCurveNavigation
             var uiBezier = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BezierCurveUIMono;
             uiBezier.ControlPoints[0].position = startPosition;
             graphPoints = new List<BezierArrowMono>();
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.StartInteractiveCard);
         }
 
         public void Run()
@@ -153,6 +155,10 @@ namespace CyberNet.Core.BezierCurveNavigation
 
         public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
+            ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
+                .SelectFirstEntity()
+                .GetComponent<BezierCurveNavigationComponent>();
+            
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             var color = new Color32();
             
@@ -163,9 +169,9 @@ namespace CyberNet.Core.BezierCurveNavigation
                     break;
                 case BezierCurveStatusEnum.SelectCurrentTarget:
                     color = colorsConfig.SelectCurrentTargetBlueColor;
-                    //Дописать условие чтобы статус не менялся если он уже был таким и тогда будет нормально воспроизводится звук
                     
-                    //SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
+                    if (bezierComponent.BezierCurveStatusEnum != status)
+                        SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap);
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;
@@ -176,6 +182,8 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 arrow.SetColorArrow(color);
             }
+
+            bezierComponent.BezierCurveStatusEnum = status;
         }
         
         private void OffBezierCurve()
