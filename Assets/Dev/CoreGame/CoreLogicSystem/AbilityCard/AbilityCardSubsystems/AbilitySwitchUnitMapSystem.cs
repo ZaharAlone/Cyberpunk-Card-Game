@@ -103,7 +103,7 @@ namespace CyberNet.Core.AbilityCard
             var cardPosition = cardComponent.RectTransform.position;
             cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
         }
         

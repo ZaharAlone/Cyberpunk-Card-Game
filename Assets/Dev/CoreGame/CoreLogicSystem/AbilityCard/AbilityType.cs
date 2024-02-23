@@ -6,18 +6,18 @@ namespace CyberNet.Core.AbilityCard
     public enum AbilityType
     {
         None,
-        Attack,
+        AddUnit,
         Trade,
         DrawCard,
         DestroyCard,
         CloneCard,
         DestroyTradeCard,
-        SwitchNeutralSquad,
-        SwitchEnemySquad,
-        DestroyNeutralSquad,
-        DestroySquad,
+        SwitchNeutralUnit,
+        SwitchEnemyUnit,
+        DestroyNeutralUnit,
+        DestroyUnit,
         EnemyDiscardCard,
-        SquadMove,
+        UnitMove,
         SetIce,
         DestroyIce
     }

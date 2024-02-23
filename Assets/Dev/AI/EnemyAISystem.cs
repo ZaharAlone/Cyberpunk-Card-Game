@@ -158,7 +158,7 @@ namespace CyberNet.Core.AI
             {
                 var cardComponent = entity.GetComponent<CardComponent>();
 
-                if (cardComponent.Ability_0.AbilityType == AbilityType.Attack
+                if (cardComponent.Ability_0.AbilityType == AbilityType.AddUnit
                     || cardComponent.Ability_0.AbilityType == AbilityType.DrawCard
                     && cardComponent.Ability_1.AbilityType == AbilityType.None)
                 {

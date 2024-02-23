@@ -12,7 +12,7 @@ using UnityEngine.AddressableAssets;
 namespace CyberNet.Tools.DebugGame
 {
     [EcsSystem(typeof(DebugModule))]
-    public class DebugSystem : IPreInitSystem, IInitSystem
+    public class DebugSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -75,6 +75,11 @@ namespace CyberNet.Tools.DebugGame
         {
             await Task.Delay(300);
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            DebugAction.GetCard -= GetCard;
         }
     }
 }

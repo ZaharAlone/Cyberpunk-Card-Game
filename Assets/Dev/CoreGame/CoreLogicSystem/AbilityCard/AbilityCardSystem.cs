@@ -87,7 +87,7 @@ namespace CyberNet.Core.AbilityCard
             
             switch (abilityCardStruct.AbilityType)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     entity.AddComponent(new AbilityCardAddUnitComponent {
                         ListTowerAddUnit = new()
@@ -112,16 +112,16 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke();
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.MoveUnit?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroyNeutralSquad:
+                case AbilityType.DestroyNeutralUnit:
                     Debug.LogError("add call event Destroy neutral unit");
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyNeutralUnit?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroySquad:
+                case AbilityType.DestroyUnit:
                     Debug.LogError("add call event Destroy enemy unit");
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyEnemyUnit?.Invoke(guidCard);
@@ -134,11 +134,11 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyIce?.Invoke(guidCard);
                     break;
-                case AbilityType.SwitchEnemySquad:
+                case AbilityType.SwitchEnemyUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SwitchEnemyUnitMap?.Invoke(guidCard);
                     break;
-                case AbilityType.SwitchNeutralSquad:
+                case AbilityType.SwitchNeutralUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SwitchNeutralUnitMap?.Invoke(guidCard);
                     break;
@@ -166,7 +166,7 @@ namespace CyberNet.Core.AbilityCard
 
             switch (selectAbility)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
                     AbilityCardAction.CancelAddUnitMap?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.DestroyCard:
@@ -175,17 +175,17 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyTradeCard:
                     break;
-                case AbilityType.SwitchNeutralSquad:
+                case AbilityType.SwitchNeutralUnit:
                     break;
-                case AbilityType.SwitchEnemySquad:
+                case AbilityType.SwitchEnemyUnit:
                     break;
-                case AbilityType.DestroyNeutralSquad:
+                case AbilityType.DestroyNeutralUnit:
                     break;
-                case AbilityType.DestroySquad:
+                case AbilityType.DestroyUnit:
                     break;
                 case AbilityType.EnemyDiscardCard:
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
                     AbilityCardAction.CancelMoveUnit?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.SetIce:

@@ -270,7 +270,8 @@ namespace CyberNet.Core.AI.Arena
         
         public void Destroy()
         {
-            
+            AIBattleArenaAction.CheckEnemyBattle -= CheckEnemy;
+            AIBattleArenaAction.StartAIRound -= BattleAILogic;
         }
     }
 }

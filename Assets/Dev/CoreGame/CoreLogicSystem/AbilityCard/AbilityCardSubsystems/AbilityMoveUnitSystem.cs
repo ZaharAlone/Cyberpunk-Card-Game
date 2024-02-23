@@ -43,7 +43,7 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity()
                 .AddComponent(new AbilityCardMoveUnitComponent());
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SquadMove, 0, false);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
             CityAction.SelectTower += SelectTower;
@@ -77,7 +77,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectTowerGUID);
             CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectTowerGUID, currentPlayerID);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SquadMove, 1, false);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 1, false);
             CityAction.SelectUnit += ClickOnUnit;
         }
 
@@ -197,7 +197,7 @@ namespace CyberNet.Core.AbilityCard
         {
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()
-                .Where<AbilitySelectElementComponent>(selectCard => selectCard.AbilityCard.AbilityType == AbilityType.SquadMove)
+                .Where<AbilitySelectElementComponent>(selectCard => selectCard.AbilityCard.AbilityType == AbilityType.UnitMove)
                 .SelectFirstEntity();
             
             entityCard.RemoveComponent<AbilitySelectElementComponent>();

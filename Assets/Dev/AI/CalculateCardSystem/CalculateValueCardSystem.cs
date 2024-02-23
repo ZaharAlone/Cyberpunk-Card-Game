@@ -11,7 +11,7 @@ using CyberNet.Core.Player;
 namespace CyberNet.Core.AI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CalculateValueCardSystem : IPreInitSystem
+    public class CalculateValueCardSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -26,7 +26,7 @@ namespace CyberNet.Core.AI
             
             switch (abilityCard.AbilityType)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
                     value = AttackAction(abilityCard.Count);
                     break;
                 case AbilityType.Trade:
@@ -37,7 +37,7 @@ namespace CyberNet.Core.AI
                 case AbilityType.DestroyCard:
                     value = DestroyCardAction();
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
                     value = MoveUnitAction();
                     break;
             }
@@ -115,6 +115,11 @@ namespace CyberNet.Core.AI
         {
             //const
             return 40;
+        }
+
+        public void Destroy()
+        {
+            CalculateValueCardAction.CalculateValueCardAbility -= CalculateValueCardAbility;
         }
     }
 }

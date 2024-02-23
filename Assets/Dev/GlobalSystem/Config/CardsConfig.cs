@@ -68,6 +68,8 @@ namespace CyberNet
     {
         [JsonProperty("abilityLoc")]
         public string AbilityLoc;
+        [JsonProperty("abilityLocMultiple")]
+        public string AbilityLocMultiple;
         [JsonProperty("visualPlayingCard_Map")]
         public VisualPlayingCardType VisualPlayingCardMap;
         [JsonProperty("visualPlayingCard_Arena")]

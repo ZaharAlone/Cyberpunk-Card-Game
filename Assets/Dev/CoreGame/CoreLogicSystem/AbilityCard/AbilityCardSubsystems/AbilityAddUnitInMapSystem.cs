@@ -9,6 +9,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -34,7 +35,7 @@ namespace CyberNet.Core.AbilityCard
             }
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.SelectTower += AddUnitTower;
         }
@@ -107,6 +108,21 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity();
             
             //Учитывать что можно добавить больше одного юнита за раз и их нужно всех откатить
+
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var unitsAddedToMapComponent = entityCard.GetComponent<AbilityCardAddUnitComponent>();
+            
+            foreach (var newUnitsInTower in unitsAddedToMapComponent.ListTowerAddUnit)
+            {
+                var unitInMapEntity = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == newUnitsInTower
+                        && unit.PowerSolidPlayerID == currentPlayerID)
+                    .SelectFirstEntity();
+                var unitInMapComponent = unitInMapEntity.GetComponent<UnitMapComponent>();
+                
+                Object.Destroy(unitInMapComponent.UnitIconsGO);
+                unitInMapEntity.Destroy();
+            }
             
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
             CityAction.SelectTower -= AddUnitTower;
