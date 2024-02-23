@@ -8,13 +8,13 @@ using CyberNet.Core.UI;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionAddResourceSystem : IPreInitSystem, IDeactivateSystem
+    public class ActionAddTradePointSystem : IPreInitSystem, IDeactivateSystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
-            AbilityCardAction.AddResource += CalculateAddResource;
+            AbilityCardAction.AddTradePoint += CalculateAddResource;
         }
         
         private void CalculateAddResource()
@@ -43,12 +43,11 @@ namespace CyberNet.Core
             entity.RemoveComponent<AbilitySelectElementComponent>();
             entity.RemoveComponent<ActionCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
-            //CityAction.UpdateCanInteractiveMap?.Invoke();
         }
 
         public void Deactivate()
         {
-            AbilityCardAction.AddResource -= CalculateAddResource;
+            AbilityCardAction.AddTradePoint -= CalculateAddResource;
         }
     }
 }

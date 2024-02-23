@@ -222,10 +222,27 @@ namespace CyberNet.Core.AbilityCard
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
+
+            //Убираем выделение с юнитов если какие-то юниты уже выделены
+            var selectUnitsMapEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
+
+            foreach (var unitEntity in selectUnitsMapEntities)
+            {
+                var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+                unitEntity.RemoveComponent<SelectUnitMapComponent>();
+                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();   
+            }
             
             entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+            
+            if (entityCard.HasComponent<AbilityCardMoveUnitSelectTowerComponent>())
+                entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();
+            
             CityAction.DeactivateAllTower?.Invoke();
             CityAction.SelectTower -= SelectTower;
+            CityAction.SelectUnit -= ClickOnUnit;
+            CityAction.SelectTower -= SelectTowerToMove;
+            CustomCursorAction.OnBaseCursor?.Invoke();
         }
 
         public void Destroy()

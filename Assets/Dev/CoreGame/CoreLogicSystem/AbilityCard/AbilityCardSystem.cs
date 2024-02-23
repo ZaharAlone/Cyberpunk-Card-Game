@@ -99,7 +99,7 @@ namespace CyberNet.Core.AbilityCard
                         AbilityType = abilityCardStruct.AbilityType,
                         Count = abilityCardStruct.Count
                     });
-                    AbilityCardAction.AddResource?.Invoke();
+                    AbilityCardAction.AddTradePoint?.Invoke();
                     break;
                 case AbilityType.DrawCard:
                     ActionDrawCard(abilityCardStruct.Count);

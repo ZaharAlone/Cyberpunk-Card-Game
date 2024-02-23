@@ -52,13 +52,7 @@ namespace CyberNet.Core
 
         private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsConfig cardConfig, bool oneAbility = false)
         {
-            /*
-            if (ability.AbilityType == AbilityType.AddUnit)
-            {
-                boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
-                AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
-            }
-            else */if (ability.AbilityType == AbilityType.Trade)
+            if (ability.AbilityType == AbilityType.Trade)
             {
                 boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
                 AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);

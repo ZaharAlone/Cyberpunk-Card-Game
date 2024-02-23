@@ -14,6 +14,9 @@ using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.AbilityCard
 {
+    /// <summary>
+    /// Дописать абилку замены вражеского юнита, для этого нужно добавить выделение юнита
+    /// </summary>
     [EcsSystem(typeof(CoreModule))]
     public class AbilitySwitchUnitMapSystem : IPreInitSystem, IDestroySystem
     {
@@ -39,21 +42,22 @@ namespace CyberNet.Core.AbilityCard
                 .Without<CurrentPlayerComponent>()
                 .GetEntities();
 
-            var listID = new List<int>();
+            var listIDPlayers = new List<int>();
             
             foreach (var playerEntity in playerEntities)
             {
-                listID.Add(playerEntity.GetComponent<PlayerComponent>().PlayerID);
+                listIDPlayers.Add(playerEntity.GetComponent<PlayerComponent>().PlayerID);
             }
             
-            CityAction.ShowManyZonePlayerInMap?.Invoke(listID);
-            StartWorkAbility();
+            CityAction.ShowManyZonePlayerInMap?.Invoke(listIDPlayers);
+            StartWorkAbility(guidCard);
+            
+            // Дописать выбор не башни,а конкретного юнита
             //CityAction.SelectTower += DestroyEnemyUnitInMap;
         }
 
         private void StartSwitchNeutralUnit(string guidCard)
         {
-            Debug.LogError("Ability Card Switch neutral");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
@@ -63,7 +67,7 @@ namespace CyberNet.Core.AbilityCard
             }
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(-1);
-            StartWorkAbility();
+            StartWorkAbility(guidCard);
             CityAction.SelectTower += SwitchNeutralUnitMapSelectTower;
         }
         
@@ -91,26 +95,24 @@ namespace CyberNet.Core.AbilityCard
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
-        private void StartWorkAbility()
+        private void StartWorkAbility(string guidCard)
         {
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.PauseInteractive = true;
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .SelectFirstEntity();
-
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            var cardPosition = cardComponent.RectTransform.position;
-            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
+            var abilityType = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity()
+                .GetComponent<AbilitySelectElementComponent>()
+                .AbilityCard.AbilityType;
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
-            BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
         }
         
         public void Destroy()
         {
             AbilityCardAction.SwitchEnemyUnitMap -= SwitchEnemyUnitMap;
             AbilityCardAction.SwitchNeutralUnitMap -= StartSwitchNeutralUnit;
+            
+            CityAction.SelectTower -= SwitchNeutralUnitMapSelectTower;
         }
     }
 }
