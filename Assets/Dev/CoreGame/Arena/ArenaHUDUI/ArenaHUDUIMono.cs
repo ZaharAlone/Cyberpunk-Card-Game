@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,7 +9,8 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 {
     public class ArenaHUDUIMono : MonoBehaviour
     {
-        public Transform ContainerListCharacter;
+        [SerializeField]
+        private Transform _containerListCharacter;
 
         [SerializeField]
         private GameObject _actionAttackButton;
@@ -18,53 +20,90 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         [SerializeField]
         private List<ArenaContainerUICharacterMono> _characterAvatars = new List<ArenaContainerUICharacterMono>();
 
+        [Header("Scale character avatar")]
+        [SerializeField]
+        private float _scaleAvatarBase = 100;
+        [SerializeField]
+        private float _scaleAvatarSelect = 120;
+        [SerializeField]
+        private float _spacingBetweenAvatar = 10;
+        
         private void OnEnable()
         {
             HideArenaUI();
         }
 
+        public ArenaContainerUICharacterMono AddAvatarSlotInBar(ArenaContainerUICharacterMono arenaCharacter)
+        {
+            var avatarSlot = Instantiate(arenaCharacter, _containerListCharacter);
+            _characterAvatars.Add(avatarSlot);
+            return avatarSlot;
+        }
+
         public void OnArenaHUD()
         {
-            ContainerListCharacter.gameObject.SetActive(true);
-            _characterAvatars = new List<ArenaContainerUICharacterMono>();
+            _containerListCharacter.gameObject.SetActive(true);
         }
         
         public void OffArenaHUD()
         {
             ClearCharacters();
-            ContainerListCharacter.gameObject.SetActive(false);
+            _containerListCharacter.gameObject.SetActive(false);
         }
 
-        public void AddCharacterAvatars(ArenaContainerUICharacterMono characterMono)
+        public void SetStartPositionAvatar()
         {
-            _characterAvatars.Add(characterMono);
+            foreach (var avatar in _characterAvatars)
+            {
+                var positionAndScale = CalculatePositionsAndScaleAvatar(avatar);
+                avatar.SetPositionAndScale(new Vector2(positionAndScale.Item1, 0), positionAndScale.Item2);
+            }
+        }
+
+        private (float, float) CalculatePositionsAndScaleAvatar(ArenaContainerUICharacterMono avatar)
+        {
+            var countAvatarNotMain = _characterAvatars.Count - 1;
+            var maxLengthSpaceAvatar = (_scaleAvatarBase + _spacingBetweenAvatar) * countAvatarNotMain + _scaleAvatarSelect;
+            var startPosition = -maxLengthSpaceAvatar / 2;
+
+            var positionX = startPosition;
+            var scale = 0f;
+            
+            if (avatar.PositionInTurnQueue == 0)
+            {
+                scale = _scaleAvatarSelect;
+            }
+            else
+            {
+                positionX = startPosition + (_scaleAvatarSelect + _spacingBetweenAvatar)
+                    + (_spacingBetweenAvatar + _scaleAvatarBase) * (avatar.PositionInTurnQueue - 1);
+                scale = _scaleAvatarBase;
+            }
+            
+            return (positionX, scale);
         }
 
         public void UpdateOrderAvatarSlot()
         {
-            var currentIndexPosition = 0;
-            var listSlot = _characterAvatars;
-
-            while (listSlot.Count != 0)
+            foreach (var avatar in _characterAvatars)
             {
-                var minIndex = 999;
-                var selectSlot = 0;
+                avatar.PositionInTurnQueue--;
+                if (avatar.PositionInTurnQueue < 0)
+                    avatar.PositionInTurnQueue = _characterAvatars.Count - 1;
+            }
+            
+            foreach (var avatar in _characterAvatars)
+            {
+                var positionAndScale = CalculatePositionsAndScaleAvatar(avatar);
 
-                for (int i = 0; i < listSlot.Count; i++)
+                if (avatar.PositionInTurnQueue == _characterAvatars.Count - 1)
                 {
-                    if (listSlot[i].PositionInTurnQueue < minIndex)
-                    {
-                        minIndex = listSlot[i].PositionInTurnQueue;
-                        selectSlot = i;
-                    }
+                    avatar.AnimationsMoveBack(positionAndScale.Item1, positionAndScale.Item2);
                 }
-                
-                listSlot[selectSlot].transform.SetSiblingIndex(currentIndexPosition);
-                if (currentIndexPosition == 0)
-                    listSlot[selectSlot].OnCurrentCharacter();
-                
-                currentIndexPosition++;
-                listSlot.RemoveAt(selectSlot);
+                else
+                {
+                    avatar.AnimationsMoveNext(positionAndScale.Item1, positionAndScale.Item2);
+                }
             }
         }
 
@@ -108,7 +147,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         
         public void NextRoundUpdateViewAvatar()
         {
-            ContainerListCharacter.GetChild(0).SetAsLastSibling();
+            _containerListCharacter.GetChild(0).SetAsLastSibling();
             
         }
     }

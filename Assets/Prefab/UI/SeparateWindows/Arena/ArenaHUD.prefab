@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4526517248025595397}
-  - component: {fileID: 1894864516488904452}
-  - component: {fileID: 3527440528024679419}
   m_Layer: 5
   m_Name: unit_container
   m_TagString: Untagged
@@ -35,49 +33,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 136}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 1200, y: 110}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1894864516488904452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804628584075861785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 4
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
---- !u!114 &3527440528024679419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804628584075861785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 0
 --- !u!1 &1904684977715953318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,10 +1016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77338fc403d743a094b0af0a9686cb0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContainerListCharacter: {fileID: 4526517248025595397}
+  _containerListCharacter: {fileID: 4526517248025595397}
   _actionAttackButton: {fileID: 7931930290642151629}
   _actionRetreatButton: {fileID: 4103444981965963104}
   _characterAvatars: []
+  _scaleAvatarBase: 100
+  _scaleAvatarSelect: 110
+  _spacingBetweenAvatar: 15
 --- !u!1 &7768533215221649259
 GameObject:
   m_ObjectHideFlags: 0

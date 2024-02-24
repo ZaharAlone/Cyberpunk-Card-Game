@@ -36,7 +36,8 @@ namespace CyberNet.Core
                     break;
                 case AbilityCondition.Destroy:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDestroy.text = "Destroy Card";
+                    //TODO поправить на локализацию
+                    textDestroy.SetText("Destroy Card");
                     break;
             }
 
@@ -61,11 +62,14 @@ namespace CyberNet.Core
             {
                 cardConfig.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
                 var textCard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                
+
                 if (ability.Count > 1 && abilityCardConfig.AbilityLocMultiple != null)
-                    textCard.text = I2.Loc.LocalizationManager.GetTranslation(abilityCardConfig.AbilityLocMultiple);
+                {
+                    textCard.SetParameters(ability.Count);
+                    textCard.SetText(abilityCardConfig.AbilityLocMultiple);
+                }
                 else
-                    textCard.text = I2.Loc.LocalizationManager.GetTranslation(abilityCardConfig.AbilityLoc);
+                    textCard.SetText(abilityCardConfig.AbilityLoc);
             }
         }
 

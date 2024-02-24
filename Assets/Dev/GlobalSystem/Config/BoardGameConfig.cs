@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using CyberNet.Core;
 using CyberNet.Core.Arena;
 using CyberNet.Core.City;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Config;
 using CyberNet.Global.Cursor;
@@ -28,7 +29,7 @@ namespace CyberNet
         public Image IconsBaseAbility;
         public TextMeshProUGUI TextBaseAbilityCountItem;
         public Image IconsArrowConditionAbility;
-        public TextMeshProUGUI TextBaseAbility;
+        public TextAbilityLocalizeMono TextBaseAbility;
         public GameObject ItemIconsCounterCard;
         public GameObject IconsArrowChooseAbility;
 
