@@ -21,7 +21,6 @@ namespace CyberNet.Core.AbilityCard
          public void PreInit()
         {
             AbilityCardAction.AbilityAddUnitMap += AddUnitMap;
-            AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
 
         private void AddUnitMap(string guidCard)
@@ -37,7 +36,9 @@ namespace CyberNet.Core.AbilityCard
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
+            
             CityAction.SelectTower += AddUnitTower;
+            AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
 
         private void AddUnitTower(string towerGUID)
@@ -99,6 +100,8 @@ namespace CyberNet.Core.AbilityCard
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
             
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
+            
+            AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
         }
         
         private void CancelAddUnitMap(string guidCard)

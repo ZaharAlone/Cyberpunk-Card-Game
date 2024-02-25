@@ -7,5 +7,6 @@ namespace CyberNet.Core.UI
         public static Action UpdateStatsAllPlayersPassportUI;
         public static Action UpdateStatsPlayersCurrency;
         public static Action UpdateCountCardInHand;
+        public static Action<bool> ControlVFXCurrentPlayerArena;
     }
 }

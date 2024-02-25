@@ -23,6 +23,9 @@ namespace  CyberNet.Core.UI
         public Image ActionButtonImage;
         public CoreElementInfoPopupButtonMono PopupActionButton;
 
+        [Header("Ability Button")]
+        public GameObject AbilityButton;
+        
         [Header("Draw and Discard")]
         public RectTransform DownDiscard;
         public TextMeshProUGUI DownDiscardCount;
@@ -80,13 +83,15 @@ namespace  CyberNet.Core.UI
         public void ShowInteractiveButton()
         {
             ActionButton.SetActive(true);
+            AbilityButton.SetActive(true);
         }
 
         public void HideInteractiveButton()
         {
             ActionButton.SetActive(false);
+            AbilityButton.SetActive(false);
         }
-
+        
         public void OnClickActionButton()
         {
             ActionPlayerButtonEvent.ClickActionButton?.Invoke();

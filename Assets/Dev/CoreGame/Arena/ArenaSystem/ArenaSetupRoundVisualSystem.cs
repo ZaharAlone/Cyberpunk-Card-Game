@@ -2,6 +2,7 @@ using CyberNet.Core.AI.Arena;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -119,7 +120,9 @@ namespace CyberNet.Core.Arena
                 .SelectFirstEntity();
 
             var unitComponent = selectUnitEntity.GetComponent<ArenaUnitComponent>();
+            var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             unitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
+            unitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectCurrentTargetBlueColor, false);
         }
 
         private void FinishRound()
@@ -130,6 +133,12 @@ namespace CyberNet.Core.Arena
             {
                 ArenaAction.EndBattleArena?.Invoke();
                 return;
+            }
+
+            var selectTargetForAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>().GetEntities();
+            foreach (var entity in selectTargetForAttack)
+            {
+                entity.RemoveComponent<ArenaSelectUnitForAttackComponent>();
             }
             
             ArenaAction.UpdateTurnOrderArena?.Invoke();
@@ -147,6 +156,7 @@ namespace CyberNet.Core.Arena
             if (currentPlayerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 ArenaAIAction.StartAINeutralLogic?.Invoke();
+                BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(false);
             }
             else
             {
@@ -158,10 +168,12 @@ namespace CyberNet.Core.Arena
                 if (playerGlobalComponent.playerOrAI == PlayerOrAI.Player)
                 {
                     ArenaUIAction.ShowHUDButton?.Invoke();
+                    BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(true);
                 }
                 else
                 {
                     AIBattleArenaAction.StartAIRound?.Invoke();
+                    BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(false);
                 }
             }
         }
