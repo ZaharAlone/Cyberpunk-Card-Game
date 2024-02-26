@@ -1,6 +1,6 @@
 namespace CyberNet.Core.AbilityCard
 {
-    public struct ActionCardAddResourceComponent
+    public struct AbilityCardAddResourceComponent
     {
         public AbilityType AbilityType;
         public int Count;

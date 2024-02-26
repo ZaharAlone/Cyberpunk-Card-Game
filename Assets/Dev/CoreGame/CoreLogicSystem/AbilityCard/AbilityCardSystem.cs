@@ -95,7 +95,7 @@ namespace CyberNet.Core.AbilityCard
                     AbilityCardAction.AbilityAddUnitMap?.Invoke(guidCard);
                     break;
                 case AbilityType.Trade:
-                    entity.AddComponent(new ActionCardAddResourceComponent {
+                    entity.AddComponent(new AbilityCardAddResourceComponent {
                         AbilityType = abilityCardStruct.AbilityType,
                         Count = abilityCardStruct.Count
                     });

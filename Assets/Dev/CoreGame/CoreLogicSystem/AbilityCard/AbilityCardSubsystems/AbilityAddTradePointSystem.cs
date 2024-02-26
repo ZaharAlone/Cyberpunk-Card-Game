@@ -8,7 +8,7 @@ using CyberNet.Core.UI;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ActionAddTradePointSystem : IPreInitSystem, IDeactivateSystem
+    public class AbilityAddTradePointSystem : IPreInitSystem, IDeactivateSystem
     {
         private DataWorld _dataWorld;
 
@@ -19,8 +19,7 @@ namespace CyberNet.Core
         
         private void CalculateAddResource()
         {
-            var entities = _dataWorld.Select<ActionCardAddResourceComponent>()
-                .Without<CardComponentAnimations>()
+            var entities = _dataWorld.Select<AbilityCardAddResourceComponent>()
                 .GetEntities();
 
             foreach (var entity in entities)
@@ -31,17 +30,13 @@ namespace CyberNet.Core
 
         private void AddResource(Entity entity)
         {
-            ref var abilityAddResourceComponent = ref entity.GetComponent<ActionCardAddResourceComponent>();
+            ref var abilityAddResourceComponent = ref entity.GetComponent<AbilityCardAddResourceComponent>();
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var abilityVFX = _dataWorld.OneData<AbilityCardConfigData>().AbilityCardConfig;
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
-            ref var cardsContainer = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
             
             actionData.TotalTrade += abilityAddResourceComponent.Count;
-            ActionVisualEffect.CreateEffect(abilityVFX.tradeVFX,cardComponent.RectTransform.position, cardsContainer, abilityAddResourceComponent.Count);
             
             entity.RemoveComponent<AbilitySelectElementComponent>();
-            entity.RemoveComponent<ActionCardAddResourceComponent>();
+            entity.RemoveComponent<AbilityCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }
 

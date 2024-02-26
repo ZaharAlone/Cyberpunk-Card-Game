@@ -1,5 +1,6 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Sound;
+using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -69,15 +70,15 @@ namespace CyberNet.Core.InteractiveCard
             
             if (currentRoundState == RoundState.Map)
             {
-                ApplyAbilityCard(guid, cardAbility, abilityCardConfig.VisualPlayingCardMap);
+                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardMap);
             }
             else
             {
-                ApplyAbilityCard(guid, cardAbility, abilityCardConfig.VisualPlayingCardArena);
+                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardArena);
             }
         }
         
-        private void ApplyAbilityCard(string guid, AbilityCardContainer abilityCard, VisualPlayingCardType visualPlayingCardType)
+        private void ApplyAbilityCard(string guid, VisualPlayingCardType visualPlayingCardType)
         {
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
@@ -94,7 +95,10 @@ namespace CyberNet.Core.InteractiveCard
                 else
                 {
                     entity.AddComponent(new CardMoveToTableComponent());
+                    entity.RemoveComponent<CardComponentAnimations>();
+                    
                     AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
+                    CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }
             else if (visualPlayingCardType == VisualPlayingCardType.Target)

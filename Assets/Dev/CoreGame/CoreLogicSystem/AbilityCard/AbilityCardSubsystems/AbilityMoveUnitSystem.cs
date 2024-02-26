@@ -40,6 +40,7 @@ namespace CyberNet.Core.AbilityCard
             }
 
             _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity()
                 .AddComponent(new AbilityCardMoveUnitComponent());
             
@@ -173,12 +174,12 @@ namespace CyberNet.Core.AbilityCard
             }
         }
 
-        private void SelectTowerToMove(string guid)
+        private void SelectTowerToMove(string towerGUID)
         {
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             ref var abilityCardMoveUnitComponent = ref entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>();
             
-            if (guid != abilityCardMoveUnitComponent.SelectTowerGUID)
+            if (towerGUID != abilityCardMoveUnitComponent.SelectTowerGUID)
                 return;
             
             CityAction.SelectUnit -= ClickOnUnit;
@@ -196,18 +197,17 @@ namespace CyberNet.Core.AbilityCard
         private void EndPlayingCard()
         {
             var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .Where<AbilitySelectElementComponent>(selectCard => selectCard.AbilityCard.AbilityType == AbilityType.UnitMove)
+                .With<AbilityCardMoveUnitComponent>()
                 .SelectFirstEntity();
-            
-            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+
+            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
             entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
-            
+
             entityCard.AddComponent(new CardMoveToTableComponent());
-            
+
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
