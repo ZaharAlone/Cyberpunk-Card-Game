@@ -111,7 +111,6 @@ namespace CyberNet.Core.AI
             EnemyTurnViewUIAction.HideView?.Invoke();
             SelectTradeCard();
             
-            Debug.LogError($"time wait action bot {_timeWaitActionBot}");
             _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
             });

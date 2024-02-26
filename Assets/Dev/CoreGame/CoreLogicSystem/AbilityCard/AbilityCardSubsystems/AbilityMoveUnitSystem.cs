@@ -201,6 +201,7 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity();
             
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
@@ -234,6 +235,9 @@ namespace CyberNet.Core.AbilityCard
             }
             
             entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+            
+            if (entityCard.HasComponent<SelectTargetCardAbilityComponent>())
+                entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
             
             if (entityCard.HasComponent<AbilityCardMoveUnitSelectTowerComponent>())
                 entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();

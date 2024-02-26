@@ -168,8 +168,7 @@ namespace CyberNet.Core.InteractiveCard
         {
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
                 return;
-
-            //Debug.LogError("Deselect card");
+            
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.CurrentRoundState == RoundState.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
                 return;
