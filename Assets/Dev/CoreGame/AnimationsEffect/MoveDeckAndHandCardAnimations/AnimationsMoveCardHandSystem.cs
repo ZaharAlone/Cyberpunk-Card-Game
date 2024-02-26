@@ -1,4 +1,5 @@
 using CyberNet.Core.InteractiveCard;
+using CyberNet.Core.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -6,6 +7,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using DG.Tweening;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 
 namespace CyberNet.Core
 {
@@ -63,6 +65,8 @@ namespace CyberNet.Core
 
             entity.AddComponent(animationComponent);
             entity.RemoveComponent<WaitAnimationsDrawHandCardComponent>();
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.GetCardInHand);
         }
         
         private void EndDrawHandAnimations(Entity entity)

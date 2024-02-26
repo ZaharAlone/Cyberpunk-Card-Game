@@ -1,6 +1,7 @@
 using System;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -19,6 +20,7 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.UpdateValueResourcePlayedCard += CalculateValueCard;
             AbilityCardAction.ClearActionView += ClearAction;
+            AbilityCardAction.CancelAbility += CancelAbility;
         }
         
         public void Init()
@@ -75,9 +77,17 @@ namespace CyberNet.Core.AbilityCard
         //Add component ability
         private void AddAbilityComponent(string guidCard, AbilityCardContainer abilityCardStruct, Entity entity)
         {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            
+            if (abilityCardStruct.AbilityType != AbilityType.Trade && roundData.playerOrAI == PlayerOrAI.Player)
+            {
+                _dataWorld.OneData<RoundData>().PauseInteractive = true;
+                AbilityCardAction.ShiftUpCard?.Invoke(guidCard);
+            }
+            
             switch (abilityCardStruct.AbilityType)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     entity.AddComponent(new AbilityCardAddUnitComponent {
                         ListTowerAddUnit = new()
@@ -89,7 +99,7 @@ namespace CyberNet.Core.AbilityCard
                         AbilityType = abilityCardStruct.AbilityType,
                         Count = abilityCardStruct.Count
                     });
-                    AbilityCardAction.AddResource?.Invoke();
+                    AbilityCardAction.AddTradePoint?.Invoke();
                     break;
                 case AbilityType.DrawCard:
                     ActionDrawCard(abilityCardStruct.Count);
@@ -102,16 +112,16 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke();
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.MoveUnit?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroyNeutralSquad:
+                case AbilityType.DestroyNeutralUnit:
                     Debug.LogError("add call event Destroy neutral unit");
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyNeutralUnit?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroySquad:
+                case AbilityType.DestroyUnit:
                     Debug.LogError("add call event Destroy enemy unit");
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyEnemyUnit?.Invoke(guidCard);
@@ -124,11 +134,11 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyIce?.Invoke(guidCard);
                     break;
-                case AbilityType.SwitchEnemySquad:
+                case AbilityType.SwitchEnemyUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SwitchEnemyUnitMap?.Invoke(guidCard);
                     break;
-                case AbilityType.SwitchNeutralSquad:
+                case AbilityType.SwitchNeutralUnit:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SwitchNeutralUnitMap?.Invoke(guidCard);
                     break;
@@ -156,7 +166,8 @@ namespace CyberNet.Core.AbilityCard
 
             switch (selectAbility)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
+                    AbilityCardAction.CancelAddUnitMap?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.DestroyCard:
                     break;
@@ -164,17 +175,18 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyTradeCard:
                     break;
-                case AbilityType.SwitchNeutralSquad:
+                case AbilityType.SwitchNeutralUnit:
                     break;
-                case AbilityType.SwitchEnemySquad:
+                case AbilityType.SwitchEnemyUnit:
                     break;
-                case AbilityType.DestroyNeutralSquad:
+                case AbilityType.DestroyNeutralUnit:
                     break;
-                case AbilityType.DestroySquad:
+                case AbilityType.DestroyUnit:
                     break;
                 case AbilityType.EnemyDiscardCard:
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
+                    AbilityCardAction.CancelMoveUnit?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.SetIce:
                     break;
@@ -184,9 +196,11 @@ namespace CyberNet.Core.AbilityCard
                     throw new ArgumentOutOfRangeException();
             }
             
-            
             entity.RemoveComponent<SelectTargetCardAbilityComponent>();
             entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
+            entity.RemoveComponent<AbilitySelectElementComponent>();
+
+            _dataWorld.OneData<RoundData>().PauseInteractive = false;
         }
         
         private void ActionSelectCardAddComponent(AbilityCardContainer abilityCardStruct, Entity entity)
@@ -217,6 +231,7 @@ namespace CyberNet.Core.AbilityCard
             
             AbilityCardAction.UpdateValueResourcePlayedCard -= CalculateValueCard;
             AbilityCardAction.ClearActionView -= ClearAction;
+            AbilityCardAction.CancelAbility -= CancelAbility;
         }
     }
 }

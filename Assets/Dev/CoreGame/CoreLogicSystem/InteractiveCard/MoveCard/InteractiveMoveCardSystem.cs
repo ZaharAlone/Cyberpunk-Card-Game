@@ -1,5 +1,7 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using EcsCore;
 using Input;
 using ModulesFramework.Attributes;
@@ -94,6 +96,7 @@ namespace CyberNet.Core.InteractiveCard
             {
                 entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
             }
             
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
@@ -133,6 +136,7 @@ namespace CyberNet.Core.InteractiveCard
             {
                 var card = entity.GetComponent<CardComponent>();
                 card.RectTransform.anchoredPosition = componentMove.StartCardPosition;
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
             }
 
             entity.RemoveComponent<InteractiveSelectCardComponent>();

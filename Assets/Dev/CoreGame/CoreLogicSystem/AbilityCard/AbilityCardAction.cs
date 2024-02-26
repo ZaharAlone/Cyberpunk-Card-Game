@@ -8,9 +8,10 @@ namespace CyberNet.Core.AbilityCard
         public static Action UpdateValueResourcePlayedCard;
         public static Action ClearActionView;
         public static Action<int> SelectPlayer;
+        public static Action CancelAbility;
         
         //Делегаты вызова абилки
-        public static Action AddResource;
+        public static Action AddTradePoint;
         public static Action DiscardCard;
         public static Action CancelDiscardCard;
         public static Action PlayerDiscardCard;
@@ -21,7 +22,10 @@ namespace CyberNet.Core.AbilityCard
         
         public static Action<string> AbilityAddUnitMap;
         public static Action<string> CancelAddUnitMap;
+        
         public static Action<string> MoveUnit;
+        public static Action<string> CancelMoveUnit;
+        
         public static Action<string> DestroyNeutralUnit;
         public static Action<string> DestroyEnemyUnit;
         public static Action<string> SetIce;
@@ -33,5 +37,6 @@ namespace CyberNet.Core.AbilityCard
         //Вспомогательные делегаты, общие для систем
         public static Action<string> AddTowerUnit;
         public static Action CurrentAbilityEndPlaying;
+        public static Action<string> ShiftUpCard;
     }   
 }

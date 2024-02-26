@@ -15,6 +15,7 @@ namespace CyberNet.Core.City
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
         public static Action ViewAllAvailableTower;
+        public static Action DeactivateAllTower;
         
         public static Action<int> ShowWhereZoneToPlayerID;
         public static Action<List<int>> ShowManyZonePlayerInMap;

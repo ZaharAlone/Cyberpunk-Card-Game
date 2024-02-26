@@ -19,7 +19,7 @@ namespace CyberNet.Core.AI
                 return value;
             switch (abilityCard.AbilityType)
             {
-                case AbilityType.Attack:
+                case AbilityType.AddUnit:
                     value = multValueAction * abilityCard.Count;
                     break;
                 case AbilityType.Trade:

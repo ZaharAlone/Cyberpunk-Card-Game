@@ -1,5 +1,7 @@
 {
-  "Attack": {
+  "AddUnit": {
+    "abilityLoc": "AbilityCard/$cardAbility_addUnit",
+    "abilityLocMultiple": "AbilityCard/$cardAbility_addUnitMultiple",
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None",
     "selectFrame_descrLoc": "AbilityCard/$cardAbility_attack"
@@ -28,12 +30,12 @@
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None"
   },
-  "SwitchNeutralSquad": {
+  "SwitchNeutralUnit": {
     "abilityLoc": "AbilityCard/$cardAbility_switchNeutralSquad",
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None"
   },
-  "SwitchEnemySquad": {
+  "SwitchEnemyUnit": {
     "abilityLoc": "AbilityCard/$cardAbility_switchEnemySquad",
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None"
@@ -47,7 +49,7 @@
     "selectPlayerFrame_headerLoc": "CoreGame/$bg_selectPlayerDiscardCard_header",
     "selectPlayerFrame_descrLoc": "CoreGame/$bg_selectPlayerDiscardCard_discard"
   },
-  "SquadMove": {
+  "UnitMove": {
     "abilityLoc": "AbilityCard/$cardAbility_squadMove",
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None",
@@ -69,7 +71,7 @@
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyIce_header",
     "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyIce_descr"
   },
-  "DestroySquad": {
+  "DestroyUnit": {
     "abilityLoc": "AbilityCard/$cardAbility_destroySquad",
     "visualPlayingCard_Map": "Target",
     "visualPlayingCard_Arena": "None",

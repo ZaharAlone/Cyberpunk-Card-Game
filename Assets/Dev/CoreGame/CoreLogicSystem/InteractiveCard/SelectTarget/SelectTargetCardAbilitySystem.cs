@@ -1,7 +1,9 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.BezierCurveNavigation;
+using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using DG.Tweening;
 using EcsCore;
 using Input;
@@ -30,7 +32,7 @@ namespace CyberNet.Core.InteractiveCard
 
             var inputData = _dataWorld.OneData<InputData>();
 
-            if (inputData.RightClick)
+            if (inputData.RightClick || inputData.ExitUI)
                 CancelSelectTarget();
         }
         
@@ -39,8 +41,11 @@ namespace CyberNet.Core.InteractiveCard
             var isEntity = _dataWorld.Select<SelectTargetCardAbilityComponent>().TrySelectFirstEntity(out var entity);
             if (!isEntity)
                 return;
+
+            var positionCardX = entity.GetComponent<CardComponent>().RectTransform.anchoredPosition.x;
+            var isShowButtonUp = Mathf.Abs(positionCardX) < 200;
             
-            AbilityInputButtonUIAction.ShowCancelButton?.Invoke();
+            AbilityInputButtonUIAction.ShowCancelButton?.Invoke(isShowButtonUp);
             AnimationShowCard(entity);
         }
 
@@ -65,16 +70,18 @@ namespace CyberNet.Core.InteractiveCard
         }
         
         private void CancelSelectTarget()
-        {
+        { 
             var entity = _dataWorld.Select<SelectTargetCardAbilityComponent>().SelectFirstEntity();
-            
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             
+            AbilityCardAction.CancelAbility?.Invoke();
             AbilitySelectElementAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
         }
 
         public void Destroy()

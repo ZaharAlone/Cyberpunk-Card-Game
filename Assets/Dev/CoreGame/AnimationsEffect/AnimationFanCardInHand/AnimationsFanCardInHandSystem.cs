@@ -25,21 +25,13 @@ namespace CyberNet.Core.UI
         private void AnimationsFanCardInHand()
         {
             var currentRoundPlayer = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            var countCardInHand = _dataWorld.Select<CardComponent>()
+            var cardInHandQuery = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
                 .With<CardHandComponent>()
                 .Without<CardAbilitySelectionCompletedComponent>()
-                .Without<WaitAnimationsDrawHandCardComponent>()
-                .Count();
-
-            var entities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == currentRoundPlayer)
-                .With<CardHandComponent>()
-                .Without<CardAbilitySelectionCompletedComponent>()
-                .Without<WaitAnimationsDrawHandCardComponent>()
-                .GetEntities();
+                .Without<WaitAnimationsDrawHandCardComponent>();
             
-            UpdateView(entities, countCardInHand);
+            UpdateView(cardInHandQuery.GetEntities(), cardInHandQuery.Count());
         }
         
         private void UpdateView(EntitiesEnumerable entities, int countCard)

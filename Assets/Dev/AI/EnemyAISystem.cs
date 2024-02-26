@@ -111,7 +111,6 @@ namespace CyberNet.Core.AI
             EnemyTurnViewUIAction.HideView?.Invoke();
             SelectTradeCard();
             
-            Debug.LogError($"time wait action bot {_timeWaitActionBot}");
             _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
             });
@@ -158,7 +157,7 @@ namespace CyberNet.Core.AI
             {
                 var cardComponent = entity.GetComponent<CardComponent>();
 
-                if (cardComponent.Ability_0.AbilityType == AbilityType.Attack
+                if (cardComponent.Ability_0.AbilityType == AbilityType.AddUnit
                     || cardComponent.Ability_0.AbilityType == AbilityType.DrawCard
                     && cardComponent.Ability_1.AbilityType == AbilityType.None)
                 {

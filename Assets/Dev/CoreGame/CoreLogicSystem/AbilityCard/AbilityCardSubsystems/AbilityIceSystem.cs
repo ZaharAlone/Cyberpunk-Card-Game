@@ -25,8 +25,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void SetIce(string guidCard)
         {
-            Debug.LogError("Ability Set Ice");
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            var roundData = _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
             {
@@ -34,24 +33,10 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
 
-            StartBazieTower();
-            roundData.PauseInteractive = true;
-            
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SetIce, 0, false);
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             CityAction.SelectTower += SetIceSelectTower;
-        }
-
-        private void StartBazieTower()
-        {
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .SelectFirstEntity();
-            
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            var cardPosition = cardComponent.RectTransform.position;
-            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
-            BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
         }
         
         private void SetIceSelectTower(string towerGUID)
@@ -70,7 +55,6 @@ namespace CyberNet.Core.AbilityCard
         
         private void DestroyIce(string guidCard)
         {
-            Debug.LogError("Ability Destroy Ice");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
@@ -79,9 +63,8 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
 
-            StartBazieTower();
-            roundData.PauseInteractive = true;
-            
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
+
             var towerWithIceEntities = _dataWorld.Select<TowerComponent>()
                 .With<TowerIceComponent>()
                 .GetEntities();
@@ -124,6 +107,9 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.SetIce -= SetIce;
             AbilityCardAction.DestroyIce -= DestroyIce;
+            
+            CityAction.SelectTower -= SetIceSelectTower;
+            CityAction.SelectTower -= DestroyIceSelectTower;
         }
     }
 }

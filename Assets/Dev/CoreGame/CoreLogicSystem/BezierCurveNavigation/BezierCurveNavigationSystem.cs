@@ -25,9 +25,21 @@ namespace CyberNet.Core.BezierCurveNavigation
         public void PreInit()
         {
             BezierCurveNavigationAction.StartBezierCurve += StartBezier;
+            BezierCurveNavigationAction.StartBezierCurveCard += StartBezierCurveCard;
             BezierCurveNavigationAction.OffBezierCurve += OffBezierCurve;
         }
         
+        private void StartBezierCurveCard(string guidCard, BezierTargetEnum target)
+        {
+            var positionCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity()
+                .GetComponent<CardComponent>()
+                .RectTransform.position;
+            
+            StartBezier(positionCard, target);
+        }
+
         private void StartBezier(Vector3 startPosition, BezierTargetEnum target)
         {
             var bezierEntity = _dataWorld.NewEntity();
@@ -37,6 +49,8 @@ namespace CyberNet.Core.BezierCurveNavigation
             var uiBezier = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BezierCurveUIMono;
             uiBezier.ControlPoints[0].position = startPosition;
             graphPoints = new List<BezierArrowMono>();
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.StartInteractiveCard);
         }
 
         public void Run()
@@ -90,7 +104,6 @@ namespace CyberNet.Core.BezierCurveNavigation
             
             var valuePosRotEndPoint = BezierCalculateStatic.NOrderBezierInterp(uiBezier.ControlPoints, 1);
             graphPoints.Add(Object.Instantiate(bezierConfig.BezierArrowPrefab, valuePosRotEndPoint.Item1, valuePosRotEndPoint.Item2, uiBezier.Canvas));
-
         }
 
         private void UpdateBezierVector()
@@ -154,6 +167,10 @@ namespace CyberNet.Core.BezierCurveNavigation
 
         public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
+            ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
+                .SelectFirstEntity()
+                .GetComponent<BezierCurveNavigationComponent>();
+            
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             var color = new Color32();
             
@@ -164,6 +181,9 @@ namespace CyberNet.Core.BezierCurveNavigation
                     break;
                 case BezierCurveStatusEnum.SelectCurrentTarget:
                     color = colorsConfig.SelectCurrentTargetBlueColor;
+                    
+                    if (bezierComponent.BezierCurveStatusEnum != status)
+                        SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap);
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;
@@ -174,17 +194,17 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 arrow.SetColorArrow(color);
             }
-            
-            /*
-            var selectCurrentTargetSFX = _dataWorld.OneData<SoundData>().Sound.AbilityCardSelectCurrentTarget;
-            SoundAction.PlaySound?.Invoke(selectCurrentTargetSFX);
-        */
+
+            bezierComponent.BezierCurveStatusEnum = status;
         }
         
         private void OffBezierCurve()
         {
-            var entityBezier = _dataWorld.Select<BezierCurveNavigationComponent>().SelectFirstEntity();
-            entityBezier.Destroy();
+            var bezierQuery = _dataWorld.Select<BezierCurveNavigationComponent>();
+            if (bezierQuery.Count() == 0)
+                return;
+            
+            bezierQuery.SelectFirstEntity().Destroy();
             
             foreach (var point in graphPoints)
             {
@@ -195,6 +215,7 @@ namespace CyberNet.Core.BezierCurveNavigation
         public void Destroy()
         {
             BezierCurveNavigationAction.StartBezierCurve -= StartBezier;
+            BezierCurveNavigationAction.StartBezierCurveCard -= StartBezierCurveCard;
             BezierCurveNavigationAction.OffBezierCurve -= OffBezierCurve;
         }
     }

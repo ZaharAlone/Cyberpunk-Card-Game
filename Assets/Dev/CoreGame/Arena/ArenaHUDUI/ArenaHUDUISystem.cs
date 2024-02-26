@@ -39,18 +39,15 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
             foreach (var playersInBattleEntity in playersInBattleEntities)
             {
                 ref var playerBattleComponent = ref playersInBattleEntity.GetComponent<PlayerArenaInBattleComponent>();
-                
-                var playerSlot = Object.Instantiate(arenaConfig.ContainerAvatarUnitPrefab,
-                    arenaUI.ContainerListCharacter);
+
+                var playerSlot = arenaUI.AddAvatarSlotInBar(arenaConfig.ContainerAvatarUnitPrefab);
                 playerBattleComponent.ArenaContainerUICharacterMono = playerSlot;
-                
-                arenaUI.AddCharacterAvatars(playerSlot);
                 
                 playerSlot.SetVisualCharacter(playerBattleComponent.Avatar, playerBattleComponent.ColorVisual);
                 playerSlot.PositionInTurnQueue = playerBattleComponent.PositionInTurnQueue;
             }
 
-            arenaUI.UpdateOrderAvatarSlot();
+            arenaUI.SetStartPositionAvatar();
         }
         
         private void ShowHUDButton()

@@ -33,15 +33,15 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyTradeCard:
                     break;
-                case AbilityType.SwitchNeutralSquad:
+                case AbilityType.SwitchNeutralUnit:
                     break;
-                case AbilityType.SwitchEnemySquad:
+                case AbilityType.SwitchEnemyUnit:
                     break;
-                case AbilityType.DestroyNeutralSquad:
+                case AbilityType.DestroyNeutralUnit:
                     break;
-                case AbilityType.DestroySquad:
+                case AbilityType.DestroyUnit:
                     break;
-                case AbilityType.SquadMove:
+                case AbilityType.UnitMove:
                     break;
                 case AbilityType.SetIce:
                     break;

@@ -19,8 +19,9 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.AddTowerUnit += AddTowerUnit;
             AbilityCardAction.CurrentAbilityEndPlaying += CurrentAbilityEndPlaying;
+            AbilityCardAction.ShiftUpCard += ShiftUpCard;
         }
-        
+
         private void AddTowerUnit(string towerGUID)
         {
             var towerEntity = _dataWorld.Select<TowerComponent>()
@@ -89,7 +90,7 @@ namespace CyberNet.Core.AbilityCard
             
             return targetSquadZone;
         }
-        
+
         private void CurrentAbilityEndPlaying()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
@@ -112,11 +113,23 @@ namespace CyberNet.Core.AbilityCard
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
         }
+
+        private void ShiftUpCard(string guidCard)
+        {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+            
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            var cardPosition = cardComponent.RectTransform.position;
+            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
+        }
         
         public void Destroy()
         {
             AbilityCardAction.AddTowerUnit -= AddTowerUnit;
             AbilityCardAction.CurrentAbilityEndPlaying -= CurrentAbilityEndPlaying;
+            AbilityCardAction.ShiftUpCard -= ShiftUpCard;
         }
     }
 }

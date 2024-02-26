@@ -26,6 +26,13 @@ MonoBehaviour:
       Data3: 291748784
       Data4: 1397451285
     Path: event:/Music/Backgound_music_game
+  GetCardInHand:
+    Guid:
+      Data1: 1899599758
+      Data2: 1256968823
+      Data3: -199256942
+      Data4: 1592031481
+    Path: event:/VFX/CoreGame/InteractiveCard/get_card_in_hand
   AttackSound:
     Guid:
       Data1: -1345007324
@@ -33,17 +40,38 @@ MonoBehaviour:
       Data3: 1255851419
       Data4: -551487762
     Path: event:/VFX/action_shoot
-  StartMoveCard:
+  StartInteractiveCard:
     Guid:
       Data1: -1402183855
       Data2: 1229480853
       Data3: -1083097431
       Data4: 861247457
-    Path: event:/VFX/CoreGame/start_move_card
-  AbilityCardSelectCurrentTarget:
+    Path: event:/VFX/CoreGame/InteractiveCard/start_interactive_card
+  CancelInteractiveCard:
+    Guid:
+      Data1: -907290200
+      Data2: 1155819440
+      Data3: -387772016
+      Data4: -1727092746
+    Path: event:/VFX/CoreGame/InteractiveCard/cancel_interactive_card
+  SelectCard:
+    Guid:
+      Data1: 1700316773
+      Data2: 1123323834
+      Data3: 507020935
+      Data4: 1450802147
+    Path: event:/VFX/CoreGame/InteractiveCard/select_card
+  SelectCurrentTargetInMap:
     Guid:
       Data1: 1958639718
       Data2: 1168663803
       Data3: -1145642112
       Data4: 1840809417
-    Path: event:/VFX/CoreGame/select_current_target
+    Path: event:/VFX/CoreGame/Map/select_current_target_in_map
+  AddUnitInMap:
+    Guid:
+      Data1: -1175936197
+      Data2: 1221447614
+      Data3: 1743440041
+      Data4: 219506818
+    Path: event:/VFX/CoreGame/Map/add_unit_in_map

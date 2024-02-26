@@ -36,7 +36,8 @@ namespace CyberNet.Core
                     break;
                 case AbilityCondition.Destroy:
                     var textDestroy = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                    textDestroy.text = "Destroy Card";
+                    //TODO поправить на локализацию
+                    textDestroy.SetText("Destroy Card");
                     break;
             }
 
@@ -52,12 +53,7 @@ namespace CyberNet.Core
 
         private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsConfig cardConfig, bool oneAbility = false)
         {
-            if (ability.AbilityType == AbilityType.Attack)
-            {
-                boardGameConfig.CurrencyImage.TryGetValue("Attack", out var imAttack);
-                AddBaseAction(container, imAttack, ability.Count, boardGameConfig.ColorAttackText, boardGameConfig, oneAbility);
-            }
-            else if (ability.AbilityType == AbilityType.Trade)
+            if (ability.AbilityType == AbilityType.Trade)
             {
                 boardGameConfig.CurrencyImage.TryGetValue("Trade", out var imTrade);
                 AddBaseAction(container, imTrade, ability.Count, boardGameConfig.ColorTradeText, boardGameConfig, oneAbility);
@@ -66,7 +62,14 @@ namespace CyberNet.Core
             {
                 cardConfig.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
                 var textCard = Object.Instantiate(boardGameConfig.TextBaseAbility, container);
-                textCard.text = I2.Loc.LocalizationManager.GetTranslation(abilityCardConfig.AbilityLoc);
+
+                if (ability.Count > 1 && abilityCardConfig.AbilityLocMultiple != null)
+                {
+                    textCard.SetParameters(ability.Count);
+                    textCard.SetText(abilityCardConfig.AbilityLocMultiple);
+                }
+                else
+                    textCard.SetText(abilityCardConfig.AbilityLoc);
             }
         }
 

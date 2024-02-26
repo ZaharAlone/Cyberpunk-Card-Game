@@ -22,6 +22,7 @@ namespace CyberNet.Core.UI
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI += ViewPlayerPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
             BoardGameUIAction.UpdateCountCardInHand += UpdateCountCard;
+            BoardGameUIAction.ControlVFXCurrentPlayerArena += ControlVFXCurrentPlayerArena;
             RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
 
@@ -145,7 +146,7 @@ namespace CyberNet.Core.UI
             // TODO временно всегда воспроизводим эффект
             gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue, true);
         }
-        
+
         private void UpdateStatsPlayersPassport()
         {
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
@@ -174,6 +175,12 @@ namespace CyberNet.Core.UI
             gameUI.CoreHudUIMono.SetCountCard(discardCard, drawCard);
         }
 
+        private void ControlVFXCurrentPlayerArena(bool status)
+        {
+            var coreUIHud = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            coreUIHud.EnableMainPlayerCurrentRound(status);
+        }
+        
         public void Destroy()
         {
             _dataWorld.RemoveOneData<CoreGameUIData>();
@@ -182,6 +189,7 @@ namespace CyberNet.Core.UI
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI -= ViewPlayerPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency -= UpdatePlayerCurrency;
             BoardGameUIAction.UpdateCountCardInHand -= UpdateCountCard;
+            BoardGameUIAction.ControlVFXCurrentPlayerArena -= ControlVFXCurrentPlayerArena;
             RoundAction.EndCurrentTurn -= ViewPlayerPassport;
         }
     }

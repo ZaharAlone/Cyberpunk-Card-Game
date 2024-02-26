@@ -11,7 +11,7 @@ using CyberNet.Core.UI;
 namespace CyberNet.Core.AI
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityDiscardCardAISystem : IPreInitSystem
+    public class AbilityDiscardCardAISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -110,6 +110,12 @@ namespace CyberNet.Core.AI
             playerEntity.RemoveComponent<PlayerDiscardCardComponent>();
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
+        }
+
+        public void Destroy()
+        {
+            AbilityAIAction.DiscardCardSelectPlayer -= DiscardCardSelectPlayer;
+            AbilityAIAction.DiscardCardSelectCard -= DiscardCardSelectCard;
         }
     }
 }

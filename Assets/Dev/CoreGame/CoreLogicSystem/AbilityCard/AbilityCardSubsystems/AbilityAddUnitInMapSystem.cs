@@ -9,6 +9,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -20,7 +21,6 @@ namespace CyberNet.Core.AbilityCard
          public void PreInit()
         {
             AbilityCardAction.AbilityAddUnitMap += AddUnitMap;
-            AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
 
         private void AddUnitMap(string guidCard)
@@ -33,19 +33,12 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
             
-            roundData.PauseInteractive = true;
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>()
-                .SelectFirstEntity();
-
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            var cardPosition = cardComponent.RectTransform.position;
-            cardPosition.y += cardComponent.RectTransform.sizeDelta.y / 2;
-            
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.Attack, 0, false);
-            BezierCurveNavigationAction.StartBezierCurve?.Invoke(cardPosition, BezierTargetEnum.Tower);
+            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
+            
             CityAction.SelectTower += AddUnitTower;
+            AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
 
         private void AddUnitTower(string towerGUID)
@@ -107,17 +100,42 @@ namespace CyberNet.Core.AbilityCard
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
             
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
+            
+            AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
         }
         
-        private void CancelAddUnitMap(string obj)
+        private void CancelAddUnitMap(string guidCard)
         {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
             
+            //Учитывать что можно добавить больше одного юнита за раз и их нужно всех откатить
+
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var unitsAddedToMapComponent = entityCard.GetComponent<AbilityCardAddUnitComponent>();
+            
+            foreach (var newUnitsInTower in unitsAddedToMapComponent.ListTowerAddUnit)
+            {
+                var unitInMapEntity = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == newUnitsInTower
+                        && unit.PowerSolidPlayerID == currentPlayerID)
+                    .SelectFirstEntity();
+                var unitInMapComponent = unitInMapEntity.GetComponent<UnitMapComponent>();
+                
+                Object.Destroy(unitInMapComponent.UnitIconsGO);
+                unitInMapEntity.Destroy();
+            }
+            
+            entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
+            CityAction.SelectTower -= AddUnitTower;
         }
 
         public void Destroy()
         {
             AbilityCardAction.AbilityAddUnitMap -= AddUnitMap;
             AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
+            CityAction.SelectTower -= AddUnitTower;
         }
     }
 }

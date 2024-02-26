@@ -1,4 +1,3 @@
-using UnityEngine.Serialization;
 namespace CyberNet.Core
 {
     public struct WaitAnimationsDrawHandCardComponent

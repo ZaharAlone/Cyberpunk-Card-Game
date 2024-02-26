@@ -1,9 +1,11 @@
+using CyberNet.Core.AbilityCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Meta;
 using Input;
+using UnityEngine;
 
 namespace CyberNet.Core.PauseUI
 {
@@ -29,6 +31,12 @@ namespace CyberNet.Core.PauseUI
         
         private void SwitchPauseGame()
         {
+            var isSelectTargetAbility = _dataWorld.Select<AbilitySelectElementComponent>().Count() > 0;
+            var isSelectingAbility = _dataWorld.Select<SelectingPlayerAbilityComponent>().Count() > 0;
+            
+            if (isSelectTargetAbility || isSelectingAbility)
+                return;
+            
             var isPause = _dataWorld.Select<OnPauseGameComponent>().Count() > 0;
 
             if (isPause)

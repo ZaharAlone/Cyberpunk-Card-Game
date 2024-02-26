@@ -1,7 +1,5 @@
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
-using CyberNet.Core.BezierCurveNavigation;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -66,6 +64,9 @@ namespace CyberNet.Core.Arena
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
+
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            cardComponent.CardMono.SetStatusInteractiveVFX(false);
             
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
@@ -75,8 +76,6 @@ namespace CyberNet.Core.Arena
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            //TODO вроде тут это не нужно
-            //CityAction.UpdateCanInteractiveMap?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
