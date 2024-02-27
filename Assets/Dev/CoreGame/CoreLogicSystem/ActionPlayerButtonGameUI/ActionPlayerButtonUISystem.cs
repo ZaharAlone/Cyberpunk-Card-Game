@@ -166,7 +166,6 @@ namespace CyberNet.Core.UI
                 cardEntity.RemoveComponent<CardCanUseComponent>();
             }
             
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
             _dataWorld.NewEntity().AddComponent(new WaitEndRoundComponent());
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();

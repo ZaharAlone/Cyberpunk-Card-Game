@@ -49,14 +49,39 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.playerOrAI == PlayerOrAI.Player)
+            var playerEntities = _dataWorld.Select<PlayerComponent>().GetEntities();
+
+            if (roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player)
+            {
+                DisableAllVFX();
+            }
+            else
+            {
                 UpdateVFX(roundData.CurrentPlayerID);
+            }
+        }
+
+        private void DisableAllVFX()
+        {
+            var entitiesCard = _dataWorld.Select<CardComponent>()
+                .GetEntities();
+            
+            foreach (var entity in entitiesCard)
+            {
+                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                var cardMono = cardComponent.CardMono;
+
+                cardMono.SetStatusInteractiveVFX(false);
+                    
+                if(entity.HasComponent<CardCanUseComponent>())
+                    entity.RemoveComponent<CardCanUseComponent>();
+            }
         }
 
         private void UpdateVFX(int playerID)
         {
             var isInstallFirstBase = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerID)
                 .With<PlayerNotInstallFirstBaseComponent>()
                 .Count() == 0;
             
@@ -128,6 +153,7 @@ namespace CyberNet.Core.UI
                     component.CardMono.SetStatusInteractiveVFX(false);
             }
         }
+        
         private bool CheckAbilityCardToShowCard(CardComponent cardComponent)
         {
             var showCard = false;

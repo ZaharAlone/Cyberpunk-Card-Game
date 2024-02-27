@@ -11,7 +11,6 @@ using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Tutorial;
-using UnityEngine;
 
 namespace CyberNet.Local
 {
@@ -42,17 +41,20 @@ namespace CyberNet.Local
         public void Init()
         {
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
+            _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PositionInTurnQueue == 0)
-                .SelectFirstEntity();
-
-            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-            playerEntity.AddComponent(new CurrentPlayerComponent());
+                .SelectFirstEntity().AddComponent(new CurrentPlayerComponent());
             
-            _dataWorld.RiseEvent(new EventDistributionCard {
-                TargetPlayerID = playerComponent.PlayerID,
-                Count = rules.CountDropCard
-            });
+            var playersEntities = _dataWorld.Select<PlayerComponent>().GetEntities();
+
+            foreach (var playerEntity in playersEntities)
+            {
+                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+                _dataWorld.RiseEvent(new EventDistributionCard {
+                    TargetPlayerID = playerComponent.PlayerID,
+                    Count = rules.CountDropCard
+                });
+            }
 
             if (_dataWorld.IsModuleActive<TutorialGameModule>())
             {
@@ -69,6 +71,27 @@ namespace CyberNet.Local
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.PauseInteractive = true;
             var rules = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+
+            _dataWorld.RiseEvent(new EventDistributionCard {
+                TargetPlayerID = roundData.CurrentPlayerID,
+                Count = rules.CountDropCard
+            });
+
+            if (roundData.playerOrAI == PlayerOrAI.Player)
+            {
+                CardDistributionAction.EndDistributionCard += EndDistributionCardAndStartNewRound;
+            }
+            else
+            {
+                EndDistributionCardAndStartNewRound();
+            }
+        }
+
+        private void EndDistributionCardAndStartNewRound()
+        {
+            CardDistributionAction.EndDistributionCard -= EndDistributionCardAndStartNewRound;
+            
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
             var entitiesPlayer = _dataWorld.Select<PlayerComponent>().GetEntities();
             var countPlayers = _dataWorld.Select<PlayerComponent>().Count();
 
@@ -95,11 +118,6 @@ namespace CyberNet.Local
 
             roundData.CurrentPlayerID = nextRoundPlayerID;
             roundData.playerOrAI = nextRoundPlayerType;
-            
-            _dataWorld.RiseEvent(new EventDistributionCard {
-                TargetPlayerID = roundData.CurrentPlayerID,
-                Count = rules.CountDropCard
-            });
 
             if (roundData.CurrentTurn == 1)
             {
@@ -109,6 +127,7 @@ namespace CyberNet.Local
             else
                 roundData.CurrentTurn++;
             
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             UpdateUIRound();
         }
 

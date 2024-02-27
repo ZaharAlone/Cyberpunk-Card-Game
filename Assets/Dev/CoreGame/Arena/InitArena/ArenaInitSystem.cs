@@ -1,3 +1,4 @@
+using CyberNet.Core.AI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -5,6 +6,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core.City;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using Object = UnityEngine.Object;
 
@@ -106,11 +108,20 @@ namespace CyberNet.Core.Arena
                 unitEntity.RemoveComponent<ArenaUnitCurrentComponent>();
                 unitEntity.RemoveComponent<UnitInBattleArenaComponent>();
             }
+            
+            var unitSelectForAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>().GetEntities();
+            foreach (var unitEntity in unitSelectForAttack)
+            {
+                unitEntity.RemoveComponent<ArenaSelectUnitForAttackComponent>();
+            }
 
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.PauseInteractive = false;
             roundData.CurrentRoundState = RoundState.Map;
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
+            
+            if (roundData.playerOrAI != PlayerOrAI.Player)
+                BotAIAction.ContinuePlayingCards?.Invoke();
             
             _dataWorld.DestroyModule<ArenaModule>();
         }

@@ -1,3 +1,4 @@
+using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -32,8 +33,11 @@ namespace CyberNet.Core
                              .Where<CardComponent>(card => card.PlayerID == playerID)
                              .With<CardDistributionComponent>()
                              .GetEntities();
+            
             foreach (var entityCard in entitiesCards)
                 entityCard.RemoveComponent<CardDistributionComponent>();
+            
+            CardDistributionAction.EndDistributionCard?.Invoke();
         }
     }
 }

@@ -57,7 +57,6 @@ namespace CyberNet.Core
 
             if (playerComponent.playerOrAI == PlayerOrAI.Player)
             {
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
                 SelectCardFreeToBuy();   
             }
             else

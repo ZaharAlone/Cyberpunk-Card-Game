@@ -24,10 +24,14 @@ namespace CyberNet.Core
 
         private void DistributionCard(EventDistributionCard eventValue)
         {
-            var playerEntity = _dataWorld.Select<PlayerComponent>().With<CurrentPlayerComponent>().SelectFirstEntity();
-            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
+            var targetPlayerEntity = _dataWorld.Select<PlayerComponent>().
+                Where<PlayerComponent>(player => player.PlayerID == eventValue.TargetPlayerID)
+                .SelectFirstEntity();
+            var playerComponent = targetPlayerEntity.GetComponent<PlayerComponent>();
             
             var isShowView = playerComponent.playerOrAI == PlayerOrAI.Player;
+            if (!targetPlayerEntity.HasComponent<CurrentPlayerComponent>())
+                isShowView = false;
             
             for (int i = 0; i < eventValue.Count; i++)
             {
@@ -55,10 +59,6 @@ namespace CyberNet.Core
                     PlayerID = eventValue.TargetPlayerID,
                     CountCard = eventValue.Count
                 });   
-            }
-            else
-            {
-                _dataWorld.RiseEvent(new EventUpdateBoardCard());
             }
         }
 

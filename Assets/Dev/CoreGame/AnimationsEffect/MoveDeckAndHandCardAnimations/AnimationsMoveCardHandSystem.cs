@@ -89,7 +89,6 @@ namespace CyberNet.Core
             waitDistributionComponent.CurrentDistributionCard++;
 
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
             BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
     }

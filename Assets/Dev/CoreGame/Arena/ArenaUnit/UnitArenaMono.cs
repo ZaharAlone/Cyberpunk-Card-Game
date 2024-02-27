@@ -52,7 +52,7 @@ namespace CyberNet.Core.Arena
             _animator.SetTrigger("Shoot");
             
             _shootingVFX.SetActive(true);
-            await Task.Delay(5000);
+            await Task.Delay(1500);
             _animator.SetTrigger("Idle");
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
             _shootingVFX.SetActive(false);

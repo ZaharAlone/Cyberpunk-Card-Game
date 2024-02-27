@@ -9,8 +9,8 @@ namespace CyberNet.Core
         public int CurrentTurn;
         public int CurrentPlayerID;
         public RoundState CurrentRoundState;
-        [FormerlySerializedAs("PlayerTypeEnum")]
         public PlayerOrAI playerOrAI;
         public bool PauseInteractive;
+        
     }
 }

@@ -149,8 +149,9 @@ namespace CyberNet.Core.AI.Arena
                 if (!isDiscardCard)
                 {
                     KillUnitWithoutVisual();
-                    EndRound();   
                 }
+                
+                EndRound();
             }
         }
 
@@ -265,7 +266,15 @@ namespace CyberNet.Core.AI.Arena
                 unitEntity.RemoveComponent<UnitInBattleArenaComponent>();
             }
 
+            var unitSelectForAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>().GetEntities();
+            foreach (var unitEntity in unitSelectForAttack)
+            {
+                unitEntity.RemoveComponent<ArenaSelectUnitForAttackComponent>();
+            }
+
             _dataWorld.RemoveOneData<ArenaRoundData>();
+            
+            BotAIAction.ContinuePlayingCards?.Invoke();
         }
         
         public void Destroy()
