@@ -68,7 +68,6 @@ namespace CyberNet.Core.AI.Arena
         //Логика бота
         private void BattleAILogic()
         {
-            Debug.LogError("Battle AI Logic");
             CheckUseCardInHand();
             SelectTargetForAttack();
 
@@ -113,7 +112,6 @@ namespace CyberNet.Core.AI.Arena
                 .SelectFirstEntity();
             
             selectEnemyUnitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
-            Debug.LogError("Select unit for attack");
         }
         
         //Атакуем выбранного противника
@@ -141,11 +139,9 @@ namespace CyberNet.Core.AI.Arena
                 var isDiscardCard = false;
                 if (ArenaAction.CheckBlockAttack.Invoke())
                 { 
-                    Debug.LogError("Is can discard card");
                     isDiscardCard = SelectAndDiscardCardToBlockAttack();
                 }
                 
-                Debug.LogError($"Discard card {isDiscardCard}");
                 if (!isDiscardCard)
                 {
                     KillUnitWithoutVisual();
@@ -233,16 +229,16 @@ namespace CyberNet.Core.AI.Arena
 
                 if (isEnd)
                 {
-                    Debug.LogError("Battle is finish");
+                    Debug.Log("Battle is finish");
                     FinishBattleNotVisual();
                 }
                 else
                 {
-                    Debug.LogError("Init new round");
+                    Debug.Log("Init new round battle");
                     ArenaAction.DeselectPlayer?.Invoke();
                     ArenaAction.UpdateTurnOrderArena?.Invoke();
                     ArenaAction.FindPlayerInCurrentRound();
-                    Debug.LogError("Start new round");
+                    Debug.Log("Start new round battle");
                     BattleAILogic();
                 }
             }

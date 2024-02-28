@@ -199,9 +199,12 @@ namespace CyberNet.Core.AI
                 return cardComponent.Ability_0.AbilityType;
             }
 
-            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_0);
-            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_1);
+            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_0);
+            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_1);
 
+            //Temp for debug
+            DebugLogicSelectAbility(cardComponent, valueAbility_0, valueAbility_1);
+            
             if (valueAbility_0 > valueAbility_1)
             {
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
@@ -218,6 +221,20 @@ namespace CyberNet.Core.AI
 
                 return cardComponent.Ability_1.AbilityType;
             }
+        }
+
+        private void DebugLogicSelectAbility(CardComponent cardComponent, int valueAbility_0, int valueAbility_1)
+        {
+            #if UNITY_EDITOR
+            //Temp for debug
+            var targetPlayerID = cardComponent.PlayerID;
+            var playerName = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
+                .SelectFirstEntity()
+                .GetComponent<PlayerViewComponent>()
+                .Name;
+            Debug.Log($"player {playerName}: {cardComponent.PlayerID} ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
+            #endif
         }
 
         private void SelectTradeCard()
