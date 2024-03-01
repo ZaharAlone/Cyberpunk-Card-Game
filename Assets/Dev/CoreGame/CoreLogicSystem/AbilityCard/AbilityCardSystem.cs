@@ -95,7 +95,7 @@ namespace CyberNet.Core.AbilityCard
                     AbilityCardAction.AbilityAddUnitMap?.Invoke(guidCard);
                     break;
                 case AbilityType.Trade:
-                    entity.AddComponent(new ActionCardAddResourceComponent {
+                    entity.AddComponent(new AbilityCardAddResourceComponent {
                         AbilityType = abilityCardStruct.AbilityType,
                         Count = abilityCardStruct.Count
                     });
@@ -192,8 +192,6 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyIce:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
             
             entity.RemoveComponent<SelectTargetCardAbilityComponent>();

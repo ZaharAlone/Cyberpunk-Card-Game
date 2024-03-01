@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -153,7 +154,7 @@ MonoBehaviour:
     m_ActionName: UI/SwitchRight[/Keyboard/e,/XInputControllerWindows/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: c5eb59f5-33c5-4f61-8235-c9be3586eef0
+  m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &501560219916317214
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 31af335c3f8c4c944962de607cf070b6,
     type: 3}
   m_PointAction: {fileID: -1778236012681742733, guid: 31af335c3f8c4c944962de607cf070b6,

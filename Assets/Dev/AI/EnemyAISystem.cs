@@ -4,7 +4,6 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.City;
 using CyberNet.Core.EnemyTurnView;
@@ -27,8 +26,7 @@ namespace CyberNet.Core.AI
         {
             RoundAction.StartTurnAI += StartTurn;
         }
-
-
+        
         /// <summary>
         /// Начинаем раунд AI
         /// Проверяем есть ли база, если нет ставим
@@ -95,12 +93,6 @@ namespace CyberNet.Core.AI
         {
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             
-            /*
-            var timeEntity = _dataWorld.NewEntity();
-            timeEntity.AddComponent(new TimeComponent {
-                Time = _timeWaitActionBot, Action = () => StartPlayingCard()
-            });*/
-            
             PlayCard();
             BotAIAction.EndPlayingCards += EndPlayingCards;
         }
@@ -118,6 +110,8 @@ namespace CyberNet.Core.AI
 
         private void PlayCard()
         {
+            BotAIAction.ContinuePlayingCards -= PlayCard;
+            
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var countCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
@@ -133,15 +127,23 @@ namespace CyberNet.Core.AI
             var selectEntityPlayCard = FindPriorityCardPlay();
                 
             selectEntityPlayCard.RemoveComponent<CardHandComponent>();
-            SelectionAbility(selectEntityPlayCard);   
+            var selectAbilityType = SelectionAbility(selectEntityPlayCard);
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
             EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
-            
-            var timeEntity = _dataWorld.NewEntity();
-            timeEntity.AddComponent(new TimeComponent {
-                Time = 0.35f, Action = () => PlayCard()
-            });
+
+            // Если абилка - передвижение юнита, значит прерываем цикл разыгрывания карт и ждем окончания битвы.
+            if (selectAbilityType == AbilityType.UnitMove)
+            {
+                BotAIAction.ContinuePlayingCards += PlayCard;
+            }
+            else
+            {
+                var timeEntity = _dataWorld.NewEntity();
+                timeEntity.AddComponent(new TimeComponent {
+                    Time = 0.35f, Action = () => PlayCard()
+                });   
+            }
         }
 
         //Ищем какую карту стоит разыграть в первую очередь
@@ -185,7 +187,7 @@ namespace CyberNet.Core.AI
             return new Entity();
         }
 
-        private void SelectionAbility(Entity entity)
+        private AbilityType SelectionAbility(Entity entity)
         {
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
@@ -194,24 +196,45 @@ namespace CyberNet.Core.AI
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_0
                 });
-                return;
+                return cardComponent.Ability_0.AbilityType;
             }
 
-            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_0);
-            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility?.Invoke(cardComponent.Ability_1);
+            var valueAbility_0 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_0);
+            var valueAbility_1 = CalculateValueCardAction.CalculateValueCardAbility.Invoke(cardComponent.Ability_1);
 
+            //Temp for debug
+            DebugLogicSelectAbility(cardComponent, valueAbility_0, valueAbility_1);
+            
             if (valueAbility_0 > valueAbility_1)
             {
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_0
                 });
+
+                return cardComponent.Ability_0.AbilityType;
             }
             else
             {
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent {
                     SelectAbility = SelectAbilityEnum.Ability_1
                 });
+
+                return cardComponent.Ability_1.AbilityType;
             }
+        }
+
+        private void DebugLogicSelectAbility(CardComponent cardComponent, int valueAbility_0, int valueAbility_1)
+        {
+            #if UNITY_EDITOR
+            //Temp for debug
+            var targetPlayerID = cardComponent.PlayerID;
+            var playerName = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
+                .SelectFirstEntity()
+                .GetComponent<PlayerViewComponent>()
+                .Name;
+            Debug.Log($"player {playerName}: {cardComponent.PlayerID} ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
+            #endif
         }
 
         private void SelectTradeCard()

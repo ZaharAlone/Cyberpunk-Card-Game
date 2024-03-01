@@ -87,15 +87,15 @@ namespace CyberNet.Core.AI
                     {
                         var countUnitInTower = _dataWorld.Select<UnitMapComponent>()
                             .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID != currentPlayerComponent.PlayerID
-                                && unit.GUIDTower == towerComponent.GUID)
+                                && unit.GUIDTower == connectTowerComponent.GUID)
                             .Count();
 
-                        var potentialEnemy = countUnitInTower;
-                        if (towerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
-                            potentialEnemy += 5; // прибавляем базовый максимум карт на руке игрока, у нейтрального нет карт, так что не прибавляем
+                        var potentialDefenceTower = countUnitInTower;
+                        if (connectTowerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
+                            potentialDefenceTower += 5; // прибавляем базовый максимум карт на руке игрока, у нейтрального нет карт, так что не прибавляем
 
-                        var potentialAttackPlayer = CalculatePotentialAttackToTower(towerComponent);
-                        var potentialAttack = potentialEnemy - potentialAttackPlayer;
+                        var potentialAttackAI = CalculatePotentialAttackToTower(connectTowerComponent);
+                        var potentialAttack = potentialAttackAI - potentialDefenceTower;
                         
                         guidSelectPotentiallyWeakTower.Add(new ItemValue{Item = connectTowerComponent.GUID, Value = potentialAttack});
                         break;
@@ -132,7 +132,7 @@ namespace CyberNet.Core.AI
                         && unit.PowerSolidPlayerID == currentPlayerID)
                     .Count();
 
-                var freeUnitForBattle = countPlayerUnit - 2;
+                var freeUnitForBattle = countPlayerUnit - 1;
                 if (freeUnitForBattle < 0)
                     freeUnitForBattle = 0;
 
@@ -141,9 +141,10 @@ namespace CyberNet.Core.AI
 
             var countCardInHand = _dataWorld.Select<CardComponent>()
                 .With<CardHandComponent>()
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                 .Count();
 
-            var potentialAttack = countUnitForBattle + countCardInHand - 1;
+            var potentialAttack = countUnitForBattle + countCardInHand;
             return potentialAttack;
         }
 

@@ -146,6 +146,7 @@ namespace CyberNet.Core
             var entity = _dataWorld.Select<NeedToSelectAbilityCardComponent>().With<SelectingPlayerAbilityComponent>().SelectFirstEntity();
             entity.RemoveComponent<NeedToSelectAbilityCardComponent>();
             entity.RemoveComponent<SelectingPlayerAbilityComponent>();
+            entity.RemoveComponent<CardHandComponent>();
             entity.AddComponent(new CardAbilitySelectionCompletedComponent { SelectAbility = targetAbility});
             
             var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;

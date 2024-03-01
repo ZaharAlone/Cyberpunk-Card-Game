@@ -1,5 +1,3 @@
-using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -89,7 +87,6 @@ namespace CyberNet.Core
             waitDistributionComponent.CurrentDistributionCard++;
 
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            _dataWorld.RiseEvent(new EventUpdateBoardCard());
             BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
     }

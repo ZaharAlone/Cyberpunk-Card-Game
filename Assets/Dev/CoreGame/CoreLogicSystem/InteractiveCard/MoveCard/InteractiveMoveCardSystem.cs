@@ -1,5 +1,4 @@
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
 using CyberNet.Global.Sound;
 using EcsCore;

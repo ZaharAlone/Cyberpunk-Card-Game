@@ -72,7 +72,7 @@ namespace CyberNet.Core.AI
                 return 20;
 
             var potentialMoveMyTower = AbilityAIAction.CalculatePotentialMoveUnit.Invoke();
-
+            
             result = 0;
             if (potentialMoveMyTower.Value != 0)
             {
