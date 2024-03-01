@@ -1,20 +1,23 @@
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using EcsCore;
+using I2.Loc;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.Dialog
 {
     [EcsSystem(typeof(CoreModule))]
-    public class DialogSystem : IPreInitSystem, IDestroySystem
+    public class DialogSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
         public void PreInit()
         {
             DialogAction.StartDialog += StartDialog;
-            DialogAction.NextDialog += NextDialog;
+            DialogAction.ClickContinueButton += ClickContinueButton;
         }
 
         private void StartDialog(string keyDialog)
@@ -29,17 +32,80 @@ namespace CyberNet.Core.Dialog
             ref var dialogData = ref _dataWorld.OneData<CurrentDialogData>();
             ref var dialogUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.DialogUIMono;
             ref var dialogConfigData = ref _dataWorld.OneData<DialogConfigData>();
-
-            dialogData.CurrentIndexPhrase = phrase;
+            
             dialogConfigData.DialogConfig.TryGetValue(dialogData.DialogKey, out var currentDialog);
             var currentPhrase = currentDialog.Phrase[phrase];
             dialogConfigData.CharacterDialogConfig.TryGetValue(currentPhrase.Character, out var characterView);
             dialogConfigData.DialogConfigSO.DialogAvatars.TryGetValue(characterView.Image_key, out var characterImage);
-
-            dialogUI.SetViewDialog(characterImage, characterView.Loc_name, currentPhrase.Dialog);
-
+            
+            dialogData.CurrentIndexPhrase = phrase;
+            var animationsPhraseEntity = _dataWorld.NewEntity();
+            var animationsPhraseComponent = new DialogPhraseAnimationsComponent();
+            animationsPhraseComponent.CurrentIndexCharacter = 0;
+            animationsPhraseComponent.Timer = 0.02f;
+            animationsPhraseComponent.CurrentPhraseText = LocalizationManager.GetTranslation(currentPhrase.Dialog);
+            animationsPhraseEntity.AddComponent(animationsPhraseComponent);
+            
+            dialogUI.SetViewDialog(characterImage, characterView.Loc_name);
+            dialogUI.SetEnableTextToContinue(false);
+            
             if (phrase == 0)
                 dialogUI.OpenDialog();
+        }
+
+        public void Run()
+        {
+            var isAnimationsPhrase = _dataWorld.Select<DialogPhraseAnimationsComponent>().TrySelectFirstEntity(out var dialogPhraseAnimationsEntity);
+            if (isAnimationsPhrase)
+            {
+                ref var dialogPhraseAnimationsComponent = ref dialogPhraseAnimationsEntity.GetComponent<DialogPhraseAnimationsComponent>();
+                if (dialogPhraseAnimationsComponent.Timer <= 0)
+                {
+                    DialogAnimations();
+                }
+                else
+                {
+                    dialogPhraseAnimationsComponent.Timer -= Time.deltaTime;
+                }
+            }
+        }
+
+        private void DialogAnimations()
+        {
+            var phraseAnimationsEntity = _dataWorld.Select<DialogPhraseAnimationsComponent>().SelectFirstEntity();
+            ref var phraseAnimationsComponent = ref phraseAnimationsEntity.GetComponent<DialogPhraseAnimationsComponent>();
+
+            ref var dialogUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.DialogUIMono;
+            phraseAnimationsComponent.Timer = 0.02f;
+            phraseAnimationsComponent.CurrentIndexCharacter += 1;
+
+            var newText = phraseAnimationsComponent.CurrentPhraseText.Remove(phraseAnimationsComponent.CurrentIndexCharacter);
+            dialogUI.SetDialogText(newText);
+
+            if (newText.Length > 0 && newText[newText.Length - 1] == ' ')
+            {
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.PrintDialog);
+            }
+            
+            if (phraseAnimationsComponent.CurrentIndexCharacter == phraseAnimationsComponent.CurrentPhraseText.Length - 1)
+            {
+                EndAnimationsPhrase(false);
+            }
+        }
+
+        private void EndAnimationsPhrase(bool isForce)
+        {
+            var phraseAnimationsEntity = _dataWorld.Select<DialogPhraseAnimationsComponent>().SelectFirstEntity();
+            ref var dialogUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.DialogUIMono;
+
+            if (isForce)
+            {
+                ref var phraseAnimationsComponent = ref phraseAnimationsEntity.GetComponent<DialogPhraseAnimationsComponent>();
+                dialogUI.SetDialogText(phraseAnimationsComponent.CurrentPhraseText);
+            }
+            
+            phraseAnimationsEntity.Destroy();
+            dialogUI.SetEnableTextToContinue(true);
         }
 
         private void EndDialog()
@@ -55,6 +121,20 @@ namespace CyberNet.Core.Dialog
             UnblockCamera();
         }
 
+        private void ClickContinueButton()
+        {
+            var isAnimationsPhrase = _dataWorld.Select<DialogPhraseAnimationsComponent>().TrySelectFirstEntity(out var dialogPhraseAnimationsEntity);
+
+            if (isAnimationsPhrase)
+            {
+                EndAnimationsPhrase(true);
+            }
+            else
+            {
+                NextDialog();
+            }
+        }
+        
         private void NextDialog()
         {
             ref var CurrentDialogData = ref _dataWorld.OneData<CurrentDialogData>();
@@ -84,7 +164,7 @@ namespace CyberNet.Core.Dialog
         public void Destroy()
         {
             DialogAction.StartDialog -= StartDialog;
-            DialogAction.NextDialog -= NextDialog;
+            DialogAction.ClickContinueButton -= NextDialog;
         }
     }
 }

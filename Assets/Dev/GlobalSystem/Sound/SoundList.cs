@@ -1,6 +1,5 @@
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Global.Sound
 {
@@ -21,5 +20,8 @@ namespace CyberNet.Global.Sound
         [Header("Effect Map")]
         public EventReference SelectCurrentTargetInMap;
         public EventReference AddUnitInMap;
+
+        [Header("Dialog")]
+        public EventReference PrintDialog;
     }
 }

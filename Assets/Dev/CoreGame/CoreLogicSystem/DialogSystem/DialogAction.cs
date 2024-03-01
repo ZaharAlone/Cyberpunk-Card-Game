@@ -8,7 +8,7 @@ namespace CyberNet.Core.Dialog
     public static class DialogAction
     {
         public static Action<string> StartDialog;
-        public static Action NextDialog;
+        public static Action ClickContinueButton;
         public static Action EndDialog;
     }
 }
