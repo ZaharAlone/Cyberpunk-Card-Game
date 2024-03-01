@@ -192,8 +192,6 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyIce:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
             
             entity.RemoveComponent<SelectTargetCardAbilityComponent>();

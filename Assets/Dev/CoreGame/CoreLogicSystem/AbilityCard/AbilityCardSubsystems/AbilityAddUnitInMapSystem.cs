@@ -106,6 +106,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CancelAddUnitMap(string guidCard)
         {
+            AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();

@@ -6,7 +6,6 @@ using Input;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.City;
-using CyberNet.Core.Sound;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Sound;

@@ -1,4 +1,6 @@
-namespace CyberNet.Core.Sound
+using System.Collections.Generic;
+
+namespace CyberNet.Global.Sound
 {
     public struct SoundData
     {

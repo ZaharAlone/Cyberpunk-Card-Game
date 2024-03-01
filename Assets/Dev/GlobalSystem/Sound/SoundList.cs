@@ -2,7 +2,7 @@ using FMODUnity;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core.Sound
+namespace CyberNet.Global.Sound
 {
     [CreateAssetMenu(fileName = "SoundList", menuName = "Scriptable Object/Sound List")]
     public class SoundList : ScriptableObject

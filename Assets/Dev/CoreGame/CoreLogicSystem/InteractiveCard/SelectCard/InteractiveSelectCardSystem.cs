@@ -1,4 +1,3 @@
-using CyberNet.Core.Sound;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using DG.Tweening;
@@ -47,6 +46,8 @@ namespace CyberNet.Core.InteractiveCard
             if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
                 return;
             
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
+
             ClearSelectComponent();
             entity.AddComponent(new InteractiveSelectCardComponent());
 
@@ -70,8 +71,8 @@ namespace CyberNet.Core.InteractiveCard
                 scaleCard = gameConfig.SizeSelectCardTradeRow;
 
             animComponent.Sequence = DOTween.Sequence();
-            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.1f))
-                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.1f));
+            animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.23f))
+                                  .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.23f));
 
             cardComponent.Canvas.sortingOrder = 20;
             
@@ -79,7 +80,7 @@ namespace CyberNet.Core.InteractiveCard
             {
                 var pos = animComponent.Positions;
                 pos.y = -340;
-                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
                 entity.AddComponent(animComponent);
                 var index = entity.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
@@ -90,13 +91,11 @@ namespace CyberNet.Core.InteractiveCard
             {
                 var pos = animComponent.Positions;
                 pos.y = -250;
-                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.1f));
+                animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
                 entity.AddComponent(animComponent);
                 
                 CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, true);
             }
-            
-            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
         }
 
         private void ClearSelectComponent()

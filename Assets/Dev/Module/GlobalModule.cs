@@ -13,7 +13,7 @@ using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
-using CyberNet.Core.Sound;
+using CyberNet.Global.Sound;
 using CyberNet.Core.City;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
@@ -79,7 +79,7 @@ namespace EcsCore
                 SupportLocalize = supportLocalize.Result
             });
             world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
-            world.CreateOneData(new SoundData { Sound = soundList.Result });
+            world.CreateOneData(new SoundData { Sound = soundList.Result});
             world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
