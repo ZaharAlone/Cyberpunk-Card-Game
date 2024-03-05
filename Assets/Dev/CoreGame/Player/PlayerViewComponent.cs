@@ -7,6 +7,7 @@ namespace CyberNet.Core.Player
         public string LeaderKey;
         public string Name;
         public Sprite Avatar;
+        public Sprite AvatarWithBackground;
         public string KeyCityVisual;
     }
 }

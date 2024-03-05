@@ -1,5 +1,6 @@
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Global.Sound
 {
@@ -8,8 +9,13 @@ namespace CyberNet.Global.Sound
     {
         [Header("Music")]
         public EventReference BackgroundMusicMainMenu;
-        public EventReference BackgroundMusicBattle;
+        public EventReference BackgroundMusicMap;
+        public EventReference BackgroundMusicBattleArena;
 
+        [Header("UI")]
+        public EventReference ButtonClick;
+        public EventReference DialogNextPhrase;
+        
         [Header("Effect Card")]
         public EventReference GetCardInHand;
         public EventReference AttackSound;

@@ -754,6 +754,7 @@ MonoBehaviour:
   - {fileID: 2210778102631278781}
   - {fileID: 1819376132056625705}
   _iceZone: {fileID: 183726642715644220}
+  IsInteractiveTower: 0
 --- !u!1 &1301524884929400633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1048,7 @@ Transform:
   - {fileID: 8197026414374581226}
   - {fileID: 2792020526191972378}
   - {fileID: 5935560235886407457}
+  - {fileID: 2787224046582331007}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1564,6 +1566,7 @@ MonoBehaviour:
   - {fileID: 8042618828105057904}
   - {fileID: 1277325792432442571}
   _iceZone: {fileID: 5827822315083711396}
+  IsInteractiveTower: 0
 --- !u!1 &2063403820243653816
 GameObject:
   m_ObjectHideFlags: 0
@@ -3168,6 +3171,7 @@ MonoBehaviour:
   - {fileID: 6859052566131182751}
   - {fileID: 4273552721157428603}
   _iceZone: {fileID: 4763750132697546854}
+  IsInteractiveTower: 0
 --- !u!1 &4426272471971333446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,6 +3597,7 @@ MonoBehaviour:
   - {fileID: 1819376132056625705}
   - {fileID: 6683057317341631228}
   _iceZone: {fileID: 4156699589480315912}
+  IsInteractiveTower: 0
 --- !u!1 &4763750132697546854
 GameObject:
   m_ObjectHideFlags: 0
@@ -3767,6 +3772,7 @@ MonoBehaviour:
   - {fileID: 8662714721060430026}
   - {fileID: 2835459971720447206}
   _iceZone: {fileID: 475028668369447680}
+  IsInteractiveTower: 0
 --- !u!1 &4819429483928505716
 GameObject:
   m_ObjectHideFlags: 0
@@ -4532,6 +4538,7 @@ MonoBehaviour:
   - {fileID: 2835459971720447206}
   - {fileID: 4627187076986063666}
   _iceZone: {fileID: 5102231716269822760}
+  IsInteractiveTower: 0
 --- !u!1 &5791151807812385314
 GameObject:
   m_ObjectHideFlags: 0
@@ -5762,6 +5769,7 @@ MonoBehaviour:
   - {fileID: 4273552721157428603}
   - {fileID: 8042618828105057904}
   _iceZone: {fileID: 8463665527581757616}
+  IsInteractiveTower: 0
 --- !u!1 &7509641417769208282
 GameObject:
   m_ObjectHideFlags: 0
@@ -6248,6 +6256,7 @@ MonoBehaviour:
   - {fileID: 1277325792432442571}
   - {fileID: 4627187076986063666}
   _iceZone: {fileID: 1875928642195121683}
+  IsInteractiveTower: 0
 --- !u!1 &8169607556997597558
 GameObject:
   m_ObjectHideFlags: 0
@@ -6422,6 +6431,7 @@ MonoBehaviour:
   - {fileID: 1277325792432442571}
   - {fileID: 1209958194385788890}
   _iceZone: {fileID: 8770748178764521468}
+  IsInteractiveTower: 0
 --- !u!1 &8225901975980852149
 GameObject:
   m_ObjectHideFlags: 0
@@ -6597,6 +6607,7 @@ MonoBehaviour:
   - {fileID: 8662714721060430026}
   - {fileID: 1277325792432442571}
   _iceZone: {fileID: 4426272471971333446}
+  IsInteractiveTower: 0
 --- !u!1 &8440331676815627852
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,6 +6699,7 @@ MonoBehaviour:
   - {fileID: 2210778102631278781}
   - {fileID: 6683057317341631228}
   _iceZone: {fileID: 247892307849004748}
+  IsInteractiveTower: 0
 --- !u!1 &8463665527581757616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7134,6 +7146,7 @@ MonoBehaviour:
   - {fileID: 1209958194385788890}
   - {fileID: 8662714721060430026}
   _iceZone: {fileID: 1661770303952210146}
+  IsInteractiveTower: 0
 --- !u!1 &8948803562499792080
 GameObject:
   m_ObjectHideFlags: 0
@@ -7320,6 +7333,73 @@ MonoBehaviour:
   Index: 2
   GUIDTower: 8d6bfd91-4bd5-434e-b8e1-217882a749b2
   Collider: {fileID: 5302963217090861114}
+--- !u!1001 &2787224046581930111
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1399906483926766899}
+    m_Modifications:
+    - target: {fileID: 180702, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_Name
+      value: GrenadeExplosionFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 180702, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.439
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.606
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 09274136e93ce9b46a75b0cdeb79709e, type: 3}
+--- !u!4 &2787224046582331007 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 404992, guid: 09274136e93ce9b46a75b0cdeb79709e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2787224046581930111}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8523917050835833857
 PrefabInstance:
   m_ObjectHideFlags: 0

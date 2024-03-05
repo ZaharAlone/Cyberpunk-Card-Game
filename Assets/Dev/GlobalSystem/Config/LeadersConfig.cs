@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Serialization;
+
 namespace CyberNet
 {
     [Serializable]
@@ -15,7 +15,9 @@ namespace CyberNet
         [JsonProperty("image_button_hero")]
         public string ImageButtonLeader;
         [JsonProperty("image_avatar_hero")]
-        public string imageAvatarLeader;
+        public string ImageAvatarLeader;
+        [JsonProperty("image_background_avatar_hero")]
+        public string ImageBackgroundAvatarLeader;
         [JsonProperty("name_loc")]
         public string NameLoc;
         [JsonProperty("descr_loc")]

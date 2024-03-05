@@ -141,7 +141,7 @@ namespace CyberNet.Local
             var playerComponent = entityPlayer.GetComponent<PlayerComponent>();
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
-            uiRound.NewRoundView(playerViewComponent.Avatar, playerViewComponent.Name);
+            uiRound.NewRoundView(playerViewComponent.AvatarWithBackground, playerViewComponent.Name);
             await Task.Delay(1500);
 
             if (playerComponent.playerOrAI == PlayerOrAI.Player)

@@ -219,7 +219,7 @@ namespace CyberNet.Core.Arena
                     .SelectFirstEntity();
 
                 var playerViewComponent = playerEntity.GetComponent<PlayerViewComponent>();
-                avatar = playerViewComponent.Avatar;
+                avatar = playerViewComponent.AvatarWithBackground;
             }
             return avatar;
         }

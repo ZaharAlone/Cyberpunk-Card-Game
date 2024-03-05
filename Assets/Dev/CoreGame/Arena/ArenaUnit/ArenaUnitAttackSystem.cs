@@ -9,7 +9,6 @@ using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
 using Input;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.Arena

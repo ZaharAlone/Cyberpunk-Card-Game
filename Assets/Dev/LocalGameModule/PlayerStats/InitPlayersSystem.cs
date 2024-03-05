@@ -33,7 +33,8 @@ namespace CyberNet.Core
             var leadersConfigData = _dataWorld.OneData<LeadersConfigData>();
             
             leadersConfigData.LeadersConfig.TryGetValue(selectLeaderData.SelectLeader, out var leadersConfig);
-            leadersView.TryGetValue(leadersConfig.imageAvatarLeader, out var imAvatar);
+            leadersView.TryGetValue(leadersConfig.ImageAvatarLeader, out var imAvatar);
+            leadersView.TryGetValue(leadersConfig.ImageBackgroundAvatarLeader, out var imAvatarWithBackground);
             
             var entity = _dataWorld.NewEntity();
 
@@ -52,6 +53,7 @@ namespace CyberNet.Core
                 LeaderKey = selectLeaderData.SelectLeader, 
                 Name = selectLeaderData.NamePlayer,
                 Avatar = imAvatar,
+                AvatarWithBackground = imAvatarWithBackground,
                 KeyCityVisual = selectLeaderData.KeyVisualCity
             });
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CyberNet.Core.UI;
 using CyberNet.Global.Sound;
 using EcsCore;
@@ -13,6 +14,8 @@ namespace CyberNet.Core.Dialog
     public class DialogSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
+
+        private List<char> _punctuationChar = new List<char> {'.', '!', '?'};
         
         public void PreInit()
         {
@@ -42,13 +45,15 @@ namespace CyberNet.Core.Dialog
             var animationsPhraseEntity = _dataWorld.NewEntity();
             var animationsPhraseComponent = new DialogPhraseAnimationsComponent();
             animationsPhraseComponent.CurrentIndexCharacter = 0;
-            animationsPhraseComponent.Timer = 0.02f;
+            animationsPhraseComponent.Timer = 0.01f;
             animationsPhraseComponent.CurrentPhraseText = LocalizationManager.GetTranslation(currentPhrase.Dialog);
+            animationsPhraseComponent.MaxCharactersInPhrase = animationsPhraseComponent.CurrentPhraseText.Length - 1;
             animationsPhraseEntity.AddComponent(animationsPhraseComponent);
             
             dialogUI.SetViewDialog(characterImage, characterView.Loc_name);
             dialogUI.SetEnableTextToContinue(false);
             
+            dialogUI.SetDialogText(animationsPhraseComponent.CurrentPhraseText);
             if (phrase == 0)
                 dialogUI.OpenDialog();
         }
@@ -76,18 +81,27 @@ namespace CyberNet.Core.Dialog
             ref var phraseAnimationsComponent = ref phraseAnimationsEntity.GetComponent<DialogPhraseAnimationsComponent>();
 
             ref var dialogUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.DialogUIMono;
-            phraseAnimationsComponent.Timer = 0.02f;
+            phraseAnimationsComponent.Timer = 0.01f;
             phraseAnimationsComponent.CurrentIndexCharacter += 1;
-
-            var newText = phraseAnimationsComponent.CurrentPhraseText.Remove(phraseAnimationsComponent.CurrentIndexCharacter);
-            dialogUI.SetDialogText(newText);
-
-            if (newText.Length > 0 && newText[newText.Length - 1] == ' ')
+            dialogUI.SetVisibleCountCharacters(phraseAnimationsComponent.CurrentIndexCharacter);
+            
+            var newChar = phraseAnimationsComponent.CurrentPhraseText[phraseAnimationsComponent.CurrentIndexCharacter];
+            
+            foreach (var symbol in _punctuationChar)
             {
-                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.PrintDialog);
+                if (newChar == symbol)
+                {
+                    phraseAnimationsComponent.Timer = 0.015f;
+                    break;
+                }
             }
             
-            if (phraseAnimationsComponent.CurrentIndexCharacter == phraseAnimationsComponent.CurrentPhraseText.Length - 1)
+            if (newChar == ',')
+            {
+                phraseAnimationsComponent.Timer = 0.012f;
+            }
+            
+            if (phraseAnimationsComponent.CurrentIndexCharacter == phraseAnimationsComponent.MaxCharactersInPhrase)
             {
                 EndAnimationsPhrase(false);
             }
@@ -101,7 +115,7 @@ namespace CyberNet.Core.Dialog
             if (isForce)
             {
                 ref var phraseAnimationsComponent = ref phraseAnimationsEntity.GetComponent<DialogPhraseAnimationsComponent>();
-                dialogUI.SetDialogText(phraseAnimationsComponent.CurrentPhraseText);
+                dialogUI.SetVisibleCountCharacters(phraseAnimationsComponent.MaxCharactersInPhrase);
             }
             
             phraseAnimationsEntity.Destroy();
@@ -133,6 +147,8 @@ namespace CyberNet.Core.Dialog
             {
                 NextDialog();
             }
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.DialogNextPhrase);
         }
         
         private void NextDialog()

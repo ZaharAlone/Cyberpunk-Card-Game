@@ -29,6 +29,8 @@ namespace CyberNet.Core.Dialog
 
         [SerializeField]
         private GameObject _textToContinue;
+        
+        private bool hasTextChanged;
 
         public void OnEnable()
         {
@@ -49,6 +51,13 @@ namespace CyberNet.Core.Dialog
         public void SetDialogText(string textDialog)
         {
             _textDialog.text = textDialog;
+            _textDialog.ForceMeshUpdate();
+            _textDialog.maxVisibleCharacters = 0;
+        }
+
+        public void SetVisibleCountCharacters(int count)
+        {
+            _textDialog.maxVisibleCharacters = count;
         }
 
         public void OpenDialog()
@@ -67,5 +76,7 @@ namespace CyberNet.Core.Dialog
             _background.SetActive(false);
             _panel.SetActive(false);
         }
+        
+        
     }
 }

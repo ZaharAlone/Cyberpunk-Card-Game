@@ -6,6 +6,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core.City;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using Object = UnityEngine.Object;
@@ -58,6 +59,7 @@ namespace CyberNet.Core.Arena
             
             ControlViewGameUI(true);
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
+            PopupDistrictInfoAction.ClosePopup?.Invoke();
         }
         
         public void ControlViewGameUI(bool isOpenArena)

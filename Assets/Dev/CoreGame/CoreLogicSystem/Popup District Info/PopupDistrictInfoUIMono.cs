@@ -1,9 +1,6 @@
-using System;
-using System.Threading.Tasks;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.UI.PopupDistrictInfo

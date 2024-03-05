@@ -111,8 +111,8 @@ namespace CyberNet.Core.UI
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
 
-            var countCardHand = _dataWorld.Select<CardComponent>()
-                .With<CardHandComponent>()
+            var countCardHandAndDeck = _dataWorld.Select<CardComponent>()
+                .Without<CardDiscardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
                 .Count();
             
@@ -122,7 +122,7 @@ namespace CyberNet.Core.UI
                 .Count();
             
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHand, countCardDiscard, playerComponent.UnitCount);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHandAndDeck, countCardDiscard, playerComponent.UnitCount);
             
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);

@@ -1,3 +1,5 @@
+using CyberNet.Global.Sound;
+using FMODUnity;
 using I2.Loc;
 using TMPro;
 using UnityEngine;
@@ -37,6 +39,14 @@ namespace CyberNet.Meta.SelectPlayersForGame
         private GameObject _iconsEditName;
         [SerializeField]
         private GameObject _iconsApplyNewName;
+
+        [Header("Sound")]
+        [SerializeField]
+        private EventReference _addUnitSFX;
+        [SerializeField]
+        private EventReference _deleteUnitSFX;
+        
+        //[SerializeField]
         
         [Header("Low bar")]
         public GameObject SwitchEnemyGO;
@@ -95,6 +105,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
         {
             OpenSlot();
             SelectPlayerAction.CreatePlayer?.Invoke(IDPlayerSlot);
+            SoundAction.PlaySound?.Invoke(_addUnitSFX);
         }
 
         public void OpenSlot()
@@ -107,6 +118,7 @@ namespace CyberNet.Meta.SelectPlayersForGame
         {
             ClearSlot();
             SelectPlayerAction.ClearSlot?.Invoke(IDPlayerSlot);
+            SoundAction.PlaySound?.Invoke(_deleteUnitSFX);
         }
 
         public void ClearSlot()

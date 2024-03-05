@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.Arena;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
+using CyberNet.Core.EnemyTurnView;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Global;
@@ -60,8 +61,8 @@ namespace CyberNet.Core.AI.Arena
             }
             else
             {
-                //Нужно добавить остановку розыгрыш карт (основную логику бота на карте)
                 MapMoveUnitsAction.StartArenaBattle?.Invoke();
+                EnemyTurnViewUIAction.HideView?.Invoke();
             }
         }
 

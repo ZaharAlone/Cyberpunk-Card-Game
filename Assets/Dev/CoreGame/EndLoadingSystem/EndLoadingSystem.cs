@@ -1,3 +1,4 @@
+using CyberNet.Global.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -14,6 +15,9 @@ namespace CyberNet.Core
         public void Init()
         {
             LoadingGameScreenAction.CloseLoadingGameScreen?.Invoke();
+
+            var coreMusic = _dataWorld.OneData<SoundData>().Sound.BackgroundMusicMap;
+            SoundAction.PlayMusic?.Invoke(coreMusic);
         }
     }
 }

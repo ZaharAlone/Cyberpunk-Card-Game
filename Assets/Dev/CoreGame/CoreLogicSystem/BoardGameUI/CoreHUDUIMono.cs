@@ -16,6 +16,8 @@ namespace  CyberNet.Core.UI
         private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
         [SerializeField]
         private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
+        [SerializeField]
+        private GameObject _playerVfxDownCard;
         
         [Header("Action Button")]
         public GameObject ActionButton;
@@ -49,6 +51,7 @@ namespace  CyberNet.Core.UI
         public void EnableMainPlayerCurrentRound(bool status)
         {
             PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
+            _playerVfxDownCard.SetActive(status);
         }
 
         public void EnableLeftPlayerCurrentRound(bool status, int playerID)
