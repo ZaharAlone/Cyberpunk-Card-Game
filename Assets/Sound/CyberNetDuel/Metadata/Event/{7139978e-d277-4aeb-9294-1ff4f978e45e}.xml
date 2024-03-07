@@ -5,7 +5,7 @@
 			<value>get_card_in_hand</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{2ef061ff-ad54-405a-ab4a-be0b906fdfa6}</destination>
@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{42832993-603c-4963-8f5c-c05ea23f8d86}" />
 	<object class="GroupTrack" id="{383e11d8-865c-4eb6-9c7f-2ac4e4d7b225}">
 		<relationship name="modules">
-			<destination>{32ea5414-caf5-4c38-adfe-186523ff304f}</destination>
+			<destination>{19e7b3d1-dbd1-4a3d-8eb6-d671903b08c6}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{7ffac5ba-9e74-406f-8c07-5179b82531f3}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{b138d3c0-2c64-4930-9258-d7f84685bac3}">
 		<relationship name="modules">
-			<destination>{32ea5414-caf5-4c38-adfe-186523ff304f}</destination>
+			<destination>{19e7b3d1-dbd1-4a3d-8eb6-d671903b08c6}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{882d11f8-26c7-4195-8643-ddfb736064a3}">
@@ -88,17 +88,17 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{4abb6bad-f07a-4996-8f53-f84981f8f903}" />
-	<object class="SingleSound" id="{32ea5414-caf5-4c38-adfe-186523ff304f}">
+	<object class="SingleSound" id="{19e7b3d1-dbd1-4a3d-8eb6-d671903b08c6}">
 		<property name="length">
-			<value>0.11891156462585034</value>
+			<value>0.35806250000000001</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{b337864b-7c17-45f6-97a3-4817fe143a18}</destination>
+			<destination>{a0cfa9b5-6af3-489a-9d49-62cbaf6c5eb6}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{7ffac5ba-9e74-406f-8c07-5179b82531f3}">
 		<property name="volume">
-			<value>-9</value>
+			<value>-6</value>
 		</property>
 		<property name="name">
 			<value>Audio 1</value>

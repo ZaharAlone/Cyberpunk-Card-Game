@@ -22,10 +22,15 @@ namespace CyberNet.Global.Sound
         public EventReference StartInteractiveCard;
         public EventReference CancelInteractiveCard;
         public EventReference SelectCard;
+        public EventReference FlipCard;
         
         [Header("Effect Map")]
         public EventReference SelectCurrentTargetInMap;
+        public EventReference MoveArrowMap;
         public EventReference AddUnitInMap;
+        public EventReference KillUnitMap;
+        public EventReference SelectUnitInMap;
+        public EventReference DeselectUnitInMap;
 
         [Header("Dialog")]
         public EventReference PrintDialog;

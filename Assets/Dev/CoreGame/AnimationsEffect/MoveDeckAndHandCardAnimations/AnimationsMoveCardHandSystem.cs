@@ -77,7 +77,10 @@ namespace CyberNet.Core
             entity.RemoveComponent<CardComponentAnimations>();
 
             if (cardComponent.PlayerID == currentPlayerID)
+            {
                 cardComponent.CardMono.CardOnFace();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.FlipCard);
+            }
 
             var waitDistributionEntity = _dataWorld.Select<WaitDistributionCardHandComponent>()
                                                    .Where<WaitDistributionCardHandComponent>(wait => wait.PlayerID == cardComponent.PlayerID)

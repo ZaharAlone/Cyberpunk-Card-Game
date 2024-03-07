@@ -9,6 +9,7 @@ using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.GameCamera;
+using CyberNet.Global.Sound;
 using EcsCore;
 using Input;
 using ModulesFramework.Attributes;
@@ -94,11 +95,13 @@ namespace CyberNet.Core.AbilityCard
             {
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
                 unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.DeselectUnitInMap);
             }
             else
             {
                 unitEntity.AddComponent(new SelectUnitMapComponent());
                 unitComponent.IconsUnitInMapMono.OnSelectUnitEffect();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectUnitInMap);
             }
 
             CheckUpdateReadinessUnitsForShipment();

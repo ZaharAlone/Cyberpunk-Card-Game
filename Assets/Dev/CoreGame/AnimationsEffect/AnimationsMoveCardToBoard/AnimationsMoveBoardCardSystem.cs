@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using ModulesFramework.Data.Enumerators;
 
 namespace CyberNet.Core
