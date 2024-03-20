@@ -265,7 +265,7 @@ namespace CyberNet.Core.Arena
                 var unitArenaComponent = new ArenaUnitComponent
                 {
                     PlayerControlID = unitMapComponent.PowerSolidPlayerID,
-                    playerControlEntity = unitMapComponent.PlayerControl,
+                    PlayerControlEntity = unitMapComponent.PlayerControl,
                     GUID = unitMapComponent.GUIDUnit,
                     IndexTurnOrder = indexUnit
                 };

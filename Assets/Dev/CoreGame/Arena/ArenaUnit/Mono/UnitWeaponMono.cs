@@ -14,6 +14,11 @@ namespace CyberNet.Core.Arena
         [SerializeField]
         private ParticleSystem _vfxAttack;
 
+        [SerializeField]
+        private Transform _shootingPoint;
+        [SerializeField]
+        private BulletMono _bullet;
+
         public void OnEnable()
         {
             _weaponGO.SetActive(_isEnableStart);
@@ -34,6 +39,14 @@ namespace CyberNet.Core.Arena
         public void PlayVFXAttack()
         {
             _vfxAttack.Play();
+        }
+
+        public BulletMono ShootingGunCreateBullet()
+        {
+            var bullet = Instantiate(_bullet);
+            bullet.transform.position = _shootingPoint.position;
+            bullet.transform.rotation = _shootingPoint.rotation;
+            return bullet;
         }
 
         public void StopVFXAttack()

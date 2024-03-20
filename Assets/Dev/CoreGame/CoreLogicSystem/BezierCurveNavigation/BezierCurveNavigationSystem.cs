@@ -211,7 +211,10 @@ namespace CyberNet.Core.BezierCurveNavigation
                     color = colorsConfig.SelectCurrentTargetBlueColor;
                     
                     if (bezierComponent.BezierCurveStatusEnum != status)
-                        SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap);
+                    {
+                        var soundSelectCurrentTarget = _dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap;
+                        SoundAction.PlaySound?.Invoke(soundSelectCurrentTarget);
+                    }
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;

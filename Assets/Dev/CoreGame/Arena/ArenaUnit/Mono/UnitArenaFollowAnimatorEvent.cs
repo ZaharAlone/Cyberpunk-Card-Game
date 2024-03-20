@@ -6,7 +6,7 @@ namespace CyberNet.Core.Arena
     {
         public void EventShoot()
         {
-            
+            UnitArenaAction.GunShootingVFX?.Invoke();
         }
         
         public void EventStartGranade()

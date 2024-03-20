@@ -9,8 +9,7 @@ namespace CyberNet.Core.Arena
         public string GUID;
         public GameObject UnitGO;
         public UnitArenaMono UnitArenaMono;
-        [FormerlySerializedAs("PlayerControlTower")]
-        public PlayerControlEntity playerControlEntity;
+        public PlayerControlEntity PlayerControlEntity;
         public int PlayerControlID;
 
         public bool IsActionCurrentRound;

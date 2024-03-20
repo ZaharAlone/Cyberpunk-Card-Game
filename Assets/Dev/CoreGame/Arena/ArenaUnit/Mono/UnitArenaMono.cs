@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CyberNet.Core.City;
 using UnityEngine;
 
@@ -13,6 +12,8 @@ namespace CyberNet.Core.Arena
         
         [SerializeField]
         private Animator _animator;
+        [SerializeField]
+        private Transform _unitTransform;
 
         [Header("Unit weapon")]
         [SerializeField]
@@ -24,6 +25,10 @@ namespace CyberNet.Core.Arena
         private GameObject _shield;
 
         private bool isShoot;
+        
+        private const string ANIMATIONS_SHOOTING_KEY = "Shoot";
+        private const string ANIMATIONS_AIM_KEY = "Aim";
+        private const string ANIMATIONS_IDLE_KEY = "Idle";
 
         public void OnEnable()
         {
@@ -45,20 +50,41 @@ namespace CyberNet.Core.Arena
             _unitCollider.enabled = false;
         }
 
-        public void ShowTargetUnit(Transform transform)
+        public void ViewToTargetUnit(Transform transform)
         {
-            transform.LookAt(transform.position);
+            
+            _unitTransform.LookAt(transform.position);
+            var newRotation = _unitTransform.eulerAngles;
+            newRotation.y += 6.5f;
+            _unitTransform.eulerAngles = newRotation;
         }
 
-        public async void Shooting()
+        public void OnAimAnimations()
         {
-            _animator.SetTrigger("Shoot");
-            
-            _gun.PlayVFXAttack();
-            await Task.Delay(1500);
-            _animator.SetTrigger("Idle");
+            _animator.SetTrigger(ANIMATIONS_AIM_KEY);
+        }
+
+        public void StartShooting()
+        {
+            _animator.SetTrigger(ANIMATIONS_SHOOTING_KEY);
+        }
+
+        public void FinishShooting()
+        {
+            _animator.SetTrigger(ANIMATIONS_IDLE_KEY);
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
             _gun.StopVFXAttack();
+        }
+
+        public void ShootingGunPlayVFX()
+        {
+            _gun.PlayVFXAttack();
+        }
+
+        public BulletMono ShootingCreateBullet()
+        {
+            var bullet = _gun.ShootingGunCreateBullet();
+            return bullet;
         }
 
         public void OnShield()

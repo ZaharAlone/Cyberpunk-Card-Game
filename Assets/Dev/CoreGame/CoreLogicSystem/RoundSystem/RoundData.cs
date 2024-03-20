@@ -11,6 +11,5 @@ namespace CyberNet.Core
         public RoundState CurrentRoundState;
         public PlayerOrAI playerOrAI;
         public bool PauseInteractive;
-        
     }
 }

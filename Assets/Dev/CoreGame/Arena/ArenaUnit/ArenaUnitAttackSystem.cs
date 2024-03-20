@@ -8,6 +8,8 @@ using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global;
+using CyberNet.Global.Sound;
 using Input;
 using Object = UnityEngine.Object;
 
@@ -35,9 +37,17 @@ namespace CyberNet.Core.Arena
                 .SelectFirstEntity();
             var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
 
-            currentUnitComponent.UnitArenaMono.ShowTargetUnit(targetUnitComponent.UnitGO.transform);
+            currentUnitComponent.UnitArenaMono.OnAimAnimations();
+            currentUnitComponent.UnitArenaMono.ViewToTargetUnit(targetUnitComponent.UnitGO.transform);
 
-            Attack();
+            var soundAim = _dataWorld.OneData<SoundData>().Sound.AimGun;
+            SoundAction.PlaySound?.Invoke(soundAim);
+            
+            _dataWorld.NewEntity().AddComponent(new TimeComponent
+            {
+                Time = 0.5f,
+                Action = () => Attack()
+            });
         }
 
         private void Attack()
@@ -89,11 +99,7 @@ namespace CyberNet.Core.Arena
             var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
             targetUnitComponent.UnitArenaMono.OnShield();
             
-            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaUnitCurrentComponent>()
-                .SelectFirstEntity();
-            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.Shooting();
+            Shooting();
         }
 
         private void FinishBlockAttack()
@@ -124,11 +130,7 @@ namespace CyberNet.Core.Arena
         
         private void AttackUnitPlayer()
         {
-            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaUnitCurrentComponent>()
-                .SelectFirstEntity();
-            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.Shooting();
+            Shooting();
             ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
         }
         
@@ -148,6 +150,44 @@ namespace CyberNet.Core.Arena
             ArenaAction.FinishRound?.Invoke();
             ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
             ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+        }
+
+        public void Shooting()
+        {
+            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity();
+            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.StartShooting();
+            
+            UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
+            _dataWorld.NewEntity().AddComponent(new TimeComponent {
+                Time = 1.3f,
+                Action = () => FinishShooting()
+            });
+        }
+
+        public void ShootingGunPlayVFX()
+        {
+            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity();
+            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
+
+            UnitArenaAction.CreateBulletCurrentUnit?.Invoke();
+            var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
+            SoundAction.PlaySound?.Invoke(soundShoot);
+        }
+
+        public void FinishShooting()
+        {
+            UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
+            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity();
+            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.FinishShooting();
         }
 
         public void Destroy()

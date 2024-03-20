@@ -34,5 +34,11 @@ namespace CyberNet.Global.Sound
 
         [Header("Dialog")]
         public EventReference PrintDialog;
+
+        [Header("Arena")]
+        public EventReference AimGun;
+        public EventReference Shoot;
+        public EventReference HitUnit;
+        public EventReference HitShield;
     }
 }

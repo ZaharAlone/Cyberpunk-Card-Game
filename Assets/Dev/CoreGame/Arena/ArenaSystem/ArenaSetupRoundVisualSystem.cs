@@ -72,7 +72,7 @@ namespace CyberNet.Core.Arena
             var roundData = _dataWorld.OneData<ArenaRoundData>();
             var unitsEntities = _dataWorld.Select<ArenaUnitComponent>()
                 .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == roundData.CurrentPlayerID
-                    && unit.playerControlEntity == roundData.PlayerControlEntity)
+                    && unit.PlayerControlEntity == roundData.PlayerControlEntity)
                 .GetEntities();
 
             var isUnitNotAction = false;

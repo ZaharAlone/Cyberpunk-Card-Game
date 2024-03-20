@@ -7,6 +7,7 @@ using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.City;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Cursor;
+using CyberNet.Global.Sound;
 using Input;
 
 namespace CyberNet.Core.Arena
@@ -71,8 +72,9 @@ namespace CyberNet.Core.Arena
             }
         }
 
-        private void ClickInUnit(UnitArenaMono unitMono)
+        private void ClickInUnit(UnitArenaMono unitMonoTarget)
         {
+            Debug.LogError("Click unit");
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             
             //Проверяем, есть ли уже выбранные юниты
@@ -89,12 +91,21 @@ namespace CyberNet.Core.Arena
             }
 
             var unitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .Where<ArenaUnitComponent>(unit => unit.GUID == unitMono.GUID)
+                .Where<ArenaUnitComponent>(unit => unit.GUID == unitMonoTarget.GUID)
                 .SelectFirstEntity();
             unitEntity.AddComponent(new ArenaSelectUnitForAttackComponent());
 
-            unitMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
-            unitMono.UnitPointVFXMono.EnableEffect();
+            unitMonoTarget.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
+            unitMonoTarget.UnitPointVFXMono.EnableEffect();
+
+            var currentUnitComponent = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity().GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.ViewToTargetUnit(unitMonoTarget.transform);
+            currentUnitComponent.UnitArenaMono.OnAimAnimations();
+
+            var soundAim = _dataWorld.OneData<SoundData>().Sound.AimGun;
+            SoundAction.PlaySound?.Invoke(soundAim);
         }
         
         private void ClickAttack()
@@ -120,7 +131,7 @@ namespace CyberNet.Core.Arena
                     .Where<CardComponent>(card => card.PlayerID == unitEnemyComponent.PlayerControlID)
                     .Count();
                 
-                if (unitEnemyComponent.playerControlEntity == PlayerControlEntity.NeutralUnits || countEnemyCardInHand == 0)
+                if (unitEnemyComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits || countEnemyCardInHand == 0)
                 {
                     EndReactionStage();
                 }
@@ -134,6 +145,7 @@ namespace CyberNet.Core.Arena
             
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
         }
+        
         private void EndReactionStage()
         {
             ArenaAction.ArenaUnitStartAttack?.Invoke();
