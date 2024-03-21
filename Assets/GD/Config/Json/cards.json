@@ -61,15 +61,20 @@
     "image": "card_corporates_director",
     "nations": "Corporates",
     "count": 2,
-    "price": 2,
-    "cyberpsychosis_count": 1,
+    "price": 6,
+    "cyberpsychosis_count": 5,
     "ability_0": {
-      "action": "AddUnit",
-      "count": 1
+      "action": "Trade",
+      "count": 4
     },
     "ability_1": {
-      "action": "DestroyCard",
-      "count": 1
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 3,
+      "condition": "Corporates"
     }
   },
   "corporates_droid": {
@@ -83,6 +88,10 @@
     "ability_0": {
       "action": "SwitchEnemyUnit",
       "count": 1
+    },
+    "ability_1": {
+      "action": "AddUnit",
+      "count": 1
     }
   },
   "corporates_engineer": {
@@ -91,8 +100,8 @@
     "image": "card_corporates_engineer",
     "nations": "Corporates",
     "count": 2,
-    "price": 3,
-    "cyberpsychosis_count": 2,
+    "price": 2,
+    "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "DrawCard",
       "count": 1
@@ -107,12 +116,17 @@
     "header": "BoardGameCard/$bgc_corporates_head_hunter_name",
     "image": "card_corporates_head_hunter",
     "nations": "Corporates",
-    "count": 2,
-    "price": 3,
-    "cyberpsychosis_count": 2,
+    "count": 4,
+    "price": 4,
+    "cyberpsychosis_count": 3,
     "ability_0": {
-      "action": "UnitMove",
-      "count": 1
+      "action": "Trade",
+      "count": 3
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Corporates"
     }
   },
   "corporates_pathfinder": {
@@ -121,11 +135,20 @@
     "image": "card_corporates_pathfinder",
     "nations": "Corporates",
     "count": 2,
-    "price": 3,
-    "cyberpsychosis_count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
     "ability_0": {
+      "action": "Trade",
+      "count": 3
+    },
+    "ability_1": {
       "action": "UnitMove",
-      "count": 2
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Corporates"
     }
   },
   "corporates_R52": {
@@ -137,7 +160,11 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "SwitchNeutralUnit",
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "HeadShot",
       "count": 1
     }
   },
@@ -168,7 +195,16 @@
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "UnitMove",
-      "count": 3
+      "count": 1
+    },
+    "ability_1": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_2": {
+      "action": "AddUnit",
+      "count": 1,
+      "condition": "Corporates"
     }
   },
   "corporates_yellow_eyed": {
@@ -181,7 +217,16 @@
     "cyberpsychosis_count": 3,
     "ability_0": {
       "action": "Trade",
-      "count": 2
+      "count": 3
+    },
+    "ability_1": {
+      "action": "Shield",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Corporates"
     }
   },
   "guns_biker": {
@@ -199,6 +244,11 @@
     "ability_1": {
       "action": "AddUnit",
       "count": 2
+    },
+    "ability_2": {
+      "action": "AddUnit",
+      "count": 1,
+      "condition": "Guns"
     }
   },
   "guns_bloody_eye": {
@@ -216,6 +266,11 @@
     "ability_1": {
       "action": "UnitMove",
       "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Guns"
     }
   },
   "guns_chimney": {
@@ -233,6 +288,11 @@
     "ability_1": {
       "action": "DestroyUnit",
       "count": 1
+    },
+    "ability_2": {
+      "action": "AddUnit",
+      "count": 1,
+      "condition": "Guns"
     }
   },
   "guns_killer": {
@@ -245,7 +305,11 @@
     "cyberpsychosis_count": 5,
     "ability_0": {
       "action": "DestroyUnit",
-      "count": 2
+      "count": 1
+    },
+    "ability_1": {
+      "action": "HeadShot",
+      "count": 1
     }
   },
   "guns_leader": {
@@ -264,5 +328,542 @@
       "action": "UnitMove",
       "count": 1
     }
+  },
+  "guns_oldSoldier": {
+    "name": "guns_oldSoldier",
+    "header": "BoardGameCard/$bgc_guns_oldSoldier_name",
+    "image": "card_guns_oldSoldier",
+    "nations": "Guns",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "Trade",
+      "count": 2
+    }
+  },
+  "guns_pirate": {
+    "name": "guns_pirate",
+    "header": "BoardGameCard/$bgc_guns_pirate_name",
+    "image": "card_guns_pirate",
+    "nations": "Guns",
+    "count": 2,
+    "price": 2,
+    "cyberpsychosis_count": 1,
+    "ability_0": {
+      "action": "DestroyTradeCard",
+      "count": 1
+    }
+  },
+  "guns_reckless": {
+    "name": "guns_reckless",
+    "header": "BoardGameCard/$bgc_guns_reckless_name",
+    "image": "card_guns_reckless",
+    "nations": "Guns",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "SwitchNeutralUnit",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "LuckyShot",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "AddUnit",
+      "count": 1,
+      "condition": "Guns"
+    }
+  },
+  "guns_refuge": {
+    "name": "guns_refuge",
+    "header": "BoardGameCard/$bgc_guns_refuge_name",
+    "image": "card_guns_refuge",
+    "nations": "Guns",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DestroyIce",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "HeadShot",
+      "count": 1
+    }
+  },
+  "guns_russian": {
+    "name": "guns_russian",
+    "header": "BoardGameCard/$bgc_guns_russian_name",
+    "image": "card_guns_russian",
+    "nations": "Guns",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "DestroyUnit",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Shield",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Guns"
+    }
+  },
+  "guns_sniper": {
+    "name": "guns_sniper",
+    "header": "BoardGameCard/$bgc_guns_sniper_name",
+    "image": "card_guns_sniper",
+    "nations": "Guns",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DestroyUnit",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "HeadShot",
+      "count": 1
+    }
+  },
+  "netrunners_agent": {
+    "name": "netrunners_agent",
+    "header": "BoardGameCard/$bgc_netrunners_agent_name",
+    "image": "card_netrunners_agent",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "DestroyTradeCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Trade",
+      "count": 3
+    },
+    "ability_2": {
+      "action": "SetIce",
+      "count": 1,
+      "condition": "Netrunners"
+    }
+  },
+  "netrunners_ai": {
+    "name": "netrunners_ai",
+    "header": "BoardGameCard/$bgc_netrunners_ai_name",
+    "image": "card_netrunners_ai",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DrawCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "EnemyDiscardCard",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Netrunners"
+    }
+  },
+  "netrunners_boy": {
+    "name": "netrunners_boy",
+    "header": "BoardGameCard/$bgc_netrunners_boy_name",
+    "image": "card_netrunners_boy",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "AddNoiseCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Shield",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Netrunners"
+    }
+  },
+  "netrunners_c28": {
+    "name": "netrunners_c28",
+    "header": "BoardGameCard/$bgc_netrunners_c28_name",
+    "image": "card_netrunners_c28",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "UnitMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Grenade",
+      "count": 1
+    }
+  },
+  "netrunners_cracker": {
+    "name": "netrunners_cracker",
+    "header": "BoardGameCard/$bgc_netrunners_cracker_name",
+    "image": "card_netrunners_cracker",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "DestroyIce",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "AddNoiseCard",
+      "count": 1
+    }
+  },
+  "netrunners_darkNet": {
+    "name": "netrunners_darkNet",
+    "header": "BoardGameCard/$bgc_netrunners_darkNet_name",
+    "image": "card_netrunners_darkNet",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "Trade",
+      "count": 3
+    },
+    "ability_1": {
+      "action": "CloneCard",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Netrunners"
+    }
+  },
+  "netrunners_virus": {
+    "name": "netrunners_virus",
+    "header": "BoardGameCard/$bgc_netrunners_virus_name",
+    "image": "card_netrunners_virus",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DestroyTradeCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "DestroyIce",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Netrunners"
+    }
+  },
+  "netrunners_empath": {
+    "name": "netrunners_empath",
+    "header": "BoardGameCard/$bgc_netrunners_empath_name",
+    "image": "card_netrunners_empath",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "UnitMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "LuckyShot",
+      "count": 1
+    }
+  },
+  "netrunners_interference": {
+    "name": "netrunners_interference",
+    "header": "BoardGameCard/$bgc_netrunners_interference_name",
+    "image": "card_netrunners_interference",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "Cyberpsychosis",
+      "count": 1
+    }
+  },
+  "netrunners_networker": {
+    "name": "netrunners_networker",
+    "header": "BoardGameCard/$bgc_netrunners_networker_name",
+    "image": "card_netrunners_networker",
+    "nations": "Netrunners",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "DestroyCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "LuckyShot",
+      "count": 1
+    }
+  },
+  "netrunners_shooter": {
+    "name": "netrunners_shooter",
+    "header": "BoardGameCard/$bgc_netrunners_shooter_name",
+    "image": "card_netrunners_shooter",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "DestroyUnit",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "HeadShot",
+      "count": 1
+    }
+  },
+  "netrunners_thief": {
+    "name": "netrunners_thief",
+    "header": "BoardGameCard/$bgc_netrunners_thief_name",
+    "image": "card_netrunners_thief",
+    "nations": "Netrunners",
+    "count": 2,
+    "price": 6,
+    "cyberpsychosis_count": 5,
+    "ability_0": {
+      "action": "Trade",
+      "count": 4
+    },
+    "ability_1": {
+      "action": "AddNoiseCard",
+      "count": 1
+    }
+  },
+  "nomads_blueBlade": {
+    "name": "nomads_blueBlade",
+    "header": "BoardGameCard/$bgc_nomads_blueBlade_name",
+    "image": "card_nomads_blueBlade",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "SwitchEnemyUnit",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Grenade",
+      "count": 1
+    }
+  },
+  "nomads_demon": {
+    "name": "nomads_demon",
+    "header": "BoardGameCard/$bgc_nomads_demon_name",
+    "image": "card_nomads_demon",
+    "nations": "Nomads",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "Cyberpsychosis",
+      "count": 1
+    }
+  },
+  "nomads_doctor": {
+    "name": "nomads_doctor",
+    "header": "BoardGameCard/$bgc_nomads_doctor_name",
+    "image": "card_nomads_doctor",
+    "nations": "Nomads",
+    "count": 3,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "DestroyCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Trade",
+      "count": 2
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Nomads"
+    }
+  },
+  "nomads_outcast": {
+    "name": "nomads_outcast",
+    "header": "BoardGameCard/$bgc_nomads_outcast_name",
+    "image": "card_nomads_outcast",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 2,
+    "cyberpsychosis_count": 1,
+    "ability_0": {
+      "action": "UnitMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "DrawCard",
+      "count": 1
+    }
+  },
+  "nomads_racer": {
+    "name": "nomads_racer",
+    "header": "BoardGameCard/$bgc_nomads_racer_name",
+    "image": "card_nomads_racer",
+    "nations": "Nomads",
+    "count": 3,
+    "price": 3,
+    "cyberpsychosis_count": 2,
+    "ability_0": {
+      "action": "UnitMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "AddUnit",
+      "count": 2
+    }
+  },
+  "nomads_ravager": {
+    "name": "nomads_ravager",
+    "header": "BoardGameCard/$bgc_nomads_ravager_name",
+    "image": "card_nomads_ravager",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "Grenade",
+      "count": 1
+    }
+  },
+  "nomads_samurai": {
+    "name": "nomads_samurai",
+    "header": "BoardGameCard/$bgc_nomads_samurai_name",
+    "image": "card_nomads_samurai",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "DestroyCard",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "Cyberpsychosis",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "DestroyUnit",
+      "count": 1,
+      "condition": "Nomads"
+    }
+  },
+  "nomads_trader": {
+    "name": "nomads_trader",
+    "header": "BoardGameCard/$bgc_nomads_trader_name",
+    "image": "card_nomads_trader",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "Trade",
+      "count": 4
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Nomads"
+    }
+  },
+  "nomads_valkyrie": {
+    "name": "nomads_valkyrie",
+    "header": "BoardGameCard/$bgc_nomads_valkyrie_name",
+    "image": "card_nomads_valkyrie",
+    "nations": "Nomads",
+    "count": 2,
+    "price": 5,
+    "cyberpsychosis_count": 4,
+    "ability_0": {
+      "action": "AddUnit",
+      "count": 2
+    },
+    "ability_1": {
+      "action": "LuckyShot",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "DrawCard",
+      "count": 1,
+      "condition": "Nomads"
+    }
+  },
+  "nombads_raven": {
+    "name": "nombads_raven",
+    "header": "BoardGameCard/$bgc_nombads_raven_name",
+    "image": "card_nombads_raven",
+    "nations": "Nomads",
+    "count": 3,
+    "price": 4,
+    "cyberpsychosis_count": 3,
+    "ability_0": {
+      "action": "UnitMove",
+      "count": 1
+    },
+    "ability_1": {
+      "action": "SetIce",
+      "count": 1
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Nomads"
+    }
+  },
+  "neutral_noise": {
+    "name": "neutral_noise",
+    "header": "BoardGameCard/$bgc_neutral_noise_name",
+    "image": "card_neutral_noise",
+    "nations": "Neutral",
+    "count": 0,
+    "price": 0,
+    "cyberpsychosis_count": 1
   }
 }

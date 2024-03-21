@@ -92,6 +92,7 @@ namespace CyberNet
         None,
         Table,
         Target,
-        Zone
+        Zone,
+        Custom
     }
 }

@@ -142,6 +142,7 @@ namespace CyberNet.Local
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
             uiRound.NewRoundView(playerViewComponent.AvatarWithBackground, playerViewComponent.Name);
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             await Task.Delay(1500);
 
             if (playerComponent.playerOrAI == PlayerOrAI.Player)

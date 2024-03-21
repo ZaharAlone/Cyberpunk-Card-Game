@@ -72,9 +72,9 @@ namespace CyberNet.Core
         private bool SelectAbility(Entity entity)
         {
             var cardComponent = entity.GetComponent<CardComponent>();
-            var isOneAbility = false;
+            var isOneAbility = AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection.Invoke(cardComponent) < 2;
             
-            if (cardComponent.Ability_1.AbilityType == AbilityType.None)
+            if (isOneAbility)
             {
                 entity.RemoveComponent<NeedToSelectAbilityCardComponent>();
                 entity.AddComponent(new CardAbilitySelectionCompletedComponent
@@ -82,7 +82,6 @@ namespace CyberNet.Core
                     SelectAbility = SelectAbilityEnum.Ability_0,
                     OneAbilityInCard = true
                 });
-                isOneAbility = true;
                 
                 InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
             }
@@ -94,12 +93,17 @@ namespace CyberNet.Core
                 AnimationShowCard(entity);
                 return isOneAbility;
             }
+            
             return isOneAbility;
         }
         
         private void AnimationShowCard(Entity entity)
         {
             entity.RemoveComponent<InteractiveSelectCardComponent>();
+            
+            if (!entity.HasComponent<CardComponentAnimations>())
+                return;
+                
             ref var animationsCard = ref entity.GetComponent<CardComponentAnimations>();
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
 
@@ -143,10 +147,13 @@ namespace CyberNet.Core
 
         private void SelectConfimAbility(SelectAbilityEnum targetAbility)
         {
-            var entity = _dataWorld.Select<NeedToSelectAbilityCardComponent>().With<SelectingPlayerAbilityComponent>().SelectFirstEntity();
+            var entity = _dataWorld.Select<NeedToSelectAbilityCardComponent>()
+                .With<SelectingPlayerAbilityComponent>()
+                .SelectFirstEntity();
+            
             entity.RemoveComponent<NeedToSelectAbilityCardComponent>();
             entity.RemoveComponent<SelectingPlayerAbilityComponent>();
-            entity.RemoveComponent<CardHandComponent>();
+            
             entity.AddComponent(new CardAbilitySelectionCompletedComponent { SelectAbility = targetAbility});
             
             var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;
@@ -154,7 +161,6 @@ namespace CyberNet.Core
 
             var cardComponent = entity.GetComponent<CardComponent>();
             InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
         }
 
         public void Destroy()

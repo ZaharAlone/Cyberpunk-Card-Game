@@ -5,7 +5,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -49,7 +48,6 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
-            var playerEntities = _dataWorld.Select<PlayerComponent>().GetEntities();
 
             if (roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player)
             {
@@ -111,8 +109,9 @@ namespace CyberNet.Core.UI
             {
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 var cardMono = cardComponent.CardMono;
-
-                if (CheckAbilityCardToShowCard(cardComponent) && isInstallFirstBase)
+                var countAbilitiesAvailable = AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection.Invoke(cardComponent);
+                
+                if (countAbilitiesAvailable > 0 && isInstallFirstBase)
                 {
                     cardMono.SetStatusInteractiveVFX(true);
                     entity.AddComponent(new CardCanUseComponent());
@@ -152,48 +151,6 @@ namespace CyberNet.Core.UI
                 else
                     component.CardMono.SetStatusInteractiveVFX(false);
             }
-        }
-        
-        private bool CheckAbilityCardToShowCard(CardComponent cardComponent)
-        {
-            var showCard = false;
-
-            if (cardComponent.Ability_0.AbilityType != AbilityType.None)
-            {
-                showCard = CheckAbilityCard(cardComponent.Ability_0.AbilityType);
-            }
-            
-            if (cardComponent.Ability_1.AbilityType != AbilityType.None)
-            {
-                showCard = CheckAbilityCard(cardComponent.Ability_1.AbilityType);
-            }
-            
-            if (cardComponent.Ability_2.AbilityType != AbilityType.None)
-            {
-                showCard = CheckAbilityCard(cardComponent.Ability_2.AbilityType);
-            }
-            
-            return showCard;
-        }
-
-        private bool CheckAbilityCard(AbilityType abilityType)
-        {
-            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentRoundState;
-            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
-            abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
-            
-            var isShow = false;
-            if (currentRoundState == RoundState.Map)
-            {
-                if (configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
-                    isShow = true;
-            }
-            else
-            {
-                if (configCard.VisualPlayingCardArena != VisualPlayingCardType.None)
-                    isShow = true;
-            }
-            return isShow;
         }
 
         public void Destroy()

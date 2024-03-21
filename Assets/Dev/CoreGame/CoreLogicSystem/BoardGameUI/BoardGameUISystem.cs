@@ -23,7 +23,6 @@ namespace CyberNet.Core.UI
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
             BoardGameUIAction.UpdateCountCardInHand += UpdateCountCard;
             BoardGameUIAction.ControlVFXCurrentPlayerArena += ControlVFXCurrentPlayerArena;
-            RoundAction.EndCurrentTurn += ViewPlayerPassport;
         }
 
         public void Init()
