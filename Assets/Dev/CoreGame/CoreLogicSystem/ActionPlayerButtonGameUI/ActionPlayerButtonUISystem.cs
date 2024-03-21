@@ -127,7 +127,7 @@ namespace CyberNet.Core.UI
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
                 
-                entity.AddComponent(new CardMoveToTableComponent());
+                entity.AddComponent(new CardStartMoveToTableComponent());
             }
             
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();

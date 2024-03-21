@@ -80,7 +80,7 @@ namespace CyberNet.Core.Arena
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
-            entityCard.AddComponent(new CardMoveToTableComponent());
+            entityCard.AddComponent(new CardStartMoveToTableComponent());
             
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   

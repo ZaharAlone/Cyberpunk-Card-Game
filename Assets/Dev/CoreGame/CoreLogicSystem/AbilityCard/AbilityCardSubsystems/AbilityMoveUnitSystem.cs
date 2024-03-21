@@ -208,8 +208,10 @@ namespace CyberNet.Core.AbilityCard
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
-
-            entityCard.AddComponent(new CardMoveToTableComponent());
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();
+            
+            entityCard.AddComponent(new CardStartMoveToTableComponent());
 
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   

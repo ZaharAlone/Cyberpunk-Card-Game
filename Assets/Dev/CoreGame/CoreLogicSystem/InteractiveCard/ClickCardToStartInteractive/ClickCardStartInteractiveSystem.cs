@@ -93,7 +93,7 @@ namespace CyberNet.Core.InteractiveCard
                 }
                 else
                 {
-                    entity.AddComponent(new CardMoveToTableComponent());
+                    entity.AddComponent(new CardStartMoveToTableComponent());
                     entity.RemoveComponent<CardComponentAnimations>();
                     
                     AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   

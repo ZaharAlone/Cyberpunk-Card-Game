@@ -190,7 +190,7 @@ namespace CyberNet.Core.AI.Arena
                 .SelectFirstEntity();
                     
             cardToDiscardEntity.RemoveComponent<CardHandComponent>();
-            cardToDiscardEntity.AddComponent(new CardMoveToTableComponent());
+            cardToDiscardEntity.AddComponent(new CardStartMoveToTableComponent());
             
             return true;
         }
