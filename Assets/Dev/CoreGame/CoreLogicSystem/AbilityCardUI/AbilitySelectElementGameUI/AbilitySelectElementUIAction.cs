@@ -2,7 +2,7 @@ using System;
 
 namespace CyberNet.Core.AbilityCard
 {
-    public static class AbilitySelectElementAction
+    public static class AbilitySelectElementUIAction
     {
         public static Action<AbilityType> SelectEnemyPlayer;
         public static Action CancelSelectPlayer;

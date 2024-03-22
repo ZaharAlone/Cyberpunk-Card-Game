@@ -103,7 +103,7 @@ namespace CyberNet.Core.AbilityCard
                 .GetComponent<AbilitySelectElementComponent>()
                 .AbilityCard.AbilityType;
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
         }
         

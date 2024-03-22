@@ -167,6 +167,12 @@ namespace CyberNet.Core.BezierCurveNavigation
                 case BezierTargetEnum.Card:
                     break;
                 case BezierTargetEnum.Player:
+                    if (bezierComponent.IsStartSubscriptionTarget)
+                        return;
+                    else
+                    {
+                        
+                    }
                     break;
             }
         }
@@ -193,6 +199,17 @@ namespace CyberNet.Core.BezierCurveNavigation
             }
         }
 
+        private void SelectPlayerPanel()
+        {
+            UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+
+        }
+
+        private void UnselectPlayerPanel()
+        {
+            UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
+        }
+        
         public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
             ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()

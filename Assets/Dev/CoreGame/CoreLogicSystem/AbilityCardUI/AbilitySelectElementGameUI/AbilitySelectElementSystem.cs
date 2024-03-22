@@ -22,9 +22,9 @@ namespace CyberNet.Core.AbilityCard
         
         public void PreInit()
         {
-            AbilitySelectElementAction.OpenSelectAbilityCard += OpenWindow;
-            AbilitySelectElementAction.ClosePopup += CloseWindow;
-            AbilitySelectElementAction.SelectElement += SelectElement;
+            AbilitySelectElementUIAction.OpenSelectAbilityCard += OpenWindow;
+            AbilitySelectElementUIAction.ClosePopup += CloseWindow;
+            AbilitySelectElementUIAction.SelectElement += SelectElement;
         }
 
         private void OpenWindow(AbilityType abilityType, int indexDescr, bool basePositionFrame = true)
@@ -83,9 +83,9 @@ namespace CyberNet.Core.AbilityCard
 
         public void Destroy()
         {
-            AbilitySelectElementAction.OpenSelectAbilityCard -= OpenWindow;
-            AbilitySelectElementAction.ClosePopup -= CloseWindow;
-            AbilitySelectElementAction.SelectElement -= SelectElement;
+            AbilitySelectElementUIAction.OpenSelectAbilityCard -= OpenWindow;
+            AbilitySelectElementUIAction.ClosePopup -= CloseWindow;
+            AbilitySelectElementUIAction.SelectElement -= SelectElement;
         }
     }
 }

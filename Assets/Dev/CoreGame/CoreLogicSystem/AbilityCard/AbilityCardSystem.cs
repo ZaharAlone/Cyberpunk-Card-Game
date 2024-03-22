@@ -110,7 +110,7 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.EnemyDiscardCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.DiscardCard?.Invoke();
+                    AbilityCardAction.DiscardCard?.Invoke(guidCard);
                     break;
                 case AbilityType.UnitMove:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);

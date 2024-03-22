@@ -34,7 +34,7 @@ namespace CyberNet.Core.AbilityCard
             }
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             
             CityAction.SelectTower += AddUnitTower;
@@ -92,7 +92,7 @@ namespace CyberNet.Core.AbilityCard
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            AbilitySelectElementAction.ClosePopup?.Invoke();
+            AbilitySelectElementUIAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.SelectTower -= AddUnitTower;

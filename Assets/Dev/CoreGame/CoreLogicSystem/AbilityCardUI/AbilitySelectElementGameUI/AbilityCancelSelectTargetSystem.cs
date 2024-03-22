@@ -48,7 +48,7 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.DestroyIce:
                     break;
                 case AbilityType.EnemyDiscardCard:
-                    AbilitySelectElementAction.CancelSelectPlayer?.Invoke();
+                    AbilitySelectElementUIAction.CancelSelectPlayer?.Invoke();
                     AbilityCardAction.CancelDiscardCard?.Invoke();
                     break;
             }
