@@ -1,6 +1,5 @@
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Global.Sound
 {
@@ -15,6 +14,12 @@ namespace CyberNet.Global.Sound
         [Header("UI")]
         public EventReference ButtonClick;
         public EventReference DialogNextPhrase;
+
+        [Header("UI Core")]
+        public EventReference StartTurnPlayer;
+        public EventReference EndTurnPlayer;
+        public EventReference StartTurnEnemy;
+        public EventReference EndTurnEnemy;
         
         [Header("Effect Card")]
         public EventReference GetCardInHand;

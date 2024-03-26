@@ -39,10 +39,10 @@ namespace CyberNet.Core.UI
             _sequence.Append(NewRoundRect.DOAnchorPos(new Vector2(0,100), 0.5f))
                 .AppendInterval(1.5f)
                 .Append(NewRoundRect.DOAnchorPos(new Vector2(_deltaSize, 100), 0.5f))
-                .OnComplete(()=> CompleteAnimatios());
+                .OnComplete(()=> CompleteAnimations());
         }
 
-        private void CompleteAnimatios()
+        private void CompleteAnimations()
         {
             NewRoundGO.SetActive(false);
         }

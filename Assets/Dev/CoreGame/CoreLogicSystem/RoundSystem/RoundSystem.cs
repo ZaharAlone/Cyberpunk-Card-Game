@@ -10,6 +10,7 @@ using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using CyberNet.Global.Sound;
 using CyberNet.Tutorial;
 
 namespace CyberNet.Local
@@ -142,6 +143,8 @@ namespace CyberNet.Local
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
             uiRound.NewRoundView(playerViewComponent.AvatarWithBackground, playerViewComponent.Name);
+            PlaySFXRound(playerComponent.playerOrAI == PlayerOrAI.Player);
+            
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             await Task.Delay(1500);
 
@@ -159,6 +162,24 @@ namespace CyberNet.Local
             else
             {
                 RoundAction.StartTurnAI?.Invoke();
+            }
+        }
+
+        private async void PlaySFXRound(bool isPlayerTurn)
+        {
+            var soundList = _dataWorld.OneData<SoundData>().Sound;
+            
+            if (isPlayerTurn)
+            {
+                SoundAction.PlaySound?.Invoke(soundList.StartTurnPlayer);
+                await Task.Delay(1500);
+                SoundAction.PlaySound?.Invoke(soundList.EndTurnPlayer);
+            }
+            else
+            {
+                SoundAction.PlaySound?.Invoke(soundList.StartTurnEnemy);
+                await Task.Delay(1500);
+                SoundAction.PlaySound?.Invoke(soundList.EndTurnEnemy);
             }
         }
 
