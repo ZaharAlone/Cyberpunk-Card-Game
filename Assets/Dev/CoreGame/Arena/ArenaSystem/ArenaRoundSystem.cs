@@ -13,7 +13,7 @@ using UnityEngine;
 namespace CyberNet.Core.Arena
 {
     [EcsSystem(typeof(ArenaModule))]
-    public class ArenaSetupRoundVisualSystem : IPreInitSystem, IInitSystem, IDestroySystem
+    public class ArenaRoundSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -43,7 +43,7 @@ namespace CyberNet.Core.Arena
             SelectCurrentUnitVisual();
 
             // Выдаем контроль игроку, или AI
-            EnableControlPlayer();
+            ArenaAction.UpdatePlayerInputsRound?.Invoke();
         }
 
         private void SwitchRoundCamera()
@@ -143,39 +143,6 @@ namespace CyberNet.Core.Arena
             
             ArenaAction.UpdateTurnOrderArena?.Invoke();
             UpdateRoundVisual();
-        }
-
-        private void EnableControlPlayer()
-        {
-            var currentPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-
-            var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
-
-            if (currentPlayerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
-            {
-                ArenaAIAction.StartAINeutralLogic?.Invoke();
-                BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(false);
-            }
-            else
-            {
-                var playerGlobalEntity = _dataWorld.Select<PlayerComponent>()
-                    .Where<PlayerComponent>(player => player.PlayerID == currentPlayerComponent.PlayerID)
-                    .SelectFirstEntity();
-                var playerGlobalComponent = playerGlobalEntity.GetComponent<PlayerComponent>();
-
-                if (playerGlobalComponent.playerOrAI == PlayerOrAI.Player)
-                {
-                    ArenaUIAction.ShowHUDButton?.Invoke();
-                    BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(true);
-                }
-                else
-                {
-                    AIBattleArenaAction.StartAIRound?.Invoke();
-                    BoardGameUIAction.ControlVFXCurrentPlayerArena?.Invoke(false);
-                }
-            }
         }
         
         public void Destroy()

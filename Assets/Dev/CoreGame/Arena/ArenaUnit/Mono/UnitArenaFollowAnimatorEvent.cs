@@ -8,6 +8,11 @@ namespace CyberNet.Core.Arena
         {
             UnitArenaAction.GunShootingVFX?.Invoke();
         }
+
+        public void EventFinishShoot()
+        {
+            UnitArenaAction.EndShootingAnimations?.Invoke();
+        }
         
         public void EventStartGranade()
         {

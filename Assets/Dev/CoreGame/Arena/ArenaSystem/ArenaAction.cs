@@ -14,6 +14,7 @@ namespace CyberNet.Core.Arena
         public static Action ArenaUnitFinishAttack;
 
         public static Action FinishRound;
+        public static Action UpdatePlayerInputsRound;
         
         //Support
         public static Func<bool> CheckBlockAttack;

@@ -20,6 +20,9 @@ namespace CyberNet.Core.Arena
     {
         private DataWorld _dataWorld;
 
+        private const float time_shooting_gun = 0.6f;
+        private const float time_wait_finish_animations = 1f;
+
         public void PreInit()
         {
             ArenaAction.ArenaUnitStartAttack += ArenaUnitStartAttack;
@@ -27,6 +30,8 @@ namespace CyberNet.Core.Arena
         
         private void ArenaUnitStartAttack()
         {
+            DisableAllColliderUnit();
+            
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
@@ -48,6 +53,17 @@ namespace CyberNet.Core.Arena
                 Time = 0.5f,
                 Action = () => Attack()
             });
+        }
+        
+        private void DisableAllColliderUnit()
+        {
+            var unitEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();
+            
+            foreach (var unitEntity in unitEntities)
+            {
+                var unitMono = unitEntity.GetComponent<ArenaUnitComponent>().UnitArenaMono;
+                unitMono.DisableCollider();
+            }
         }
 
         private void Attack()
@@ -158,13 +174,10 @@ namespace CyberNet.Core.Arena
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.StartShooting();
+            currentUnitComponent.UnitArenaMono.StartShootingAnimations();
             
             UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
-            _dataWorld.NewEntity().AddComponent(new TimeComponent {
-                Time = 1.3f,
-                Action = () => FinishShooting()
-            });
+            UnitArenaAction.EndShootingAnimations += EndShootingAnimations;
         }
 
         public void ShootingGunPlayVFX()
@@ -176,20 +189,18 @@ namespace CyberNet.Core.Arena
             currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
 
             UnitArenaAction.CreateBulletCurrentUnit?.Invoke();
+            
             var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
             SoundAction.PlaySound?.Invoke(soundShoot);
         }
 
-        public void FinishShooting()
+        public void EndShootingAnimations()
         {
+            UnitArenaAction.EndShootingAnimations -= EndShootingAnimations;
             UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
-            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaUnitCurrentComponent>()
-                .SelectFirstEntity();
-            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.FinishShooting();
+            ArenaAction.ArenaUnitFinishAttack?.Invoke();
         }
-
+        
         public void Destroy()
         {
             ArenaAction.ArenaUnitStartAttack -= ArenaUnitStartAttack;

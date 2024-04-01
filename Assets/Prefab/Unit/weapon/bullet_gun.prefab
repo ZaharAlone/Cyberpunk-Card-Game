@@ -65,7 +65,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &-9191734903671705431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 820330772267769562}
-  _speedMove: 10
+  _speedMove: 35
   _bullet: {fileID: 1291652853417998662}
   _vfxHit: {fileID: 6705896319445306908}
 --- !u!1001 &820330771684585562

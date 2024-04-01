@@ -1,3 +1,4 @@
+using CyberNet.Core.Arena.Bullet;
 using UnityEngine;
 
 namespace CyberNet.Core.Arena
@@ -14,6 +15,7 @@ namespace CyberNet.Core.Arena
         private GameObject _bullet;
         [SerializeField]
         private GameObject _vfxHit;
+        
         private string _guid;
         
         public void SetGUID(string guid)
@@ -28,17 +30,22 @@ namespace CyberNet.Core.Arena
 
         public void OnCollisionEnter(Collision other)
         {
-            Debug.LogError($"Layer collision {other.gameObject.layer}");
-            if (other.gameObject.layer == 7)
-            {
-                UnitArenaAction.BulletCollision?.Invoke(_guid);
-            }
+            var layerCollision = other.gameObject.layer;
+            var bulletCollision = new BulletCollisionStruct {
+                GUID = _guid, LayerCollision = layerCollision,
+            };
+            UnitArenaAction.BulletCollision?.Invoke(bulletCollision);
         }
 
         public void PlayEffectHit()
         {
             _vfxHit.SetActive(true);
             _bullet.SetActive(false);
+        }
+
+        public void StopFlyBullet()
+        {
+            _rigidbody.velocity = Vector3.zero;
         }
         
         public void DestroyBulletToTime()

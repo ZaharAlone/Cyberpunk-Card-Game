@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Arena.ArenaHUDUI
 {
@@ -17,9 +14,6 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         [SerializeField]
         private GameObject _actionRetreatButton;
         
-        [SerializeField]
-        private List<ArenaContainerUICharacterMono> _characterAvatars = new List<ArenaContainerUICharacterMono>();
-
         [Header("Scale character avatar")]
         [SerializeField]
         private float _scaleAvatarBase = 100;
@@ -27,6 +21,8 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         private float _scaleAvatarSelect = 120;
         [SerializeField]
         private float _spacingBetweenAvatar = 10;
+
+        private List<ArenaContainerUICharacterMono> _characterAvatars = new List<ArenaContainerUICharacterMono>();
         
         private void OnEnable()
         {

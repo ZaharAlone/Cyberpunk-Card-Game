@@ -8,7 +8,7 @@ namespace CyberNet.Core.Arena
         public string GUID;
         public UnitPointVFXMono UnitPointVFXMono;
         [SerializeField]
-        private CapsuleCollider _unitCollider;
+        private Collider _unitCollider;
         
         [SerializeField]
         private Animator _animator;
@@ -26,9 +26,9 @@ namespace CyberNet.Core.Arena
 
         private bool isShoot;
         
-        private const string ANIMATIONS_SHOOTING_KEY = "Shoot";
-        private const string ANIMATIONS_AIM_KEY = "Aim";
-        private const string ANIMATIONS_IDLE_KEY = "Idle";
+        private const string animations_trigger_shooting = "Shoot";
+        private const string animations_trigger_aim = "Aim";
+        private const string animations_trigger_idle = "Idle";
 
         public void OnEnable()
         {
@@ -52,30 +52,22 @@ namespace CyberNet.Core.Arena
 
         public void ViewToTargetUnit(Transform transform)
         {
-            
             _unitTransform.LookAt(transform.position);
             var newRotation = _unitTransform.eulerAngles;
-            newRotation.y += 6.5f;
+            newRotation.y += 7.5f;
             _unitTransform.eulerAngles = newRotation;
         }
 
         public void OnAimAnimations()
         {
-            _animator.SetTrigger(ANIMATIONS_AIM_KEY);
+            _animator.SetTrigger(animations_trigger_aim);
         }
 
-        public void StartShooting()
+        public void StartShootingAnimations()
         {
-            _animator.SetTrigger(ANIMATIONS_SHOOTING_KEY);
+            _animator.SetTrigger(animations_trigger_shooting);
         }
-
-        public void FinishShooting()
-        {
-            _animator.SetTrigger(ANIMATIONS_IDLE_KEY);
-            ArenaAction.ArenaUnitFinishAttack?.Invoke();
-            _gun.StopVFXAttack();
-        }
-
+        
         public void ShootingGunPlayVFX()
         {
             _gun.PlayVFXAttack();

@@ -1,4 +1,4 @@
-namespace CyberNet.Core.Arena
+namespace CyberNet.Core.Arena.Bullet
 {
     public struct BulletComponent
     {

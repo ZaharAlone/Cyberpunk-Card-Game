@@ -36,6 +36,9 @@ namespace CyberNet.Core.Arena
 
         public void Run()
         {
+            if (_dataWorld.Select<PlayerStageChoosesAnOpponentComponent>().Count() == 0)
+                return;
+            
             PlayerSelectEnemy();
         }
 
@@ -74,7 +77,6 @@ namespace CyberNet.Core.Arena
 
         private void ClickInUnit(UnitArenaMono unitMonoTarget)
         {
-            Debug.LogError("Click unit");
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             
             //Проверяем, есть ли уже выбранные юниты
