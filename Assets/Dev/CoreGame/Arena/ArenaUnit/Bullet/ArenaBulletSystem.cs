@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Global;
 using CyberNet.Global.Sound;
 using CyberNet.Tools;
+using UnityEngine;
 
 namespace CyberNet.Core.Arena.Bullet
 {
@@ -49,6 +50,7 @@ namespace CyberNet.Core.Arena.Bullet
         
         private void BulletCollision(BulletCollisionStruct bulletCollision)
         {
+            Debug.LogError("Bullet collision");
             var targetBulletEntity = _dataWorld.Select<BulletComponent>()
                 .Where<BulletComponent>(bullet => bullet.GUID == bulletCollision.GUID)
                 .SelectFirstEntity();
@@ -67,6 +69,18 @@ namespace CyberNet.Core.Arena.Bullet
                 Time = time_life_bullet_after_collision,
                 Action = () => DestroyBullet(targetBulletEntity),
             });
+
+            EffectHitTarget();
+        }
+
+        private void EffectHitTarget()
+        {
+            var targetUnitComponent = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaSelectUnitForAttackComponent>()
+                .SelectFirst<ArenaUnitComponent>();
+            targetUnitComponent.UnitArenaMono.HitAnimations();
+            
+            Debug.LogError("EffectHit");
         }
         
         public void DestroyBullet(Entity bulletEntity)

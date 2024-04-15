@@ -26,9 +26,10 @@ namespace CyberNet.Core.Arena
 
         private bool isShoot;
         
-        private const string animations_trigger_shooting = "Shoot";
-        private const string animations_trigger_aim = "Aim";
-        private const string animations_trigger_idle = "Idle";
+        private const string shooting_animations_trigger = "Shoot";
+        private const string aim_animations_trigger = "Aim";
+        private const string idle_animations_trigger = "Idle";
+        private const string hit_animations_trigger = "Hit";
 
         public void OnEnable()
         {
@@ -60,17 +61,23 @@ namespace CyberNet.Core.Arena
 
         public void OnAimAnimations()
         {
-            _animator.SetTrigger(animations_trigger_aim);
+            _animator.SetTrigger(aim_animations_trigger);
         }
 
         public void StartShootingAnimations()
         {
-            _animator.SetTrigger(animations_trigger_shooting);
+            _animator.SetTrigger(shooting_animations_trigger);
         }
         
         public void ShootingGunPlayVFX()
         {
             _gun.PlayVFXAttack();
+        }
+
+        public void HitAnimations()
+        {
+            Debug.LogError("Animations play hit");
+            _animator.SetTrigger(hit_animations_trigger);
         }
 
         public BulletMono ShootingCreateBullet()

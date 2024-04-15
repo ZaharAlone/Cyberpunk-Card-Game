@@ -117,9 +117,9 @@ namespace CyberNet.Core.Arena
 
             if (!isEnemyAttack)
             {
-                return;
                 //Show Warning frame
                 Debug.LogError("Not select unit for attack");
+                return;
             }
             else
             {
