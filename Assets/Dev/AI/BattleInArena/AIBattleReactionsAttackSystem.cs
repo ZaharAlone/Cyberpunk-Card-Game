@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using CyberNet.Core.AI;
 using CyberNet.Core.Arena;
+using CyberNet.Core.EnemyTurnView;
 
 namespace CyberNet.Core
 {
@@ -71,9 +72,14 @@ namespace CyberNet.Core
             var cardToDiscardEntity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == selectCardGUID)
                 .SelectFirstEntity();
+
+            var cardToDiscardComponent = cardToDiscardEntity.GetComponent<CardComponent>();
                     
             cardToDiscardEntity.RemoveComponent<CardHandComponent>();
             cardToDiscardEntity.AddComponent(new CardStartMoveToTableComponent());
+            
+            EnemyTurnViewUIAction.ShowViewEnemyCardSetPlayer?
+                .Invoke(EnemyTurnActionType.DiscardCard, cardToDiscardComponent.Key, targetUnitComponent.PlayerControlID);
             
             return true;
         }

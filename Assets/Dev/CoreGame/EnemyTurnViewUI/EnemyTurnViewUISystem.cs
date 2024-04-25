@@ -20,11 +20,23 @@ namespace CyberNet.Core.EnemyTurnView
 
         public void PreInit()
         {
-            EnemyTurnViewUIAction.ShowViewEnemyCard += ShowViewCard;
+            EnemyTurnViewUIAction.ShowViewEnemyCardCurrentPlayer += FindCurrentPlayerToOpenView;
+            EnemyTurnViewUIAction.ShowViewEnemyCardSetPlayer += ShowViewCard;
             EnemyTurnViewUIAction.ForceHideView += HideView;
         }
+        
+        private void FindCurrentPlayerToOpenView(EnemyTurnActionType typeView, string keyCard)
+        {
+            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            
+            var playerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
 
-        private void ShowViewCard(EnemyTurnActionType typeView, string keyCard)
+            ShowViewCard(typeView, keyCard, playerComponent.PlayerID);
+        }
+
+        private void ShowViewCard(EnemyTurnActionType typeView, string keyCard, int playerID)
         {
             var isShowPanel = _dataWorld.Select<EnemyTurnViewUIComponent>()
                 .TrySelectFirstEntity(out var enemyViewCardEntity);
@@ -33,7 +45,7 @@ namespace CyberNet.Core.EnemyTurnView
             
             if (!isShowPanel)
             {
-                OpenView(typeView);
+                OpenView(typeView, playerID);
 
                 var enemyNewViewCardEntity = _dataWorld.NewEntity()
                     .AddComponent(new EnemyTurnViewUIComponent {
@@ -71,14 +83,15 @@ namespace CyberNet.Core.EnemyTurnView
             }
         }
 
-        private void OpenView(EnemyTurnActionType typeView)
+        private void OpenView(EnemyTurnActionType typeView, int playerID)
         {
             var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
-            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
+            
+            var selectPlayerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerID)
                 .SelectFirstEntity();
             
-            var playerViewComponent = currentPlayerEntity.GetComponent<PlayerViewComponent>();
+            var playerViewComponent = selectPlayerEntity.GetComponent<PlayerViewComponent>();
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             
@@ -153,7 +166,8 @@ namespace CyberNet.Core.EnemyTurnView
 
         public void Destroy()
         {
-            EnemyTurnViewUIAction.ShowViewEnemyCard -= ShowViewCard;
+            EnemyTurnViewUIAction.ShowViewEnemyCardCurrentPlayer -= FindCurrentPlayerToOpenView;
+            EnemyTurnViewUIAction.ShowViewEnemyCardSetPlayer -= ShowViewCard;
             EnemyTurnViewUIAction.ForceHideView -= HideView;
         }
     }

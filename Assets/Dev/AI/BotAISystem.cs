@@ -95,9 +95,9 @@ namespace CyberNet.Core.AI
         private void StartTurnBot()
         {
             CityAction.UpdatePresencePlayerInCity?.Invoke();
-            
-            PlayCard();
+
             BotAIAction.EndPlayingCards += EndPlayingCards;
+            PlayCard();
         }
 
         private void EndPlayingCards()
@@ -132,7 +132,7 @@ namespace CyberNet.Core.AI
             var selectAbilityType = SelectionAbility(selectEntityPlayCard);
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
-            EnemyTurnViewUIAction.ShowViewEnemyCard?.Invoke(EnemyTurnActionType.PlayingCard, cardKey);
+            EnemyTurnViewUIAction.ShowViewEnemyCardCurrentPlayer?.Invoke(EnemyTurnActionType.PlayingCard, cardKey);
 
             // Если абилка - передвижение юнита, значит прерываем цикл разыгрывания карт и ждем окончания битвы.
             if (selectAbilityType == AbilityType.UnitMove)
@@ -294,7 +294,7 @@ namespace CyberNet.Core.AI
                 componentCard.RectTransform.SetParent(cardsParent);
                 componentCard.RectTransform.position = gameUI.BoardGameUIMono.CoreHudUIMono.DownDeck.localPosition;
 
-                EnemyTurnViewUIAction.ShowViewEnemyCard?.Invoke(EnemyTurnActionType.PurchaseCard, componentCard.Key);
+                EnemyTurnViewUIAction.ShowViewEnemyCardCurrentPlayer?.Invoke(EnemyTurnActionType.PurchaseCard, componentCard.Key);
             }
             
             CardShopAction.CheckPoolShopCard?.Invoke();
