@@ -57,7 +57,8 @@ MonoBehaviour:
   _panel: {fileID: 6010671580902487998}
   _avatar: {fileID: 4693981530392913367}
   _name: {fileID: 7202338541723247191}
-  _textDialog: {fileID: 3788452179835843001}
+  _textDialog: {fileID: 1684411542288825941}
+  _textToContinue: {fileID: 3315968877732601298}
 --- !u!223 &2985749841988136553
 Canvas:
   m_ObjectHideFlags: 0
@@ -417,7 +418,6 @@ GameObject:
   - component: {fileID: 7769043834558098705}
   - component: {fileID: 6698894822157823146}
   - component: {fileID: 1684411542288825941}
-  - component: {fileID: 3788452179835843001}
   m_Layer: 5
   m_Name: txt_dialogue
   m_TagString: Untagged
@@ -543,45 +543,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3788452179835843001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5231093245368563098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTerm: Dialogues/$character_april
-  mTermSecondary: 
-  PrimaryTermModifier: 0
-  SecondaryTermModifier: 0
-  TermPrefix: 
-  TermSuffix: 
-  LocalizeOnAwake: 1
-  IgnoreRTL: 0
-  MaxCharactersInRTL: 0
-  IgnoreNumbersInRTL: 1
-  CorrectAlignmentForRTL: 1
-  AddSpacesToJoinedLanguages: 0
-  AllowLocalizedParameters: 1
-  AllowParameters: 1
-  TranslatedObjects: []
-  LocalizeEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  AlwaysForceLocalize: 0
-  LocalizeCallBack:
-    Target: {fileID: 0}
-    MethodName: 
-  mGUI_ShowReferences: 0
-  mGUI_ShowTems: 1
-  mGUI_ShowCallback: 0
-  mLocalizeTarget: {fileID: 0}
-  mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
 --- !u!1 &5392939724604659498
 GameObject:
   m_ObjectHideFlags: 0

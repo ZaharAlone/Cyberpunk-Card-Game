@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using Input;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CyberNet.Core.City;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
@@ -20,6 +21,9 @@ namespace CyberNet.Core.BezierCurveNavigation
         
         private List<BezierArrowMono> graphPoints;
         private Vector2 _oldMousePos;
+
+        private int _countPreviewArrow;
+        private float _timePlaySoundArrow;
         
         public void PreInit()
         {
@@ -58,6 +62,8 @@ namespace CyberNet.Core.BezierCurveNavigation
                 return;
             
             UpdateMousePosition();
+
+            _timePlaySoundArrow -= Time.deltaTime;
         }
 
         private void UpdateMousePosition()
@@ -90,6 +96,8 @@ namespace CyberNet.Core.BezierCurveNavigation
             var countPoint = (int)(Mathf.Lerp(0, 16, distanceValue));
             var bezierConfig = _dataWorld.OneData<BezierData>().BezierCurveConfigSO;
             
+            SoundMoveArrow(countPoint);
+            
             //Loop through values of t to create the graph, spawning points at each step
             for (float i = 0.05f; i < 1; i += 1f / countPoint)
             {
@@ -103,6 +111,27 @@ namespace CyberNet.Core.BezierCurveNavigation
             
             var valuePosRotEndPoint = BezierCalculateStatic.NOrderBezierInterp(uiBezier.ControlPoints, 1);
             graphPoints.Add(Object.Instantiate(bezierConfig.BezierArrowPrefab, valuePosRotEndPoint.Item1, valuePosRotEndPoint.Item2, uiBezier.Canvas));
+        }
+
+        private void SoundMoveArrow(int newCountPoint)
+        {
+            //Смотрим изменилось ли кол-во стрелок с прошлого раза, было ли совершенно движение мышки по сути
+            if (newCountPoint == _countPreviewArrow)
+                return;
+            
+            //Прошел ли кулдаун с предыдущего трека, чтобы его не спавнить регулярно
+            if (_timePlaySoundArrow > 0)
+                return;
+            
+            //Задаем новый кулдаун на воспроизведение звука
+            _timePlaySoundArrow = 0.5f;
+
+            //Находим и воспроизводим звук
+            var soundMoveArrow = _dataWorld.OneData<SoundData>().Sound.MoveArrowMap;
+            SoundAction.PlaySound?.Invoke(soundMoveArrow);
+            
+            //Записываем кол-во текущих стрелок, чтобы сравнить с ним в следующий раз
+            _countPreviewArrow = newCountPoint;
         }
 
         private void UpdateBezierVector()
@@ -138,6 +167,12 @@ namespace CyberNet.Core.BezierCurveNavigation
                 case BezierTargetEnum.Card:
                     break;
                 case BezierTargetEnum.Player:
+                    if (bezierComponent.IsStartSubscriptionTarget)
+                        return;
+                    else
+                    {
+                        
+                    }
                     break;
             }
         }
@@ -164,6 +199,17 @@ namespace CyberNet.Core.BezierCurveNavigation
             }
         }
 
+        private void SelectPlayerPanel()
+        {
+            UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+
+        }
+
+        private void UnselectPlayerPanel()
+        {
+            UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
+        }
+        
         public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
             ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
@@ -182,7 +228,10 @@ namespace CyberNet.Core.BezierCurveNavigation
                     color = colorsConfig.SelectCurrentTargetBlueColor;
                     
                     if (bezierComponent.BezierCurveStatusEnum != status)
-                        SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap);
+                    {
+                        var soundSelectCurrentTarget = _dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap;
+                        SoundAction.PlaySound?.Invoke(soundSelectCurrentTarget);
+                    }
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;

@@ -104,12 +104,12 @@ namespace CyberNet.Core.AbilityCard
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
             
-            entityCard.AddComponent(new CardMoveToTableComponent());
+            entityCard.AddComponent(new CardStartMoveToTableComponent());
             
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            AbilitySelectElementAction.ClosePopup?.Invoke();
+            AbilitySelectElementUIAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
         }

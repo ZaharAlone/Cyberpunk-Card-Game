@@ -89,8 +89,7 @@ namespace CyberNet.Core.SelectFirstBase
                 PlayerControl = PlayerControlEntity.PlayerControl,
                 TargetPlayerID = playerComponent.PlayerID
             };
-
-            //ADD 2 Unit
+            
             var gameRuleInitUnit = _dataWorld.OneData<BoardGameData>().BoardGameRule.StartInitCountSquad;
             for (int i = 0; i < gameRuleInitUnit; i++)
             {

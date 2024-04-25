@@ -34,7 +34,7 @@ namespace CyberNet.Core.AbilityCard
             }
 
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SetIce, 0, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.SetIce, 0, false);
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             CityAction.SelectTower += SetIceSelectTower;
         }
@@ -78,7 +78,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowManyZonePlayerInMap?.Invoke(listID);
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.SetIce, 0, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.SetIce, 0, false);
             CityAction.SelectTower += DestroyIceSelectTower;
         }
         

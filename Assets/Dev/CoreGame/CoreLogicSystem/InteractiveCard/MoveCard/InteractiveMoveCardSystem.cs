@@ -57,7 +57,9 @@ namespace CyberNet.Core.InteractiveCard
 
         private void EndMove()
         {
-            var entity = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
+            var entity = _dataWorld.Select<CardComponent>()
+                .With<InteractiveMoveComponent>()
+                .SelectFirstEntity();
             
             if (entity.HasComponent<CardPlayerComponent>())
                 EndMovePlayerCard(entity);
@@ -85,7 +87,7 @@ namespace CyberNet.Core.InteractiveCard
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
                 
-                entity.AddComponent(new CardMoveToTableComponent());
+                entity.AddComponent(new CardStartMoveToTableComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
                 AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();

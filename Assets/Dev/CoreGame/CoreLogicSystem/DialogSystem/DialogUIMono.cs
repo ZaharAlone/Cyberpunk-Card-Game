@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +25,12 @@ namespace CyberNet.Core.Dialog
         [SerializeField]
         private Localize _name;
         [SerializeField]
-        private Localize _textDialog;
+        private TextMeshProUGUI _textDialog;
+
+        [SerializeField]
+        private GameObject _textToContinue;
+        
+        private bool hasTextChanged;
 
         public void OnEnable()
         {
@@ -31,14 +39,25 @@ namespace CyberNet.Core.Dialog
 
         public void OnClickNextDialog()
         {
-            DialogAction.NextDialog?.Invoke();
+            DialogAction.ClickContinueButton?.Invoke();
         }
 
-        public void SetViewDialog(Sprite avatar, string name, string textDialog)
+        public void SetViewDialog(Sprite avatar, string name)
         {
             _avatar.sprite = avatar;
             _name.Term = name;
-            _textDialog.Term = textDialog;
+        }
+
+        public void SetDialogText(string textDialog)
+        {
+            _textDialog.text = textDialog;
+            _textDialog.ForceMeshUpdate();
+            _textDialog.maxVisibleCharacters = 0;
+        }
+
+        public void SetVisibleCountCharacters(int count)
+        {
+            _textDialog.maxVisibleCharacters = count;
         }
 
         public void OpenDialog()
@@ -47,10 +66,17 @@ namespace CyberNet.Core.Dialog
             _panel.SetActive(true);
         }
 
+        public void SetEnableTextToContinue(bool status)
+        {
+            _textToContinue.SetActive(status);
+        }
+
         public void CloseDialog()
         {
             _background.SetActive(false);
             _panel.SetActive(false);
         }
+        
+        
     }
 }

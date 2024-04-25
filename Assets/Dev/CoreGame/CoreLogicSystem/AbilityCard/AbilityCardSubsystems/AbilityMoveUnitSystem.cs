@@ -9,6 +9,7 @@ using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.GameCamera;
+using CyberNet.Global.Sound;
 using EcsCore;
 using Input;
 using ModulesFramework.Attributes;
@@ -44,7 +45,7 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity()
                 .AddComponent(new AbilityCardMoveUnitComponent());
             
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 0, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
             CityAction.SelectTower += SelectTower;
@@ -78,7 +79,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectTowerGUID);
             CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectTowerGUID, currentPlayerID);
-            AbilitySelectElementAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 1, false);
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 1, false);
             CityAction.SelectUnit += ClickOnUnit;
         }
 
@@ -94,11 +95,13 @@ namespace CyberNet.Core.AbilityCard
             {
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
                 unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.DeselectUnitInMap);
             }
             else
             {
                 unitEntity.AddComponent(new SelectUnitMapComponent());
                 unitComponent.IconsUnitInMapMono.OnSelectUnitEffect();
+                SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectUnitInMap);
             }
 
             CheckUpdateReadinessUnitsForShipment();
@@ -205,13 +208,15 @@ namespace CyberNet.Core.AbilityCard
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
-
-            entityCard.AddComponent(new CardMoveToTableComponent());
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();
+            
+            entityCard.AddComponent(new CardStartMoveToTableComponent());
 
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            AbilitySelectElementAction.ClosePopup?.Invoke();
+            AbilitySelectElementUIAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();

@@ -1,4 +1,5 @@
 using CyberNet.Core.AI;
+using CyberNet.Core.BezierCurveNavigation;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -18,10 +19,9 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.DiscardCard += DiscardCardAbility;
             AbilityCardAction.CancelDiscardCard += CancelDiscardCard;
-            AbilityCardAction.PlayerDiscardCard += PlayerDiscardCard;
         }
 
-        private void DiscardCardAbility()
+        private void DiscardCardAbility(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
@@ -31,7 +31,9 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
 
-            AbilitySelectElementAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
+            //Показываем попап и включаем vfx выделения игроков
+            AbilitySelectElementUIAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             AbilityCardAction.SelectPlayer += SelectPlayerDiscardCard;
         }
 
@@ -61,19 +63,6 @@ namespace CyberNet.Core.AbilityCard
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
             AbilityCardAction.SelectPlayer -= SelectPlayerDiscardCard;
         }
-
-        private void PlayerDiscardCard()
-        {
-            var playerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-
-            ref var discardCardComponent = ref playerEntity.GetComponent<PlayerDiscardCardComponent>();
-            
-            
-            RoundAction.StartTurn?.Invoke();
-        }
-
 
         /*
         private void DiscardCard(Entity entity)
@@ -133,7 +122,6 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.DiscardCard -= DiscardCardAbility;
             AbilityCardAction.CancelDiscardCard -= CancelDiscardCard;
-            AbilityCardAction.PlayerDiscardCard -= PlayerDiscardCard;
         }
     }
 }

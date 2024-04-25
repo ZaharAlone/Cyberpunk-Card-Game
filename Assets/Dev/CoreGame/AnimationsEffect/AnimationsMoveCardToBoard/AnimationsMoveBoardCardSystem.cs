@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using ModulesFramework.Data.Enumerators;
 
 namespace CyberNet.Core
@@ -26,11 +27,12 @@ namespace CyberNet.Core
 
         private void AnimationsMoveBoardCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardMoveToTableComponent>().GetEntities();
-            var countCard = _dataWorld.Select<CardComponent>().With<CardMoveToTableComponent>().Count();
+            var cardMoveToTableQuery = _dataWorld.Select<CardComponent>()
+                .With<CardStartMoveToTableComponent>();
+            var entities = cardMoveToTableQuery.GetEntities();
             var config = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
 
-            var width = (204 + 30) * (countCard - 1);
+            var width = (204 + 30) * (cardMoveToTableQuery.Count() - 1);
             var start_point = width / -2;
 
             var sortCard = SortingCardInHand(entities);
@@ -45,6 +47,12 @@ namespace CyberNet.Core
                 SetMovePositionAnimations(cardComponent.RectTransform, targetPosition, config.SizeCardInTable, entity);
                 cardComponent.CardMono.CardOnFace();
                 start_point += (int)(234 * config.SizeCardInTable.x);
+            }
+
+            foreach (var entity in entities)
+            {
+                entity.RemoveComponent<CardStartMoveToTableComponent>();
+                entity.AddComponent(new CardMoveToTableComponent());
             }
         }
 

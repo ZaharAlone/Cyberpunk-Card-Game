@@ -11,6 +11,7 @@ namespace CyberNet.Core.City
     [CreateAssetMenu(fileName = "CitySO", menuName = "Scriptable Object/Board Game/City SO")]
     public class CitySO : SerializedScriptableObject
     {
+        public IconsContainerUnitInMapMono IconsContainerUnitMap;
         public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
         public UnitPointVFXMono UnitPointVFXMono;
@@ -27,7 +28,6 @@ namespace CyberNet.Core.City
     [Serializable]
     public struct UnitVisual
     {
-        public IconsUnitInMapMono IconsUnitMap;
         public UnitArenaMono UnitArenaMono;
         public Sprite IconsUnit;
         public Color32 ColorUnit;

@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Threading.Tasks;
 using CyberNet.Core.UI;
+using CyberNet.Global.Sound;
 using DG.Tweening;
 using ModulesFramework.Data.Enumerators;
 
@@ -50,6 +51,8 @@ namespace CyberNet.Core
             await sequence.AsyncWaitForCompletion();
             
             cardComponent.CardMono.CardOnBack();
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.FlipCard);
+            
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f));
             await sequence.AsyncWaitForCompletion();
             

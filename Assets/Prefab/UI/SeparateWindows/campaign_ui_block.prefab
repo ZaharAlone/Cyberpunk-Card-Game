@@ -106,20 +106,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 6147585445828551034}
-  ActiveButton: {fileID: 254167181428862162}
-  DeactiveButton: {fileID: 2315172584094726417}
-  ImageActiveButton: {fileID: 728421862880110489}
-  ButtonTextActive: {fileID: 6056538619782552927}
+  _isFirstButton: 0
+  _selectButton: {fileID: 0}
   ButtonTextDeactive: {fileID: 8456102931521195138}
-  ButtonTextActiveLoc: {fileID: 176268668812262292}
-  ButtonTextDeactiveLoc: {fileID: 8616040808520522296}
   SoundButtonClick:
     Guid:
       Data1: 1881451933
       Data2: 1209549807
       Data3: -1295622521
       Data4: -268090766
-    Path: event:/VFX/ui_click_button
+    Path: event:/VFX/UI/ui_click_button
+  SoundButtonSelect:
+    Guid:
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/UI/ui_select_button
   ButtonClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -786,20 +789,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 6999595729582193426}
-  ActiveButton: {fileID: 143363202818667657}
-  DeactiveButton: {fileID: 596405398018204657}
-  ImageActiveButton: {fileID: 2208919529738269589}
-  ButtonTextActive: {fileID: 1615526516479513756}
+  _isFirstButton: 0
+  _selectButton: {fileID: 0}
   ButtonTextDeactive: {fileID: 4152792828411719734}
-  ButtonTextActiveLoc: {fileID: 5346470398937255259}
-  ButtonTextDeactiveLoc: {fileID: 2608970718320261}
   SoundButtonClick:
     Guid:
       Data1: 1881451933
       Data2: 1209549807
       Data3: -1295622521
       Data4: -268090766
-    Path: event:/VFX/ui_click_button
+    Path: event:/VFX/UI/ui_click_button
+  SoundButtonSelect:
+    Guid:
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/UI/ui_select_button
   ButtonClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1695,20 +1701,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 9090420852623174621}
-  ActiveButton: {fileID: 6250603760707383764}
-  DeactiveButton: {fileID: 1220161552998510804}
-  ImageActiveButton: {fileID: 4871417682980868133}
-  ButtonTextActive: {fileID: 6889398718646858178}
+  _isFirstButton: 0
+  _selectButton: {fileID: 0}
   ButtonTextDeactive: {fileID: 133077103341916474}
-  ButtonTextActiveLoc: {fileID: 836300568646027913}
-  ButtonTextDeactiveLoc: {fileID: 1527840664331738744}
   SoundButtonClick:
     Guid:
       Data1: 1881451933
       Data2: 1209549807
       Data3: -1295622521
       Data4: -268090766
-    Path: event:/VFX/ui_click_button
+    Path: event:/VFX/UI/ui_click_button
+  SoundButtonSelect:
+    Guid:
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/UI/ui_select_button
   ButtonClickEvent:
     m_PersistentCalls:
       m_Calls:

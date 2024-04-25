@@ -1,6 +1,7 @@
 using CyberNet.Core;
 using I2.Loc;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Global.Config
 {
@@ -8,7 +9,10 @@ namespace CyberNet.Global.Config
     public class ViewEnemySO : ScriptableObject
     {
         public LocalizedString PlayingCardHeader;
-        public LocalizedString BuyCardHeader;
+        public LocalizedString PurchaseCardHeader;
+        public LocalizedString DiscardCardHeader;
+        public LocalizedString DestroyCardHeader;
+        
         public CardMono CardForEnemyTurnView;
     }
 }

@@ -13,7 +13,7 @@ namespace CyberNet.Core.City
         public string GUIDUnit;
 
         public GameObject UnitIconsGO;
-        public IconsUnitInMapMono IconsUnitInMapMono; 
+        public IconsContainerUnitInMapMono IconsUnitInMapMono; 
         
         //Кому принадлежит данный юнит
         public PlayerControlEntity PlayerControl;

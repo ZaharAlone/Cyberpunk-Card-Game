@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using CyberNet.Core.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.EnemyPassport

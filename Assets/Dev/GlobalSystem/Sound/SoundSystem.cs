@@ -13,8 +13,8 @@ namespace CyberNet.Global.Sound
 
         public void PreInit()
         {
-            SoundAction.PlayMusic += PlayMusic;
             SoundAction.PlaySound += PlaySound;
+            SoundAction.PlayMusic += PlayMusic;
         }
         
         public void Init()
@@ -28,11 +28,20 @@ namespace CyberNet.Global.Sound
             audioEvent.start();
             audioEvent.release();
         }
+
         private void PlayMusic(EventReference sound)
         {
+            ref var soundData = ref _dataWorld.OneData<SoundData>();
+            if (soundData.CurrentBackgroundMusic.isValid())
+                soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            
             var audioEvent = RuntimeManager.CreateInstance(sound);
             audioEvent.start();
+            audioEvent.release();
+
+            soundData.CurrentBackgroundMusic = audioEvent;
         }
+        
         private void StartMeta()
         {
             ref var soundData = ref _dataWorld.OneData<SoundData>().Sound;
@@ -41,8 +50,8 @@ namespace CyberNet.Global.Sound
 
         public void Destroy()
         {
-            SoundAction.PlayMusic -= PlayMusic;
             SoundAction.PlaySound -= PlaySound;
+            SoundAction.PlayMusic -= PlayMusic;
         }
     }
 }

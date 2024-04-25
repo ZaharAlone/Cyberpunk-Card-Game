@@ -12,7 +12,7 @@ namespace CyberNet.Core.AbilityCard
         
         //Делегаты вызова абилки
         public static Action AddTradePoint;
-        public static Action DiscardCard;
+        public static Action<string> DiscardCard;
         public static Action CancelDiscardCard;
         public static Action PlayerDiscardCard;
         public static Action AddNoiseCard;

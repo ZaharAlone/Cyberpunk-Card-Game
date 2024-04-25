@@ -19,6 +19,12 @@ namespace CyberNet.Core.AbilityCard
         EnemyDiscardCard,
         UnitMove,
         SetIce,
-        DestroyIce
+        DestroyIce,
+        Grenade,
+        HeadShot,
+        LuckyShot,
+        Cyberpsychosis,
+        Shield,
+        AddNoiseCard,
     }
 }

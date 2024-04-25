@@ -33,9 +33,12 @@ namespace CyberNet.Core.PauseUI
         {
             var isSelectTargetAbility = _dataWorld.Select<AbilitySelectElementComponent>().Count() > 0;
             var isSelectingAbility = _dataWorld.Select<SelectingPlayerAbilityComponent>().Count() > 0;
-            
+
             if (isSelectTargetAbility || isSelectingAbility)
+            {
+                Debug.LogError($"select target abiblity {isSelectTargetAbility} or selecting ability {isSelectingAbility}" );
                 return;
+            }
             
             var isPause = _dataWorld.Select<OnPauseGameComponent>().Count() > 0;
 

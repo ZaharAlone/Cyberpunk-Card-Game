@@ -14,18 +14,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackgroundMusicMainMenu:
     Guid:
-      Data1: 1894639607
-      Data2: 1267206087
-      Data3: -1248349767
-      Data4: 664168511
-    Path: event:/Music/Backgound_music_game
-  BackgroundMusicBattle:
+      Data1: 254991023
+      Data2: 1318890783
+      Data3: -149172846
+      Data4: 1459691349
+    Path: event:/Music/UI_background_music
+  BackgroundMusicMap:
+    Guid:
+      Data1: -2013504631
+      Data2: 1122575120
+      Data3: -1086518635
+      Data4: -582057686
+    Path: event:/Music/Background_city_ambient
+  BackgroundMusicBattleArena:
     Guid:
       Data1: 1894639607
       Data2: 1267206087
       Data3: -1248349767
       Data4: 664168511
     Path: event:/Music/Backgound_music_game
+  ButtonClick:
+    Guid:
+      Data1: 1881451933
+      Data2: 1209549807
+      Data3: -1295622521
+      Data4: -268090766
+    Path: event:/VFX/UI/ui_click_button
+  DialogNextPhrase:
+    Guid:
+      Data1: -1512949840
+      Data2: 1321686762
+      Data3: -951022673
+      Data4: 1781386598
+    Path: event:/VFX/UI/ui_next_dialog
+  StartTurnPlayer:
+    Guid:
+      Data1: 286545177
+      Data2: 1298600604
+      Data3: -101025150
+      Data4: 1256669290
+    Path: event:/VFX/CoreGame/CoreUI/round_start_player
+  EndTurnPlayer:
+    Guid:
+      Data1: 1718317050
+      Data2: 1339385882
+      Data3: 939980717
+      Data4: 1327708354
+    Path: event:/VFX/CoreGame/CoreUI/round_end_player
+  StartTurnEnemy:
+    Guid:
+      Data1: 1718770940
+      Data2: 1314245988
+      Data3: 570056074
+      Data4: 1608940050
+    Path: event:/VFX/CoreGame/CoreUI/round_start_enemy
+  EndTurnEnemy:
+    Guid:
+      Data1: 1003746666
+      Data2: 1280042742
+      Data3: 1633741202
+      Data4: 964634625
+    Path: event:/VFX/CoreGame/CoreUI/round_end_enemy
   GetCardInHand:
     Guid:
       Data1: 1899599758
@@ -61,6 +110,13 @@ MonoBehaviour:
       Data3: 507020935
       Data4: 1450802147
     Path: event:/VFX/CoreGame/InteractiveCard/select_card
+  FlipCard:
+    Guid:
+      Data1: 128720741
+      Data2: 1093687619
+      Data3: -1590856547
+      Data4: 1955828968
+    Path: event:/VFX/CoreGame/InteractiveCard/flip_card
   SelectCurrentTargetInMap:
     Guid:
       Data1: 1958639718
@@ -68,6 +124,13 @@ MonoBehaviour:
       Data3: -1145642112
       Data4: 1840809417
     Path: event:/VFX/CoreGame/Map/select_current_target_in_map
+  MoveArrowMap:
+    Guid:
+      Data1: 1932857953
+      Data2: 1317294028
+      Data3: 935148948
+      Data4: 1165347784
+    Path: event:/VFX/CoreGame/Map/move_arrow_map
   AddUnitInMap:
     Guid:
       Data1: -1175936197
@@ -75,3 +138,59 @@ MonoBehaviour:
       Data3: 1743440041
       Data4: 219506818
     Path: event:/VFX/CoreGame/Map/add_unit_in_map
+  KillUnitMap:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  SelectUnitInMap:
+    Guid:
+      Data1: 194346397
+      Data2: 1078313889
+      Data3: 2010162840
+      Data4: 1132630221
+    Path: event:/VFX/CoreGame/Map/select_unit_in_map
+  DeselectUnitInMap:
+    Guid:
+      Data1: -126900229
+      Data2: 1148559271
+      Data3: -664023916
+      Data4: -420671768
+    Path: event:/VFX/CoreGame/Map/deselect_unit_in_map
+  PrintDialog:
+    Guid:
+      Data1: -1219320977
+      Data2: 1142775324
+      Data3: -1247861071
+      Data4: -2029292958
+    Path: event:/VFX/CoreGame/CoreUI/print_dialog
+  AimGun:
+    Guid:
+      Data1: -1003644345
+      Data2: 1118968072
+      Data3: 304781989
+      Data4: -1952418397
+    Path: event:/VFX/CoreGame/Arena/ReloadGun
+  Shoot:
+    Guid:
+      Data1: -408260706
+      Data2: 1253137901
+      Data3: -905563001
+      Data4: 64326690
+    Path: event:/VFX/CoreGame/Arena/Shoot
+  HitUnit:
+    Guid:
+      Data1: 969101075
+      Data2: 1193167111
+      Data3: 1948452007
+      Data4: 62952628
+    Path: event:/VFX/CoreGame/Arena/HitUnit
+  HitShield:
+    Guid:
+      Data1: 1445993659
+      Data2: 1243651574
+      Data3: -470181955
+      Data4: 852753679
+    Path: event:/VFX/CoreGame/Arena/HitShield

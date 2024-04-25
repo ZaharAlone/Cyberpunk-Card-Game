@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using EcsCore;
@@ -6,8 +7,11 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.CorePopup;
+using CyberNet.Global;
+using CyberNet.Global.Sound;
 using Input;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -21,82 +25,55 @@ namespace CyberNet.Core.Arena
 
         public void PreInit()
         {
-            ArenaAction.ArenaUnitStartAttack += ArenaUnitStartAttack;
+            ArenaAction.StartShootingPlayerWithoutShield += StartShootingPlayerWithoutShield;
+            ArenaAction.StartShootingPlayerWithShield += StartShootingPlayerWithShield;
         }
         
-        private void ArenaUnitStartAttack()
+        private void StartShootingPlayerWithoutShield()
         {
-            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaUnitCurrentComponent>()
-                .SelectFirstEntity();
-            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            
-            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaSelectUnitForAttackComponent>()
-                .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-
-            currentUnitComponent.UnitArenaMono.ShowTargetUnit(targetUnitComponent.UnitGO.transform);
-
-            Attack();
+            Shooting();
+            ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
         }
 
-        private void Attack()
+        private void StartShootingPlayerWithShield()
         {
-            if (ArenaAction.CheckBlockAttack.Invoke())
-            {
-                AbilityInputButtonUIAction.ShowTakeDamageBattleButton?.Invoke();
-                VFXCardInteractiveAction.EnableVFXAllCardInHand?.Invoke();
-                _dataWorld.OneData<RoundData>().PauseInteractive = false;
-                
-                InteractiveActionCard.StartInteractiveCard += DownClickCard;
-                InputAction.RightMouseButtonClick += CancelSelectCard;
-            }
-            else
-            {
-                AttackUnitPlayer();
-            }
-        }
-
-        private void DownClickCard(string guidCard)
-        {
-            _dataWorld.OneData<RoundData>().PauseInteractive = true;
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.GUID == guidCard)
-                .SelectFirstEntity();
-
-            var cardComponent = entityCard.GetComponent<CardComponent>();
-            cardComponent.CardMono.SetStatusInteractiveVFX(false);
-            
-            entityCard.RemoveComponent<CardHandComponent>();
-            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
-            entityCard.RemoveComponent<CardComponentAnimations>();
-            entityCard.AddComponent(new CardMoveToTableComponent());
-            
-            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
-            
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
-            
-            InteractiveActionCard.StartInteractiveCard -= DownClickCard;
-            InputAction.RightMouseButtonClick -= CancelSelectCard;
-            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
-            
+            Shooting();
             ArenaAction.ArenaUnitFinishAttack += FinishBlockAttack;
-            
-            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaSelectUnitForAttackComponent>()
-                .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-            targetUnitComponent.UnitArenaMono.OnShield();
-            
+        }
+
+        private void Shooting()
+        {
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.Shooting();
+            currentUnitComponent.UnitArenaMono.StartShootingAnimations();
+            
+            UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
+            UnitArenaAction.EndShootingAnimations += EndShootingAnimations;
         }
 
+        private async void ArenaUnitFinishAttack()
+        {
+            ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+            //async for effect
+            await Task.Delay(150);
+
+            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaSelectUnitForAttackComponent>()
+                .SelectFirstEntity();
+            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
+            var targetUnitMapComponent = targetUnitEntity.GetComponent<UnitMapComponent>();
+
+            Object.DestroyImmediate(targetUnitComponent.UnitGO);
+            Object.DestroyImmediate(targetUnitMapComponent.UnitIconsGO);
+
+            targetUnitEntity.Destroy();
+
+            ArenaAction.FinishRound?.Invoke();
+            ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
+        }
+        
         private void FinishBlockAttack()
         {
             ArenaAction.ArenaUnitFinishAttack -= FinishBlockAttack;
@@ -110,50 +87,32 @@ namespace CyberNet.Core.Arena
             ArenaAction.FinishRound?.Invoke();
             ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
         }
-
-        private void CancelSelectCard()
-        {
-            InteractiveActionCard.StartInteractiveCard -= DownClickCard;
-            InputAction.RightMouseButtonClick -= CancelSelectCard;
-            
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
-            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
-            _dataWorld.OneData<RoundData>().PauseInteractive = true;
-            
-            AttackUnitPlayer();
-        }
         
-        private void AttackUnitPlayer()
+        public void ShootingGunPlayVFX()
         {
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.Shooting();
-            ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
-        }
-        
-        private void ArenaUnitFinishAttack()
-        {
-            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaSelectUnitForAttackComponent>()
-                .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-            var targetUnitMapComponent = targetUnitEntity.GetComponent<UnitMapComponent>();
+            currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
+
+            UnitArenaAction.CreateBulletCurrentUnit?.Invoke();
             
-            Object.Destroy(targetUnitComponent.UnitGO);
-            Object.Destroy(targetUnitMapComponent.UnitIconsGO);
-            
-            targetUnitEntity.Destroy();
-            
-            ArenaAction.FinishRound?.Invoke();
-            ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
-            ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+            var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
+            SoundAction.PlaySound?.Invoke(soundShoot);
         }
 
+        public void EndShootingAnimations()
+        {
+            UnitArenaAction.EndShootingAnimations -= EndShootingAnimations;
+            UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
+            ArenaAction.ArenaUnitFinishAttack?.Invoke();
+        }
+        
         public void Destroy()
         {
-            ArenaAction.ArenaUnitStartAttack -= ArenaUnitStartAttack;
+            ArenaAction.StartShootingPlayerWithoutShield -= StartShootingPlayerWithoutShield;
+            ArenaAction.StartShootingPlayerWithShield -= StartShootingPlayerWithShield;
             ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
         }
     }

@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: '@robot_shooting'
+    second: robot_gunplay
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: '@robot_shooting'
+      name: robot_gunplay
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -60,8 +60,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3684941
-        functionName: animationEvent_shot
+      - time: 0.19782741
+        functionName: EventShoot
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

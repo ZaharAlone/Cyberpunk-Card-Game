@@ -1,7 +1,8 @@
-using UnityEngine;
+using System;
+
 namespace CyberNet.Global.Settings
 {
-    [SerializeField]
+    [Serializable]
     public struct GameSettingsConfig
     {
         public string Language;

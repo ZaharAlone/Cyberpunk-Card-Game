@@ -14,7 +14,6 @@ namespace CyberNet
         [FormerlySerializedAs("StartCountSquad")]
         public int CountSquad = 12;
         public int StartInitCountSquad = 2;
-        public int CountAgentPlayer = 4;
 
         [Header("Параметры игры")]
         [Tooltip("Кол-во открытых карт в магазине")]

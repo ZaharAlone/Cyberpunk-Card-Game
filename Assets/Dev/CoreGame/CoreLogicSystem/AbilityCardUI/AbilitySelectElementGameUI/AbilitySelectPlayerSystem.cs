@@ -16,8 +16,8 @@ namespace CyberNet.Core.AbilityCard
         
         public void PreInit()
         {
-            AbilitySelectElementAction.SelectEnemyPlayer += SelectEnemyPlayer;
-            AbilitySelectElementAction.CancelSelectPlayer += CancelSelectPlayer;
+            AbilitySelectElementUIAction.SelectEnemyPlayer += SelectEnemyPlayer;
+            AbilitySelectElementUIAction.CancelSelectPlayer += CancelSelectPlayer;
         }
         
         private void SelectEnemyPlayer(AbilityType abilityType)
@@ -62,8 +62,8 @@ namespace CyberNet.Core.AbilityCard
 
         public void Destroy()
         {
-            AbilitySelectElementAction.SelectEnemyPlayer -= SelectEnemyPlayer;
-            AbilitySelectElementAction.CancelSelectPlayer -= CancelSelectPlayer;
+            AbilitySelectElementUIAction.SelectEnemyPlayer -= SelectEnemyPlayer;
+            AbilitySelectElementUIAction.CancelSelectPlayer -= CancelSelectPlayer;
         }
     }
 }
