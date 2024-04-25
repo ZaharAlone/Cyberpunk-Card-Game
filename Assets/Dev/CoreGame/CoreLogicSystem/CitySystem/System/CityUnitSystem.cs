@@ -31,8 +31,8 @@ namespace CyberNet.Core.City
             var solidConteiner = _dataWorld.OneData<CityData>().SolidConteiner;
             cityVisualSO.UnitDictionary.TryGetValue(unit.KeyUnit, out var visualUnit);
             
-            var unitIconsMono = Object.Instantiate(visualUnit.IconsUnitMap, solidConteiner.transform);
-            unitIconsMono.SetColorUnit(visualUnit.ColorUnit);
+            var unitIconsMono = Object.Instantiate(cityVisualSO.IconsContainerUnitMap, solidConteiner.transform);
+            unitIconsMono.SetViewUnit(visualUnit.IconsUnit, visualUnit.ColorUnit);
             unitIconsMono.DeactivateCollider();
             
             var allEntitySquadTargetPoint = _dataWorld.Select<UnitMapComponent>()

@@ -103,8 +103,7 @@ namespace CyberNet.Core.AI
         private void EndPlayingCards()
         {
             BotAIAction.EndPlayingCards -= EndPlayingCards;
-            EnemyTurnViewUIAction.HideView?.Invoke();
-            SelectTradeCard();
+            SelectingCardToPurchase();
             
             _dataWorld.NewEntity().AddComponent(new TimeComponent {
                 Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
@@ -133,7 +132,7 @@ namespace CyberNet.Core.AI
             var selectAbilityType = SelectionAbility(selectEntityPlayCard);
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             var cardKey = selectEntityPlayCard.GetComponent<CardComponent>().Key;
-            EnemyTurnViewUIAction.PlayingCardShowView?.Invoke(cardKey);
+            EnemyTurnViewUIAction.ShowViewEnemyCard?.Invoke(EnemyTurnActionType.PlayingCard, cardKey);
 
             // Если абилка - передвижение юнита, значит прерываем цикл разыгрывания карт и ждем окончания битвы.
             if (selectAbilityType == AbilityType.UnitMove)
@@ -228,8 +227,9 @@ namespace CyberNet.Core.AI
 
         private void DebugLogicSelectAbility(CardComponent cardComponent, int valueAbility_0, int valueAbility_1)
         {
-            #if UNITY_EDITOR
             //Temp for debug
+            #if UNITY_EDITOR
+            
             var targetPlayerID = cardComponent.PlayerID;
             var playerName = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
@@ -237,10 +237,11 @@ namespace CyberNet.Core.AI
                 .GetComponent<PlayerViewComponent>()
                 .Name;
             Debug.Log($"player {playerName}: {cardComponent.PlayerID} ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
+            
             #endif
         }
 
-        private void SelectTradeCard()
+        private void SelectingCardToPurchase()
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             var tradePoint = actionData.TotalTrade - actionData.SpendTrade;
@@ -274,7 +275,8 @@ namespace CyberNet.Core.AI
             ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
-            
+            var gameUI = _dataWorld.OneData<CoreGameUIData>();
+
             foreach (var purchaseCardGUID in cardForPurchase)
             {
                 var cardEntity = _dataWorld.Select<CardComponent>()
@@ -285,15 +287,16 @@ namespace CyberNet.Core.AI
                 ref var componentCard = ref cardEntity.GetComponent<CardComponent>();
                 actionValue.SpendTrade += componentCard.Price;
                 cardEntity.RemoveComponent<CardTradeRowComponent>();
-                
+                cardEntity.AddComponent(new CardDiscardComponent());
+
+                componentCard.CardMono.HideCard();
                 componentCard.PlayerID = currentPlayerID;
                 componentCard.RectTransform.SetParent(cardsParent);
+                componentCard.RectTransform.position = gameUI.BoardGameUIMono.CoreHudUIMono.DownDeck.localPosition;
 
-                cardEntity.AddComponent(new CardMoveToDiscardComponent());
+                EnemyTurnViewUIAction.ShowViewEnemyCard?.Invoke(EnemyTurnActionType.PurchaseCard, componentCard.Key);
             }
             
-            //AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
-            //BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             CardShopAction.CheckPoolShopCard?.Invoke();
         }
         

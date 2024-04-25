@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Global;
 
 namespace CyberNet.Core.EnemyTurnView
 {
@@ -12,25 +13,124 @@ namespace CyberNet.Core.EnemyTurnView
     public class EnemyTurnViewUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
-        private bool _isShowPanelUI;
+        
+        private const float wait_time_between_animations_seconds = 0.3f;
+        private const int wait_time_end_animations = 500;
+        private const float automatic_close_ui_time = 2f;
 
         public void PreInit()
         {
-            EnemyTurnViewUIAction.PlayingCardShowView += ShowPlayingCard;
-            EnemyTurnViewUIAction.PurchaseCardShowView += ShowPurchaseCard;
-            EnemyTurnViewUIAction.HideView += HideView;
+            EnemyTurnViewUIAction.ShowViewEnemyCard += ShowViewCard;
+            EnemyTurnViewUIAction.ForceHideView += HideView;
         }
 
-        private async void ShowPlayingCard(string keyCard)
+        private void ShowViewCard(EnemyTurnActionType typeView, string keyCard)
         {
-            if (!_isShowPanelUI)
+            var isShowPanel = _dataWorld.Select<EnemyTurnViewUIComponent>()
+                .TrySelectFirstEntity(out var enemyViewCardEntity);
+
+            var isViewNewCardDelay = false;
+            
+            if (!isShowPanel)
             {
-                _isShowPanelUI = true;
-                ShowUI(true);
-                await Task.Delay(300);
+                OpenView(typeView);
+
+                var enemyNewViewCardEntity = _dataWorld.NewEntity()
+                    .AddComponent(new EnemyTurnViewUIComponent {
+                        CurrentTurn = typeView,
+                    });
+
+                enemyNewViewCardEntity.AddComponent(new TimeComponent {
+                    Time = automatic_close_ui_time,
+                    Action = () => HideView(),
+                });
+
+                isViewNewCardDelay = true;
+            }
+            else
+            {
+                var enemyViewCardComponent = enemyViewCardEntity.GetComponent<EnemyTurnViewUIComponent>();
+
+                if (typeView != enemyViewCardComponent.CurrentTurn)
+                {
+                    SwitchCurrentViewToNewType(typeView);
+                    isViewNewCardDelay = true;
+                }
             }
 
+            if (isViewNewCardDelay)
+            {
+                _dataWorld.NewEntity().AddComponent(new TimeComponent {
+                    Time = wait_time_between_animations_seconds,
+                    Action = () => AddNewCardView(keyCard),
+                });
+            }
+            else
+            {
+                AddNewCardView(keyCard);   
+            }
+        }
+
+        private void OpenView(EnemyTurnActionType typeView)
+        {
+            var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
+            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            
+            var playerViewComponent = currentPlayerEntity.GetComponent<PlayerViewComponent>();
+            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
+            
+            var header = SelectHeaderPanel(typeView);
+            
+            turnUI.SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, 
+                playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
+            turnUI.SetHeaderView(header);
+            
+            turnUI.EnableFrame();
+        }
+
+        private string SelectHeaderPanel(EnemyTurnActionType typeView)
+        {
+            var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
+            var header = "";
+
+            switch (typeView)
+            {
+                case EnemyTurnActionType.PlayingCard:
+                    header = viewEnemyConfig.PlayingCardHeader;
+                    break;
+                case EnemyTurnActionType.PurchaseCard:
+                    header = viewEnemyConfig.PurchaseCardHeader;
+                    break;
+                case EnemyTurnActionType.DiscardCard:
+                    header = viewEnemyConfig.DiscardCardHeader;
+                    break;
+                case EnemyTurnActionType.DestroyCard:
+                    header = viewEnemyConfig.DestroyCardHeader;
+                    break;
+            }
+            
+            return header;
+        }
+
+        private void SwitchCurrentViewToNewType(EnemyTurnActionType typeView)
+        {
+            var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
+            turnUI.ClearContainerCard();
+
+            var header = SelectHeaderPanel(typeView);
+            turnUI.SetHeaderView(header);
+        }
+        
+        private void AddNewCardView(string keyCard)
+        {
+            ref var enemyViewCardTimeComponent = ref _dataWorld.Select<EnemyTurnViewUIComponent>()
+                .SelectFirst<TimeComponent>();
+
+            enemyViewCardTimeComponent.Time = automatic_close_ui_time;
+            
             var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
             var playerEnemyTurnActionUIMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
             var cardMono = playerEnemyTurnActionUIMono.CreateNewCard(viewEnemyConfig.CardForEnemyTurnView);
@@ -38,48 +138,23 @@ namespace CyberNet.Core.EnemyTurnView
             SetupCardAction.SetViewCardNotInit?.Invoke(cardMono, keyCard);
         }
 
-        private void ShowPurchaseCard(string keyCard)
-        {
-            
-        }
-
-        private void ShowUI(bool isPlayingCard)
-        {
-            var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
-            var viewEnemyConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ViewEnemySO;
-            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity();
-            var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
-            var playerViewComponent = currentPlayerEntity.GetComponent<PlayerViewComponent>();
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
-            cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
-            
-            var header = "";
-            if (isPlayingCard)
-                header = viewEnemyConfig.PlayingCardHeader;
-            else
-                header = viewEnemyConfig.BuyCardHeader;
-            
-            turnUI.SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, header, 
-                playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
-            turnUI.EnableFrame();
-        }
-        
         private async void HideView()
         {
             var turnUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
             turnUI.DisableFrame();
-            await Task.Delay(300);
+            
+            _dataWorld.Select<EnemyTurnViewUIComponent>()
+                .SelectFirstEntity()
+                .Destroy();
+            
+            await Task.Delay(wait_time_end_animations);
             turnUI.ClearContainerCard();
-            _isShowPanelUI = false;
         }
 
         public void Destroy()
         {
-            EnemyTurnViewUIAction.PlayingCardShowView -= ShowPlayingCard;
-            EnemyTurnViewUIAction.PurchaseCardShowView -= ShowPurchaseCard;
-            EnemyTurnViewUIAction.HideView -= HideView;
+            EnemyTurnViewUIAction.ShowViewEnemyCard -= ShowViewCard;
+            EnemyTurnViewUIAction.ForceHideView -= HideView;
         }
     }
 }

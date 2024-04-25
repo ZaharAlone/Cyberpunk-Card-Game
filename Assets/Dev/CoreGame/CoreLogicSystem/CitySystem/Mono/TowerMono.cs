@@ -10,11 +10,15 @@ namespace CyberNet.Core.City
         public string GUID;
         public string Key = "tower_1";
         public bool IsFirstBasePlayer;
-
-        public MeshRenderer VisualEffectZone;
         public CountPlayerInGameEnum ActiveOnCountPlayerInGame;
-        public GameObject CloseInteractiveZoneEffect;
-        public Collider ColliderTower;
+        
+        public MeshRenderer VisualEffectZone;
+        [SerializeField]
+        private GameObject _closeInteractiveZoneEffect;
+        [SerializeField]
+        private GameObject _openInteractiveZoneEffect;
+        [SerializeField]
+        private Collider _colliderTower;
 
         public List<UnitZoneMono> SquadZonesMono = new List<UnitZoneMono>();
         public List<TowerMono> ZoneConnect = new List<TowerMono>();
@@ -45,8 +49,8 @@ namespace CyberNet.Core.City
                     counter++;
                 }
 
-                ColliderTower = gameObject.GetComponent<Collider>();
-                if (ColliderTower == null)
+                _colliderTower = gameObject.GetComponent<Collider>();
+                if (_colliderTower == null)
                     Debug.LogError($"Collider is null go name {gameObject.name}");
             }
             catch (Exception e)
@@ -67,12 +71,14 @@ namespace CyberNet.Core.City
         
         public void CloseInteractiveZoneVisualEffect()
         {
-            CloseInteractiveZoneEffect.SetActive(true);
+            _closeInteractiveZoneEffect.SetActive(true);
+            _openInteractiveZoneEffect.SetActive(false);
         }
         
         public void OpenInteractiveZoneVisualEffect()
         {
-            CloseInteractiveZoneEffect.SetActive(false);
+            _closeInteractiveZoneEffect.SetActive(false);
+            _openInteractiveZoneEffect.SetActive(true);
         }
 
         public void EnableIceZone()

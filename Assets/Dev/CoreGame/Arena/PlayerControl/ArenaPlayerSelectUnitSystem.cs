@@ -3,37 +3,20 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using CyberNet.Core.Arena.ArenaHUDUI;
-using CyberNet.Core.City;
-using CyberNet.Core.UI.CorePopup;
+using System;
+using CyberNet.Core.Arena;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.Sound;
 using Input;
 
-namespace CyberNet.Core.Arena
+namespace CyberNet.Core
 {
-    [EcsSystem(typeof(ArenaModule))]
-    public class ArenaPlayerControlSystem : IPreInitSystem, IRunSystem, IDestroySystem
+    [EcsSystem(typeof(CoreModule))]
+    public class ArenaPlayerSelectUnitSystem : IRunSystem
     {
         private DataWorld _dataWorld;
-
-        /* Старт хода
-         * 3) Даем управление игроку, игрок может выбрать как цель юнита противника и атаковать его
-         * 4) ... разыгрыш карт пока убираем, но нужно дописать логику которая убирает выделение с карт,
-         *        которые нельзя играть на арене
-         * 5) Игрок может выбрать как цель противника, и закончить ход
-         * 6) Игрок может спасовать - пока не делаем
-         *
-         * 7) Описываем поведение нейтрального юнита
-         * 8) Создаем цикл с перестрелкой и захватом территории
-         */
         private bool _isAim;
         
-        public void PreInit()
-        {
-            ArenaUIAction.ClickAttack += ClickAttack;
-        }
-
         public void Run()
         {
             if (_dataWorld.Select<PlayerStageChoosesAnOpponentComponent>().Count() == 0)
@@ -108,59 +91,6 @@ namespace CyberNet.Core.Arena
 
             var soundAim = _dataWorld.OneData<SoundData>().Sound.AimGun;
             SoundAction.PlaySound?.Invoke(soundAim);
-        }
-        
-        private void ClickAttack()
-        {
-            var isEnemyAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
-                .TrySelectFirstEntity(out var unitAttackEntity);
-
-            if (!isEnemyAttack)
-            {
-                //Show Warning frame
-                Debug.LogError("Not select unit for attack");
-                return;
-            }
-            else
-            {
-                //Reaction Stage
-
-                var unitEnemyComponent = unitAttackEntity.GetComponent<ArenaUnitComponent>();
-                ArenaUIAction.HideHUDButton?.Invoke();
-
-                var countEnemyCardInHand = _dataWorld.Select<CardComponent>()
-                    .With<CardHandComponent>()
-                    .Where<CardComponent>(card => card.PlayerID == unitEnemyComponent.PlayerControlID)
-                    .Count();
-                
-                if (unitEnemyComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits || countEnemyCardInHand == 0)
-                {
-                    EndReactionStage();
-                }
-                else
-                {
-                    
-                    //Reaction stage other player
-                }
-                
-            }
-            
-            CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
-        }
-        
-        private void EndReactionStage()
-        {
-            ArenaAction.ArenaUnitStartAttack?.Invoke();
-        }
-
-        private void ClearStage()
-        {
-            
-        }
-
-        public void Destroy()
-        {
-            ArenaUIAction.ClickAttack -= ClickAttack;
         }
     }
 }

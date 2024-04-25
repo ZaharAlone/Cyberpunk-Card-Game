@@ -18,7 +18,6 @@ namespace CyberNet.Core.Arena
 
         public void PreInit()
         {
-            ArenaAction.CheckBlockAttack += CheckBlockAttack;
             ArenaAction.CheckFinishArenaBattle += CheckEndRound;
             ArenaAction.UpdateTurnOrderArena += UpdateTurnOrderArena;
             ArenaAction.FindPlayerInCurrentRound += FindPlayerInCurrentRound;
@@ -26,21 +25,6 @@ namespace CyberNet.Core.Arena
             ArenaAction.GetKeyPlayerVisual += GetKeyPlayerVisual;
             ArenaAction.CreateUnitInArena += CreateUnitInArena;
             ArenaAction.DeselectPlayer += DeselectPlayer;
-        }
-
-        private bool CheckBlockAttack()
-        {
-            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                .With<ArenaSelectUnitForAttackComponent>()
-                .SelectFirstEntity();
-            var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-
-            var countCardInHandPlayer = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == targetUnitComponent.PlayerControlID)
-                .With<CardHandComponent>()
-                .Count();
-
-            return countCardInHandPlayer > 0;
         }
 
         private bool CheckEndRound()
@@ -185,7 +169,7 @@ namespace CyberNet.Core.Arena
             }
         }
         
-        public string GetKeyPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
+        private string GetKeyPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             var visualKeyUnit = "";
             if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
@@ -205,7 +189,7 @@ namespace CyberNet.Core.Arena
             return visualKeyUnit;
         }
         
-        public Sprite GetAvatarPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
+        private Sprite GetAvatarPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             Sprite avatar;
             if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
@@ -224,7 +208,7 @@ namespace CyberNet.Core.Arena
             return avatar;
         }
 
-        public int GetPositionInTurnQueue(PlayerControlEntity PlayerControlEntity, int playerID, int countUnitInBattle)
+        private int GetPositionInTurnQueue(PlayerControlEntity PlayerControlEntity, int playerID, int countUnitInBattle)
         {
             var position = -1;
             if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
@@ -311,7 +295,6 @@ namespace CyberNet.Core.Arena
 
         public void Destroy()
         {
-            ArenaAction.CheckBlockAttack -= CheckBlockAttack;
             ArenaAction.CheckFinishArenaBattle -= CheckEndRound;
             ArenaAction.UpdateTurnOrderArena -= UpdateTurnOrderArena;
             ArenaAction.FindPlayerInCurrentRound -= FindPlayerInCurrentRound;

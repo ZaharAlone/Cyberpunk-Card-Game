@@ -50,7 +50,6 @@ namespace CyberNet.Core.Arena.Bullet
         
         private void BulletCollision(BulletCollisionStruct bulletCollision)
         {
-            Debug.LogError("Bullet collision");
             var targetBulletEntity = _dataWorld.Select<BulletComponent>()
                 .Where<BulletComponent>(bullet => bullet.GUID == bulletCollision.GUID)
                 .SelectFirstEntity();
@@ -79,8 +78,6 @@ namespace CyberNet.Core.Arena.Bullet
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirst<ArenaUnitComponent>();
             targetUnitComponent.UnitArenaMono.HitAnimations();
-            
-            Debug.LogError("EffectHit");
         }
         
         public void DestroyBullet(Entity bulletEntity)

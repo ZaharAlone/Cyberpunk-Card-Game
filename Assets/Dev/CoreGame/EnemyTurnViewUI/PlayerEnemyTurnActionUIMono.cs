@@ -1,27 +1,33 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using NotImplementedException = System.NotImplementedException;
+
 namespace CyberNet.Core.UI
 {
     public class PlayerEnemyTurnActionUIMono : MonoBehaviour
     {
-        [FormerlySerializedAs("_panel")]
+        [Required]
         [SerializeField]
         private GameObject _panelGO;
+        [Required]
         [SerializeField]
         private RectTransform _panelTransform;
+        [Required]
         [SerializeField]
         private Image _avatarPlayer;
+        [Required]
         [SerializeField]
         private TextMeshProUGUI _actionPlayerText;
+        [Required]
         [SerializeField]
         private TextMeshProUGUI _namePlayerText;
+        [Required]
         [SerializeField]
         private Image _iconsPlayerUnit;
+        [Required]
         [SerializeField]
         private Transform _containerCard;
 
@@ -31,13 +37,17 @@ namespace CyberNet.Core.UI
         private List<CardMono> _cardsHand = new List<CardMono>();
         private Sequence _sequence;
         
-        public void SetViewPlayer(Sprite avatar, string playerName, string actionText, Sprite iconsUnit, Color32 colorUnit)
+        public void SetViewPlayer(Sprite avatar, string playerName, Sprite iconsUnit, Color32 colorUnit)
         {
             _avatarPlayer.sprite = avatar;
             _namePlayerText.text = playerName;
-            _actionPlayerText.text = actionText;
             _iconsPlayerUnit.sprite = iconsUnit;
             _iconsPlayerUnit.color = colorUnit;
+        }
+
+        public void SetHeaderView(string actionText)
+        {
+            _actionPlayerText.text = actionText;
         }
 
         public void EnableFrame()

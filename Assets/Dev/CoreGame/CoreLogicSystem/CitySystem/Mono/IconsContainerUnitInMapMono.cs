@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CyberNet.Core.City
 {
-    public class IconsUnitInMapMono : MonoBehaviour
+    public class IconsContainerUnitInMapMono : MonoBehaviour
     {
         [SerializeField]
         private GameObject _vfxSelectUnit;
@@ -21,9 +21,10 @@ namespace CyberNet.Core.City
             _vfxSelectUnit.SetActive(false);
         }
 
-        public void SetColorUnit(Color32 color)
+        public void SetViewUnit(Sprite iconsUnit, Color32 colorUnit)
         {
-            _iconsUnit.color = color;
+            _iconsUnit.sprite = iconsUnit;
+            _iconsUnit.color = colorUnit;
         }
 
         public void OnSelectUnitEffect()

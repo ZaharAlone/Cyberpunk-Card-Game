@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.Player;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.Arena
 {
@@ -45,7 +46,7 @@ namespace CyberNet.Core.Arena
             selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
             selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
             
-            ArenaAction.ArenaUnitStartAttack?.Invoke();
+            ArenaAction.ArenaUnitStartShooting?.Invoke();
         }
 
         public void Destroy()

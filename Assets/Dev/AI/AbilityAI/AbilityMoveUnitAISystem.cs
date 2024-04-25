@@ -299,7 +299,6 @@ namespace CyberNet.Core.AI
                     unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
                 }
             }
-            CityAction.EnableInteractiveTower?.Invoke(targetTowerComponent.GUID);
             
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == _guidCard)

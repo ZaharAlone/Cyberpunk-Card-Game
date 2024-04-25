@@ -51,7 +51,7 @@ namespace CyberNet.Core.City
                     }
                 }
 
-                var unitPoint = hit.collider.gameObject.GetComponent<IconsUnitInMapMono>();
+                var unitPoint = hit.collider.gameObject.GetComponent<IconsContainerUnitInMapMono>();
                 if (unitPoint)
                 {
                     ClickSolidPoint(unitPoint, roundData.CurrentPlayerID);
@@ -83,7 +83,7 @@ namespace CyberNet.Core.City
             return isElementAbilityAction > 0;
         }
 
-        private void ClickSolidPoint(IconsUnitInMapMono unitPoint, int currentPlayerID)
+        private void ClickSolidPoint(IconsContainerUnitInMapMono unitPoint, int currentPlayerID)
         {
             var unitGuid = unitPoint.GetGUID();
             

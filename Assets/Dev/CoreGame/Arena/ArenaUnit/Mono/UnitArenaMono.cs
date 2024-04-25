@@ -76,7 +76,6 @@ namespace CyberNet.Core.Arena
 
         public void HitAnimations()
         {
-            Debug.LogError("Animations play hit");
             _animator.SetTrigger(hit_animations_trigger);
         }
 
