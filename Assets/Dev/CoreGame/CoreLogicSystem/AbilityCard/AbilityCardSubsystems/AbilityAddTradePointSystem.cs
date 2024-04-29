@@ -38,6 +38,9 @@ namespace CyberNet.Core
             entity.RemoveComponent<AbilitySelectElementComponent>();
             entity.RemoveComponent<AbilityCardAddResourceComponent>();
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
+            
+            var gameUI = _dataWorld.OneData<CoreGameUIData>();
+            gameUI.BoardGameUIMono.TraderowMono.PlayEffectAddTradePoint();
         }
 
         public void Deactivate()

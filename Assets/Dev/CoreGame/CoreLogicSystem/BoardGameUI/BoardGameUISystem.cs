@@ -18,8 +18,8 @@ namespace CyberNet.Core.UI
 
         public void PreInit()
         {
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI += UpdateStatsPlayersPassport;
-            BoardGameUIAction.UpdateStatsAllPlayersPassportUI += ViewPlayerPassport;
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI += UpdateStatsMainPlayerPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI += UpdateViewAllPlayersPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency += UpdatePlayerCurrency;
             BoardGameUIAction.UpdateCountCardInHand += UpdateCountCard;
             BoardGameUIAction.ControlVFXCurrentPlayerArena += ControlVFXCurrentPlayerArena;
@@ -28,11 +28,12 @@ namespace CyberNet.Core.UI
         public void Init()
         {
             UpdateCountCard();
-            ViewPlayerPassport();
+            UpdateViewAllPlayersPassport();
         }
 
-        private void ViewPlayerPassport()
+        private void UpdateViewAllPlayersPassport()
         {
+            Debug.LogError("Update player UI");
             ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
             var entitiesPlayer = _dataWorld.Select<PlayerComponent>()
                                                          .With<PlayerViewComponent>()
@@ -102,7 +103,7 @@ namespace CyberNet.Core.UI
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             
             coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
-            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
         }
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
@@ -122,6 +123,7 @@ namespace CyberNet.Core.UI
             
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHandAndDeck, countCardDiscard, playerComponent.UnitCount);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewCountControlTerritory(playerComponent.CurrentCountControlTerritory);
             
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
@@ -142,11 +144,10 @@ namespace CyberNet.Core.UI
 
             var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
 
-            // TODO временно всегда воспроизводим эффект
-            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue, true);
+            gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue);
         }
 
-        private void UpdateStatsPlayersPassport()
+        private void UpdateStatsMainPlayerPassport()
         {
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             var roundData = _dataWorld.OneData<RoundData>();
@@ -155,7 +156,7 @@ namespace CyberNet.Core.UI
                 .SelectFirstEntity();
 
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
-            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory, playerComponent.CurrentCountControlBase);
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
         }
 
         private void UpdateCountCard()
@@ -184,12 +185,12 @@ namespace CyberNet.Core.UI
         {
             _dataWorld.RemoveOneData<CoreGameUIData>();
             
-            BoardGameUIAction.UpdateStatsMainPlayersPassportUI -= UpdateStatsPlayersPassport;
-            BoardGameUIAction.UpdateStatsAllPlayersPassportUI -= ViewPlayerPassport;
+            BoardGameUIAction.UpdateStatsMainPlayersPassportUI -= UpdateStatsMainPlayerPassport;
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI -= UpdateViewAllPlayersPassport;
             BoardGameUIAction.UpdateStatsPlayersCurrency -= UpdatePlayerCurrency;
             BoardGameUIAction.UpdateCountCardInHand -= UpdateCountCard;
             BoardGameUIAction.ControlVFXCurrentPlayerArena -= ControlVFXCurrentPlayerArena;
-            RoundAction.EndCurrentTurn -= ViewPlayerPassport;
+            RoundAction.EndCurrentTurn -= UpdateViewAllPlayersPassport;
         }
     }
 }

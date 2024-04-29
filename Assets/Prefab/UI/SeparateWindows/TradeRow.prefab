@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 47.79, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4520575076689215906
@@ -420,7 +420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 315, y: 0}
   m_SizeDelta: {x: 600, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8723386016130675301
@@ -820,6 +820,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tradeValueText: {fileID: 3063707431731347138}
   _effectAddEuroDollar: {fileID: 4085009703082092412}
+  _addEuroDollarSFX:
+    Guid:
+      Data1: 1148905121
+      Data2: 1281311982
+      Data3: -186500417
+      Data4: -198003718
+    Path: event:/VFX/CoreGame/Map/add_trade_point
   TraderowContainer: {fileID: 5415903389674437125}
   TraderowContainerForCard: {fileID: 3917811616004560617}
 --- !u!1 &4533081885442571084
@@ -5827,7 +5834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 315, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5312565061516665972

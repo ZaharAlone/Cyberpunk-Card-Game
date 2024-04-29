@@ -18,7 +18,7 @@ namespace CyberNet.Core.SelectFirstBase
         public void PreInit()
         {
             SelectFirstBaseAction.CheckInstallFirstBase += CheckPlayerSelectFirstBase;
-            SelectFirstBaseAction.SelectBase += SelectBase;
+            SelectFirstBaseAction.SelectBase += SelectedBase;
         }
 
         private bool CheckPlayerSelectFirstBase()
@@ -33,15 +33,15 @@ namespace CyberNet.Core.SelectFirstBase
             
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
 
-            if (isNotInstallFirstBase && playerComponent.playerOrAI == PlayerOrAI.Player)
+            if (playerComponent.playerOrAI == PlayerOrAI.Player)
             {
-                SelectFirstBase();
+                SetupInterfaceSelectFirstBase();
             }
 
-            return !isNotInstallFirstBase;
+            return false;
         }
 
-        private void SelectFirstBase()
+        private void SetupInterfaceSelectFirstBase()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = true;
             ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
@@ -51,7 +51,7 @@ namespace CyberNet.Core.SelectFirstBase
             CityAction.ShowFirstBaseTower?.Invoke();
         }
         
-        private void SelectBase(string towerGUID)
+        private void SelectedBase(string towerGUID)
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -66,22 +66,7 @@ namespace CyberNet.Core.SelectFirstBase
 
             ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
 
-            var targetSquadZone = 0;
-            foreach (var squadZone in towerComponent.SquadZonesMono)
-            {
-                var isClose = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
-                        && unit.IndexPoint == squadZone.Index)
-                    .TrySelectFirstEntity(out var t);
-
-                if (isClose)
-                    targetSquadZone = squadZone.Index+1;
-                else
-                {
-                    targetSquadZone = squadZone.Index;
-                    break;
-                }
-            }
+            var targetSquadZone = SelectTargetZone(towerGUID);
 
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
@@ -100,23 +85,52 @@ namespace CyberNet.Core.SelectFirstBase
             playerComponent.CurrentCountControlTerritory++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
+            
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
-            ref var tradeRowUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            var tradeRowUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             tradeRowUI.ShowPanelBaseViewAnimations();
 
             TaskPlayerPopupAction.HidePopup?.Invoke();
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
-            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
-            CityAction.UpdatePlayerViewCity?.Invoke();
+            
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
+        }
+
+        private int SelectTargetZone(string towerGUID)
+        {
+            var towerEntity = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+                .SelectFirstEntity();
+
+            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+            
+            var targetSquadZone = 0;
+            foreach (var squadZone in towerComponent.SquadZonesMono)
+            {
+                var isClose = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                        && unit.IndexPoint == squadZone.Index)
+                    .Count() > 0;
+
+                if (isClose)
+                    targetSquadZone = squadZone.Index+1;
+                else
+                {
+                    targetSquadZone = squadZone.Index;
+                    break;
+                }
+            }
+            
+            return targetSquadZone;
         }
 
         public void Destroy()
         {
             SelectFirstBaseAction.CheckInstallFirstBase -= CheckPlayerSelectFirstBase;
-            SelectFirstBaseAction.SelectBase -= SelectBase;
+            SelectFirstBaseAction.SelectBase -= SelectedBase;
         }
     }
 }

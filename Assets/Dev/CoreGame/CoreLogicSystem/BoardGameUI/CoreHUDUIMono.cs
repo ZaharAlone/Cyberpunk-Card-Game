@@ -15,8 +15,6 @@ namespace  CyberNet.Core.UI
         [SerializeField]
         private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
         [SerializeField]
-        private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
-        [SerializeField]
         private GameObject _playerVfxDownCard;
         
         [Header("Action Button")]
@@ -65,22 +63,16 @@ namespace  CyberNet.Core.UI
             }
         }
         
-        public void SetMainPassportViewStats(int unit, int countControlTerritory, int countBase)
+        public void SetMainPassportViewStats(int unit, int countControlTerritory)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
             _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
-            _playerPassportCountBaseView.SetCountValue(countBase);
         }
         
         public void SetInteractiveButton(string text, Sprite sprite)
         {
             ActionButtonText.text = text;
             ActionButtonImage.sprite = sprite;
-        }
-        
-        public void SetControlTerritoryEnemyView(int index, int value)
-        {
-            EnemyPassports[index].EnemyPassportControlTerritoryView.SetCountValue(value);
         }
         
         public void ShowInteractiveButton()

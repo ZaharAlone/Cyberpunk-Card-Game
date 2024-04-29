@@ -16,8 +16,7 @@ namespace CyberNet.Core
         {
             LoadingGameScreenAction.CloseLoadingGameScreen?.Invoke();
 
-            var coreMusic = _dataWorld.OneData<SoundData>().Sound.BackgroundMusicMap;
-            SoundAction.PlayMusic?.Invoke(coreMusic);
+            SoundAction.StartCoreMusic?.Invoke();
         }
     }
 }

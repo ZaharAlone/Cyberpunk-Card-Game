@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.UI;
 
 namespace CyberNet.Core.City
 {
@@ -23,6 +24,9 @@ namespace CyberNet.Core.City
             ClearOldPresencePlayerComponent();
             UpdatePlayerControlTower();
             AddComponentPresencePlayer();
+            
+            CityAction.UpdateTowerControlView?.Invoke();
+            BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
         }
 
         private void ClearOldPresencePlayerComponent()
@@ -44,7 +48,6 @@ namespace CyberNet.Core.City
         {
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .GetEntities();
-
             
             foreach (var towerEntity in towerEntities)
             {
@@ -143,7 +146,7 @@ namespace CyberNet.Core.City
                 .SelectFirstEntity();
 
             towerEntity.AddComponent(new PresencePlayerTowerComponent());
-            CityAction.UpdatePlayerViewCity?.Invoke();
+            CityAction.UpdateTowerControlView?.Invoke();
         }
 
         public void Destroy()

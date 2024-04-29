@@ -6,5 +6,7 @@ namespace CyberNet.Global.Sound
     {
         public SoundList Sound;
         public EventInstance CurrentBackgroundMusic;
+
+        public int WeightDropAmbientSoundRainInCore;
     }
 }
