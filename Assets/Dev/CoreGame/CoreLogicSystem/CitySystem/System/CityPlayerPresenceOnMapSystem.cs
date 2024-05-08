@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 
 namespace CyberNet.Core.City
@@ -24,6 +25,7 @@ namespace CyberNet.Core.City
             ClearOldPresencePlayerComponent();
             UpdatePlayerControlTower();
             AddComponentPresencePlayer();
+            UpdateCountControlTowerPlayer();
             
             CityAction.UpdateTowerControlView?.Invoke();
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
@@ -43,17 +45,19 @@ namespace CyberNet.Core.City
                 towerMono.CloseInteractiveZoneVisualEffect();
             }
         }
-        
+
         private void UpdatePlayerControlTower()
         {
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .GetEntities();
             
+            Debug.LogError("update player control tower");
             foreach (var towerEntity in towerEntities)
             {
                 ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
                 var towerGUID = towerComponent.GUID;
-                
+
+                Debug.LogError($"Check tower {towerComponent.Key}");
                 var unitInTowerEntities = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID)
                     .GetEntities();
@@ -62,9 +66,9 @@ namespace CyberNet.Core.City
                 
                 foreach (var unitEntity in unitInTowerEntities)
                 {
+                    Debug.LogError($"Check unit in map tower {towerComponent.Key}");
                     var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
                     var isDouble = false;
-                    var newPlayerID = -10;
                     
                     foreach (var playerID in playersInTower)
                     {
@@ -91,20 +95,27 @@ namespace CyberNet.Core.City
                         && unit.PowerSolidPlayerID == playerID)
                         .Count();
 
+                    Debug.LogError($"кол-во юнитов {countCurrentPlayerUnit} принадлежит данному игроку {playerID} в районе {towerComponent.Key}");
+                    
                     if (countCurrentPlayerUnit > maxUnit)
                         IDPlayerControlTower = playerID;
                 }
-                
+
                 if (IDPlayerControlTower == -10)
-                    return;
+                {
+                    Debug.LogError($"район никому не принадлежит {towerComponent.Key}");
+                    continue;
+                }
                 
                 if (IDPlayerControlTower == -1)
                 {
+                    Debug.LogError($"Район нейтральный {towerComponent.Key}");
                     towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.NeutralUnits;
                 }
                 else
                 {
+                    Debug.LogError($"Район принадлежит {IDPlayerControlTower}");
                     towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
                 }
@@ -147,6 +158,23 @@ namespace CyberNet.Core.City
 
             towerEntity.AddComponent(new PresencePlayerTowerComponent());
             CityAction.UpdateTowerControlView?.Invoke();
+        }
+        
+        private void UpdateCountControlTowerPlayer()
+        {
+            var playerEntities = _dataWorld.Select<PlayerComponent>().GetEntities();
+
+            foreach (var playerEntity in playerEntities)
+            {
+                ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
+                var playerID = playerComponent.PlayerID;
+                var countControlTerritoryPlayer = _dataWorld.Select<TowerComponent>()
+                    .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == playerID
+                        && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
+                    .Count();
+
+                playerComponent.CurrentCountControlTerritory = countControlTerritoryPlayer;
+            }
         }
 
         public void Destroy()

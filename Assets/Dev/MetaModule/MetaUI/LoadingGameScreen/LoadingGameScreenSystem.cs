@@ -1,3 +1,4 @@
+using CyberNet.Global.Sound;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -20,6 +21,8 @@ namespace CyberNet.Meta
         {
             ref var uiVSScreen = ref _dataWorld.OneData<MetaUIData>().MetaUIMono.loadingGameScreenUIMono;
             uiVSScreen.OpenWindow();
+            
+            SoundAction.StartLoadingCore?.Invoke();
         }
         
         private void CloseLoadingGameScreen()

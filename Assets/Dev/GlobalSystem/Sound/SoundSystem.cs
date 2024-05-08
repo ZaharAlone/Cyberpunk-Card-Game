@@ -19,6 +19,7 @@ namespace CyberNet.Global.Sound
             SoundAction.PlaySound += PlaySound;
             SoundAction.PlayMusic += PlayMusic;
             SoundAction.StartCoreMusic += StartCoreMusic;
+            SoundAction.StartLoadingCore += StartLoadingCore;
         }
         
         public void Init()
@@ -36,6 +37,7 @@ namespace CyberNet.Global.Sound
         private void PlayMusic(EventReference sound)
         {
             ref var soundData = ref _dataWorld.OneData<SoundData>();
+            
             if (soundData.CurrentBackgroundMusic.isValid())
                 soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             
@@ -79,11 +81,23 @@ namespace CyberNet.Global.Sound
             });
         }
 
+        private void StartLoadingCore()
+        {
+            var soundData = _dataWorld.OneData<SoundData>();
+
+            if (soundData.CurrentBackgroundMusic.isValid())
+            {
+                Debug.LogError("Stop music");
+                soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+
         public void Destroy()
         {
             SoundAction.PlaySound -= PlaySound;
             SoundAction.PlayMusic -= PlayMusic;
             SoundAction.StartCoreMusic -= StartCoreMusic;
+            SoundAction.StartLoadingCore -= StartLoadingCore;
         }
     }
 }
