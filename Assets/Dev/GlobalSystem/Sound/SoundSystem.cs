@@ -87,7 +87,6 @@ namespace CyberNet.Global.Sound
 
             if (soundData.CurrentBackgroundMusic.isValid())
             {
-                Debug.LogError("Stop music");
                 soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             }
         }

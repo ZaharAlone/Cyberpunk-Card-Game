@@ -20,8 +20,10 @@ namespace CyberNet.Core.City
             CityAction.UpdatePresencePlayerInCity += UpdatePresencePlayerInCity;
         }
         
-        public void UpdatePresencePlayerInCity()
+        private void UpdatePresencePlayerInCity()
         {
+            Debug.LogError("Update Presence Player City");
+            
             ClearOldPresencePlayerComponent();
             UpdatePlayerControlTower();
             AddComponentPresencePlayer();

@@ -4,6 +4,7 @@ using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.UI.CorePopup;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace  CyberNet.Core.UI
@@ -16,9 +17,12 @@ namespace  CyberNet.Core.UI
         private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
         [SerializeField]
         private GameObject _playerVfxDownCard;
-        
+
         [Header("Action Button")]
-        public GameObject ActionButton;
+        [SerializeField]
+        private CoreHUDButtonAnimationsMono _actionButtonLogicAnimations;
+        [SerializeField]
+        private GameObject _actionButton;
         public TextMeshProUGUI ActionButtonText;
         public Image ActionButtonImage;
         public CoreElementInfoPopupButtonMono PopupActionButton;
@@ -28,9 +32,11 @@ namespace  CyberNet.Core.UI
         
         [Header("Draw and Discard")]
         public RectTransform DownDiscard;
-        public TextMeshProUGUI DownDiscardCount;
+        [SerializeField]
+        private DeckButtonViewMono _discardDeckView;
         public RectTransform DownDeck;
-        public TextMeshProUGUI DownDeckCount;
+        [SerializeField]
+        private DeckButtonViewMono _drawDeckView;
         public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
@@ -74,16 +80,21 @@ namespace  CyberNet.Core.UI
             ActionButtonText.text = text;
             ActionButtonImage.sprite = sprite;
         }
+
+        public void EnableReadyClickActionButton()
+        {
+            _actionButtonLogicAnimations.SetReadyClick();
+        }
         
         public void ShowInteractiveButton()
         {
-            ActionButton.SetActive(true);
+            _actionButton.SetActive(true);
             AbilityButton.SetActive(true);
         }
 
         public void HideInteractiveButton()
         {
-            ActionButton.SetActive(false);
+            _actionButton.SetActive(false);
             AbilityButton.SetActive(false);
         }
         
@@ -92,10 +103,10 @@ namespace  CyberNet.Core.UI
             ActionPlayerButtonEvent.ClickActionButton?.Invoke();
         }
 
-        public void SetCountCard(int discardCount, int deckCount)
+        public void SetCountCard(int discardCardCount, int drawDeckCount)
         {
-            DownDiscardCount.text = discardCount.ToString();
-            DownDeckCount.text = deckCount.ToString();
+            _drawDeckView.SetCountCardInDeck(drawDeckCount);
+            _discardDeckView.SetCountCardInDeck(discardCardCount);
         }
         
         public void OnClickOpenDrawDeckCard()

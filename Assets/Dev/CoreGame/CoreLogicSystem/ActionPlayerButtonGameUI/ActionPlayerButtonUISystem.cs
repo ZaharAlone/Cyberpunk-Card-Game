@@ -3,10 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.InteractiveCard;
 using CyberNet.Global;
 using DG.Tweening;
-using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -17,6 +15,8 @@ namespace CyberNet.Core.UI
     public class ActionPlayerButtonUISystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
+
+        private const string scout_card_name = "neutral_scout";
 
         public void PreInit()
         {
@@ -40,49 +40,69 @@ namespace CyberNet.Core.UI
             if (roundData.playerOrAI != PlayerOrAI.Player || roundData.PauseInteractive)
             {
                 ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
-                return;
             }
+            else
+            {
+                ui.BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
+                UpdateViewEnableButton();
+            }
+        }
 
-            ui.BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
-            var config = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-
-            var cardHandEntities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
-                .With<CardHandComponent>()
-                .GetEntities();
+        private void UpdateViewEnableButton()
+        {
+            var roundData = _dataWorld.OneData<RoundData>();
+            var ui = _dataWorld.OneData<CoreGameUIData>();
+            var boardGameRule = _dataWorld.OneData<BoardGameData>().BoardGameRule;
             
-            var cardHandCount = _dataWorld.Select<CardComponent>()
+            var cardInHandCount = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
                 .With<CardHandComponent>()
                 .Count();
 
-            var isOnlyCardScout = true;
+            var isOnlyCardScout = CheckOnlyCardScoutInHandPlayer();
+            
+            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
+            
+            if (isOnlyCardScout && cardInHandCount > 0)
+            {
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
+                
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(boardGameRule.ActionPlayAll_loc, boardGameRule.ActionPlayAll_image);
+                ui.BoardGameUIMono.CoreHudUIMono.EnableReadyClickActionButton();
+                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(boardGameRule.PlayAllPopup);
+            }
+            else if (cardInHandCount == 0)
+            {
+                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
+                
+                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(boardGameRule.ActionEndTurn_loc, boardGameRule.ActionEndTurn_image);
+                ui.BoardGameUIMono.CoreHudUIMono.EnableReadyClickActionButton();
+                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
+            }
+        }
+
+        private bool CheckOnlyCardScoutInHandPlayer()
+        {
+            var isOnlyScoutCard = true;
+            
+            var roundData = _dataWorld.OneData<RoundData>();
+            
+            var cardHandEntities = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
+                .With<CardHandComponent>()
+                .GetEntities();
 
             foreach (var cardHandEntity in cardHandEntities)
             {
                 var cardComponent = cardHandEntity.GetComponent<CardComponent>();
-                if (cardComponent.Key != "neutral_scout")
+                if (cardComponent.Key != scout_card_name)
                 {
-                    isOnlyCardScout = false;
+                    isOnlyScoutCard = false;
                     break;
                 }
             }
             
-            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            if (isOnlyCardScout && cardHandCount > 0)
-            {
-                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
-                
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionPlayAll_loc, config.ActionPlayAll_image);
-                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(config.PlayAllPopup);
-            }
-            else
-            {
-                actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
-                
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(config.ActionEndTurn_loc, config.ActionEndTurn_image);
-                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(config.EndRoundPopup);
-            }
+            return isOnlyScoutCard;
         }
         
         private void HideButton()
