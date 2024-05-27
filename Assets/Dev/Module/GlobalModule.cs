@@ -39,7 +39,7 @@ namespace EcsCore
             var boardGameConfig = Load<BoardGameConfig>("BoardGameConfig", tasks);
             var boardGameRule = Load<BoardGameRuleSettings>("BoardGameRuleSettings", tasks);
             var cityVisualSO = Load<CitySO>("CityVisualSO", tasks);
-            var cardsImage = Load<CardsImageDictionary>("CardsImage", tasks);
+            var cardsViewConfig = Load<CardsViewConfigSO>("CardsViewConfigSO", tasks);
             var leadersView = Load<LeadersViewSO>("LeadersView", tasks);
             var soundList = Load<SoundList>("SoundList", tasks);
             var abilityCardEffect = Load<AbilityCardConfig>("AbilityCardEffect", tasks);
@@ -74,7 +74,7 @@ namespace EcsCore
             world.CreateOneData(new BoardGameData {
                 BoardGameConfig = boardGameConfig.Result,
                 BoardGameRule = boardGameRule.Result,
-                CardsImage = cardsImage.Result.Cards, 
+                CardsViewConfig = cardsViewConfig.Result, 
                 CitySO = cityVisualSO.Result,
                 SupportLocalize = supportLocalize.Result
             });

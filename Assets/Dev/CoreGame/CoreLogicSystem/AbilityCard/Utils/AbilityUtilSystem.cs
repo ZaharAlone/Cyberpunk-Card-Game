@@ -16,6 +16,8 @@ namespace CyberNet.Core
         public void PreInit()
         {
             AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection += CalculateHowManyAbilitiesAvailableForSelection;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena += CheckAbilityIsPlayingOnlyArena;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap += CheckAbilityIsPlayingOnlyMap;
         }
 
         private int CalculateHowManyAbilitiesAvailableForSelection(CardComponent cardComponent)
@@ -45,12 +47,12 @@ namespace CyberNet.Core
 
         private bool CheckAbilityCard(AbilityType abilityType)
         {
-            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentRoundState;
+            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena;
             var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
             abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
             
             var isShow = false;
-            if (currentRoundState == RoundState.Map)
+            if (currentRoundState == GameStateMapVSArena.Map)
             {
                 if (configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
                     isShow = true;
@@ -62,10 +64,40 @@ namespace CyberNet.Core
             }
             return isShow;
         }
+        
+        private bool CheckAbilityIsPlayingOnlyArena(AbilityType abilityType)
+        {
+            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
+            
+            if (configCard.VisualPlayingCardMap == VisualPlayingCardType.None &&
+                configCard.VisualPlayingCardArena != VisualPlayingCardType.None)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        
+        private bool CheckAbilityIsPlayingOnlyMap(AbilityType abilityType)
+        {
+            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
+            
+            if (configCard.VisualPlayingCardArena == VisualPlayingCardType.None &&
+                configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
 
         public void Destroy()
         {
             AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection -= CalculateHowManyAbilitiesAvailableForSelection;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena -= CheckAbilityIsPlayingOnlyArena;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap -= CheckAbilityIsPlayingOnlyMap;
         }
     }
 }

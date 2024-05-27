@@ -25,7 +25,7 @@ namespace CyberNet.Core.City
             if (_dataWorld.OneData<InputData>().Click)
                 CheckClick();
             
-            if (_dataWorld.OneData<RoundData>().CurrentRoundState == RoundState.Map)
+            if (_dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena == GameStateMapVSArena.Map)
                 ReadMouseInput();    
         }
         

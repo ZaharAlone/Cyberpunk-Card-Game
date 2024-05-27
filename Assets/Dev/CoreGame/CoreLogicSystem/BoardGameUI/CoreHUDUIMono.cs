@@ -83,7 +83,7 @@ namespace  CyberNet.Core.UI
 
         public void EnableReadyClickActionButton()
         {
-            _actionButtonLogicAnimations.SetReadyClick();
+            _actionButtonLogicAnimations.SetAnimationsReadyClick();
         }
         
         public void ShowInteractiveButton()

@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Animancer;
+using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using FMODUnity;
 using UnityEngine;
@@ -13,10 +15,16 @@ namespace CyberNet.Core.UI
     {
         [SerializeField]
         private Button _actionButton;
+
+        [SerializeField]
+        private CoreElementInfoPopupButtonMono _popupButtonMono;
         
+        [Header("Animations")]
         [SerializeField]
         private AnimancerComponent _animancer;
-        
+    
+        [SerializeField]
+        private AnimationClip _hide_button;
         [SerializeField]
         private AnimationClip _idle_animations;
         [SerializeField]
@@ -24,16 +32,19 @@ namespace CyberNet.Core.UI
         [SerializeField]
         private AnimationClip _select_button_animations;
 
+        [Header("Sound")]
         [SerializeField]
         private EventReference _select_button_sfx;
         [SerializeField]
         private EventReference _click_button_sfx;
         
+        [Header("Logic")]
         [SerializeField]
         private UnityEvent _buttonClickEvent;
 
         private bool _isReadyClick;
         private const float fade_duration_animations = 0.5f;
+        private const float fade_fast_duration_animations = 0.1f;
         private const float _delayBetweenClickHandling = 0.35f;
         
         private float _lastClickTime;
@@ -63,7 +74,7 @@ namespace CyberNet.Core.UI
                 _animancer.Play(_idle_animations, fade_duration_animations);
         }
 
-        public void SetReadyClick()
+        public void SetAnimationsReadyClick()
         {
             if (_ready_click_animations == null)
                 return;
@@ -72,7 +83,13 @@ namespace CyberNet.Core.UI
             _animancer.Play(_ready_click_animations, fade_duration_animations);
         }
 
-        private void ClickButton()
+        public void SetAnimationsNotReadyButtonClick()
+        {
+            _isReadyClick = false;
+            _animancer.Play(_idle_animations, fade_duration_animations);
+        }
+
+        private async void ClickButton()
         {
             if (Time.unscaledTime - _lastClickTime - _delayBetweenClickHandling <= float.Epsilon)
                 return;
@@ -80,6 +97,9 @@ namespace CyberNet.Core.UI
             _lastClickTime = Time.unscaledTime;
             
             SoundAction.PlaySound?.Invoke(_click_button_sfx);
+            _animancer.Play(_hide_button, fade_fast_duration_animations);
+
+            await Task.Delay(330);
             _buttonClickEvent?.Invoke();
         }
 

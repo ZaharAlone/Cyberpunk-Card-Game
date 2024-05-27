@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using I2.Loc;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core
 {
@@ -36,10 +37,17 @@ namespace CyberNet.Core
         public Transform AbilityBlock_2_Container;
         public Transform AbilityBlock_3_Container;
         public Transform AbilityBlock_OneShot_Container;
-        public GameObject ChooseOneHeader;
+        public GameObject SelectOneCardHeaderGO;
+        public Localize SelectOneCardHeaderText;
         public GameObject DivideLine;
 
         public Transform CountCardBlock;
+
+        [Header("Localizations")]
+        [SerializeField]
+        private LocalizedString _chooseOneCardHeaderLoc;
+        [SerializeField]
+        private LocalizedString _useOneCardHeaderLoc;
 
         private bool _cardIsBack;
         private Sequence _sequence;
@@ -61,9 +69,14 @@ namespace CyberNet.Core
                 PriceText.gameObject.SetActive(false);
         }
 
-        public void SetChooseAbility(bool status)
+        public void SetHeaderSelectAbility(bool status, bool isDifferentAbility)
         {
-            ChooseOneHeader.SetActive(status);
+            if (isDifferentAbility)
+                SelectOneCardHeaderText.Term = _useOneCardHeaderLoc.mTerm;
+            else
+                SelectOneCardHeaderText.Term = _chooseOneCardHeaderLoc.mTerm;
+            
+            SelectOneCardHeaderGO.SetActive(status);
         }
 
         public void IsConditionAbility(bool status)

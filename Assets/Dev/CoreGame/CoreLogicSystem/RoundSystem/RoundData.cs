@@ -8,7 +8,9 @@ namespace CyberNet.Core
         public int CurrentRound;
         public int CurrentTurn;
         public int CurrentPlayerID;
-        public RoundState CurrentRoundState;
+        [FormerlySerializedAs("CurrentMapArenaState")]
+        [FormerlySerializedAs("CurrentRoundState")]
+        public GameStateMapVSArena CurrentGameStateMapVSArena;
         public PlayerOrAI playerOrAI;
         public bool PauseInteractive;
     }

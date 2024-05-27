@@ -1,0 +1,684 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2f235b3b82c9a4fa4c2aefdee61a46, type: 3}
+  m_Name: CardsViewConfigSO
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: f1549f4d6c3476b4da17c091285f7b2f, type: 3}
+    - {fileID: 21300000, guid: ff5d0c3115eec5346bc1074b11368e15, type: 3}
+    - {fileID: 21300000, guid: d43bb89307759e043bd92c0812b8675b, type: 3}
+    - {fileID: 21300000, guid: 523b72c544fc46e41b65ca248b661124, type: 3}
+    - {fileID: 21300000, guid: ba4ef424a038ad648810ac095bbdb4f5, type: 3}
+    - {fileID: 21300000, guid: 93078678fd50d0a4aabbc698d049aa13, type: 3}
+    - {fileID: 21300000, guid: c1de196e4e59aff4ab944cebe6604e27, type: 3}
+    - {fileID: 21300000, guid: fc319c844fd3d8342bd65d4956d6a37f, type: 3}
+    - {fileID: 21300000, guid: 100ff2e20e97da64b98f6bbf1c81d628, type: 3}
+    - {fileID: 21300000, guid: 2761443bdd7ff37438e2bb862477541b, type: 3}
+    - {fileID: 21300000, guid: 127bc4c449849df43be11ce56ad98d14, type: 3}
+    - {fileID: 21300000, guid: 48aa28b63fc5a5647bff9362cd80821e, type: 3}
+    - {fileID: 21300000, guid: 5fdcbcc704f3f8d4aa14b930dc9e5eda, type: 3}
+    - {fileID: 21300000, guid: 7d458d5083301274599d4b01514a4bb0, type: 3}
+    - {fileID: 21300000, guid: ff8811d7974a5f14f81fdef83daa24b4, type: 3}
+    - {fileID: 21300000, guid: 7bcd245d632aab446adb46e9c88eec36, type: 3}
+    - {fileID: 21300000, guid: 00184154be15d5540b7ede4686dc7614, type: 3}
+    - {fileID: 21300000, guid: 4309aac1de757e245a794500c4895668, type: 3}
+    - {fileID: 21300000, guid: 8121e07bcf736d943a2d399803eeec0f, type: 3}
+    - {fileID: 21300000, guid: a07cae0948acbf44f98363b141c73b22, type: 3}
+    - {fileID: 21300000, guid: 162343cae532c5349961cea7c5fd9cf5, type: 3}
+    - {fileID: 21300000, guid: 317e1f47b1a455f46bac69d5dc9c570c, type: 3}
+    - {fileID: 21300000, guid: e51d3e797741c9c4883e94c06b6c220d, type: 3}
+    - {fileID: 21300000, guid: d06c08b82fcb92f4c868f25bd06a7500, type: 3}
+    - {fileID: 21300000, guid: b95f0cc417f7ee04cbd87ad1831366d5, type: 3}
+    - {fileID: 21300000, guid: 59b962b4a42451242af35442f70910cb, type: 3}
+    - {fileID: 21300000, guid: 0e3ba4b7a606eb74880d5e3b8990029c, type: 3}
+    - {fileID: 21300000, guid: 009a660208c70e94fac0dc99cb165e8f, type: 3}
+    - {fileID: 21300000, guid: 4c980fc3ef7082c45a062c803d3a6e71, type: 3}
+    - {fileID: 21300000, guid: e3b202497fd607842b6cc74f2609f2b8, type: 3}
+    - {fileID: 21300000, guid: 972de41c284acaf44ab8b51a40aec2e7, type: 3}
+    - {fileID: 21300000, guid: deaa5cd4cc4802845a2dca8b91063aed, type: 3}
+    - {fileID: 21300000, guid: 0441d38d2b6e03d44857c3c4ec4dcf17, type: 3}
+    - {fileID: 21300000, guid: d4f045a282f2b14488f8a1cf35da3bf6, type: 3}
+    - {fileID: 21300000, guid: aebacf4ed3f20f143a7d1a6abcdf27f6, type: 3}
+    - {fileID: 21300000, guid: bfea836db7ab14241854c523e9c97a91, type: 3}
+    - {fileID: 21300000, guid: 0340bd81f3dcc9b47b1303eadc99495b, type: 3}
+    - {fileID: 21300000, guid: f3cab4d2747f63b42b3694a1f8c69ab5, type: 3}
+    - {fileID: 21300000, guid: 973a803a1b5053d4785017d228a8c8de, type: 3}
+    - {fileID: 21300000, guid: 5b3f4358a11873d42b3bb04d7c965560, type: 3}
+    - {fileID: 21300000, guid: 6d5fd5505ac1f5b4f8b9cc0e92df4109, type: 3}
+    - {fileID: 21300000, guid: bebd0251b64f1414a8a1a6d32c4b6ed9, type: 3}
+    - {fileID: 21300000, guid: 5d6cf79aca09aea44899211eca48e65d, type: 3}
+    - {fileID: 21300000, guid: 97df177adaf5d764eb644ab05b3cd8ab, type: 3}
+    - {fileID: 21300000, guid: 3183bbef117934e4393e94a34c02b585, type: 3}
+    - {fileID: 21300000, guid: 4a9186e6c3b5f494fa25ec4877020985, type: 3}
+    - {fileID: 21300000, guid: b3289962474417448bd4983853a100c7, type: 3}
+    - {fileID: 21300000, guid: 420405c02ae453146afd3ce65b02c7b4, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: CardsImageDictionary
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 48
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_grenade
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_administrator
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_brothers
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_director
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_droid
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_engineer
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_head_hunter
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_pathfinder
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_R52
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_sergeant
+    - Name: $v
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_corporates_yellow_eyed
+    - Name: $v
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_biker
+    - Name: $v
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_bloody_eye
+    - Name: $v
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_chimney
+    - Name: $v
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_killer
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_leader
+    - Name: $v
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_oldSoldier
+    - Name: $v
+      Entry: 10
+      Data: 16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_pirate
+    - Name: $v
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_reckless
+    - Name: $v
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_refuge
+    - Name: $v
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_russian
+    - Name: $v
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_guns_sniper
+    - Name: $v
+      Entry: 10
+      Data: 21
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_agent
+    - Name: $v
+      Entry: 10
+      Data: 22
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_ai
+    - Name: $v
+      Entry: 10
+      Data: 23
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_boy
+    - Name: $v
+      Entry: 10
+      Data: 24
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_c28
+    - Name: $v
+      Entry: 10
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_cracker
+    - Name: $v
+      Entry: 10
+      Data: 26
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_darkNet
+    - Name: $v
+      Entry: 10
+      Data: 27
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_empath
+    - Name: $v
+      Entry: 10
+      Data: 28
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_interference
+    - Name: $v
+      Entry: 10
+      Data: 29
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_networker
+    - Name: $v
+      Entry: 10
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_shooter
+    - Name: $v
+      Entry: 10
+      Data: 31
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_thief
+    - Name: $v
+      Entry: 10
+      Data: 32
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_netrunners_virus
+    - Name: $v
+      Entry: 10
+      Data: 33
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_explorer
+    - Name: $v
+      Entry: 10
+      Data: 34
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_hunter
+    - Name: $v
+      Entry: 10
+      Data: 35
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_noise
+    - Name: $v
+      Entry: 10
+      Data: 36
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_neutral_scout
+    - Name: $v
+      Entry: 10
+      Data: 37
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_blueBlade
+    - Name: $v
+      Entry: 10
+      Data: 38
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_demon
+    - Name: $v
+      Entry: 10
+      Data: 39
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_doctor
+    - Name: $v
+      Entry: 10
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_outcast
+    - Name: $v
+      Entry: 10
+      Data: 41
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_racer
+    - Name: $v
+      Entry: 10
+      Data: 42
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_ravager
+    - Name: $v
+      Entry: 10
+      Data: 43
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_samurai
+    - Name: $v
+      Entry: 10
+      Data: 44
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_trader
+    - Name: $v
+      Entry: 10
+      Data: 45
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nomads_valkyrie
+    - Name: $v
+      Entry: 10
+      Data: 46
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: card_nombads_raven
+    - Name: $v
+      Entry: 10
+      Data: 47
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  IconsBaseAbility: {fileID: 7752582939702526963, guid: 12e2b02019b2bb7419ed88604fc95f12,
+    type: 3}
+  TextBaseAbilityCountItem: {fileID: 5677971599807528328, guid: dce4aeb69268a564981261a2b9547b31,
+    type: 3}
+  IconsArrowConditionAbility: {fileID: 7429665441295577904, guid: 96cb73ca5cfc8d046a0ef461f76de8c7,
+    type: 3}
+  TextBaseAbility: {fileID: -6500071186998856279, guid: 9a90bfb11b0e27b43ae451c8a5634606,
+    type: 3}
+  ItemIconsCounterCard: {fileID: 4668678704381399944, guid: 11f5bebe6308eff4584d9a6689c8b133,
+    type: 3}
+  IconsArrowChooseAbility: {fileID: 447946509587860430, guid: d6fd014ad78a075469d68b29b6c4fa28,
+    type: 3}
+  IconsArenaAbility: {fileID: 7429665441295577904, guid: 12cf350c867506f448b43eca8ddfbe77,
+    type: 3}
+  IconsMapAbility: {fileID: 7429665441295577904, guid: 3cc9ed3177cd2964aaa24fc86fd55700,
+    type: 3}
+  folderPath: Assets/Art/2D/Cards

@@ -169,7 +169,7 @@ namespace CyberNet.Core.InteractiveCard
                 return;
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentRoundState == RoundState.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
+            if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
                 return;
             
             if (roundData.PauseInteractive)

@@ -22,6 +22,16 @@ namespace CyberNet.Core.UI.CorePopup
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            ClosePopup();
+        }
+
+        public void ForceClosePopup()
+        {
+            ClosePopup();
+        }
+
+        private void ClosePopup()
+        {
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
         }
     }

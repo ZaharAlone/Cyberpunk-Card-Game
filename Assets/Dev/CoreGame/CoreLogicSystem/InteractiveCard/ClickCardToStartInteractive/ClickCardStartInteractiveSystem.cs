@@ -28,7 +28,7 @@ namespace CyberNet.Core.InteractiveCard
                 .SelectFirstEntity();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive || roundData.CurrentRoundState == RoundState.Arena)
+            if (roundData.PauseInteractive || roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
                 return;
             
             if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>())
@@ -52,7 +52,7 @@ namespace CyberNet.Core.InteractiveCard
 
             var cardComponent = entity.GetComponent<CardComponent>();
             var selectAbility = entity.GetComponent<CardAbilitySelectionCompletedComponent>().SelectAbility;
-            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentRoundState;
+            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena;
             
             var configAbility = _dataWorld.OneData<CardsConfig>().AbilityCard;
             var cardAbility = new AbilityCardContainer();
@@ -67,7 +67,7 @@ namespace CyberNet.Core.InteractiveCard
             }
             configAbility.TryGetValue(cardAbility.AbilityType.ToString(), out var abilityCardConfig);
             
-            if (currentRoundState == RoundState.Map)
+            if (currentRoundState == GameStateMapVSArena.Map)
             {
                 ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardMap);
             }
