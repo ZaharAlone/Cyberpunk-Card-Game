@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using I2.Loc;
 using DG.Tweening;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core
 {

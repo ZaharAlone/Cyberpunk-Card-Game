@@ -33,7 +33,6 @@ namespace CyberNet.Core.UI
 
         private void UpdateViewAllPlayersPassport()
         {
-            Debug.LogError("Update player UI");
             ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
             var entitiesPlayer = _dataWorld.Select<PlayerComponent>()
                                                          .With<PlayerViewComponent>()

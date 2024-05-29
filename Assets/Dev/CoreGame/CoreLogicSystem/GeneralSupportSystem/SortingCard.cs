@@ -34,7 +34,6 @@ namespace CyberNet.Core
             
             while (countCardSetPositions < Cards.Count)
             {
-                Debug.LogError("Cicle");
                 for (int i = 0; i < Cards.Count; i++)
                 {
                     if (Cards[i].IDPositions != -1)
@@ -42,7 +41,6 @@ namespace CyberNet.Core
                     
                     if (Cards[i].CardName == "neutral_hunter" && countHunter < 2)
                     {
-                        Debug.LogError("Card set positions: " + countCardSetPositions);
                         Cards[i] = CardSetPosition(Cards[i], countCardSetPositions);
                         countCardSetPositions++;
                         countHunter++;
@@ -51,7 +49,6 @@ namespace CyberNet.Core
 
                     if (Cards[i].CardName != "neutral_hunter" && countHunter == 2)
                     {
-                        Debug.LogError("Set positions");
                         Cards[i] = CardSetPosition(Cards[i], countCardSetPositions);
                         countCardSetPositions++;
                     }

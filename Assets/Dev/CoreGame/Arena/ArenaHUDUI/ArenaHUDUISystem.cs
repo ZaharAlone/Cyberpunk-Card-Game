@@ -23,7 +23,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         {
             InitStartVisual();
 
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
+            //_dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
             //Temp
             ShowHUDButton();
         }
@@ -70,7 +70,7 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
         public void Destroy()
         {
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
+            //_dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono.HideArenaUI();
             
             ArenaUIAction.ShowHUDButton -= ShowHUDButton;

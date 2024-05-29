@@ -65,7 +65,6 @@ namespace CyberNet.Core.EnemyPassport
 
         public void SetViewCountControlTerritory(int countBase)
         {
-            Debug.LogError($"Set view player count {countBase}");
             _enemyPassportControlTerritoryView.SetCountValue(countBase);
         }
 

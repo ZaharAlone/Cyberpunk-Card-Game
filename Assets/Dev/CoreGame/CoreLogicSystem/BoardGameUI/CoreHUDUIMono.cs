@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CyberNet.Core.EnemyPassport;
+using CyberNet.Core.UI.ActionButton;
 using CyberNet.Core.UI.CorePopup;
 using TMPro;
 using UnityEngine;
@@ -19,12 +20,7 @@ namespace  CyberNet.Core.UI
         private GameObject _playerVfxDownCard;
 
         [Header("Action Button")]
-        [SerializeField]
-        private CoreHUDButtonAnimationsMono _actionButtonLogicAnimations;
-        [SerializeField]
-        private GameObject _actionButton;
-        public TextMeshProUGUI ActionButtonText;
-        public Image ActionButtonImage;
+        public CoreActionButtonAnimationsMono CoreActionButtonAnimationsMono;
         public CoreElementInfoPopupButtonMono PopupActionButton;
 
         [Header("Ability Button")]
@@ -73,29 +69,6 @@ namespace  CyberNet.Core.UI
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
             _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
-        }
-        
-        public void SetInteractiveButton(string text, Sprite sprite)
-        {
-            ActionButtonText.text = text;
-            ActionButtonImage.sprite = sprite;
-        }
-
-        public void EnableReadyClickActionButton()
-        {
-            _actionButtonLogicAnimations.SetAnimationsReadyClick();
-        }
-        
-        public void ShowInteractiveButton()
-        {
-            _actionButton.SetActive(true);
-            AbilityButton.SetActive(true);
-        }
-
-        public void HideInteractiveButton()
-        {
-            _actionButton.SetActive(false);
-            AbilityButton.SetActive(false);
         }
         
         public void OnClickActionButton()

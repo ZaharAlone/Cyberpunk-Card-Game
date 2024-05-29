@@ -22,8 +22,6 @@ namespace CyberNet.Core.City
         
         private void UpdatePresencePlayerInCity()
         {
-            Debug.LogError("Update Presence Player City");
-            
             ClearOldPresencePlayerComponent();
             UpdatePlayerControlTower();
             AddComponentPresencePlayer();
@@ -53,13 +51,12 @@ namespace CyberNet.Core.City
             var towerEntities = _dataWorld.Select<TowerComponent>()
                 .GetEntities();
             
-            Debug.LogError("update player control tower");
+            //Debug.LogError("update player control tower");
             foreach (var towerEntity in towerEntities)
             {
                 ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
                 var towerGUID = towerComponent.GUID;
 
-                Debug.LogError($"Check tower {towerComponent.Key}");
                 var unitInTowerEntities = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID)
                     .GetEntities();
@@ -68,7 +65,7 @@ namespace CyberNet.Core.City
                 
                 foreach (var unitEntity in unitInTowerEntities)
                 {
-                    Debug.LogError($"Check unit in map tower {towerComponent.Key}");
+                    //Debug.LogError($"Check unit in map tower {towerComponent.Key}");
                     var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
                     var isDouble = false;
                     
@@ -97,7 +94,7 @@ namespace CyberNet.Core.City
                         && unit.PowerSolidPlayerID == playerID)
                         .Count();
 
-                    Debug.LogError($"кол-во юнитов {countCurrentPlayerUnit} принадлежит данному игроку {playerID} в районе {towerComponent.Key}");
+                    //Debug.LogError($"кол-во юнитов {countCurrentPlayerUnit} принадлежит данному игроку {playerID} в районе {towerComponent.Key}");
                     
                     if (countCurrentPlayerUnit > maxUnit)
                         IDPlayerControlTower = playerID;
@@ -105,19 +102,19 @@ namespace CyberNet.Core.City
 
                 if (IDPlayerControlTower == -10)
                 {
-                    Debug.LogError($"район никому не принадлежит {towerComponent.Key}");
+                    //Debug.LogError($"район никому не принадлежит {towerComponent.Key}");
                     continue;
                 }
                 
                 if (IDPlayerControlTower == -1)
                 {
-                    Debug.LogError($"Район нейтральный {towerComponent.Key}");
+                    //Debug.LogError($"Район нейтральный {towerComponent.Key}");
                     towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.NeutralUnits;
                 }
                 else
                 {
-                    Debug.LogError($"Район принадлежит {IDPlayerControlTower}");
+                    //Debug.LogError($"Район принадлежит {IDPlayerControlTower}");
                     towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
                 }

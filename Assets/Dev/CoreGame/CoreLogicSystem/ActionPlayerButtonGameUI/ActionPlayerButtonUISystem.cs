@@ -5,6 +5,8 @@ using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Global;
 using DG.Tweening;
+using CyberNet.Core.UI.ActionButton;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -36,20 +38,25 @@ namespace CyberNet.Core.UI
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
+            var coreActionButton = ui.BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
             
-            if (roundData.playerOrAI != PlayerOrAI.Player || roundData.PauseInteractive)
+            if (roundData.playerOrAI != PlayerOrAI.Player && coreActionButton.IsEnableButton)//??? PauseInteractive???   || roundData.PauseInteractive
             {
-                ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
+                coreActionButton.HideButtonPlayAnimations();
             }
-            else
+            else if (roundData.playerOrAI == PlayerOrAI.Player)
             {
-                ui.BoardGameUIMono.CoreHudUIMono.ShowInteractiveButton();
+                if (!coreActionButton.IsEnableButton)
+                    coreActionButton.ShowButtonPlayAnimations();
+                
                 UpdateViewEnableButton();
             }
         }
 
         private void UpdateViewEnableButton()
         {
+            Debug.LogError("Update UI");
+            
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
             var boardGameRule = _dataWorld.OneData<BoardGameData>().BoardGameRule;
@@ -59,25 +66,45 @@ namespace CyberNet.Core.UI
                 .With<CardHandComponent>()
                 .Count();
 
-            var isOnlyCardScout = CheckOnlyCardScoutInHandPlayer();
-            
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
+            var isOnlyCardScout = CheckOnlyCardScoutInHandPlayer();
+            var isFreeCardInTradeRow = _dataWorld.Select<CardComponent>()
+                .With<CardTradeRowComponent>()
+                .With<CardFreeToBuyComponent>()
+                .Count() > 0;
+
+            var cardIsHand = cardInHandCount > 0;
+            var playAllCard = isOnlyCardScout && cardIsHand;
+            var endRoundNoActive = isFreeCardInTradeRow || cardIsHand;
             
-            if (isOnlyCardScout && cardInHandCount > 0)
+            var coreHUDMono = ui.BoardGameUIMono.CoreHudUIMono;
+            
+            if (playAllCard)
             {
+                Debug.LogError("Play all");
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
                 
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(boardGameRule.ActionPlayAll_loc, boardGameRule.ActionPlayAll_image);
-                ui.BoardGameUIMono.CoreHudUIMono.EnableReadyClickActionButton();
-                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(boardGameRule.PlayAllPopup);
+                coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.PlayAll);
+                coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+                coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.PlayAllPopup);
             }
-            else if (cardInHandCount == 0)
+            else
             {
+                Debug.LogError("End round");
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
-                
-                ui.BoardGameUIMono.CoreHudUIMono.SetInteractiveButton(boardGameRule.ActionEndTurn_loc, boardGameRule.ActionEndTurn_image);
-                ui.BoardGameUIMono.CoreHudUIMono.EnableReadyClickActionButton();
-                ui.BoardGameUIMono.CoreHudUIMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
+                coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.EndTurn);
+                coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
+
+                if (endRoundNoActive)
+                {
+                    Debug.LogError("end round no active");
+                    coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsNotReadyButtonClick();
+                }
+                else
+                {
+                    Debug.LogError("end round active");
+                    coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+                }
             }
         }
 
@@ -108,7 +135,7 @@ namespace CyberNet.Core.UI
         private void HideButton()
         {
             var ui = _dataWorld.OneData<CoreGameUIData>();
-            ui.BoardGameUIMono.CoreHudUIMono.HideInteractiveButton();
+            ui.BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono.HideButtonPlayAnimations();
         }
 
         private void ClickActionButton()

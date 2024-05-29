@@ -75,7 +75,6 @@ namespace CyberNet.Core
 
             if (_dataWorld.IsModuleActive<TutorialGameModule>())
             {
-                Debug.LogError("Sorting deck");
                 //Sorting deck for tutorial game
                 foreach (var playerDeck in playerDeckCard)
                 {

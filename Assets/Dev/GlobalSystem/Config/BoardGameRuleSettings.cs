@@ -24,15 +24,7 @@ namespace CyberNet
         
         [Tooltip("Количество нейтральных юнитов на клетке в начале игры")]
         public int CountNeutralUnitInTower = 2;
-
-        [Header("Localize")]
-        public LocalizedString ActionEndTurn_loc;
-        public LocalizedString ActionPlayAll_loc;
-
-        [Header("Icons")]
-        public Sprite ActionEndTurn_image;
-        public Sprite ActionPlayAll_image;
-
+        
         [Header("Popup Action Button")]
         public string EndRoundPopup;
         public string PlayAllPopup;
