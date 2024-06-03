@@ -7,5 +7,6 @@ namespace CyberNet.Global.Settings
     {
         public string Language;
         public bool IsShowDistrickPopup;
+        public bool IsShowWarningPopupEndTurn;
     }
 }

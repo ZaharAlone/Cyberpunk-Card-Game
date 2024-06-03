@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
+using CyberNet.Meta;
 using CyberNet.SaveSystem;
 using FMOD.Studio;
 
@@ -21,6 +22,7 @@ namespace CyberNet.Global.Settings
         public void PreInit()
         {
             SettingsAction.SetShowDistrictPopup += SetShowDistrictPopup;
+            SettingsAction.SetShowConfirmEndTurnPopup += SetShowConfirmEndTurnPopup;
             SettingsAction.SetMasterVolume += SetMasterVolume;
             SettingsAction.SetMusicVolume += SetMusicVolume;
             SettingsAction.SetSFXVolume += SetSFXVolume;
@@ -74,12 +76,26 @@ namespace CyberNet.Global.Settings
             settingsData.GameSettings.IsShowDistrickPopup = value;
             SaveSettings();
         }
+        
+        private void SetShowConfirmEndTurnPopup(bool value)
+        {
+            ref var settingsData = ref _dataWorld.OneData<SettingsData>();
+            settingsData.GameSettings.IsShowWarningPopupEndTurn = value;
+            SaveSettings();
+        }
 
         private void SaveSettings()
         {
             SaveAction.SaveSettingsGame?.Invoke();
         }
-        
-        public void Destroy() { }
+
+        public void Destroy()
+        {
+            SettingsAction.SetShowDistrictPopup -= SetShowDistrictPopup;
+            SettingsAction.SetShowConfirmEndTurnPopup -= SetShowConfirmEndTurnPopup;
+            SettingsAction.SetMasterVolume -= SetMasterVolume;
+            SettingsAction.SetMusicVolume -= SetMusicVolume;
+            SettingsAction.SetSFXVolume -= SetSFXVolume;
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace CyberNet.Global.Settings
         
         //GAME
         public static Action<bool> SetShowDistrictPopup;
+        public static Action<bool> SetShowConfirmEndTurnPopup;
 
         //AUDIO
         public static Action<int> SetMasterVolume;

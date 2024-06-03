@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using I2.Loc;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 namespace CyberNet.Core
 {
@@ -28,16 +29,27 @@ namespace CyberNet.Core
         public TextMeshProUGUI PriceText;
 
         [Header("Down Block")]
+        [Required]
         public RectTransform ImageDownBlockRect;
+        [Required]
         public RectTransform AbilityBlockRect;
+        [Required]
         public Localize Header;
+        [Required]
         public TextMeshProUGUI Cyberpsychosis;
+        [Required]
         public Transform AbilityBlock_1_Container;
+        [Required]
         public Transform AbilityBlock_2_Container;
+        [Required]
         public Transform AbilityBlock_3_Container;
+        [Required]
         public Transform AbilityBlock_OneShot_Container;
+        [Required]
         public GameObject SelectOneCardHeaderGO;
+        [Required]
         public Localize SelectOneCardHeaderText;
+        [Required]
         public GameObject DivideLine;
 
         public Transform CountCardBlock;

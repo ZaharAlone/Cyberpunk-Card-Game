@@ -43,7 +43,7 @@ namespace CyberNet.Core.UI.ActionButtonAnimations
 
             _sequence.Join(_imageIcons.DOColor(_endColor, _durationHideAnimations));
         }
-
+        
         public void StartScaleAnimations()
         {
             _sequence.Kill();

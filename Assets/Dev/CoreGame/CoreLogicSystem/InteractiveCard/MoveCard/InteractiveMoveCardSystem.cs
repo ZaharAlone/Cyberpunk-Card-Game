@@ -99,8 +99,6 @@ namespace CyberNet.Core.InteractiveCard
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
                 SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
             }
-            
-            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         private void EndMoveShopCard(Entity entity)
@@ -132,6 +130,8 @@ namespace CyberNet.Core.InteractiveCard
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
                 CardShopAction.CheckPoolShopCard?.Invoke();
+                
+                ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
             }
             else
             {

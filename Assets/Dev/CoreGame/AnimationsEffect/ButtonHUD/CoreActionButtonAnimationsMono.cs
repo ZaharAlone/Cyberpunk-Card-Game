@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Animancer;
 using CyberNet.Core.AbilityCard;
@@ -24,6 +25,13 @@ namespace CyberNet.Core.UI.ActionButton
         [Required]
         [SerializeField]
         private Localize _actionButtonLocText;
+        [SerializeField]
+        private List<Image> _graphicsButtonElements = new List<Image>();
+        [SerializeField]
+        private TextMeshProUGUI _actionButtonText;
+
+        [SerializeField]
+        private Color32 _hideColor;
 
         [SerializeField]
         private CoreElementInfoPopupButtonMono _popupButtonMono;
@@ -112,7 +120,6 @@ namespace CyberNet.Core.UI.ActionButton
         {
             if (!IsEnableButton)
                 return;
-
             
             if (_isReadyClick && _ready_click_animations != null)
                 _animancer.Play(_ready_click_animations, fade_duration_animations);
@@ -180,6 +187,20 @@ namespace CyberNet.Core.UI.ActionButton
             HideIconsActionAnimations();
         }
 
+        public void ForceHideActionButton()
+        {
+            IsEnableButton = false;
+            _isReadyClick = false;
+            _popupButtonMono.DisablePopup();
+
+            foreach (var imageActionButton in _graphicsButtonElements)
+            {
+                imageActionButton.color = _hideColor;
+            }
+
+            _actionButtonText.color = _hideColor;
+        }
+
         private void StartIconsActionAnimations()
         {
             switch (_currentStateVisualActionButton)
@@ -237,7 +258,11 @@ namespace CyberNet.Core.UI.ActionButton
             
             SoundAction.PlaySound?.Invoke(_click_button_sfx);
             _animancer.Play(_hide_button, fade_fast_duration_animations);
+            HideIconsActionAnimations();
+            _popupButtonMono.ForceClosePopup();
 
+            IsEnableButton = false;
+            
             await Task.Delay(330);
             _buttonClickEvent?.Invoke();
         }

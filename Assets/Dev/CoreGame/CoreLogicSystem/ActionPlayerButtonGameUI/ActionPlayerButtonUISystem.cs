@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.EndTurnWarningPopup;
 using CyberNet.Global;
 using DG.Tweening;
 using CyberNet.Core.UI.ActionButton;
@@ -24,14 +25,22 @@ namespace CyberNet.Core.UI
         {
             RoundAction.EndCurrentTurn += HideButton;
             RoundAction.StartTurn += UpdateButton;
+            
             ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
             ActionPlayerButtonEvent.ClickActionButton += ClickActionButton;
+            ActionPlayerButtonEvent.ForceEndRound += EndTurn;
             ActionPlayerButtonEvent.ActionEndTurnBot += EndTurn;
         }
 
         public void Init()
         {
-            HideButton();
+            ForceHideActionButton();
+        }
+
+        private void ForceHideActionButton()
+        {
+            var actionButton = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
+            actionButton.ForceHideActionButton();
         }
         
         private void UpdateButton()
@@ -55,8 +64,6 @@ namespace CyberNet.Core.UI
 
         private void UpdateViewEnableButton()
         {
-            Debug.LogError("Update UI");
-            
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
             var boardGameRule = _dataWorld.OneData<BoardGameData>().BoardGameRule;
@@ -81,7 +88,6 @@ namespace CyberNet.Core.UI
             
             if (playAllCard)
             {
-                Debug.LogError("Play all");
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
                 
                 coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.PlayAll);
@@ -90,19 +96,16 @@ namespace CyberNet.Core.UI
             }
             else
             {
-                Debug.LogError("End round");
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
                 coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.EndTurn);
                 coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
 
                 if (endRoundNoActive)
                 {
-                    Debug.LogError("end round no active");
                     coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsNotReadyButtonClick();
                 }
                 else
                 {
-                    Debug.LogError("end round active");
                     coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
                 }
             }
@@ -141,13 +144,48 @@ namespace CyberNet.Core.UI
         private void ClickActionButton()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
-            
+
             if (actionPlayer.ActionPlayerButtonType == ActionPlayerButtonType.PlayAll)
-                PlayAll();
-            else
             {
-                EndTurn();
+                PlayAll();
             }
+            else if (actionPlayer.ActionPlayerButtonType == ActionPlayerButtonType.EndTurn)
+            {
+                var isOpenWarningPopup = СheckingPlayerHasAnyActionsLeft();
+                
+                if (!isOpenWarningPopup)
+                    EndTurn();
+            }
+        }
+
+        private bool СheckingPlayerHasAnyActionsLeft()
+        {
+            var isActionPlayerLeft = false;
+            
+            var roundData = _dataWorld.OneData<RoundData>();
+            var cardInHandCount = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == roundData.CurrentPlayerID)
+                .With<CardHandComponent>()
+                .Count();
+
+            if (cardInHandCount > 0)
+            {
+                EndTurnWarningPopupAction.OpenPopupUnuseCard?.Invoke();
+                return true;
+            }
+                
+            var isFreeCardInTradeRow = _dataWorld.Select<CardComponent>()
+                .With<CardTradeRowComponent>()
+                .With<CardFreeToBuyComponent>()
+                .Count() > 0;
+
+            if (isFreeCardInTradeRow)
+            {
+                EndTurnWarningPopupAction.OpenPopupUnuseMoney?.Invoke();
+                return true;
+            }
+
+            return false;
         }
         
         private void PlayAll()
@@ -175,11 +213,10 @@ namespace CyberNet.Core.UI
                 }
                 
                 entity.AddComponent(new CardStartMoveToTableComponent());
+                entity.AddComponent(new CardPlayAllComponent());
             }
             
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
-            
-            UpdateButton();
         }
 
         private void EndTurn()
@@ -225,6 +262,7 @@ namespace CyberNet.Core.UI
             RoundAction.StartTurn -= UpdateButton;
             ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
             ActionPlayerButtonEvent.ClickActionButton -= ClickActionButton;
+            ActionPlayerButtonEvent.ForceEndRound -= EndTurn;
             ActionPlayerButtonEvent.ActionEndTurnBot -= EndTurn;
         }
     }

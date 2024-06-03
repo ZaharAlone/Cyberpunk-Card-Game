@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.EndTurnWarningPopup;
 using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.UI.ActionButton;
 using CyberNet.Core.UI.CorePopup;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,6 +41,10 @@ namespace  CyberNet.Core.UI
         public GameObject EnemyPassportContainer;
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
         public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
+
+        [Header("End Turn popup")]
+        [Required]
+        public EndTurnWarningPopupUIMono EndTurnWarningPopupUIMono;
         
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {

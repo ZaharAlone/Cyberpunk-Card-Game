@@ -80,16 +80,18 @@ namespace CyberNet.SaveSystem
         
         private void CreateNewSettings()
         {
-            ref var saveData = ref _dataWorld.OneData<SettingsData>();
-            saveData.AudioSettings = new AudioSettingsConfig();
-            saveData.ControlsSettings = new ControlsSettingsConfig();
-            saveData.VideoSettings = new VideoSettingsConfig();
-            saveData.GameSettings = new GameSettingsConfig();
+            ref var settingsData = ref _dataWorld.OneData<SettingsData>();
+            settingsData.AudioSettings = new AudioSettingsConfig();
+            settingsData.ControlsSettings = new ControlsSettingsConfig();
+            settingsData.VideoSettings = new VideoSettingsConfig();
+            settingsData.GameSettings = new GameSettingsConfig();
             
-            saveData.GameSettings.IsShowDistrickPopup = true;
-            saveData.AudioSettings.MasterVolume = 100;
-            saveData.AudioSettings.MusicVolume = 100;
-            saveData.AudioSettings.SFXVolume = 100;
+            settingsData.GameSettings.IsShowDistrickPopup = true;
+            settingsData.GameSettings.IsShowWarningPopupEndTurn = true;
+            
+            settingsData.AudioSettings.MasterVolume = 100;
+            settingsData.AudioSettings.MusicVolume = 100;
+            settingsData.AudioSettings.SFXVolume = 100;
             
             SaveSettings();
         }

@@ -37,10 +37,23 @@ namespace CyberNet.Core
             
             entity.RemoveComponent<AbilitySelectElementComponent>();
             entity.RemoveComponent<AbilityCardAddResourceComponent>();
+
+            if (entity.HasComponent<CardPlayAllComponent>())
+            {
+                entity.RemoveComponent<CardPlayAllComponent>();
+            }
+
+            var isSomeMoreCarPlayAll = _dataWorld.Select<CardPlayAllComponent>().Count() > 0;
+            
+            if (isSomeMoreCarPlayAll)
+                return;
+            
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
             
             var gameUI = _dataWorld.OneData<CoreGameUIData>();
             gameUI.BoardGameUIMono.TraderowMono.PlayEffectAddTradePoint();
+            
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         public void Deactivate()

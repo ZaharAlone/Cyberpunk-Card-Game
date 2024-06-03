@@ -28,6 +28,8 @@ namespace CyberNet.Core.UI.ActionButtonAnimations
         private Color32 _endColor;
         [SerializeField]
         private float _durationAnimations = 0.3f;
+        [SerializeField]
+        private float _durationFastReturnAnimations = 0.001f;
         
         [SerializeField]
         private float _durationHideAnimations = 0.25f;
@@ -52,11 +54,26 @@ namespace CyberNet.Core.UI.ActionButtonAnimations
         {
             _sequence.Kill();
             _sequence = DOTween.Sequence();
+            _imageIcons.color = _startColor;
+            _rectTransform.anchoredPosition = _basePositions;
             
             _sequence.Append(_rectTransform.DOAnchorPos(_endAnimationsPositions, _durationAnimations))
                 .Join(_imageIcons.DOColor(_endColor, _durationAnimations))
-                .Append(_rectTransform.DOAnchorPos(_startAnimationsPositions, 0.01f))
-                .Join(_imageIcons.DOColor(_startColor, 0.01f))
+                .OnComplete(() => MoveAnimationsButton());
+        }
+
+        private void MoveAnimationsButton()
+        {
+            _sequence.Kill();
+            _sequence = DOTween.Sequence();
+            
+            _imageIcons.color = _startColor;
+            _rectTransform.anchoredPosition = _startAnimationsPositions;
+            
+            _sequence.Append(_rectTransform.DOAnchorPos(_endAnimationsPositions, _durationAnimations))
+                .Join(_imageIcons.DOColor(_endColor, _durationAnimations))
+                .Append(_rectTransform.DOAnchorPos(_startAnimationsPositions, _durationFastReturnAnimations))
+                .Join(_imageIcons.DOColor(_startColor, _durationFastReturnAnimations))
                 .SetLoops(-1, LoopType.Restart);
         }
 
