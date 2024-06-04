@@ -76,11 +76,6 @@ namespace  CyberNet.Core.UI
             PlayerDownView.UnitCountText.text = unit.ToString();
             _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
         }
-        
-        public void OnClickActionButton()
-        {
-            ActionPlayerButtonEvent.ClickActionButton?.Invoke();
-        }
 
         public void SetCountCard(int discardCardCount, int drawDeckCount)
         {

@@ -85,10 +85,6 @@ namespace CyberNet.Core.UI.ActionButton
         [SerializeField]
         private EventReference _click_button_sfx;
         
-        [Header("Logic")]
-        [SerializeField]
-        private UnityEvent _buttonClickEvent;
-
         [HideInInspector]
         public bool IsEnableButton;
         
@@ -257,6 +253,15 @@ namespace CyberNet.Core.UI.ActionButton
             _lastClickTime = Time.unscaledTime;
             
             SoundAction.PlaySound?.Invoke(_click_button_sfx);
+
+            if (_currentStateVisualActionButton == ActionPlayerButtonType.EndTurn)
+            {
+                var isPlayerActionLeft = ActionPlayerButtonEvent.CheckPlayerHasAnyActionsLeft.Invoke();
+
+                if (isPlayerActionLeft)
+                    return;   
+            }
+            
             _animancer.Play(_hide_button, fade_fast_duration_animations);
             HideIconsActionAnimations();
             _popupButtonMono.ForceClosePopup();
@@ -264,7 +269,16 @@ namespace CyberNet.Core.UI.ActionButton
             IsEnableButton = false;
             
             await Task.Delay(330);
-            _buttonClickEvent?.Invoke();
+            ActionPlayerButtonEvent.ClickActionButton?.Invoke();
+        }
+
+        public void ForceHideButton()
+        {
+            _animancer.Play(_hide_button, fade_fast_duration_animations);
+            HideIconsActionAnimations();
+            _popupButtonMono.ForceClosePopup();
+
+            IsEnableButton = false;
         }
 
         public void OnDisable()

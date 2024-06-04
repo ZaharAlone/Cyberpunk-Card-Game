@@ -1109,6 +1109,8 @@ GameObject:
   - component: {fileID: 9181358915776191988}
   - component: {fileID: 1790705994317588045}
   - component: {fileID: 3215813522897739143}
+  - component: {fileID: 2749718951212773498}
+  - component: {fileID: 3781709557783904579}
   m_Layer: 5
   m_Name: popup_confirm_end_turn
   m_TagString: Untagged
@@ -1175,6 +1177,44 @@ MonoBehaviour:
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
+--- !u!223 &2749718951212773498
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525980519969288068}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 50
+  m_TargetDisplay: 0
+--- !u!114 &3781709557783904579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525980519969288068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 247
 --- !u!1 &534026400703287448
 GameObject:
   m_ObjectHideFlags: 0
@@ -39377,21 +39417,6 @@ MonoBehaviour:
       Data3: -1295622521
       Data4: -268090766
     Path: event:/VFX/UI/ui_click_button
-  _buttonClickEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7052803774897490898}
-        m_TargetAssemblyTypeName: CyberNet.Core.UI.CoreHUDUIMono, Assembly-CSharp
-        m_MethodName: OnClickActionButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   IsEnableButton: 0
 --- !u!1 &5432762256924976285
 GameObject:
@@ -46496,7 +46521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8235294}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
