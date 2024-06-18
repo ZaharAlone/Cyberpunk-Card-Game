@@ -46,14 +46,14 @@ namespace CyberNet.Core.UI.ActionButtonAnimations
         
         public void StartScaleAnimations()
         {
-            _sequence.Kill();
-            _sequence = DOTween.Sequence();
+            //_sequence.Kill();
+            //_sequence = DOTween.Sequence();
             _imageIcons.color = _startColor;
-            
+            /*
             _sequence.Append(_rectTransform.DOScale(_bigScale, _durationAnimations))
                 .Append(_rectTransform.DOScale(_smallScale, _durationAnimations * 2))
                 .Append(_rectTransform.DOScale(_baseScale, _durationAnimations))
-                .SetLoops(-1, LoopType.Restart);
+                .SetLoops(-1, LoopType.Restart);*/
         }
 
         public void StopAnimations()

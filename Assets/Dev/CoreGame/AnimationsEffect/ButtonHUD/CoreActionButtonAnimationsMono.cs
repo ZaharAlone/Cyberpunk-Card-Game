@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Animancer;
-using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Arena.ArenaHUDUI;
 using CyberNet.Core.UI.ActionButtonAnimations;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
@@ -11,9 +10,7 @@ using I2.Loc;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.UI.ActionButton
@@ -143,7 +140,7 @@ namespace CyberNet.Core.UI.ActionButton
                     _endRoundActionButtonGO.SetActive(true);
                     break;
                 case ActionPlayerButtonType.Attack:
-                    _actionButtonLocText.Term = _endRoundLocalize.mTerm;
+                    _actionButtonLocText.Term = _attackLocalize.mTerm;
                     _attackActionButtonGO.SetActive(true);
                     break;
             }
@@ -153,7 +150,6 @@ namespace CyberNet.Core.UI.ActionButton
         
         public void SetAnimationsReadyClick()
         {
-            Debug.LogError("Ready click");
             _isReadyClick = true;
             _animancer.Play(_ready_click_animations, fade_duration_animations);
             StartIconsActionAnimations();
@@ -269,7 +265,11 @@ namespace CyberNet.Core.UI.ActionButton
             IsEnableButton = false;
             
             await Task.Delay(330);
-            ActionPlayerButtonEvent.ClickActionButton?.Invoke();
+
+            if (_currentStateVisualActionButton == ActionPlayerButtonType.Attack)
+                ArenaUIAction.ClickAttack?.Invoke();
+            else
+                ActionPlayerButtonEvent.ClickActionButton?.Invoke();   
         }
 
         public void ForceHideButton()

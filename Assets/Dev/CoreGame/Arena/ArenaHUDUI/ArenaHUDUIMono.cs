@@ -10,8 +10,6 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         private Transform _containerListCharacter;
 
         [SerializeField]
-        private GameObject _actionAttackButton;
-        [SerializeField]
         private GameObject _actionRetreatButton;
         
         [Header("Scale character avatar")]
@@ -105,21 +103,14 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
 
         public void ShowArenaUI(bool showRetreatButton = true)
         {
-            _actionAttackButton.SetActive(true);
             _actionRetreatButton.SetActive(showRetreatButton);
         }
         
         public void HideArenaUI()
         {
-            _actionAttackButton.SetActive(false);
             _actionRetreatButton.SetActive(false);
         }
-
-        public void OnClickAttack()
-        {
-            ArenaUIAction.ClickAttack?.Invoke();
-        }
-
+        
         public void OnClickRetreat()
         {
             ArenaUIAction.ClickRetreat?.Invoke();

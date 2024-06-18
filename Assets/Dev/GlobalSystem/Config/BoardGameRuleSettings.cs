@@ -28,5 +28,6 @@ namespace CyberNet
         [Header("Popup Action Button")]
         public string EndRoundPopup;
         public string PlayAllPopup;
+        public string AttackArenaPopup;
     }
 }

@@ -33,21 +33,6 @@ MonoBehaviour:
   OpenCardInShop: 5
   CountDropCard: 5
   CountNeutralUnitInTower: 2
-  ActionEndTurn_loc:
-    mTerm: CoreGame/$bg_end_turn_button
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  ActionPlayAll_loc:
-    mTerm: CoreGame/$bg_play_all_button
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  ActionEndTurn_image: {fileID: -353957088, guid: 95efd8ae8b6d4a44f90883933e343c4c,
-    type: 3}
-  ActionPlayAll_image: {fileID: 1583462850, guid: 95efd8ae8b6d4a44f90883933e343c4c,
-    type: 3}
   EndRoundPopup: popup_endTurn_bt
   PlayAllPopup: popup_playAll_bt
+  AttackArenaPopup: popup_attack_bt

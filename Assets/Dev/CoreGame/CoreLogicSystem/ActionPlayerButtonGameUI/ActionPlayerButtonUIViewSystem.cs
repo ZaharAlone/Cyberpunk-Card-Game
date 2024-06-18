@@ -27,6 +27,7 @@ namespace CyberNet.Core.UI
             RoundAction.StartTurn += UpdateButton;
             
             ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
+            ActionPlayerButtonEvent.SetViewArena += SetViewArena;
         }
 
         public void Init()
@@ -108,6 +109,20 @@ namespace CyberNet.Core.UI
             }
         }
 
+        private void SetViewArena()
+        {
+            ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
+            var ui = _dataWorld.OneData<CoreGameUIData>();
+            var boardGameRule = _dataWorld.OneData<BoardGameData>().BoardGameRule;
+            var coreHUDMono = ui.BoardGameUIMono.CoreHudUIMono;
+
+            actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.Attack;
+            
+            coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.Attack);
+            coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+            coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.AttackArenaPopup);
+        }
+
         private bool CheckOnlyCardScoutInHandPlayer()
         {
             var isOnlyScoutCard = true;
@@ -142,7 +157,9 @@ namespace CyberNet.Core.UI
         {
             RoundAction.EndCurrentTurn -= HideButton;
             RoundAction.StartTurn -= UpdateButton;
+            
             ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
+            ActionPlayerButtonEvent.SetViewArena -= SetViewArena;
         }
     }
 }

@@ -1,8 +1,6 @@
-using System;
 using I2.Loc;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.EndTurnWarningPopup
 {

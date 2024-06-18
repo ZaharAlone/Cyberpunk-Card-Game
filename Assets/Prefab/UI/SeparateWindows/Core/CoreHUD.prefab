@@ -39436,7 +39436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3282877732606896558
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39446,7 +39446,7 @@ RectTransform:
   m_GameObject: {fileID: 5432762256924976285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5661448590448752938}
@@ -39455,7 +39455,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 23}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7419429238730544794
 CanvasRenderer:
@@ -39508,16 +39508,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 3282877732606896558}
-  _imageIcons: {fileID: 0}
-  _baseScale: {x: 1, y: 1, z: 1}
-  _bigScale: {x: 1.1, y: 1.1, z: 1}
+  _imageIcons: {fileID: 7461064970651225545}
+  _baseScale: {x: 1.05, y: 1.05, z: 1.05}
+  _bigScale: {x: 1.2, y: 1.2, z: 1}
   _smallScale: {x: 0.9, y: 0.9, z: 1}
   _startColor:
     serializedVersion: 2
-    rgba: 0
+    rgba: 4294967295
   _endColor:
     serializedVersion: 2
-    rgba: 0
+    rgba: 16777215
   _durationAnimations: 1
   _durationHideAnimations: 0.25
 --- !u!1 &5613459623327217306
