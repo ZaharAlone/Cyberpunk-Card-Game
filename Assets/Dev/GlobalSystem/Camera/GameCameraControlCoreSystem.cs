@@ -75,7 +75,7 @@ namespace CyberNet.Global.GameCamera
                 return;
             
             var roundData = _dataWorld.OneData<RoundData>();
-            if (roundData.CurrentRoundState == RoundState.Arena)
+            if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
                 return;
             
             ref var camera = ref _dataWorld.OneData<GameCameraData>();

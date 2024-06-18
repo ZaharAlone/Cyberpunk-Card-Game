@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Edit leader
+  m_text: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4da7f049e659c6b48a70df192e624c6e, type: 2}
   m_sharedMaterial: {fileID: 7449432941636958804, guid: 4da7f049e659c6b48a70df192e624c6e,
@@ -210,10 +210,10 @@ RectTransform:
   m_Father: {fileID: 4675378671297505691}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 142.91, y: -45}
+  m_SizeDelta: {x: 111.82, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4799548068373305328
 CanvasRenderer:
@@ -864,18 +864,18 @@ MonoBehaviour:
   _button: {fileID: 5556747272600580996}
   _soundButtonClick:
     Guid:
-      Data1: -1356785192
-      Data2: 1208421540
-      Data3: 1785005475
-      Data4: 298067562
-    Path: event:/VFX/ui_cancel_button
+      Data1: -1759163603
+      Data2: 1198265191
+      Data3: 1693445761
+      Data4: -410033354
+    Path: event:/VFX/UI/LeaderInteractiveUI/AddLeaderSlot
   _soundButtonSelect:
     Guid:
-      Data1: 1881451933
-      Data2: 1209549807
-      Data3: -1295622521
-      Data4: -268090766
-    Path: event:/VFX/ui_click_button
+      Data1: -2001066440
+      Data2: 1271650258
+      Data3: -244087649
+      Data4: 1982928316
+    Path: event:/VFX/UI/ui_select_button
   _buttonClickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -1110,10 +1110,10 @@ RectTransform:
   m_Father: {fileID: 4675378671297505691}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 63}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 36, y: -45}
+  m_SizeDelta: {x: 72, y: 63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3890224458873065409
 CanvasRenderer:
@@ -2150,18 +2150,18 @@ MonoBehaviour:
   _button: {fileID: 4121949080017292423}
   _soundButtonClick:
     Guid:
-      Data1: -1356785192
-      Data2: 1208421540
-      Data3: 1785005475
-      Data4: 298067562
-    Path: event:/VFX/ui_cancel_button
+      Data1: -195753909
+      Data2: 1323407735
+      Data3: 1708290976
+      Data4: 1715396805
+    Path: event:/VFX/UI/LeaderInteractiveUI/RemoveLeaderSlot
   _soundButtonSelect:
     Guid:
       Data1: -2001066440
       Data2: 1271650258
       Data3: -244087649
       Data4: 1982928316
-    Path: event:/VFX/ui_select_button
+    Path: event:/VFX/UI/ui_select_button
   _buttonClickEvent:
     m_PersistentCalls:
       m_Calls:

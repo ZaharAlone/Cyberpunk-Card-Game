@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using CyberNet.Global.Sound;
 using DG.Tweening;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,11 +14,17 @@ namespace CyberNet.Core.Traderow
         private TextMeshProUGUI _tradeValueText;
         [SerializeField]
         private ParticleSystem _effectAddEuroDollar;
+        [SerializeField]
+        private EventReference _addEuroDollarSFX; 
+        
         public RectTransform TraderowContainer;
         public RectTransform TraderowContainerForCard;
 
         private Sequence _sequence;
         private float _timeAnimations = 0.5f;
+
+        private float _lastClickTime;
+        private const float delayBetweenClickHandling = 0.2f;
         
         public void Start()
         {
@@ -33,12 +41,20 @@ namespace CyberNet.Core.Traderow
             TraderowContainer.gameObject.gameObject.SetActive(true);
         }
         
-        public void SetTradeValue(int tradeValue, bool showVfx)
+        public void SetTradeValue(int tradeValue)
         {
             _tradeValueText.text = tradeValue.ToString();
+        }
 
-            if (showVfx)
-                _effectAddEuroDollar.Play();
+        public void PlayEffectAddTradePoint()
+        {
+            if (Time.unscaledTime - _lastClickTime - delayBetweenClickHandling <= float.Epsilon)
+                return;
+            
+            _lastClickTime = Time.unscaledTime;
+            
+            _effectAddEuroDollar.Play();
+            SoundAction.PlaySound?.Invoke(_addEuroDollarSFX);
         }
 
         public void ShowTraderowAnimations()

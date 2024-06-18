@@ -72,7 +72,7 @@ namespace CyberNet.Core
                     entity.AddComponent(new FirstBasePlayerComponent());
             }
             
-            CityAction.UpdatePlayerViewCity?.Invoke();
+            CityAction.UpdateTowerControlView?.Invoke();
         }
 
         private int InitStartUnitReturnCount(UnitZoneMono UnitZone)

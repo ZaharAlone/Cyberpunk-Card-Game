@@ -70,6 +70,18 @@ namespace CyberNet.Core.AbilityCard
             StartWorkAbility(guidCard);
             CityAction.SelectTower += SwitchNeutralUnitMapSelectTower;
         }
+
+        private void StartWorkAbility(string guidCard)
+        {
+            var abilityType = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity()
+                .GetComponent<AbilitySelectElementComponent>()
+                .AbilityCard.AbilityType;
+            
+            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
+        }
         
         private void SwitchNeutralUnitMapSelectTower(string towerGUID)
         {
@@ -87,24 +99,12 @@ namespace CyberNet.Core.AbilityCard
             CityAction.SelectTower -= SwitchNeutralUnitMapSelectTower;
             FinishWorkAbility();
         }
-        
+
         private void FinishWorkAbility()
         {
             AbilityCardAction.CurrentAbilityEndPlaying?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
-        }
-
-        private void StartWorkAbility(string guidCard)
-        {
-            var abilityType = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.GUID == guidCard)
-                .SelectFirstEntity()
-                .GetComponent<AbilitySelectElementComponent>()
-                .AbilityCard.AbilityType;
-            
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
-            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
         }
         
         public void Destroy()

@@ -25,14 +25,6 @@ namespace CyberNet
         public GameObject AnalyticsGO;
         public CardMono CardDestroy;
 
-        [Header("Element ability card")]
-        public Image IconsBaseAbility;
-        public TextMeshProUGUI TextBaseAbilityCountItem;
-        public Image IconsArrowConditionAbility;
-        public TextAbilityLocalizeMono TextBaseAbility;
-        public GameObject ItemIconsCounterCard;
-        public GameObject IconsArrowChooseAbility;
-
         [Header("Color Resource")]
         public Color32 ColorAttackText;
         public Color32 ColorTradeText;

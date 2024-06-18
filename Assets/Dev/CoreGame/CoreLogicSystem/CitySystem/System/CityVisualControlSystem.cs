@@ -17,7 +17,7 @@ namespace CyberNet.Core.City
         {
             CityAction.ShowFirstBaseTower += ShowFirstBaseTower;
             CityAction.HideFirstBaseTower += HideFirstBaseTower;
-            CityAction.UpdatePlayerViewCity += UpdateTowerControlView;
+            CityAction.UpdateTowerControlView += UpdateTowerControlView;
 
             CityAction.EnableInteractiveTower += EnableInteractiveTower;
             CityAction.DisableInteractiveTower += DisableInteractiveTower;
@@ -136,7 +136,7 @@ namespace CyberNet.Core.City
         {
             CityAction.ShowFirstBaseTower -= ShowFirstBaseTower;
             CityAction.HideFirstBaseTower -= HideFirstBaseTower;
-            CityAction.UpdatePlayerViewCity -= UpdateTowerControlView;
+            CityAction.UpdateTowerControlView -= UpdateTowerControlView;
 
             CityAction.EnableInteractiveTower -= EnableInteractiveTower;
             CityAction.DisableInteractiveTower -= DisableInteractiveTower;

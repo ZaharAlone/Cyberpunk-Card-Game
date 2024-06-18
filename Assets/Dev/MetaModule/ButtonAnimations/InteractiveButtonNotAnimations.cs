@@ -1,3 +1,4 @@
+using CyberNet.Global.Sound;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
@@ -35,7 +36,7 @@ namespace CyberNet.Meta
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            RuntimeManager.CreateInstance(_soundButtonSelect).start();
+            SoundAction.PlaySound?.Invoke(_soundButtonSelect);
         }
         
         public void OnSelect(BaseEventData eventData)
@@ -49,7 +50,7 @@ namespace CyberNet.Meta
         
         public void OnClicked()
         {
-            RuntimeManager.CreateInstance(_soundButtonClick).start();
+            SoundAction.PlaySound?.Invoke(_soundButtonClick);
             _buttonClickEvent?.Invoke();
         }
     }

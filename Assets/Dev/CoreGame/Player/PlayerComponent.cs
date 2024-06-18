@@ -9,9 +9,10 @@ namespace CyberNet.Core.Player
         
         public int UnitCount;
         public int CurrentCountControlTerritory;
-        public int CurrentCountControlBase;
-        public int PointAbilityPlayerCurrent;
-        public int PointAbilityPlayerMax;
+        
+        //Ability Leader
+        public int LeaderPointAbilityCurrent;
+        public int LeaderPointAbilityMax;
 
         public int PositionInTurnQueue;
     }

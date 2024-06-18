@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CyberNet.Core.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.EnemyPassport
@@ -31,7 +32,9 @@ namespace CyberNet.Core.EnemyPassport
         private GameObject _effectSelectPlayer;
         [SerializeField]
         private List<GameObject> DiscardCardImages = new List<GameObject>();
-        public PlayerPassportValueWinProgressUIMono EnemyPassportControlTerritoryView;
+        [FormerlySerializedAs("EnemyPassportControlTerritoryView")]
+        [SerializeField]
+        private PlayerPassportValueWinProgressUIMono _enemyPassportControlTerritoryView;
 
         private int _playerID;
         
@@ -58,6 +61,11 @@ namespace CyberNet.Core.EnemyPassport
             _countLeftUnitText.text = countUnit.ToString();
             _countCardInHandText.text = countCardHand.ToString();
             _countCardInDiscardText.text = countCardDiscard.ToString();
+        }
+
+        public void SetViewCountControlTerritory(int countBase)
+        {
+            _enemyPassportControlTerritoryView.SetCountValue(countBase);
         }
 
         public void OnSelectPlayer()

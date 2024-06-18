@@ -22,7 +22,7 @@ MonoBehaviour:
       Description: 
       Languages:
       - Ok
-      - "\u0425\u043E\u0440\u043E\u0448\u043E"
+      - "\u041E\u043A"
       - "\u306F\u3044"
       - 
       - 
@@ -228,6 +228,40 @@ MonoBehaviour:
       Languages:
       - or
       - "\u0438\u043B\u0438"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Global/$do_not_show
+      TermType: 0
+      Description: 
+      Languages:
+      - Yes. Don't show again
+      - "\u041D\u0435 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Global/
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - Enabled
       - 
       - 
       - 
@@ -1227,13 +1261,32 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: UIGame/$ui_confirm_endTurn_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Confirm end turn
+      - "\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0442\u044C
+        \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0438\u0435 \u0445\u043E\u0434\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     - Term: CorePopup/$neutral_scout_descr
       TermType: 0
       Description: 
       Languages:
       - Will bring you some <color=#f2e900>eurodollars</color>, but there are always
         not enough of them
-      - "\u041F\u0440\u0438\u043D\u0435\u0441\u0435\u0442 \u0432\u0430\u043C \u043D\u0435\u043C\u043D\u043E\u0433\u043E<color=#f2e900>\u0435\u0432\u0440\u043E\u0434\u043E\u043B\u043B\u0430\u0440\u043E\u0432</color>,
+      - "\u041F\u0440\u0438\u043D\u0435\u0441\u0435\u0442 \u0432\u0430\u043C \u043D\u0435\u043C\u043D\u043E\u0433\u043E
+        <color=#f2e900>\u0435\u0432\u0440\u043E\u0434\u043E\u043B\u043B\u0430\u0440\u043E\u0432</color>,
         \u0430 \u0438\u0445 \u0432\u0441\u0435\u0433\u0434\u0430 \u043D\u0435\u0445\u0432\u0430\u0442\u0430\u0435\u0442"
       - 
       - 
@@ -4110,6 +4163,122 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: CoreGame/$bg_use_one
+      TermType: 0
+      Description: 
+      Languages:
+      - 'Use one:'
+      - "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u043E\u0434\u043D\u043E:"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_end_turn_warning_header
+      TermType: 0
+      Description: 
+      Languages:
+      - End turn
+      - "\u0417\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C \u0445\u043E\u0434"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_end_turn_warning_card_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - You still have unplayed cards. Are you sure you want to end your turn?
+      - "\u0423 \u0432\u0430\u0441 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C
+        \u043D\u0435\u0441\u044B\u0433\u0440\u0430\u043D\u043D\u044B\u0435 \u043A\u0430\u0440\u0442\u044B.
+        \u0412\u044B \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435
+        \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C \u0441\u0432\u043E\u0439
+        \u0445\u043E\u0434?"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_end_turn_warning_money_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - You have unspent Eurodollars. Are you sure you want to end your turn?
+      - "\u0423 \u0432\u0430\u0441 \u043E\u0441\u0442\u0430\u043B\u0438\u0441\u044C
+        \u043D\u0435\u043F\u043E\u0442\u0440\u0430\u0447\u0435\u043D\u043D\u044B\u0435
+        \u0435\u0432\u0440\u043E\u0434\u043E\u043B\u043B\u0430\u0440\u044B. \u0412\u044B
+        \u0442\u043E\u0447\u043D\u043E \u0445\u043E\u0442\u0438\u0442\u0435 \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C
+        \u0441\u0432\u043E\u0439 \u0445\u043E\u0434?"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_saved_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Saved
+      - "\u0421\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u043E"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_dontShow_endTurn_warning_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - The confirmation window will no longer be shown. You can always return it
+        in the settings menu.
+      - "\u041E\u043A\u043D\u043E \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435
+        \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0435 \u0431\u0443\u0434\u0435\u0442
+        \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C\u0441\u044F.
+        \u0412\u044B \u0432\u0441\u0435\u0433\u0434\u0430 \u0441\u043C\u043E\u0436\u0435\u0442\u0435
+        \u0435\u0433\u043E \u0432\u0435\u0440\u043D\u0443\u0442\u044C \u0432 \u043C\u0435\u043D\u044E
+        \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043A."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     - Term: Dialogues/$character_april
       TermType: 0
       Description: 
@@ -5355,8 +5524,7 @@ MonoBehaviour:
       Description: 
       Languages:
       - AI
-      - "\u0418\u0441\u043A\u0443\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439
-        \u0438\u043D\u0442\u0435\u043B\u0435\u043A\u0442"
+      - "\u0418\u0418"
       - 
       - 
       - 
@@ -5474,9 +5642,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Armored vehicle
-      - "\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u0430\u044F
-        \u043C\u0430\u0448\u0438\u043D\u0430"
+      - Tiger
+      - "\u0422\u0438\u0433\u0440"
       - 
       - 
       - 
@@ -6008,10 +6175,9 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - <b>Kill</b> a fighter in the arena, the attack cannot be defended against
-      - "<b>\u0423\u0431\u0435\u0439\u0442\u0435</b> \u0431\u043E\u0439\u0446\u0430
-        \u043D\u0430 \u0430\u0440\u0435\u043D\u0435, \u043E\u0442 \u0430\u0442\u0430\u043A\u0438
-        \u043D\u0435\u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E \u0437\u0430\u0449\u0438\u0442\u0438\u0442\u044C\u0441\u044F"
+      - <b>Fatal shot</b> at a fighter
+      - "<b>\u0421\u043C\u0435\u0440\u0442\u0435\u043B\u044C\u043D\u044B\u0439</b>
+        \u0432\u044B\u0441\u0442\u0440\u0435\u043B \u0432 \u0431\u043E\u0439\u0446\u0430"
       - 
       - 
       - 
@@ -7152,15 +7318,15 @@ MonoBehaviour:
       Languages:
       - Indie Developer
       - "\u0418\u043D\u0434\u0438 \u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u0447\u0438\u043A"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
+      - Indie Developer
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_zakhar_name
@@ -7169,15 +7335,15 @@ MonoBehaviour:
       Languages:
       - Zakhar Cherviakov
       - "\u0417\u0430\u0445\u0430\u0440 \u0427\u0435\u0440\u0432\u044F\u043A\u043E\u0432"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
+      - Zakhar Cherviakov
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_alice_job_title
@@ -7186,15 +7352,15 @@ MonoBehaviour:
       Languages:
       - Translator
       - "\u041F\u0435\u0440\u0435\u0432\u043E\u0434\u0447\u0438\u043A"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Translator
+      - Translator
+      - Translator
+      - Translator
+      - Translator
+      - Translator
+      - Translator
+      - Translator
+      - Translator
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_alice_job_name
@@ -7203,15 +7369,15 @@ MonoBehaviour:
       Languages:
       - Alice Gerber
       - "\u0410\u043B\u0438\u0441\u0430 \u0413\u0435\u0440\u0431\u0435\u0440"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
+      - Alice Gerber
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_special_thanks
@@ -7220,15 +7386,15 @@ MonoBehaviour:
       Languages:
       - Special thanks
       - "\u041E\u0441\u043E\u0431\u0430\u044F \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u043D\u043E\u0441\u0442\u044C"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
+      - Special thanks
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_sergey
@@ -7237,15 +7403,15 @@ MonoBehaviour:
       Languages:
       - Sergey Dyuchkov
       - "\u0421\u0435\u0440\u0433\u0435\u0439 \u0414\u044E\u0447\u043A\u043E\u0432"
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
+      - Sergey Dyuchkov
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: Credits/$credits_framework
@@ -7254,15 +7420,49 @@ MonoBehaviour:
       Languages:
       - Framework
       - Framework
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      - Framework
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Credits/$credits_sound_designer_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Sound Designer
+      - "\u0417\u0432\u0443\u043A\u043E\u0440\u0435\u0436\u0438\u0441\u0441\u0435\u0440"
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      - Sound Designer
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Credits/$credits_sound_designer_name
+      TermType: 0
+      Description: 
+      Languages:
+      - Igor Chugarinov
+      - "\u0418\u0433\u043E\u0440\u044C \u0427\u0443\u0433\u0430\u0440\u0438\u043D\u043E\u0432"
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
+      - Igor Chugarinov
       Flags: 0000000000000000000000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -7307,7 +7507,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1714024978448
+    Google_LastUpdatedVersion: 1717478586375
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 2

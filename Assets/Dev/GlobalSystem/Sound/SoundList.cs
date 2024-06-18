@@ -1,5 +1,6 @@
 using FMODUnity;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Global.Sound
 {
@@ -8,7 +9,8 @@ namespace CyberNet.Global.Sound
     {
         [Header("Music")]
         public EventReference BackgroundMusicMainMenu;
-        public EventReference BackgroundMusicMap;
+        public EventReference BackgroundAmbientMap;
+        public EventReference BackgroundAmbientMapRain;
         public EventReference BackgroundMusicBattleArena;
 
         [Header("UI")]

@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Core.AbilityCard;
 
 namespace CyberNet.Core
 {
@@ -6,5 +7,7 @@ namespace CyberNet.Core
     {
         //Utils
         public static Func<CardComponent, int> CalculateHowManyAbilitiesAvailableForSelection;
+        public static Func<AbilityType, bool> CheckAbilityIsPlayingOnlyArena;
+        public static Func<AbilityType, bool> CheckAbilityIsPlayingOnlyMap;
     }
 }

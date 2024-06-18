@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using FMODUnity;
+using UnityEngine;
 
 namespace CyberNet.Global.Sound
 {
@@ -11,10 +12,14 @@ namespace CyberNet.Global.Sound
     {
         private DataWorld _dataWorld;
 
+        private const float coreAmbientTimeDuration = 113f;
+
         public void PreInit()
         {
             SoundAction.PlaySound += PlaySound;
             SoundAction.PlayMusic += PlayMusic;
+            SoundAction.StartCoreMusic += StartCoreMusic;
+            SoundAction.StartLoadingCore += StartLoadingCore;
         }
         
         public void Init()
@@ -32,6 +37,7 @@ namespace CyberNet.Global.Sound
         private void PlayMusic(EventReference sound)
         {
             ref var soundData = ref _dataWorld.OneData<SoundData>();
+            
             if (soundData.CurrentBackgroundMusic.isValid())
                 soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             
@@ -48,10 +54,49 @@ namespace CyberNet.Global.Sound
             PlayMusic(soundData.BackgroundMusicMainMenu);
         }
 
+        private void StartCoreMusic()
+        {
+            ref var soundData = ref _dataWorld.OneData<SoundData>();
+
+            var weightDropAmbientSoundRain = soundData.WeightDropAmbientSoundRainInCore;
+            var weightDropAmbientBaseSound = 1;
+
+            var randomSelectAmbient = Random.Range(0, (weightDropAmbientBaseSound + weightDropAmbientSoundRain));
+
+            if (randomSelectAmbient <= weightDropAmbientBaseSound)
+            {
+                PlayMusic(soundData.Sound.BackgroundAmbientMap);
+                soundData.WeightDropAmbientSoundRainInCore += 1;
+            }
+            else
+            {
+                PlayMusic(soundData.Sound.BackgroundAmbientMapRain);
+                soundData.WeightDropAmbientSoundRainInCore = 0;
+            }
+            
+            _dataWorld.NewEntity().AddComponent(new TimeComponent
+            {
+                Time = coreAmbientTimeDuration,
+                Action = () => StartCoreMusic(),
+            });
+        }
+
+        private void StartLoadingCore()
+        {
+            var soundData = _dataWorld.OneData<SoundData>();
+
+            if (soundData.CurrentBackgroundMusic.isValid())
+            {
+                soundData.CurrentBackgroundMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
+        }
+
         public void Destroy()
         {
             SoundAction.PlaySound -= PlaySound;
             SoundAction.PlayMusic -= PlayMusic;
+            SoundAction.StartCoreMusic -= StartCoreMusic;
+            SoundAction.StartLoadingCore -= StartLoadingCore;
         }
     }
 }

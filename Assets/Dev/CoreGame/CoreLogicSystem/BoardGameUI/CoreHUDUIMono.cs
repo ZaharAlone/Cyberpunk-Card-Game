@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.EndTurnWarningPopup;
 using CyberNet.Core.EnemyPassport;
+using CyberNet.Core.UI.ActionButton;
 using CyberNet.Core.UI.CorePopup;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace  CyberNet.Core.UI
@@ -15,14 +19,10 @@ namespace  CyberNet.Core.UI
         [SerializeField]
         private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
         [SerializeField]
-        private PlayerPassportValueWinProgressUIMono _playerPassportCountBaseView;
-        [SerializeField]
         private GameObject _playerVfxDownCard;
-        
+
         [Header("Action Button")]
-        public GameObject ActionButton;
-        public TextMeshProUGUI ActionButtonText;
-        public Image ActionButtonImage;
+        public CoreActionButtonAnimationsMono CoreActionButtonAnimationsMono;
         public CoreElementInfoPopupButtonMono PopupActionButton;
 
         [Header("Ability Button")]
@@ -30,15 +30,21 @@ namespace  CyberNet.Core.UI
         
         [Header("Draw and Discard")]
         public RectTransform DownDiscard;
-        public TextMeshProUGUI DownDiscardCount;
+        [SerializeField]
+        private DeckButtonViewMono _discardDeckView;
         public RectTransform DownDeck;
-        public TextMeshProUGUI DownDeckCount;
+        [SerializeField]
+        private DeckButtonViewMono _drawDeckView;
         public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
         public GameObject EnemyPassportContainer;
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
         public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
+
+        [Header("End Turn popup")]
+        [Required]
+        public EndTurnWarningPopupUIMono EndTurnWarningPopupUIMono;
         
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {
@@ -65,45 +71,16 @@ namespace  CyberNet.Core.UI
             }
         }
         
-        public void SetMainPassportViewStats(int unit, int countControlTerritory, int countBase)
+        public void SetMainPassportViewStats(int unit, int countControlTerritory)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
             _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
-            _playerPassportCountBaseView.SetCountValue(countBase);
-        }
-        
-        public void SetInteractiveButton(string text, Sprite sprite)
-        {
-            ActionButtonText.text = text;
-            ActionButtonImage.sprite = sprite;
-        }
-        
-        public void SetControlTerritoryEnemyView(int index, int value)
-        {
-            EnemyPassports[index].EnemyPassportControlTerritoryView.SetCountValue(value);
-        }
-        
-        public void ShowInteractiveButton()
-        {
-            ActionButton.SetActive(true);
-            AbilityButton.SetActive(true);
         }
 
-        public void HideInteractiveButton()
+        public void SetCountCard(int discardCardCount, int drawDeckCount)
         {
-            ActionButton.SetActive(false);
-            AbilityButton.SetActive(false);
-        }
-        
-        public void OnClickActionButton()
-        {
-            ActionPlayerButtonEvent.ClickActionButton?.Invoke();
-        }
-
-        public void SetCountCard(int discardCount, int deckCount)
-        {
-            DownDiscardCount.text = discardCount.ToString();
-            DownDeckCount.text = deckCount.ToString();
+            _drawDeckView.SetCountCardInDeck(drawDeckCount);
+            _discardDeckView.SetCountCardInDeck(discardCardCount);
         }
         
         public void OnClickOpenDrawDeckCard()

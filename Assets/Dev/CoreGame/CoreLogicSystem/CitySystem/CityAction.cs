@@ -11,7 +11,7 @@ namespace CyberNet.Core.City
         public static Action<string> EnableInteractiveTower;
         public static Action<string> DisableInteractiveTower;
         
-        public static Action UpdatePlayerViewCity;
+        public static Action UpdateTowerControlView;
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
         public static Action ViewAllAvailableTower;

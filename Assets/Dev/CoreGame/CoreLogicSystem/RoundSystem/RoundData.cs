@@ -1,5 +1,4 @@
 using CyberNet.Global;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core
 {
@@ -8,7 +7,7 @@ namespace CyberNet.Core
         public int CurrentRound;
         public int CurrentTurn;
         public int CurrentPlayerID;
-        public RoundState CurrentRoundState;
+        public GameStateMapVSArena CurrentGameStateMapVSArena;
         public PlayerOrAI playerOrAI;
         public bool PauseInteractive;
     }

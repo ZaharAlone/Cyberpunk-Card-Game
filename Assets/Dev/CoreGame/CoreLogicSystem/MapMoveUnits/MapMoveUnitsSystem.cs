@@ -208,7 +208,7 @@ namespace CyberNet.Core.Map
         private void StartArenaBattle()
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.CurrentRoundState = RoundState.Arena;
+            roundData.CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
             ref var arenaData = ref _dataWorld.OneData<ArenaData>();
             arenaData.IsShowVisualBattle = true;
             

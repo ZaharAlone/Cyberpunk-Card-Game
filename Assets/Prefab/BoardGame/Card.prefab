@@ -10533,7 +10533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
+    m_Left: 3
     m_Right: 0
     m_Top: 2
     m_Bottom: 0
@@ -11169,9 +11169,22 @@ MonoBehaviour:
   AbilityBlock_2_Container: {fileID: 3448599825264757834}
   AbilityBlock_3_Container: {fileID: 5608165077912883813}
   AbilityBlock_OneShot_Container: {fileID: 8895060829210314690}
-  ChooseOneHeader: {fileID: 8137681585476902194}
+  SelectOneCardHeaderGO: {fileID: 8137681585476902194}
+  SelectOneCardHeaderText: {fileID: 6983063425617207908}
   DivideLine: {fileID: 6867908222621578907}
   CountCardBlock: {fileID: 1982891973892826405}
+  _chooseOneCardHeaderLoc:
+    mTerm: CoreGame/$bg_choose_one
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  _useOneCardHeaderLoc:
+    mTerm: CoreGame/$bg_use_one
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
 --- !u!114 &1542057956704912690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11749,7 +11762,7 @@ GameObject:
   - component: {fileID: 1830122581260116789}
   - component: {fileID: 6983063425617207908}
   m_Layer: 0
-  m_Name: choose_one
+  m_Name: header_select_cards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
