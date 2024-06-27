@@ -47,5 +47,6 @@ namespace CyberNet.Global.Sound
         public EventReference Shoot;
         public EventReference HitUnit;
         public EventReference HitShield;
+        public EventReference HitWall;
     }
 }

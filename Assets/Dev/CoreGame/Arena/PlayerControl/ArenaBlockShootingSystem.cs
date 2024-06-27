@@ -81,6 +81,8 @@ namespace CyberNet.Core
 
             UnitOnShield();
 
+            _dataWorld.NewEntity().AddComponent(new UnitOnShieldComponent());
+
             ArenaAction.StartShootingPlayerWithShield?.Invoke();
         }
         

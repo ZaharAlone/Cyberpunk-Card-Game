@@ -52,11 +52,18 @@ MonoBehaviour:
   GUID: 
   UnitPointVFXMono: {fileID: 7316887603636735775}
   _unitCollider: {fileID: 3025744282753874056}
-  _animator: {fileID: 8095690758851972565}
+  _animancer: {fileID: 2150556801485376800}
   _unitTransform: {fileID: 3573394039186807555}
   _gun: {fileID: 556294541560825581}
   _granade: {fileID: 8860866132206097285}
   _shield: {fileID: 3492557881372813423}
+  _shoot_animations: {fileID: 7400000, guid: f4387a1e96900ca49bcf6a8e12546c57, type: 2}
+  _aim_animations: {fileID: -7208275881391685693, guid: 67697152b65d51d4db6d8b4fba544fef,
+    type: 3}
+  _idle_animations: {fileID: 7893181257524511124, guid: 794d716ec3c48f3438f4e0568f8c605b,
+    type: 3}
+  _hit_animations: {fileID: -203655887218126122, guid: d32432f2b69276c4a803b8dda002e109,
+    type: 3}
 --- !u!136 &3025744282753874056
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -728,6 +735,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb722bcf122d4ce0ad2166fb376f90d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2150556801485376800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241527039632998841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 8095690758851972565}
+  _ActionOnDisable: 0
 --- !u!1001 &5509996034119197993
 PrefabInstance:
   m_ObjectHideFlags: 0

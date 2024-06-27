@@ -83,12 +83,20 @@ namespace CyberNet.Core.Arena
                 .SelectFirstEntity();
             var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
             targetUnitComponent.UnitArenaMono.OffShield();
+
+            var isOnShield = _dataWorld.Select<UnitOnShieldComponent>()
+                .TrySelectFirstEntity(out var onShieldEntity);
+            
+            if (isOnShield)
+            {
+                onShieldEntity.Destroy();
+            }
             
             ArenaAction.FinishRound?.Invoke();
             ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
         }
         
-        public void ShootingGunPlayVFX()
+        private void ShootingGunPlayVFX()
         {
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaUnitCurrentComponent>()
@@ -96,8 +104,6 @@ namespace CyberNet.Core.Arena
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
             currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
 
-            UnitArenaAction.CreateBulletCurrentUnit?.Invoke();
-            
             var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
             SoundAction.PlaySound?.Invoke(soundShoot);
         }
@@ -106,6 +112,7 @@ namespace CyberNet.Core.Arena
         {
             UnitArenaAction.EndShootingAnimations -= EndShootingAnimations;
             UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
+            
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
         }
         

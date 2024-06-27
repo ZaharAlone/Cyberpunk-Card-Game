@@ -1,5 +1,4 @@
 using System;
-using CyberNet.Core.Arena.Bullet;
 
 namespace CyberNet.Core.Arena
 {
@@ -7,8 +6,8 @@ namespace CyberNet.Core.Arena
     {
         public static Action GunShootingVFX;
         public static Action EndShootingAnimations;
-        
-        public static Action CreateBulletCurrentUnit;
-        public static Action<BulletCollisionStruct> BulletCollision;
+
+        public static Action BulletCollisionUnit;
+        public static Action BulletCollisionNotUnit;
     }
 }

@@ -9,6 +9,7 @@ namespace CyberNet.Core.Arena
         private bool _isEnableStart;
         [SerializeField]
         private GameObject _weaponGO;
+        
         [SerializeField]
         private List<MeshRenderer> _meshRenderers = new List<MeshRenderer>();
         [SerializeField]
@@ -16,8 +17,6 @@ namespace CyberNet.Core.Arena
 
         [SerializeField]
         private Transform _shootingPoint;
-        [SerializeField]
-        private BulletMono _bullet;
 
         public void OnEnable()
         {
@@ -39,14 +38,6 @@ namespace CyberNet.Core.Arena
         public void PlayVFXAttack()
         {
             _vfxAttack.Play();
-        }
-
-        public BulletMono ShootingGunCreateBullet()
-        {
-            var bullet = Instantiate(_bullet);
-            bullet.transform.position = _shootingPoint.position;
-            bullet.transform.rotation = _shootingPoint.rotation;
-            return bullet;
         }
 
         public void StopVFXAttack()
