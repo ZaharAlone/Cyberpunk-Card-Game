@@ -134,6 +134,8 @@ namespace CyberNet.Core.AI.Arena
                 selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
                 selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
             
+                //UnitArenaAction.EndShootingAnimations += 
+                
                 ArenaAction.ArenaUnitStartShooting?.Invoke();
             }
             else

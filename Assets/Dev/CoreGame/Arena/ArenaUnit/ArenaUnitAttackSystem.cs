@@ -47,7 +47,7 @@ namespace CyberNet.Core.Arena
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.StartShootingAnimations();
+            currentUnitComponent.UnitArenaMono.OnShootingAnimations();
             
             UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
             UnitArenaAction.EndShootingAnimations += EndShootingAnimations;
@@ -56,6 +56,9 @@ namespace CyberNet.Core.Arena
         private async void ArenaUnitFinishAttack()
         {
             ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+
+            PlayIdleAnimationsEndAttackUnit();
+            
             //async for effect
             await Task.Delay(150);
 
@@ -77,6 +80,8 @@ namespace CyberNet.Core.Arena
         private void FinishBlockAttack()
         {
             ArenaAction.ArenaUnitFinishAttack -= FinishBlockAttack;
+
+            PlayIdleAnimationsEndAttackUnit();
             
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaSelectUnitForAttackComponent>()
@@ -88,12 +93,19 @@ namespace CyberNet.Core.Arena
                 .TrySelectFirstEntity(out var onShieldEntity);
             
             if (isOnShield)
-            {
                 onShieldEntity.Destroy();
-            }
             
             ArenaAction.FinishRound?.Invoke();
             ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
+        }
+
+        private void PlayIdleAnimationsEndAttackUnit()
+        {
+            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity();
+            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.OnIdleAnimations();
         }
         
         private void ShootingGunPlayVFX()

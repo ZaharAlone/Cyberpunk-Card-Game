@@ -37,6 +37,8 @@ namespace CyberNet.Core.Arena
 
         public void PlayVFXAttack()
         {
+            _vfxAttack.transform.position = _shootingPoint.position;
+            _vfxAttack.transform.rotation = _shootingPoint.rotation;
             _vfxAttack.Play();
         }
 

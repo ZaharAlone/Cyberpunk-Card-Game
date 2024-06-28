@@ -46,6 +46,8 @@ namespace CyberNet.Core.Arena
         [SerializeField]
         private AnimationClip _hit_animations;
 
+        private const float _fadeAnimationsDurations = 0.35f;
+
         public void OnEnable()
         {
             _animancer.Play(_idle_animations);
@@ -77,12 +79,17 @@ namespace CyberNet.Core.Arena
 
         public void OnAimAnimations()
         {
-            _animancer.Play(_aim_animations);
+            _animancer.Play(_aim_animations, _fadeAnimationsDurations);
         }
 
-        public void StartShootingAnimations()
+        public void OnShootingAnimations()
         {
-            _animancer.Play(_shoot_animations);
+            _animancer.Play(_shoot_animations, _fadeAnimationsDurations);
+        }
+
+        public void OnIdleAnimations()
+        {
+            _animancer.Play(_idle_animations, _fadeAnimationsDurations);
         }
         
         public void ShootingGunPlayVFX()
