@@ -58,16 +58,18 @@ namespace CyberNet.Core.Arena
                 }
             }
             
-            IssuePlayerControl(isControlPlayer);
+            SwitchPlayerControl(isControlPlayer);
             ManagingUnitColliders();
         }
 
-        private void IssuePlayerControl(bool isControlPlayer)
+        private void SwitchPlayerControl(bool isControlPlayer)
         {
             if (isControlPlayer)
             {
                 var controlPlayerEntity = _dataWorld.NewEntity();
                 controlPlayerEntity.AddComponent(new PlayerStageChoosesAnOpponentComponent());
+                
+                ArenaAction.SelectUnitEnemyTargetingPlayer?.Invoke();
             }
             else
             {

@@ -1,19 +1,11 @@
 using System.Threading.Tasks;
-using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.City;
-using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Player;
-using CyberNet.Core.UI;
-using CyberNet.Core.UI.CorePopup;
-using CyberNet.Global;
 using CyberNet.Global.Sound;
-using Input;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.Arena

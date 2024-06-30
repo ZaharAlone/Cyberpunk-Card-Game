@@ -17,7 +17,9 @@ namespace CyberNet.Core.Arena
     public class ArenaBattleStartEndSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        
+        private readonly Vector3 _arenaPosition = new Vector3(-150f, 0f, 200f);
+        
         public void PreInit()
         {
             ArenaAction.StartArenaBattle += StartArenaBattle;
@@ -26,15 +28,20 @@ namespace CyberNet.Core.Arena
         
         public void Init()
         {
+            CreateArenaStartCoreGame();
+        }
+
+        private void CreateArenaStartCoreGame()
+        {
             var arenaMonoPrefab = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ArenaMono;
             var arenaMonoInit = Object.Instantiate(arenaMonoPrefab);
-            arenaMonoInit.transform.position = new Vector3(-150, 0, 200);
+            arenaMonoInit.transform.position = _arenaPosition;
             
             var arenaData = new ArenaData {
-                ArenaMono = arenaMonoInit
+                ArenaMono = arenaMonoInit,
             };
             
-            _dataWorld.CreateOneData(arenaData);
+            _dataWorld.CreateOneData(arenaData);            
         }
         
         private void StartArenaBattle()
@@ -58,11 +65,12 @@ namespace CyberNet.Core.Arena
             cityData.CityMono.OffCityLight();
             
             ControlViewGameUI(true);
+            
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             PopupDistrictInfoAction.ClosePopup?.Invoke();
         }
         
-        public void ControlViewGameUI(bool isOpenArena)
+        private void ControlViewGameUI(bool isOpenArena)
         {
             var uiCoreMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             
