@@ -109,6 +109,7 @@ namespace CyberNet.Core
 
         private void AIBlockingShootingLogic()
         {
+            //TODO прочекать этот момент
             var aiIsBlockingShooting = ArenaAction.CheckReactionsShooting.Invoke();
 
             if (aiIsBlockingShooting)

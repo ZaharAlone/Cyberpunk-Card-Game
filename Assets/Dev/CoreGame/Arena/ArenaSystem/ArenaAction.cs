@@ -10,7 +10,6 @@ namespace CyberNet.Core.Arena
 
         public static Action UpdateRound;
 
-        public static Action ArenaUnitPlayerStartShooting;
         public static Action ArenaUnitAIStartShooting;
         public static Action ArenaUnitFinishAttack;
 

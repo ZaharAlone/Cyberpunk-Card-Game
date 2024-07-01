@@ -23,7 +23,6 @@ namespace CyberNet.Core.Arena
         public void PreInit()
         {
             ArenaUIAction.ClickAttack += PlayerStartShooting;
-            ArenaAction.ArenaUnitPlayerStartShooting += PlayerStartShooting;
             ArenaAction.ArenaUnitAIStartShooting += AIStartShooting;
         }
         
@@ -121,7 +120,6 @@ namespace CyberNet.Core.Arena
         
         public void Destroy()
         {
-            ArenaAction.ArenaUnitPlayerStartShooting -= PlayerStartShooting;
             ArenaUIAction.ClickAttack -= PlayerStartShooting;
             ArenaAction.ArenaUnitAIStartShooting -= AIStartShooting;
         }

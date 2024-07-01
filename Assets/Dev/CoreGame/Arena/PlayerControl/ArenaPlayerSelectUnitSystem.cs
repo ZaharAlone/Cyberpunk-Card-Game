@@ -23,6 +23,7 @@ namespace CyberNet.Core
             ArenaAction.SelectUnitEnemyTargetingPlayer += SelectUnitEnemyTargetingPlayer;
         }
 
+        //Находим первого противника и выбираем его как цель в начале раунда стрельбы игрока
         private void SelectUnitEnemyTargetingPlayer()
         {
             //Находим первого попавшегося противника на арене

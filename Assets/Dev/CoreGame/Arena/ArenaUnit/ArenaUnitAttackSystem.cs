@@ -6,6 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.City;
 using CyberNet.Global.Sound;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.Arena
@@ -23,14 +24,14 @@ namespace CyberNet.Core.Arena
         
         private void StartShootingPlayerWithoutShield()
         {
-            Shooting();
             ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
+            Shooting();
         }
 
         private void StartShootingPlayerWithShield()
         {
-            Shooting();
             ArenaAction.ArenaUnitFinishAttack += FinishBlockAttack;
+            Shooting();
         }
 
         private void Shooting()
@@ -41,7 +42,8 @@ namespace CyberNet.Core.Arena
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
             currentUnitComponent.UnitArenaMono.OnShootingAnimations();
             
-            UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
+            UnitArenaAction.GunStartShootingVFX += ShootingGunPlayVFX;
+            UnitArenaAction.GunShootingSFX += ShootingGunSFX;
             UnitArenaAction.EndShootingAnimations += EndShootingAnimations;
         }
 
@@ -107,7 +109,10 @@ namespace CyberNet.Core.Arena
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
             currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
+        }
 
+        private void ShootingGunSFX()
+        {
             var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
             SoundAction.PlaySound?.Invoke(soundShoot);
         }
@@ -115,7 +120,8 @@ namespace CyberNet.Core.Arena
         public void EndShootingAnimations()
         {
             UnitArenaAction.EndShootingAnimations -= EndShootingAnimations;
-            UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
+            UnitArenaAction.GunStartShootingVFX -= ShootingGunPlayVFX;
+            UnitArenaAction.GunShootingSFX -= ShootingGunSFX;
             
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
         }
