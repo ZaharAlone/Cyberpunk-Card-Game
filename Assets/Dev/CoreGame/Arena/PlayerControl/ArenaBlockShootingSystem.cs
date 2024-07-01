@@ -81,6 +81,8 @@ namespace CyberNet.Core
 
             UnitOnShield();
 
+            _dataWorld.NewEntity().AddComponent(new UnitOnShieldComponent());
+
             ArenaAction.StartShootingPlayerWithShield?.Invoke();
         }
         
@@ -107,6 +109,7 @@ namespace CyberNet.Core
 
         private void AIBlockingShootingLogic()
         {
+            //TODO прочекать этот момент
             var aiIsBlockingShooting = ArenaAction.CheckReactionsShooting.Invoke();
 
             if (aiIsBlockingShooting)

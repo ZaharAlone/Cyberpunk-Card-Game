@@ -10,7 +10,7 @@ namespace CyberNet.Core.Arena
 
         public static Action UpdateRound;
 
-        public static Action ArenaUnitStartShooting;
+        public static Action ArenaUnitAIStartShooting;
         public static Action ArenaUnitFinishAttack;
 
         public static Action FinishRound;
@@ -31,5 +31,7 @@ namespace CyberNet.Core.Arena
         public static Action StartShootingPlayerWithoutShield;
         public static Action StartShootingPlayerWithShield;
         public static Action StartInteractiveBlockingShooting;
+
+        public static Action SelectUnitEnemyTargetingPlayer;
     }
 }

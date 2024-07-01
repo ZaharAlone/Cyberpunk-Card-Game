@@ -60,7 +60,6 @@ namespace CyberNet.Core.EndTurnWarningPopup
         
         private void ForceConfirmEndTurn()
         {
-            Debug.LogError("force end round");
             ActionPlayerButtonEvent.ForceEndRound?.Invoke();
         }
         

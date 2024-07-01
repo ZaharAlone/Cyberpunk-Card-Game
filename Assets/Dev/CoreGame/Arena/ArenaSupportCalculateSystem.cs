@@ -3,8 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
+using CyberNet.Core.Arena.Support;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using Object = UnityEngine.Object;
@@ -15,7 +15,7 @@ namespace CyberNet.Core.Arena
     public class ArenaSupportCalculateSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        
         public void PreInit()
         {
             ArenaAction.CheckFinishArenaBattle += CheckEndRound;
@@ -100,23 +100,27 @@ namespace CyberNet.Core.Arena
                 .GetEntities();
 
             var positionInTurnQueue = 50;
+            var newCurrentPlayerID = 0;
+            
             foreach (var playerEntity in playersInBattleEntities)
             {
                 var playerComponent = playerEntity.GetComponent<PlayerArenaInBattleComponent>();
                 if (playerComponent.PositionInTurnQueue < positionInTurnQueue)
                 {
                     positionInTurnQueue = playerComponent.PositionInTurnQueue;
-                    
-                    roundData.PlayerControlEntity = playerComponent.PlayerControlEntity;
-                    roundData.CurrentPlayerID = playerComponent.PlayerID;
+                    newCurrentPlayerID = playerComponent.PlayerID;
                 }
             }
-
-            var currentPlayerID = roundData.CurrentPlayerID;
             
             var playerEntityCurrentRound = _dataWorld.Select<PlayerArenaInBattleComponent>()
-                .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == currentPlayerID)
+                .Where<PlayerArenaInBattleComponent>(player => player.PlayerID == newCurrentPlayerID)
                 .SelectFirstEntity();
+
+            var playerArenaComponent = playerEntityCurrentRound.GetComponent<PlayerArenaInBattleComponent>();
+            
+            roundData.PlayerControlEntity = playerArenaComponent.PlayerControlEntity;
+            roundData.CurrentPlayerID = playerArenaComponent.PlayerID;
+            
             playerEntityCurrentRound.AddComponent(new CurrentPlayerComponent());
         }
         
@@ -148,12 +152,14 @@ namespace CyberNet.Core.Arena
                 }
             }
 
+            var listPlayersPositionInTurnQueue = SortingPlayersInTurn(playersInBattle);
+
             foreach (var player in playersInBattle)
             {
                 var visualKeyPlayer = GetKeyPlayerVisual(player.PlayerControlEntity, player.PlayerID);
                 unitDictionary.TryGetValue(visualKeyPlayer, out var visualPlayer);
                 var avatar = GetAvatarPlayerVisual(player.PlayerControlEntity, player.PlayerID);
-                var positionInTurnQueue = GetPositionInTurnQueue(player.PlayerControlEntity, player.PlayerID, playersInBattle.Count);
+                var positionInTurnQueue = listPlayersPositionInTurnQueue.Find(playerInList => playerInList.PlayerID == player.PlayerID).PositionInTurnQueue;
                     
                 var playerBattleComponent = new PlayerArenaInBattleComponent
                 {
@@ -163,12 +169,12 @@ namespace CyberNet.Core.Arena
                     KeyCityVisual = visualKeyPlayer,
                     ColorVisual = visualPlayer.ColorUnit,
                     Avatar = avatar,
-                    PositionInTurnQueue = positionInTurnQueue
+                    PositionInTurnQueue = positionInTurnQueue,
                 };
                 _dataWorld.NewEntity().AddComponent(playerBattleComponent);
             }
         }
-        
+
         private string GetKeyPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             var visualKeyUnit = "";
@@ -188,7 +194,7 @@ namespace CyberNet.Core.Arena
             }
             return visualKeyUnit;
         }
-        
+
         private Sprite GetAvatarPlayerVisual(PlayerControlEntity PlayerControlEntity, int playerID)
         {
             Sprite avatar;
@@ -207,26 +213,48 @@ namespace CyberNet.Core.Arena
             }
             return avatar;
         }
-
-        private int GetPositionInTurnQueue(PlayerControlEntity PlayerControlEntity, int playerID, int countUnitInBattle)
-        {
-            var position = -1;
-            if (PlayerControlEntity == PlayerControlEntity.NeutralUnits)
-            {
-                position = countUnitInBattle - 1;
-            }
-            else
-            {
-                var playerEntity = _dataWorld.Select<PlayerComponent>()
-                    .Where<PlayerComponent>(player => player.PlayerID == playerID)
-                    .SelectFirstEntity();
-
-                var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-                position = playerComponent.PositionInTurnQueue;
-            }
-            return position;
-        }
         
+        private List<PlayersPositionInTurnQueue> SortingPlayersInTurn(List<PlayersInBattleStruct> playersInBattle)
+        {
+            var playersPositionInTurnQueue = new List<PlayersPositionInTurnQueue>();
+            var positionUnit = 1;
+
+            var currentRoundPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            
+            foreach (var player in playersInBattle)
+            {
+                if (player.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
+                {
+                    playersPositionInTurnQueue.Add(new PlayersPositionInTurnQueue()
+                    {
+                        PlayerID = player.PlayerID,
+                        PositionInTurnQueue = playersInBattle.Count - 1,
+                    });
+                }
+                else
+                {
+                    var currentPlayerPosition = positionUnit;
+
+                    if (currentRoundPlayerID == player.PlayerID)
+                    {
+                        currentPlayerPosition = 0;
+                    }
+                    else
+                    {
+                        positionUnit++;
+                    }
+                    
+                    playersPositionInTurnQueue.Add(new PlayersPositionInTurnQueue()
+                    {
+                        PlayerID = player.PlayerID,
+                        PositionInTurnQueue = currentPlayerPosition,
+                    });
+                }
+            }
+            
+            return playersPositionInTurnQueue;
+        }
+
         private void CreateUnitInArena()
         {
             var arenaData = _dataWorld.OneData<ArenaData>();

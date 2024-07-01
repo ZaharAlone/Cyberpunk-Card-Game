@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Arena;
+using CyberNet.Core.Player;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.Sound;
 using Input;
@@ -12,10 +13,31 @@ using Input;
 namespace CyberNet.Core
 {
     [EcsSystem(typeof(CoreModule))]
-    public class ArenaPlayerSelectUnitSystem : IRunSystem
+    public class ArenaPlayerSelectUnitSystem : IPreInitSystem, IRunSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private bool _isAim;
+
+        public void PreInit()
+        {
+            ArenaAction.SelectUnitEnemyTargetingPlayer += SelectUnitEnemyTargetingPlayer;
+        }
+
+        //Находим первого противника и выбираем его как цель в начале раунда стрельбы игрока
+        private void SelectUnitEnemyTargetingPlayer()
+        {
+            //Находим первого попавшегося противника на арене
+            var selectEnemyPlayerEntity = _dataWorld.Select<PlayerArenaInBattleComponent>()
+                .Without<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+            var selectEnemyPlayerComponent = selectEnemyPlayerEntity.GetComponent<PlayerArenaInBattleComponent>();
+
+            var selectEnemyUnitComponent = _dataWorld.Select<ArenaUnitComponent>()
+                .Where<ArenaUnitComponent>(unit => unit.PlayerControlID == selectEnemyPlayerComponent.PlayerID)
+                .SelectFirst<ArenaUnitComponent>();
+            
+            AimToUnit(selectEnemyUnitComponent.UnitArenaMono);
+        }
         
         public void Run()
         {
@@ -44,7 +66,7 @@ namespace CyberNet.Core
 
                     if (inputData.Click)
                     {
-                        ClickInUnit(unitArenaMono);
+                        AimToUnit(unitArenaMono);
                     }
                 }
                 else
@@ -58,7 +80,7 @@ namespace CyberNet.Core
             }
         }
 
-        private void ClickInUnit(UnitArenaMono unitMonoTarget)
+        private void AimToUnit(UnitArenaMono unitMonoTarget)
         {
             var colorsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.ColorsGameConfigSO;
             
@@ -91,6 +113,11 @@ namespace CyberNet.Core
 
             var soundAim = _dataWorld.OneData<SoundData>().Sound.AimGun;
             SoundAction.PlaySound?.Invoke(soundAim);
+        }
+
+        public void Destroy()
+        {
+            ArenaAction.SelectUnitEnemyTargetingPlayer -= SelectUnitEnemyTargetingPlayer;
         }
     }
 }

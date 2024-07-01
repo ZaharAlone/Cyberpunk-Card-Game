@@ -22,14 +22,15 @@ namespace CyberNet.Core.Arena
         
         public void PreInit()
         {
-            ArenaUIAction.ClickAttack += StartShooting;
-            ArenaAction.ArenaUnitStartShooting += StartShooting;
+            ArenaUIAction.ClickAttack += PlayerStartShooting;
+            ArenaAction.ArenaUnitAIStartShooting += AIStartShooting;
         }
         
-        private void StartShooting()
+        private void PlayerStartShooting()
         {
+            //TODO переписать, чтобы всегда был автовыбор цели
             var isEnemyAttack = _dataWorld.Select<ArenaSelectUnitForAttackComponent>()
-                .TrySelectFirstEntity(out var unitAttackEntity);
+                .Count() > 0;
 
             if (!isEnemyAttack)
             {
@@ -44,6 +45,11 @@ namespace CyberNet.Core.Arena
             }
             
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
+        }
+
+        private void AIStartShooting()
+        {
+            ArenaUnitAimToTargetUnit();
         }
         
         private void ArenaUnitAimToTargetUnit()
@@ -114,8 +120,8 @@ namespace CyberNet.Core.Arena
         
         public void Destroy()
         {
-            ArenaAction.ArenaUnitStartShooting -= StartShooting;
-            ArenaUIAction.ClickAttack -= StartShooting;
+            ArenaUIAction.ClickAttack -= PlayerStartShooting;
+            ArenaAction.ArenaUnitAIStartShooting -= AIStartShooting;
         }
     }
 }

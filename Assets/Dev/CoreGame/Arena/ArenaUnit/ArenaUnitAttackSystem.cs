@@ -1,18 +1,11 @@
 using System.Threading.Tasks;
-using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.Arena.ArenaHUDUI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.City;
-using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Player;
-using CyberNet.Core.UI;
-using CyberNet.Core.UI.CorePopup;
-using CyberNet.Global;
 using CyberNet.Global.Sound;
-using Input;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -31,14 +24,14 @@ namespace CyberNet.Core.Arena
         
         private void StartShootingPlayerWithoutShield()
         {
-            Shooting();
             ArenaAction.ArenaUnitFinishAttack += ArenaUnitFinishAttack;
+            Shooting();
         }
 
         private void StartShootingPlayerWithShield()
         {
-            Shooting();
             ArenaAction.ArenaUnitFinishAttack += FinishBlockAttack;
+            Shooting();
         }
 
         private void Shooting()
@@ -47,15 +40,19 @@ namespace CyberNet.Core.Arena
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
-            currentUnitComponent.UnitArenaMono.StartShootingAnimations();
+            currentUnitComponent.UnitArenaMono.OnShootingAnimations();
             
-            UnitArenaAction.GunShootingVFX += ShootingGunPlayVFX;
+            UnitArenaAction.GunStartShootingVFX += ShootingGunPlayVFX;
+            UnitArenaAction.GunShootingSFX += ShootingGunSFX;
             UnitArenaAction.EndShootingAnimations += EndShootingAnimations;
         }
 
         private async void ArenaUnitFinishAttack()
         {
             ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+
+            PlayIdleAnimationsEndAttackUnit();
+            
             //async for effect
             await Task.Delay(150);
 
@@ -77,27 +74,45 @@ namespace CyberNet.Core.Arena
         private void FinishBlockAttack()
         {
             ArenaAction.ArenaUnitFinishAttack -= FinishBlockAttack;
+
+            PlayIdleAnimationsEndAttackUnit();
             
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirstEntity();
             var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
             targetUnitComponent.UnitArenaMono.OffShield();
+
+            var isOnShield = _dataWorld.Select<UnitOnShieldComponent>()
+                .TrySelectFirstEntity(out var onShieldEntity);
+            
+            if (isOnShield)
+                onShieldEntity.Destroy();
             
             ArenaAction.FinishRound?.Invoke();
             ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
         }
+
+        private void PlayIdleAnimationsEndAttackUnit()
+        {
+            var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .With<ArenaUnitCurrentComponent>()
+                .SelectFirstEntity();
+            var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
+            currentUnitComponent.UnitArenaMono.OnIdleAnimations();
+        }
         
-        public void ShootingGunPlayVFX()
+        private void ShootingGunPlayVFX()
         {
             var currentUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaUnitCurrentComponent>()
                 .SelectFirstEntity();
             var currentUnitComponent = currentUnitEntity.GetComponent<ArenaUnitComponent>();
             currentUnitComponent.UnitArenaMono.ShootingGunPlayVFX();
+        }
 
-            UnitArenaAction.CreateBulletCurrentUnit?.Invoke();
-            
+        private void ShootingGunSFX()
+        {
             var soundShoot = _dataWorld.OneData<SoundData>().Sound.Shoot;
             SoundAction.PlaySound?.Invoke(soundShoot);
         }
@@ -105,7 +120,9 @@ namespace CyberNet.Core.Arena
         public void EndShootingAnimations()
         {
             UnitArenaAction.EndShootingAnimations -= EndShootingAnimations;
-            UnitArenaAction.GunShootingVFX -= ShootingGunPlayVFX;
+            UnitArenaAction.GunStartShootingVFX -= ShootingGunPlayVFX;
+            UnitArenaAction.GunShootingSFX -= ShootingGunSFX;
+            
             ArenaAction.ArenaUnitFinishAttack?.Invoke();
         }
         

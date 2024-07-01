@@ -53,6 +53,11 @@
     "ability_0": {
       "action": "Trade",
       "count": 3
+    },
+    "ability_2": {
+      "action": "Trade",
+      "count": 2,
+      "condition": "Corporates"
     }
   },
   "corporates_director": {
@@ -83,14 +88,10 @@
     "image": "card_corporates_droid",
     "nations": "Corporates",
     "count": 2,
-    "price": 1,
+    "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "SwitchEnemyUnit",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "AddUnit",
       "count": 1
     }
   },
@@ -177,10 +178,6 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "SetIce",
-      "count": 1
-    },
-    "ability_1": {
       "action": "UnitMove",
       "count": 1
     }
@@ -317,9 +314,9 @@
     "header": "BoardGameCard/$bgc_guns_leader_name",
     "image": "card_guns_leader",
     "nations": "Guns",
-    "count": 4,
-    "price": 1,
-    "cyberpsychosis_count": 1,
+    "count": 2,
+    "price": 3,
+    "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "AddUnit",
       "count": 2
@@ -390,7 +387,7 @@
     "price": 2,
     "cyberpsychosis_count": 1,
     "ability_0": {
-      "action": "DestroyIce",
+      "action": "AddUnit",
       "count": 1
     },
     "ability_1": {
@@ -452,11 +449,6 @@
     "ability_1": {
       "action": "Trade",
       "count": 3
-    },
-    "ability_2": {
-      "action": "SetIce",
-      "count": 1,
-      "condition": "Netrunners"
     }
   },
   "netrunners_ai": {
@@ -529,7 +521,7 @@
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
-      "action": "DestroyIce",
+      "action": "AddUnit",
       "count": 1
     },
     "ability_1": {
@@ -569,10 +561,6 @@
     "cyberpsychosis_count": 1,
     "ability_0": {
       "action": "DestroyTradeCard",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "DestroyIce",
       "count": 1
     },
     "ability_2": {
@@ -838,17 +826,13 @@
   "nombads_raven": {
     "name": "nombads_raven",
     "header": "BoardGameCard/$bgc_nombads_raven_name",
-    "image": "card_nombads_raven",
+    "image": "card_nomads_raven",
     "nations": "Nomads",
     "count": 3,
     "price": 3,
     "cyberpsychosis_count": 2,
     "ability_0": {
       "action": "UnitMove",
-      "count": 1
-    },
-    "ability_1": {
-      "action": "SetIce",
       "count": 1
     },
     "ability_2": {

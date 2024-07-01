@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
+using Sirenix.Serialization;
 using UnityEngine;
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 using Sirenix.OdinInspector;
@@ -39,7 +42,7 @@ namespace Tools
                 var newComponent = new OnComponent();
                 newComponent.Component = component;
                 newComponent.IsCopy = true;
-
+                
                 Components.Add(newComponent);
             }
         }
@@ -63,6 +66,7 @@ namespace Tools
 
                     var isDouble = false;
                     var doubleComponent = new Component();
+                    
                     foreach (var targetComponent in TargetGO.GetComponents<Component>())
                     {
                         var targetComponentType = targetComponent.GetType();

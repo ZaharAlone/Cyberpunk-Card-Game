@@ -46,7 +46,7 @@ namespace CyberNet.Core.Arena
             selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.SetColor(colorsConfig.SelectWrongTargetRedColor, true);
             selectEnemyUnitComponent.UnitArenaMono.UnitPointVFXMono.EnableEffect();
             
-            ArenaAction.ArenaUnitStartShooting?.Invoke();
+            ArenaAction.ArenaUnitAIStartShooting?.Invoke();
         }
 
         public void Destroy()

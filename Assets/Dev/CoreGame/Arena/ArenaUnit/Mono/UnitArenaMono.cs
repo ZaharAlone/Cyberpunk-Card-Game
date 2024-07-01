@@ -1,4 +1,6 @@
+using Animancer;
 using CyberNet.Core.City;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CyberNet.Core.Arena
@@ -10,14 +12,18 @@ namespace CyberNet.Core.Arena
         [SerializeField]
         private Collider _unitCollider;
         
+        [Required]
         [SerializeField]
-        private Animator _animator;
+        private AnimancerComponent _animancer;
+        [Required]
         [SerializeField]
         private Transform _unitTransform;
 
         [Header("Unit weapon")]
+        [Required]
         [SerializeField]
         private UnitWeaponMono _gun;
+        [Required]
         [SerializeField]
         private UnitWeaponMono _granade;
         
@@ -25,14 +31,26 @@ namespace CyberNet.Core.Arena
         private GameObject _shield;
 
         private bool isShoot;
-        
-        private const string shooting_animations_trigger = "Shoot";
-        private const string aim_animations_trigger = "Aim";
-        private const string idle_animations_trigger = "Idle";
-        private const string hit_animations_trigger = "Hit";
+
+        [Header("Animations")]
+        [Required]
+        [SerializeField]
+        private AnimationClip _shoot_animations;
+        [Required]
+        [SerializeField]
+        private AnimationClip _aim_animations;
+        [Required]
+        [SerializeField]
+        private AnimationClip _idle_animations;
+        [Required]
+        [SerializeField]
+        private AnimationClip _hit_animations;
+
+        private const float _fadeAnimationsDurations = 0.35f;
 
         public void OnEnable()
         {
+            _animancer.Play(_idle_animations);
             OffShield();
         }
 
@@ -61,12 +79,17 @@ namespace CyberNet.Core.Arena
 
         public void OnAimAnimations()
         {
-            _animator.SetTrigger(aim_animations_trigger);
+            _animancer.Play(_aim_animations, _fadeAnimationsDurations);
         }
 
-        public void StartShootingAnimations()
+        public void OnShootingAnimations()
         {
-            _animator.SetTrigger(shooting_animations_trigger);
+            _animancer.Play(_shoot_animations, _fadeAnimationsDurations);
+        }
+
+        public void OnIdleAnimations()
+        {
+            _animancer.Play(_idle_animations, _fadeAnimationsDurations);
         }
         
         public void ShootingGunPlayVFX()
@@ -76,13 +99,7 @@ namespace CyberNet.Core.Arena
 
         public void HitAnimations()
         {
-            _animator.SetTrigger(hit_animations_trigger);
-        }
-
-        public BulletMono ShootingCreateBullet()
-        {
-            var bullet = _gun.ShootingGunCreateBullet();
-            return bullet;
+            _animancer.Play(_hit_animations);
         }
 
         public void OnShield()

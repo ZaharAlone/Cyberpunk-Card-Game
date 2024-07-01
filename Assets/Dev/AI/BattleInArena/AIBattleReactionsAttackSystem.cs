@@ -3,7 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
 using CyberNet.Core.AI;
 using CyberNet.Core.Arena;
 using CyberNet.Core.EnemyTurnView;
