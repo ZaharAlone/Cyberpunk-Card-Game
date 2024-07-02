@@ -3,11 +3,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.EndTurnWarningPopup;
 using CyberNet.Global;
-using DG.Tweening;
 using CyberNet.Core.UI.ActionButton;
-using UnityEngine;
 
 namespace CyberNet.Core.UI
 {

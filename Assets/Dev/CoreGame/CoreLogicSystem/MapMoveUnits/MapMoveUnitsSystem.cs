@@ -9,6 +9,7 @@ using CyberNet.Core.AI.Arena;
 using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using DG.Tweening;
@@ -16,14 +17,19 @@ using DG.Tweening;
 namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
-    public class MapMoveUnitsSystem : IPreInitSystem, IDestroySystem
+    public class MapMoveUnitsSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        
         public void PreInit()
         {
             MapMoveUnitsAction.StartMoveUnits += StartMoveUnit;
             MapMoveUnitsAction.StartArenaBattle += StartArenaBattle;
+        }
+        
+        public void Init()
+        {
+            _dataWorld.CreateOneData<MoveUnitZoneData>();
         }
         
         private void StartMoveUnit()
@@ -42,6 +48,7 @@ namespace CyberNet.Core.Map
                 .Where<UnitMapComponent>(unit => unit.GUIDTower == selectTowerForAttackGuid).Count();
 
             var targetSlotZone = 0;
+            
             if (countUnitEntityIsDefensePosition > 0)
             {
                 var entitiesUnitEntityIsDefensePosition = _dataWorld.Select<UnitMapComponent>()
@@ -88,6 +95,8 @@ namespace CyberNet.Core.Map
                     TargetTowerGUID = selectTowerForAttackGuid,
                     TargetSlotID = targetSlotZone
                 });
+
+                _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID = selectTowerForAttackGuid;
 
                 unitComponent.GUIDTower = selectTowerForAttackGuid;
                 unitComponent.IndexPoint = targetSlotZone;
@@ -192,6 +201,14 @@ namespace CyberNet.Core.Map
             
             if (!isMoveUnit)
             {
+                var isEnemyTargetZone = CheckIsEnemyInTargetMoveZone();
+
+                if (!isEnemyTargetZone)
+                {
+                    EndMoveWithoutBattle();
+                    return;
+                }
+                
                 var playerType = _dataWorld.OneData<RoundData>().playerOrAI;
 
                 if (playerType != PlayerOrAI.Player)
@@ -203,6 +220,46 @@ namespace CyberNet.Core.Map
                     StartArenaBattle();
                 }
             }
+        }
+
+        private bool CheckIsEnemyInTargetMoveZone()
+        {
+            var isEnemy = false;
+
+            var lastTargetTowerGUID = _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID;
+            if (lastTargetTowerGUID != "")
+            {
+                var unitsInTowerEntities = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == lastTargetTowerGUID)
+                    .GetEntities();
+
+                var currentPlayerID = _dataWorld.Select<PlayerComponent>()
+                    .With<CurrentPlayerComponent>()
+                    .SelectFirst<PlayerComponent>().PlayerID;
+
+                foreach (var unitEntity in unitsInTowerEntities)
+                {
+                    var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+
+                    if (unitComponent.PowerSolidPlayerID != currentPlayerID)
+                    {
+                        isEnemy = true;
+                        break;
+                    }
+                }
+            }
+
+            return isEnemy;
+        }
+
+        private void EndMoveWithoutBattle()
+        {
+            _dataWorld.OneData<RoundData>().PauseInteractive = false;
+            
+            CustomCursorAction.OnBaseCursor?.Invoke();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
+            CityAction.UpdateCanInteractiveMap?.Invoke();
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
         }
 
         private void StartArenaBattle()
@@ -237,6 +294,8 @@ namespace CyberNet.Core.Map
         {
             MapMoveUnitsAction.StartMoveUnits -= StartMoveUnit;
             MapMoveUnitsAction.StartArenaBattle -= StartArenaBattle;
+            
+            _dataWorld.RemoveOneData<MoveUnitZoneData>();
         }
     }
 }
