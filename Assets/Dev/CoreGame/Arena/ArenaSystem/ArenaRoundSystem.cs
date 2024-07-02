@@ -1,14 +1,7 @@
-using CyberNet.Core.AI.Arena;
-using CyberNet.Core.Arena.ArenaHUDUI;
-using CyberNet.Core.City;
-using CyberNet.Core.Player;
-using CyberNet.Core.UI;
-using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
 
 namespace CyberNet.Core.Arena
 {

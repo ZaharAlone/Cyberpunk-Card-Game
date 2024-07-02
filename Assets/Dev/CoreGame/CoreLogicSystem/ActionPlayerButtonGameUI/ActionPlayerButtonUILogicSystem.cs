@@ -2,8 +2,6 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.EndTurnWarningPopup;
 using CyberNet.Core.UI;

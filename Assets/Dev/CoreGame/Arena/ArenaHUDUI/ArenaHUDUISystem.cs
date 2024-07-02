@@ -62,8 +62,6 @@ namespace CyberNet.Core.Arena.ArenaHUDUI
         {
             var arenaUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ArenaHUDUIMono;
             arenaUI.HideArenaUI();
-            
-            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
 
         private void StartNewRoundUpdateOrderPlayer()

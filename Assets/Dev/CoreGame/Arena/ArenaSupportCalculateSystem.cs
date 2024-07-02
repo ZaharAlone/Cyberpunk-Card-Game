@@ -219,7 +219,7 @@ namespace CyberNet.Core.Arena
             var playersPositionInTurnQueue = new List<PlayersPositionInTurnQueue>();
             var positionUnit = 1;
 
-            var currentRoundPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            //var currentRoundPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
             foreach (var player in playersInBattle)
             {
@@ -233,16 +233,15 @@ namespace CyberNet.Core.Arena
                 }
                 else
                 {
+                    var playerComponent = _dataWorld.Select<PlayerComponent>()
+                        .Where<PlayerComponent>(playerComponent => playerComponent.PlayerID == player.PlayerID)
+                        .SelectFirstEntity();
                     var currentPlayerPosition = positionUnit;
 
-                    if (currentRoundPlayerID == player.PlayerID)
-                    {
+                    if (playerComponent.HasComponent<CurrentPlayerComponent>())
                         currentPlayerPosition = 0;
-                    }
                     else
-                    {
                         positionUnit++;
-                    }
                     
                     playersPositionInTurnQueue.Add(new PlayersPositionInTurnQueue()
                     {
