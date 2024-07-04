@@ -18,7 +18,7 @@ namespace CyberNet.Core.InteractiveCard
         public void PreInit()
         {
             InteractiveActionCard.StartInteractiveCard += DownClickCard;
-            InteractiveActionCard.FinishSelectAbilitycard += FinishSelectAbilityCard;
+            InteractiveActionCard.FinishSelectAbilityCard += FinishSelectAbilityCard;
         }
 
         private void DownClickCard(string guid)
@@ -79,22 +79,23 @@ namespace CyberNet.Core.InteractiveCard
         
         private void ApplyAbilityCard(string guid, VisualPlayingCardType visualPlayingCardType)
         {
-            var entity = _dataWorld.Select<CardComponent>()
+            var cardEntity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
 
-            var selectAbility = entity.GetComponent<CardAbilitySelectionCompletedComponent>();
+            var selectAbility = cardEntity.GetComponent<CardAbilitySelectionCompletedComponent>();
             
             if (visualPlayingCardType == VisualPlayingCardType.Table)
             {
                 if (selectAbility.OneAbilityInCard)
                 {
-                    AddMoveCardComponent(entity);
+                    AddMoveCardComponent(cardEntity);
                 }
                 else
                 {
-                    entity.AddComponent(new CardStartMoveToTableComponent());
-                    entity.RemoveComponent<CardComponentAnimations>();
+                    cardEntity.AddComponent(new CardStartMoveToTableComponent());
+                    cardEntity.RemoveComponent<CardComponentAnimations>();
+                    cardEntity.RemoveComponent<CardHandComponent>();
                     
                     AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
@@ -102,7 +103,7 @@ namespace CyberNet.Core.InteractiveCard
             }
             else if (visualPlayingCardType == VisualPlayingCardType.Target)
             {
-                entity.AddComponent(new SelectTargetCardAbilityComponent());
+                cardEntity.AddComponent(new SelectTargetCardAbilityComponent());
                 SelectTargetCardAbilityAction.SelectTarget?.Invoke();
                 AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
@@ -128,7 +129,7 @@ namespace CyberNet.Core.InteractiveCard
         public void Destroy()
         {
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
-            InteractiveActionCard.FinishSelectAbilitycard -= FinishSelectAbilityCard;
+            InteractiveActionCard.FinishSelectAbilityCard -= FinishSelectAbilityCard;
         }
     }
 }

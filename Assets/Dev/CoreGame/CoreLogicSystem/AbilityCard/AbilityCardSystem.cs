@@ -31,45 +31,52 @@ namespace CyberNet.Core.AbilityCard
         //Производим расчет карт, только когда выкладываем карты на стол
         private void CalculateValueCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<CardAbilitySelectionCompletedComponent>().GetEntities();
+            var cardInTableEntities = _dataWorld.Select<CardComponent>()
+                .With<CardAbilitySelectionCompletedComponent>()
+                .GetEntities();
 
-            foreach (var entity in entities)
+            foreach (var cardInTableEntity in cardInTableEntities)
             {
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
-                ref var cardTableComponent = ref entity.GetComponent<CardAbilitySelectionCompletedComponent>();
+                ref var cardComponent = ref cardInTableEntity
+                    .GetComponent<CardComponent>();
+                ref var cardSelectAbilityComponent = ref cardInTableEntity
+                    .GetComponent<CardAbilitySelectionCompletedComponent>();
 
-                if (!cardTableComponent.CalculateBaseAbility)
+                if (!cardSelectAbilityComponent.CalculateBaseAbility)
                 {
-                    cardTableComponent.CalculateBaseAbility = true;
-                    if (cardTableComponent.SelectAbility == SelectAbilityEnum.Ability_0)
-                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_0, entity);
+                    cardSelectAbilityComponent.CalculateBaseAbility = true;
+                    if (cardSelectAbilityComponent.SelectAbility == SelectAbilityEnum.Ability_0)
+                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_0, cardInTableEntity);
                     else
-                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_1, entity);
+                        AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_1, cardInTableEntity);
                 }
-
-                if (!cardTableComponent.CalculateComboAbility)
-                {
-                    CheckComboEffect(cardComponent, entities);   
-                }
+                
+                CheckComboEffect(cardInTableEntity);
             }
         }
         
-        private void CheckComboEffect(CardComponent cardComponent, EntitiesEnumerable entities)
+        private void CheckComboEffect(Entity currentCardEntity)
         {
-            //TODO: дописать скорее всего сейчас нифига не работает так как нет проверки условий
-            foreach (var entity in entities)
+            ref var currentCardComponent = ref currentCardEntity
+                .GetComponent<CardComponent>();
+
+            var cardInTableEntities = _dataWorld.Select<CardComponent>()
+                .With<CardAbilitySelectionCompletedComponent>()
+                .GetEntities();
+            
+            foreach (var cardInTableEntity in cardInTableEntities)
             {
-                ref var cardComponentDeck = ref entity.GetComponent<CardComponent>();
+                ref var cardComponent = ref cardInTableEntity.GetComponent<CardComponent>();
+                ref var cardSelectAbilityComponent = ref cardInTableEntity
+                    .GetComponent<CardAbilitySelectionCompletedComponent>();
                 
-                if (cardComponentDeck.GUID == cardComponent.GUID || cardComponentDeck.Nations == CardNations.Neutral)
+                if (cardComponent.GUID == currentCardComponent.GUID || cardComponent.Nations == CardNations.Neutral)
                     continue;
                 
-                if (cardComponentDeck.Nations == cardComponent.Nations)
+                if (cardComponent.Nations == currentCardComponent.Nations && !cardSelectAbilityComponent.CalculateComboAbility)
                 {
-                    AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_2, entity);
-                    ref var cardTableComponent = ref entity.GetComponent<CardAbilitySelectionCompletedComponent>();
-                    cardTableComponent.CalculateComboAbility = true;
-                    break;
+                    AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_2, cardInTableEntity);
+                    cardSelectAbilityComponent.CalculateComboAbility = true;
                 }
             }
         }

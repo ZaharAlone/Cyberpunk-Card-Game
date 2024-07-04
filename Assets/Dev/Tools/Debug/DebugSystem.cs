@@ -12,16 +12,17 @@ using UnityEngine.AddressableAssets;
 namespace CyberNet.Tools.DebugGame
 {
     [EcsSystem(typeof(DebugModule))]
-    public class DebugSystem : IPreInitSystem, IInitSystem, IDestroySystem
+    public class DebugSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
         public void PreInit()
         {
             DebugAction.GetCard += GetCard;
+            DebugAction.ReadyConfigCards += ReadyInitDebug;
         }
         
-        public void Init()
+        public void ReadyInitDebug()
         {
             LoadingUI();
         }
@@ -80,6 +81,7 @@ namespace CyberNet.Tools.DebugGame
         public void Destroy()
         {
             DebugAction.GetCard -= GetCard;
+            DebugAction.ReadyConfigCards -= ReadyInitDebug;
         }
     }
 }

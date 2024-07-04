@@ -49,6 +49,9 @@ namespace CyberNet.Core
                                                .GetEntities();
 
                 var id = SortingCard.ChooseNearestCard(cardEntities);
+                
+                if (id == 0)
+                    return;
                 AddCard(id, isShowView);
             }
 

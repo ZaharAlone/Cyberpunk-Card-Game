@@ -110,6 +110,14 @@ namespace CyberNet.Core.Arena
 
         public void Destroy()
         {
+            var controlPlayerEntities = _dataWorld.Select<PlayerStageChoosesAnOpponentComponent>()
+                .GetEntities();
+
+            foreach (var controlPlayer in controlPlayerEntities)
+            {
+                controlPlayer.Destroy();
+            }
+
             ArenaAction.UpdatePlayerInputsRound -= EnableControlPlayer;
         }
     }

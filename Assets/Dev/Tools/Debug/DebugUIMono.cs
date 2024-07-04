@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +10,12 @@ namespace CyberNet.Tools.DebugGame
     public class DebugUIMono : MonoBehaviour
     {
         [SerializeField]
+        [Required]
         private GameObject _panel;
         [SerializeField]
         private GameObject _debugButton;
         [SerializeField]
         private TMP_Dropdown _dropdown;
-        [SerializeField]
-        private TextMeshProUGUI _logs;
 
         private string logInfo;
         private List<string> _listCardGame;
@@ -24,15 +24,6 @@ namespace CyberNet.Tools.DebugGame
         public void OnEnable()
         {
             _panel.SetActive(false);
-            Application.logMessageReceived += ShowLog;
-        }
-        private void ShowLog(string condition, string stacktrace, LogType type)
-        {
-            if (type != LogType.Error)
-                return;
-            
-            logInfo += condition;
-            _logs.text = logInfo;
         }
 
         public void OnClickOpenDebug()
