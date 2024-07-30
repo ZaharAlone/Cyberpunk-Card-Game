@@ -3,7 +3,7 @@ namespace CyberNet.Core.BezierCurveNavigation
     public enum BezierTargetEnum
     {
         Tower,
-        Unit,
+        ArenaUnit,
         Card,
         Player
     }

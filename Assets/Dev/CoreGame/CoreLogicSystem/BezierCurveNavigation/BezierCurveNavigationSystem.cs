@@ -6,6 +6,7 @@ using Input;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CyberNet.Core.Arena;
 using CyberNet.Core.City;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
@@ -162,7 +163,8 @@ namespace CyberNet.Core.BezierCurveNavigation
                 case BezierTargetEnum.Tower:
                     CheckTowerTarget();
                     break;
-                case BezierTargetEnum.Unit:
+                case BezierTargetEnum.ArenaUnit:
+                    CheckArenaUnitTarget();
                     break;
                 case BezierTargetEnum.Card:
                     break;
@@ -198,6 +200,43 @@ namespace CyberNet.Core.BezierCurveNavigation
                 UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
             }
         }
+        
+        private void CheckArenaUnitTarget()
+        {
+            ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
+                .SelectFirstEntity()
+                .GetComponent<BezierCurveNavigationComponent>();
+            
+            var inputData = _dataWorld.OneData<InputData>();
+            var camera = _dataWorld.OneData<ArenaData>().ArenaMono.ArenaCameraMono.ArenaCamera;
+            var ray = camera.ScreenPointToRay(inputData.MousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
+            {
+                var unitArenaMono = hit.collider.gameObject.GetComponent<UnitArenaMono>();
+                
+                if (unitArenaMono)
+                {
+                    var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                        .Where<ArenaUnitComponent>(unit => unit.GUID == unitArenaMono.GUID)
+                        .SelectFirstEntity();
+
+                    var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
+
+                    var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
+                    var isCurrentTarget = targetUnitComponent.PlayerControlID != arenaRoundData.CurrentPlayerID;
+
+                    if (isCurrentTarget)
+                    {
+                        bezierComponent.GUIDTarget = targetUnitComponent.GUID;
+                        UpdateVisualBezierColor(BezierCurveStatusEnum.SelectWrongTarget);
+                        return;
+                    }
+                }
+
+                UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
+            }
+        }
 
         private void SelectPlayerPanel()
         {
@@ -223,6 +262,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             {
                 case BezierCurveStatusEnum.Base:
                     color = colorsConfig.BaseColor;
+                    bezierComponent.SelectTarget = false;
                     break;
                 case BezierCurveStatusEnum.SelectCurrentTarget:
                     color = colorsConfig.SelectCurrentTargetBlueColor;
@@ -232,9 +272,12 @@ namespace CyberNet.Core.BezierCurveNavigation
                         var soundSelectCurrentTarget = _dataWorld.OneData<SoundData>().Sound.SelectCurrentTargetInMap;
                         SoundAction.PlaySound?.Invoke(soundSelectCurrentTarget);
                     }
+                    
+                    bezierComponent.SelectTarget = true;
                     break;
                 case BezierCurveStatusEnum.SelectWrongTarget:
                     color = colorsConfig.SelectWrongTargetRedColor;
+                    bezierComponent.SelectTarget = true;
                     break;
             }
 

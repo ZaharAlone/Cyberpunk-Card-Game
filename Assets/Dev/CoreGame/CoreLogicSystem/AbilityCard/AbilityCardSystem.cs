@@ -149,6 +149,10 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SwitchNeutralUnitMap?.Invoke(guidCard);
                     break;
+                case AbilityType.HeadShot:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.HeadShot?.Invoke(guidCard);
+                    break;
 
                 /*
                 case AbilityType.AddNoiseCard:

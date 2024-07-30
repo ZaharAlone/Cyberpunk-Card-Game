@@ -1,10 +1,12 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Arena;
 using CyberNet.Core.Player;
 using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -48,14 +50,30 @@ namespace CyberNet.Core.UI
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
+            var currentPlayerID = roundData.CurrentPlayerID;
 
-            if (roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player)
+            var disableAllVFX = roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player;
+
+            if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
+            {
+                var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
+                currentPlayerID = arenaRoundData.CurrentPlayerID;
+
+                var currentPlayerIsControlHuman = _dataWorld.Select<PlayerComponent>()
+                    .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                    .SelectFirstEntity()
+                    .GetComponent<PlayerComponent>().playerOrAI == PlayerOrAI.Player;
+                
+                disableAllVFX = !currentPlayerIsControlHuman;
+            }
+            
+            if (disableAllVFX)
             {
                 DisableAllVFX();
             }
             else
             {
-                UpdateVFX(roundData.CurrentPlayerID);
+                UpdateVFX(currentPlayerID);
             }
         }
 

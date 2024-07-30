@@ -20,6 +20,7 @@ namespace CyberNet.Core.Arena
         {
             ArenaAction.StartShootingPlayerWithoutShield += StartShootingPlayerWithoutShield;
             ArenaAction.StartShootingPlayerWithShield += StartShootingPlayerWithShield;
+            ArenaAction.KillUnitGUID += KillUnitGUID;
         }
         
         private void StartShootingPlayerWithoutShield()
@@ -59,6 +60,23 @@ namespace CyberNet.Core.Arena
             var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
                 .With<ArenaSelectUnitForAttackComponent>()
                 .SelectFirstEntity();
+            
+            KillUnit(targetUnitEntity);
+
+            ArenaAction.FinishRound?.Invoke();
+            ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
+        }
+
+        private void KillUnitGUID(string guidTarget)
+        {
+            var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
+                .Where<ArenaUnitComponent>(unit => unit.GUID == guidTarget)
+                .SelectFirstEntity();
+            KillUnit(targetUnitEntity);
+        }
+        
+        private void KillUnit(Entity targetUnitEntity)
+        {
             var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
             var targetUnitMapComponent = targetUnitEntity.GetComponent<UnitMapComponent>();
 
@@ -66,9 +84,6 @@ namespace CyberNet.Core.Arena
             Object.DestroyImmediate(targetUnitMapComponent.UnitIconsGO);
 
             targetUnitEntity.Destroy();
-
-            ArenaAction.FinishRound?.Invoke();
-            ArenaUIAction.StartNewRoundUpdateOrderPlayer?.Invoke();
         }
         
         private void FinishBlockAttack()
@@ -131,6 +146,7 @@ namespace CyberNet.Core.Arena
             ArenaAction.StartShootingPlayerWithoutShield -= StartShootingPlayerWithoutShield;
             ArenaAction.StartShootingPlayerWithShield -= StartShootingPlayerWithShield;
             ArenaAction.ArenaUnitFinishAttack -= ArenaUnitFinishAttack;
+            ArenaAction.KillUnitGUID -= KillUnitGUID;
         }
     }
 }

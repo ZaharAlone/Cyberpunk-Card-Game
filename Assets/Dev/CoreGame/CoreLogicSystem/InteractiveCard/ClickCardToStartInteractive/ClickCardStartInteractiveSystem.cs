@@ -7,6 +7,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using Input;
+using UnityEngine;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -23,12 +24,13 @@ namespace CyberNet.Core.InteractiveCard
 
         private void DownClickCard(string guid)
         {
+            Debug.LogError("down click card");
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive || roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
+            if (roundData.PauseInteractive)
                 return;
             
             if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>())
@@ -39,6 +41,12 @@ namespace CyberNet.Core.InteractiveCard
             
             if (entity.HasComponent<CardHandComponent>())
             {
+                var cardComponent = entity.GetComponent<CardComponent>();
+                var isAbilityPlaying = AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection.Invoke(cardComponent) > 0;
+                
+                if (!isAbilityPlaying)
+                    return;
+                
                 CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
                 entity.AddComponent(new NeedToSelectAbilityCardComponent());
             }

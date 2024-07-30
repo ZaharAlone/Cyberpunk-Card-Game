@@ -60,6 +60,7 @@ namespace CyberNet.Core.Arena
             
             SwitchPlayerControl(isControlPlayer);
             ManagingUnitColliders();
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
         }
 
         private void SwitchPlayerControl(bool isControlPlayer)
@@ -70,9 +71,12 @@ namespace CyberNet.Core.Arena
                 controlPlayerEntity.AddComponent(new PlayerStageChoosesAnOpponentComponent());
                 
                 ArenaAction.SelectUnitEnemyTargetingPlayer?.Invoke();
+
+                _dataWorld.OneData<RoundData>().PauseInteractive = false;
             }
             else
             {
+                _dataWorld.OneData<RoundData>().PauseInteractive = true;
                 var controlPlayerQuery = _dataWorld.Select<PlayerStageChoosesAnOpponentComponent>();
                 if (controlPlayerQuery.Count() > 0)
                 {
