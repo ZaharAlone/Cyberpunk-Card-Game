@@ -6,5 +6,8 @@ namespace CyberNet.Core.Arena
     public class ArenaConfigSO : ScriptableObject
     {
         public ArenaContainerUICharacterMono ContainerAvatarUnitPrefab;
+
+        [Header("Select zone view")]
+        public GameObject SelectZoneGrenade;
     }
 }

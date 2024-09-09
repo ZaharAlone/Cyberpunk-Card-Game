@@ -1,5 +1,5 @@
 using System;
-namespace CyberNet.Core.AI
+namespace CyberNet.Core.AI.Ability
 {
     public static class AbilityAIAction
     {
@@ -12,6 +12,10 @@ namespace CyberNet.Core.AI
         public static Func<ItemValue> CalculatePotentialMoveUnitAttack;
         public static Func<ItemValue> CalculatePotentialMoveUnit;
         public static Action<string> AddUnitMap;
+        
+        //Battle
+        public static Action<string> Headshot;
+        public static Action<string> ThrowGrenade;
         
         //Not working
         public static Action<string> DestroyNeutralUnit;

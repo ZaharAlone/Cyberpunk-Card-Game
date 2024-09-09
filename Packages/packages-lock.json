@@ -15,11 +15,13 @@
       "hash": "6a1fef4150e708d1a1ab6d36dbdae3b0f1782479"
     },
     "com.jacklite.modules_framework_unity_package": {
-      "version": "https://github.com/JackLite/ModulesFrameworkUnityPackage.git",
+      "version": "https://github.com/JackLite/ModulesFrameworkUnityPackage.git#v1.3.0",
       "depth": 0,
       "source": "git",
-      "dependencies": {},
-      "hash": "fe7101ff59d39f7405deddc0838b60897e0f0fff"
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.11.4"
+      },
+      "hash": "f130b7f2544862c4078a0a4917e6ea144c162d8b"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -119,6 +121,13 @@
     },
     "com.unity.mathematics": {
       "version": "1.2.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.11.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {},

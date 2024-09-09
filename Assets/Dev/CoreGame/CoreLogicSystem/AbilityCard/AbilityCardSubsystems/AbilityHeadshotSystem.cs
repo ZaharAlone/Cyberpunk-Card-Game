@@ -4,14 +4,9 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System;
-using CyberNet.Core.AbilityCard.UI;
-using CyberNet.Core.AI;
+using CyberNet.Core.AI.Ability;
 using CyberNet.Core.Arena;
 using CyberNet.Core.BezierCurveNavigation;
-using CyberNet.Core.City;
-using CyberNet.Core.InteractiveCard;
-using CyberNet.Core.Player;
-using CyberNet.Core.UI;
 using CyberNet.Global;
 using Input;
 
@@ -33,11 +28,10 @@ namespace CyberNet.Core.AbilityCard
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
             {
-                //AbilityAIAction.HeadShot?.Invoke(guidCard);
+                AbilityAIAction.Headshot?.Invoke(guidCard);
                 return;
             }
             
-            Debug.LogError("Ability head shot");
             AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.HeadShot, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.ArenaUnit);
 
@@ -64,35 +58,22 @@ namespace CyberNet.Core.AbilityCard
                 {
                     ArenaAction.SelectUnitEnemyTargetingPlayer?.Invoke();
                 }
-
+                
                 EndPlayingCard();
             }
         }
 
         private void EndPlayingCard()
         {
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilityCardMoveUnitComponent>()
-                .SelectFirstEntity();
-
-            entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
-            entityCard.RemoveComponent<CardHandComponent>();
-            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
-            entityCard.RemoveComponent<CardComponentAnimations>();
-            entityCard.RemoveComponent<AbilitySelectElementComponent>();
-            
-            entityCard.AddComponent(new CardStartMoveToTableComponent());
-
-            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
-            
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
+            InputAction.LeftMouseButtonClick -= ClickMouse;
+            AbilityCardAction.CurrentAbilityEndPlaying?.Invoke();
+            BezierCurveNavigationAction.OffBezierCurve?.Invoke();
         }
 
         public void Destroy()
         {
             AbilityCardAction.HeadShot -= HeadShot;
+            InputAction.LeftMouseButtonClick -= ClickMouse;
         }
     }
 }

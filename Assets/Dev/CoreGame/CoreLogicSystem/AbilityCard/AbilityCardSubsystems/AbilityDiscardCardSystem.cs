@@ -1,4 +1,5 @@
 using CyberNet.Core.AI;
+using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
 using EcsCore;
 using ModulesFramework.Attributes;

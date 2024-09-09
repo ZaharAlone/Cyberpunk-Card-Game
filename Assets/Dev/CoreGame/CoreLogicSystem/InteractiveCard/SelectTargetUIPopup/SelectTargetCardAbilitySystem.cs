@@ -20,7 +20,7 @@ namespace CyberNet.Core.InteractiveCard
 
         public void PreInit()
         {
-            SelectTargetCardAbilityAction.SelectTarget += SelectTarget;
+            SelectTargetCardAbilityUIAction.SelectTarget += SelectTarget;
         }
 
         public void Run()
@@ -85,7 +85,7 @@ namespace CyberNet.Core.InteractiveCard
 
         public void Destroy()
         {
-            SelectTargetCardAbilityAction.SelectTarget -= SelectTarget;
+            SelectTargetCardAbilityUIAction.SelectTarget -= SelectTarget;
         }
     }
 }

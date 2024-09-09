@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CyberNet.Core.Arena.SelectZone;
 using UnityEngine;
 
 namespace CyberNet.Core.Arena
@@ -16,6 +17,8 @@ namespace CyberNet.Core.Arena
         private List<SlotUnit> _rightUnitPosition = new List<SlotUnit>();
         [SerializeField]
         private List<SlotUnit> _leftUnitPosition = new List<SlotUnit>();
+        
+        public SelectZoneBezierCurveMono SelectZoneBezierCurveMono;
 
         public void OnEnable()
         {

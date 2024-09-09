@@ -15,6 +15,7 @@ using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Meta;
+using ModulesFramework;
 
 namespace CyberNet.Server
 {
@@ -49,7 +50,7 @@ namespace CyberNet.Server
             PopupAction.CloseWaitPopup?.Invoke();
             var menu = _dataWorld.OneData<MetaUIData>();
             menu.UIGO.SetActive(false);
-            ModulesUnityAdapter.world.InitModule<CoreModule>(true);
+            MF.World.InitModule<CoreModule>(true);
             BoardGameUIAction.UpdateCountCardInHand?.Invoke();
         }
 

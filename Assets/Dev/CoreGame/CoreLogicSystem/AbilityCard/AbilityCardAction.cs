@@ -36,6 +36,7 @@ namespace CyberNet.Core.AbilityCard
         
         //Arena ability
         public static Action<string> HeadShot;
+        public static Action<string> ThrowGrenade;
 
         //Вспомогательные делегаты, общие для систем
         public static Action<string> AddTowerUnit;

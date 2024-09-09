@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Server;
+using ModulesFramework;
 using ModulesFrameworkUnity;
 
 namespace CyberNet.Meta.StartGame
@@ -46,7 +47,7 @@ namespace CyberNet.Meta.StartGame
         
         private void ConnectServer()
         {
-            ModulesUnityAdapter.world.InitModule<ServerModule>(true);
+            MF.World.InitModule<ServerModule>(true);
             ConnectServerAction.ConnectServer.Invoke();
         }
 

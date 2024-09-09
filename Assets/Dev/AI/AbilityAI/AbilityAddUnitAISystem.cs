@@ -10,7 +10,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 
-namespace CyberNet.Core.AI
+namespace CyberNet.Core.AI.Ability
 {
     [EcsSystem(typeof(CoreModule))]
     public class AbilityAddUnitAISystem : IPreInitSystem, IDestroySystem

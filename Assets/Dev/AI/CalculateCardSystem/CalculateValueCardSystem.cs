@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AI.Ability;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 

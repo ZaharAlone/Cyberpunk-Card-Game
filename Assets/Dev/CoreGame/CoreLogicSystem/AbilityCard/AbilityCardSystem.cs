@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -153,6 +154,10 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.HeadShot?.Invoke(guidCard);
                     break;
+                case AbilityType.Grenade:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.ThrowGrenade?.Invoke(guidCard);
+                    break;
 
                 /*
                 case AbilityType.AddNoiseCard:
@@ -202,6 +207,9 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.SetIce:
                     break;
                 case AbilityType.DestroyIce:
+                    break;
+                case AbilityType.HeadShot:
+                    BezierCurveNavigationAction.OffBezierCurve?.Invoke();
                     break;
             }
             

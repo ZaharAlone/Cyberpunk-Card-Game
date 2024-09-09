@@ -24,7 +24,6 @@ namespace CyberNet.Core.InteractiveCard
 
         private void DownClickCard(string guid)
         {
-            Debug.LogError("down click card");
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
@@ -109,10 +108,10 @@ namespace CyberNet.Core.InteractiveCard
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }
-            else if (visualPlayingCardType == VisualPlayingCardType.Target)
+            else if (visualPlayingCardType == VisualPlayingCardType.Target || visualPlayingCardType == VisualPlayingCardType.Zone)
             {
                 cardEntity.AddComponent(new SelectTargetCardAbilityComponent());
-                SelectTargetCardAbilityAction.SelectTarget?.Invoke();
+                SelectTargetCardAbilityUIAction.SelectTarget?.Invoke();
                 AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
         }
