@@ -6,5 +6,7 @@ namespace CyberNet.Core.BezierCurveNavigation
         public bool SelectTarget;
         public BezierCurveStatusEnum BezierCurveStatusEnum;
         public bool IsStartSubscriptionTarget;
+        
+        public string GUIDTarget;
     }
 }

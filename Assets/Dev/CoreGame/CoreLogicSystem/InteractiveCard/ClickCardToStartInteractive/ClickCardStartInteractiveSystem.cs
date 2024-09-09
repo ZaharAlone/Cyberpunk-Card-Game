@@ -7,6 +7,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using Input;
+using UnityEngine;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -18,7 +19,7 @@ namespace CyberNet.Core.InteractiveCard
         public void PreInit()
         {
             InteractiveActionCard.StartInteractiveCard += DownClickCard;
-            InteractiveActionCard.FinishSelectAbilitycard += FinishSelectAbilityCard;
+            InteractiveActionCard.FinishSelectAbilityCard += FinishSelectAbilityCard;
         }
 
         private void DownClickCard(string guid)
@@ -28,7 +29,7 @@ namespace CyberNet.Core.InteractiveCard
                 .SelectFirstEntity();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive || roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
+            if (roundData.PauseInteractive)
                 return;
             
             if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>())
@@ -39,6 +40,12 @@ namespace CyberNet.Core.InteractiveCard
             
             if (entity.HasComponent<CardHandComponent>())
             {
+                var cardComponent = entity.GetComponent<CardComponent>();
+                var isAbilityPlaying = AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection.Invoke(cardComponent) > 0;
+                
+                if (!isAbilityPlaying)
+                    return;
+                
                 CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
                 entity.AddComponent(new NeedToSelectAbilityCardComponent());
             }
@@ -79,31 +86,32 @@ namespace CyberNet.Core.InteractiveCard
         
         private void ApplyAbilityCard(string guid, VisualPlayingCardType visualPlayingCardType)
         {
-            var entity = _dataWorld.Select<CardComponent>()
+            var cardEntity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
 
-            var selectAbility = entity.GetComponent<CardAbilitySelectionCompletedComponent>();
+            var selectAbility = cardEntity.GetComponent<CardAbilitySelectionCompletedComponent>();
             
             if (visualPlayingCardType == VisualPlayingCardType.Table)
             {
                 if (selectAbility.OneAbilityInCard)
                 {
-                    AddMoveCardComponent(entity);
+                    AddMoveCardComponent(cardEntity);
                 }
                 else
                 {
-                    entity.AddComponent(new CardStartMoveToTableComponent());
-                    entity.RemoveComponent<CardComponentAnimations>();
+                    cardEntity.AddComponent(new CardStartMoveToTableComponent());
+                    cardEntity.RemoveComponent<CardComponentAnimations>();
+                    cardEntity.RemoveComponent<CardHandComponent>();
                     
                     AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }
-            else if (visualPlayingCardType == VisualPlayingCardType.Target)
+            else if (visualPlayingCardType == VisualPlayingCardType.Target || visualPlayingCardType == VisualPlayingCardType.Zone)
             {
-                entity.AddComponent(new SelectTargetCardAbilityComponent());
-                SelectTargetCardAbilityAction.SelectTarget?.Invoke();
+                cardEntity.AddComponent(new SelectTargetCardAbilityComponent());
+                SelectTargetCardAbilityUIAction.SelectTarget?.Invoke();
                 AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
         }
@@ -128,7 +136,7 @@ namespace CyberNet.Core.InteractiveCard
         public void Destroy()
         {
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
-            InteractiveActionCard.FinishSelectAbilitycard -= FinishSelectAbilityCard;
+            InteractiveActionCard.FinishSelectAbilityCard -= FinishSelectAbilityCard;
         }
     }
 }

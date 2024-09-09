@@ -3,6 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AI;
+using CyberNet.Core.AI.Ability;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using Object = UnityEngine.Object;
@@ -32,15 +33,11 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             }
             
             roundData.PauseInteractive = true;
-            var entityCard = _dataWorld.Select<CardComponent>()
-                .With<AbilitySelectElementComponent>().
-                SelectFirstEntity();
-            var targetCardGUID = entityCard.GetComponent<CardComponent>().GUID;
 
             var playerID = roundData.CurrentPlayerID;
             var entitiesCardInHand = _dataWorld.Select<CardComponent>()
                 .With<CardHandComponent>()
-                .Where<CardComponent>(card => card.GUID != targetCardGUID && card.PlayerID == playerID)
+                .Where<CardComponent>(card => card.GUID != guidCard && card.PlayerID == playerID)
                 .GetEntities();
             
             var entitiesCardsInTable = _dataWorld.Select<CardComponent>()

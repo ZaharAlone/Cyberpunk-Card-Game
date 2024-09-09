@@ -63,7 +63,7 @@ namespace CyberNet.Core
                 .SelectFirstEntity();
 
             var cardComponent = entityCard.GetComponent<CardComponent>();
-            cardComponent.CardMono.SetStatusInteractiveVFX(false);
+            cardComponent.CardMono.CardFaceMono.SetStatusInteractiveVFX(false);
             
             entityCard.RemoveComponent<CardHandComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();

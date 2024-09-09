@@ -2,6 +2,7 @@ using System;
 using EcsCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CyberNet.Tools.DebugGame;
 using Newtonsoft.Json;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -74,6 +75,8 @@ namespace CyberNet
                 Cards = cardConfig,
                 AbilityCard = abilityCardConfig,
             });
+            
+            DebugAction.ReadyConfigCards?.Invoke();
         }
     }
 }

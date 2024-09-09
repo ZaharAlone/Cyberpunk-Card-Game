@@ -32,29 +32,6 @@ namespace CyberNet.Core.InteractiveCard
                 EndMove();
         }
 
-        public void Run()
-        {
-            var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
-            if (countEntityMove > 0)
-                MoveCard();
-        }
-
-        private void MoveCard()
-        {
-            var entities = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().GetEntities();
-            ref var inputData = ref _dataWorld.OneData<InputData>();
-
-            foreach (var entity in entities)
-            {
-                ref var componentMove = ref entity.GetComponent<InteractiveMoveComponent>();
-                ref var componentCard = ref entity.GetComponent<CardComponent>();
-
-                var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
-                componentCard.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
-                componentMove.StartMousePositions = inputData.MousePosition;
-            }
-        }
-
         private void EndMove()
         {
             var entity = _dataWorld.Select<CardComponent>()
@@ -66,7 +43,7 @@ namespace CyberNet.Core.InteractiveCard
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
         }
-
+        
         private void EndMovePlayerCard(Entity entity)
         {
             var moveComponent = entity.GetComponent<InteractiveMoveComponent>();
@@ -125,6 +102,7 @@ namespace CyberNet.Core.InteractiveCard
                 componentCard.PlayerID = roundPlayer.CurrentPlayerID;
                 componentCard.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
+                entity.AddComponent(new CardPlayerComponent());
                 
                 VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
@@ -142,6 +120,37 @@ namespace CyberNet.Core.InteractiveCard
 
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             entity.RemoveComponent<InteractiveMoveComponent>();
+        }
+        
+        public void Run()
+        {
+            var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
+            if (countEntityMove > 0)
+            {
+                MoveCard();
+
+                var inputData = _dataWorld.OneData<InputData>();
+                if (inputData.RightClick)
+                {
+                    Debug.LogError("cancel select card");
+                }
+            }
+        }
+
+        private void MoveCard()
+        {
+            var entities = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().GetEntities();
+            ref var inputData = ref _dataWorld.OneData<InputData>();
+
+            foreach (var entity in entities)
+            {
+                ref var componentMove = ref entity.GetComponent<InteractiveMoveComponent>();
+                ref var componentCard = ref entity.GetComponent<CardComponent>();
+
+                var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
+                componentCard.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
+                componentMove.StartMousePositions = inputData.MousePosition;
+            }
         }
 
         public void Destroy()

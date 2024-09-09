@@ -9,7 +9,7 @@ using CyberNet.Core.City;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 
-namespace CyberNet.Core.AI
+namespace CyberNet.Core.AI.Ability
 {
     [EcsSystem(typeof(CoreModule))]
     public class AbilityMoveUnitAISystem : IPreInitSystem, IDestroySystem

@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Arena;
+using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.Sound;
@@ -41,7 +42,8 @@ namespace CyberNet.Core
         
         public void Run()
         {
-            if (_dataWorld.Select<PlayerStageChoosesAnOpponentComponent>().Count() == 0)
+            if (_dataWorld.Select<PlayerStageChoosesAnOpponentComponent>().Count() == 0
+                || _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() != 0)
                 return;
             
             PlayerSelectEnemy();

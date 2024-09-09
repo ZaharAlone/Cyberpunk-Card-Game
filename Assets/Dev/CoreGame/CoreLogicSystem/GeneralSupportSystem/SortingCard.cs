@@ -85,11 +85,12 @@ namespace CyberNet.Core
             return sorting;
         }
 
-        public static int ChooseNearestCard(EntitiesEnumerable entities)
+        public static int ChooseNearestCard(EntitiesEnumerable cardEntities)
         {
             var id = 0;
             var minIndex = 500;
-            foreach (var entity in entities)
+            
+            foreach (var entity in cardEntities)
             {
                 ref var cardComponent = ref entity.GetComponent<CardSortingIndexComponent>();
                 if (cardComponent.Index < minIndex)

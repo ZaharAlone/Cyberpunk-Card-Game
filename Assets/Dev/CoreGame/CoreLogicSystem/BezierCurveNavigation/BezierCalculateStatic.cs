@@ -28,6 +28,21 @@ public static class BezierCalculateStatic
 
         return NOrderBezier_R(vecp, t);
     }
+    
+    public static (Vector2, Quaternion) NOrderBezierInterpTransform(List<Transform> points, float t)
+    {
+        if (points.Count < 2)
+            throw new System.Exception("Bezier Curve needs atleast 3 points, or 2 for a linear interpolation");
+
+        //Convert the list of Transform's to a list of Vector2
+        var vecp = new List<Vector2>();
+        foreach (Transform p in points)
+        {
+            vecp.Add(p.position);
+        }
+
+        return NOrderBezier_R(vecp, t);
+    }
 
     //Underlying recursive function to calculate n order bezier curves
     private static (Vector2, Quaternion) NOrderBezier_R(List<Vector2> points, float t)

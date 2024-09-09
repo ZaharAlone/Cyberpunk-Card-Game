@@ -1,7 +1,7 @@
 using System;
 namespace CyberNet.Core.InteractiveCard
 {
-    public static class SelectTargetCardAbilityAction
+    public static class SelectTargetCardAbilityUIAction
     {
         public static Action SelectTarget;
     }

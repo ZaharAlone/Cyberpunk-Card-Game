@@ -154,8 +154,12 @@ namespace CyberNet.Core.Arena
             
             ArenaAction.StartArenaBattle -= StartArenaBattle;
             ArenaAction.EndBattleArena -= EndBattleArena;
+
+            var arenaMono = _dataWorld.OneData<ArenaData>().ArenaMono;
             
-            Object.Destroy(_dataWorld.OneData<ArenaData>().ArenaMono.gameObject);
+            if (arenaMono != null)
+                Object.Destroy(_dataWorld.OneData<ArenaData>().ArenaMono.gameObject);
+            
             _dataWorld.RemoveOneData<ArenaData>();
 
             var arenaUnitEntities = _dataWorld.Select<ArenaUnitComponent>().GetEntities();

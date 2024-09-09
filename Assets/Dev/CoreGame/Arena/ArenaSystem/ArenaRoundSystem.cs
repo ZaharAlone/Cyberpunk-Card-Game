@@ -1,3 +1,4 @@
+using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;

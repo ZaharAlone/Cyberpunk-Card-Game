@@ -33,6 +33,10 @@ namespace CyberNet.Core.AbilityCard
         public static Action<string> SwitchEnemyUnitMap;
         public static Action<string> SwitchNeutralUnitMap;
         public static Action ConfimSelectElement;
+        
+        //Arena ability
+        public static Action<string> HeadShot;
+        public static Action<string> ThrowGrenade;
 
         //Вспомогательные делегаты, общие для систем
         public static Action<string> AddTowerUnit;

@@ -15,10 +15,13 @@ namespace CyberNet.Core
     public class AnimationsMoveAtDiscardDeckSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        
+        private bool _offCore;
+        
         public void PreInit()
         {
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck += UpdateDiscardHub;
+            _offCore = false;
         }
         
         private void UpdateDiscardHub()
@@ -45,6 +48,9 @@ namespace CyberNet.Core
 
         private async void AnimationsMoveAtDiscardDeckCorotine(Entity entity, RectTransform targetTransform, Vector3 scale)
         {
+            if (_offCore)
+                return;
+            
             var cardComponent = entity.GetComponent<CardComponent>();
             var sequence = DOTween.Sequence();
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 90, 0), 0.2f));
@@ -54,7 +60,10 @@ namespace CyberNet.Core
             SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.FlipCard);
             
             sequence.Append(cardComponent.CardMono.RectTransform.DOLocalRotate(new Vector3(0, 180, 0), 0.2f));
+            
             await sequence.AsyncWaitForCompletion();
+            if (_offCore)
+                return;
             
             var targetPosition = targetTransform.position;
             var distance = Vector2.Distance(cardComponent.RectTransform.position, targetPosition);
@@ -67,6 +76,10 @@ namespace CyberNet.Core
                      .Join(cardComponent.CardMono.BackCardImage.DOColor(new Color32(255, 255, 255, 0), time / 0.5f));
 
             await Task.Delay((int)(1000 * time));
+            
+            if (_offCore)
+                return;
+            
             entity.RemoveComponent<CardMoveToDiscardComponent>();
             entity.AddComponent(new CardDiscardComponent());
             
@@ -77,6 +90,7 @@ namespace CyberNet.Core
 
         public void Destroy()
         {
+            _offCore = true;
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck -= UpdateDiscardHub;
         }
     }

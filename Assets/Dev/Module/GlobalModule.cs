@@ -18,6 +18,7 @@ using CyberNet.Core.City;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Settings;
+using ModulesFramework;
 using AbilityCardConfig = CyberNet.Core.AbilityCard.AbilityCardConfig;
 
 namespace EcsCore
@@ -86,14 +87,14 @@ namespace EcsCore
             world.CreateOneData(new BezierData { BezierCurveConfigSO = bezierCurveConfigSO.Result});
             _resource.Add(cameraObject);
 
-            ModulesUnityAdapter.world.InitModule<MetaModule>(true);
+            MF.World.InitModule<MetaModule>(true);
             
             #if STEAM
-            ModulesUnityAdapter.world.InitModule<SteamModule>(true);
+            MF.World.InitModule<SteamModule>(true);
             #endif
             
             #if UNITY_EDITOR || TEST_BUILD
-            ModulesUnityAdapter.world.InitModule<DebugModule>(true);
+            MF.World.InitModule<DebugModule>(true);
             #endif
         }
 

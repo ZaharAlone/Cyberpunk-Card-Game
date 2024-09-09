@@ -7,7 +7,7 @@ using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.AbilityCard
 {
     [EcsSystem(typeof(CoreModule))]
     public class AbilityPlayerDiscardCardSystem : IPreInitSystem, IDestroySystem

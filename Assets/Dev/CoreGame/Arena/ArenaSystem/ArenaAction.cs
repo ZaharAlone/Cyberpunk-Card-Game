@@ -32,6 +32,8 @@ namespace CyberNet.Core.Arena
         public static Action StartShootingPlayerWithShield;
         public static Action StartInteractiveBlockingShooting;
 
+        public static Action<string> KillUnitGUID;
+
         public static Action SelectUnitEnemyTargetingPlayer;
     }
 }

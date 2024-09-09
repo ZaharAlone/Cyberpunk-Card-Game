@@ -1,10 +1,12 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.Arena;
 using CyberNet.Core.Player;
 using CyberNet.Global;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using UnityEngine;
 
 namespace CyberNet.Core.UI
 {
@@ -41,21 +43,37 @@ namespace CyberNet.Core.UI
             foreach (var entity in entitiesCardInHand)
             {
                 var cardMono = entity.GetComponent<CardComponent>().CardMono;
-                cardMono.SetStatusInteractiveVFX(true);
+                cardMono.CardFaceMono.SetStatusInteractiveVFX(true);
             }
         }
 
         private void UpdateVFXViewCurrentPlayer()
         {
             var roundData = _dataWorld.OneData<RoundData>();
+            var currentPlayerID = roundData.CurrentPlayerID;
 
-            if (roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player)
+            var disableAllVFX = roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player;
+
+            if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
+            {
+                var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
+                currentPlayerID = arenaRoundData.CurrentPlayerID;
+
+                var currentPlayerIsControlHuman = _dataWorld.Select<PlayerComponent>()
+                    .Where<PlayerComponent>(player => player.PlayerID == currentPlayerID)
+                    .SelectFirstEntity()
+                    .GetComponent<PlayerComponent>().playerOrAI == PlayerOrAI.Player;
+                
+                disableAllVFX = !currentPlayerIsControlHuman;
+            }
+            
+            if (disableAllVFX)
             {
                 DisableAllVFX();
             }
             else
             {
-                UpdateVFX(roundData.CurrentPlayerID);
+                UpdateVFX(currentPlayerID);
             }
         }
 
@@ -69,7 +87,7 @@ namespace CyberNet.Core.UI
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
                 var cardMono = cardComponent.CardMono;
 
-                cardMono.SetStatusInteractiveVFX(false);
+                cardMono.CardFaceMono.SetStatusInteractiveVFX(false);
                     
                 if(entity.HasComponent<CardCanUseComponent>())
                     entity.RemoveComponent<CardCanUseComponent>();
@@ -113,12 +131,12 @@ namespace CyberNet.Core.UI
                 
                 if (countAbilitiesAvailable > 0 && isInstallFirstBase)
                 {
-                    cardMono.SetStatusInteractiveVFX(true);
+                    cardMono.CardFaceMono.SetStatusInteractiveVFX(true);
                     entity.AddComponent(new CardCanUseComponent());
                 }
                 else
                 {
-                    cardMono.SetStatusInteractiveVFX(false);
+                    cardMono.CardFaceMono.SetStatusInteractiveVFX(false);
                     
                     if(entity.HasComponent<CardCanUseComponent>())
                         entity.RemoveComponent<CardCanUseComponent>();
@@ -127,29 +145,29 @@ namespace CyberNet.Core.UI
 
             foreach (var entity in entitiesCardInDeck)
             {
-                ref var component = ref entity.GetComponent<CardComponent>().CardMono;
-                component.SetStatusInteractiveVFX(false);
+                ref var cardFace = ref entity.GetComponent<CardComponent>().CardMono.CardFaceMono;
+                cardFace.SetStatusInteractiveVFX(false);
             }
 
             foreach (var entity in entitiesCardInDrop)
             {
-                ref var component = ref entity.GetComponent<CardComponent>().CardMono;
-                component.SetStatusInteractiveVFX(false);
+                ref var cardFace = ref entity.GetComponent<CardComponent>().CardMono.CardFaceMono;
+                cardFace.SetStatusInteractiveVFX(false);
             }
             
             foreach (var entity in entitiesCardInDropMove)
             {
                 ref var component = ref entity.GetComponent<CardComponent>().CardMono;
-                component.SetStatusInteractiveVFX(false);
+                component.CardFaceMono.SetStatusInteractiveVFX(false);
             }
 
             foreach (var entity in entitiesCardInShop)
             {
                 ref var component = ref entity.GetComponent<CardComponent>();
                 if (component.Price <= valueTrade && isInstallFirstBase)
-                    component.CardMono.SetStatusInteractiveVFX(true);
+                    component.CardMono.CardFaceMono.SetStatusInteractiveVFX(true);
                 else
-                    component.CardMono.SetStatusInteractiveVFX(false);
+                    component.CardMono.CardFaceMono.SetStatusInteractiveVFX(false);
             }
         }
 

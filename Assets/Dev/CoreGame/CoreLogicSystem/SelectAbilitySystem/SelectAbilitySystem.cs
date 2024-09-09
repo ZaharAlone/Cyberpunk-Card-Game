@@ -83,7 +83,7 @@ namespace CyberNet.Core
                     OneAbilityInCard = true
                 });
                 
-                InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
+                InteractiveActionCard.FinishSelectAbilityCard?.Invoke(cardComponent.GUID);
             }
             else
             {
@@ -163,7 +163,7 @@ namespace CyberNet.Core
             uiSelectAbility.CloseFrame();
 
             var cardComponent = entity.GetComponent<CardComponent>();
-            InteractiveActionCard.FinishSelectAbilitycard?.Invoke(cardComponent.GUID);
+            InteractiveActionCard.FinishSelectAbilityCard?.Invoke(cardComponent.GUID);
         }
 
         public void Destroy()
