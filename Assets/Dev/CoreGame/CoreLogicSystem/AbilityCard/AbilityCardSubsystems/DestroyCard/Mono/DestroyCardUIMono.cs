@@ -30,9 +30,9 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         [Required]
         public RectTransform TransformDestroyZone;
         
-        private List<CardMono> _cardsHand = new();
-        private List<CardMono> _cardsDiscard = new();
-        private List<CardMono> _cardsPlayZone = new();
+        public List<CardMono> _cardsHand = new();
+        public List<CardMono> _cardsDiscard = new();
+        public List<CardMono> _cardsPlayZone = new();
 
         public void OnEnable()
         {
@@ -77,7 +77,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             switch (targetGroupDestroyCardEnum)
             {
                 case GroupDestroyCardEnum.PlayZone:
-                    _cardsHand.Add(cardMono);
+                    _cardsPlayZone.Add(cardMono);
                     break;
                 case GroupDestroyCardEnum.Discard:
                     _cardsDiscard.Add(cardMono);

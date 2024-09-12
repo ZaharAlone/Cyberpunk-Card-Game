@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core.AI;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -191,6 +189,9 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             entityCard.RemoveComponent<AbilityCardDestroyCardComponent>();
 
             AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
+            
+            ref var destroyRowData = ref _dataWorld.OneData<DestroyRowCardData>();
+            destroyRowData.DestroyCardInRow.Clear();
         }
         
         private void CancelDestroyCard(string guidCard)
@@ -199,6 +200,9 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             boardGameUI.DestroyCardUIMono.DisablePanel();
             boardGameUI.DestroyCardUIMono.ClearCards();
             boardGameUI.TraderowMono.ShowTradeRow();
+
+            ref var destroyRowData = ref _dataWorld.OneData<DestroyRowCardData>();
+            destroyRowData.DestroyCardInRow.Clear();
         }
 
         private void ForceCompleteDestroyCard()
