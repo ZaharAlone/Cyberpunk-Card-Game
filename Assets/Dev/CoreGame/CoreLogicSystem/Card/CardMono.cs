@@ -1,3 +1,4 @@
+using System;
 using CyberNet.Core.InteractiveCard;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +16,12 @@ namespace CyberNet.Core
         public RectTransform CardFace;
         public CardFaceMono CardFaceMono;
         public RectTransform CardBack;
+        public GraphicRaycaster GraphicRaycaster;
         public Image BackCardImage;
 
         private bool _cardIsBack;
         private Sequence _sequence;
-
+        
         public void CardOnBack()
         {
             CardFace.gameObject.SetActive(false);

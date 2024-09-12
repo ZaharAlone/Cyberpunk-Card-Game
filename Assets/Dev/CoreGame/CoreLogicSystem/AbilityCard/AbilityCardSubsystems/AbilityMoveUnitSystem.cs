@@ -204,24 +204,13 @@ namespace CyberNet.Core.AbilityCard
                 .With<AbilityCardMoveUnitComponent>()
                 .SelectFirstEntity();
 
+            var cardComponent = entityCard.GetComponent<CardComponent>();
             entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
-            entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
-            entityCard.RemoveComponent<CardHandComponent>();
-            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
-            entityCard.RemoveComponent<CardComponentAnimations>();
-            entityCard.RemoveComponent<AbilitySelectElementComponent>();
             entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();
-            
-            entityCard.AddComponent(new CardStartMoveToTableComponent());
+            AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
 
-            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
-            
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
-            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }
         
         private void CancelMoveUnit(string guidCard)

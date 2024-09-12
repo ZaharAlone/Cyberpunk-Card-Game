@@ -6,6 +6,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
     {
         public string GUID;
         
+        public DestroyCardInRow DestroyCardStruct;
         public Vector2 PrevMousePosition;
     }
 }

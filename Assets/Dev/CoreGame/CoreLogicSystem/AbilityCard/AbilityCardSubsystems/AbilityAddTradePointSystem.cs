@@ -43,9 +43,9 @@ namespace CyberNet.Core
                 entity.RemoveComponent<CardPlayAllComponent>();
             }
 
-            var isSomeMoreCarPlayAll = _dataWorld.Select<CardPlayAllComponent>().Count() > 0;
+            var isSomeMoreCardPlayAll = _dataWorld.Select<CardPlayAllComponent>().Count() > 0;
             
-            if (isSomeMoreCarPlayAll)
+            if (isSomeMoreCardPlayAll)
                 return;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
