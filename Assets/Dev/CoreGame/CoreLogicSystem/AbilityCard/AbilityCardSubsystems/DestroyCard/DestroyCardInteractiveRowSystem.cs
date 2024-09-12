@@ -96,7 +96,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             var destroyCardRow = _dataWorld.OneData<DestroyRowCardData>().DestroyCardInRow;
             destroyCardRow.TryGetValue(guidCard, out var cardElement);
 
-            var mousePosition = GetCurrentMousePositionsToScreen();
+            var mousePosition = InputAction.GetCurrentMousePositionsToScreen.Invoke();;
             var entityMoveCard = _dataWorld.NewEntity();
             entityMoveCard.AddComponent(new DestroyCardMoveComponent {
                 GUID = guidCard,
@@ -126,7 +126,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             ref var moveCardComponent = ref moveCardEntity.GetComponent<DestroyCardMoveComponent>();
             var cardElement = moveCardComponent.DestroyCardStruct;
             
-            var mousePosition = GetCurrentMousePositionsToScreen();
+            var mousePosition = InputAction.GetCurrentMousePositionsToScreen.Invoke();;
             var deltaPosition = mousePosition - moveCardComponent.PrevMousePosition;
             moveCardComponent.PrevMousePosition = mousePosition;
             cardElement.CardMono.RectTransform.anchoredPosition += deltaPosition;
@@ -189,17 +189,6 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
                 if (cardInRow.Key != guidCard)
                     cardInRow.Value.CardMono.GraphicRaycaster.enabled = isEnableRaycast;
             }
-        }
-        
-        private Vector2 GetCurrentMousePositionsToScreen()
-        {
-            var rectTransformGlobalCanvas = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.UIRect;
-            var mousePositions = _dataWorld.OneData<InputData>().MousePosition;
-            
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransformGlobalCanvas, mousePositions, null, out var canvasPosition))
-                return canvasPosition;
-            else
-                return Vector2.zero;
         }
 
         public void Destroy()

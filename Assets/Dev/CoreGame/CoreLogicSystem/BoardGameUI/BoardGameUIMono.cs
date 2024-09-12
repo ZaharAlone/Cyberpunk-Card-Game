@@ -59,5 +59,7 @@ namespace CyberNet.Core.UI
         
         [Header ("Destroy Card")]
         public DestroyCardUIMono DestroyCardUIMono;
+
+        public GameObject BlockRaycastPanel;
     }
 }
