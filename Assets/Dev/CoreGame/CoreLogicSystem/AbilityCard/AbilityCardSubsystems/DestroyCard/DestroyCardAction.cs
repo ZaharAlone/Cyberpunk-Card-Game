@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard.DestroyCard
 {
@@ -10,5 +11,8 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         public static Action<string> EndMoveCard;
 
         public static Action<string> SelectCardToDestroy;
+        public static Action EndAnimationsDestroyCurrentCard;
+
+        public static Action ForceCompleteDestroyCard;
     }
 }

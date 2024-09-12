@@ -9,12 +9,14 @@ using CyberNet.Core.Traderow;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Core.UI.TaskPlayerPopup;
+using Sirenix.OdinInspector;
 using UnityEngine.Serialization;
 
 namespace CyberNet.Core.UI
 {
     public class BoardGameUIMono : MonoBehaviour
     {
+        [Required]
         public RectTransform UIRect;
         [Header("Core Game UI HUD")]
         public CoreHUDUIMono CoreHudUIMono;

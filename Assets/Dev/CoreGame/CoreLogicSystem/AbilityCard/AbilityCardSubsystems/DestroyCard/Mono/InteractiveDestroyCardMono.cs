@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using DG.Tweening;
 using FMODUnity;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,34 +14,34 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         [SerializeField]
         private string _guid;
         [SerializeField]
+        [Required]
         private CardMono _cardMono;
         [SerializeField]
+        [Required]
         private GameObject _destroyCardImage;
         [SerializeField]
+        [Required]
         private GameObject _cardFaceObject;
-
-        [Header("Icons card")]
-        [SerializeField]
-        private GameObject _iconsHandCard;
-        [SerializeField]
-        private GameObject _iconsDiscardCard;
 
         [Header("Animations")]
         [SerializeField]
+        [Required]
         private Image _destroyEffectImage;
 
         [SerializeField]
+        [Required]
         private Texture2D _textureNoise_1;
         [SerializeField]
+        [Required]
         private Texture2D _textureNoise_2;
 
         [SerializeField]
         private EventReference _soundDestroyCard;
         
-        private Vector2 _currentPointerPos;
         private bool _isDisableInteractive;
+        private bool _isSelectCard;
         private Sequence _sequence;
-
+        
         public void OnEnable()
         {
             _cardFaceObject.SetActive(true);
@@ -61,18 +62,19 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         {
             _isDisableInteractive = true;
         }
-        
-        public void SetIconsIsHand(bool isHand)
+
+        public void DisableSelectCard()
         {
-            _iconsHandCard.SetActive(isHand);
-            _iconsDiscardCard.SetActive(!isHand);
+            _isSelectCard = false;
         }
         
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (_isDisableInteractive)
                 return;
-            
+
+            _isSelectCard = true;
+
             DestroyCardAction.SelectCard?.Invoke(_guid);
         }
 
@@ -80,9 +82,13 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         {
             if (_isDisableInteractive)
                 return;
+            
+            if (!_isSelectCard)
+                return;
+            
             DestroyCardAction.DeselectCard?.Invoke(_guid);
         }
-
+        
         public void OnPointerDown(PointerEventData eventData)
         {
             if (_isDisableInteractive)
@@ -90,11 +96,10 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
-
-            _currentPointerPos = eventData.pressPosition;
+            
             DestroyCardAction.StartMoveCard?.Invoke(_guid);
         }
-
+        
         public void OnPointerUp(PointerEventData eventData)
         {
             if (_isDisableInteractive)
@@ -104,6 +109,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
                 return;
             
             DestroyCardAction.EndMoveCard?.Invoke(_guid);
+            _isSelectCard = false;
         }
 
         public void OnDestroyCardEffect()
@@ -145,7 +151,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
 
         private void EndAnimationsDestroyCard()
         {
-            Debug.LogError("End animations");
+            DestroyCardAction.EndAnimationsDestroyCurrentCard?.Invoke();
         }
     }
 }

@@ -73,34 +73,19 @@ namespace CyberNet.Core.AbilityCard
 
         private void EndActionAbility()
         {
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.PauseInteractive = false;
-            
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()
                 .With<AbilityCardAddUnitComponent>()
                 .SelectFirstEntity();
 
-            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            var cardComponent = entityCard.GetComponent<CardComponent>();
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
-            entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
-            entityCard.RemoveComponent<CardHandComponent>();
-            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
-            entityCard.RemoveComponent<CardComponentAnimations>();
-            
-            entityCard.AddComponent(new CardStartMoveToTableComponent());
-            
-            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
-            
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
-            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
+
+            AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.SelectTower -= AddUnitTower;
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
-            
-            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
             
             AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
         }
@@ -112,6 +97,7 @@ namespace CyberNet.Core.AbilityCard
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity();
             
+            //TODO проверить робоспособность
             //Учитывать что можно добавить больше одного юнита за раз и их нужно всех откатить
 
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;

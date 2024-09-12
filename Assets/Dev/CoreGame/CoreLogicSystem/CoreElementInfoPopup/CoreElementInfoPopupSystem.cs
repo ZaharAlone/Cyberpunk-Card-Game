@@ -43,9 +43,7 @@ namespace CyberNet.Core.UI.CorePopup
             if (traderow)
             {
                 if (_dataWorld.Select<TraderowIsShowComponent>().Count() == 0)
-                {
                     waitTime = 370;
-                }
                 
                 scale = gameConfig.SizeSelectCardTradeRow.x;
             }

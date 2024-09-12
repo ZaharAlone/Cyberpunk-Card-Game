@@ -66,11 +66,6 @@ namespace CyberNet.Core.AbilityCard.UI
             _panelButtons.anchoredPosition = positionPanelButton;
         }
 
-        public void ShowViewIsUp()
-        {
-            
-        }
-
         public void DisableButton()
         {
             _panel.SetActive(false);

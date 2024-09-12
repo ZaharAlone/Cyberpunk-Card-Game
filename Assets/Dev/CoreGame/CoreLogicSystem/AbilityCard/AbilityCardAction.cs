@@ -9,6 +9,7 @@ namespace CyberNet.Core.AbilityCard
         public static Action ClearActionView;
         public static Action<int> SelectPlayer;
         public static Action CancelAbility;
+        public static Action<string> CompletePlayingAbilityCard;
         
         //Делегаты вызова абилки
         public static Action AddTradePoint;

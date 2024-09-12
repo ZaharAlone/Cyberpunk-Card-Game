@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.UI;
@@ -22,6 +23,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.UpdateValueResourcePlayedCard += CalculateValueCard;
             AbilityCardAction.ClearActionView += ClearAction;
             AbilityCardAction.CancelAbility += CancelAbility;
+            AbilityCardAction.CompletePlayingAbilityCard += CompletePlayingAbilityCard;
         }
         
         public void Init()
@@ -114,6 +116,9 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.DestroyCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    entity.AddComponent(new AbilityCardDestroyCardComponent {
+                        GUIDCardDestroyList= new()
+                    });
                     AbilityCardAction.DestroyCardAbility?.Invoke(guidCard);
                     break;
                 case AbilityType.EnemyDiscardCard:
@@ -186,6 +191,7 @@ namespace CyberNet.Core.AbilityCard
                     AbilityCardAction.CancelAddUnitMap?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.DestroyCard:
+                    AbilityCardAction.CancelDestroyCard?.Invoke(cardComponent.GUID);
                     break;
                 case AbilityType.CloneCard:
                     break;
@@ -242,6 +248,31 @@ namespace CyberNet.Core.AbilityCard
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }
 
+        private void CompletePlayingAbilityCard(string guidCard)
+        {
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.PauseInteractive = false;
+
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+
+            entityCard.RemoveComponent<AbilitySelectElementComponent>();
+            entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
+            entityCard.RemoveComponent<CardHandComponent>();
+            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
+            entityCard.RemoveComponent<CardComponentAnimations>();
+            
+            entityCard.AddComponent(new CardStartMoveToTableComponent());
+            
+            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
+            
+            AbilitySelectElementUIAction.ClosePopup?.Invoke();
+            AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
+            ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
+        }
+
         public void Destroy()
         {
             _dataWorld.RemoveOneData<ActionCardData>();
@@ -249,6 +280,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.UpdateValueResourcePlayedCard -= CalculateValueCard;
             AbilityCardAction.ClearActionView -= ClearAction;
             AbilityCardAction.CancelAbility -= CancelAbility;
+            AbilityCardAction.CompletePlayingAbilityCard -= CompletePlayingAbilityCard;
         }
     }
 }
