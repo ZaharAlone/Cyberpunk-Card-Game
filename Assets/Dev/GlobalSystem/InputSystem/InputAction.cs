@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Input
 {
@@ -6,5 +7,7 @@ namespace Input
     {
         public static Action LeftMouseButtonClick;
         public static Action RightMouseButtonClick;
+
+        public static Func<Vector2> GetCurrentMousePositionsToScreen;
     }
 }

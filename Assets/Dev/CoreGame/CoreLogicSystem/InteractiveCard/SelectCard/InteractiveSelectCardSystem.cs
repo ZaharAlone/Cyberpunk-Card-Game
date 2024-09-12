@@ -13,7 +13,8 @@ namespace CyberNet.Core.InteractiveCard
     public class InteractiveSelectCardSystem : IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
-
+        private const int layer_move_card = 312;
+        
         public void Init()
         {
             InteractiveActionCard.SelectCard += SelectCard;
@@ -74,7 +75,7 @@ namespace CyberNet.Core.InteractiveCard
             animComponent.Sequence.Append(cardComponent.RectTransform.DOLocalRotateQuaternion(Quaternion.identity, 0.23f))
                                   .Join(cardComponent.RectTransform.DOScale(scaleCard, 0.23f));
 
-            cardComponent.Canvas.sortingOrder = 20;
+            cardComponent.Canvas.sortingOrder = layer_move_card;
             
             if (cardComponent.PlayerID == currentPlayerID)
             {

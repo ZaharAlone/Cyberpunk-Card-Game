@@ -42,6 +42,8 @@ namespace CyberNet.Core.InteractiveCard
                 EndMovePlayerCard(entity);
             else if (entity.HasComponent<CardTradeRowComponent>())
                 EndMoveShopCard(entity);
+            
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
         }
         
         private void EndMovePlayerCard(Entity entity)
@@ -125,10 +127,11 @@ namespace CyberNet.Core.InteractiveCard
         public void Run()
         {
             var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
-            if (countEntityMove > 0)
+            if (countEntityMove != 0)
             {
                 MoveCard();
 
+                //TODO разобраться зачем это и что планировал автор
                 var inputData = _dataWorld.OneData<InputData>();
                 if (inputData.RightClick)
                 {
@@ -139,20 +142,17 @@ namespace CyberNet.Core.InteractiveCard
 
         private void MoveCard()
         {
-            var entities = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().GetEntities();
-            ref var inputData = ref _dataWorld.OneData<InputData>();
-
-            foreach (var entity in entities)
-            {
-                ref var componentMove = ref entity.GetComponent<InteractiveMoveComponent>();
-                ref var componentCard = ref entity.GetComponent<CardComponent>();
-
-                var deltaMove = inputData.MousePosition - componentMove.StartMousePositions;
-                componentCard.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
-                componentMove.StartMousePositions = inputData.MousePosition;
-            }
+            var entityMoveCard = _dataWorld.Select<CardComponent>().With<InteractiveMoveComponent>().SelectFirstEntity();
+            var mousePosition = InputAction.GetCurrentMousePositionsToScreen.Invoke();
+            
+            ref var moveCardComponent = ref entityMoveCard.GetComponent<InteractiveMoveComponent>();
+            var cardComponent = entityMoveCard.GetComponent<CardComponent>();
+                
+            var deltaMove = mousePosition - moveCardComponent.StartMousePositions;
+            cardComponent.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
+            moveCardComponent.StartMousePositions = mousePosition;
         }
-
+        
         public void Destroy()
         {
             InteractiveActionCard.EndInteractiveCard -= EndInteractiveCard;

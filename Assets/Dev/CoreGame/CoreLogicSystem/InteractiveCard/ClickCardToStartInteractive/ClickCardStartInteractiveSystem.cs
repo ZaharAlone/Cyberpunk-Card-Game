@@ -118,19 +118,21 @@ namespace CyberNet.Core.InteractiveCard
         
         private void AddMoveCardComponent(Entity entity)
         {
-            ref var inputData = ref _dataWorld.OneData<InputData>();
+            var mousePositions = InputAction.GetCurrentMousePositionsToScreen.Invoke();
             ref var component = ref entity.GetComponent<CardComponent>();
             
             entity.AddComponent(new InteractiveMoveComponent
             {
                 StartCardPosition = component.RectTransform.anchoredPosition,
                 StartCardRotation = component.RectTransform.localRotation,
-                StartMousePositions = inputData.MousePosition
+                StartMousePositions = mousePositions,
             });
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
 
             var startMoveSFX = _dataWorld.OneData<SoundData>().Sound.StartInteractiveCard;
             SoundAction.PlaySound?.Invoke(startMoveSFX);
+
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(true);
         }
         
         public void Destroy()
