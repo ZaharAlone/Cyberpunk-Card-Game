@@ -90,7 +90,7 @@ namespace CyberNet.Core.SelectFirstBase
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
             
             var tradeRowUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            tradeRowUI.ShowPanelBaseViewAnimations();
+            tradeRowUI.TradeRowToMiniPanelAnimations();
 
             TaskPlayerPopupAction.HidePopup?.Invoke();
             CityAction.HideFirstBaseTower?.Invoke();

@@ -76,13 +76,13 @@ namespace CyberNet.Core.Arena
             
             if (isOpenArena)
             {
-                uiCoreMono.TraderowMono.HideTradeRow();
+                uiCoreMono.TraderowMono.DisableTradeRow();
                 uiCoreMono.CoreHudUIMono.HideEnemyPassport();
                 uiCoreMono.ArenaHUDUIMono.OnArenaHUD();
             }
             else
             {
-                uiCoreMono.TraderowMono.ShowTradeRow();
+                uiCoreMono.TraderowMono.EnableTradeRow();
                 uiCoreMono.CoreHudUIMono.ShowEnemyPassport();
                 uiCoreMono.ArenaHUDUIMono.OffArenaHUD();
             }

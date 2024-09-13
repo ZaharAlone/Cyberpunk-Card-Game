@@ -42,15 +42,9 @@ namespace CyberNet.Core.AbilityCard
             abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)
-            {
                 TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
-            }
             else
-            {
                 TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
-            }
-            
-            TraderowUIAction.ForceHideTraderow?.Invoke();
         }
 
         private void SelectElement(string textButton)

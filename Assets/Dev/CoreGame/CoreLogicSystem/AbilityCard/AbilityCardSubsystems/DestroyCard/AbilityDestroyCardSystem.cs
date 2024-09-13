@@ -45,7 +45,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             var countPlayZoneCard = SetViewCardInPlayZone(roundData.CurrentPlayerID);
             
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.TraderowMono.HideTradeRow();
+            boardGameUI.TraderowMono.DisableTradeRow();
 
             if (countPlayZoneCard > 0)
                 boardGameUI.DestroyCardUIMono.SelectCardInPlayZone();
@@ -178,7 +178,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
 
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.DestroyCardUIMono.ClearCards();
-            boardGameUI.TraderowMono.ShowTradeRow();
+            boardGameUI.TraderowMono.EnableTradeRow();
     
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()
@@ -199,7 +199,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.DestroyCardUIMono.DisablePanel();
             boardGameUI.DestroyCardUIMono.ClearCards();
-            boardGameUI.TraderowMono.ShowTradeRow();
+            boardGameUI.TraderowMono.EnableTradeRow();
 
             ref var destroyRowData = ref _dataWorld.OneData<DestroyRowCardData>();
             destroyRowData.DestroyCardInRow.Clear();
