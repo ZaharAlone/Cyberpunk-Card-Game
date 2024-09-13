@@ -78,8 +78,6 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             if (isMoveCard)
                 return;
             
-            Debug.LogError("DeselectCard");
-            
             var cardRect = cardElement.CardMono.RectTransform;
             cardElement.Sequence.Kill();
             

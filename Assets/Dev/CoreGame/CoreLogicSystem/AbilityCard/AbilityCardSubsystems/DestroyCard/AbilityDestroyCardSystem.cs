@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
 using CyberNet.Core.AbilityCard.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core.AI;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -47,7 +45,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             var countPlayZoneCard = SetViewCardInPlayZone(roundData.CurrentPlayerID);
             
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
-            boardGameUI.TraderowMono.HideTradeRow();
+            boardGameUI.TraderowMono.DisableTradeRow();
 
             if (countPlayZoneCard > 0)
                 boardGameUI.DestroyCardUIMono.SelectCardInPlayZone();
@@ -180,7 +178,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
 
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.DestroyCardUIMono.ClearCards();
-            boardGameUI.TraderowMono.ShowTradeRow();
+            boardGameUI.TraderowMono.EnableTradeRow();
     
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<AbilitySelectElementComponent>()
@@ -191,6 +189,9 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             entityCard.RemoveComponent<AbilityCardDestroyCardComponent>();
 
             AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
+            
+            ref var destroyRowData = ref _dataWorld.OneData<DestroyRowCardData>();
+            destroyRowData.DestroyCardInRow.Clear();
         }
         
         private void CancelDestroyCard(string guidCard)
@@ -198,7 +199,10 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.DestroyCardUIMono.DisablePanel();
             boardGameUI.DestroyCardUIMono.ClearCards();
-            boardGameUI.TraderowMono.ShowTradeRow();
+            boardGameUI.TraderowMono.EnableTradeRow();
+
+            ref var destroyRowData = ref _dataWorld.OneData<DestroyRowCardData>();
+            destroyRowData.DestroyCardInRow.Clear();
         }
 
         private void ForceCompleteDestroyCard()

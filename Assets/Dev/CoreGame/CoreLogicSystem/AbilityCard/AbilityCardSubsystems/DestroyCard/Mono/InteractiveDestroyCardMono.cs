@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace CyberNet.Core.AbilityCard.DestroyCard
 {
@@ -152,6 +153,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         private void EndAnimationsDestroyCard()
         {
             DestroyCardAction.EndAnimationsDestroyCurrentCard?.Invoke();
+            Destroy(this.gameObject);
         }
     }
 }

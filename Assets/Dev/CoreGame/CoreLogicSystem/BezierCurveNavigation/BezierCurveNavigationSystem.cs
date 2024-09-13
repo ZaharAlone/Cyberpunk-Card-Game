@@ -241,7 +241,7 @@ namespace CyberNet.Core.BezierCurveNavigation
         private void SelectPlayerPanel()
         {
             UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
-
+            
         }
 
         private void UnselectPlayerPanel()

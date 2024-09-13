@@ -156,10 +156,10 @@ RectTransform:
   m_Father: {fileID: 8373586466746689794}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 47.79, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 47.79, y: -25}
+  m_SizeDelta: {x: 25.58, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4520575076689215906
 CanvasRenderer:
@@ -827,7 +827,7 @@ MonoBehaviour:
       Data3: -186500417
       Data4: -198003718
     Path: event:/VFX/CoreGame/Map/add_trade_point
-  TraderowContainer: {fileID: 5415903389674437125}
+  _traderowContainer: {fileID: 5415903389674437125}
   TraderowContainerForCard: {fileID: 3917811616004560617}
 --- !u!1 &4533081885442571084
 GameObject:
@@ -862,9 +862,9 @@ RectTransform:
   m_Father: {fileID: 8373586466746689794}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 17.5, y: -25}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &768646515668296222

@@ -26,14 +26,16 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         
         private void OpenPopup(string header, string descr)
         {
-            ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            taskPlayerPopupUI.OpenWindowSetLocalizeTerm(header, descr);
+            var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(header, descr);
+            boardGameUI.TraderowMono.FullHideTradeRowAnimations();
         }
         
         private void HidePopup()
         {
-            ref var taskPlayerPopupUI = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-            taskPlayerPopupUI.CloseWindow();
+            var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
+            boardGameUI.TraderowMono.TradeRowToMiniPanelAnimations();
         }
 
         public void Destroy()

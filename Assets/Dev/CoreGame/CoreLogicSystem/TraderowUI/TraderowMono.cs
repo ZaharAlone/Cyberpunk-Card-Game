@@ -5,6 +5,7 @@ using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Traderow
 {
@@ -17,28 +18,35 @@ namespace CyberNet.Core.Traderow
         [SerializeField]
         private EventReference _addEuroDollarSFX; 
         
-        public RectTransform TraderowContainer;
+        [SerializeField]
+        private RectTransform _traderowContainer;
         public RectTransform TraderowContainerForCard;
 
         private Sequence _sequence;
         private float _timeAnimations = 0.5f;
+        private float _timeHidePanelAnimations = 0.25f;
 
         private float _lastClickTime;
         private const float delayBetweenClickHandling = 0.2f;
+
+        private Vector2 show_mini_panel_positions = new Vector2(0, 320);
+        private Vector2 full_hide_positions = new Vector2(0, 400);
+        private Vector2 full_show_positions = new Vector2(0, 0);
         
         public void Start()
         {
             _sequence = DOTween.Sequence();
         }
 
-        public void HideTradeRow()
+        public void DisableTradeRow()
         {
-            TraderowContainer.gameObject.SetActive(false);
+            Debug.LogError("Disable trade row");
+            _traderowContainer.gameObject.SetActive(false);
         }
 
-        public void ShowTradeRow()
+        public void EnableTradeRow()
         {
-            TraderowContainer.gameObject.gameObject.SetActive(true);
+            _traderowContainer.gameObject.SetActive(true);
         }
         
         public void SetTradeValue(int tradeValue)
@@ -57,43 +65,31 @@ namespace CyberNet.Core.Traderow
             SoundAction.PlaySound?.Invoke(_addEuroDollarSFX);
         }
 
-        public void ShowTraderowAnimations()
+        public void ShowFullTradeRowPanelAnimations()
         {
-            _sequence.Append(TraderowContainer
-                .DOAnchorPos(new Vector2(0, 0), _timeAnimations));
-            EndShowAnimations();
+            _sequence.Append(_traderowContainer
+                .DOAnchorPos(full_show_positions, _timeAnimations))
+                .OnComplete(()=> EndShowAnimations()); 
         }
 
-        private async void EndShowAnimations()
+        private void EndShowAnimations()
         {
-            var waitTime = (int)(_timeAnimations * 1000);
-            await Task.Delay(waitTime);
             TraderowUIAction.EndShowAnimations?.Invoke();
         }
 
-        public void HideTraderowAnimations()
+        public void TradeRowToMiniPanelAnimations()
         {
-            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));
+            _sequence.Append(_traderowContainer.DOAnchorPos(show_mini_panel_positions, _timeAnimations));
+        }
+
+        public void FullHideTradeRowAnimations()
+        {
+            _sequence.Append(_traderowContainer.DOAnchorPos(full_hide_positions, _timeHidePanelAnimations));
         }
 
         public void ForceFullHidePanel()
         {
-            TraderowContainer.anchoredPosition = new Vector2(0, 400);
-        }
-
-        public void SetEnableTradeRow(bool status)
-        {
-            TraderowContainer.gameObject.SetActive(status);
-        }
-
-        public void ShowPanelBaseViewAnimations()
-        {
-            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 320), _timeAnimations));
-        }
-
-        public void HideFullPanelAnimations()
-        {
-            _sequence.Append(TraderowContainer.DOAnchorPos(new Vector2(0, 400), _timeAnimations));
+            _traderowContainer.anchoredPosition = full_hide_positions;
         }
         
         public void OnPointerExit(PointerEventData eventData)

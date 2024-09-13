@@ -27,13 +27,13 @@ namespace CyberNet.Core.Traderow
         private void ForceHideTraderow()
         {
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            uiTraderow.SetEnableTradeRow(false);
+            uiTraderow.DisableTradeRow();
         }
 
         private void ForceShowTraderow()
         {
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            uiTraderow.SetEnableTradeRow(true);
+            uiTraderow.EnableTradeRow();
         }
 
         private void CheckTraderow()
@@ -70,7 +70,7 @@ namespace CyberNet.Core.Traderow
             if (roundData.PauseInteractive)
                 return;
             
-            uiTraderow.ShowTraderowAnimations();
+            uiTraderow.ShowFullTradeRowPanelAnimations();
             _statusTraderow = true;
         }
         
@@ -91,7 +91,7 @@ namespace CyberNet.Core.Traderow
         {
             ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             
-            uiTraderow.HideTraderowAnimations();
+            uiTraderow.TradeRowToMiniPanelAnimations();
             _statusTraderow = false;
             
             var traderowIsShowEntities = _dataWorld.Select<TraderowIsShowComponent>().GetEntities();
