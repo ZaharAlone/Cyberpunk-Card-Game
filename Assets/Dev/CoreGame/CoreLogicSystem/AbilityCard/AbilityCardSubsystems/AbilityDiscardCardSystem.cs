@@ -34,7 +34,7 @@ namespace CyberNet.Core.AbilityCard
 
             //Показываем попап и включаем vfx выделения игроков
             AbilitySelectElementUIAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
-            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
+            BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Player);
             AbilityCardAction.SelectPlayer += SelectPlayerDiscardCard;
         }
 
