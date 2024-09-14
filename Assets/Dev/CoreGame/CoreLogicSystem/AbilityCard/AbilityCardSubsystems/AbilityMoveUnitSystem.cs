@@ -46,7 +46,7 @@ namespace CyberNet.Core.AbilityCard
                 .SelectFirstEntity()
                 .AddComponent(new AbilityCardMoveUnitComponent());
             
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 0, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
             CityAction.SelectTower += SelectTower;
@@ -80,7 +80,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectTowerGUID);
             CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectTowerGUID, currentPlayerID);
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.UnitMove, 1, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 1, false);
             CityAction.SelectUnit += ClickOnUnit;
         }
 

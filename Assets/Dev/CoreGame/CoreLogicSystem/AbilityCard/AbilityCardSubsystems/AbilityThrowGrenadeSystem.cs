@@ -33,7 +33,7 @@ namespace CyberNet.Core.AbilityCard
             }
             
             Debug.LogError("Grenade ability");
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.Grenade, 0, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.Grenade, 0, false);
             SelectZoneArenaAction.EnableSelectZone?.Invoke();
             InputAction.LeftMouseButtonClick += ClickMouse;
         }

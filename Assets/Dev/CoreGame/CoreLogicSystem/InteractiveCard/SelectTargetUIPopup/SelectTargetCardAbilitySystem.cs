@@ -74,7 +74,7 @@ namespace CyberNet.Core.InteractiveCard
             entity.RemoveComponent<InteractiveSelectCardComponent>();
             
             AbilityCardAction.CancelAbility?.Invoke();
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
+            AbilityPopupUISystemAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             InteractiveActionCard.ReturnAllCardInHand?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();

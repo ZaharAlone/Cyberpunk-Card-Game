@@ -80,7 +80,7 @@ namespace CyberNet.Core.AbilityCard
                 .GetComponent<AbilitySelectElementComponent>()
                 .AbilityCard.AbilityType;
             
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(abilityType, 0, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(abilityType, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
         }
         

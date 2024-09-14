@@ -109,7 +109,7 @@ namespace CyberNet.Core.AbilityCard
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
+            AbilityPopupUISystemAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
         }

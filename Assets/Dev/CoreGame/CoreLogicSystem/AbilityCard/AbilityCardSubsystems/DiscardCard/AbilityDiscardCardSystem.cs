@@ -1,6 +1,6 @@
-using CyberNet.Core.AI;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
+using CyberNet.Core.EnemyPassport;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -18,11 +18,11 @@ namespace CyberNet.Core.AbilityCard
 
         public void PreInit()
         {
-            AbilityCardAction.DiscardCard += DiscardCardAbility;
+            AbilityCardAction.DiscardCard += StartAbilityDiscardCard;
             AbilityCardAction.CancelDiscardCard += CancelDiscardCard;
         }
 
-        private void DiscardCardAbility(string guidCard)
+        private void StartAbilityDiscardCard(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
@@ -33,14 +33,18 @@ namespace CyberNet.Core.AbilityCard
             }
 
             //Показываем попап и включаем vfx выделения игроков
-            AbilitySelectElementUIAction.SelectEnemyPlayer?.Invoke(AbilityType.EnemyDiscardCard);
+            //TODO Сделать корректный попап
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.EnemyDiscardCard, 0, true);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Player);
-            AbilityCardAction.SelectPlayer += SelectPlayerDiscardCard;
+            //TODO Добавить выделение всех игроков, чтобы было понятно что мы выбираем из них
+            EnemyPassportAction.OnClickPlayerPassport += OnClickPlayerPassport;
         }
 
-        private void SelectPlayerDiscardCard(int targetPlayerID)
+        private void OnClickPlayerPassport(int targetPlayerID)
         {
-            AbilityCardAction.SelectPlayer -= SelectPlayerDiscardCard;
+            EnemyPassportAction.OnClickPlayerPassport -= OnClickPlayerPassport;
+            BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
                 .SelectFirstEntity();
@@ -57,12 +61,25 @@ namespace CyberNet.Core.AbilityCard
             
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
+
+            EndPlayingAbility();
+        }
+
+        private void EndPlayingAbility()
+        {
+            var cardComponent = _dataWorld.Select<CardComponent>()
+                .With<AbilitySelectElementComponent>()
+                .SelectFirstEntity()
+                .GetComponent<CardComponent>();
+            
+            AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
         }
         
         private void CancelDiscardCard()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
-            AbilityCardAction.SelectPlayer -= SelectPlayerDiscardCard;
+            BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+            EnemyPassportAction.OnClickPlayerPassport -= OnClickPlayerPassport;
         }
 
         /*
@@ -121,7 +138,8 @@ namespace CyberNet.Core.AbilityCard
 
         public void Destroy()
         {
-            AbilityCardAction.DiscardCard -= DiscardCardAbility;
+            AbilityCardAction.DiscardCard -= StartAbilityDiscardCard;
+            EnemyPassportAction.OnClickPlayerPassport -= OnClickPlayerPassport;
             AbilityCardAction.CancelDiscardCard -= CancelDiscardCard;
         }
     }
