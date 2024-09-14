@@ -31,7 +31,7 @@ namespace CyberNet.Core.AbilityCard
             }
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.AddUnit, 0, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             
             CityAction.SelectTower += AddUnitTower;

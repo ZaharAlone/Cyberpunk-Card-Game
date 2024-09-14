@@ -32,7 +32,7 @@ namespace CyberNet.Core.AbilityCard
                 return;
             }
             
-            AbilitySelectElementUIAction.OpenSelectAbilityCard?.Invoke(AbilityType.HeadShot, 0, false);
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.HeadShot, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.ArenaUnit);
 
             InputAction.LeftMouseButtonClick += ClickMouse;

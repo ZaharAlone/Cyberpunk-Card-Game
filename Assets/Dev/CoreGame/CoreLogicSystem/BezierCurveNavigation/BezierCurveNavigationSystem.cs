@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core.Arena;
 using CyberNet.Core.City;
+using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Sound;
@@ -33,6 +34,7 @@ namespace CyberNet.Core.BezierCurveNavigation
             BezierCurveNavigationAction.OffBezierCurve += OffBezierCurve;
         }
         
+        //Кривая базье что стартует от карты, используется для абилок
         private void StartBezierCurveCard(string guidCard, BezierTargetEnum target)
         {
             var positionCard = _dataWorld.Select<CardComponent>()
@@ -55,6 +57,9 @@ namespace CyberNet.Core.BezierCurveNavigation
             graphPoints = new List<BezierArrowMono>();
             
             SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.StartInteractiveCard);
+            
+            if (target == BezierTargetEnum.Player)
+                FollowPlayerTarget();
         }
 
         public void Run()
@@ -141,15 +146,15 @@ namespace CyberNet.Core.BezierCurveNavigation
 
             var distancePointX = uiBezier.ControlPoints[2].position.x - uiBezier.ControlPoints[0].position.x;
             var distanceNormalizeX = Mathf.InverseLerp(-150, 150, distancePointX);
-            var pozitionX = (int)(Mathf.Lerp(300, -300, distanceNormalizeX));
+            var positionX = (int)(Mathf.Lerp(300, -300, distanceNormalizeX));
             
             var distancePointY = uiBezier.ControlPoints[2].position.y - uiBezier.ControlPoints[0].position.y;
             var distanceNormalizeY = Mathf.InverseLerp(30, 250, distancePointY);
-            var pozitionY = (int)(Mathf.Lerp(220, -100, distanceNormalizeY));
+            var positionY = (int)(Mathf.Lerp(220, -100, distanceNormalizeY));
             
             var pos = uiBezier.ControlPoints[1].anchoredPosition;
-            pos.x = pozitionX;
-            pos.y = pozitionY;
+            pos.x = positionX;
+            pos.y = positionY;
             uiBezier.ControlPoints[1].anchoredPosition = pos;
         }
 
@@ -166,15 +171,12 @@ namespace CyberNet.Core.BezierCurveNavigation
                 case BezierTargetEnum.ArenaUnit:
                     CheckArenaUnitTarget();
                     break;
-                case BezierTargetEnum.Card:
-                    break;
                 case BezierTargetEnum.Player:
-                    if (bezierComponent.IsStartSubscriptionTarget)
-                        return;
+                    // У игрока состояние меняется по подписке, поэтому меняем цеет относительно последнего состояния
+                    if (bezierComponent.SelectTarget)
+                        UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
                     else
-                    {
-                        
-                    }
+                        UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
                     break;
             }
         }
@@ -238,18 +240,25 @@ namespace CyberNet.Core.BezierCurveNavigation
             }
         }
 
-        private void SelectPlayerPanel()
+        private void FollowPlayerTarget()
         {
-            UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
-            
+            EnemyPassportAction.SelectPlayerPassport += FollowSelectPlayerPassport;
+            EnemyPassportAction.UnselectPlayerPassport += FollowUnselectPlayerPassport;
         }
 
-        private void UnselectPlayerPanel()
+        private void FollowSelectPlayerPassport(int _)
+        {
+            UpdateVisualBezierColor(BezierCurveStatusEnum.SelectCurrentTarget);
+            //TODO Add play VFX on Select player
+        }
+
+        private void FollowUnselectPlayerPassport(int _)
         {
             UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
+            //TODO Add play not playe VFX select player
         }
         
-        public void UpdateVisualBezierColor(BezierCurveStatusEnum status)
+        private void UpdateVisualBezierColor(BezierCurveStatusEnum status)
         {
             ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
                 .SelectFirstEntity()
@@ -294,6 +303,14 @@ namespace CyberNet.Core.BezierCurveNavigation
             var bezierQuery = _dataWorld.Select<BezierCurveNavigationComponent>();
             if (bezierQuery.Count() == 0)
                 return;
+
+            var bezierComponent = bezierQuery.SelectFirstEntity().GetComponent<BezierCurveNavigationComponent>();
+
+            if (bezierComponent.Target == BezierTargetEnum.Player)
+            {
+                EnemyPassportAction.SelectPlayerPassport -= FollowSelectPlayerPassport;
+                EnemyPassportAction.UnselectPlayerPassport -= FollowUnselectPlayerPassport;
+            }
             
             bezierQuery.SelectFirstEntity().Destroy();
             

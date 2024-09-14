@@ -15,19 +15,18 @@ namespace CyberNet.Core.AbilityCard
     /// Визуал выбора карты для ability карты
     /// </summary>
     [EcsSystem(typeof(CoreModule))]
-    public class AbilitySelectElementSystem : IPreInitSystem, IDestroySystem
+    public class AbilityPopupUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         private bool _isSubscription;
         
         public void PreInit()
         {
-            AbilitySelectElementUIAction.OpenSelectAbilityCard += OpenWindow;
-            AbilitySelectElementUIAction.ClosePopup += CloseWindow;
-            AbilitySelectElementUIAction.SelectElement += SelectElement;
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo += OpenPopup;
+            AbilityPopupUISystemAction.ClosePopup += CloseWindow;
         }
 
-        private void OpenWindow(AbilityType abilityType, int indexDescr, bool basePositionFrame = true)
+        private void OpenPopup(AbilityType abilityType, int indexDescr, bool basePositionFrame = true)
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -37,36 +36,13 @@ namespace CyberNet.Core.AbilityCard
             if (playerComponent.playerOrAI != PlayerOrAI.Player)
                 return;
             
-            ref var abilityConfig = ref _dataWorld.OneData<CardsConfig>().AbilityCard;
-            
+            var abilityConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
             abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)
                 TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr);   
             else
                 TaskPlayerPopupAction.OpenPopup?.Invoke(actionVisualConfig.SelectFrameHeader, actionVisualConfig.SelectFrameDescr_2);
-        }
-
-        private void SelectElement(string textButton)
-        {
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TaskPlayerPopupUIMono;
-
-            /*
-            if (!_isSubscription)
-            {
-                _isSubscription = true;
-                AbilitySelectElementAction.ConfimSelect += ConfimSelect;
-            }*/
-        }
-
-        private void ConfimSelect()
-        {
-            /*
-            _isSubscription = false;
-            AbilitySelectElementAction.ConfimSelect -= ConfimSelect;
-            ref var uiActionSelectCard = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.AbilitySelectElementUIMono;
-            uiActionSelectCard.CloseWindow();
-            AbilityCardAction.ConfimSelectElement?.Invoke();*/
         }
         
         private void CloseWindow()
@@ -77,9 +53,8 @@ namespace CyberNet.Core.AbilityCard
 
         public void Destroy()
         {
-            AbilitySelectElementUIAction.OpenSelectAbilityCard -= OpenWindow;
-            AbilitySelectElementUIAction.ClosePopup -= CloseWindow;
-            AbilitySelectElementUIAction.SelectElement -= SelectElement;
+            AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo -= OpenPopup;
+            AbilityPopupUISystemAction.ClosePopup -= CloseWindow;
         }
     }
 }

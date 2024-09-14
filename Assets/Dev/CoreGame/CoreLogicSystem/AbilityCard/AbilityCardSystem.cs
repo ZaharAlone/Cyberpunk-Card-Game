@@ -206,6 +206,7 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.DestroyUnit:
                     break;
                 case AbilityType.EnemyDiscardCard:
+                    AbilityCardAction.CancelDiscardCard?.Invoke();
                     break;
                 case AbilityType.UnitMove:
                     AbilityCardAction.CancelMoveUnit?.Invoke(cardComponent.GUID);
@@ -268,7 +269,7 @@ namespace CyberNet.Core.AbilityCard
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
             
-            AbilitySelectElementUIAction.ClosePopup?.Invoke();
+            AbilityPopupUISystemAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
         }

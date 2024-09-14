@@ -4,7 +4,6 @@ namespace CyberNet.Core.BezierCurveNavigation
     {
         Tower,
         ArenaUnit,
-        Card,
         Player
     }
 }

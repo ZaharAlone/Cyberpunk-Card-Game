@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CyberNet.Core.UI;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,6 +10,11 @@ namespace CyberNet.Core.EnemyPassport
 {
     public class EnemyPassportFrameUIMono : MonoBehaviour
     {
+        [SerializeField]
+        [Required]
+        private EnemyPassportInteractiveMono _enemyPassportInteractiveMono;
+        
+        [Header("View")]
         [SerializeField]
         private Image _avatar;
         [SerializeField]
@@ -32,7 +38,6 @@ namespace CyberNet.Core.EnemyPassport
         private GameObject _effectSelectPlayer;
         [SerializeField]
         private List<GameObject> DiscardCardImages = new List<GameObject>();
-        [FormerlySerializedAs("EnemyPassportControlTerritoryView")]
         [SerializeField]
         private PlayerPassportValueWinProgressUIMono _enemyPassportControlTerritoryView;
 
@@ -49,6 +54,7 @@ namespace CyberNet.Core.EnemyPassport
         public void SetPlayerID(int playerID)
         {
             _playerID = playerID;
+            _enemyPassportInteractiveMono.SetPlayerID(playerID);
         }
 
         public int GetPlayerID()
@@ -66,11 +72,6 @@ namespace CyberNet.Core.EnemyPassport
         public void SetViewCountControlTerritory(int countBase)
         {
             _enemyPassportControlTerritoryView.SetCountValue(countBase);
-        }
-
-        public void OnSelectPlayer()
-        {
-            EnemyPassportAction.SelectPlayer?.Invoke(_playerID);
         }
 
         public void DiscardCardStatus(int count)

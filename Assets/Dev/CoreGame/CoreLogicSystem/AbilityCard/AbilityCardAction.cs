@@ -7,7 +7,6 @@ namespace CyberNet.Core.AbilityCard
         //Считаем сколько ресурсов стало
         public static Action UpdateValueResourcePlayedCard;
         public static Action ClearActionView;
-        public static Action<int> SelectPlayer;
         public static Action CancelAbility;
         public static Action<string> CompletePlayingAbilityCard;
         
@@ -33,7 +32,7 @@ namespace CyberNet.Core.AbilityCard
         public static Action<string> DestroyIce;
         public static Action<string> SwitchEnemyUnitMap;
         public static Action<string> SwitchNeutralUnitMap;
-        public static Action ConfimSelectElement;
+        public static Action ConfirmSelectElement;
         
         //Arena ability
         public static Action<string> HeadShot;
