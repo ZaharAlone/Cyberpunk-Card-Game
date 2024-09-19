@@ -82,7 +82,7 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
-            playerComponent.CurrentCountControlTerritory++;
+            playerComponent.VictoryPoint++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             

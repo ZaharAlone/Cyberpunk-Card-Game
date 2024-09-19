@@ -37,10 +37,15 @@ namespace CyberNet.Core.EnemyPassport
         [SerializeField]
         private GameObject _effectSelectPlayer;
         [SerializeField]
-        private List<GameObject> DiscardCardImages = new List<GameObject>();
+        [Required]
+        private TextMeshProUGUI _victoryPointText;
         [SerializeField]
-        private PlayerPassportValueWinProgressUIMono _enemyPassportControlTerritoryView;
-
+        [Required]
+        private GameObject _discardCardIcons;
+        [SerializeField]
+        [Required]
+        private TextMeshProUGUI _countDiscardCardText;
+        
         private int _playerID;
         
         public void SetViewPlayer(Sprite imageAvatar, string namePlayer, Sprite iconsUnit, Color32 colorUnit)
@@ -69,16 +74,24 @@ namespace CyberNet.Core.EnemyPassport
             _countCardInDiscardText.text = countCardDiscard.ToString();
         }
 
-        public void SetViewCountControlTerritory(int countBase)
+        public void SetCountVictoryPoint(int countVictoryPoint, int countTargetVictoryPoint)
         {
-            _enemyPassportControlTerritoryView.SetCountValue(countBase);
+            var textVP = countVictoryPoint + "/" + countTargetVictoryPoint;
+            _victoryPointText.text = textVP;
         }
 
         public void DiscardCardStatus(int count)
         {
-            for (int i = 0; i < DiscardCardImages.Count; i++)
+            if (count == 0)
             {
-                DiscardCardImages[i].SetActive(count > i);
+                _discardCardIcons.SetActive(false);
+                _countDiscardCardText.text = "";
+            }
+            else
+            {
+                _discardCardIcons.SetActive(true);
+                var countDiscardCardText = count > 1 ? count.ToString() : "";
+                _countDiscardCardText.text = countDiscardCardText;
             }
         }
         

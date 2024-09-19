@@ -16,8 +16,7 @@ namespace CyberNet.Core
         public void PreInit()
         {
             AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection += CalculateHowManyAbilitiesAvailableForSelection;
-            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena += CheckAbilityIsPlayingOnlyArena;
-            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap += CheckAbilityIsPlayingOnlyMap;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnMap += CheckAbilityIsPlayingOnMap;
         }
 
         private int CalculateHowManyAbilitiesAvailableForSelection(CardComponent cardComponent)
@@ -36,12 +35,6 @@ namespace CyberNet.Core
                     abilityCardCount++;
             }
             
-            if (cardComponent.Ability_2.AbilityType != AbilityType.None && cardComponent.Ability_2.Condition == AbilityCondition.None)
-            {
-                if (CheckAbilityCard(cardComponent.Ability_2.AbilityType))
-                    abilityCardCount++;
-            }
-            
             return abilityCardCount;
         }
 
@@ -54,50 +47,29 @@ namespace CyberNet.Core
             var isShow = false;
             if (currentRoundState == GameStateMapVSArena.Map)
             {
-                if (configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
+                if (configCard.VisualPlayingCard != VisualPlayingCardType.None)
                     isShow = true;
             }
             else
             {
-                if (configCard.VisualPlayingCardArena != VisualPlayingCardType.None)
+                if (configCard.VisualPlayingCard != VisualPlayingCardType.None)
                     isShow = true;
             }
             return isShow;
         }
         
-        private bool CheckAbilityIsPlayingOnlyArena(AbilityType abilityType)
+        private bool CheckAbilityIsPlayingOnMap(AbilityType abilityType)
         {
             var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
             abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
-            
-            if (configCard.VisualPlayingCardMap == VisualPlayingCardType.None &&
-                configCard.VisualPlayingCardArena != VisualPlayingCardType.None)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
-        
-        private bool CheckAbilityIsPlayingOnlyMap(AbilityType abilityType)
-        {
-            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
-            abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
-            
-            if (configCard.VisualPlayingCardArena == VisualPlayingCardType.None &&
-                configCard.VisualPlayingCardMap != VisualPlayingCardType.None)
-            {
-                return true;
-            }
-            else
-                return false;
+
+            return configCard.VisualPlayingCard != VisualPlayingCardType.Battle;
         }
 
         public void Destroy()
         {
             AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection -= CalculateHowManyAbilitiesAvailableForSelection;
-            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena -= CheckAbilityIsPlayingOnlyArena;
-            AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap -= CheckAbilityIsPlayingOnlyMap;
+            AbilityCardUtilsAction.CheckAbilityIsPlayingOnMap -= CheckAbilityIsPlayingOnMap;
         }
     }
 }

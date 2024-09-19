@@ -8,20 +8,19 @@ namespace CyberNet.Core
     {
         public Image ImageCard;
         public Localize TextHeader;
-        public Image ImageNations;
         public TextMeshProUGUI TextPriceCard;
-        public TextMeshProUGUI TextDestroyCard;
+        public TextMeshProUGUI TextLeftPoint;
+        public TextMeshProUGUI TextRightPoint;
         public Transform AbilityContainer;
 
-        public void SetViewCard(Sprite cardImage, string header, int price, int destroy, Sprite nationsImage)
+        public void SetViewCard(Sprite cardImage, string header, int price, int countLeftPoint, int countRightPoint)
         {
             ImageCard.sprite = cardImage;
             TextHeader.Term = header;
             
-            ImageNations.gameObject.SetActive(nationsImage != null);
-            ImageNations.sprite = nationsImage;
             TextPriceCard.text = price.ToString();
-            TextDestroyCard.text = destroy.ToString();
+            TextLeftPoint.text = countLeftPoint.ToString();
+            TextRightPoint.text = countRightPoint.ToString();
         }
 
         public void ClearViewCard()

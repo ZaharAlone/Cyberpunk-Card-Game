@@ -11,7 +11,6 @@ namespace CyberNet.Core
     {
         [Header("Settings")]
         public Image ImageCard;
-        public Image ImageNations;
 
         [Header("Up Bar")]
         [Required]
@@ -24,47 +23,34 @@ namespace CyberNet.Core
         [Required]
         public RectTransform AbilityBlockRect;
         [Required]
-        public TextMeshProUGUI Cyberpsychosis;
-        [FormerlySerializedAs("AbilityBlock_1_Container")]
-        [Required]
         public Transform AbilityBlock_0_Container;
-        [FormerlySerializedAs("AbilityBlock_2_Container")]
         [Required]
         public Transform AbilityBlock_1_Container;
-        [FormerlySerializedAs("AbilityBlock_3_Container")]
-        [Required]
-        public Transform AbilityBlock_2_Container;
         [Required]
         public Transform AbilityBlock_OneShot_Container;
         [Required]
         public GameObject SelectOneCardHeaderGO;
         [Required]
         public Localize SelectOneCardHeaderText;
-        [Required]
-        public GameObject DivideLine;
 
         public Transform CountCardBlock;
 
-        [Header("Localizations")]
-        [SerializeField]
-        private LocalizedString _chooseOneCardHeaderLoc;
-        [SerializeField]
-        private LocalizedString _useOneCardHeaderLoc;
+        [Header("Battle Point")]
+        [Required]
+        public TextMeshProUGUI LeftPointText;
+        [Required]
+        public TextMeshProUGUI RightPointText;
         
         [Header("VFX")]
         public GameObject VFXIsInteractiveCard;
         public GameObject VFXFlashOutlineCard;
         
-        public void SetViewCard(Sprite imageCard, string header, int cyberpsychosis, int price = 0,  Sprite imageNations = null)
+        public void SetViewCard(Sprite imageCard, string header, int leftPointCount, int rightointCount, int price = 0)
         {
             Header.Term = header;
             ImageCard.sprite = imageCard;
-            Cyberpsychosis.text = cyberpsychosis.ToString();
-
-            if (imageNations != null)
-                ImageNations.sprite = imageNations;
-            else
-                ImageNations.gameObject.SetActive(false);
+            LeftPointText.text = leftPointCount.ToString();
+            RightPointText.text = rightointCount.ToString();
 
             if (price != 0)
                 PriceText.text = price.ToString();
@@ -72,19 +58,9 @@ namespace CyberNet.Core
                 PriceText.gameObject.SetActive(false);
         }
 
-        public void SetHeaderSelectAbility(bool status, bool isDifferentAbility)
+        public void SetHeaderSelectAbility(bool status)
         {
-            if (isDifferentAbility)
-                SelectOneCardHeaderText.Term = _useOneCardHeaderLoc.mTerm;
-            else
-                SelectOneCardHeaderText.Term = _chooseOneCardHeaderLoc.mTerm;
-            
             SelectOneCardHeaderGO.SetActive(status);
-        }
-
-        public void IsConditionAbility(bool status)
-        {
-            DivideLine.SetActive(status);
         }
 
         public void SetBigDownBlock()

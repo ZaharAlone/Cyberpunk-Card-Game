@@ -61,7 +61,6 @@ namespace CyberNet.Core
             var cardConfig = _dataWorld.OneData<CardsConfig>();
             
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var boardGameConfig = boardGameData.BoardGameConfig;
             var cardsViewConfig = boardGameData.CardsViewConfig;
             
             cardsViewConfig.CardsImageDictionary.TryGetValue(cardConfigJson.ImageKey, out var cardImage);
@@ -72,61 +71,52 @@ namespace CyberNet.Core
                 return;
             }
 
-            if (cardConfigJson.Nations != "Neutral")
+            cardFace.SetViewCard(cardImage, cardConfigJson.Header, cardConfigJson.ValueLeftPoint, cardConfigJson.ValueRightPoint, cardConfigJson.Price);
+
+            if (cardConfigJson.CardType == CardType.TradeRow)
             {
-                boardGameConfig.NationsImage.TryGetValue(cardConfigJson.Nations, out var nationsImage);
-                cardFace.SetViewCard(cardImage, cardConfigJson.Header, cardConfigJson.CyberpsychosisCount, cardConfigJson.Price, nationsImage);
-
                 for (int i = 0; i < cardConfigJson.Count; i++)
-                    Object.Instantiate(cardsViewConfig.ItemIconsCounterCard, cardFace.CountCardBlock);
+                    Object.Instantiate(cardsViewConfig.ItemIconsCounterCard, cardFace.CountCardBlock);   
             }
-            else
-                cardFace.SetViewCard(cardImage, cardConfigJson.Header, cardConfigJson.CyberpsychosisCount, cardConfigJson.Price);
-
+            
             var isAbility_0 = cardConfigJson.Ability_0.AbilityType != AbilityType.None;
             var isAbility_1 = cardConfigJson.Ability_1.AbilityType != AbilityType.None;
-            var isAbility_2 = cardConfigJson.Ability_2.AbilityType != AbilityType.None;
             
-            var onlyOneAbility = isAbility_0 && !isAbility_1 && !isAbility_2;
-            var isSelectTwoAbility = isAbility_0 && isAbility_1;
+            var isOneAbility = isAbility_0 && !isAbility_1;
             
             var abilityIsDifferentType = CheckAbilityIsDifferentType(cardConfigJson.Ability_0.AbilityType, cardConfigJson.Ability_1.AbilityType);
+
+            var isShowChooseFromTwoAbilities = isAbility_0 && isAbility_1 && abilityIsDifferentType;
             
-            cardFace.SetHeaderSelectAbility(isSelectTwoAbility, abilityIsDifferentType);
-            cardFace.IsConditionAbility(isAbility_2);
+            cardFace.SetHeaderSelectAbility(isShowChooseFromTwoAbilities);
             
-            if (!isSelectTwoAbility)
+            if (isOneAbility)
                 cardFace.AbilityBlock_1_Container.gameObject.SetActive(false);
-            
-            if (isSelectTwoAbility && isAbility_2)
+            else
                 cardFace.SetBigDownBlock();
             
             if (cardConfigJson.Ability_0.AbilityType != AbilityType.None)
             {
-                if (onlyOneAbility)
-                    SetViewAbilityCard.SetView(cardFace.AbilityBlock_OneShot_Container, cardConfigJson.Ability_0, boardGameData, cardConfig, isSelectTwoAbility, abilityIsDifferentType, onlyOneAbility);
+                if (isOneAbility)
+                    SetViewAbilityCard.SetView(cardFace.AbilityBlock_OneShot_Container, cardConfigJson.Ability_0, boardGameData, cardConfig, isOneAbility, abilityIsDifferentType);
                 else
-                    SetViewAbilityCard.SetView(cardFace.AbilityBlock_0_Container, cardConfigJson.Ability_0, boardGameData, cardConfig, isSelectTwoAbility, abilityIsDifferentType);
+                    SetViewAbilityCard.SetView(cardFace.AbilityBlock_0_Container, cardConfigJson.Ability_0, boardGameData, cardConfig, isOneAbility, abilityIsDifferentType);
             }
             
-            if (cardConfigJson.Ability_1.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(cardFace.AbilityBlock_1_Container, cardConfigJson.Ability_1, boardGameData, cardConfig, isSelectTwoAbility, abilityIsDifferentType);
-            if (cardConfigJson.Ability_2.AbilityType != AbilityType.None)
-                SetViewAbilityCard.SetView(cardFace.AbilityBlock_2_Container, cardConfigJson.Ability_2, boardGameData, cardConfig);
+            if (isAbility_1)
+                SetViewAbilityCard.SetView(cardFace.AbilityBlock_1_Container, cardConfigJson.Ability_1, boardGameData, cardConfig, isOneAbility, abilityIsDifferentType);
 
             if (isBackCard)
                 card.CardOnBack();
         }
 
+        //Проверяем, можем ли разыграть обе абилки на карте или нет
         private bool CheckAbilityIsDifferentType(AbilityType abilityType_0, AbilityType abilityType_1)
         {
-            var abilityOnlyMap_0 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap.Invoke(abilityType_0);
-            var abilityOnlyMap_1 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyMap.Invoke(abilityType_1);
+            var abilityPlayinOnMap_0 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnMap.Invoke(abilityType_0);
+            var abilityPlayinOnMap_1 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnMap.Invoke(abilityType_1);
             
-            var abilityOnlyArena_0 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena.Invoke(abilityType_0);
-            var abilityOnlyArena_1 = AbilityCardUtilsAction.CheckAbilityIsPlayingOnlyArena.Invoke(abilityType_1);
-            
-            if (abilityOnlyMap_0 && abilityOnlyArena_1 || abilityOnlyArena_0 && abilityOnlyMap_1)
+            if (abilityPlayinOnMap_0 && abilityPlayinOnMap_1)
                 return true;
             else
                 return false;

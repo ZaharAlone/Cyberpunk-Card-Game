@@ -24,11 +24,7 @@ namespace CyberNet
         public ArenaMono ArenaMono;
         public GameObject AnalyticsGO;
         public CardMono CardDestroy;
-
-        [Header("Color Resource")]
-        public Color32 ColorAttackText;
-        public Color32 ColorTradeText;
-
+        
         [Header("Config Card")]
         public TextAsset CardConfigJson;
         public TextAsset PopupCardConfigJson;
@@ -41,8 +37,8 @@ namespace CyberNet
         public TextAsset AbilityLeaderConfigJson;
         
         [Header("Dictionary Links")]
-        public Dictionary<string, Sprite> NationsImage;
         public Dictionary<string, Sprite> CurrencyImage;
+        public Dictionary<string, Color32> CurrencyColor;
         public Dictionary<PlayerOrAI, LocalizedString> PlayerTypeLoc;
 
         [Header("Size")]

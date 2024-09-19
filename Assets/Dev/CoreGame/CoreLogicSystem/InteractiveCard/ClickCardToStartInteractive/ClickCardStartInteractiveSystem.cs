@@ -76,11 +76,12 @@ namespace CyberNet.Core.InteractiveCard
             
             if (currentRoundState == GameStateMapVSArena.Map)
             {
-                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardMap);
+                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCard);
             }
             else
             {
-                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardArena);
+                //TODO поправить
+                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCard);
             }
         }
         
@@ -108,7 +109,7 @@ namespace CyberNet.Core.InteractiveCard
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }
-            else if (visualPlayingCardType == VisualPlayingCardType.Target || visualPlayingCardType == VisualPlayingCardType.Zone)
+            else if (visualPlayingCardType == VisualPlayingCardType.Target)
             {
                 cardEntity.AddComponent(new SelectTargetCardAbilityComponent());
                 SelectTargetCardAbilityUIAction.SelectTarget?.Invoke();

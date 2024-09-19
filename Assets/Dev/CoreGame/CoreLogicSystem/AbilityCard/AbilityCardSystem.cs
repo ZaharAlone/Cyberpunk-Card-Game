@@ -53,34 +53,6 @@ namespace CyberNet.Core.AbilityCard
                     else
                         AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_1, cardInTableEntity);
                 }
-                
-                CheckComboEffect(cardInTableEntity);
-            }
-        }
-        
-        private void CheckComboEffect(Entity currentCardEntity)
-        {
-            ref var currentCardComponent = ref currentCardEntity
-                .GetComponent<CardComponent>();
-
-            var cardInTableEntities = _dataWorld.Select<CardComponent>()
-                .With<CardAbilitySelectionCompletedComponent>()
-                .GetEntities();
-            
-            foreach (var cardInTableEntity in cardInTableEntities)
-            {
-                ref var cardComponent = ref cardInTableEntity.GetComponent<CardComponent>();
-                ref var cardSelectAbilityComponent = ref cardInTableEntity
-                    .GetComponent<CardAbilitySelectionCompletedComponent>();
-                
-                if (cardComponent.GUID == currentCardComponent.GUID || cardComponent.Nations == CardNations.Neutral)
-                    continue;
-                
-                if (cardComponent.Nations == currentCardComponent.Nations && !cardSelectAbilityComponent.CalculateComboAbility)
-                {
-                    AddAbilityComponent(cardComponent.GUID, cardComponent.Ability_2, cardInTableEntity);
-                    cardSelectAbilityComponent.CalculateComboAbility = true;
-                }
             }
         }
 
@@ -121,6 +93,10 @@ namespace CyberNet.Core.AbilityCard
                     });
                     AbilityCardAction.DestroyCardAbility?.Invoke(guidCard);
                     break;
+                case AbilityType.SwitchUnit:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.SwitchEnemyUnitMap?.Invoke(guidCard);
+                    break;
                 case AbilityType.EnemyDiscardCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DiscardCard?.Invoke(guidCard);
@@ -129,46 +105,31 @@ namespace CyberNet.Core.AbilityCard
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.MoveUnit?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroyNeutralUnit:
-                    Debug.LogError("add call event Destroy neutral unit");
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.DestroyNeutralUnit?.Invoke(guidCard);
-                    break;
                 case AbilityType.DestroyUnit:
                     Debug.LogError("add call event Destroy enemy unit");
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.DestroyEnemyUnit?.Invoke(guidCard);
                     break;
+                case AbilityType.AddNoiseCard:
+                    ActionSelectCardAddComponent(abilityCardStruct, entity);
+                    AbilityCardAction.AddNoiseCard?.Invoke();
+                    break;
                 case AbilityType.SetIce:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
                     AbilityCardAction.SetIce?.Invoke(guidCard);
                     break;
-                case AbilityType.DestroyIce:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.DestroyIce?.Invoke(guidCard);
+                case AbilityType.PowerPoint:
                     break;
-                case AbilityType.SwitchEnemyUnit:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.SwitchEnemyUnitMap?.Invoke(guidCard);
+                case AbilityType.KillPoint:
                     break;
-                case AbilityType.SwitchNeutralUnit:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.SwitchNeutralUnitMap?.Invoke(guidCard);
+                case AbilityType.DefencePoint:
                     break;
-                case AbilityType.HeadShot:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.HeadShot?.Invoke(guidCard);
+                case AbilityType.Disorientation:
                     break;
-                case AbilityType.Grenade:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.ThrowGrenade?.Invoke(guidCard);
+                case AbilityType.MoveEnemyUnit:
                     break;
-
-                /*
-                case AbilityType.AddNoiseCard:
-                    ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.AddNoiseCard?.Invoke();
-                    break;*/
+                case AbilityType.TradeHack:
+                    break;
             }
         }
 
@@ -193,17 +154,7 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.DestroyCard:
                     AbilityCardAction.CancelDestroyCard?.Invoke(cardComponent.GUID);
                     break;
-                case AbilityType.CloneCard:
-                    break;
-                case AbilityType.DestroyTradeCard:
-                    break;
-                case AbilityType.SwitchNeutralUnit:
-                    break;
-                case AbilityType.SwitchEnemyUnit:
-                    break;
-                case AbilityType.DestroyNeutralUnit:
-                    break;
-                case AbilityType.DestroyUnit:
+                case AbilityType.SwitchUnit:
                     break;
                 case AbilityType.EnemyDiscardCard:
                     AbilityCardAction.CancelDiscardCard?.Invoke();
@@ -211,12 +162,23 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.UnitMove:
                     AbilityCardAction.CancelMoveUnit?.Invoke(cardComponent.GUID);
                     break;
+                case AbilityType.DestroyUnit:
+                    break;
+                case AbilityType.AddNoiseCard:
+                    break;
                 case AbilityType.SetIce:
                     break;
-                case AbilityType.DestroyIce:
+                case AbilityType.PowerPoint:
                     break;
-                case AbilityType.HeadShot:
-                    BezierCurveNavigationAction.OffBezierCurve?.Invoke();
+                case AbilityType.KillPoint:
+                    break;
+                case AbilityType.DefencePoint:
+                    break;
+                case AbilityType.Disorientation:
+                    break;
+                case AbilityType.MoveEnemyUnit:
+                    break;
+                case AbilityType.TradeHack:
                     break;
             }
             

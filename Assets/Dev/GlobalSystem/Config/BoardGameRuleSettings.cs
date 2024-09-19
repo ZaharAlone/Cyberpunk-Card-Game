@@ -11,7 +11,8 @@ namespace CyberNet
     {
         [Header ("Базовые параметры игрока")]
         public List<KeyValue> BasePoolCard = new List<KeyValue>();
-        [FormerlySerializedAs("StartCountSquad")]
+
+        public int VictoryPointToFinishGame = 25;
         public int CountSquad = 12;
         public int StartInitCountSquad = 2;
 

@@ -19,7 +19,6 @@ public class CardsViewConfigSO : SerializedScriptableObject
     [Header("Element ability card")]
     public Image IconsBaseAbility;
     public TextMeshProUGUI TextBaseAbilityCountItem;
-    public Image IconsArrowConditionAbility;
     public TextAbilityLocalizeMono TextBaseAbility;
     public GameObject ItemIconsCounterCard;
     public GameObject IconsArrowChooseAbility;

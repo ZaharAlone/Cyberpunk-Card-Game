@@ -8,6 +8,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard
 {
@@ -61,6 +62,8 @@ namespace CyberNet.Core.AbilityCard
             
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
+            Debug.LogError("Add discard card ability");
+            //Update view player
 
             EndPlayingAbility();
         }

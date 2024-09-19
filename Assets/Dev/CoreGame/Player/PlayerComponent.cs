@@ -8,12 +8,8 @@ namespace CyberNet.Core.Player
         public int PlayerID;
         
         public int UnitCount;
-        public int CurrentCountControlTerritory;
+        public int VictoryPoint;
         
-        //Ability Leader
-        public int LeaderPointAbilityCurrent;
-        public int LeaderPointAbilityMax;
-
         public int PositionInTurnQueue;
     }
 }

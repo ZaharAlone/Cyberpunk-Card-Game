@@ -31,9 +31,6 @@ namespace CyberNet.Core.AI
                 case AbilityType.DestroyCard:
                     value = multValueAction;
                     break;
-                case AbilityType.CloneCard:
-                    value = multValueAction;
-                    break;
             }
             
             return value;

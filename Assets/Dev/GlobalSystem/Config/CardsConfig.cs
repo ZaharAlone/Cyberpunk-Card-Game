@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet
 {
@@ -24,21 +26,20 @@ namespace CyberNet
 
         [JsonProperty("image")]
         public string ImageKey;
-        [JsonProperty("nations")]
-        public string Nations;
-        [JsonProperty("cyberpsychosis_count")]
-        public int CyberpsychosisCount;
+        [JsonProperty("card_type")]
+        public CardType CardType;
         [JsonProperty("price")]
         public int Price;
         [JsonProperty("count")]
         public int Count;
-
+        [JsonProperty("value_left_point")]
+        public int ValueLeftPoint;
+        [JsonProperty("value_right_point")]
+        public int ValueRightPoint;
         [JsonProperty("ability_0")]
         public AbilityCardContainer Ability_0;
         [JsonProperty("ability_1")]
         public AbilityCardContainer Ability_1;
-        [JsonProperty("ability_2")]
-        public AbilityCardContainer Ability_2;
     }
 
     [Serializable]
@@ -48,19 +49,15 @@ namespace CyberNet
         public AbilityType AbilityType;
         [JsonProperty("count")]
         public int Count;
-        [JsonProperty("condition")]
-        public AbilityCondition Condition;
     }
-
+    
     [Serializable]
-    public enum AbilityCondition
+    public enum CardType
     {
         None,
-        Corporates,
-        Guns,
-        Nomads,
-        Netrunners,
-        Destroy
+        StartDeck,
+        TradeRow,
+        Ability,
     }
 
     [Serializable]
@@ -70,10 +67,8 @@ namespace CyberNet
         public string AbilityLoc;
         [JsonProperty("abilityLocMultiple")]
         public string AbilityLocMultiple;
-        [JsonProperty("visualPlayingCard_Map")]
-        public VisualPlayingCardType VisualPlayingCardMap;
-        [JsonProperty("visualPlayingCard_Arena")]
-        public VisualPlayingCardType VisualPlayingCardArena;
+        [JsonProperty("visualPlayingCard")]
+        public VisualPlayingCardType VisualPlayingCard;
         [JsonProperty("selectFrame_headerLoc")]
         public string SelectFrameHeader;
         [JsonProperty("selectFrame_descrLoc")]
@@ -92,7 +87,6 @@ namespace CyberNet
         None,
         Table,
         Target,
-        Zone,
-        Custom
+        Battle,
     }
 }

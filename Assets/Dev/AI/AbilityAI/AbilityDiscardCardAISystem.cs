@@ -33,11 +33,11 @@ namespace CyberNet.Core.AI.Ability
             foreach (var playerEntity in playerEntities)
             {
                 var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-                if (playerComponent.CurrentCountControlTerritory < maxVP)
+                if (playerComponent.VictoryPoint < maxVP)
                     continue;
                 
                 targetPlayerID = playerComponent.PlayerID;
-                maxVP = playerComponent.CurrentCountControlTerritory;
+                maxVP = playerComponent.VictoryPoint;
             }
             
             var targetPlayerEntity = _dataWorld.Select<PlayerComponent>()
@@ -75,8 +75,7 @@ namespace CyberNet.Core.AI.Ability
             {
                 ref var cardComponent = ref cardEntity.GetComponent<CardComponent>();
                 var scoreCard = CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_0, botConfigData)
-                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_1, botConfigData)
-                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_2, botConfigData);
+                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_1, botConfigData);
                 scoreCard /= cardComponent.Price;
                 scoresCard.Add(new ScoreCardToBuy { GUID = cardComponent.GUID, ScoreCard = scoreCard, Cost = cardComponent.Price});
             }

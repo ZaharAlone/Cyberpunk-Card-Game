@@ -16,18 +16,17 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: a686c011e13e02c4bb21fa2c65f75304, type: 3}
-    - {fileID: 21300000, guid: a792e0e5b42f8644981310bee60ec643, type: 3}
-    - {fileID: 21300000, guid: 52adcccafc684bb4180208a344fa1eb5, type: 3}
-    - {fileID: 21300000, guid: 6626fe5e11c6869478c4440dc0d720d6, type: 3}
     - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
     - {fileID: 21300000, guid: 8254cab71c190c44ab5879d1a47a1880, type: 3}
+    - {fileID: 21300000, guid: f2e3f5e03d6527f4d9200a2abe4b5562, type: 3}
+    - {fileID: 21300000, guid: bcb14e52b47126f47860695bb231d89d, type: 3}
+    - {fileID: 21300000, guid: 9c96585e0d85fff4c912a1934ac59b65, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: NationsImage
+    - Name: CurrencyImage
       Entry: 7
       Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
         UnityEngine.CoreModule]], mscorlib
@@ -40,13 +39,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: Guns
+      Data: Attack
     - Name: $v
       Entry: 10
       Data: 0
@@ -58,7 +57,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Corporates
+      Data: Trade
     - Name: $v
       Entry: 10
       Data: 1
@@ -70,7 +69,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Netrunners
+      Data: KillPoint
     - Name: $v
       Entry: 10
       Data: 2
@@ -82,10 +81,22 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Nomads
+      Data: DefencePoint
     - Name: $v
       Entry: 10
       Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: PowerPoint
+    - Name: $v
+      Entry: 10
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
@@ -95,16 +106,20 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: CurrencyImage
+    - Name: CurrencyColor
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Sprite,
+      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Color32,
         UnityEngine.CoreModule]], mscorlib
     - Name: comparer
-      Entry: 9
-      Data: 1
+      Entry: 7
+      Data: 3|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
@@ -112,8 +127,23 @@ MonoBehaviour:
       Entry: 1
       Data: Attack
     - Name: $v
-      Entry: 10
-      Data: 4
+      Entry: 7
+      Data: UnityEngine.Color32, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 160
+    - Name: 
+      Entry: 3
+      Data: 14
+    - Name: 
+      Entry: 3
+      Data: 17
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -124,8 +154,104 @@ MonoBehaviour:
       Entry: 1
       Data: Trade
     - Name: $v
-      Entry: 10
+      Entry: 7
+      Data: UnityEngine.Color32, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 241
+    - Name: 
+      Entry: 3
+      Data: 234
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: DefencePoint
+    - Name: $v
+      Entry: 7
+      Data: UnityEngine.Color32, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 105
+    - Name: 
+      Entry: 3
+      Data: 191
+    - Name: 
+      Entry: 3
+      Data: 128
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: KillPoint
+    - Name: $v
+      Entry: 7
+      Data: UnityEngine.Color32, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 232
+    - Name: 
+      Entry: 3
       Data: 5
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: PowerPoint
+    - Name: $v
+      Entry: 7
+      Data: UnityEngine.Color32, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 219
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 3
+      Data: 255
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -137,11 +263,11 @@ MonoBehaviour:
       Data: 
     - Name: PlayerTypeLoc
       Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[CyberNet.Global.PlayerOrAI,
+      Data: 4|System.Collections.Generic.Dictionary`2[[CyberNet.Global.PlayerOrAI,
         Assembly-CSharp],[I2.Loc.LocalizedString, Assembly-CSharp-firstpass]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[CyberNet.Global.PlayerOrAI,
+      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[CyberNet.Global.PlayerOrAI,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -229,24 +355,6 @@ MonoBehaviour:
   AnalyticsGO: {fileID: 165288, guid: a9d27d37bab3c447b8eb7a2a6756e952, type: 3}
   CardDestroy: {fileID: 3130379233447879336, guid: dd2a338daed25664d8e62006d4d6cf53,
     type: 3}
-  IconsBaseAbility: {fileID: 7752582939702526963, guid: 12e2b02019b2bb7419ed88604fc95f12,
-    type: 3}
-  TextBaseAbilityCountItem: {fileID: 5677971599807528328, guid: dce4aeb69268a564981261a2b9547b31,
-    type: 3}
-  IconsArrowConditionAbility: {fileID: 7429665441295577904, guid: 96cb73ca5cfc8d046a0ef461f76de8c7,
-    type: 3}
-  TextBaseAbility: {fileID: -6500071186998856279, guid: 9a90bfb11b0e27b43ae451c8a5634606,
-    type: 3}
-  ItemIconsCounterCard: {fileID: 4668678704381399944, guid: 11f5bebe6308eff4584d9a6689c8b133,
-    type: 3}
-  IconsArrowChooseAbility: {fileID: 447946509587860430, guid: d6fd014ad78a075469d68b29b6c4fa28,
-    type: 3}
-  ColorAttackText:
-    serializedVersion: 2
-    rgba: 4279307936
-  ColorTradeText:
-    serializedVersion: 2
-    rgba: 4278250225
   CardConfigJson: {fileID: 4900000, guid: 2fb0c42ecd36cc9488259098da20a86a, type: 3}
   PopupCardConfigJson: {fileID: 4900000, guid: 47d0622b94d88a74d985dcddb9b55951, type: 3}
   PopupTaskConfigJson: {fileID: 4900000, guid: fa7bd7156452a1f49b4c37e44f229702, type: 3}

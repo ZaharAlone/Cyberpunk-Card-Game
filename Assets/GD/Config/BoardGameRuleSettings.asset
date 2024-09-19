@@ -23,14 +23,15 @@ MonoBehaviour:
     SerializationNodes: []
   BasePoolCard:
   - Item: neutral_hunter
-    Value: 2
+    Value: 1
   - Item: neutral_scout
-    Value: 7
+    Value: 3
   - Item: neutral_explorer
     Value: 1
-  CountSquad: 15
+  VictoryPointToFinishGame: 25
+  CountSquad: 12
   StartInitCountSquad: 2
-  OpenCardInShop: 5
+  OpenCardInShop: 6
   CountDropCard: 5
   CountNeutralUnitInTower: 2
   EndRoundPopup: popup_endTurn_bt

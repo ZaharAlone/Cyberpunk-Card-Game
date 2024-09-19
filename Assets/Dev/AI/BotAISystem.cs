@@ -261,8 +261,7 @@ namespace CyberNet.Core.AI
             {
                 ref var cardComponent = ref cardEntity.GetComponent<CardComponent>();
                 var scoreCard = CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_0, botConfigData)
-                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_1, botConfigData)
-                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_2, botConfigData);
+                    + CalculateOptimalCard.CalculateCardScore(cardComponent.Ability_1, botConfigData);
                 scoreCard /= cardComponent.Price;
                 scoresCard.Add(new ScoreCardToBuy { GUID = cardComponent.GUID, ScoreCard = scoreCard, Cost = cardComponent.Price});
             }
