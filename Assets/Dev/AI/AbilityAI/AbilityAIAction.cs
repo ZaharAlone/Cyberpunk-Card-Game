@@ -5,6 +5,7 @@ namespace CyberNet.Core.AI.Ability
     {
         public static Action DiscardCardSelectPlayer;
         public static Action DiscardCardSelectCard;
+        public static Action EndDiscardCard;
 
         public static Action AddNoiseSelectPlayer;
         

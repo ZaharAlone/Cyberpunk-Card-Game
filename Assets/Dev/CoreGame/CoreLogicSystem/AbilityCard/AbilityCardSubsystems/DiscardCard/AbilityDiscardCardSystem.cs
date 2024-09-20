@@ -62,8 +62,6 @@ namespace CyberNet.Core.AbilityCard
             
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
-            Debug.LogError("Add discard card ability");
-            //Update view player
 
             EndPlayingAbility();
         }

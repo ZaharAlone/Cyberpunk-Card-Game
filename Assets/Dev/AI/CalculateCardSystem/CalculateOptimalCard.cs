@@ -8,6 +8,7 @@ namespace CyberNet.Core.AI
     {
         public static float CalculateCardScore(AbilityCardContainer abilityCard, BotConfigData botConfigData)
         {
+            //TODO Срочно дописать под актуальные абилки
             if (abilityCard.AbilityType == AbilityType.None)
                 return 0f;
             
@@ -32,6 +33,10 @@ namespace CyberNet.Core.AI
                     value = multValueAction;
                     break;
             }
+
+            //TODO костыль
+            if (value == 0)
+                value = 1f;
             
             return value;
         }

@@ -21,7 +21,8 @@ namespace CyberNet.Core.AI
     {
         private DataWorld _dataWorld;
 
-        private float _timeWaitActionBot = 0.6f;
+        private const float timeWaitActionBot = 0.7f;
+        private const float timeWaitPlayingCard = 0.35f;
         
         public void PreInit()
         {
@@ -49,22 +50,9 @@ namespace CyberNet.Core.AI
             if (playerEntity.HasComponent<PlayerDiscardCardComponent>())
                 DiscardCard();
             else
-            {
                 StartTurnBot();
-            }
         }
-
-
-        private void DiscardCard()
-        {
-            //show view discard card
-            AbilityAIAction.DiscardCardSelectCard?.Invoke();
-            
-            _dataWorld.NewEntity().AddComponent(new TimeComponent {
-                Time = _timeWaitActionBot, Action = () => StartTurnBot()
-            });
-        }
-
+        
         // Выбираем стартовую базу
         private void SelectFirstBase()
         {
@@ -92,23 +80,24 @@ namespace CyberNet.Core.AI
             }
         }
 
+        private void DiscardCard()
+        {
+            //logic discard card
+            AbilityAIAction.EndDiscardCard += EndDiscardCard;
+            AbilityAIAction.DiscardCardSelectCard?.Invoke();
+        }
+
+        private void EndDiscardCard()
+        {
+            AbilityAIAction.EndDiscardCard -= EndDiscardCard;
+            StartTurnBot();
+        }
+
         // Начинаем ход бота
         private void StartTurnBot()
         {
             CityAction.UpdatePresencePlayerInCity?.Invoke();
-
-            BotAIAction.EndPlayingCards += EndPlayingCards;
             PlayCard();
-        }
-
-        private void EndPlayingCards()
-        {
-            BotAIAction.EndPlayingCards -= EndPlayingCards;
-            SelectingCardToPurchase();
-            
-            _dataWorld.NewEntity().AddComponent(new TimeComponent {
-                Time = _timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
-            });
         }
 
         private void PlayCard()
@@ -123,7 +112,10 @@ namespace CyberNet.Core.AI
 
             if (countCard == 0)
             {
-                BotAIAction.EndPlayingCards?.Invoke();
+                var timeEntity = _dataWorld.NewEntity();
+                timeEntity.AddComponent(new TimeComponent {
+                    Time = timeWaitActionBot, Action = () => EndPlayingCards()
+                });
                 return;
             }
             
@@ -137,18 +129,25 @@ namespace CyberNet.Core.AI
 
             // Если абилка - передвижение юнита, значит прерываем цикл разыгрывания карт и ждем окончания битвы.
             if (selectAbilityType == AbilityType.UnitMove)
-            {
                 BotAIAction.ContinuePlayingCards += PlayCard;
-            }
             else
             {
                 var timeEntity = _dataWorld.NewEntity();
                 timeEntity.AddComponent(new TimeComponent {
-                    Time = 0.35f, Action = () => PlayCard()
-                });   
+                    Time = timeWaitPlayingCard, Action = () => PlayCard()
+                });
             }
         }
-
+        
+        private void EndPlayingCards()
+        {
+            SelectingCardToPurchase();
+            
+            _dataWorld.NewEntity().AddComponent(new TimeComponent {
+                Time = timeWaitActionBot, Action = () => ActionPlayerButtonEvent.ActionEndTurnBot?.Invoke()
+            });
+        }
+        
         //Ищем какую карту стоит разыграть в первую очередь
         private Entity FindPriorityCardPlay()
         {
@@ -303,7 +302,6 @@ namespace CyberNet.Core.AI
         public void Destroy()
         {
             RoundAction.StartTurnAI -= StartTurn;
-            BotAIAction.EndPlayingCards -= EndPlayingCards;
         }
     }
 }
