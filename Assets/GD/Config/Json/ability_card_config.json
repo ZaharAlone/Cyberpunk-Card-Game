@@ -1,115 +1,112 @@
 {
   "AddUnit": {
+    "popupHeaderLoc": "CorePopup/$popup_AddUnit_header",
+    "popupDescrLoc": "CorePopup/$popup_AddUnit_descr",
     "abilityLoc": "AbilityCard/$cardAbility_addUnit",
-    "abilityLocMultiple": "AbilityCard/$cardAbility_addUnitMultiple",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
-    "selectFrame_descrLoc": "AbilityCard/$cardAbility_attack"
+    "abilityLocMany": "AbilityCard/$cardAbility_addUnitMultiple",
+    "visualPlayingCard": "Target"
   },
   "Trade": {
-    "visualPlayingCard_Map": "Table",
-    "visualPlayingCard_Arena": "None"
+    "popupHeaderLoc": "CorePopup/$popup_Trade_header",
+    "popupDescrLoc": "CorePopup/$popup_Trade_descr",
+    "visualPlayingCard": "Table"
   },
   "DrawCard": {
+    "popupHeaderLoc": "CorePopup/$popup_DrawCard_header",
+    "popupDescrLoc": "CorePopup/$popup_DrawCard_descr",
     "abilityLoc": "AbilityCard/$cardAbility_drawCard",
-    "visualPlayingCard_Map": "Table",
-    "visualPlayingCard_Arena": "Table"
+    "visualPlayingCard": "Table"
   },
   "DestroyCard": {
+    "popupHeaderLoc": "CorePopup/$popup_DestroyCard_header",
+    "popupDescrLoc": "CorePopup/$popup_DestroyCard_descr",
     "abilityLoc": "AbilityCard/$cardAbility_destroyCard",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
+    "abilityLocMany": "AbilityCard/$cardAbility_destroyCard_many",
+    "visualPlayingCard": "Table",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyCard_one_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyCard_one_descr"
   },
-  "CloneCard": {
-    "abilityLoc": "AbilityCard/$cardAbility_cloneCard",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
-  },
-  "DestroyTradeCard": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroyTradeCard",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
-  },
-  "SwitchNeutralUnit": {
-    "abilityLoc": "AbilityCard/$cardAbility_switchNeutralSquad",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
-  },
-  "SwitchEnemyUnit": {
-    "abilityLoc": "AbilityCard/$cardAbility_switchEnemySquad",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
+  "SwitchUnit": {
+    "popupHeaderLoc": "CorePopup/$popup_SwitchUnit_header",
+    "popupDescrLoc": "CorePopup/$popup_SwitchUnit_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_switchUnit",
+    "visualPlayingCard": "Target",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_switchUnit_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_switchUnit_descr"
   },
   "EnemyDiscardCard": {
+    "popupHeaderLoc": "CorePopup/$popup_EnemyDiscardCard_header",
+    "popupDescrLoc": "CorePopup/$popup_EnemyDiscardCard_descr",
     "abilityLoc": "AbilityCard/$cardAbility_enemyDiscardCard",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
+    "abilityLocMany": "AbilityCard/$cardAbility_enemyDiscardCard_many",
+    "visualPlayingCard": "Target",
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_discardCard_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_discardCard_descr",
-    "selectPlayerFrame_headerLoc": "CoreGame/$bg_selectPlayerDiscardCard_header",
-    "selectPlayerFrame_descrLoc": "CoreGame/$bg_selectPlayerDiscardCard_discard"
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_discardCard_descr"
   },
   "UnitMove": {
-    "abilityLoc": "AbilityCard/$cardAbility_squadMove",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_squadMove_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_squadMove_descr",
-    "selectFrame_descrLoc_2": "CoreGame/$bg_abilityAction_squadMove_descr_2"
+    "popupHeaderLoc": "CorePopup/$popup_UnitMove_header",
+    "popupDescrLoc": "CorePopup/$popup_UnitMove_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_unitMove",
+    "visualPlayingCard": "Target",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_unitMove_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_unitMove_descr",
+    "selectFrame_descrLoc_2": "CoreGame/$bg_abilityAction_unitMove_descr_2"
+  },
+  "DestroyUnit": {
+    "popupHeaderLoc": "CorePopup/$popup_DestroyUnit_header",
+    "popupDescrLoc": "CorePopup/$popup_DestroyUnit_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_destroyUnit",
+    "visualPlayingCard": "Target",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyUnit_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyUnit_descr"
+  },
+  "AddNoiseCard": {
+    "popupHeaderLoc": "CorePopup/$popup_AddNoiseCard_header",
+    "popupDescrLoc": "CorePopup/$popup_AddNoiseCard_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_addNoiseCard",
+    "visualPlayingCard": "Target",
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_addNoiseCard_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_addNoiseCard_descr"
   },
   "SetIce": {
+    "popupHeaderLoc": "CorePopup/$popup_SetIce_header",
+    "popupDescrLoc": "CorePopup/$popup_SetIce_descr",
     "abilityLoc": "AbilityCard/$cardAbility_setIce",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
+    "visualPlayingCard": "Target",
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_setIce_header",
     "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_setIce_descr"
   },
-  "DestroyIce": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroyIce",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyIce_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyIce_descr"
+  "PowerPoint": {
+    "popupHeaderLoc": "CorePopup/$popup_PowerPoint_header",
+    "popupDescrLoc": "CorePopup/$popup_PowerPoint_descr",
+    "visualPlayingCard": "Battle"
   },
-  "DestroyUnit": {
-    "abilityLoc": "AbilityCard/$cardAbility_destroySquad",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroySquad_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroySquad_descr"
+  "KillPoint": {
+    "popupHeaderLoc": "CorePopup/$popup_KillPoint_header",
+    "popupDescrLoc": "CorePopup/$popup_KillPoint_descr",
+    "visualPlayingCard": "Battle"
   },
-  "Grenade": {
-    "abilityLoc": "AbilityCard/$cardAbility_grenade",
-    "visualPlayingCard_Map": "None",
-    "visualPlayingCard_Arena": "Zone",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_throwGrenade_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_throwGrenade_descr"
+  "DefencePoint": {
+    "popupHeaderLoc": "CorePopup/$popup_DefencePoint_header",
+    "popupDescrLoc": "CorePopup/$popup_DefencePoint_descr",
+    "visualPlayingCard": "Battle"
   },
-  "HeadShot": {
-    "abilityLoc": "AbilityCard/$cardAbility_headShot",
-    "visualPlayingCard_Map": "None",
-    "visualPlayingCard_Arena": "Target",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_headshot_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_headshot_descr"
+  "Disorientation": {
+    "popupHeaderLoc": "CorePopup/$popup_Disorientation_header",
+    "popupDescrLoc": "CorePopup/$popup_Disorientation_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_disorientation",
+    "visualPlayingCard": "Target"
   },
-  "LuckyShot": {
-    "abilityLoc": "AbilityCard/$cardAbility_luckyShot",
-    "visualPlayingCard_Map": "None",
-    "visualPlayingCard_Arena": "Custom"
+  "MoveEnemyUnit": {
+    "popupHeaderLoc": "CorePopup/$popup_MoveEnemyUnit_header",
+    "popupDescrLoc": "CorePopup/$popup_MoveEnemyUnit_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_moveEnemyUnit",
+    "visualPlayingCard": "Target"
   },
-  "Cyberpsychosis": {
-    "abilityLoc": "AbilityCard/$cardAbility_Cyberpsychosis",
-    "visualPlayingCard_Map": "None",
-    "visualPlayingCard_Arena": "Custom"
-  },
-  "Shield": {
-    "abilityLoc": "AbilityCard/$cardAbility_Shield",
-    "visualPlayingCard_Map": "None",
-    "visualPlayingCard_Arena": "Zone"
-  },
-  "AddNoiseCard": {
-    "abilityLoc": "AbilityCard/$cardAbility_addNoiseCard",
-    "visualPlayingCard_Map": "Target",
-    "visualPlayingCard_Arena": "None"
+  "TradeHack": {
+    "popupHeaderLoc": "CorePopup/$popup_TradeHack_header",
+    "popupDescrLoc": "CorePopup/$popup_TradeHack_descr",
+    "abilityLoc": "AbilityCard/$cardAbility_tradeHack",
+    "visualPlayingCard": "Target"
   }
 }

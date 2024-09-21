@@ -172,7 +172,7 @@ namespace CyberNet.Core.City
                         && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                     .Count();
 
-                playerComponent.CurrentCountControlTerritory = countControlTerritoryPlayer;
+                playerComponent.VictoryPoint = countControlTerritoryPlayer;
             }
         }
 

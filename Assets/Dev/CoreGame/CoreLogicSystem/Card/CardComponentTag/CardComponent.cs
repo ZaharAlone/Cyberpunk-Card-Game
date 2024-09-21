@@ -13,13 +13,13 @@ namespace CyberNet.Core
         public CardMono CardMono;
         public CardConfigJson Stats;
 
+        public int ValueLeftPoint;
+        public int ValueRightPoint;
+        
         public string Key;
-        public CardNations Nations;
-        public int DestroyPointCount;
         public int Price;
 
         public AbilityCardContainer Ability_0;
         public AbilityCardContainer Ability_1;
-        public AbilityCardContainer Ability_2;
     }
 }

@@ -122,19 +122,17 @@ namespace CyberNet.Core
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
 
             var boardGameData = _dataWorld.OneData<BoardGameData>();
-            var boardGameConfig = boardGameData.BoardGameConfig;
             var cardsViewConfig = boardGameData.CardsViewConfig;
 
             cardsConfig.Cards.TryGetValue(cardComponent.Key, out var cardConfig);
             
             cardsViewConfig.CardsImageDictionary.TryGetValue(cardConfig.ImageKey, out var cardImage);
             
-            boardGameConfig.NationsImage.TryGetValue(cardConfig.Nations, out var nationsImage);
-            uiSelectAbility.LeftCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.CyberpsychosisCount, nationsImage);
-            uiSelectAbility.RightCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.CyberpsychosisCount, nationsImage);
-            
-            SetViewAbilityCard.SetView(uiSelectAbility.LeftCard.AbilityContainer, cardConfig.Ability_0, boardGameData, cardsConfig, false, false,true);
-            SetViewAbilityCard.SetView(uiSelectAbility.RightCard.AbilityContainer, cardConfig.Ability_1, boardGameData, cardsConfig, false, false, true);
+            uiSelectAbility.LeftCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.ValueLeftPoint, cardConfig.ValueRightPoint);
+            uiSelectAbility.RightCard.SetViewCard(cardImage, cardConfig.Header, cardConfig.Price, cardConfig.ValueLeftPoint, cardConfig.ValueRightPoint);
+            //TODO разобраться
+            SetViewAbilityCard.SetView(uiSelectAbility.LeftCard.AbilityContainer, cardConfig.Ability_0, boardGameData, cardsConfig, false, false);
+            SetViewAbilityCard.SetView(uiSelectAbility.RightCard.AbilityContainer, cardConfig.Ability_1, boardGameData, cardsConfig, false, false);
             uiSelectAbility.OpenFrame();
         }
         

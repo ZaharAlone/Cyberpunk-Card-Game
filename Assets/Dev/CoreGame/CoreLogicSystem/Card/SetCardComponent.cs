@@ -14,13 +14,12 @@ namespace CyberNet.Core
                 RectTransform = cardMono.RectTransform,
                 Stats = stats,
                 CardMono = cardMono,
+                ValueLeftPoint = stats.ValueLeftPoint,
+                ValueRightPoint = stats.ValueRightPoint,
                 Key = stats.Name,
-                Nations = (CardNations)System.Enum.Parse(typeof(CardNations), stats.Nations),
-                DestroyPointCount = stats.CyberpsychosisCount,
                 Price = stats.Price,
                 Ability_0 = stats.Ability_0,
                 Ability_1 = stats.Ability_1,
-                Ability_2 = stats.Ability_2
             };
 
             component.CardMono.InteractiveCard.GUID = component.GUID;

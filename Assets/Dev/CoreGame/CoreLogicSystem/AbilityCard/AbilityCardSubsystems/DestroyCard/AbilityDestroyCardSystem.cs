@@ -6,6 +6,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using CyberNet.Global.Config;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -57,8 +58,24 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             {
                 //TODO show not card for destroy popup
             }
-            
-            boardGameUI.DestroyCardUIMono.EnablePanel();
+
+            var cardAbilityComponent = _dataWorld.Select<CardComponent>()
+                .With<AbilitySelectElementComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity()
+                .GetComponent<AbilitySelectElementComponent>();
+
+            var supportLocData = _dataWorld.OneData<BoardGameData>().SupportLocalize;
+
+            if (cardAbilityComponent.AbilityCard.Count == 1)
+            {
+                boardGameUI.DestroyCardUIMono.EnablePanel(supportLocData.HeaderDestroyOneCard, supportLocData.DescrDestroyOneCard);
+            }
+            else
+            {
+                boardGameUI.DestroyCardUIMono.EnablePanel(supportLocData.HeaderDestroyManyCard, 
+                    supportLocData.DescrDestroyManyCard, cardAbilityComponent.AbilityCard.Count.ToString());
+            }
         }
 
         private int SetViewCardInHand(string guidCard, int playerID)

@@ -61,13 +61,6 @@ namespace CyberNet.Meta
             SelectLeadersDescrLoc.Term = descr;
         }
 
-        public void SetSelectViewLeaderAbility(Sprite imageAbility, string name, string descr)
-        {
-            SelectLeadersAbilityImage.sprite = imageAbility;
-            SelectLeadersAbilityNameLoc.Term = name;
-            SelectLeadersAbilityDescrLoc.Term = descr;
-        }
-
         public void SetLocSelectPlayer(string namePlayer)
         {
             HeaderSelectTargetPlayer.text = namePlayer;

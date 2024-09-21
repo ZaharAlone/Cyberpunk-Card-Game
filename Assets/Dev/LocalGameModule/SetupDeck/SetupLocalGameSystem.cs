@@ -42,9 +42,9 @@ namespace CyberNet.Core
                 var card = cardKeyValue.Value;
                 for (var i = 0; i < card.Count; i++)
                 {
-                    if (card.Nations != "Neutral")
+                    if (card.CardType == CardType.TradeRow)
                         shopCard.Add(new CardData { IDPositions = shopCard.Count, CardName = card.Name });
-                    else
+                    else if (card.CardType == CardType.StartDeck)
                     {
                         if (!CheckCardIsPlayer(card.Name))
                         {

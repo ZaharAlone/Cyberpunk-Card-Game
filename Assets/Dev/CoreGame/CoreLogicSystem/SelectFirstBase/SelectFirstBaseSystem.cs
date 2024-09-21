@@ -82,7 +82,7 @@ namespace CyberNet.Core.SelectFirstBase
             }
 
             playerComponent.UnitCount -= gameRuleInitUnit;
-            playerComponent.CurrentCountControlTerritory++;
+            playerComponent.VictoryPoint++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
             towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
             
@@ -92,7 +92,7 @@ namespace CyberNet.Core.SelectFirstBase
             var tradeRowUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             tradeRowUI.TradeRowToMiniPanelAnimations();
 
-            TaskPlayerPopupAction.HidePopup?.Invoke();
+            TaskPlayerPopupAction.ClosePopup?.Invoke();
             CityAction.HideFirstBaseTower?.Invoke();
             RoundAction.StartTurn?.Invoke();
             

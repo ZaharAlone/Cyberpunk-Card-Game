@@ -1,4 +1,6 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.DiscardCard;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using EcsCore;
 using ModulesFramework.Attributes;
@@ -24,6 +26,13 @@ namespace CyberNet.Core.InteractiveCard
 
         private void DownClickCard(string guid)
         {
+            var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerIsDiscardsCardComponent>()
+                .Count() > 0;
+            if (playerIsDiscardCard)
+                return;
+            
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
@@ -59,29 +68,18 @@ namespace CyberNet.Core.InteractiveCard
 
             var cardComponent = entity.GetComponent<CardComponent>();
             var selectAbility = entity.GetComponent<CardAbilitySelectionCompletedComponent>().SelectAbility;
-            var currentRoundState = _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena;
             
             var configAbility = _dataWorld.OneData<CardsConfig>().AbilityCard;
             var cardAbility = new AbilityCardContainer();
            
             if (selectAbility == SelectAbilityEnum.Ability_0)
-            {
                 cardAbility = cardComponent.Ability_0;
-            }
             else
-            {
                 cardAbility = cardComponent.Ability_1;
-            }
+            
             configAbility.TryGetValue(cardAbility.AbilityType.ToString(), out var abilityCardConfig);
             
-            if (currentRoundState == GameStateMapVSArena.Map)
-            {
-                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardMap);
-            }
-            else
-            {
-                ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCardArena);
-            }
+            ApplyAbilityCard(guid, abilityCardConfig.VisualPlayingCard);
         }
         
         private void ApplyAbilityCard(string guid, VisualPlayingCardType visualPlayingCardType)
@@ -108,7 +106,7 @@ namespace CyberNet.Core.InteractiveCard
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }
-            else if (visualPlayingCardType == VisualPlayingCardType.Target || visualPlayingCardType == VisualPlayingCardType.Zone)
+            else if (visualPlayingCardType == VisualPlayingCardType.Target)
             {
                 cardEntity.AddComponent(new SelectTargetCardAbilityComponent());
                 SelectTargetCardAbilityUIAction.SelectTarget?.Invoke();

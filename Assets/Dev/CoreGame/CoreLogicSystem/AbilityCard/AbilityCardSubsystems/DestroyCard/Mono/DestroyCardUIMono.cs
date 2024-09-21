@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using I2.Loc;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 namespace CyberNet.Core.AbilityCard.DestroyCard
@@ -13,6 +15,17 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         [SerializeField]
         [Required]
         private GameObject _panel;
+
+        [Header("Header")]
+        [SerializeField]
+        [Required]
+        private Localize _headerPopup;
+        [SerializeField]
+        [Required]
+        private Localize _descriptionPopup;
+        [SerializeField]
+        [Required]
+        private LocalizationParamsManager _descriptionPopupParams;
         
         [Header("Element")]
         [SerializeField]
@@ -30,9 +43,9 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         [Required]
         public RectTransform TransformDestroyZone;
         
-        public List<CardMono> _cardsHand = new();
-        public List<CardMono> _cardsDiscard = new();
-        public List<CardMono> _cardsPlayZone = new();
+        private List<CardMono> _cardsHand = new();
+        private List<CardMono> _cardsDiscard = new();
+        private List<CardMono> _cardsPlayZone = new();
 
         public void OnEnable()
         {
@@ -41,8 +54,12 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             SetEnableButtonComplete(false);
         }
 
-        public void EnablePanel()
+        public void EnablePanel(string header, string descr, string valueCountParamDescr = "")
         {
+            _headerPopup.Term = header;
+            _descriptionPopup.Term = descr;
+            _descriptionPopupParams.SetParameterValue("count", valueCountParamDescr);
+            
             _panel.SetActive(true);
             _background.SetActive(true);
         }
@@ -122,7 +139,8 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
 
         public void OnClickCancelPlayingAbility()
         {
-            
+            DisablePanel();
+            DestroyCardAction.ForceCancelDestroyCard?.Invoke();
         }
 
         public void OnClickCompletePlayingAbility()

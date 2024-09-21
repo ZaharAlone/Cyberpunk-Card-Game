@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.Player;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
@@ -97,19 +98,21 @@ namespace CyberNet.Core.UI
 
         private void ShowMainPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
-            ref var coreUIHud = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            var coreUIHud = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
+            var cityVisual = _dataWorld.OneData<BoardGameData>().CitySO;
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
-            
+            var victoryPointToFinishGame = _dataWorld.OneData<BoardGameData>().BoardGameRule.VictoryPointToFinishGame;
+
             coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
-            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame);
         }
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
         {
-            ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
+            var cityVisual = _dataWorld.OneData<BoardGameData>().CitySO;
             ref var enemyPassport = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.EnemyPassports;
-
+            var victoryPointToFinishGame = _dataWorld.OneData<BoardGameData>().BoardGameRule.VictoryPointToFinishGame;
+            
             var countCardHandAndDeck = _dataWorld.Select<CardComponent>()
                 .Without<CardDiscardComponent>()
                 .Where<CardComponent>(card => card.PlayerID == playerComponent.PlayerID)
@@ -122,18 +125,22 @@ namespace CyberNet.Core.UI
             
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetPlayerID(playerComponent.PlayerID);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetStats(countCardHandAndDeck, countCardDiscard, playerComponent.UnitCount);
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewCountControlTerritory(playerComponent.CurrentCountControlTerritory);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].SetCountVictoryPoint(playerComponent.VictoryPoint, victoryPointToFinishGame);
             
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             enemyPassport[playerComponent.PositionInTurnQueue - 1].SetViewPlayer(playerViewComponent.Avatar, playerViewComponent.Name, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
+
+            //Show count discard card status
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerComponent.PlayerID)
+                .SelectFirstEntity();
             
-            /*
             var countDiscardCard = 0;
-            if (entity.HasComponent<PlayerDiscardCardComponent>())
+            if (playerEntity.HasComponent<PlayerEffectDiscardCardComponent>())
             {
-                countDiscardCard = entity.GetComponent<PlayerDiscardCardComponent>().Count;
+                countDiscardCard = playerEntity.GetComponent<PlayerEffectDiscardCardComponent>().Count;
             }
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);*/
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);
         }
 
         private void UpdatePlayerCurrency()
@@ -153,9 +160,10 @@ namespace CyberNet.Core.UI
             var entityPlayer = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player=> player.PlayerID == roundData.CurrentPlayerID)
                 .SelectFirstEntity();
+            var victoryPointToFinishGame = _dataWorld.OneData<BoardGameData>().BoardGameRule.VictoryPointToFinishGame;
 
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
-            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.CurrentCountControlTerritory);
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame);
         }
 
         private void UpdateCountCard()

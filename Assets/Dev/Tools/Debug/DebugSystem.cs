@@ -5,6 +5,8 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core;
+using CyberNet.Core.AbilityCard.DiscardCard;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -20,6 +22,7 @@ namespace CyberNet.Tools.DebugGame
         {
             DebugAction.GetCard += GetCard;
             DebugAction.ReadyConfigCards += ReadyInitDebug;
+            DebugAction.AddDiscardCard += AddDiscardCard;
         }
         
         public void ReadyInitDebug()
@@ -76,6 +79,26 @@ namespace CyberNet.Tools.DebugGame
         {
             await Task.Delay(300);
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+        }
+
+        private void AddDiscardCard()
+        {
+            var currentPlayerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirstEntity();
+
+            if (currentPlayerEntity.HasComponent<PlayerEffectDiscardCardComponent>())
+            {
+                ref var discardCardComponent = ref currentPlayerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
+                discardCardComponent.Count++;
+            }
+            else
+            {
+                var discardCardComponent = new PlayerEffectDiscardCardComponent {
+                    Count = 1
+                };
+                currentPlayerEntity.AddComponent(discardCardComponent);
+            }
         }
 
         public void Destroy()

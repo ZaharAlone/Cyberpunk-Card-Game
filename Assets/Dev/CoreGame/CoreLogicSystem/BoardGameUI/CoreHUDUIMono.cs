@@ -17,8 +17,6 @@ namespace  CyberNet.Core.UI
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
         [SerializeField]
-        private PlayerPassportValueWinProgressUIMono _playerPassportControlTerritoryView;
-        [SerializeField]
         private GameObject _playerVfxDownCard;
 
         [Header("Action Button")]
@@ -71,10 +69,11 @@ namespace  CyberNet.Core.UI
             }
         }
         
-        public void SetMainPassportViewStats(int unit, int countControlTerritory)
+        public void SetMainPassportViewStats(int unit, int victoryPoint, int victoryPointToFinishGame)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
-            _playerPassportControlTerritoryView.SetCountValue(countControlTerritory);
+            var textVictoryPoint = $"{victoryPoint}/{victoryPointToFinishGame}";
+            PlayerDownView.VictoryPoint.text = textVictoryPoint;
         }
 
         public void SetCountCard(int discardCardCount, int drawDeckCount)

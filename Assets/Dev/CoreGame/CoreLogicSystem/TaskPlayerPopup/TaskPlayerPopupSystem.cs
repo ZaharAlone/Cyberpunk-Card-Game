@@ -14,8 +14,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         public void PreInit()
         {
             TaskPlayerPopupAction.OpenPopupSelectFirstBase += OpenPopupSelectFirstBase;
-            TaskPlayerPopupAction.HidePopup += HidePopup;
+            TaskPlayerPopupAction.ClosePopup += ClosePopup;
             TaskPlayerPopupAction.OpenPopup += OpenPopup;
+            TaskPlayerPopupAction.OpenPopupParam += OpenPopupParam;
         }
         
         private void OpenPopupSelectFirstBase()
@@ -30,8 +31,16 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
             boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(header, descr);
             boardGameUI.TraderowMono.FullHideTradeRowAnimations();
         }
+
+        private void OpenPopupParam(string header, string descr, string param)
+        {
+            var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+            boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(header, descr);
+            boardGameUI.TaskPlayerPopupUIMono.SerDescrParam(param);
+            boardGameUI.TraderowMono.FullHideTradeRowAnimations();
+        }
         
-        private void HidePopup()
+        private void ClosePopup()
         {
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
@@ -41,8 +50,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         public void Destroy()
         {
             TaskPlayerPopupAction.OpenPopupSelectFirstBase -= OpenPopupSelectFirstBase;
-            TaskPlayerPopupAction.HidePopup -= HidePopup;
+            TaskPlayerPopupAction.ClosePopup -= ClosePopup;
             TaskPlayerPopupAction.OpenPopup -= OpenPopup;
+            TaskPlayerPopupAction.OpenPopupParam -= OpenPopupParam;
         }
     }
 }

@@ -1,4 +1,6 @@
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.DiscardCard;
+using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global.Sound;
 using EcsCore;
@@ -23,6 +25,13 @@ namespace CyberNet.Core.InteractiveCard
 
         private void EndInteractiveCard()
         {
+            var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerIsDiscardsCardComponent>()
+                .Count() > 0;
+            if (playerIsDiscardCard)
+                return;
+            
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
                 return;
@@ -128,16 +137,7 @@ namespace CyberNet.Core.InteractiveCard
         {
             var countEntityMove = _dataWorld.Select<InteractiveMoveComponent>().Count();
             if (countEntityMove != 0)
-            {
                 MoveCard();
-
-                //TODO разобраться зачем это и что планировал автор
-                var inputData = _dataWorld.OneData<InputData>();
-                if (inputData.RightClick)
-                {
-                    Debug.LogError("cancel select card");
-                }
-            }
         }
 
         private void MoveCard()

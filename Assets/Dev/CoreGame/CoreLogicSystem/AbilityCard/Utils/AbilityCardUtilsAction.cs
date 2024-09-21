@@ -7,7 +7,6 @@ namespace CyberNet.Core
     {
         //Utils
         public static Func<CardComponent, int> CalculateHowManyAbilitiesAvailableForSelection;
-        public static Func<AbilityType, bool> CheckAbilityIsPlayingOnlyArena;
-        public static Func<AbilityType, bool> CheckAbilityIsPlayingOnlyMap;
+        public static Func<AbilityType, bool> CheckAbilityIsPlayingOnMap;
     }
 }

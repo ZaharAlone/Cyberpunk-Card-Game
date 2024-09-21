@@ -89,12 +89,10 @@ namespace CyberNet.Meta.SelectPlayersForGame
                 {
                     playerSlot.OpenSlot();
                     leadersConfigData.LeadersConfig.TryGetValue(selectPlayers[counter].SelectLeader, out var leadersConfig);
-                    leadersConfigData.AbilityConfig.TryGetValue(leadersConfig.Ability, out var abilityConfig);
 
                     leadersView.TryGetValue(leadersConfig.ImageCardLeaders, out var imCardLeaders);
-                    leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
                     
-                    playerSlot.SetViewLeader(imCardLeaders, imAbility, abilityConfig.NameLoc);
+                    playerSlot.SetViewLeader(imCardLeaders);
                     
                     playerSlot.SetCustomNamePlayer(selectPlayers[counter].NamePlayer);
                     
