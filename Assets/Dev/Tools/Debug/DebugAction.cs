@@ -6,5 +6,6 @@ namespace CyberNet.Tools.DebugGame
     {
         public static Action<string> GetCard;
         public static Action ReadyConfigCards;
+        public static Action AddDiscardCard;
     }
 }

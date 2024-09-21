@@ -10,10 +10,10 @@ using CyberNet.Core.UI;
 using CyberNet.Global;
 using UnityEngine;
 
-namespace CyberNet.Core.AbilityCard
+namespace CyberNet.Core.AbilityCard.DiscardCard
 {
     [EcsSystem(typeof(CoreModule))]
-    public class AbilityDiscardCardSystem : IPreInitSystem, IDestroySystem
+    public class AbilityDiscardCardSelectPlayer : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -50,14 +50,14 @@ namespace CyberNet.Core.AbilityCard
                 .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
                 .SelectFirstEntity();
 
-            if (playerEntity.HasComponent<PlayerDiscardCardComponent>())
+            if (playerEntity.HasComponent<PlayerEffectDiscardCardComponent>())
             {
-                ref var playerDiscardCardComponent = ref playerEntity.GetComponent<PlayerDiscardCardComponent>();
+                ref var playerDiscardCardComponent = ref playerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
                 playerDiscardCardComponent.Count++;
             }
             else
             {
-                playerEntity.AddComponent(new PlayerDiscardCardComponent {Count = 1});
+                playerEntity.AddComponent(new PlayerEffectDiscardCardComponent {Count = 1});
             }
             
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
@@ -82,8 +82,8 @@ namespace CyberNet.Core.AbilityCard
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
             EnemyPassportAction.OnClickPlayerPassport -= OnClickPlayerPassport;
         }
-
-        /*
+/*
+        //OLD CODE
         private void DiscardCard(Entity entity)
         {
             ref var playerTargetDiscard = ref entity.GetComponent<PlayerDiscardCardComponent>().TargetDiscardCardID;
@@ -91,8 +91,7 @@ namespace CyberNet.Core.AbilityCard
             ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
             
             Object.Destroy(gameUI.CoreHudUIMono.PlayerDownView.FrameEffectCard.GetChild(0).gameObject);
-        }*/
-/*
+        }
 
         //NOT WORK RUN
         public void Run()
@@ -135,8 +134,7 @@ namespace CyberNet.Core.AbilityCard
                 TargetDiscardCardID = playerTargetDiscard
             });
         }
-        */
-
+*/
         public void Destroy()
         {
             AbilityCardAction.DiscardCard -= StartAbilityDiscardCard;

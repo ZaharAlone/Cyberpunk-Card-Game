@@ -97,12 +97,9 @@ namespace CyberNet.Meta
             var uiSelectLeader = _dataWorld.OneData<MetaUIData>().MetaUIMono.SelectLeadersUIMono;
             
             leadersConfigData.LeadersConfig.TryGetValue(nameLeader, out var leadersConfig);
-            leadersConfigData.AbilityConfig.TryGetValue(leadersConfig.Ability, out var abilityConfig);
             leadersView.TryGetValue(leadersConfig.ImageCardLeaders, out var imCardLeaders);
-            leadersView.TryGetValue(abilityConfig.ImageAbility, out var imAbility);
             
             uiSelectLeader.SetSelectViewLeader(imCardLeaders, leadersConfig.NameLoc, leadersConfig.DescrLoc);
-            uiSelectLeader.SetSelectViewLeaderAbility(imAbility, abilityConfig.NameLoc, abilityConfig.DescrLoc);
             uiSelectLeader.SelectButton(nameLeader);
             
             WriteInComponentSelectLeader(nameLeader);

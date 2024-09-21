@@ -33,8 +33,6 @@ namespace CyberNet
 
         [Header("Leader Config")]
         public TextAsset LeaderConfigJson;
-        [FormerlySerializedAs("AbilityConfigJson")]
-        public TextAsset AbilityLeaderConfigJson;
         
         [Header("Dictionary Links")]
         public Dictionary<string, Sprite> CurrencyImage;

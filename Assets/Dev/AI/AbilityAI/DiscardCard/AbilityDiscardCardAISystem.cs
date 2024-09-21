@@ -1,3 +1,4 @@
+using CyberNet.Core.AbilityCard.DiscardCard;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
@@ -41,14 +42,14 @@ namespace CyberNet.Core.AI.Ability
                 .Where<PlayerComponent>(player => player.PlayerID == targetPlayerID)
                 .SelectFirstEntity();
             
-            if (targetPlayerEntity.HasComponent<PlayerDiscardCardComponent>())
+            if (targetPlayerEntity.HasComponent<PlayerEffectDiscardCardComponent>())
             {
-                ref var playerDiscardCardComponent = ref targetPlayerEntity.GetComponent<PlayerDiscardCardComponent>();
+                ref var playerDiscardCardComponent = ref targetPlayerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
                 playerDiscardCardComponent.Count++;
             }
             else
             {
-                targetPlayerEntity.AddComponent(new PlayerDiscardCardComponent {Count = 1});
+                targetPlayerEntity.AddComponent(new PlayerEffectDiscardCardComponent {Count = 1});
             }
             
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();

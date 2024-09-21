@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
+using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.EnemyTurnView;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
@@ -30,7 +31,7 @@ namespace CyberNet.Core.AI.Ability
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
-            var playerDiscardComponent = playerEntity.GetComponent<PlayerDiscardCardComponent>();
+            var playerDiscardComponent = playerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
             var playerID = playerComponent.PlayerID;
             
@@ -89,7 +90,7 @@ namespace CyberNet.Core.AI.Ability
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
-            ref var discardCardComponent = ref playerEntity.GetComponent<PlayerDiscardCardComponent>();
+            ref var discardCardComponent = ref playerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
             ref var discardCardAIComponent = ref playerEntity.GetComponent<DiscardCardAIComponent>();
 
             discardCardComponent.Count--;
@@ -119,7 +120,7 @@ namespace CyberNet.Core.AI.Ability
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
             
-            playerEntity.RemoveComponent<PlayerDiscardCardComponent>();
+            playerEntity.RemoveComponent<PlayerEffectDiscardCardComponent>();
             playerEntity.RemoveComponent<DiscardCardAIComponent>();
             
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();

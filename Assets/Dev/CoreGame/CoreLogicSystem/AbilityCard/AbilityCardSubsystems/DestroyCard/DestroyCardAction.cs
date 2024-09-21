@@ -14,5 +14,6 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         public static Action EndAnimationsDestroyCurrentCard;
 
         public static Action ForceCompleteDestroyCard;
+        public static Action ForceCancelDestroyCard;
     }
 }

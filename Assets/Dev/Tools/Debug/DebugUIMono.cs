@@ -52,6 +52,11 @@ namespace CyberNet.Tools.DebugGame
             DebugAction.GetCard?.Invoke(_listCardGame[_selectCard]);
         }
 
+        public void OnClickAddDiscardCard()
+        {
+            DebugAction.AddDiscardCard?.Invoke();
+        }
+
         public void OnClickHideDebug()
         {
             _panel.SetActive(false);

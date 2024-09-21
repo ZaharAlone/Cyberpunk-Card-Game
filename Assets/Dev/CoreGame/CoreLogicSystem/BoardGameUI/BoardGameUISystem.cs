@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using ModulesFramework.Systems.Events;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.Player;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
@@ -135,9 +136,9 @@ namespace CyberNet.Core.UI
                 .SelectFirstEntity();
             
             var countDiscardCard = 0;
-            if (playerEntity.HasComponent<PlayerDiscardCardComponent>())
+            if (playerEntity.HasComponent<PlayerEffectDiscardCardComponent>())
             {
-                countDiscardCard = playerEntity.GetComponent<PlayerDiscardCardComponent>().Count;
+                countDiscardCard = playerEntity.GetComponent<PlayerEffectDiscardCardComponent>().Count;
             }
             enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);
         }

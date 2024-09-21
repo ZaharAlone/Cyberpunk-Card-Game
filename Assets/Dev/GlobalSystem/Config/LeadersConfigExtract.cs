@@ -19,8 +19,7 @@ namespace CyberNet
         {
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var leadersConfig = JsonConvert.DeserializeObject<Dictionary<string, LeadersConfig>>(boardGameData.BoardGameConfig.LeaderConfigJson.text);
-            var abilityConfig = JsonConvert.DeserializeObject<Dictionary<string, AbilityConfig>>(boardGameData.BoardGameConfig.AbilityLeaderConfigJson.text);
-            _dataWorld.CreateOneData(new LeadersConfigData { LeadersConfig = leadersConfig, AbilityConfig = abilityConfig});
+            _dataWorld.CreateOneData(new LeadersConfigData { LeadersConfig = leadersConfig});
         }
     }
 }

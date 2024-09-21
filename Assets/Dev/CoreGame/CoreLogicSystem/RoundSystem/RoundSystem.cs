@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.City;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
@@ -143,14 +144,14 @@ namespace CyberNet.Local
             var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
             
             uiRound.NewRoundView(playerViewComponent.AvatarWithBackground, playerViewComponent.Name);
-            PlaySFXRound(playerComponent.playerOrAI == PlayerOrAI.Player);
+            PlayRoundSFX(playerComponent.playerOrAI == PlayerOrAI.Player);
             
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
             await Task.Delay(1500);
 
             if (playerComponent.playerOrAI == PlayerOrAI.Player)
             {
-                if (entityPlayer.HasComponent<PlayerDiscardCardComponent>())
+                if (entityPlayer.HasComponent<PlayerEffectDiscardCardComponent>())
                 {
                     AbilityCardAction.PlayerDiscardCard?.Invoke();
                     return;
@@ -165,7 +166,7 @@ namespace CyberNet.Local
             }
         }
 
-        private async void PlaySFXRound(bool isPlayerTurn)
+        private async void PlayRoundSFX(bool isPlayerTurn)
         {
             var soundList = _dataWorld.OneData<SoundData>().Sound;
             

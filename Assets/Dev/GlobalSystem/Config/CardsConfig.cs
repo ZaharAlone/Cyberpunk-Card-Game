@@ -65,8 +65,8 @@ namespace CyberNet
     {
         [JsonProperty("abilityLoc")]
         public string AbilityLoc;
-        [JsonProperty("abilityLocMultiple")]
-        public string AbilityLocMultiple;
+        [JsonProperty("abilityLocMany")]
+        public string abilityLocMany;
         [JsonProperty("visualPlayingCard")]
         public VisualPlayingCardType VisualPlayingCard;
         [JsonProperty("selectFrame_headerLoc")]
@@ -75,10 +75,6 @@ namespace CyberNet
         public string SelectFrameDescr;
         [JsonProperty("selectFrame_descrLoc_2")]
         public string SelectFrameDescr_2;
-        [JsonProperty("selectPlayerFrame_headerLoc")]
-        public string SelectPlayerFrameHeader;
-        [JsonProperty("selectPlayerFrame_descrLoc")]
-        public string SelectPlayerFrameDescr;
     }
 
     [Serializable]

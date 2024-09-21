@@ -2423,7 +2423,7 @@ MonoBehaviour:
       - Dobierz
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_header
+    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_one_header
       TermType: 0
       Description: 
       Languages:
@@ -2441,7 +2441,7 @@ MonoBehaviour:
       - "Wybierz kart\u0119 do odrzucenia"
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_descr
+    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_one_descr
       TermType: 0
       Description: 
       Languages:
@@ -2461,7 +2461,44 @@ MonoBehaviour:
       - "Musisz odrzuci\u0107 jedn\u0105 kart\u0119 z r\u0119ki, wybierz kt\xF3r\u0105"
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CoreGame/$bg_abilityAction_destroyCard_header
+    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_many_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Select [{count}] cards to discard
+      - "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 [{count}] \u043A\u0430\u0440\u0442
+        \u0434\u043B\u044F \u0441\u0431\u0440\u043E\u0441\u0430"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_selectCardToDiscard_many_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - You must discard [{count}] cards from your hand, choose which ones
+      - "\u0412\u044B \u0434\u043E\u043B\u0436\u043D\u044B \u0441\u0431\u0440\u043E\u0441\u0438\u0442\u044C
+        [{count}] \u043A\u0430\u0440\u0442 \u0441 \u0440\u0443\u043A\u0438, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435
+        \u043A\u0430\u043A\u0438\u0435"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_destroyCard_one_header
       TermType: 0
       Description: 
       Languages:
@@ -2478,7 +2515,7 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
-    - Term: CoreGame/$bg_abilityAction_destroyCard_descr
+    - Term: CoreGame/$bg_abilityAction_destroyCard_one_descr
       TermType: 0
       Description: 
       Languages:
@@ -2498,6 +2535,46 @@ MonoBehaviour:
       - Scegli una carta da distruggere
       - Escolha uma carta para destruir
       - "Wybierz kart\u0119 do zniszczenia"
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_destroyCard_many_header
+      TermType: 0
+      Description: 
+      Languages:
+      - Destroying cards
+      - "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D\u0438\u0435 \u043A\u0430\u0440\u0442"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: CoreGame/$bg_abilityAction_destroyCard_many_descr
+      TermType: 0
+      Description: 
+      Languages:
+      - You can destroy [{count}] cards, choose from your hand, play zone, or discard
+        pile to destroy.
+      - "\u0412\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C
+        [{count}] \u043A\u0430\u0440\u0442\u044B, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435
+        \u0441 \u0440\u0443\u043A\u0438, \u0438\u0433\u0440\u043E\u0432\u043E\u0439
+        \u0437\u043E\u043D\u044B \u0438\u043B\u0438 \u0441\u0431\u0440\u043E\u0441\u0430,
+        \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u0445\u043E\u0442\u0438\u0442\u0435
+        \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C."
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
       Flags: 0000000000000000000000
       Languages_Touch: []
     - Term: CoreGame/$bg_abilityAction_discardCard_header
@@ -4816,6 +4893,24 @@ MonoBehaviour:
       - 
       Flags: 0000000000000000000000
       Languages_Touch: []
+    - Term: AbilityCard/$cardAbility_destroyCard_many
+      TermType: 0
+      Description: 
+      Languages:
+      - <b>Destroy</b> {[count]} cards
+      - "<b>\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u044C\u0442\u0435</b> {[count]}
+        \u043A\u0430\u0440\u0442\u044B"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
     - Term: AbilityCard/$cardAbility_switchUnit
       TermType: 0
       Description: 
@@ -4841,6 +4936,25 @@ MonoBehaviour:
       - "\u0412\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0439 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A
         <b>\u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442</b> \u043E\u0434\u043D\u0443
         \u043B\u044E\u0431\u0443\u044E \u043A\u0430\u0440\u0442\u0443"
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: AbilityCard/$cardAbility_enemyDiscardCard_many
+      TermType: 0
+      Description: 
+      Languages:
+      - The selected opponent <b>discards</b> {[count]} cards
+      - "\u0412\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0439 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A
+        <b>\u0441\u0431\u0440\u0430\u0441\u044B\u0432\u0430\u0435\u0442</b> {[count]}
+        \u043A\u0430\u0440\u0442\u044B"
       - 
       - 
       - 
@@ -6239,7 +6353,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbxyuGkCYkgmrJ6NITjMS-U1vJv009i_Z6BQEtPSKjBkQmCy3pIKJKLT8-it6EICOc5S/exec
     Google_SpreadsheetKey: 1ralfjHirktj-VflVBn1g-0wajL425I8pRCHT6dw8Z2U
     Google_SpreadsheetName: I2Loc Cyberpunk Card Game Localization
-    Google_LastUpdatedVersion: 1726481010136
+    Google_LastUpdatedVersion: 1726923166462
     Google_Password: Cyberpunk_local
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 2

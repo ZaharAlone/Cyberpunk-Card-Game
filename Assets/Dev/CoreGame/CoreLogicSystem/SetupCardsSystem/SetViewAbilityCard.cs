@@ -52,10 +52,10 @@ namespace CyberNet.Core
                 cardConfig.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
                 var textCard = Object.Instantiate(viewCard.TextBaseAbility, container);
 
-                if (ability.Count > 1 && abilityCardConfig.AbilityLocMultiple != null)
+                if (ability.Count > 1 && abilityCardConfig.abilityLocMany != null)
                 {
                     textCard.SetParameters(ability.Count);
-                    textCard.SetText(abilityCardConfig.AbilityLocMultiple);
+                    textCard.SetText(abilityCardConfig.abilityLocMany);
                 }
                 else
                     textCard.SetText(abilityCardConfig.AbilityLoc);

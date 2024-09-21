@@ -68,11 +68,9 @@ namespace CyberNet.Meta.SelectPlayersForGame
             InputField.text = namePlayer;
         }
         
-        public void SetViewLeader(Sprite leaderSprite, Sprite abilitySprite, string abilityName)
+        public void SetViewLeader(Sprite leaderSprite)
         {
             LeaderImage.sprite = leaderSprite;
-            LeaderAbility.sprite = abilitySprite;
-            LeaderAbilityName.Term = abilityName;
             RecolorUIElement(FrameBaseColor);
         }
 

@@ -3,7 +3,7 @@
     "popupHeaderLoc": "CorePopup/$popup_AddUnit_header",
     "popupDescrLoc": "CorePopup/$popup_AddUnit_descr",
     "abilityLoc": "AbilityCard/$cardAbility_addUnit",
-    "abilityLocMultiple": "AbilityCard/$cardAbility_addUnitMultiple",
+    "abilityLocMany": "AbilityCard/$cardAbility_addUnitMultiple",
     "visualPlayingCard": "Target"
   },
   "Trade": {
@@ -21,9 +21,10 @@
     "popupHeaderLoc": "CorePopup/$popup_DestroyCard_header",
     "popupDescrLoc": "CorePopup/$popup_DestroyCard_descr",
     "abilityLoc": "AbilityCard/$cardAbility_destroyCard",
+    "abilityLocMany": "AbilityCard/$cardAbility_destroyCard_many",
     "visualPlayingCard": "Table",
-    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyCard_header",
-    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyCard_descr"
+    "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_destroyCard_one_header",
+    "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_destroyCard_one_descr"
   },
   "SwitchUnit": {
     "popupHeaderLoc": "CorePopup/$popup_SwitchUnit_header",
@@ -37,6 +38,7 @@
     "popupHeaderLoc": "CorePopup/$popup_EnemyDiscardCard_header",
     "popupDescrLoc": "CorePopup/$popup_EnemyDiscardCard_descr",
     "abilityLoc": "AbilityCard/$cardAbility_enemyDiscardCard",
+    "abilityLocMany": "AbilityCard/$cardAbility_enemyDiscardCard_many",
     "visualPlayingCard": "Target",
     "selectFrame_headerLoc": "CoreGame/$bg_abilityAction_discardCard_header",
     "selectFrame_descrLoc": "CoreGame/$bg_abilityAction_discardCard_descr"

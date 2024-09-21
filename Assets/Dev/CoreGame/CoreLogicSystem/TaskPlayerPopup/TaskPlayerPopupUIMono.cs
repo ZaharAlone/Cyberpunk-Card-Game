@@ -1,4 +1,5 @@
 using I2.Loc;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,6 +19,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         private Localize _headerLocalize;
         [SerializeField]
         private Localize _descrLocalize;
+        [SerializeField]
+        [Required]
+        private LocalizationParamsManager _descrLocalizeParams;
         
         [Header("Text")]
         [SerializeField]
@@ -35,6 +39,11 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
             
             LayoutRebuilder.ForceRebuildLayoutImmediate(_rect);
             _panel.SetActive(true);
+        }
+
+        public void SerDescrParam(string param)
+        {
+            _descrLocalizeParams.SetParameterValue("count", param);
         }
         
         public void OpenWindowSetText(string header, string descr)

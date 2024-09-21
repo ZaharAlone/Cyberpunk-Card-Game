@@ -47,7 +47,7 @@ namespace CyberNet.Core.AbilityCard
         
         private void CloseWindow()
         {
-            TaskPlayerPopupAction.HidePopup?.Invoke();
+            TaskPlayerPopupAction.ClosePopup?.Invoke();
             TraderowUIAction.ForceShowTraderow?.Invoke();
         }
 

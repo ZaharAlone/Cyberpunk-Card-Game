@@ -44,6 +44,11 @@ namespace CyberNet.Core
         [Header("VFX")]
         public GameObject VFXIsInteractiveCard;
         public GameObject VFXFlashOutlineCard;
+
+        [Header("Discard Card")]
+        [SerializeField]
+        [Required]
+        private GameObject _discardCardEffectGO;
         
         public void SetViewCard(Sprite imageCard, string header, int leftPointCount, int rightointCount, int price = 0)
         {
@@ -79,6 +84,11 @@ namespace CyberNet.Core
             VFXFlashOutlineCard.SetActive(true);
             await Task.Delay(150);
             VFXFlashOutlineCard.SetActive(false);
+        }
+
+        public void EnableDiscardCardEffect(bool status)
+        {
+            _discardCardEffectGO.SetActive(status);
         }
     }
 }

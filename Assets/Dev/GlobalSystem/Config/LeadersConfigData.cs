@@ -11,6 +11,5 @@ namespace CyberNet
     {
         [FormerlySerializedAs("HeroesConfig")]
         public Dictionary<string, LeadersConfig> LeadersConfig;
-        public Dictionary<string, AbilityConfig> AbilityConfig;
     }
 }
