@@ -69,11 +69,23 @@ namespace  CyberNet.Core.UI
             }
         }
         
-        public void SetMainPassportViewStats(int unit, int victoryPoint, int victoryPointToFinishGame)
+        public void SetMainPassportViewStats(int unit, int victoryPoint, int victoryPointToFinishGame, int countDiscardCard)
         {
             PlayerDownView.UnitCountText.text = unit.ToString();
             var textVictoryPoint = $"{victoryPoint}/{victoryPointToFinishGame}";
             PlayerDownView.VictoryPoint.text = textVictoryPoint;
+
+            if (countDiscardCard == 0)
+            {
+                PlayerDownView.ImageDiscardCard.SetActive(false);
+                PlayerDownView.TextDiscardCard.text = "";
+            }
+            else
+            {
+                PlayerDownView.ImageDiscardCard.SetActive(true);
+                var countDiscardCardText = countDiscardCard > 1 ? countDiscardCard.ToString() : "";
+                PlayerDownView.TextDiscardCard.text = countDiscardCardText;
+            }
         }
 
         public void SetCountCard(int discardCardCount, int drawDeckCount)

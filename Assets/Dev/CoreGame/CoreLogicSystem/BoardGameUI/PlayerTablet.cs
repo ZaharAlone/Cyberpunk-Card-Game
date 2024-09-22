@@ -21,5 +21,9 @@ namespace CyberNet.Core.UI
         public Image Avatar;
         [Required]
         public TextMeshProUGUI VictoryPoint;
+        [Required]
+        public GameObject ImageDiscardCard;
+        [Required]
+        public TextMeshProUGUI TextDiscardCard;
     }
 }

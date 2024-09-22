@@ -32,11 +32,24 @@ namespace CyberNet.Core.AbilityCard
 
             ref var discardCardComponent = ref playerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
             playerEntity.AddComponent(new PlayerIsDiscardsCardComponent());
-            Debug.LogError("Player Discard Card");
 
+            SetPopupView(discardCardComponent.Count);
+            
+            InteractiveActionCard.StartInteractiveCard += StartMoveCard;
+            InteractiveActionCard.EndInteractiveCard += EndMoveInteractiveCard;
+
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            roundData.PauseInteractive = false;
+            roundData.CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
+            
+            VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
+        }
+
+        private void SetPopupView(int countCard)
+        {
             var supportLocData = _dataWorld.OneData<BoardGameData>().SupportLocalize;
 
-            if (discardCardComponent.Count == 1)
+            if (countCard == 1)
             {
                 var header = supportLocData.HeaderDiscardOneCard.mTerm;
                 var descr = supportLocData.DescrDiscardOneCard.mTerm;
@@ -46,15 +59,10 @@ namespace CyberNet.Core.AbilityCard
             {
                 var header = supportLocData.HeaderDiscardManyCard.mTerm;
                 var descr = supportLocData.DescrDiscardManyCard.mTerm;
-                var paramValue = discardCardComponent.Count.ToString();
+                var paramValue = countCard.ToString();
                 
                 TaskPlayerPopupAction.OpenPopupParam?.Invoke(header, descr, paramValue);
             }
-            
-            InteractiveActionCard.StartInteractiveCard += StartMoveCard;
-            InteractiveActionCard.EndInteractiveCard += EndMoveInteractiveCard;
-
-            //TODO  доделать логику сброса
         }
 
         private void StartMoveCard(string guidCard)
@@ -111,11 +119,17 @@ namespace CyberNet.Core.AbilityCard
         {
             var cardEntity = _dataWorld.Select<InteractiveMoveCardToDiscardComponent>().SelectFirstEntity();
             var distanceCardMove = CalculateCardDistanceMove();
+            
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
 
             if (distanceCardMove > 140)
             {
                 var cardComponent = cardEntity.GetComponent<CardComponent>();
                 cardEntity.RemoveComponent<CardHandComponent>();
+                cardEntity.RemoveComponent<InteractiveMoveCardToDiscardComponent>();
+                cardEntity.RemoveComponent<InteractiveSelectCardComponent>();
+                cardEntity.RemoveComponent<CardCanUseComponent>();
+                cardEntity.RemoveComponent<CardComponentAnimations>();
                 
                 cardEntity.AddComponent(new CardMoveToDiscardComponent());
                 cardComponent.Canvas.sortingOrder = 2;
@@ -123,13 +137,29 @@ namespace CyberNet.Core.AbilityCard
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
 
-                EndDiscardCard();
+                CheckEndDiscard();
             }
             else
             {
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
                 SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
             }
+        }
+
+        private void CheckEndDiscard()
+        {
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerEffectDiscardCardComponent>()
+                .SelectFirstEntity();
+            
+            ref var playerEffectDiscardCardComponent = ref playerEntity.GetComponent<PlayerEffectDiscardCardComponent>();
+            playerEffectDiscardCardComponent.Count--;
+            
+            if (playerEffectDiscardCardComponent.Count == 0)
+                EndDiscardCard();
+            else
+                SetPopupView(playerEffectDiscardCardComponent.Count);
         }
 
         private float CalculateCardDistanceMove()

@@ -63,13 +63,9 @@ namespace CyberNet.Core.UI
                     var playerViewComponent = entity.GetComponent<PlayerViewComponent>();
                 
                     if (playerComponent.PositionInTurnQueue == 0)
-                    {
-                        ShowMainPassportPlayer(playerComponent, playerViewComponent);
-                    }
+                        ShowMainPassportPlayer(entity);
                     else
-                    {
                         ShowLeftPassportPlayer(playerComponent, playerViewComponent);
-                    }
                 }
             }
             
@@ -96,15 +92,24 @@ namespace CyberNet.Core.UI
             }
         }
 
-        private void ShowMainPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
+        private void ShowMainPassportPlayer(Entity entityPlayer)
         {
+            var playerComponent = entityPlayer.GetComponent<PlayerComponent>();
+            var playerViewComponent = entityPlayer.GetComponent<PlayerViewComponent>();
+            
             var coreUIHud = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
             var cityVisual = _dataWorld.OneData<BoardGameData>().CitySO;
             cityVisual.UnitDictionary.TryGetValue(playerViewComponent.KeyCityVisual, out var playerUnitVisual);
             var victoryPointToFinishGame = _dataWorld.OneData<BoardGameData>().BoardGameRule.VictoryPointToFinishGame;
 
             coreUIHud.SetMainViewPassportNameAvatar(playerViewComponent.Name, playerViewComponent.Avatar, playerUnitVisual.IconsUnit, playerUnitVisual.ColorUnit);
-            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame);
+            
+            var countDiscardCard = 0;
+
+            if (entityPlayer.HasComponent<PlayerEffectDiscardCardComponent>())
+                countDiscardCard = entityPlayer.GetComponent<PlayerEffectDiscardCardComponent>().Count;
+            
+            coreUIHud.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame, countDiscardCard);
         }
 
         private void ShowLeftPassportPlayer(PlayerComponent playerComponent, PlayerViewComponent playerViewComponent)
@@ -140,7 +145,7 @@ namespace CyberNet.Core.UI
             {
                 countDiscardCard = playerEntity.GetComponent<PlayerEffectDiscardCardComponent>().Count;
             }
-            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatus(countDiscardCard);
+            enemyPassport[playerComponent.PositionInTurnQueue - 1].DiscardCardStatusLeftPlayer(countDiscardCard);
         }
 
         private void UpdatePlayerCurrency()
@@ -163,7 +168,12 @@ namespace CyberNet.Core.UI
             var victoryPointToFinishGame = _dataWorld.OneData<BoardGameData>().BoardGameRule.VictoryPointToFinishGame;
 
             ref var playerComponent = ref entityPlayer.GetComponent<PlayerComponent>();
-            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame);
+            var countDiscardCard = 0;
+
+            if (entityPlayer.HasComponent<PlayerEffectDiscardCardComponent>())
+                countDiscardCard = entityPlayer.GetComponent<PlayerEffectDiscardCardComponent>().Count;
+            
+            gameUI.CoreHudUIMono.SetMainPassportViewStats(playerComponent.UnitCount, playerComponent.VictoryPoint, victoryPointToFinishGame, countDiscardCard);
         }
 
         private void UpdateCountCard()
