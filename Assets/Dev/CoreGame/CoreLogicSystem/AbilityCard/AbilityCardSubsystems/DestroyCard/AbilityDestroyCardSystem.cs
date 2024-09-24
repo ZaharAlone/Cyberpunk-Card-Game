@@ -30,7 +30,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             ref var roundData = ref _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
-                AbilityAIAction.AddUnitMap?.Invoke(guidCard);
+                AbilityAIAction.DestroyCard?.Invoke(guidCard);
             else
                 InitViewDestroyPanel(guidCard);
         }
@@ -38,7 +38,6 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
         private void InitViewDestroyPanel(string guidCard)
         {
             ref var roundData = ref _dataWorld.OneData<RoundData>();
-            //roundData.PauseInteractive = true;
             
             _dataWorld.CreateOneData(new DestroyRowCardData{ DestroyCardInRow = new()});
             var countHandCard = SetViewCardInHand(guidCard, roundData.CurrentPlayerID);
@@ -135,7 +134,7 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
 
             var interactiveDestroyCard = cardMono.gameObject.GetComponent<InteractiveDestroyCardMono>();
             interactiveDestroyCard.SetGUID(guid);
-            SetupCardAction.SetViewCardNotInit?.Invoke(cardMono, keyCard);
+            SetupCardAction.SetViewCardNotInitToDeck?.Invoke(cardMono, keyCard);
 
             var destroyElement = new DestroyCardInRow {
                 CardMono = cardMono, InteractiveDestroyCardMono = interactiveDestroyCard

@@ -63,7 +63,7 @@ namespace CyberNet.Tools.DebugGame
             var cardData = new CardData {
                 IDPositions = countCardPlayer, CardName = cardName
             };
-            var entity = SetupCardAction.InitCard.Invoke(cardData, cardsParent, true);
+            var entity = SetupCardAction.CreateCard.Invoke(cardData, cardsParent, true);
             ref var cardComponent = ref entity.GetComponent<CardComponent>();
             cardComponent.PlayerID = currentPlayerID;
             entity.AddComponent(new CardPlayerComponent());
