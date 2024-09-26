@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.AI.Ability;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.EnemyTurnView;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;

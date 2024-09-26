@@ -7,7 +7,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     /// <summary>
     /// Система управляет юнитами их созданием, уничтожением

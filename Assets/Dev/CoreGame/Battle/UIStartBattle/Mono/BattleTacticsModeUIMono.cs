@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Battle.TacticsMode
 {
@@ -16,18 +18,28 @@ namespace CyberNet.Core.Battle.TacticsMode
         private GameObject _panel;
 
         [Header("Elements")]
-        [SerializeField]
         [Required]
-        private BattlePlayerStatsContainerUIMono _playerStatsContainer_Left;
+        public BattlePlayerStatsContainerUIMono PlayerStatsContainer_Attack;
+
+        [Required]
+        public BattlePlayerStatsContainerUIMono PlayerStatsContainer_Defence;
 
         [SerializeField]
         [Required]
-        private BattlePlayerStatsContainerUIMono _playerStatsContainer_Right;
+        private List<BattleTacticsSlotUIMono> _battleTacticsSlotList = new ();
 
-        [SerializeField]
-        [Required]
-        private List<BattleTacticsSlotUIMono> battleTacticsSlotList = new ();
-        
+        public void OnEnable()
+        {
+            _panel.SetActive(false);
+            _background.SetActive(false);
+        }
+
+        public void EnableTacticsUI()
+        {
+            _panel.SetActive(true);
+            _background.SetActive(true);
+        }
+
         public void OnClickNextLeftBattleTactics()
         {
             BattleTacticsUIAction.NextLeftBattleTactics?.Invoke();

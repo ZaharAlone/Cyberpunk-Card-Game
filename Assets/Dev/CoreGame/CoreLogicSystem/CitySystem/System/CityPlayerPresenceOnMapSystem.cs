@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityPlayerPresenceOnMapSystem : IPreInitSystem, IDestroySystem

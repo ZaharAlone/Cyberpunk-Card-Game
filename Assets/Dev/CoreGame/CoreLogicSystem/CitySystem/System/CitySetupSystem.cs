@@ -2,7 +2,7 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using Object = UnityEngine.Object;
 
 namespace CyberNet.Core

@@ -6,7 +6,7 @@ using CyberNet.Core.Arena;
 using I2.Loc;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [CreateAssetMenu(fileName = "CitySO", menuName = "Scriptable Object/Board Game/City SO")]
     public class CitySO : SerializedScriptableObject

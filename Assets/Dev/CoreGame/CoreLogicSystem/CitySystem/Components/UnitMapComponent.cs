@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public struct UnitMapComponent
     {

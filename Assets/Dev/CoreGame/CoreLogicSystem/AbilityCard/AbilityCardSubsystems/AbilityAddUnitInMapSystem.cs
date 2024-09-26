@@ -4,7 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Global;
 using UnityEngine;
 

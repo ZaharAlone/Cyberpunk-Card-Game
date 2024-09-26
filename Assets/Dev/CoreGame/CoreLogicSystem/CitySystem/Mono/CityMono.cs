@@ -3,7 +3,7 @@ using CyberNet.Tools;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public class CityMono : MonoBehaviour
     {

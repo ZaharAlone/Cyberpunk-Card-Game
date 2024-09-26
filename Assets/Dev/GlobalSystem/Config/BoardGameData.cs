@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Global.Config;
 using UnityEngine.Serialization;
 

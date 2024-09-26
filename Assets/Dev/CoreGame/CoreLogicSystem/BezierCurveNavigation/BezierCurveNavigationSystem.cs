@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CyberNet.Core.Arena;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.UI;
 using CyberNet.Global.GameCamera;
@@ -168,9 +168,6 @@ namespace CyberNet.Core.BezierCurveNavigation
                 case BezierTargetEnum.Tower:
                     CheckTowerTarget();
                     break;
-                case BezierTargetEnum.ArenaUnit:
-                    CheckArenaUnitTarget();
-                    break;
                 case BezierTargetEnum.Player:
                     // У игрока состояние меняется по подписке, поэтому меняем цеет относительно последнего состояния
                     if (bezierComponent.SelectTarget)
@@ -199,43 +196,6 @@ namespace CyberNet.Core.BezierCurveNavigation
                     }
                 }
                 
-                UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
-            }
-        }
-        
-        private void CheckArenaUnitTarget()
-        {
-            ref var bezierComponent = ref _dataWorld.Select<BezierCurveNavigationComponent>()
-                .SelectFirstEntity()
-                .GetComponent<BezierCurveNavigationComponent>();
-            
-            var inputData = _dataWorld.OneData<InputData>();
-            var camera = _dataWorld.OneData<ArenaData>().ArenaMono.ArenaCameraMono.ArenaCamera;
-            var ray = camera.ScreenPointToRay(inputData.MousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
-            {
-                var unitArenaMono = hit.collider.gameObject.GetComponent<UnitArenaMono>();
-                
-                if (unitArenaMono)
-                {
-                    var targetUnitEntity = _dataWorld.Select<ArenaUnitComponent>()
-                        .Where<ArenaUnitComponent>(unit => unit.GUID == unitArenaMono.GUID)
-                        .SelectFirstEntity();
-
-                    var targetUnitComponent = targetUnitEntity.GetComponent<ArenaUnitComponent>();
-
-                    var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
-                    var isCurrentTarget = targetUnitComponent.PlayerControlID != arenaRoundData.CurrentPlayerID;
-
-                    if (isCurrentTarget)
-                    {
-                        bezierComponent.GUIDTarget = targetUnitComponent.GUID;
-                        UpdateVisualBezierColor(BezierCurveStatusEnum.SelectWrongTarget);
-                        return;
-                    }
-                }
-
                 UpdateVisualBezierColor(BezierCurveStatusEnum.Base);
             }
         }

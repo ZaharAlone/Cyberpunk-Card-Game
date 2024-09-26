@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public struct MoveUnitToTargetComponent
     {

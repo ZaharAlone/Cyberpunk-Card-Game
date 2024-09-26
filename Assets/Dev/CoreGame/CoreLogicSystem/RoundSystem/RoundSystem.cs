@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;

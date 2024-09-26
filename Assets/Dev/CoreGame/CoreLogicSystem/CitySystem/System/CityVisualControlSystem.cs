@@ -6,7 +6,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityVisualControlSystem : IPreInitSystem, IDestroySystem

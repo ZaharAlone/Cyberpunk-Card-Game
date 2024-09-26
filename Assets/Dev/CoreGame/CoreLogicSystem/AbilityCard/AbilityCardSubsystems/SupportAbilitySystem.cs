@@ -3,7 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard.UI;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;

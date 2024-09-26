@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public static class CityAction
     {

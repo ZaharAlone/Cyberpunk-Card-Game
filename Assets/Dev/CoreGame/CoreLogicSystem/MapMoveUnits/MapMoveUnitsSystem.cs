@@ -5,9 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.AI.Arena;
-using CyberNet.Core.Arena;
-using CyberNet.Core.City;
+using CyberNet.Core.Battle;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -24,7 +22,6 @@ namespace CyberNet.Core.Map
         public void PreInit()
         {
             MapMoveUnitsAction.StartMoveUnits += StartMoveUnit;
-            MapMoveUnitsAction.StartArenaBattle += StartArenaBattle;
         }
         
         public void Init()
@@ -34,22 +31,56 @@ namespace CyberNet.Core.Map
         
         private void StartMoveUnit()
         {
-            // Сейчас зону атаки выбирает верно, но не выбирает юнитов для атаки
-            var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
-            var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
-            var selectTowerForAttackGuid = entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>().SelectTowerGUID;
-            
-            var targetTowerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
-                .SelectFirstEntity();
-            var targetTowerComponent = targetTowerEntity.GetComponent<TowerComponent>();
-            
-            var countUnitEntityIsDefensePosition = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(unit => unit.GUIDTower == selectTowerForAttackGuid).Count();
+            var selectTowerForAttackGuid = _dataWorld.Select<AbilityCardMoveUnitComponent>()
+                .SelectFirstEntity()
+                .GetComponent<AbilityCardMoveUnitComponent>()
+                .SelectTowerGUID;
 
+            var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
+            var targetTowerComponent = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
+                .SelectFirstEntity()
+                .GetComponent<TowerComponent>();
+            
+            var targetSlotZone = SelectTargetZoneInTower(selectTowerForAttackGuid);
+
+            var parentUnitTower = targetTowerComponent.SquadZonesMono[targetSlotZone].transform;
+            
+            var allTargetPositions = new List<Vector3>();
+            var nextTargetPosition = SelectNextPositionsForUnit(allTargetPositions, selectTowerForAttackGuid, targetSlotZone);
+            
+            foreach (var unitEntity in selectUnitEntities)
+            {
+                unitEntity.RemoveComponent<SelectUnitMapComponent>();
+                ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
+                
+                unitEntity.AddComponent(new MoveUnitToTargetComponent {
+                    TargetPosition = nextTargetPosition,
+                    TargetTowerGUID = selectTowerForAttackGuid,
+                    TargetSlotID = targetSlotZone,
+                });
+
+                _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID = selectTowerForAttackGuid;
+
+                unitComponent.GUIDTower = selectTowerForAttackGuid;
+                unitComponent.IndexPoint = targetSlotZone;
+                
+                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
+                unitComponent.UnitIconsGO.transform.SetParent(parentUnitTower);
+            }
+            
+            AnimationMoveToTarget();
+        }
+
+        private int SelectTargetZoneInTower(string selectTowerForAttackGuid)
+        {
+            var isEnemyUnitInTargetTower = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.GUIDTower == selectTowerForAttackGuid).Count() > 0;
+            var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
+            
             var targetSlotZone = 0;
             
-            if (countUnitEntityIsDefensePosition > 0)
+            if (isEnemyUnitInTargetTower)
             {
                 var entitiesUnitEntityIsDefensePosition = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == selectTowerForAttackGuid)
@@ -58,14 +89,14 @@ namespace CyberNet.Core.Map
                 foreach (var entity in entitiesUnitEntityIsDefensePosition)
                 {
                     entity.AddComponent(new UnitInBattleArenaComponent {
-                        Forwards = false
+                        Attacking = false
                     });
                 }
                 
                 foreach (var entity in selectUnitEntities)
                 {
                     entity.AddComponent(new UnitInBattleArenaComponent {
-                        Forwards = true
+                        Attacking = true
                     });
                 }
 
@@ -75,37 +106,7 @@ namespace CyberNet.Core.Map
             {
                 targetSlotZone = GetFriendlySlotInTargetZone(selectTowerForAttackGuid);
             }
-            
-            var positionAllPoint = new List<Vector3>();
-            foreach (var unitEntity in selectUnitEntities)
-            {
-                unitEntity.RemoveComponent<SelectUnitMapComponent>();
-                ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
-                
-                var targetPosition = CitySupportStatic.SelectPosition
-                (
-                    targetTowerComponent.SquadZonesMono[targetSlotZone].Collider,
-                    targetTowerComponent.SquadZonesMono[targetSlotZone].transform.position,
-                    positionAllPoint
-                );
-                positionAllPoint.Add(targetPosition);
-                
-                unitEntity.AddComponent(new MoveUnitToTargetComponent {
-                    TargetPosition = targetPosition,
-                    TargetTowerGUID = selectTowerForAttackGuid,
-                    TargetSlotID = targetSlotZone
-                });
-
-                _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID = selectTowerForAttackGuid;
-
-                unitComponent.GUIDTower = selectTowerForAttackGuid;
-                unitComponent.IndexPoint = targetSlotZone;
-                
-                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
-                unitComponent.UnitIconsGO.transform.SetParent(targetTowerComponent.SquadZonesMono[targetSlotZone].transform);
-            }
-            
-            AnimationMoveToTarget();
+            return targetSlotZone;
         }
 
         private int GetFriendlySlotInTargetZone(string towerGUID)
@@ -171,6 +172,23 @@ namespace CyberNet.Core.Map
             
             return targetSquadZone;
         }
+
+        private Vector3 SelectNextPositionsForUnit(List<Vector3> positionAllPoint, string selectTowerForAttackGuid, int targetSlotZone)
+        {
+            var targetTowerComponent = _dataWorld.Select<TowerComponent>()
+                .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
+                .SelectFirstEntity()
+                .GetComponent<TowerComponent>();
+            
+            var newTargetPositions = CitySupportStatic.SelectPosition
+            (
+                targetTowerComponent.SquadZonesMono[targetSlotZone].Collider,
+                targetTowerComponent.SquadZonesMono[targetSlotZone].transform.position,
+                positionAllPoint
+            );
+
+            return newTargetPositions;
+        }
         
         private void AnimationMoveToTarget()
         {
@@ -201,24 +219,10 @@ namespace CyberNet.Core.Map
             
             if (!isMoveUnit)
             {
-                var isEnemyTargetZone = CheckIsEnemyInTargetMoveZone();
-
-                if (!isEnemyTargetZone)
-                {
-                    EndMoveWithoutBattle();
-                    return;
-                }
-                
-                var playerType = _dataWorld.OneData<RoundData>().playerOrAI;
-
-                if (playerType != PlayerOrAI.Player)
-                {
-                    AIBattleArenaAction.CheckEnemyBattle?.Invoke();
-                }
+                if (CheckIsEnemyInTargetMoveZone())
+                    BattleAction.EndMovePlayerToNewZone?.Invoke();
                 else
-                {
-                    StartArenaBattle();
-                }
+                    EndMoveWithoutBattle();
             }
         }
 
@@ -229,24 +233,16 @@ namespace CyberNet.Core.Map
             var lastTargetTowerGUID = _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID;
             if (lastTargetTowerGUID != "")
             {
-                var unitsInTowerEntities = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == lastTargetTowerGUID)
-                    .GetEntities();
-
                 var currentPlayerID = _dataWorld.Select<PlayerComponent>()
                     .With<CurrentPlayerComponent>()
                     .SelectFirst<PlayerComponent>().PlayerID;
+                
+                var isEnemyUnit = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == lastTargetTowerGUID
+                    && unit.PowerSolidPlayerID != currentPlayerID)
+                    .Count();
 
-                foreach (var unitEntity in unitsInTowerEntities)
-                {
-                    var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
-
-                    if (unitComponent.PowerSolidPlayerID != currentPlayerID)
-                    {
-                        isEnemy = true;
-                        break;
-                    }
-                }
+                isEnemy = isEnemyUnit > 0;
             }
 
             return isEnemy;
@@ -262,38 +258,9 @@ namespace CyberNet.Core.Map
             CityAction.UpdatePresencePlayerInCity?.Invoke();
         }
 
-        private void StartArenaBattle()
-        {
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            roundData.CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
-            ref var arenaData = ref _dataWorld.OneData<ArenaData>();
-            arenaData.IsShowVisualBattle = true;
-            
-            CustomCursorAction.OnBaseCursor?.Invoke();
-            ZoomCameraToBattle();
-        }
-
-        private void ZoomCameraToBattle()
-        {
-            AnimationsStartArenaCameraAction.StartAnimations?.Invoke(0.75f);
-
-            _dataWorld.NewEntity().AddComponent(new TimeComponent {
-                Time = 0.75f,
-                Action = () => {
-                    FinishAnimation();
-                }
-            });
-        }
-
-        private void FinishAnimation()
-        {
-            ArenaAction.StartArenaBattle?.Invoke();
-        }
-
         public void Destroy()
         {
             MapMoveUnitsAction.StartMoveUnits -= StartMoveUnit;
-            MapMoveUnitsAction.StartArenaBattle -= StartArenaBattle;
             
             _dataWorld.RemoveOneData<MoveUnitZoneData>();
         }

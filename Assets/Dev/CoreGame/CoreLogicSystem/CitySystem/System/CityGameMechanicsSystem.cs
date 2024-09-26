@@ -5,7 +5,7 @@ using ModulesFramework.Systems;
 using System.Collections.Generic;
 using CyberNet.Core.Player;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityGameMechanicsSystem : IPreInitSystem, IDestroySystem

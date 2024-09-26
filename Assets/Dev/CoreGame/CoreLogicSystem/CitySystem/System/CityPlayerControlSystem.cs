@@ -13,7 +13,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityPlayerControlSystem : IRunSystem

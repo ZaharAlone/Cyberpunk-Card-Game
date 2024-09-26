@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
 using CyberNet.Core.Arena;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Config;
@@ -51,7 +51,6 @@ namespace CyberNet
 
         [Header("Other config")]
         public CursorConfigSO CursorConfigSO;
-        public ArenaConfigSO ArenaConfigSO;
         public ColorsGameConfigSO ColorsGameConfigSO;
         public ViewEnemySO ViewEnemySO;
     }
