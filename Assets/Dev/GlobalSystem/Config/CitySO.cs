@@ -14,7 +14,6 @@ namespace CyberNet.Core.Map
         public IconsContainerUnitInMapMono IconsContainerUnitMap;
         public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
-        public UnitPointVFXMono UnitPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
         public List<string> PlayerVisualKeyList = new();

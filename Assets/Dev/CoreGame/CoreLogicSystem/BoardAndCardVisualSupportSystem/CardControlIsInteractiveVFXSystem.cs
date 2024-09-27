@@ -54,6 +54,8 @@ namespace CyberNet.Core.UI
 
             var disableAllVFX = roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player;
 
+            //TODO поправить арена
+            /*
             if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
             {
                 var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
@@ -65,7 +67,7 @@ namespace CyberNet.Core.UI
                     .GetComponent<PlayerComponent>().playerOrAI == PlayerOrAI.Player;
                 
                 disableAllVFX = !currentPlayerIsControlHuman;
-            }
+            }*/
             
             if (disableAllVFX)
             {

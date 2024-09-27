@@ -29,7 +29,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: UnitDictionary
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CyberNet.Core.City.UnitVisual,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[CyberNet.Core.Map.UnitVisual,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -49,7 +49,7 @@ MonoBehaviour:
       Data: neutral_unit
     - Name: $v
       Entry: 7
-      Data: CyberNet.Core.City.UnitVisual, Assembly-CSharp
+      Data: CyberNet.Core.Map.UnitVisual, Assembly-CSharp
     - Name: UnitArenaMono
       Entry: 10
       Data: 0
@@ -61,13 +61,13 @@ MonoBehaviour:
       Data: UnityEngine.Color32, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 255
+      Data: 221
     - Name: 
       Entry: 3
-      Data: 255
+      Data: 221
     - Name: 
       Entry: 3
-      Data: 255
+      Data: 221
     - Name: 
       Entry: 3
       Data: 255
@@ -88,7 +88,7 @@ MonoBehaviour:
       Data: green_unit
     - Name: $v
       Entry: 7
-      Data: CyberNet.Core.City.UnitVisual, Assembly-CSharp
+      Data: CyberNet.Core.Map.UnitVisual, Assembly-CSharp
     - Name: UnitArenaMono
       Entry: 10
       Data: 2
@@ -100,13 +100,13 @@ MonoBehaviour:
       Data: UnityEngine.Color32, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 156
+      Data: 2
     - Name: 
       Entry: 3
       Data: 255
     - Name: 
       Entry: 3
-      Data: 62
+      Data: 0
     - Name: 
       Entry: 3
       Data: 255
@@ -127,7 +127,7 @@ MonoBehaviour:
       Data: red_unit
     - Name: $v
       Entry: 7
-      Data: CyberNet.Core.City.UnitVisual, Assembly-CSharp
+      Data: CyberNet.Core.Map.UnitVisual, Assembly-CSharp
     - Name: UnitArenaMono
       Entry: 10
       Data: 3
@@ -139,13 +139,13 @@ MonoBehaviour:
       Data: UnityEngine.Color32, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 200
+      Data: 255
     - Name: 
       Entry: 3
-      Data: 5
+      Data: 0
     - Name: 
       Entry: 3
-      Data: 5
+      Data: 0
     - Name: 
       Entry: 3
       Data: 255
@@ -166,7 +166,7 @@ MonoBehaviour:
       Data: blue_unit
     - Name: $v
       Entry: 7
-      Data: CyberNet.Core.City.UnitVisual, Assembly-CSharp
+      Data: CyberNet.Core.Map.UnitVisual, Assembly-CSharp
     - Name: UnitArenaMono
       Entry: 10
       Data: 4
@@ -178,13 +178,13 @@ MonoBehaviour:
       Data: UnityEngine.Color32, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 255
-    - Name: 
-      Entry: 3
-      Data: 235
-    - Name: 
-      Entry: 3
       Data: 0
+    - Name: 
+      Entry: 3
+      Data: 164
+    - Name: 
+      Entry: 3
+      Data: 255
     - Name: 
       Entry: 3
       Data: 255
@@ -205,7 +205,7 @@ MonoBehaviour:
       Data: yellow_unit
     - Name: $v
       Entry: 7
-      Data: CyberNet.Core.City.UnitVisual, Assembly-CSharp
+      Data: CyberNet.Core.Map.UnitVisual, Assembly-CSharp
     - Name: UnitArenaMono
       Entry: 10
       Data: 5
@@ -217,13 +217,13 @@ MonoBehaviour:
       Data: UnityEngine.Color32, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 176
+      Data: 255
+    - Name: 
+      Entry: 3
+      Data: 204
     - Name: 
       Entry: 3
       Data: 0
-    - Name: 
-      Entry: 3
-      Data: 221
     - Name: 
       Entry: 3
       Data: 255
@@ -245,8 +245,6 @@ MonoBehaviour:
   IconsContainerUnitMap: {fileID: 2261960563584412567, guid: 23d75bc1cc9284f44b53dafe4c0918d1,
     type: 3}
   TowerSelectVFX: {fileID: 6646153456709455640, guid: d8234b28eac256242ac317432d240b19,
-    type: 3}
-  UnitPointVFXMono: {fileID: 293610829052175291, guid: 02f8605a7aa96c440af69e9378edc257,
     type: 3}
   ClearSolidPointVFX: {fileID: 2950176789771994318, guid: 5571e17713ad3f14ba002c5d2df905b4,
     type: 3}

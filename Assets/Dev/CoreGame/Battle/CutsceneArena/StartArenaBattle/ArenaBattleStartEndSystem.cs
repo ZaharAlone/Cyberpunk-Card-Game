@@ -98,6 +98,8 @@ namespace CyberNet.Core.Arena
 
         private void ClearArenaEndBattle()
         {
+            //TODO Поправить, Арена
+            /*
             var arenaData = _dataWorld.OneData<ArenaData>();
             var cameraData = _dataWorld.OneData<GameCameraData>();
             var cityData = _dataWorld.OneData<CityData>();
@@ -145,6 +147,7 @@ namespace CyberNet.Core.Arena
             {
                 ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
             }
+            */
         }
         
         public void Destroy()
@@ -167,11 +170,13 @@ namespace CyberNet.Core.Arena
                 entity.Destroy();
             }
             
+            //TODO Поправить Арена
+            /*
             var playerInArenaEntities = _dataWorld.Select<PlayerArenaInBattleComponent>().GetEntities();
             foreach (var entity in playerInArenaEntities)
             {
                 entity.Destroy();
-            }
+            }*/
         }
     }
 }
