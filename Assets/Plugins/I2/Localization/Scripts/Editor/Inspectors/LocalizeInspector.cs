@@ -487,14 +487,14 @@ namespace I2.Loc
 				if(mNewKeyName==null) mNewKeyName = string.Empty;
 
 				GUI.changed = false;
-				mNewKeyName = EditorGUILayout.TextField(mNewKeyName, new GUIStyle("ToolbarSeachTextField"), GUILayout.ExpandWidth(true));
+				mNewKeyName = EditorGUILayout.TextField(mNewKeyName, new GUIStyle(GUITools.Style_ToolbarSearchTextField), GUILayout.ExpandWidth(true));
 				if (GUI.changed)
 				{
 					mTermsArray = null;	// regenerate this array to apply filtering
 					GUI.changed = false;
 				}
 
-				if (GUILayout.Button (string.Empty, string.IsNullOrEmpty(mNewKeyName) ? "ToolbarSeachCancelButtonEmpty" : "ToolbarSeachCancelButton", GUILayout.ExpandWidth(false)))
+				if (GUILayout.Button (string.Empty, string.IsNullOrEmpty(mNewKeyName) ? GUITools.Style_ToolbarSearchCancelButtonEmpty : GUITools.Style_ToolbarSearchCancelButton, GUILayout.ExpandWidth(false)))
 				{
 					mTermsArray = null;	// regenerate this array to apply filtering
 					mNewKeyName = string.Empty;

@@ -42,7 +42,7 @@ namespace I2.Loc
 
         #region I2CSV format
 
-        public string Export_I2CSV(string Category, char Separator = ',', bool specializationsAsRows = true)
+        public string Export_I2CSV(string Category, char Separator = ',', bool specializationsAsRows = true, bool sortRows=true)
         {
             var Builder = new StringBuilder();
 
@@ -58,7 +58,10 @@ namespace I2.Loc
 
             Builder.Append("[ln]");
 
-            mTerms.Sort((a, b) => string.CompareOrdinal(a.Term, b.Term));
+            if (sortRows)
+            {
+                mTerms.Sort((a, b) => string.CompareOrdinal(a.Term, b.Term));
+            }
 
             var nLanguages = mLanguages.Count;
             var firstLine = true;
@@ -153,7 +156,7 @@ namespace I2.Loc
 
         #region CSV format
 
-        public string Export_CSV(string Category, char Separator = ',', bool specializationsAsRows = true)
+        public string Export_CSV(string Category, char Separator = ',', bool specializationsAsRows = true, bool sortRows=true)
         {
             var Builder = new StringBuilder();
 
@@ -171,7 +174,10 @@ namespace I2.Loc
             Builder.Append("\n");
 
 
-            mTerms.Sort((a, b) => string.CompareOrdinal(a.Term, b.Term));
+            if (sortRows)
+            {
+                mTerms.Sort((a, b) => string.CompareOrdinal(a.Term, b.Term));
+            }
 
             foreach (var termData in mTerms)
             {

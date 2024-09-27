@@ -1,6 +1,6 @@
 ﻿----------------------------------------------
               I2 Localization
-                  2.8.20 f2
+                   2.8.22 f6
         http://www.inter-illusion.com
           inter.illusion@gmail.com
 ----------------------------------------------
@@ -66,6 +66,24 @@ AssetStore Deals   - A bot that constantly checks the Store to find you the late
 -----------------------
  Version History
 -----------------------
+2.8.22
+NEW: Added support for Unity 2022.3.X
+NEW: Added support for Unity 6
+NEW: Specializations can now also use the New Input System to detect if touch is supported
+FIX: Improved performance when importing Spreadsheets on startup
+FIX: Android App Name was not correctly exported when in Unity 2021.2 or newer 
+FIX: Fixed all Tests and corrected several misbehaviour that were exposed in them
+FIX: RTL was failing to align correctly when language started as RTL instead of just switching to it.
+FIX: Crash when Verifying the Google Service if the Spreadsheet was not found
+
+
+
+2.8.21
+NEW: Added "Untranslated" filter to the Term's list popup (thanks to @Hosnkobf)
+NEW: Option "Sort Rows" when exporting to CSV or Google Spreadsheet
+FIX: Fixed exception when saving languages without a name
+FIX: Compile errors when there was a class named Action in the project
+
 2.8.20
 NEW: Missing translations are now shown in the console log.
 FIX: Null Exception when running in 2021.3
