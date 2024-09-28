@@ -25,7 +25,7 @@ namespace CyberNet.Core.Map
 
         private void UpdateCanInteractiveMap()
         {
-            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            var towerEntities = _dataWorld.Select<DistrictComponent>().GetEntities();
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
@@ -34,18 +34,18 @@ namespace CyberNet.Core.Map
             
             foreach (var towerEntity in towerEntities)
             {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
 
                 if (towerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && towerComponent.TowerBelongPlayerID == playerComponent.PlayerID)
+                    && towerComponent.DistrictBelongPlayerID == playerComponent.PlayerID)
                 {
-                    towerComponent.TowerMono.OnInteractiveTower();
-                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                    towerComponent.DistrictMono.OnInteractiveTower();
+                    towerComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
                 }
                 else
                 {
-                    towerComponent.TowerMono.OffInteractiveTower();
-                    towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+                    towerComponent.DistrictMono.OffInteractiveTower();
+                    towerComponent.DistrictMono.CloseInteractiveZoneVisualEffect();
                 }
             }
         }
@@ -61,24 +61,24 @@ namespace CyberNet.Core.Map
 
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
 
-            var towerQuery = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && tower.TowerBelongPlayerID == playerComponent.PlayerID);
+            var towerQuery = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.PlayerControlEntity == PlayerControlEntity.PlayerControl
+                    && tower.DistrictBelongPlayerID == playerComponent.PlayerID);
 
             var countTowerEntity = towerQuery.Count();
             var towerEntities = towerQuery.GetEntities();
 
             foreach (var towerEntity in towerEntities)
             {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
 
                 if (countTowerEntity > 1)
                 {
-                    towerComponent.TowerMono.OnInteractiveTower();
-                    towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();   
+                    towerComponent.DistrictMono.OnInteractiveTower();
+                    towerComponent.DistrictMono.OpenInteractiveZoneVisualEffect();   
                 }
 
-                foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+                foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
                 {
                     towerConnect.OnInteractiveTower();
                     towerConnect.OpenInteractiveZoneVisualEffect();
@@ -93,40 +93,40 @@ namespace CyberNet.Core.Map
         {
             DeactivateAllTower();
             
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == GUIDTower)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == GUIDTower)
                 .SelectFirstEntity();
 
-            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+            var towerComponent = towerEntity.GetComponent<DistrictComponent>();
 
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
 
             var playerComponent = playerEntity.GetComponent<PlayerComponent>();
-            foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+            foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
             {
-                var towerConnectEntity = _dataWorld.Select<TowerComponent>()
-                    .Where<TowerComponent>(tower => tower.GUID == towerConnect.GUID)
+                var towerConnectEntity = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(tower => tower.GUID == towerConnect.GUID)
                     .SelectFirstEntity();
 
-                var towerConnectComponent = towerConnectEntity.GetComponent<TowerComponent>();
+                var towerConnectComponent = towerConnectEntity.GetComponent<DistrictComponent>();
                 if (towerConnectComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && towerConnectComponent.TowerBelongPlayerID == playerComponent.PlayerID)
+                    && towerConnectComponent.DistrictBelongPlayerID == playerComponent.PlayerID)
                 {
-                    towerConnectComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                    towerConnectComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
                 }
             }
         }
 
         private void DeactivateAllTower()
         {
-            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            var towerEntities = _dataWorld.Select<DistrictComponent>().GetEntities();
             foreach (var towerEntity in towerEntities)
             {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.OffInteractiveTower();
-                towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
+                towerComponent.DistrictMono.OffInteractiveTower();
+                towerComponent.DistrictMono.CloseInteractiveZoneVisualEffect();
             }
         }
 
@@ -173,13 +173,13 @@ namespace CyberNet.Core.Map
 
             foreach (var towerGUID in uniqueTowerGUID)
             {
-                var towerEntity = _dataWorld.Select<TowerComponent>()
-                    .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+                var towerEntity = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                     .SelectFirstEntity();
                 
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.OnInteractiveTower();
-                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
+                towerComponent.DistrictMono.OnInteractiveTower();
+                towerComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
             }
         }
 

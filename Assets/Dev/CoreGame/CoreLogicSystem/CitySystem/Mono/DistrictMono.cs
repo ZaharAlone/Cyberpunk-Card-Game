@@ -1,29 +1,33 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Map
 {
-    public class TowerMono : MonoBehaviour
+    public class DistrictMono : MonoBehaviour
     {
         public string GUID;
         public string Key = "tower_1";
         public bool IsFirstBasePlayer;
-        public CountPlayerInGameEnum ActiveOnCountPlayerInGame;
         
+        [Required]
         public MeshRenderer VisualEffectZone;
         [SerializeField]
+        [Required]
         private GameObject _closeInteractiveZoneEffect;
         [SerializeField]
+        [Required]
         private GameObject _openInteractiveZoneEffect;
         [SerializeField]
+        [Required]
         private Collider _colliderTower;
 
         public List<UnitZoneMono> SquadZonesMono = new List<UnitZoneMono>();
-        public List<TowerMono> ZoneConnect = new List<TowerMono>();
+        public List<DistrictMono> ZoneConnect = new List<DistrictMono>();
 
         [SerializeField]
+        [Required]
         private GameObject _iceZone;
 
         [HideInInspector]

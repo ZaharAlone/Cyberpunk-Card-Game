@@ -24,10 +24,10 @@ namespace CyberNet.Core.AbilityCard
 
         private void AddTowerUnit(string towerGUID)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
-            ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+            ref var towerComponent = ref towerEntity.GetComponent<DistrictComponent>();
             
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -42,7 +42,7 @@ namespace CyberNet.Core.AbilityCard
             
             var initUnit = new InitUnitStruct {
                 KeyUnit = playerVisualComponent.KeyCityVisual,
-                UnitZone = towerComponent.TowerMono.SquadZonesMono[targetSquadZone],
+                UnitZone = towerComponent.DistrictMono.SquadZonesMono[targetSquadZone],
                 PlayerControl = PlayerControlEntity.PlayerControl, TargetPlayerID = playerID,
             };
 
@@ -50,13 +50,13 @@ namespace CyberNet.Core.AbilityCard
             BoardGameUIAction.UpdateStatsMainPlayersPassportUI?.Invoke();
         }
 
-        private int FindFreeSlotInTower(TowerComponent towerComponent, int playerID)
+        private int FindFreeSlotInTower(DistrictComponent DistrictComponent, int playerID)
         {
             var targetSquadZone = 0;
-            foreach (var squadZone in towerComponent.TowerMono.SquadZonesMono)
+            foreach (var squadZone in DistrictComponent.DistrictMono.SquadZonesMono)
             {
                 var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDTower == DistrictComponent.GUID
                         && unit.IndexPoint == squadZone.Index
                         && unit.PowerSolidPlayerID == playerID)
                     .Count() > 0;
@@ -69,13 +69,13 @@ namespace CyberNet.Core.AbilityCard
                 }
             }
 
-            if (targetSquadZone > towerComponent.TowerMono.SquadZonesMono.Count - 1)
+            if (targetSquadZone > DistrictComponent.DistrictMono.SquadZonesMono.Count - 1)
             {
                 targetSquadZone = 0;
-                foreach (var squadZone in towerComponent.TowerMono.SquadZonesMono)
+                foreach (var squadZone in DistrictComponent.DistrictMono.SquadZonesMono)
                 {
                     var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
-                        .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID
+                        .Where<UnitMapComponent>(unit => unit.GUIDTower == DistrictComponent.GUID
                             && unit.IndexPoint == squadZone.Index)
                         .Count() == 0;
 

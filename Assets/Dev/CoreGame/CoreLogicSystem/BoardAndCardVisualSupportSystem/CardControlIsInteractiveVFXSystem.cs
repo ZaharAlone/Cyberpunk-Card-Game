@@ -123,7 +123,7 @@ namespace CyberNet.Core.UI
             
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionCardData>();
-            var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
+            var valueTrade = actionValue.TotalTrade + actionValue.BonusDistrictTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)
             {

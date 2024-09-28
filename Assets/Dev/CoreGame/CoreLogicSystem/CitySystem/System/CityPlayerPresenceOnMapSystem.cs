@@ -28,19 +28,20 @@ namespace CyberNet.Core.Map
             UpdateCountControlTowerPlayer();
             
             CityAction.UpdateTowerControlView?.Invoke();
+            CityAction.UpdateDistrictTradeBonus?.Invoke();
             BoardGameUIAction.UpdateStatsAllPlayersPassportUI?.Invoke();
         }
 
         private void ClearOldPresencePlayerComponent()
         {
-            var towerEntities = _dataWorld.Select<TowerComponent>()
+            var towerEntities = _dataWorld.Select<DistrictComponent>()
                 .With<PresencePlayerTowerComponent>()
                 .GetEntities();
 
             foreach (var towerEntity in towerEntities)
             {
                 towerEntity.RemoveComponent<PresencePlayerTowerComponent>();
-                var towerMono = towerEntity.GetComponent<TowerComponent>().TowerMono;
+                var towerMono = towerEntity.GetComponent<DistrictComponent>().DistrictMono;
                 towerMono.OffInteractiveTower();
                 towerMono.CloseInteractiveZoneVisualEffect();
             }
@@ -48,13 +49,13 @@ namespace CyberNet.Core.Map
 
         private void UpdatePlayerControlTower()
         {
-            var towerEntities = _dataWorld.Select<TowerComponent>()
+            var towerEntities = _dataWorld.Select<DistrictComponent>()
                 .GetEntities();
             
             //Debug.LogError("update player control tower");
             foreach (var towerEntity in towerEntities)
             {
-                ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+                ref var towerComponent = ref towerEntity.GetComponent<DistrictComponent>();
                 var towerGUID = towerComponent.GUID;
 
                 var unitInTowerEntities = _dataWorld.Select<UnitMapComponent>()
@@ -109,13 +110,13 @@ namespace CyberNet.Core.Map
                 if (IDPlayerControlTower == -1)
                 {
                     //Debug.LogError($"Район нейтральный {towerComponent.Key}");
-                    towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
+                    towerComponent.DistrictBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.NeutralUnits;
                 }
                 else
                 {
                     //Debug.LogError($"Район принадлежит {IDPlayerControlTower}");
-                    towerComponent.TowerBelongPlayerID = IDPlayerControlTower;
+                    towerComponent.DistrictBelongPlayerID = IDPlayerControlTower;
                     towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
                 }
             }
@@ -151,8 +152,8 @@ namespace CyberNet.Core.Map
 
         private void AddPresenceComponent(string guidPoint)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == guidPoint)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == guidPoint)
                 .SelectFirstEntity();
 
             towerEntity.AddComponent(new PresencePlayerTowerComponent());
@@ -167,8 +168,8 @@ namespace CyberNet.Core.Map
             {
                 ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
                 var playerID = playerComponent.PlayerID;
-                var countControlTerritoryPlayer = _dataWorld.Select<TowerComponent>()
-                    .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == playerID
+                var countControlTerritoryPlayer = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(tower => tower.DistrictBelongPlayerID == playerID
                         && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                     .Count();
 

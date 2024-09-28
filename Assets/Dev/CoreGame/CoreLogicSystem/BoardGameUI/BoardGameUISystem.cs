@@ -153,7 +153,7 @@ namespace CyberNet.Core.UI
             ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
             ref var gameUI = ref _dataWorld.OneData<CoreGameUIData>();
 
-            var tradeValue = actionValue.TotalTrade - actionValue.SpendTrade;
+            var tradeValue = actionValue.TotalTrade + actionValue.BonusDistrictTrade  - actionValue.SpendTrade;
 
             gameUI.BoardGameUIMono.TraderowMono.SetTradeValue(tradeValue);
         }

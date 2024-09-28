@@ -208,6 +208,7 @@ namespace CyberNet.Core.AbilityCard
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             actionData.TotalTrade = 0;
             actionData.SpendTrade = 0;
+            actionData.BonusDistrictTrade = 0;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }

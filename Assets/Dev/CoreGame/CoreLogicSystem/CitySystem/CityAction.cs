@@ -32,5 +32,7 @@ namespace CyberNet.Core.Map
         // string = towerGUID, int = playerID
         public static Action<string, int> ActivationsColliderUnitsInTower;
         public static Action DeactivationsColliderAllUnits;
+
+        public static Action UpdateDistrictTradeBonus;
     }
 }

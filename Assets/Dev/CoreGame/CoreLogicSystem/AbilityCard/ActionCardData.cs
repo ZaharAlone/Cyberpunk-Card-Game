@@ -9,7 +9,8 @@ namespace CyberNet.Core.AbilityCard
     {
         public int TotalTrade;
         public int SpendTrade;
-        
+        public int BonusDistrictTrade;
+
         public ActionPlayerButtonType ActionPlayerButtonType;
     }
 }

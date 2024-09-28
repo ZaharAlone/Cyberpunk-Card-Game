@@ -6,12 +6,10 @@ using System.Collections.Generic;
 using CyberNet.Core;
 using CyberNet.Core.Arena;
 using CyberNet.Core.Map;
-using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Config;
 using CyberNet.Global.Cursor;
 using I2.Loc;
-using UnityEngine.Serialization;
 
 namespace CyberNet
 {

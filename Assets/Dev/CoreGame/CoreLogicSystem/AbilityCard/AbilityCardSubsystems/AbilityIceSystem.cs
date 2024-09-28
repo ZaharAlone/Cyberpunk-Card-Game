@@ -42,11 +42,11 @@ namespace CyberNet.Core.AbilityCard
         
         private void SetIceSelectTower(string towerGUID)
         {
-            var entityTower = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var entityTower = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
-            var towerComponent = entityTower.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.EnableIceZone();
+            var towerComponent = entityTower.GetComponent<DistrictComponent>();
+            towerComponent.DistrictMono.EnableIceZone();
 
             entityTower.AddComponent(new TowerIceComponent());
             CityAction.SelectTower -= SetIceSelectTower;
@@ -66,7 +66,7 @@ namespace CyberNet.Core.AbilityCard
 
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
 
-            var towerWithIceEntities = _dataWorld.Select<TowerComponent>()
+            var towerWithIceEntities = _dataWorld.Select<DistrictComponent>()
                 .With<TowerIceComponent>()
                 .GetEntities();
 
@@ -74,7 +74,7 @@ namespace CyberNet.Core.AbilityCard
             
             foreach (var towerEntity in towerWithIceEntities)
             {
-                listID.Add(towerEntity.GetComponent<TowerComponent>().TowerBelongPlayerID);
+                listID.Add(towerEntity.GetComponent<DistrictComponent>().DistrictBelongPlayerID);
             }
             
             CityAction.ShowManyZonePlayerInMap?.Invoke(listID);
@@ -85,12 +85,12 @@ namespace CyberNet.Core.AbilityCard
         
         private void DestroyIceSelectTower(string towerGUID)
         {
-            var entityTower = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var entityTower = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
             
-            var towerComponent = entityTower.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.DisableIceZone();
+            var towerComponent = entityTower.GetComponent<DistrictComponent>();
+            towerComponent.DistrictMono.DisableIceZone();
             entityTower.RemoveComponent<TowerIceComponent>();
             
             CityAction.SelectTower -= DestroyIceSelectTower;

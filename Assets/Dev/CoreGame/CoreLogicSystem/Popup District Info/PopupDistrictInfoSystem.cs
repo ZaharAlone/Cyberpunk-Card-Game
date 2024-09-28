@@ -23,7 +23,7 @@ namespace CyberNet.Core
             PopupDistrictInfoAction.ForceUpdateViewCurrentPopup += ForceUpdateViewCurrentPopup;
         }
 
-        private void CheckOpenPopup(string guidTower)
+        private void CheckOpenPopup(string guidDistrict)
         {
             var isShowPopup = _dataWorld.OneData<SettingsData>().GameSettings.IsShowDistrickPopup;
             
@@ -35,8 +35,8 @@ namespace CyberNet.Core
             if (openPopupDistrictQuery.Count() == 0)
             {
                 var entity = _dataWorld.NewEntity();
-                entity.AddComponent(new PopupDistrictInfoComponent { TowerGUID = guidTower });
-                OpenPopup(guidTower);
+                entity.AddComponent(new PopupDistrictInfoComponent { DistrictGUID = guidDistrict });
+                OpenPopup(guidDistrict);
             }
             else
             {
@@ -44,10 +44,10 @@ namespace CyberNet.Core
                     .SelectFirstEntity()
                     .GetComponent<PopupDistrictInfoComponent>();
                 
-                if (popupComponent.TowerGUID != guidTower)
+                if (popupComponent.DistrictGUID != guidDistrict)
                 {
-                    popupComponent.TowerGUID = guidTower;
-                    OpenPopup(guidTower);
+                    popupComponent.DistrictGUID = guidDistrict;
+                    OpenPopup(guidDistrict);
                 }
             }
         }
@@ -71,30 +71,30 @@ namespace CyberNet.Core
             
             var openPopupDistrictComponent = openPopupDistrictQuery.SelectFirstEntity().GetComponent<PopupDistrictInfoComponent>();
             
-            OpenPopup(openPopupDistrictComponent.TowerGUID);
+            OpenPopup(openPopupDistrictComponent.DistrictGUID);
         }
 
-        private void OpenPopup(string guidTower)
+        private void OpenPopup(string guidDistrict)
         {
-            var towerComponent = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == guidTower)
+            var districtComponent = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(district => district.GUID == guidDistrict)
                 .SelectFirstEntity()
-                .GetComponent<TowerComponent>();
+                .GetComponent<DistrictComponent>();
 
             var districtUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.PopupDistrictInfoUIMono;
             ref var cityVisual = ref _dataWorld.OneData<BoardGameData>().CitySO;
             
-            if (towerComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
+            if (districtComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl)
             {
                 var playerControlTowerEntity = _dataWorld.Select<PlayerComponent>()
-                    .Where<PlayerComponent>(player => player.PlayerID == towerComponent.TowerBelongPlayerID)
+                    .Where<PlayerComponent>(player => player.PlayerID == districtComponent.DistrictBelongPlayerID)
                     .SelectFirstEntity();
                 var playerControlTowerViewComponent = playerControlTowerEntity.GetComponent<PlayerViewComponent>();
 
                 cityVisual.UnitDictionary.TryGetValue(playerControlTowerViewComponent.KeyCityVisual, out var unitVisual);
                 districtUI.SetFractionView(unitVisual.IconsUnit, unitVisual.ColorUnit, playerControlTowerViewComponent.Name);
             }
-            else if (towerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
+            else if (districtComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
             {
                 cityVisual.UnitDictionary.TryGetValue("neutral_unit", out var unitVisual);
                 districtUI.SetFractionView(unitVisual.IconsUnit, unitVisual.ColorUnit, cityVisual.DistrictNeutralLoc);
@@ -105,9 +105,23 @@ namespace CyberNet.Core
             }
             
             var districtConfigs = _dataWorld.OneData<BoardGameData>().DistrictConfig;
-            districtConfigs.TryGetValue(towerComponent.Key, out var districtConfig);
+            districtConfigs.TryGetValue(districtComponent.Key, out var districtConfig);
             
             districtUI.OpenPopup(districtConfig.NameLoc, districtConfig.DescrLoc);
+            SetViewBonus(districtComponent.Key);
+        }
+
+        private void SetViewBonus(string keyDistrict)
+        {
+            var districtUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.PopupDistrictInfoUIMono;
+            var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
+            var districtConfig = _dataWorld.OneData<BoardGameData>().DistrictConfig;
+            var currentDistrictBonus = districtConfig[keyDistrict].Bonus;
+
+            var iconsBonus = boardGameConfig.CurrencyImage[currentDistrictBonus.Item];
+            var colorBonus = boardGameConfig.CurrencyColor[currentDistrictBonus.Item];
+            
+            districtUI.SetBonus(iconsBonus, colorBonus, currentDistrictBonus.Value);
         }
         
         private void ClosePopup()

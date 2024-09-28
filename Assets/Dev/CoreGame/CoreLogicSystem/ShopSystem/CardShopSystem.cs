@@ -107,7 +107,7 @@ namespace CyberNet.Core
 
             var entities = _dataWorld.Select<CardTradeRowComponent>().GetEntities();
             var action = _dataWorld.OneData<ActionCardData>();
-            var tradePoint = action.TotalTrade - action.SpendTrade;
+            var tradePoint = action.TotalTrade + action.BonusDistrictTrade - action.SpendTrade;
 
             foreach (var entity in entities)
             {

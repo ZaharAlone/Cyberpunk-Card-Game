@@ -36,7 +36,7 @@ namespace CyberNet.Local
                 CurrentRound = 0,
                 CurrentTurn = 1,
                 CurrentPlayerID = selectLeader[0].PlayerID,
-                playerOrAI = PlayerOrAI.Player
+                playerOrAI = PlayerOrAI.Player,
             });
         }
 
@@ -99,6 +99,7 @@ namespace CyberNet.Local
 
             var nextRoundPlayerID = 0;
             var nextRoundPlayerType = PlayerOrAI.None;
+            
             foreach (var playerEntity in entitiesPlayer)
             {
                 ref var componentPlayer = ref playerEntity.GetComponent<PlayerComponent>();

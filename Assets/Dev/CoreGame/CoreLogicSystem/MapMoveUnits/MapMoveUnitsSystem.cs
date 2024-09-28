@@ -37,10 +37,10 @@ namespace CyberNet.Core.Map
                 .SelectTowerGUID;
 
             var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
-            var targetTowerComponent = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
+            var targetTowerComponent = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == selectTowerForAttackGuid)
                 .SelectFirstEntity()
-                .GetComponent<TowerComponent>();
+                .GetComponent<DistrictComponent>();
             
             var targetSlotZone = SelectTargetZoneInTower(selectTowerForAttackGuid);
 
@@ -116,10 +116,10 @@ namespace CyberNet.Core.Map
                 .SelectFirstEntity();
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
             
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
-            ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+            ref var towerComponent = ref towerEntity.GetComponent<DistrictComponent>();
             
             var targetSquadZone = 0;
             foreach (var squadZone in towerComponent.SquadZonesMono)
@@ -148,10 +148,10 @@ namespace CyberNet.Core.Map
                 .SelectFirstEntity();
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
             
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
-            ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+            ref var towerComponent = ref towerEntity.GetComponent<DistrictComponent>();
             
             var targetSquadZone = 0;
             foreach (var squadZone in towerComponent.SquadZonesMono)
@@ -175,10 +175,10 @@ namespace CyberNet.Core.Map
 
         private Vector3 SelectNextPositionsForUnit(List<Vector3> positionAllPoint, string selectTowerForAttackGuid, int targetSlotZone)
         {
-            var targetTowerComponent = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == selectTowerForAttackGuid)
+            var targetTowerComponent = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == selectTowerForAttackGuid)
                 .SelectFirstEntity()
-                .GetComponent<TowerComponent>();
+                .GetComponent<DistrictComponent>();
             
             var newTargetPositions = CitySupportStatic.SelectPosition
             (

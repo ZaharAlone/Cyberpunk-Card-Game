@@ -4,18 +4,20 @@ using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Map
 {
-    public struct TowerComponent
+    public struct DistrictComponent
     {
         public string GUID;
         public string Key;
-        public TowerMono TowerMono;
+        public DistrictMono DistrictMono;
         public GameObject TowerGO;
         public List<UnitZoneMono> SquadZonesMono;
         public MeshRenderer VisualEffectZone;
         
-        //Кому принадлежит контроль над башней?
+        //Кому принадлежит контроль над районом?
         public PlayerControlEntity PlayerControlEntity;
-        public int TowerBelongPlayerID;
+        public int DistrictBelongPlayerID;
+
+        public ItemValue BonusDistrict;
     }
 
     public enum PlayerControlEntity

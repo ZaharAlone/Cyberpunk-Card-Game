@@ -25,40 +25,40 @@ namespace CyberNet.Core.Map
         
         private void ShowFirstBaseTower()
         {
-            var entitiesTowerFirstBase = _dataWorld.Select<TowerComponent>()
+            var entitiesTowerFirstBase = _dataWorld.Select<DistrictComponent>()
                 .With<FirstBasePlayerComponent>()
                 .GetEntities();
 
 
             foreach (var entityTower in entitiesTowerFirstBase)
             {
-                ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.OnInteractiveTower();
-                towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+                ref var towerComponent = ref entityTower.GetComponent<DistrictComponent>();
+                towerComponent.DistrictMono.OnInteractiveTower();
+                towerComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
             }
         }
 
         private void HideFirstBaseTower()
         {
-            var entitiesTower = _dataWorld.Select<TowerComponent>().GetEntities();
+            var entitiesTower = _dataWorld.Select<DistrictComponent>().GetEntities();
 
             foreach (var entityTower in entitiesTower)
             {
-                ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                towerComponent.TowerMono.OffInteractiveTower();
-                towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+                ref var towerComponent = ref entityTower.GetComponent<DistrictComponent>();
+                towerComponent.DistrictMono.OffInteractiveTower();
+                towerComponent.DistrictMono.CloseInteractiveZoneVisualEffect();
             }
         }
 
         private void UpdateTowerControlView()
         {
-            var entitiesTower = _dataWorld.Select<TowerComponent>()
+            var entitiesTower = _dataWorld.Select<DistrictComponent>()
                 .GetEntities();
 
             foreach (var entityTower in entitiesTower)
             {
-                ref var towerComponent = ref entityTower.GetComponent<TowerComponent>();
-                var material = towerComponent.TowerMono.VisualEffectZone.materials[0];
+                ref var towerComponent = ref entityTower.GetComponent<DistrictComponent>();
+                var material = towerComponent.DistrictMono.VisualEffectZone.materials[0];
                 
                 switch (towerComponent.PlayerControlEntity)
                 {
@@ -69,11 +69,11 @@ namespace CyberNet.Core.Map
                         material = SetViewNeutralZoneControl(material);
                         break;
                     case PlayerControlEntity.PlayerControl:
-                        material = SetViewPlayerZoneControl(material, towerComponent.TowerBelongPlayerID);
+                        material = SetViewPlayerZoneControl(material, towerComponent.DistrictBelongPlayerID);
                         break;
                 }
                 
-                towerComponent.TowerMono.VisualEffectZone.materials[0] = material;
+                towerComponent.DistrictMono.VisualEffectZone.materials[0] = material;
             }
             
             PopupDistrictInfoAction.ForceUpdateViewCurrentPopup?.Invoke();
@@ -115,21 +115,21 @@ namespace CyberNet.Core.Map
         
         private void EnableInteractiveTower(string towerGuid)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGuid)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGuid)
                 .SelectFirstEntity();
-            var towerComponent = towerEntity.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.OnInteractiveTower();
-            towerComponent.TowerMono.OpenInteractiveZoneVisualEffect();
+            var towerComponent = towerEntity.GetComponent<DistrictComponent>();
+            towerComponent.DistrictMono.OnInteractiveTower();
+            towerComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
         }
         private void DisableInteractiveTower(string towerGuid)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGuid)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGuid)
                 .SelectFirstEntity();
-            var towerComponent = towerEntity.GetComponent<TowerComponent>();
-            towerComponent.TowerMono.OffInteractiveTower();
-            towerComponent.TowerMono.CloseInteractiveZoneVisualEffect();
+            var towerComponent = towerEntity.GetComponent<DistrictComponent>();
+            towerComponent.DistrictMono.OffInteractiveTower();
+            towerComponent.DistrictMono.CloseInteractiveZoneVisualEffect();
         }
 
         public void Destroy()

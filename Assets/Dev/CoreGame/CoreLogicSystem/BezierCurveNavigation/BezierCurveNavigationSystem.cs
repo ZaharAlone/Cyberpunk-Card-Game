@@ -186,7 +186,7 @@ namespace CyberNet.Core.BezierCurveNavigation
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
-                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono)
                 {
                     if (towerMono.IsInteractiveTower)

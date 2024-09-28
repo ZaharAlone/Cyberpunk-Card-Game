@@ -40,25 +40,27 @@ namespace CyberNet.Core
         {
             //TODO Пересмотреть Добавить визуал к кускам карты
             var cityData = _dataWorld.OneData<CityData>();
+            var districtConfig = _dataWorld.OneData<BoardGameData>().DistrictConfig;
             
-            foreach (var tower in cityData.CityMono.Towers)
+            foreach (var district in cityData.CityMono.Disctrict)
             {
                 var entity = _dataWorld.NewEntity();
-                tower.OffInteractiveTower();
-                tower.CloseInteractiveZoneVisualEffect();
+                district.OffInteractiveTower();
+                district.CloseInteractiveZoneVisualEffect();
                 
-                var towerComponent = new TowerComponent 
+                var towerComponent = new DistrictComponent 
                 {
-                    GUID = tower.GUID,
-                    Key = tower.Key,
-                    TowerMono = tower,
-                    TowerGO = tower.gameObject,
-                    SquadZonesMono = tower.SquadZonesMono,
-                    VisualEffectZone = tower.VisualEffectZone,
+                    GUID = district.GUID,
+                    Key = district.Key,
+                    DistrictMono = district,
+                    TowerGO = district.gameObject,
+                    SquadZonesMono = district.SquadZonesMono,
+                    VisualEffectZone = district.VisualEffectZone,
                     PlayerControlEntity = PlayerControlEntity.None,
+                    BonusDistrict = districtConfig[district.Key].Bonus,
                 };
                 
-                foreach (var squadZone in tower.SquadZonesMono)
+                foreach (var squadZone in district.SquadZonesMono)
                 {
                     var countUnit =  InitStartUnitReturnCount(squadZone);
                     if (countUnit > 0)
@@ -68,7 +70,7 @@ namespace CyberNet.Core
                 }
 
                 entity.AddComponent(towerComponent);
-                if (tower.IsFirstBasePlayer)
+                if (district.IsFirstBasePlayer)
                     entity.AddComponent(new FirstBasePlayerComponent());
             }
             
@@ -106,7 +108,7 @@ namespace CyberNet.Core
 
             _dataWorld.RemoveOneData<CityData>();
 
-            var towerEntities = _dataWorld.Select<TowerComponent>().GetEntities();
+            var towerEntities = _dataWorld.Select<DistrictComponent>().GetEntities();
             foreach (var tower in towerEntities)
             {
                 tower.Destroy();

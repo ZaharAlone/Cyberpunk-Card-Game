@@ -23,9 +23,7 @@ namespace CyberNet.Core
                 .GetEntities();
 
             foreach (var entity in entities)
-            {
                 AddResource(entity);
-            }    
         }
 
         private void AddResource(Entity entity)
@@ -39,9 +37,7 @@ namespace CyberNet.Core
             entity.RemoveComponent<AbilityCardAddResourceComponent>();
 
             if (entity.HasComponent<CardPlayAllComponent>())
-            {
                 entity.RemoveComponent<CardPlayAllComponent>();
-            }
 
             var isSomeMoreCardPlayAll = _dataWorld.Select<CardPlayAllComponent>().Count() > 0;
             
