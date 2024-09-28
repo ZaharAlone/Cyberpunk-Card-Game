@@ -26,7 +26,8 @@ namespace I2.Loc
 		{
 			Used = 1<<1,
 			Missing = 1<<2, 
-			NotUsed = 1<<3
+			NotUsed = 1<<3,
+			Untranslated = 1<<4,
 		}
 		public static int mFlagsViewKeys = (int)eFlagsViewKeys.Used | (int)eFlagsViewKeys.NotUsed;
 
@@ -67,6 +68,9 @@ namespace I2.Loc
 			mFlagsViewKeys = OnGUI_FlagToogle("Used","Shows All Terms referenced in the parsed scenes", 				mFlagsViewKeys, (int)eFlagsViewKeys.Used);
 			mFlagsViewKeys = OnGUI_FlagToogle("Not Used", "Shows all Terms from the Source that are not been used", 	mFlagsViewKeys, (int)eFlagsViewKeys.NotUsed);
 			mFlagsViewKeys = OnGUI_FlagToogle("Missing","Shows all Terms Used but not defined in the Source", 			mFlagsViewKeys, (int)eFlagsViewKeys.Missing);
+
+			mFlagsViewKeys = OnGUI_FlagToogle("Untranslated", "Shows all Terms that were not translated to any language", mFlagsViewKeys, (int)eFlagsViewKeys.Untranslated);
+
 			if (oldFlags!=mFlagsViewKeys)
                 ScheduleUpdateTermsToShowInList();
 
@@ -560,22 +564,32 @@ namespace I2.Loc
 					if (!mLanguageSource.ContainsTerm( kvp.Key ) && ShouldShowTerm( kvp.Value.Term, kvp.Value.Category, kvp.Value.Usage ))
 						mSelectedKeys.Add( kvp.Key );
 			}
+
+			GUI.enabled = ((mFlagsViewKeys & (int)eFlagsViewKeys.Untranslated) > 1);
+			if (GUILayout.Button(new GUIContent("Untranslated", "Selects all Terms from the Source that are not translated to any language"), "toolbarbutton", GUILayout.ExpandWidth(false)))
+			{
+				mSelectedKeys.Clear();
+				foreach (var kvp in mParsedTerms)
+					if (kvp.Value.termData.Languages.All(o => string.IsNullOrEmpty(o)) && ShouldShowTerm(kvp.Value.Term, kvp.Value.Category, kvp.Value.Usage))
+						mSelectedKeys.Add(kvp.Key);
+			}
+
 			GUI.enabled = true;
 			EditorGUI.BeginChangeCheck();
 
 			// Terms Filter
 			{
-				//KeyList_Filter = EditorGUILayout.TextField(KeyList_Filter, GUI.skin.GetStyle("ToolbarSeachTextField"), GUILayout.ExpandWidth(true));
+				//KeyList_Filter = EditorGUILayout.TextField(KeyList_Filter, GUI.skin.GetStyle(GUITools.Style_ToolbarSearchTextField), GUILayout.ExpandWidth(true));
 				GUILayout.Label( "", GUILayout.ExpandWidth( true ) );
 				mKeyListFilterRect = GUILayoutUtility.GetLastRect();
                 mKeyListFilterRect.xMax += 4;
 
-                KeyList_Filter = GUITools.TextField( mKeyListFilterRect, KeyList_Filter, 255, GUI.skin.GetStyle( "ToolbarSeachTextField" ), KeyListFilterID );
+                KeyList_Filter = GUITools.TextField( mKeyListFilterRect, KeyList_Filter, 255, GUI.skin.GetStyle( GUITools.Style_ToolbarSearchTextField ), KeyListFilterID );
 			}
 
 
 
-			if (GUILayout.Button( string.Empty, string.IsNullOrEmpty( KeyList_Filter ) ? "ToolbarSeachCancelButtonEmpty" : "ToolbarSeachCancelButton", GUILayout.ExpandWidth( false ) ))
+			if (GUILayout.Button( string.Empty, string.IsNullOrEmpty( KeyList_Filter ) ? GUITools.Style_ToolbarSearchCancelButtonEmpty : GUITools.Style_ToolbarSearchCancelButton, GUILayout.ExpandWidth( false ) ))
 			{
 				KeyList_Filter = string.Empty;
 				EditorApplication.update += RepaintScene;
@@ -637,7 +651,6 @@ namespace I2.Loc
 					parsedTerm.termData = ShowTerm_termData;
 			}
 
-
             var filter = KeyList_Filter.Trim();
             bool useTranslation = filter.StartsWith("f ", StringComparison.OrdinalIgnoreCase);
             if (useTranslation)
@@ -649,14 +662,16 @@ namespace I2.Loc
                 if (!string.IsNullOrEmpty(filter))
                 {
                     bool hasFilter = false;
-                    for (int i = 0; i < ShowTerm_termData.Languages.Length; ++i)
-                    {
-                        if (!string.IsNullOrEmpty(ShowTerm_termData.Languages[i]) && StringContainsFilter(ShowTerm_termData.Languages[i], filter))
-                        {
-                            hasFilter = true;
-                            break;
-                        }
-                    }
+					for (int i = 0; i < ShowTerm_termData.Languages.Length; ++i)
+					{
+						if (!string.IsNullOrEmpty(ShowTerm_termData.Languages[i]) 
+							&& StringContainsFilter(ShowTerm_termData.Languages[i], filter))
+						{
+							hasFilter = true;
+							break;
+						}
+						
+					}
                     if (!hasFilter)
                         return false;
                 }
@@ -679,7 +694,12 @@ namespace I2.Loc
 
 
             bool bIsMissing = ShowTerm_termData == null;
+			bool hasTranslation = !bIsMissing && ShowTerm_termData.Languages.Any(o => !string.IsNullOrEmpty(o));
+
+			if ((mFlagsViewKeys & (int)eFlagsViewKeys.Untranslated) > 0) return !hasTranslation;
+
 			if (nUses<0) return true;
+
 
 			if ((mFlagsViewKeys & (int)eFlagsViewKeys.Missing)>0 && bIsMissing) return true;
 			if ((mFlagsViewKeys & (int)eFlagsViewKeys.Missing)==0 && bIsMissing) return false;

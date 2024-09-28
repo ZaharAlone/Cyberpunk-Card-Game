@@ -10,14 +10,21 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
     public class TaskPlayerPopupUIMono : MonoBehaviour
     {
         [SerializeField]
+        [Required]
         private GameObject _panel;
         [SerializeField]
+        [Required]
         private RectTransform _rect;
         
         [Header("Localize")]
         [SerializeField]
+        [Required]
         private Localize _headerLocalize;
         [SerializeField]
+        [Required]
+        private LocalizationParamsManager _headerLocalizeParams;
+        [SerializeField]
+        [Required]
         private Localize _descrLocalize;
         [SerializeField]
         [Required]
@@ -25,8 +32,10 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         
         [Header("Text")]
         [SerializeField]
+        [Required]
         private TextMeshProUGUI _headerText;
         [SerializeField]
+        [Required]
         private TextMeshProUGUI _descrText;
         
         public void OpenWindowSetLocalizeTerm(string header, string descr)
@@ -41,8 +50,9 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
             _panel.SetActive(true);
         }
 
-        public void SerDescrParam(string param)
+        public void SerLocalizeParameter(string param)
         {
+            _headerLocalizeParams.SetParameterValue("count", param);
             _descrLocalizeParams.SetParameterValue("count", param);
         }
         

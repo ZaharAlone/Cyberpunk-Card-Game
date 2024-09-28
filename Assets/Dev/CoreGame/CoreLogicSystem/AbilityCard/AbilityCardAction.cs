@@ -15,7 +15,8 @@ namespace CyberNet.Core.AbilityCard
         public static Action<string> DiscardCard;
         public static Action CancelDiscardCard;
         public static Action PlayerDiscardCard;
-        public static Action AddNoiseCard;
+        public static Action<string> AddNoiseCard;
+        public static Action CancelAddNoiseCard;
         
         public static Action<string> DestroyCardAbility;
         public static Action<string> CancelDestroyCard;

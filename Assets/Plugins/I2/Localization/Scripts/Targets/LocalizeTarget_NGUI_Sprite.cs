@@ -22,7 +22,7 @@ namespace I2.Loc
 		public override void GetFinalTerms ( Localize cmp, string Main, string Secondary, out string primaryTerm, out string secondaryTerm )
 		{
 			primaryTerm = mTarget ? mTarget.spriteName : null;
-			secondaryTerm = (mTarget.atlas as UIAtlas ? (mTarget.atlas as UIAtlas).name : string.Empty);
+			secondaryTerm = (mTarget.atlas is UIAtlas atlas ? atlas.name : string.Empty);
         }
 
 

@@ -87,9 +87,9 @@ namespace I2.Loc
                 {
                     mTarget.alignment = LocalizationManager.IsRight2Left ? mAlignment_RTL : mAlignment_LTR;
                 }
-                mTarget.isRightToLeftText = LocalizationManager.IsRight2Left;
                 if (LocalizationManager.IsRight2Left) mainTranslation = I2Utils.ReverseText(mainTranslation);
 
+                mTarget.isRightToLeftText = LocalizationManager.IsRight2Left;
                 mTarget.text = mainTranslation;
             }
         }

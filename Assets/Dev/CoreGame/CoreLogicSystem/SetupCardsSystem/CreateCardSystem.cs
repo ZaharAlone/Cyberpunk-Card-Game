@@ -15,11 +15,11 @@ namespace CyberNet.Core
 
         public void PreInit()
         {
-            SetupCardAction.InitCard += InitCard;
-            SetupCardAction.SetViewCardNotInit += SetViewCardNotInit;
+            SetupCardAction.CreateCard += CreateCard;
+            SetupCardAction.SetViewCardNotInitToDeck += SetViewCardNotInit;
         }
 
-        private Entity InitCard(CardData placeCard, Transform parent, bool isPlayerCard)
+        private Entity CreateCard(CardData placeCard, Transform parent, bool isPlayerCard)
         {
             var cardsConfig = _dataWorld.OneData<CardsConfig>();
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
@@ -82,6 +82,9 @@ namespace CyberNet.Core
             var isAbility_0 = cardConfigJson.Ability_0.AbilityType != AbilityType.None;
             var isAbility_1 = cardConfigJson.Ability_1.AbilityType != AbilityType.None;
             
+            if (!isAbility_0 && !isAbility_1 && cardConfigJson.ValueLeftPoint == 0 && cardConfigJson.ValueRightPoint == 0)
+                cardFace.HideDownBlock();
+            
             var isOneAbility = isAbility_0 && !isAbility_1;
             
             var abilityIsDifferentType = CheckAbilityIsDifferentType(cardConfigJson.Ability_0.AbilityType, cardConfigJson.Ability_1.AbilityType);
@@ -124,8 +127,8 @@ namespace CyberNet.Core
 
         public void Destroy()
         {
-            SetupCardAction.InitCard -= InitCard;
-            SetupCardAction.SetViewCardNotInit -= SetViewCardNotInit;
+            SetupCardAction.CreateCard -= CreateCard;
+            SetupCardAction.SetViewCardNotInitToDeck -= SetViewCardNotInit;
         }
     }
 }

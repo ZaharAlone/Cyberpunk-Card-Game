@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 #endif
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public class IconsContainerUnitInMapMono : MonoBehaviour
     {

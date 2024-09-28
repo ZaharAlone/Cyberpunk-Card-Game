@@ -10,7 +10,7 @@ namespace I2.Loc
 		SerializedProperty 	mProp_Assets, mProp_Languages, 
 							mProp_Google_WebServiceURL, mProp_GoogleUpdateFrequency, mProp_GoogleUpdateDelay, mProp_Google_SpreadsheetKey, mProp_Google_SpreadsheetName, mProp_Google_Password,
                             mProp_Spreadsheet_LocalFileName, mProp_Spreadsheet_LocalCSVSeparator, mProp_CaseInsensitiveTerms, mProp_Spreadsheet_LocalCSVEncoding,
-							mProp_OnMissingTranslation, mProp_AppNameTerm, mProp_IgnoreDeviceLanguage, mProp_Spreadsheet_SpecializationAsRows, mProp_GoogleInEditorCheckFrequency,
+							mProp_OnMissingTranslation, mProp_AppNameTerm, mProp_IgnoreDeviceLanguage, mProp_Spreadsheet_SpecializationAsRows, mProp_Spreadsheet_SortRows, mProp_GoogleInEditorCheckFrequency,
                             mProp_HighlightLocalizedTargets, mProp_GoogleLiveSyncIsUptoDate, mProp_AllowUnloadingLanguages, mProp_GoogleUpdateSynchronization;
 
 		public static LanguageSourceData mLanguageSource;
@@ -79,6 +79,7 @@ namespace I2.Loc
             mProp_Spreadsheet_LocalCSVSeparator    = propSource.FindPropertyRelative("Spreadsheet_LocalCSVSeparator");
             mProp_Spreadsheet_LocalCSVEncoding     = propSource.FindPropertyRelative("Spreadsheet_LocalCSVEncoding");
             mProp_Spreadsheet_SpecializationAsRows = propSource.FindPropertyRelative("Spreadsheet_SpecializationAsRows");
+            mProp_Spreadsheet_SortRows             = propSource.FindPropertyRelative("Spreadsheet_SortRows");
             mProp_OnMissingTranslation             = propSource.FindPropertyRelative("OnMissingTranslation");
 			mProp_AppNameTerm					   = propSource.FindPropertyRelative("mTerm_AppName");
 			mProp_IgnoreDeviceLanguage			   = propSource.FindPropertyRelative("IgnoreDeviceLanguage");

@@ -148,7 +148,7 @@ namespace CyberNet.Core.EnemyTurnView
             var playerEnemyTurnActionUIMono = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.PlayerEnemyTurnActionUIMono;
             var cardMono = playerEnemyTurnActionUIMono.CreateNewCard(viewEnemyConfig.CardForEnemyTurnView);
             
-            SetupCardAction.SetViewCardNotInit?.Invoke(cardMono, keyCard);
+            SetupCardAction.SetViewCardNotInitToDeck?.Invoke(cardMono, keyCard);
         }
 
         private async void HideView()

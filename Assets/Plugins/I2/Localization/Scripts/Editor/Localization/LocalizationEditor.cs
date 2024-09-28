@@ -216,7 +216,7 @@ namespace I2.Loc
                     GUILayout.Space(-5);
                     GUILayout.BeginVertical(GUILayout.Width(15), GUILayout.ExpandHeight(false));
                         GUILayout.Space(15);
-                        if (GUILayout.Button("X", "ToolbarSeachCancelButton", GUILayout.ExpandWidth(false)))
+                        if (GUILayout.Button("X", GUITools.Style_ToolbarSearchCancelButton, GUILayout.ExpandWidth(false)))
                             ClearErrors();
                     GUILayout.EndVertical();
                 GUILayout.EndHorizontal();

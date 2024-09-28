@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using Newtonsoft.Json;
-using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CyberNet
 {

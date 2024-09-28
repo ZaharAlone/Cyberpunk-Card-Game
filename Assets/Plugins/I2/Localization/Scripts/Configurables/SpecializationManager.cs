@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if ENABLE_INPUT_SYSTEM 
+    using UnityEngine.InputSystem;
+#endif
 
 namespace I2.Loc
 {
@@ -11,7 +14,9 @@ namespace I2.Loc
         public virtual void InitializeSpecializations()
         {
             mSpecializations = new[] { "Any", "PC", "Touch", "Controller", "VR",
-                                              "XBox", "PS4", "OculusVR", "ViveVR", "GearVR", "Android", "IOS" };
+                                              "XBox", "PS4", "PS5", "OculusVR", "ViveVR", "GearVR", "Android", "IOS",
+                                              "Switch" 
+            };
             mSpecializationsFallbacks = new Dictionary<string, string>(System.StringComparer.Ordinal)
             {
                 { "XBox", "Controller" }, { "PS4", "Controller" },
@@ -33,10 +38,21 @@ namespace I2.Loc
                 return "PS4";
             #elif UNITY_XBOXONE
                 return "XBox";
+            #elif UNITY_SWITCH
+                return "Switch";
             #elif UNITY_STANDALONE || UNITY_WEBGL
                 return "PC";
             #else
-                return (Input.touchSupported ? "Touch" : "PC");
+                return (IsTouchInputSupported() ? "Touch" : "PC");
+            #endif
+        }
+
+        bool IsTouchInputSupported()
+        {
+            #if ENABLE_INPUT_SYSTEM
+                return Touchscreen.current != null;
+            #else
+                return UnityEngine.Input.touchSupported;
             #endif
         }
 

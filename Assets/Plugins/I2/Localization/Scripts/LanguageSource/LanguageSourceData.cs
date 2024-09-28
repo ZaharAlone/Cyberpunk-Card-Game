@@ -96,6 +96,7 @@ namespace I2.Loc
 		public string Spreadsheet_LocalCSVSeparator = ",";
         public string Spreadsheet_LocalCSVEncoding = "utf-8";
         public bool Spreadsheet_SpecializationAsRows = true;
+        public bool Spreadsheet_SortRows = true;
 
 #endif
         #endregion

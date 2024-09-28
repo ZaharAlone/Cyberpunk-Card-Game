@@ -6,7 +6,7 @@ using UnityEngine;
 using System;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AI.Ability;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 
 namespace CyberNet.Core.AI

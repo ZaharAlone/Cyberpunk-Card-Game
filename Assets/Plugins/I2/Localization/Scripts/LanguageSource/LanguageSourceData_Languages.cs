@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace I2.Loc
 {
@@ -297,6 +298,11 @@ namespace I2.Loc
 
             for (int i = 0; i < mLanguages.Count; ++i)
             {
+	            if (string.IsNullOrEmpty(mLanguages[i].Name))
+	            {
+		            Debug.LogError($"Language {i} has no name, please assign a name to the language or it may not show on a build");
+		            continue;
+	            }
                 var data = Export_Language_to_Cache(i, IsCurrentLanguage(i));
                 if (string.IsNullOrEmpty(data))
                     continue;

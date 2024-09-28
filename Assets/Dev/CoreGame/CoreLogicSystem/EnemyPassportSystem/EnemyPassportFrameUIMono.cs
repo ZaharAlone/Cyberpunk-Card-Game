@@ -80,7 +80,7 @@ namespace CyberNet.Core.EnemyPassport
             _victoryPointText.text = textVP;
         }
 
-        public void DiscardCardStatus(int count)
+        public void DiscardCardStatusLeftPlayer(int count)
         {
             if (count == 0)
             {

@@ -36,7 +36,7 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         {
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.TaskPlayerPopupUIMono.OpenWindowSetLocalizeTerm(header, descr);
-            boardGameUI.TaskPlayerPopupUIMono.SerDescrParam(param);
+            boardGameUI.TaskPlayerPopupUIMono.SerLocalizeParameter(param);
             boardGameUI.TraderowMono.FullHideTradeRowAnimations();
         }
         

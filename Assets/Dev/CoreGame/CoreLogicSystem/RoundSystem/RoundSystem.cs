@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CyberNet.Core;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
 using CyberNet.Core.UI;
@@ -36,7 +36,7 @@ namespace CyberNet.Local
                 CurrentRound = 0,
                 CurrentTurn = 1,
                 CurrentPlayerID = selectLeader[0].PlayerID,
-                playerOrAI = PlayerOrAI.Player
+                playerOrAI = PlayerOrAI.Player,
             });
         }
 
@@ -99,6 +99,7 @@ namespace CyberNet.Local
 
             var nextRoundPlayerID = 0;
             var nextRoundPlayerType = PlayerOrAI.None;
+            
             foreach (var playerEntity in entitiesPlayer)
             {
                 ref var componentPlayer = ref playerEntity.GetComponent<PlayerComponent>();

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public class UnitZoneMono : MonoBehaviour
     {

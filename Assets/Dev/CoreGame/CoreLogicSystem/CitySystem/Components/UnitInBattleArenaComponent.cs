@@ -1,7 +1,7 @@
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public struct UnitInBattleArenaComponent
     {
-        public bool Forwards;
+        public bool Attacking;
     }
 }

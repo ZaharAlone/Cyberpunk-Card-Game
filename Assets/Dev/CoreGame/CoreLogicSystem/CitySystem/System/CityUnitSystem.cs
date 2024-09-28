@@ -7,7 +7,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     /// <summary>
     /// Система управляет юнитами их созданием, уничтожением
@@ -85,20 +85,20 @@ namespace CyberNet.Core.City
         {
             var selectTowersForActivateUnits = new List<string>();
             
-            var targetTower = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == guidTower)
+            var targetTower = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == guidTower)
                 .SelectFirstEntity();
-            var towerComponent = targetTower.GetComponent<TowerComponent>();
+            var towerComponent = targetTower.GetComponent<DistrictComponent>();
             
-            foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+            foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
             {
-                var towerConnectEntity = _dataWorld.Select<TowerComponent>()
-                    .Where<TowerComponent>(tower => tower.GUID == towerConnect.GUID)
+                var towerConnectEntity = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(tower => tower.GUID == towerConnect.GUID)
                     .SelectFirstEntity();
 
-                var towerConnectComponent = towerConnectEntity.GetComponent<TowerComponent>();
+                var towerConnectComponent = towerConnectEntity.GetComponent<DistrictComponent>();
                 if (towerConnectComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && towerConnectComponent.TowerBelongPlayerID == playerID)
+                    && towerConnectComponent.DistrictBelongPlayerID == playerID)
                 {
                     selectTowersForActivateUnits.Add(towerConnectComponent.GUID);
                 }

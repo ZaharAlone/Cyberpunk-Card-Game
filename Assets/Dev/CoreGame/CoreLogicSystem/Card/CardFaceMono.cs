@@ -50,12 +50,12 @@ namespace CyberNet.Core
         [Required]
         private GameObject _discardCardEffectGO;
         
-        public void SetViewCard(Sprite imageCard, string header, int leftPointCount, int rightointCount, int price = 0)
+        public void SetViewCard(Sprite imageCard, string header, int leftPointCount, int rightPointCount, int price = 0)
         {
             Header.Term = header;
             ImageCard.sprite = imageCard;
             LeftPointText.text = leftPointCount.ToString();
-            RightPointText.text = rightointCount.ToString();
+            RightPointText.text = rightPointCount.ToString();
 
             if (price != 0)
                 PriceText.text = price.ToString();
@@ -89,6 +89,11 @@ namespace CyberNet.Core
         public void EnableDiscardCardEffect(bool status)
         {
             _discardCardEffectGO.SetActive(status);
+        }
+
+        public void HideDownBlock()
+        {
+            ImageDownBlockRect.gameObject.SetActive(false);
         }
     }
 }

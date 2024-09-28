@@ -26,14 +26,14 @@ namespace CyberNet.Core
             
             foreach (var item in deckCardsData.NeutralShopCards)
             {
-                var entity = SetupCardAction.InitCard.Invoke(item, traderowParent, false);
+                var entity = SetupCardAction.CreateCard.Invoke(item, traderowParent, false);
                 entity.AddComponent(new CardNeutralComponent());
                 entity.AddComponent(new CardTradeRowComponent());
             }
             
             foreach (var item in deckCardsData.ShopCards)
             {
-                var entity = SetupCardAction.InitCard.Invoke(item, traderowParent, false);
+                var entity = SetupCardAction.CreateCard.Invoke(item, traderowParent, false);
                 entity.AddComponent(new CardTradeDeckComponent());
             }
 
@@ -41,7 +41,7 @@ namespace CyberNet.Core
             {
                 foreach (var item in playerDeckCard.Cards)
                 {
-                    var entity = SetupCardAction.InitCard.Invoke(item, cardsParent, true);
+                    var entity = SetupCardAction.CreateCard.Invoke(item, cardsParent, true);
                     ref var cardComponent = ref entity.GetComponent<CardComponent>();
                     cardComponent.PlayerID = playerDeckCard.IndexPlayer;
                     entity.AddComponent(new CardDrawComponent());

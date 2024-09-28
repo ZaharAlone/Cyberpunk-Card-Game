@@ -5,7 +5,6 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
-using CyberNet.Core.City;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 
@@ -65,8 +64,8 @@ namespace CyberNet.Core.AI.Ability
                 .SelectFirstEntity();
 
             var currentPlayerComponent = currentPlayerEntity.GetComponent<PlayerComponent>();
-            var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerComponent.PlayerID
+            var towerEntitiesPlayer = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.DistrictBelongPlayerID == currentPlayerComponent.PlayerID
                     && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
             
@@ -74,16 +73,16 @@ namespace CyberNet.Core.AI.Ability
             var guidSelectPotentiallyWeakTower = new List<ItemValue>();
             foreach (var towerEntity in towerEntitiesPlayer)
             {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
                 
-                foreach (var zoneConnectTower in towerComponent.TowerMono.ZoneConnect)
+                foreach (var zoneConnectTower in towerComponent.DistrictMono.ZoneConnect)
                 {
-                    var connectTowerEntity = _dataWorld.Select<TowerComponent>()
-                        .Where<TowerComponent>(tower => tower.GUID == zoneConnectTower.GUID)
+                    var connectTowerEntity = _dataWorld.Select<DistrictComponent>()
+                        .Where<DistrictComponent>(tower => tower.GUID == zoneConnectTower.GUID)
                         .SelectFirstEntity();
-                    var connectTowerComponent = connectTowerEntity.GetComponent<TowerComponent>();
+                    var connectTowerComponent = connectTowerEntity.GetComponent<DistrictComponent>();
 
-                    if (connectTowerComponent.TowerBelongPlayerID != currentPlayerComponent.PlayerID)
+                    if (connectTowerComponent.DistrictBelongPlayerID != currentPlayerComponent.PlayerID)
                     {
                         var countUnitInTower = _dataWorld.Select<UnitMapComponent>()
                             .Where<UnitMapComponent>(unit => unit.PowerSolidPlayerID != currentPlayerComponent.PlayerID
@@ -120,12 +119,12 @@ namespace CyberNet.Core.AI.Ability
             return guidSelectPotentiallyWeakTower[selectIndex];
         }
         
-        private int CalculatePotentialAttackToTower(TowerComponent towerComponent)
+        private int CalculatePotentialAttackToTower(DistrictComponent DistrictComponent)
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
             var countUnitForBattle = 0;
-            foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+            foreach (var towerConnect in DistrictComponent.DistrictMono.ZoneConnect)
             {
                 var countPlayerUnit = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
@@ -152,15 +151,15 @@ namespace CyberNet.Core.AI.Ability
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            var towerEntitiesPlayer = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.TowerBelongPlayerID == currentPlayerID
+            var towerEntitiesPlayer = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.DistrictBelongPlayerID == currentPlayerID
                     && tower.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
             
             var selectPotentiallyTower = new List<ItemValue>();
             foreach (var towerEntity in towerEntitiesPlayer)
             {
-                var towerComponent = towerEntity.GetComponent<TowerComponent>();
+                var towerComponent = towerEntity.GetComponent<DistrictComponent>();
                 var countPlayerUnitInTower = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerComponent.GUID
                         && unit.PowerSolidPlayerID == currentPlayerID
@@ -168,7 +167,7 @@ namespace CyberNet.Core.AI.Ability
                     .Count();
 
                 var isSelectTower = false;
-                foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+                foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
                 {
                     var countEnemyUnitInTower = _dataWorld.Select<UnitMapComponent>()
                         .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
@@ -184,7 +183,7 @@ namespace CyberNet.Core.AI.Ability
 
                 if (isSelectTower)
                 {
-                    foreach (var towerConnect in towerComponent.TowerMono.ZoneConnect)
+                    foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
                     {
                         var countPlayerNeighboringUnitInTower = _dataWorld.Select<UnitMapComponent>()
                             .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID
@@ -223,10 +222,10 @@ namespace CyberNet.Core.AI.Ability
 
         private void AttackTower(ItemValue targetTower)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == targetTower.Item)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == targetTower.Item)
                 .SelectFirstEntity();
-            var targetTowerComponent = towerEntity.GetComponent<TowerComponent>();
+            var targetTowerComponent = towerEntity.GetComponent<DistrictComponent>();
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var needCountUnit = 0;
 
@@ -256,7 +255,7 @@ namespace CyberNet.Core.AI.Ability
             
             // Выбираем каких сколько юнитов и с каких зон отправим в бой
             // Считает неверно
-            foreach (var towerConnect in targetTowerComponent.TowerMono.ZoneConnect)
+            foreach (var towerConnect in targetTowerComponent.DistrictMono.ZoneConnect)
             {
                 var countPlayerUnitInZone = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDTower == towerConnect.GUID

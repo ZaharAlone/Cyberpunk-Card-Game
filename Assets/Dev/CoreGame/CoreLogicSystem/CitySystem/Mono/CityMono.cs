@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using CyberNet.Tools;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public class CityMono : MonoBehaviour
     {
         public Transform InteractiveObjectContainer;
         public GameObject SolidContainer;
-        public List<TowerMono> Towers = new List<TowerMono>();
+        [FormerlySerializedAs("Towers")]
+        public List<DistrictMono> Disctrict = new List<DistrictMono>();
         [SerializeField]
         private GameObject _cityLight;
 
@@ -27,17 +29,17 @@ namespace CyberNet.Core.City
         [Button("Заполнить данные в листах")]
         public void SetAllData()
         {
-            Towers.Clear();
+            Disctrict.Clear();
             
             var counterChild = 0;
             foreach (Transform child in InteractiveObjectContainer)
             {
-                if (child.GetComponent<TowerMono>())
+                if (child.GetComponent<DistrictMono>())
                 {
-                    var tower = child.GetComponent<TowerMono>();
+                    var tower = child.GetComponent<DistrictMono>();
                     tower.GUID = CreateGUID.Create();
                     tower.GetAllSquadZone();
-                    Towers.Add(tower);
+                    Disctrict.Add(tower);
                 }
                 
                 counterChild++;

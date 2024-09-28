@@ -14,7 +14,7 @@ using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Global.Sound;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Settings;

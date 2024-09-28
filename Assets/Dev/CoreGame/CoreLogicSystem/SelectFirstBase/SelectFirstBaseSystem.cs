@@ -1,4 +1,4 @@
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.TaskPlayerPopup;
@@ -60,11 +60,11 @@ namespace CyberNet.Core.SelectFirstBase
             ref var playerComponent = ref playerEntity.GetComponent<PlayerComponent>();
             ref var playerVisualComponent = ref playerEntity.GetComponent<PlayerViewComponent>();
             
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
 
-            ref var towerComponent = ref towerEntity.GetComponent<TowerComponent>();
+            ref var towerComponent = ref towerEntity.GetComponent<DistrictComponent>();
 
             var targetSquadZone = SelectTargetZone(towerGUID);
 
@@ -84,7 +84,7 @@ namespace CyberNet.Core.SelectFirstBase
             playerComponent.UnitCount -= gameRuleInitUnit;
             playerComponent.VictoryPoint++;
             towerComponent.PlayerControlEntity = PlayerControlEntity.PlayerControl;
-            towerComponent.TowerBelongPlayerID = playerComponent.PlayerID;
+            towerComponent.DistrictBelongPlayerID = playerComponent.PlayerID;
             
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
@@ -101,11 +101,11 @@ namespace CyberNet.Core.SelectFirstBase
 
         private int SelectTargetZone(string towerGUID)
         {
-            var towerEntity = _dataWorld.Select<TowerComponent>()
-                .Where<TowerComponent>(tower => tower.GUID == towerGUID)
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == towerGUID)
                 .SelectFirstEntity();
 
-            var towerComponent = towerEntity.GetComponent<TowerComponent>();
+            var towerComponent = towerEntity.GetComponent<DistrictComponent>();
             
             var targetSquadZone = 0;
             foreach (var squadZone in towerComponent.SquadZonesMono)

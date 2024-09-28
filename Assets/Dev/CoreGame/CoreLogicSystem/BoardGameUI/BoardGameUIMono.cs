@@ -1,7 +1,7 @@
 using CyberNet.Core.AbilityCard.DestroyCard;
 using UnityEngine;
 using CyberNet.Core.AbilityCard.UI;
-using CyberNet.Core.Arena.ArenaHUDUI;
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.WinLose;
@@ -50,16 +50,17 @@ namespace CyberNet.Core.UI
         public AbilityInputButtonUIMono AbilityInputButtonUIMono;
 
         public BezierCurveUIMono BezierCurveUIMono;
-
-        [Header("Arena")]
-        public ArenaHUDUIMono ArenaHUDUIMono;
-
+        
         [Header("Popup District")]
         public PopupDistrictInfoUIMono PopupDistrictInfoUIMono;
         
         [Header ("Destroy Card")]
         public DestroyCardUIMono DestroyCardUIMono;
 
+        [Header("Battle Tactics")]
+        [Required]
+        public BattleTacticsModeUIMono BattleTacticsModeUIMono;
+        
         public GameObject BlockRaycastPanel;
     }
 }

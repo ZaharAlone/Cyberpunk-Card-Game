@@ -23,9 +23,9 @@ namespace CyberNet.Core
                     var abilityPlayingOnMap = AbilityCardUtilsAction.CheckAbilityIsPlayingOnMap.Invoke(ability.AbilityType);
 
                     if (abilityPlayingOnMap)
-                        Object.Instantiate(viewCard.IconsArenaAbility, container);
-                    else
                         Object.Instantiate(viewCard.IconsMapAbility, container);
+                    else
+                        Object.Instantiate(viewCard.IconsBattleAbility, container);
                 }
             }
 

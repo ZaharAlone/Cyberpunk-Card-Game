@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.AI.Ability;
-using CyberNet.Core.City;
+using CyberNet.Core.Map;
 using CyberNet.Core.EnemyTurnView;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
@@ -57,11 +57,11 @@ namespace CyberNet.Core.AI
         // Выбираем стартовую базу
         private void SelectFirstBase()
         {
-            var firstBaseEntities = _dataWorld.Select<TowerComponent>()
+            var firstBaseEntities = _dataWorld.Select<DistrictComponent>()
                 .With<FirstBasePlayerComponent>()
                 .GetEntities();
             
-            var countFirstBase = _dataWorld.Select<TowerComponent>()
+            var countFirstBase = _dataWorld.Select<DistrictComponent>()
                 .With<FirstBasePlayerComponent>()
                 .Count();
 
@@ -72,7 +72,7 @@ namespace CyberNet.Core.AI
             {
                 if (counter == indexBase)
                 {
-                    ref var towerComponent = ref entityFirstBase.GetComponent<TowerComponent>();
+                    ref var towerComponent = ref entityFirstBase.GetComponent<DistrictComponent>();
                     SelectFirstBaseAction.SelectBase?.Invoke(towerComponent.GUID);
                     break;
                 }
@@ -245,7 +245,7 @@ namespace CyberNet.Core.AI
         private void SelectingCardToPurchase()
         {
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
-            var tradePoint = actionData.TotalTrade - actionData.SpendTrade;
+            var tradePoint = actionData.TotalTrade + actionData.BonusDistrictTrade - actionData.SpendTrade;
             
             if (tradePoint == 0)
                 return;

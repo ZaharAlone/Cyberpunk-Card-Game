@@ -20,11 +20,11 @@ namespace I2.Loc
         static public GUILayoutOption DontExpandWidth = GUILayout.ExpandWidth(false);
         static public GUIContent EmptyContent = new GUIContent ();
 
-        static List<Action> mDelayedEditorCallbacks = new List<Action>();
+        static List<System.Action> mDelayedEditorCallbacks = new List<System.Action>();
 
         #region Delayed Editor Callback
 
-        public static void DelayedCall( Action action )
+        public static void DelayedCall( System.Action action )
         {
             if (mDelayedEditorCallbacks.Count == 0)
                 EditorApplication.update += OnDelayedCall;
@@ -706,14 +706,14 @@ namespace I2.Loc
 		static public object Reflection_InvokeMethod ( object instanceObject, string methodName, params object[] p_args )
 		{
 			BindingFlags _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-			MethodInfo mi = instanceObject.GetType().GetMethods( _flags ).Where( x => x.Name==methodName ).FirstOrDefault();
+			MethodInfo mi = instanceObject.GetType().GetMethods( _flags ).FirstOrDefault(x => x.Name==methodName);
 			if (mi == null) return null;
 			return mi.Invoke( instanceObject, p_args );
 		}
 		static public object Reflection_InvokeMethod ( Type targetType, string methodName, params object[] p_args )
 		{
 			BindingFlags _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-			MethodInfo mi = targetType.GetMethods( _flags ).Where( x => x.Name==methodName ).FirstOrDefault();
+			MethodInfo mi = targetType.GetMethods( _flags ).FirstOrDefault(x => x.Name==methodName);
 			if (mi == null) return null;
 			return mi.Invoke( null, p_args );
 		}
@@ -724,8 +724,13 @@ namespace I2.Loc
 		{
             if (s_RecycledEditor==null)
             {
-                FieldInfo info = typeof(EditorGUI).GetField("s_RecycledEditor", BindingFlags.NonPublic | BindingFlags.Static);
-                s_RecycledEditor = info.GetValue(null);
+                var info = typeof(EditorGUI).GetField("s_RecycledEditor", BindingFlags.NonPublic | BindingFlags.Static);
+                
+                // s_RecycledEditor was renamed to s_RecycledEditorInternal in Unity 6
+                if (info==null)
+	                info = typeof(EditorGUI).GetField("s_RecycledEditorInternal", BindingFlags.NonPublic | BindingFlags.Static);
+
+                s_RecycledEditor = info == null ? null : info.GetValue(null);
             }
 
             if (s_RecycledEditor == null)
@@ -749,5 +754,15 @@ namespace I2.Loc
 
 
         #endregion
-    }
+        
+		#if UNITY_2022_3_OR_NEWER
+			public const string Style_ToolbarSearchTextField = "ToolbarSearchTextField";
+			public const string Style_ToolbarSearchCancelButtonEmpty = "ToolbarSearchCancelButtonEmpty";
+			public const string Style_ToolbarSearchCancelButton = "ToolbarSearchCancelButton";
+		#else
+			public const string Style_ToolbarSearchTextField = "ToolbarSeachTextField";
+			public const string Style_ToolbarSearchCancelButtonEmpty = "ToolbarSeachCancelButtonEmpty";
+			public const string Style_ToolbarSearchCancelButton = "ToolbarSeachCancelButton";
+		#endif        
+	}
 }

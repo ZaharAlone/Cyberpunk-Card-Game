@@ -54,6 +54,8 @@ namespace CyberNet.Core.UI
 
             var disableAllVFX = roundData.PauseInteractive || roundData.playerOrAI != PlayerOrAI.Player;
 
+            //TODO поправить арена
+            /*
             if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Arena)
             {
                 var arenaRoundData = _dataWorld.OneData<ArenaRoundData>();
@@ -65,7 +67,7 @@ namespace CyberNet.Core.UI
                     .GetComponent<PlayerComponent>().playerOrAI == PlayerOrAI.Player;
                 
                 disableAllVFX = !currentPlayerIsControlHuman;
-            }
+            }*/
             
             if (disableAllVFX)
             {
@@ -121,7 +123,7 @@ namespace CyberNet.Core.UI
             
             var entitiesCardInShop = _dataWorld.Select<CardComponent>().With<CardTradeRowComponent>().GetEntities();
             var actionValue = _dataWorld.OneData<ActionCardData>();
-            var valueTrade = actionValue.TotalTrade - actionValue.SpendTrade;
+            var valueTrade = actionValue.TotalTrade + actionValue.BonusDistrictTrade - actionValue.SpendTrade;
 
             foreach (var entity in entitiesCardInHand)
             {

@@ -13,10 +13,7 @@ namespace CyberNet.Core.AI.Ability
         public static Func<ItemValue> CalculatePotentialMoveUnitAttack;
         public static Func<ItemValue> CalculatePotentialMoveUnit;
         public static Action<string> AddUnitMap;
-        
-        //Battle
-        public static Action<string> Headshot;
-        public static Action<string> ThrowGrenade;
+        public static Action<string> DestroyCard;
         
         //Not working
         public static Action<string> DestroyNeutralUnit;

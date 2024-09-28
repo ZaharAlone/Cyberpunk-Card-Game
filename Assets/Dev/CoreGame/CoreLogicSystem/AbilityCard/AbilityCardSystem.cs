@@ -112,7 +112,7 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.AddNoiseCard:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
-                    AbilityCardAction.AddNoiseCard?.Invoke();
+                    AbilityCardAction.AddNoiseCard?.Invoke(guidCard);
                     break;
                 case AbilityType.SetIce:
                     ActionSelectCardAddComponent(abilityCardStruct, entity);
@@ -165,6 +165,7 @@ namespace CyberNet.Core.AbilityCard
                 case AbilityType.DestroyUnit:
                     break;
                 case AbilityType.AddNoiseCard:
+                    AbilityCardAction.CancelAddNoiseCard?.Invoke();
                     break;
                 case AbilityType.SetIce:
                     break;
@@ -207,6 +208,7 @@ namespace CyberNet.Core.AbilityCard
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             actionData.TotalTrade = 0;
             actionData.SpendTrade = 0;
+            actionData.BonusDistrictTrade = 0;
             
             BoardGameUIAction.UpdateStatsPlayersCurrency?.Invoke();
         }

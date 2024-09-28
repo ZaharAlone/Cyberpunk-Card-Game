@@ -13,7 +13,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityPlayerControlSystem : IRunSystem
@@ -41,7 +41,7 @@ namespace CyberNet.Core.City
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
-                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono)
                 {
                     if (towerMono.IsInteractiveTower)
@@ -59,7 +59,7 @@ namespace CyberNet.Core.City
             }
         }
 
-        private void ClickTower(TowerMono towerMono)
+        private void ClickTower(DistrictMono DistrictMono)
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
@@ -69,11 +69,11 @@ namespace CyberNet.Core.City
             
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
             {
-                SelectFirstBaseAction.SelectBase?.Invoke(towerMono.GUID);
+                SelectFirstBaseAction.SelectBase?.Invoke(DistrictMono.GUID);
             }
             else if (activeAbilityCard)
             {
-                CityAction.SelectTower?.Invoke(towerMono.GUID);
+                CityAction.SelectTower?.Invoke(DistrictMono.GUID);
             }
         }
 
@@ -119,7 +119,7 @@ namespace CyberNet.Core.City
             
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
-                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono && results.Count == 0)
                 {
                     isRaycastDistrict = true;

@@ -6,7 +6,7 @@ using CyberNet.Core.Arena;
 using I2.Loc;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     [CreateAssetMenu(fileName = "CitySO", menuName = "Scriptable Object/Board Game/City SO")]
     public class CitySO : SerializedScriptableObject
@@ -14,7 +14,6 @@ namespace CyberNet.Core.City
         public IconsContainerUnitInMapMono IconsContainerUnitMap;
         public Dictionary<string, UnitVisual> UnitDictionary = new Dictionary<string, UnitVisual>();
         public ParticleSystem TowerSelectVFX;
-        public UnitPointVFXMono UnitPointVFXMono;
         public GameObject ClearSolidPointVFX;
 
         public List<string> PlayerVisualKeyList = new();

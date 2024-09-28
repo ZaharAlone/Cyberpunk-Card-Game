@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CyberNet.Core.City
+namespace CyberNet.Core.Map
 {
     public static class CityAction
     {
@@ -32,5 +32,7 @@ namespace CyberNet.Core.City
         // string = towerGUID, int = playerID
         public static Action<string, int> ActivationsColliderUnitsInTower;
         public static Action DeactivationsColliderAllUnits;
+
+        public static Action UpdateDistrictTradeBonus;
     }
 }

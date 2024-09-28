@@ -22,7 +22,7 @@ public class CardsViewConfigSO : SerializedScriptableObject
     public TextAbilityLocalizeMono TextBaseAbility;
     public GameObject ItemIconsCounterCard;
     public GameObject IconsArrowChooseAbility;
-    public Image IconsArenaAbility;
+    public Image IconsBattleAbility;
     public Image IconsMapAbility;
     
 #if UNITY_EDITOR

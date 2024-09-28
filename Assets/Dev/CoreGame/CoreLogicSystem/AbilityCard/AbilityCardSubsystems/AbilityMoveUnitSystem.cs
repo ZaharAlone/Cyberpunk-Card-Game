@@ -2,7 +2,6 @@ using CyberNet.Core.AbilityCard.UI;
 using CyberNet.Core.AI;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
-using CyberNet.Core.City;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
@@ -154,7 +153,7 @@ namespace CyberNet.Core.AbilityCard
             
             if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
             {
-                var towerMono = hit.collider.gameObject.GetComponent<TowerMono>();
+                var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono)
                 {
                     if (towerMono.GUID == abilityCardMoveUnitComponent.SelectTowerGUID && towerMono.IsInteractiveTower)
