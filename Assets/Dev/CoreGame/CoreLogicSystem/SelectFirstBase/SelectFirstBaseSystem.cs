@@ -111,7 +111,7 @@ namespace CyberNet.Core.SelectFirstBase
             foreach (var squadZone in towerComponent.SquadZonesMono)
             {
                 var isClose = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                         && unit.IndexPoint == squadZone.Index)
                     .Count() > 0;
 

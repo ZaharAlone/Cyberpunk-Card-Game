@@ -119,7 +119,7 @@ namespace CyberNet.Core.AI.Ability
             foreach (var towerGUID in selectTower)
             {
                 var countUnit = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                         && unit.PowerSolidPlayerID == playerID)
                     .Count();
 

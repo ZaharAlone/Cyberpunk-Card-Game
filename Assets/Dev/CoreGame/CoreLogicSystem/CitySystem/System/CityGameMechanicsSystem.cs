@@ -160,7 +160,7 @@ namespace CyberNet.Core.Map
 
                 foreach (var towerGuid in uniqueTowerGUID)
                 {
-                    if (towerGuid == unitComponent.GUIDTower)
+                    if (towerGuid == unitComponent.GUIDDistrict)
                     {
                         isDouble = true;
                         break;
@@ -168,7 +168,7 @@ namespace CyberNet.Core.Map
                 }
                 
                 if (!isDouble)
-                    uniqueTowerGUID.Add(unitComponent.GUIDTower);
+                    uniqueTowerGUID.Add(unitComponent.GUIDDistrict);
             }
 
             foreach (var towerGUID in uniqueTowerGUID)

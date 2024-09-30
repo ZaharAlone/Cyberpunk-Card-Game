@@ -41,7 +41,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(-1);
             StartWorkAbility();
-            CityAction.SelectTower += DestroyNeutralUnitInMap;
+            CityAction.SelectDistrict += DestroyNeutralUnitInMap;
         }
 
         private void AbilityDestroyEnemyUnit(string guidCard)
@@ -68,7 +68,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowManyZonePlayerInMap?.Invoke(listID);
             StartWorkAbility();
-            CityAction.SelectTower += DestroyEnemyUnitInMap;
+            CityAction.SelectDistrict += DestroyEnemyUnitInMap;
         }
 
         private void StartWorkAbility()
@@ -90,7 +90,7 @@ namespace CyberNet.Core.AbilityCard
         private void DestroyNeutralUnitInMap(string towerGUID)
         {
             var unitEntity = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                     && unit.PowerSolidPlayerID == -1)
                 .SelectFirstEntity();
 
@@ -98,7 +98,7 @@ namespace CyberNet.Core.AbilityCard
             Object.Destroy(unitComponent.UnitIconsGO);
             unitEntity.Destroy();
             
-            CityAction.SelectTower -= DestroyNeutralUnitInMap;
+            CityAction.SelectDistrict -= DestroyNeutralUnitInMap;
             FinishWorkAbility();
         }
         
@@ -113,7 +113,7 @@ namespace CyberNet.Core.AbilityCard
                 var playerComponent = playerEntity.GetComponent<PlayerComponent>();
                 
                 var isEntity = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                         && unit.PowerSolidPlayerID == playerComponent.PlayerID)
                     .TrySelectFirstEntity(out var unitEntity);
 
@@ -127,7 +127,7 @@ namespace CyberNet.Core.AbilityCard
                 }   
             }
             
-            CityAction.SelectTower -= DestroyEnemyUnitInMap;
+            CityAction.SelectDistrict -= DestroyEnemyUnitInMap;
             FinishWorkAbility();
         }
         

@@ -79,7 +79,10 @@ namespace EcsCore
                 CitySO = cityVisualSO.Result,
                 SupportLocalize = supportLocalize.Result
             });
-            world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
+            world.CreateOneData(new LeadersViewData {
+                LeadersView = leadersView.Result.Avatar,
+                NeutralLeaderAvatar = leadersView.Result.NeutralUnitAvatar,
+            });
             world.CreateOneData(new SoundData { Sound = soundList.Result});
             world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});

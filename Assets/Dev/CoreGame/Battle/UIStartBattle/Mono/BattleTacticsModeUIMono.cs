@@ -34,8 +34,9 @@ namespace CyberNet.Core.Battle.TacticsMode
             _background.SetActive(false);
         }
 
-        public void EnableTacticsUI()
+        public void ShowTacticsUI()
         {
+            Debug.LogError("Show tactics UI");
             _panel.SetActive(true);
             _background.SetActive(true);
         }

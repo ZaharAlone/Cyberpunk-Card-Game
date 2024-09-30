@@ -73,7 +73,7 @@ namespace CyberNet.Core.Map
             }
             else if (activeAbilityCard)
             {
-                CityAction.SelectTower?.Invoke(DistrictMono.GUID);
+                CityAction.SelectDistrict?.Invoke(DistrictMono.GUID);
             }
         }
 

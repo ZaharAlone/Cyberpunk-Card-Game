@@ -26,7 +26,7 @@ namespace CyberNet.Core.Map
 
         public static Action<InitUnitStruct> InitUnit;
         public static Action<string, int> AttackSolidPoint;
-        public static Action<string> SelectTower;
+        public static Action<string> SelectDistrict;
         public static Action<string> SelectUnit;
         
         // string = towerGUID, int = playerID

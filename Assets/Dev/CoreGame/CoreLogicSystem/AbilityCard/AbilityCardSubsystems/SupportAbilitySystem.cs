@@ -56,7 +56,7 @@ namespace CyberNet.Core.AbilityCard
             foreach (var squadZone in DistrictComponent.DistrictMono.SquadZonesMono)
             {
                 var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == DistrictComponent.GUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == DistrictComponent.GUID
                         && unit.IndexPoint == squadZone.Index
                         && unit.PowerSolidPlayerID == playerID)
                     .Count() > 0;
@@ -75,7 +75,7 @@ namespace CyberNet.Core.AbilityCard
                 foreach (var squadZone in DistrictComponent.DistrictMono.SquadZonesMono)
                 {
                     var isTargetSlot = _dataWorld.Select<UnitMapComponent>()
-                        .Where<UnitMapComponent>(unit => unit.GUIDTower == DistrictComponent.GUID
+                        .Where<UnitMapComponent>(unit => unit.GUIDDistrict == DistrictComponent.GUID
                             && unit.IndexPoint == squadZone.Index)
                         .Count() == 0;
 

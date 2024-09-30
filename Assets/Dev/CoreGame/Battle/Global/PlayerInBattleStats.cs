@@ -1,5 +1,6 @@
 using System;
 using CyberNet.Core.Map;
+using CyberNet.Global;
 
 namespace CyberNet.Core.Battle
 {
@@ -7,7 +8,7 @@ namespace CyberNet.Core.Battle
     public struct PlayerInBattleStruct
     {
         public int PlayerID;
-        public PlayerControlEntity PlayerControlEntity;
+        public PlayerOrAI PlayerControlEntity;
 
         public PlayerStatsInBattle PowerPoint;
         public PlayerStatsInBattle KillPoint;

@@ -10,6 +10,7 @@ using UnityEditor;
 public class LeadersViewSO : SerializedScriptableObject
 {
     public Dictionary<string, Sprite> Avatar = new Dictionary<string, Sprite>();
+    public Sprite NeutralUnitAvatar;
 
 #if UNITY_EDITOR
     [InfoBox("Найдет ВСЕ Иконки в папке \"Assets/Art/2D/Avatars\" и перезапишет поле \"Avatar\"!")]

@@ -1,6 +1,6 @@
 namespace CyberNet.Core.Map
 {
-    public struct TowerIceComponent
+    public struct DistrictIceComponent
     {
         
     }

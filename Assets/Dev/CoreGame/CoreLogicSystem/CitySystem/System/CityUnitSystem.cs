@@ -36,7 +36,7 @@ namespace CyberNet.Core.Map
             unitIconsMono.DeactivateCollider();
             
             var allEntitySquadTargetPoint = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(squadMap => squadMap.GUIDTower == squadMap.GUIDTower
+                .Where<UnitMapComponent>(squadMap => squadMap.GUIDDistrict == squadMap.GUIDDistrict
                     && squadMap.IndexPoint == unit.UnitZone.Index)
                 .GetEntities();
 
@@ -54,7 +54,7 @@ namespace CyberNet.Core.Map
             
             var squadMapComponent = new UnitMapComponent
             {
-                GUIDTower = unit.UnitZone.GUIDTower,
+                GUIDDistrict = unit.UnitZone.GUIDTower,
                 IndexPoint = unit.UnitZone.Index,
                 GUIDUnit = guidUnit,
                 UnitIconsGO = unitIconsMono.gameObject,
@@ -73,7 +73,7 @@ namespace CyberNet.Core.Map
         private void AttackSolidPoint(string guid, int indexPoint)
         {
             var squadEntity = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(squad => squad.GUIDTower == guid && squad.IndexPoint == indexPoint)
+                .Where<UnitMapComponent>(squad => squad.GUIDDistrict == guid && squad.IndexPoint == indexPoint)
                 .SelectFirstEntity();
             
             ref var squadComponent = ref squadEntity.GetComponent<UnitMapComponent>();
@@ -107,7 +107,7 @@ namespace CyberNet.Core.Map
             foreach (var selectTowerGUID in selectTowersForActivateUnits)
             {
                 var squadEntities = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == selectTowerGUID && unit.PowerSolidPlayerID == playerID)
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerGUID && unit.PowerSolidPlayerID == playerID)
                     .GetEntities();
 
                 foreach (var squadEntity in squadEntities)

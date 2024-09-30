@@ -37,7 +37,7 @@ namespace CyberNet.Core.AbilityCard
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.SetIce, 0, false);
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
-            CityAction.SelectTower += SetIceSelectTower;
+            CityAction.SelectDistrict += SetIceSelectTower;
         }
         
         private void SetIceSelectTower(string towerGUID)
@@ -48,8 +48,8 @@ namespace CyberNet.Core.AbilityCard
             var towerComponent = entityTower.GetComponent<DistrictComponent>();
             towerComponent.DistrictMono.EnableIceZone();
 
-            entityTower.AddComponent(new TowerIceComponent());
-            CityAction.SelectTower -= SetIceSelectTower;
+            entityTower.AddComponent(new DistrictIceComponent());
+            CityAction.SelectDistrict -= SetIceSelectTower;
             
             FinishWorkAbility();
         }
@@ -67,7 +67,7 @@ namespace CyberNet.Core.AbilityCard
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
 
             var towerWithIceEntities = _dataWorld.Select<DistrictComponent>()
-                .With<TowerIceComponent>()
+                .With<DistrictIceComponent>()
                 .GetEntities();
 
             var listID = new List<int>();
@@ -80,7 +80,7 @@ namespace CyberNet.Core.AbilityCard
             CityAction.ShowManyZonePlayerInMap?.Invoke(listID);
             
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.SetIce, 0, false);
-            CityAction.SelectTower += DestroyIceSelectTower;
+            CityAction.SelectDistrict += DestroyIceSelectTower;
         }
         
         private void DestroyIceSelectTower(string towerGUID)
@@ -91,9 +91,9 @@ namespace CyberNet.Core.AbilityCard
             
             var towerComponent = entityTower.GetComponent<DistrictComponent>();
             towerComponent.DistrictMono.DisableIceZone();
-            entityTower.RemoveComponent<TowerIceComponent>();
+            entityTower.RemoveComponent<DistrictIceComponent>();
             
-            CityAction.SelectTower -= DestroyIceSelectTower;
+            CityAction.SelectDistrict -= DestroyIceSelectTower;
             FinishWorkAbility();
         }
 
@@ -109,8 +109,8 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.SetIce -= SetIce;
             AbilityCardAction.DestroyIce -= DestroyIce;
             
-            CityAction.SelectTower -= SetIceSelectTower;
-            CityAction.SelectTower -= DestroyIceSelectTower;
+            CityAction.SelectDistrict -= SetIceSelectTower;
+            CityAction.SelectDistrict -= DestroyIceSelectTower;
         }
     }
 }

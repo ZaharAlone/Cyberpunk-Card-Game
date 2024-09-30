@@ -10,5 +10,6 @@ namespace CyberNet
     public struct LeadersViewData
     {
         public Dictionary<string, Sprite> LeadersView;
+        public Sprite NeutralLeaderAvatar;
     }
 }

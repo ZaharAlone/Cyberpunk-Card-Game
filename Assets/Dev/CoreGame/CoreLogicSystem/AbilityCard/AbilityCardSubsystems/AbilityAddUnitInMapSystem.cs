@@ -34,7 +34,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             
-            CityAction.SelectTower += AddUnitTower;
+            CityAction.SelectDistrict += AddUnitTower;
             AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
 
@@ -79,7 +79,7 @@ namespace CyberNet.Core.AbilityCard
 
             AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
             CityAction.UpdateCanInteractiveMap?.Invoke();
-            CityAction.SelectTower -= AddUnitTower;
+            CityAction.SelectDistrict -= AddUnitTower;
             CityAction.UpdatePresencePlayerInCity?.Invoke();
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
             
@@ -102,7 +102,7 @@ namespace CyberNet.Core.AbilityCard
             foreach (var newUnitsInTower in unitsAddedToMapComponent.ListTowerAddUnit)
             {
                 var unitInMapEntity = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == newUnitsInTower
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == newUnitsInTower
                         && unit.PowerSolidPlayerID == currentPlayerID)
                     .SelectFirstEntity();
                 var unitInMapComponent = unitInMapEntity.GetComponent<UnitMapComponent>();
@@ -112,14 +112,14 @@ namespace CyberNet.Core.AbilityCard
             }
             
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
-            CityAction.SelectTower -= AddUnitTower;
+            CityAction.SelectDistrict -= AddUnitTower;
         }
 
         public void Destroy()
         {
             AbilityCardAction.AbilityAddUnitMap -= AddUnitMap;
             AbilityCardAction.CancelAddUnitMap -= CancelAddUnitMap;
-            CityAction.SelectTower -= AddUnitTower;
+            CityAction.SelectDistrict -= AddUnitTower;
         }
     }
 }
