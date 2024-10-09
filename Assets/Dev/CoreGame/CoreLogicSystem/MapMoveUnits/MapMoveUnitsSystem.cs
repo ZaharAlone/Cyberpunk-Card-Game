@@ -198,7 +198,6 @@ namespace CyberNet.Core.Map
             
             if (!isMoveUnit)
             {
-                Debug.LogError("End move unit to target");
                 if (CheckIsEnemyInTargetMoveZone())
                     BattleAction.EndMovePlayerToNewDistrict?.Invoke(targetDistrictGUID);
                 else

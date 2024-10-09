@@ -1,5 +1,6 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using EcsCore;
@@ -9,7 +10,6 @@ using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using Input;
-using UnityEngine;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -40,8 +40,10 @@ namespace CyberNet.Core.InteractiveCard
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
                 return;
-            
-            if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>())
+
+            var isOpenTacticsScreen = _dataWorld.Select<OpenBattleTacticsUIComponent>().Count() > 0;
+
+            if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>() || isOpenTacticsScreen)
             {
                 AddMoveCardComponent(entity);
                 return;

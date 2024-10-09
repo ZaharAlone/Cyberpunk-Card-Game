@@ -76,7 +76,7 @@ namespace CyberNet.Core
             return sortingCardList;
         } 
         
-        public void SetMovePositionAnimations(RectTransform transformObject, Vector2 targetPosition, Vector3 scale, Entity entity)
+        private void SetMovePositionAnimations(RectTransform transformObject, Vector2 targetPosition, Vector3 scale, Entity entity)
         {
             _sequence = DOTween.Sequence();
             var distance = Vector2.Distance(transformObject.anchoredPosition, targetPosition);
@@ -90,7 +90,7 @@ namespace CyberNet.Core
                 .OnComplete(() => EndMoveCardAnimations(entity));
         }
 
-        public async void EndMoveCardAnimations(Entity entity)
+        private async void EndMoveCardAnimations(Entity entity)
         {
             AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             await Task.Delay(150);

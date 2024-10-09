@@ -10,6 +10,8 @@ namespace CyberNet.Core.UI
     public struct PlayerTablet
     {
         [Required]
+        public GameObject PlayerPanel;
+        [Required]
         public TextMeshProUGUI NameText;
         [Required]
         public TextMeshProUGUI UnitCountText;

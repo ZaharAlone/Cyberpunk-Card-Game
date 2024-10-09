@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CyberNet.Core.AbilityCard.DestroyCard;
 using UnityEngine;
 using CyberNet.Core.AbilityCard.UI;

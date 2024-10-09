@@ -24,10 +24,13 @@ namespace CyberNet.Core.Battle.TacticsMode
         [Required]
         public BattlePlayerStatsContainerUIMono PlayerStatsContainer_Defence;
 
+        [Required]
+        public RectTransform PointToTargetCard;
+        
         [SerializeField]
         [Required]
         private List<BattleTacticsSlotUIMono> _battleTacticsSlotList = new ();
-
+        
         public void OnEnable()
         {
             _panel.SetActive(false);
@@ -36,7 +39,6 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         public void ShowTacticsUI()
         {
-            Debug.LogError("Show tactics UI");
             _panel.SetActive(true);
             _background.SetActive(true);
         }

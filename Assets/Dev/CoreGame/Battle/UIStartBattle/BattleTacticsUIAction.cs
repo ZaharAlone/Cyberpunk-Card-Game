@@ -8,5 +8,7 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         public static Action NextLeftBattleTactics;
         public static Action NextRightBattleTactics;
+
+        public static Action MoveCardToTacticsScreen;
     }
 }

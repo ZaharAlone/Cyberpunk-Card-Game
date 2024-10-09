@@ -40888,6 +40888,42 @@ MonoBehaviour:
   _durationAnimations: 1
   _durationFastReturnAnimations: 0.001
   _durationHideAnimations: 0.25
+--- !u!1 &4009339631851866662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772811663485095635}
+  m_Layer: 5
+  m_Name: zone_hand_card
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1772811663485095635
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009339631851866662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7418544533751976109}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -520, y: 230}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &4012308741922441130
 GameObject:
   m_ObjectHideFlags: 0
@@ -55413,7 +55449,6 @@ GameObject:
   - component: {fileID: 4983108848679921529}
   - component: {fileID: 3867330776212880875}
   - component: {fileID: 2358961102675036702}
-  - component: {fileID: 723979987693409977}
   m_Layer: 5
   m_Name: im_down_decor_zone
   m_TagString: Untagged
@@ -55479,62 +55514,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &723979987693409977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7074794180404988645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2358961102675036702}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CyberNet.Core.UI.ViewDeckCardUIMono, Assembly-CSharp
-        m_MethodName: OnCloseView
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &7078240581676019786
 GameObject:
   m_ObjectHideFlags: 0
@@ -61416,6 +61395,7 @@ RectTransform:
   - {fileID: 8947170395917083023}
   - {fileID: 6816962259660094730}
   - {fileID: 9181358915776191988}
+  - {fileID: 1772811663485095635}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61437,6 +61417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDownView:
+    PlayerPanel: {fileID: 4082031283781783536}
     NameText: {fileID: 5898107997140767642}
     UnitCountText: {fileID: 932501962070963263}
     IconsUnit: {fileID: 6621049333292485485}
@@ -61446,9 +61427,9 @@ MonoBehaviour:
     ImageDiscardCard: {fileID: 7745774114230064174}
     TextDiscardCard: {fileID: 6019939891448213455}
   _playerVfxDownCard: {fileID: 2751925019691146487}
+  ActionButtonGO: {fileID: 5428441604090885266}
   CoreActionButtonAnimationsMono: {fileID: 4604838871728288352}
   PopupActionButton: {fileID: 2982720452793238296}
-  AbilityButton: {fileID: 1229681173717842647}
   DownDiscard: {fileID: 3255702406322185580}
   _discardDeckView: {fileID: 4663861083716622914}
   DownDeck: {fileID: 2463898652224670883}
@@ -61461,6 +61442,7 @@ MonoBehaviour:
   - {fileID: 5953681660959041710}
   PlayerEnemyTurnActionUIMono: {fileID: 2526962306716398825}
   EndTurnWarningPopupUIMono: {fileID: 3215813522897739143}
+  ZoneHandCard: {fileID: 1772811663485095635}
 --- !u!1 &7745716673593479856
 GameObject:
   m_ObjectHideFlags: 0

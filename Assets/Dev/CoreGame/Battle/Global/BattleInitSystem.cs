@@ -13,7 +13,7 @@ using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Global;
 
-namespace CyberNet.Core
+namespace CyberNet.Core.Battle
 {
     [EcsSystem(typeof(CoreModule))]
     public class BattleInitSystem : IPreInitSystem, IDestroySystem
@@ -41,7 +41,6 @@ namespace CyberNet.Core
             listUniquePlayers.Remove(currentPlayerID);
 
             _targetDistrictGUID = targetDistrictGUID;
-            Debug.LogError($"count unique unit {listUniquePlayers.Count}");
             
             if (listUniquePlayers.Count > 1)
             {
@@ -81,7 +80,6 @@ namespace CyberNet.Core
         
         private void StartBattle(int enemyID)
         {
-            Debug.LogError("start battle");
             CreateBattleData(enemyID);
             
             var currentPlayerType = _dataWorld.OneData<RoundData>().playerOrAI;

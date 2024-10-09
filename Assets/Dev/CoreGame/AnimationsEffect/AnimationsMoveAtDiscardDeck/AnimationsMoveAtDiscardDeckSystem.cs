@@ -42,11 +42,11 @@ namespace CyberNet.Core
         {
             foreach (var entity in entities)
             {
-                AnimationsMoveAtDiscardDeckCorotine(entity, targetTransform, size);
+                AnimationsMoveAtDiscardDeckCoroutine(entity, targetTransform, size);
             }
         }
 
-        private async void AnimationsMoveAtDiscardDeckCorotine(Entity entity, RectTransform targetTransform, Vector3 scale)
+        private async void AnimationsMoveAtDiscardDeckCoroutine(Entity entity, RectTransform targetTransform, Vector3 scale)
         {
             if (_offCore)
                 return;

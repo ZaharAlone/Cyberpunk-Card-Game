@@ -23,15 +23,60 @@ namespace CyberNet.Core.Battle.TacticsMode
         
         public void PreInit()
         {
-            BattleAction.OpenTacticsScreen += EnableTacticsUI;
+            BattleAction.OpenTacticsScreen += OpenTacticsUI;
         }
-        private void EnableTacticsUI()
+        private void OpenTacticsUI()
         {
+            ShowHideMapUI(false);
             SetViewAvatarPlayers();
             SetStatsPlayer();
 
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
             uiTactics.ShowTacticsUI();
+
+            _dataWorld.NewEntity().AddComponent(new OpenBattleTacticsUIComponent());
+        }
+
+        private void CloseTacticsUI()
+        {
+            _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity().Destroy();
+            ShowHideMapUI(true);
+        }
+        
+        private void ShowHideMapUI(bool isShow)
+        {
+            var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
+
+            if (isShow)
+            {
+                boardGameUI.CoreHudUIMono.ShowCurrentPlayer();
+                boardGameUI.CoreHudUIMono.ShowEnemyPassport();
+                boardGameUI.CoreHudUIMono.ShowButtons();
+                boardGameUI.TraderowMono.EnableTradeRow();
+            }
+            else
+            {
+                boardGameUI.CoreHudUIMono.HideCurrentPlayer();
+                boardGameUI.CoreHudUIMono.HideEnemyPassport();
+                boardGameUI.CoreHudUIMono.HideButtons();
+                boardGameUI.TraderowMono.DisableTradeRow();
+            }
+            
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+
+            var cardInTableCurrentPlayer = _dataWorld.Select<CardComponent>()
+                .Without<CardHandComponent>()
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .GetEntities();
+
+            foreach (var entityDiscardCard in cardInTableCurrentPlayer)
+            {
+                var cardMono = entityDiscardCard.GetComponent<CardComponent>().CardMono;
+                if (isShow)
+                    cardMono.ShowCard();
+                else
+                    cardMono.HideCard();
+            }
         }
 
         private void SetViewAvatarPlayers()
@@ -58,7 +103,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         {
             var avatarPlayer = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == playerID)
-                .SelectFirst<PlayerViewComponent>().Avatar;
+                .SelectFirst<PlayerViewComponent>().AvatarForBattle;
             return avatarPlayer;
         }
 
@@ -107,7 +152,7 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         public void Destroy()
         {
-            BattleAction.OpenTacticsScreen -= EnableTacticsUI;
+            BattleAction.OpenTacticsScreen -= OpenTacticsUI;
         }
     }
 }

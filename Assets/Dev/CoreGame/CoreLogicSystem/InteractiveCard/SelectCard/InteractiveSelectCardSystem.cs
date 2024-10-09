@@ -22,7 +22,7 @@ namespace CyberNet.Core.InteractiveCard
             InteractiveActionCard.ReturnAllCardInHand += ReturnAllCard;
         }
 
-        private void SelectCard(string guid)
+        private void SelectCard(string guidCard)
         {
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
@@ -31,31 +31,31 @@ namespace CyberNet.Core.InteractiveCard
             if (roundData.PauseInteractive)
                 return;
 
-            var isEntity = _dataWorld.Select<CardComponent>()
-                        .Where<CardComponent>(card => card.GUID == guid)
+            var isFindTargetCard = _dataWorld.Select<CardComponent>()
+                        .Where<CardComponent>(card => card.GUID == guidCard)
                         .Without<CardAbilitySelectionCompletedComponent>()
                         .Without<CardDrawComponent>()
                         .Without<CardDistributionComponent>()
-                        .TrySelectFirstEntity(out var entity);
+                        .TrySelectFirstEntity(out var entityCard);
 
-            if (!isEntity)
+            if (!isFindTargetCard)
                 return;
 
-            ref var cardComponent = ref entity.GetComponent<CardComponent>();
+            ref var cardComponent = ref entityCard.GetComponent<CardComponent>();
             ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            if (currentPlayerID != cardComponent.PlayerID && !entity.HasComponent<CardTradeRowComponent>())
+            if (currentPlayerID != cardComponent.PlayerID && !entityCard.HasComponent<CardTradeRowComponent>())
                 return;
             
-            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
-
             ClearSelectComponent();
-            entity.AddComponent(new InteractiveSelectCardComponent());
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
+            entityCard.AddComponent(new InteractiveSelectCardComponent());
 
             var animComponent = new CardComponentAnimations();
-            if (entity.HasComponent<CardComponentAnimations>())
+            if (entityCard.HasComponent<CardComponentAnimations>())
             {
-                animComponent = entity.GetComponent<CardComponentAnimations>();
+                animComponent = entityCard.GetComponent<CardComponentAnimations>();
                 animComponent.Sequence.Kill();
             }
             else
@@ -68,7 +68,7 @@ namespace CyberNet.Core.InteractiveCard
 
             var gameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var scaleCard = gameConfig.SizeSelectCardHand;
-            if (entity.HasComponent<CardTradeRowComponent>())
+            if (entityCard.HasComponent<CardTradeRowComponent>())
                 scaleCard = gameConfig.SizeSelectCardTradeRow;
 
             animComponent.Sequence = DOTween.Sequence();
@@ -82,20 +82,20 @@ namespace CyberNet.Core.InteractiveCard
                 var pos = animComponent.Positions;
                 pos.y = -340;
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
-                entity.AddComponent(animComponent);
-                var index = entity.GetComponent<CardSortingIndexComponent>().Index;
+                entityCard.AddComponent(animComponent);
+                var index = entityCard.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
                 
-                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, false);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guidCard, false);
             }
             else
             {
                 var pos = animComponent.Positions;
                 pos.y = -250;
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
-                entity.AddComponent(animComponent);
+                entityCard.AddComponent(animComponent);
                 
-                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guid, true);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guidCard, true);
             }
         }
 
