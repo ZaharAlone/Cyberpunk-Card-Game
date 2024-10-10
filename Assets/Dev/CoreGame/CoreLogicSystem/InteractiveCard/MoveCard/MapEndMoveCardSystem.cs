@@ -29,7 +29,7 @@ namespace CyberNet.Core.InteractiveCard
             var isTacticsScreen = _dataWorld.Select<OpenBattleTacticsUIComponent>().Count() > 0;
             if (isTacticsScreen)
                 return;
-            
+            Debug.LogError("Map card mode");
             var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .With<PlayerIsDiscardsCardComponent>()

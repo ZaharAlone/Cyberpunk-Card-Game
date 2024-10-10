@@ -12,6 +12,7 @@ using CyberNet;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Global.Sound;
 using CyberNet.Core.Map;
@@ -49,6 +50,7 @@ namespace EcsCore
             var popupViewConfig = Load<PopupViewConfigSO>("PopupViewConfig", tasks);
             var supportLocalize = Load<SupportLocalizeSO>("SupportLocalizeSO", tasks);
             var bezierCurveConfigSO = Load<BezierCurveConfigSO>("BezierCurveConfigSO", tasks);
+            var battleTacticsSO = Load<BattleTacticsSO>("BattleTacticsConfig", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -68,10 +70,12 @@ namespace EcsCore
                 MetaUIMono = metaUIGO.GetComponent<MetaUIMono>(),
                 SettingsUIMono = settingsUIGO.GetComponent<SettingsUIMono>()
             });
+            
             world.CreateOneData(new PopupData {
                 PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(),
                 PopupViewConfig = popupViewConfig.Result
             });
+            
             world.CreateOneData(new BoardGameData {
                 BoardGameConfig = boardGameConfig.Result,
                 BoardGameRule = boardGameRule.Result,
@@ -79,10 +83,17 @@ namespace EcsCore
                 CitySO = cityVisualSO.Result,
                 SupportLocalize = supportLocalize.Result
             });
+            
             world.CreateOneData(new LeadersViewData {
                 LeadersView = leadersView.Result.Avatar,
                 NeutralLeaderAvatar = leadersView.Result.NeutralUnitAvatar,
             });
+            
+            world.CreateOneData(new BattleTacticsData {
+                BattleTactics = battleTacticsSO.Result.BattleTactics,
+                CardFoTacticsScreen = battleTacticsSO.Result.CardFoTacticsScreen,
+            });
+            
             world.CreateOneData(new SoundData { Sound = soundList.Result});
             world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});

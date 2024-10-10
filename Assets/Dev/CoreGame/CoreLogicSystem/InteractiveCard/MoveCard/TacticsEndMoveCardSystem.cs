@@ -5,7 +5,9 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System;
 using CyberNet.Core.Battle.TacticsMode;
+using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
 using CyberNet.Core.UI;
+using DG.Tweening;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -29,15 +31,31 @@ namespace CyberNet.Core.InteractiveCard
                 .With<InteractiveMoveComponent>()
                 .SelectFirstEntity();
             
+            if (entityCard.HasComponent<CardComponentAnimations>())
+            {
+                var animationCard = entityCard.GetComponent<CardComponentAnimations>();
+                animationCard.Sequence.Kill();
+                entityCard.RemoveComponent<CardComponentAnimations>();
+            }
+            
             entityCard.RemoveComponent<InteractiveMoveComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
-            entityCard.RemoveComponent<CardHandComponent>();
 
+            if (entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
+            {
+                Debug.LogError("Remove card tactics screen component");
+                entityCard.AddComponent(new CardHandComponent());
+                entityCard.RemoveComponent<CardSelectInTacticsScreenComponent>();
+            }
+            else if (entityCard.HasComponent<CardHandComponent>())
+            {
+                entityCard.RemoveComponent<CardHandComponent>();
+                entityCard.AddComponent(new CardSelectInTacticsScreenComponent());
+                entityCard.AddComponent(new CardMoveToTacticsScreenComponent());
+                
+                BattleTacticsUIAction.MoveCardToTacticsScreen?.Invoke();
+            }
             
-            entityCard.AddComponent(new CardSelectInTacticsScreenComponent());
-            entityCard.AddComponent(new CardMoveToTacticsScreenComponent());
-            
-            BattleTacticsUIAction.MoveCardToTacticsScreen?.Invoke();
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
         }
         

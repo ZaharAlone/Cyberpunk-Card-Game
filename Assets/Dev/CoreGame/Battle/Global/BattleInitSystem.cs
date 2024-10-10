@@ -202,8 +202,6 @@ namespace CyberNet.Core.Battle
 
         private void OpenTacticsScreen()
         {
-            Debug.LogError("Start select card ui");
-            
             //ref var roundData = ref _dataWorld.OneData<RoundData>();
             //roundData.CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
             ref var arenaData = ref _dataWorld.OneData<ArenaData>();

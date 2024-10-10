@@ -3,10 +3,6 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using CyberNet.Core.Arena;
-using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
@@ -29,7 +25,9 @@ namespace CyberNet.Core.Battle.TacticsMode
         {
             ShowHideMapUI(false);
             SetViewAvatarPlayers();
-            SetStatsPlayer();
+            SetStatsPlayersInBattle();
+            
+            BattleTacticsUIAction.CreateCardTactics?.Invoke();
 
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
             uiTactics.ShowTacticsUI();
@@ -64,12 +62,12 @@ namespace CyberNet.Core.Battle.TacticsMode
             
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
-            var cardInTableCurrentPlayer = _dataWorld.Select<CardComponent>()
-                .Without<CardHandComponent>()
+            var cardInPlayerHandEntities = _dataWorld.Select<CardComponent>()
+                .With<CardHandComponent>()
                 .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                 .GetEntities();
 
-            foreach (var entityDiscardCard in cardInTableCurrentPlayer)
+            foreach (var entityDiscardCard in cardInPlayerHandEntities)
             {
                 var cardMono = entityDiscardCard.GetComponent<CardComponent>().CardMono;
                 if (isShow)
@@ -107,7 +105,7 @@ namespace CyberNet.Core.Battle.TacticsMode
             return avatarPlayer;
         }
 
-        private void SetStatsPlayer()
+        private void SetStatsPlayersInBattle()
         {
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
             var battleData = _dataWorld.OneData<BattleCurrentData>();
@@ -149,7 +147,7 @@ namespace CyberNet.Core.Battle.TacticsMode
                 valueString = value + unknown_quantity_add_value;
             return valueString;
         }
-
+        
         public void Destroy()
         {
             BattleAction.OpenTacticsScreen -= OpenTacticsUI;

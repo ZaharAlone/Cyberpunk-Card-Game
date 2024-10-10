@@ -7,7 +7,7 @@ using System;
 using CyberNet.Core.UI;
 using DG.Tweening;
 
-namespace CyberNet.Core.Battle.TacticsMode
+namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
 {
     [EcsSystem(typeof(CoreModule))]
     public class SelectCardTacticsUISystem : IPreInitSystem, IDestroySystem
@@ -39,8 +39,12 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         private void EndMoveCardToTacticsScreen()
         {
-            var cardToMoveTacticsScreenEntity = _dataWorld.Select<CardComponent>().With<CardMoveToTacticsScreenComponent>().SelectFirstEntity();
+            var cardToMoveTacticsScreenEntity = _dataWorld.Select<CardComponent>()
+                .With<CardMoveToTacticsScreenComponent>()
+                .SelectFirstEntity();
             cardToMoveTacticsScreenEntity.RemoveComponent<CardMoveToTacticsScreenComponent>();
+            
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
         }
 
         public void Destroy()

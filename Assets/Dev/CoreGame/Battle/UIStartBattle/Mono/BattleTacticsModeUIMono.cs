@@ -30,6 +30,9 @@ namespace CyberNet.Core.Battle.TacticsMode
         [SerializeField]
         [Required]
         private List<BattleTacticsSlotUIMono> _battleTacticsSlotList = new ();
+
+        [Required]
+        public Transform CardsContainer;
         
         public void OnEnable()
         {

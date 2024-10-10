@@ -1,3 +1,4 @@
+using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
 using DG.Tweening;
@@ -24,13 +25,15 @@ namespace CyberNet.Core.InteractiveCard
 
         private void SelectCard(string guidCard)
         {
+            Debug.LogError("Select card");
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
-            
+            Debug.LogError("select card");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
                 return;
 
+            Debug.LogError("round data not pause");
             var isFindTargetCard = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guidCard)
                         .Without<CardAbilitySelectionCompletedComponent>()
@@ -41,8 +44,8 @@ namespace CyberNet.Core.InteractiveCard
             if (!isFindTargetCard)
                 return;
 
-            ref var cardComponent = ref entityCard.GetComponent<CardComponent>();
-            ref var currentPlayerID = ref _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
             if (currentPlayerID != cardComponent.PlayerID && !entityCard.HasComponent<CardTradeRowComponent>())
                 return;
@@ -52,6 +55,15 @@ namespace CyberNet.Core.InteractiveCard
             SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
             entityCard.AddComponent(new InteractiveSelectCardComponent());
 
+            if (!entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
+                AnimationsSelectCard(entityCard);
+        }
+
+        private void AnimationsSelectCard(Entity entityCard)
+        {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            ref var cardComponent = ref entityCard.GetComponent<CardComponent>();
+            
             var animComponent = new CardComponentAnimations();
             if (entityCard.HasComponent<CardComponentAnimations>())
             {
@@ -86,7 +98,7 @@ namespace CyberNet.Core.InteractiveCard
                 var index = entityCard.GetComponent<CardSortingIndexComponent>().Index;
                 MoveOtherCards(index);
                 
-                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guidCard, false);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(cardComponent.GUID, false);
             }
             else
             {
@@ -95,7 +107,7 @@ namespace CyberNet.Core.InteractiveCard
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
                 entityCard.AddComponent(animComponent);
                 
-                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(guidCard, true);
+                CoreElementInfoPopupAction.OpenPopupCard?.Invoke(cardComponent.GUID, true);
             }
         }
 
