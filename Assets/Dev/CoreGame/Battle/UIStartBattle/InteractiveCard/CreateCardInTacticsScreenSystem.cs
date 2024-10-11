@@ -53,6 +53,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
                 nextCardEntity.AddComponent(cardTacticsComponent);
                 nextCardEntity.AddComponent(copyCardComponent);
                 nextCardEntity.AddComponent(cardSortingComponent);
+                nextCardEntity.AddComponent(new CardHandComponent());
             }
             
             CardAnimationsHandAction.AnimationsFanCardInTacticsScreen?.Invoke();

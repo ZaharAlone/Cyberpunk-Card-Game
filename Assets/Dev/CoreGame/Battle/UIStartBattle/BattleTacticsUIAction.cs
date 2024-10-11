@@ -13,9 +13,14 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         public static Action MoveCardToTacticsScreen;
 
-        public static Action<string> SelectCard;
-        public static Action<string> DeselectCard;
-        public static Action<string> StartMoveCard;
-        public static Action<string> EndMoveCard;
+        public static Action<string> SelectCardTactics;
+        public static Action<string> DeselectCardTactics;
+        
+        public static Action<string> StartMoveCardTactics;
+        public static Action EndMoveCardTactics;
+
+        public static Action<string> CheckIsSelectCardTactics;
+        
+        public static Action UpdateCurrencyPlayerInBattle;
     }
 }

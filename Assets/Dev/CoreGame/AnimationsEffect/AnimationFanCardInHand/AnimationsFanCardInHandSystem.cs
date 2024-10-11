@@ -5,6 +5,7 @@ using ModulesFramework.Data.Enumerators;
 using UnityEngine;
 using System;
 using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
+using CyberNet.Core.InteractiveCard;
 using DG.Tweening;
 using ModulesFramework.Systems;
 
@@ -40,10 +41,10 @@ namespace CyberNet.Core.UI
         {
             var cardInHandQuery = _dataWorld.Select<CardComponent>()
                 .With<CardTacticsComponent>()
+                .Without<InteractiveMoveComponent>()
                 .Without<CardSelectInTacticsScreenComponent>()
                 .Without<CardMoveToTacticsScreenComponent>();
 
-            Debug.LogError($"Card fan in tactics screen {cardInHandQuery.Count()}");
             UpdateView(cardInHandQuery.GetEntities(), cardInHandQuery.Count());
         }
         
@@ -81,23 +82,23 @@ namespace CyberNet.Core.UI
             {
                 targetIndex = SelectMinIndex(cardEntities, targetIndex);
 
-                foreach (var entity in cardEntities)
+                foreach (var entityCard in cardEntities)
                 {
-                    ref var sortingIndexCard = ref entity.GetComponent<CardSortingIndexComponent>().Index;
+                    var sortingIndexCard = entityCard.GetComponent<CardSortingIndexComponent>().Index;
                     if (sortingIndexCard != targetIndex)
                         continue;
 
-                    if (entity.HasComponent<CardComponentAnimations>() && entity.HasComponent<CardDistributionComponent>())
+                    if (entityCard.HasComponent<CardComponentAnimations>() && entityCard.HasComponent<CardDistributionComponent>())
                         continue;
 
-                    ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                    var cardComponent = entityCard.GetComponent<CardComponent>();
                     float angle = maxAngle / 2 - oneAngle * i;
                     var targetPos = Vector3.zero;
 
                     targetPos.y = Mathf.Abs(deltaHeight - heightOne * i) * multiplyPosY - screenShift;
                     targetPos.x = sizeCard * i - deltaLength;
                     var targetRotate = Quaternion.Euler(0, 0, angle * -multiplyPosY);
-                    MoveCard(entity, targetPos, targetRotate);
+                    MoveCard(entityCard, targetPos, targetRotate);
 
                     cardComponent.Canvas.sortingOrder = 2 + i;
                     break;

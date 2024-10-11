@@ -18,15 +18,11 @@ namespace CyberNet.Core.InteractiveCard
 
         public void PreInit()
         {
-            InteractiveActionCard.EndInteractiveCard += EndInteractiveCard;
+            BattleTacticsUIAction.EndMoveCardTactics += EndInteractiveCard;
         }
 
         private void EndInteractiveCard()
         {
-            var isOffTacticsScreen = _dataWorld.Select<OpenBattleTacticsUIComponent>().Count() == 0;
-            if (isOffTacticsScreen)
-                return;
-            
             var entityCard = _dataWorld.Select<CardComponent>()
                 .With<InteractiveMoveComponent>()
                 .SelectFirstEntity();
@@ -41,22 +37,37 @@ namespace CyberNet.Core.InteractiveCard
             entityCard.RemoveComponent<InteractiveMoveComponent>();
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
 
-            if (entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
+            if (entityCard.HasComponent<CardMoveInStartZoneComponent>())
             {
-                Debug.LogError("Remove card tactics screen component");
-                entityCard.AddComponent(new CardHandComponent());
-                entityCard.RemoveComponent<CardSelectInTacticsScreenComponent>();
+                entityCard.RemoveComponent<CardMoveInStartZoneComponent>();
+                if (entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
+                {
+                    entityCard.RemoveComponent<CardSelectInTacticsScreenComponent>();
+                    entityCard.AddComponent(new CardHandComponent());
+                }
             }
-            else if (entityCard.HasComponent<CardHandComponent>())
+            else if (entityCard.HasComponent<CardMoveInTargetZoneComponent>())
             {
-                entityCard.RemoveComponent<CardHandComponent>();
-                entityCard.AddComponent(new CardSelectInTacticsScreenComponent());
-                entityCard.AddComponent(new CardMoveToTacticsScreenComponent());
+                entityCard.RemoveComponent<CardMoveInTargetZoneComponent>();
                 
+                var cardComponent = entityCard.GetComponent<CardComponent>();
+                cardComponent.CardMono.CardFaceMono.VFXDisable();
+                
+                if (entityCard.HasComponent<CardHandComponent>())
+                {
+                    entityCard.RemoveComponent<CardHandComponent>();
+                    entityCard.AddComponent(new CardSelectInTacticsScreenComponent());
+                }
+
+                entityCard.AddComponent(new CardMoveToTacticsScreenComponent());
+
                 BattleTacticsUIAction.MoveCardToTacticsScreen?.Invoke();
             }
             
-            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+            CardAnimationsHandAction.AnimationsFanCardInTacticsScreen?.Invoke();
+            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
+            
+            BattleTacticsUIAction.UpdateCurrencyPlayerInBattle?.Invoke();
         }
         
         public void Destroy()

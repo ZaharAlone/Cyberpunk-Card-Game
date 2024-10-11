@@ -1,3 +1,4 @@
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
@@ -5,6 +6,7 @@ using DG.Tweening;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
+using ModulesFramework.Data.Enumerators;
 using ModulesFramework.Systems;
 using UnityEngine;
 
@@ -18,22 +20,21 @@ namespace CyberNet.Core.InteractiveCard
         
         public void Init()
         {
-            InteractiveActionCard.SelectCard += SelectCard;
-            InteractiveActionCard.DeselectCard += DeselectCard;
+            InteractiveActionCard.SelectCardMap += SelectCardMap;
+            BattleTacticsUIAction.SelectCardTactics += SelectCardTactics;
+            InteractiveActionCard.DeselectCardMap += DeselectCardMap;
+            BattleTacticsUIAction.DeselectCardTactics += DeselectCardTactics;
             InteractiveActionCard.ReturnAllCardInHand += ReturnAllCard;
         }
 
-        private void SelectCard(string guidCard)
+        private void SelectCardMap(string guidCard)
         {
-            Debug.LogError("Select card");
             if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
                 return;
-            Debug.LogError("select card");
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.PauseInteractive)
                 return;
 
-            Debug.LogError("round data not pause");
             var isFindTargetCard = _dataWorld.Select<CardComponent>()
                         .Where<CardComponent>(card => card.GUID == guidCard)
                         .Without<CardAbilitySelectionCompletedComponent>()
@@ -44,39 +45,45 @@ namespace CyberNet.Core.InteractiveCard
             if (!isFindTargetCard)
                 return;
 
+            if (entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
+                return;
+            
             var cardComponent = entityCard.GetComponent<CardComponent>();
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
 
             if (currentPlayerID != cardComponent.PlayerID && !entityCard.HasComponent<CardTradeRowComponent>())
                 return;
-            
-            ClearSelectComponent();
-            
-            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
-            entityCard.AddComponent(new InteractiveSelectCardComponent());
 
-            if (!entityCard.HasComponent<CardSelectInTacticsScreenComponent>())
-                AnimationsSelectCard(entityCard);
+            AnimationsSelectCard(entityCard);
+        }
+
+        private void SelectCardTactics(string guidCard)
+        {
+            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() != 0)
+                return;
+            
+            var isFindTargetCard = _dataWorld.Select<CardComponent>()
+                .With<CardTacticsComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .TrySelectFirstEntity(out var entityCard);
+            
+            if (!isFindTargetCard)
+                return;
+            
+            AnimationsSelectCard(entityCard);
         }
 
         private void AnimationsSelectCard(Entity entityCard)
         {
+            ClearSelectComponent();
+            entityCard.AddComponent(new InteractiveSelectCardComponent());
+            
+            var animComponent = CreateAnimationsComponent(entityCard);
+            
+            SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.SelectCard);
+
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             ref var cardComponent = ref entityCard.GetComponent<CardComponent>();
-            
-            var animComponent = new CardComponentAnimations();
-            if (entityCard.HasComponent<CardComponentAnimations>())
-            {
-                animComponent = entityCard.GetComponent<CardComponentAnimations>();
-                animComponent.Sequence.Kill();
-            }
-            else
-            {
-                animComponent.Positions = cardComponent.RectTransform.anchoredPosition;
-                animComponent.Rotate = cardComponent.RectTransform.localRotation;
-                animComponent.Scale = cardComponent.RectTransform.localScale;
-                animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
-            }
 
             var gameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var scaleCard = gameConfig.SizeSelectCardHand;
@@ -96,7 +103,11 @@ namespace CyberNet.Core.InteractiveCard
                 animComponent.Sequence.Join(cardComponent.RectTransform.DOAnchorPos(pos, 0.23f));
                 entityCard.AddComponent(animComponent);
                 var index = entityCard.GetComponent<CardSortingIndexComponent>().Index;
-                MoveOtherCards(index);
+
+                if (entityCard.HasComponent<CardHandComponent>())
+                    MoveOtherCardsInHand(index);
+                else
+                    MoveOtherCardsInTactics(index);
                 
                 CoreElementInfoPopupAction.OpenPopupCard?.Invoke(cardComponent.GUID, false);
             }
@@ -121,17 +132,57 @@ namespace CyberNet.Core.InteractiveCard
                 entity.RemoveComponent<InteractiveSelectCardComponent>();
         }
 
-        private void MoveOtherCards(int targetIndex)
+        private CardComponentAnimations CreateAnimationsComponent(Entity entityCard)
+        {
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            if (entityCard.HasComponent<CardComponentAnimations>())
+            {
+                var animComponent = entityCard.GetComponent<CardComponentAnimations>();
+                animComponent.Sequence.Kill();
+                return animComponent;
+            }
+            else
+            {
+                var animComponent = new CardComponentAnimations();
+                
+                animComponent.Positions = cardComponent.RectTransform.anchoredPosition;
+                animComponent.Rotate = cardComponent.RectTransform.localRotation;
+                animComponent.Scale = cardComponent.RectTransform.localScale;
+                animComponent.SortingOrder = cardComponent.Canvas.sortingOrder;
+
+                entityCard.AddComponent(animComponent);
+                return animComponent;
+            }
+        }
+
+        private void MoveOtherCardsInHand(int indexTargetCard)
         {
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var entities = _dataWorld.Select<CardComponent>()
-                                     .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
-                                     .With<CardHandComponent>()
-                                     .With<CardSortingIndexComponent>()
-                                     .Without<InteractiveSelectCardComponent>()
-                                     .GetEntities();
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardHandComponent>()
+                .With<CardSortingIndexComponent>()
+                .Without<InteractiveSelectCardComponent>()
+                .GetEntities();
 
-            foreach (var entity in entities)
+            MoveOtherCards(indexTargetCard, entities);
+        }
+
+        private void MoveOtherCardsInTactics(int indexTargetCard)
+        {
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            var entities = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
+                .With<CardTacticsComponent>()
+                .With<CardSortingIndexComponent>()
+                .GetEntities();
+
+            MoveOtherCards(indexTargetCard, entities);
+        }
+        
+        private void MoveOtherCards(int targetIndex, EntitiesEnumerable entitesCards)
+        {
+            foreach (var entity in entitesCards)
             {
                 ref var index = ref entity.GetComponent<CardSortingIndexComponent>().Index;
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();
@@ -176,11 +227,8 @@ namespace CyberNet.Core.InteractiveCard
             }
         }
 
-        private void DeselectCard(string guid)
+        private void DeselectCardMap(string guid)
         {
-            if (_dataWorld.Select<InteractiveSelectCardComponent>().Count() > 1)
-                return;
-            
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             if (roundData.CurrentGameStateMapVSArena == GameStateMapVSArena.Map && _dataWorld.Select<SelectTargetCardAbilityComponent>().Count() > 0)
                 return;
@@ -189,22 +237,38 @@ namespace CyberNet.Core.InteractiveCard
                 return;
             
             var isEntity = _dataWorld.Select<CardComponent>()
-                        .Where<CardComponent>(card => card.GUID == guid)
-                        .With<InteractiveSelectCardComponent>()
-                        .With<CardComponentAnimations>()
-                        .Without<CardDistributionComponent>()
-                        .Without<CardDrawComponent>()
-                        .TrySelectFirstEntity(out var entity);
+                .Where<CardComponent>(card => card.GUID == guid)
+                .With<InteractiveSelectCardComponent>()
+                .With<CardComponentAnimations>()
+                .Without<CardDistributionComponent>()
+                .Without<CardDrawComponent>()
+                .TrySelectFirstEntity(out var entity);
+            
+            if (isEntity)
+                DeselectCard(entity);
+        }
 
-            if (!isEntity)
-                return;
-
+        private void DeselectCardTactics(string guid)
+        {
+            var isEntity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guid)
+                .With<CardTacticsComponent>()
+                .With<InteractiveSelectCardComponent>()
+                .With<CardComponentAnimations>()
+                .TrySelectFirstEntity(out var entity);
+            
+            if (isEntity)
+                DeselectCard(entity);
+        }
+        
+        private void DeselectCard(Entity entityCard)
+        {
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
-            entity.RemoveComponent<InteractiveSelectCardComponent>();
-            if (entity.HasComponent<CardHandComponent>())
+            entityCard.RemoveComponent<InteractiveSelectCardComponent>();
+            if (entityCard.HasComponent<CardHandComponent>())
                 ReturnAllCard();
             else
-                ReturnCardAnimations(entity);
+                ReturnCardAnimations(entityCard);
         }
 
         private void ReturnAllCard()
@@ -214,6 +278,7 @@ namespace CyberNet.Core.InteractiveCard
                                         .Where<CardComponent>(card => card.PlayerID == currentPlayerID)
                                         .With<CardHandComponent>()
                                         .With<CardComponentAnimations>()
+                                        .Without<InteractiveSelectCardComponent>()
                                         .GetEntities();
 
             foreach (var entity in entities)
@@ -241,8 +306,10 @@ namespace CyberNet.Core.InteractiveCard
 
         public void Destroy()
         {
-            InteractiveActionCard.SelectCard -= SelectCard;
-            InteractiveActionCard.DeselectCard -= DeselectCard;
+            InteractiveActionCard.SelectCardMap -= SelectCardMap;
+            BattleTacticsUIAction.SelectCardTactics -= SelectCardTactics;
+            InteractiveActionCard.DeselectCardMap -= DeselectCardMap;
+            BattleTacticsUIAction.DeselectCardTactics -= DeselectCardTactics;
             InteractiveActionCard.ReturnAllCardInHand -= ReturnAllCard;
         }
     }

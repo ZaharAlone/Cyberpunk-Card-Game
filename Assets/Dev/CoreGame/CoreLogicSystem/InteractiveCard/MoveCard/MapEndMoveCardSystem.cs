@@ -1,6 +1,5 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
-using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global.Sound;
@@ -26,10 +25,6 @@ namespace CyberNet.Core.InteractiveCard
 
         private void EndInteractiveCard()
         {
-            var isTacticsScreen = _dataWorld.Select<OpenBattleTacticsUIComponent>().Count() > 0;
-            if (isTacticsScreen)
-                return;
-            Debug.LogError("Map card mode");
             var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .With<PlayerIsDiscardsCardComponent>()
@@ -69,8 +64,9 @@ namespace CyberNet.Core.InteractiveCard
             entity.RemoveComponent<InteractiveMoveComponent>();
             entity.RemoveComponent<InteractiveSelectCardComponent>();
 
-            if (distance > 140)
+            if (entity.HasComponent<CardMoveInTargetZoneComponent>())
             {
+                entity.RemoveComponent<CardMoveInTargetZoneComponent>();
                 entity.RemoveComponent<CardHandComponent>();
 
                 if (entity.HasComponent<CardComponentAnimations>())
@@ -88,6 +84,7 @@ namespace CyberNet.Core.InteractiveCard
             }
             else
             {
+                entity.RemoveComponent<CardMoveInStartZoneComponent>();
                 entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
                 InteractiveActionCard.ReturnAllCardInHand?.Invoke();
                 SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
@@ -97,15 +94,16 @@ namespace CyberNet.Core.InteractiveCard
         private void EndMoveShopCard(Entity entity)
         {
             var componentMove = entity.GetComponent<InteractiveMoveComponent>();
-            ref var componentCard = ref entity.GetComponent<CardComponent>();
-            var distance = componentCard.RectTransform.anchoredPosition.y - componentMove.StartCardPosition.y;
+            ref var cardComponent = ref entity.GetComponent<CardComponent>();
             var roundPlayer = _dataWorld.OneData<RoundData>();
 
-            if (Mathf.Abs(distance) > 175)
+            if (entity.HasComponent<CardMoveInTargetZoneComponent>())
             {
+                entity.RemoveComponent<CardMoveInTargetZoneComponent>();
+
                 ref var actionValue = ref _dataWorld.OneData<ActionCardData>();
                 var cardsParent = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CardsContainer;
-                actionValue.SpendTrade += componentCard.Price;
+                actionValue.SpendTrade += cardComponent.Price;
                 entity.RemoveComponent<CardTradeRowComponent>();
 
                 if (entity.HasComponent<CardComponentAnimations>())
@@ -115,8 +113,8 @@ namespace CyberNet.Core.InteractiveCard
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
 
-                componentCard.PlayerID = roundPlayer.CurrentPlayerID;
-                componentCard.RectTransform.SetParent(cardsParent);
+                cardComponent.PlayerID = roundPlayer.CurrentPlayerID;
+                cardComponent.RectTransform.SetParent(cardsParent);
                 entity.AddComponent(new CardMoveToDiscardComponent());
                 entity.AddComponent(new CardPlayerComponent());
                 
@@ -129,8 +127,8 @@ namespace CyberNet.Core.InteractiveCard
             }
             else
             {
-                var card = entity.GetComponent<CardComponent>();
-                card.RectTransform.anchoredPosition = componentMove.StartCardPosition;
+                entity.RemoveComponent<CardMoveInStartZoneComponent>();
+                cardComponent.RectTransform.anchoredPosition = componentMove.StartCardPosition;
                 SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.CancelInteractiveCard);
             }
 

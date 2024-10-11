@@ -1,6 +1,7 @@
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.AbilityCard.DiscardCard;
 using CyberNet.Core.Battle.TacticsMode;
+using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using EcsCore;
@@ -9,7 +10,9 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
+using DG.Tweening;
 using Input;
+using UnityEngine;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -21,33 +24,22 @@ namespace CyberNet.Core.InteractiveCard
         public void PreInit()
         {
             InteractiveActionCard.StartInteractiveCard += DownClickCard;
+            BattleTacticsUIAction.StartMoveCardTactics += StartInteractiveCardTactics;
             InteractiveActionCard.FinishSelectAbilityCard += FinishSelectAbilityCard;
         }
 
         private void DownClickCard(string guid)
         {
-            var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .With<PlayerIsDiscardsCardComponent>()
-                .Count() > 0;
-            if (playerIsDiscardCard)
+            if (CheckPlayerDiscardCard())
+                return;
+
+            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            if (roundData.PauseInteractive)
                 return;
             
             var entity = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guid)
                 .SelectFirstEntity();
-            
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
-            if (roundData.PauseInteractive)
-                return;
-
-            var isOpenTacticsScreen = _dataWorld.Select<OpenBattleTacticsUIComponent>().Count() > 0;
-
-            if (entity.HasComponent<CardTradeRowComponent>() && entity.HasComponent<CardFreeToBuyComponent>() || isOpenTacticsScreen)
-            {
-                AddMoveCardComponent(entity);
-                return;
-            }
             
             if (entity.HasComponent<CardHandComponent>())
             {
@@ -60,6 +52,15 @@ namespace CyberNet.Core.InteractiveCard
                 CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
                 entity.AddComponent(new NeedToSelectAbilityCardComponent());
             }
+        }
+
+        private bool CheckPlayerDiscardCard()
+        {
+            var playerIsDiscardCard = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerIsDiscardsCardComponent>()
+                .Count() > 0;
+            return playerIsDiscardCard;
         }
 
         private void FinishSelectAbilityCard(string guid)
@@ -115,11 +116,30 @@ namespace CyberNet.Core.InteractiveCard
                 AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
         }
+
+        private void StartInteractiveCardTactics(string guidCard)
+        {
+            var cardEntity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .With<CardTacticsComponent>()
+                .SelectFirstEntity();
+
+            AddMoveCardComponent(cardEntity);
+            BattleTacticsUIAction.CheckIsSelectCardTactics?.Invoke(guidCard);
+        }
         
         private void AddMoveCardComponent(Entity entity)
         {
             var mousePositions = InputAction.GetCurrentMousePositionsToScreen.Invoke();
             ref var component = ref entity.GetComponent<CardComponent>();
+
+            if (entity.HasComponent<CardComponentAnimations>())
+            {
+                var cardAnimationsComponent = entity.GetComponent<CardComponentAnimations>();
+                cardAnimationsComponent.Sequence.Kill();
+            }
+            
+            component.RectTransform.localRotation = Quaternion.identity;
             
             entity.AddComponent(new InteractiveMoveComponent
             {
@@ -127,6 +147,7 @@ namespace CyberNet.Core.InteractiveCard
                 StartCardRotation = component.RectTransform.localRotation,
                 StartMousePositions = mousePositions,
             });
+            entity.AddComponent(new CardMoveInStartZoneComponent());
             CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
 
             var startMoveSFX = _dataWorld.OneData<SoundData>().Sound.StartInteractiveCard;
@@ -139,6 +160,7 @@ namespace CyberNet.Core.InteractiveCard
         {
             InteractiveActionCard.StartInteractiveCard -= DownClickCard;
             InteractiveActionCard.FinishSelectAbilityCard -= FinishSelectAbilityCard;
+            BattleTacticsUIAction.StartMoveCardTactics -= StartInteractiveCardTactics;
         }
     }
 }

@@ -1,4 +1,5 @@
 using CyberNet.Core.Battle.TacticsMode;
+using CyberNet.Core.InteractiveCard;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,7 +40,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
 
             _isSelectCard = true;
 
-            BattleTacticsUIAction.SelectCard?.Invoke(_guid);
+            BattleTacticsUIAction.SelectCardTactics?.Invoke(_guid);
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -50,7 +51,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             if (!_isSelectCard)
                 return;
             
-            BattleTacticsUIAction.DeselectCard?.Invoke(_guid);
+            BattleTacticsUIAction.DeselectCardTactics?.Invoke(_guid);
         }
         
         public void OnPointerDown(PointerEventData eventData)
@@ -61,7 +62,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             
-            BattleTacticsUIAction.StartMoveCard?.Invoke(_guid);
+            BattleTacticsUIAction.StartMoveCardTactics?.Invoke(_guid);
         }
         
         public void OnPointerUp(PointerEventData eventData)
@@ -72,7 +73,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
             
-            BattleTacticsUIAction.EndMoveCard?.Invoke(_guid);
+            BattleTacticsUIAction.EndMoveCardTactics?.Invoke();
             _isSelectCard = false;
         }
     }

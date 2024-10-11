@@ -20,5 +20,6 @@ namespace CyberNet.Core.Battle
     {
         public int BaseValue;
         public int AbilityValue;
+        public int CardValue;
     }
 }

@@ -10,5 +10,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         
         public PlayerInBattleStruct AttackingPlayer;
         public PlayerInBattleStruct DefendingPlayer;
+        
+        public string CurrentTacticsKey;
     }
 }

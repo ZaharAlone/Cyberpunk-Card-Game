@@ -153,17 +153,20 @@ namespace CyberNet.Core.Battle
                 {
                     BaseValue = countUnit,
                     AbilityValue = abilityPowerPoint,
+                    CardValue = 0,
                 },
                 KillPoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = abilityKillPoint,
+                    CardValue = 0,
                 },
                 DefencePoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = abilityDefencePoint,
-                }
+                    CardValue = 0,
+                },
             };
 
             return newPlayerInBattle;
@@ -184,16 +187,19 @@ namespace CyberNet.Core.Battle
                 {
                     BaseValue = countUnit,
                     AbilityValue = 0,
+                    CardValue = 0,
                 },
                 KillPoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = 0,
+                    CardValue = 0,
                 },
                 DefencePoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = 0,
+                    CardValue = 0,
                 }
             };
 

@@ -14,6 +14,8 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
     {
         private DataWorld _dataWorld;
 
+        private const float time_move_card_tactics_screen = 0.35f;
+
         public void PreInit()
         {
             BattleTacticsUIAction.MoveCardToTacticsScreen += MoveCardToTacticsScreen;
@@ -21,19 +23,18 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
         
         private void MoveCardToTacticsScreen()
         {
-            var cardToMoveTacticsScreenEntity = _dataWorld.Select<CardComponent>().With<CardMoveToTacticsScreenComponent>().SelectFirstEntity();
+            var cardToMoveTacticsScreenEntity = _dataWorld.Select<CardComponent>()
+                .With<CardMoveToTacticsScreenComponent>()
+                .SelectFirstEntity();
             var cardComponent = cardToMoveTacticsScreenEntity.GetComponent<CardComponent>();
 
-            var uiTacticsTargetMoveCard = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono.PointToTargetCard;
+            var targetPositionCard = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono.PointToTargetCard.anchoredPosition;
             
             var sequence = DOTween.Sequence();
-            var distanceToTarget = Vector3.Distance(cardComponent.RectTransform.position, uiTacticsTargetMoveCard.anchoredPosition);
-            
-            var scale = new Vector3(1.65f, 1.65f, 1f);
-            
-            var time = distanceToTarget / 800;
-            sequence.Append(cardComponent.CardMono.RectTransform.DOAnchorPos(uiTacticsTargetMoveCard.anchoredPosition, time))
-                .Join(cardComponent.CardMono.RectTransform.DOScale(scale, time))
+            var scale = new Vector3(1.65f, 1.65f, 1f);//TODO забить скейл в конфиги и брать оттуда
+
+            sequence.Append(cardComponent.CardMono.RectTransform.DOAnchorPos(targetPositionCard, time_move_card_tactics_screen))
+                .Join(cardComponent.CardMono.RectTransform.DOScale(scale, time_move_card_tactics_screen))
                 .OnComplete(() => EndMoveCardToTacticsScreen());
         }
 

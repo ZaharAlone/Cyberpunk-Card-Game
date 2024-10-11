@@ -4,9 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using Input;
-using System;
 using CyberNet.Core.UI;
-using CyberNet.Global.GameCamera;
 
 namespace CyberNet.Core.InteractiveCard
 {
@@ -36,7 +34,6 @@ namespace CyberNet.Core.InteractiveCard
             
             cardComponent.RectTransform.anchoredPosition += new Vector2(deltaMove.x, deltaMove.y);
             moveCardComponent.StartMousePositions = mousePosition;
-            
             UpdateViewCard();
         }
 
@@ -55,22 +52,37 @@ namespace CyberNet.Core.InteractiveCard
             {
                 var upperPositionCard = (cardWorldCorners[1] + cardWorldCorners[2]) / 2;
                 var shopZone = boardGameUI.TraderowMono.TraderowContainer;
-                CheckCardInTargetZone(cardComponent, shopZone, upperPositionCard);
+                CheckCardInTargetZone(entityMoveCard, shopZone, upperPositionCard);
             }
             else
             {
                 var bottomPositionCard = (cardWorldCorners[0] + cardWorldCorners[3]) / 2;
                 var playerZoneTransform = boardGameUI.CoreHudUIMono.ZoneHandCard;
-                CheckCardInTargetZone(cardComponent, playerZoneTransform, bottomPositionCard);
+                CheckCardInTargetZone(entityMoveCard, playerZoneTransform, bottomPositionCard);
             }
         }
 
-        private void CheckCardInTargetZone(CardComponent cardComponent, RectTransform targetZone, Vector3 positionCard)
+        private void CheckCardInTargetZone(Entity cardEntity, RectTransform targetZone, Vector3 positionCard)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(targetZone, positionCard ))
-                cardComponent.CardMono.CardFaceMono.VFXCardReadyToInteractive();
+            var cardComponent = cardEntity.GetComponent<CardComponent>();
+            if (RectTransformUtility.RectangleContainsScreenPoint(targetZone, positionCard))
+            {
+                if (cardEntity.HasComponent<CardMoveInTargetZoneComponent>())
+                {
+                    cardEntity.RemoveComponent<CardMoveInTargetZoneComponent>();
+                    cardEntity.AddComponent(new CardMoveInStartZoneComponent());
+                    cardComponent.CardMono.CardFaceMono.VFXCardReadyToInteractive();
+                }   
+            }
             else
-                cardComponent.CardMono.CardFaceMono.VFXCardInTargetZone();
+            {
+                if (cardEntity.HasComponent<CardMoveInStartZoneComponent>())
+                {
+                    cardEntity.RemoveComponent<CardMoveInStartZoneComponent>();
+                    cardEntity.AddComponent(new CardMoveInTargetZoneComponent());
+                    cardComponent.CardMono.CardFaceMono.VFXCardInTargetZone();
+                }  
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ using CyberNet.Global;
 namespace CyberNet.Core.Battle.TacticsMode
 {
     [EcsSystem(typeof(CoreModule))]
-    public class BattleTacticsUISystem : IPreInitSystem, IDestroySystem
+    public class BattleTacticsSetupUISystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 
@@ -26,6 +26,7 @@ namespace CyberNet.Core.Battle.TacticsMode
             ShowHideMapUI(false);
             SetViewAvatarPlayers();
             SetStatsPlayersInBattle();
+            SetTacticsBarView();
             
             BattleTacticsUIAction.CreateCardTactics?.Invoke();
 
@@ -116,9 +117,9 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         private void SetStatsPlayer(PlayerInBattleStruct playerStats, BattlePlayerStatsContainerUIMono uiContainer, bool isDefending)
         {
-            var powerCount = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue;
-            var killCount = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue;
-            var defenceCount = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue;
+            var powerCount = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue + playerStats.PowerPoint.CardValue;
+            var killCount = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue + playerStats.KillPoint.CardValue;
+            var defenceCount = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue + playerStats.DefencePoint.CardValue;
 
             if (isDefending)
             {
@@ -146,6 +147,26 @@ namespace CyberNet.Core.Battle.TacticsMode
             else
                 valueString = value + unknown_quantity_add_value;
             return valueString;
+        }
+
+        private void SetTacticsBarView()
+        {
+            var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
+            var battleTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
+            var currencyIconsConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig.CurrencyImage;
+
+            var indexCurrentSlotTactics = 0;
+            foreach (var currentTactics in battleTactics)
+            {
+                var leftIcons = currencyIconsConfig[currentTactics.LeftCharacteristics.ToString()];
+                var rightIcons = currencyIconsConfig[currentTactics.RightCharacteristics.ToString()];
+
+                uiTactics.BattleTacticsSlotList[indexCurrentSlotTactics].SetView(currentTactics.Key, leftIcons, rightIcons);
+                
+                indexCurrentSlotTactics++;
+            }
+
+            _dataWorld.OneData<BattleCurrentData>().CurrentTacticsKey = battleTactics[0].Key;
         }
         
         public void Destroy()

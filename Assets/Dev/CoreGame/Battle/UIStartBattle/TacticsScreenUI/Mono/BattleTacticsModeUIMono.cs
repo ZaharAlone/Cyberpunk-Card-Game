@@ -27,9 +27,8 @@ namespace CyberNet.Core.Battle.TacticsMode
         [Required]
         public RectTransform PointToTargetCard;
         
-        [SerializeField]
         [Required]
-        private List<BattleTacticsSlotUIMono> _battleTacticsSlotList = new ();
+        public List<BattleTacticsSlotUIMono> BattleTacticsSlotList = new ();
 
         [Required]
         public Transform CardsContainer;

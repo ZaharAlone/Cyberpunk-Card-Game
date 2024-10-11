@@ -38,8 +38,8 @@ namespace CyberNet.Core.Battle.TacticsMode
 
             _sequence = DOTween.Sequence();
             
-            _sequence.Append(_leftImageCharacteristics.DOFade(0f, time_animations))
-                .Join(_rightImageCharacteristics.DOFade(0f, time_animations))
+            _sequence.Append(_leftImageCharacteristics.DOFade(0.4f, time_animations))
+                .Join(_rightImageCharacteristics.DOFade(0.4f, time_animations))
                 .OnComplete(() => FinishFadeCurrentCharacteristics(leftCharacteristics, rightCharacteristics));
         }
 
