@@ -42,17 +42,14 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             _dataWorld.CreateOneData(new DestroyRowCardData{ DestroyCardInRow = new()});
             var countHandCard = SetViewCardInHand(guidCard, roundData.CurrentPlayerID);
             var countDiscardCard = SetViewCardDiscard(roundData.CurrentPlayerID);
-            var countPlayZoneCard = SetViewCardInPlayZone(roundData.CurrentPlayerID);
             
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.TraderowMono.DisableTradeRow();
 
-            if (countPlayZoneCard > 0)
-                boardGameUI.DestroyCardUIMono.SelectCardInPlayZone();
+            if (countHandCard > 0)
+                boardGameUI.DestroyCardUIMono.SelectCardInHand();
             else if (countDiscardCard > 0)
                 boardGameUI.DestroyCardUIMono.SelectCardInDiscard();
-            else if (countHandCard > 0)
-                boardGameUI.DestroyCardUIMono.SelectCardInHand();
             else
             {
                 //TODO show not card for destroy popup
@@ -107,22 +104,6 @@ namespace CyberNet.Core.AbilityCard.DestroyCard
             }
 
             return queryCardsInDiscard.Count();
-        }
-        
-        private int SetViewCardInPlayZone(int playerID)
-        {
-            var queryCardsInTable = _dataWorld.Select<CardComponent>()
-                .With<CardInTableComponent>()
-                .Where<CardComponent>(card => card.PlayerID == playerID);
-
-            var entitiesCardsInTable = queryCardsInTable.GetEntities();
-            foreach (var entity in entitiesCardsInTable)
-            {
-                var cardComponent = entity.GetComponent<CardComponent>();
-                AddCardInBar(cardComponent.Key, cardComponent.GUID, GroupDestroyCardEnum.PlayZone);
-            }
-
-            return queryCardsInTable.Count();
         }
         
         private void AddCardInBar(string keyCard, string guid, GroupDestroyCardEnum targetGroupCardEnum)

@@ -76,10 +76,10 @@ namespace CyberNet.Core.InteractiveCard
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
 
-                entity.AddComponent(new CardStartMoveToTableComponent());
+                entity.AddComponent(new CardMoveToDiscardComponent());
                 cardComponent.Canvas.sortingOrder = 2;
 
-                AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+                AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
             }
             else

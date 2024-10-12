@@ -929,7 +929,7 @@ RectTransform:
   - {fileID: 2572194378612944627}
   - {fileID: 3328067006846552747}
   m_Father: {fileID: 7418544533751976109}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1119,7 +1119,7 @@ RectTransform:
   m_Children:
   - {fileID: 5917261350929425871}
   m_Father: {fileID: 7418544533751976109}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -40917,7 +40917,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7418544533751976109}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -41076,42 +41076,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &4023348894284022667
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4778054199832861326}
-  m_Layer: 5
-  m_Name: PositionForUseCardPlayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4778054199832861326
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4023348894284022667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7418544533751976109}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -80, y: 300}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 1, y: 0}
 --- !u!1 &4082031283781783536
 GameObject:
   m_ObjectHideFlags: 0
@@ -61391,7 +61355,6 @@ RectTransform:
   - {fileID: 2543769139314362337}
   - {fileID: 3796010564878730445}
   - {fileID: 4983108848679921529}
-  - {fileID: 4778054199832861326}
   - {fileID: 8947170395917083023}
   - {fileID: 6816962259660094730}
   - {fileID: 9181358915776191988}
@@ -61434,7 +61397,6 @@ MonoBehaviour:
   _discardDeckView: {fileID: 4663861083716622914}
   DownDeck: {fileID: 2463898652224670883}
   _drawDeckView: {fileID: 2062362403715105742}
-  PositionForUseCardPlayer: {fileID: 4778054199832861326}
   EnemyPassportContainer: {fileID: 8482953384352239863}
   EnemyPassports:
   - {fileID: 9124083408629316294}
@@ -76826,7 +76788,7 @@ RectTransform:
   - {fileID: 883606592751781712}
   - {fileID: 8515671239361359189}
   m_Father: {fileID: 7418544533751976109}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}

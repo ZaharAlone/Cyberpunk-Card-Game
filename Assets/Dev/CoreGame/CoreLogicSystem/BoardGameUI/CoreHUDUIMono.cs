@@ -14,6 +14,7 @@ namespace  CyberNet.Core.UI
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
         [SerializeField]
+        [Required]
         private GameObject _playerVfxDownCard;
 
         [Header("Action Button")]
@@ -25,17 +26,23 @@ namespace  CyberNet.Core.UI
         public CoreElementInfoPopupButtonMono PopupActionButton;
 
         [Header("Draw and Discard")]
+        [Required]
         public RectTransform DownDiscard;
         [SerializeField]
+        [Required]
         private DeckButtonViewMono _discardDeckView;
+        [Required]
         public RectTransform DownDeck;
         [SerializeField]
+        [Required]
         private DeckButtonViewMono _drawDeckView;
-        public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
+        [Required]
         public GameObject EnemyPassportContainer;
+        [Required]
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
+        [Required]
         public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
 
         [Header("End Turn popup")]

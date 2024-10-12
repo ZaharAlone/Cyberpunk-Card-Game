@@ -101,11 +101,11 @@ namespace CyberNet.Core.InteractiveCard
                 }
                 else
                 {
-                    cardEntity.AddComponent(new CardStartMoveToTableComponent());
+                    cardEntity.AddComponent(new CardMoveToDiscardComponent());
                     cardEntity.RemoveComponent<CardComponentAnimations>();
                     cardEntity.RemoveComponent<CardHandComponent>();
                     
-                    AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
+                    AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                     CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
                 }
             }

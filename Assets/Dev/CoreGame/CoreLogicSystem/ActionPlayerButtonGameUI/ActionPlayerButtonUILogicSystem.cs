@@ -91,11 +91,11 @@ namespace CyberNet.Core
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
                 
-                entity.AddComponent(new CardStartMoveToTableComponent());
+                entity.AddComponent(new CardMoveToDiscardComponent());
                 entity.AddComponent(new CardPlayAllComponent());
             }
             
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
         }
 
         private void ForceEndTurn()
@@ -125,7 +125,6 @@ namespace CyberNet.Core
             foreach (var entity in cardInDeck)
             {
                 entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
-                entity.RemoveComponent<CardInTableComponent>();
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 
