@@ -180,9 +180,9 @@ namespace CyberNet.Core.InteractiveCard
             MoveOtherCards(indexTargetCard, entities);
         }
         
-        private void MoveOtherCards(int targetIndex, EntitiesEnumerable entitesCards)
+        private void MoveOtherCards(int targetIndex, EntitiesEnumerable entitiesCards)
         {
-            foreach (var entity in entitesCards)
+            foreach (var entity in entitiesCards)
             {
                 ref var index = ref entity.GetComponent<CardSortingIndexComponent>().Index;
                 ref var cardComponent = ref entity.GetComponent<CardComponent>();

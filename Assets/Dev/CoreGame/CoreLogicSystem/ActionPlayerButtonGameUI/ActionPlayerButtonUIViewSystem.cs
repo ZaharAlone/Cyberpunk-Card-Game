@@ -24,7 +24,7 @@ namespace CyberNet.Core.UI
             RoundAction.StartTurn += UpdateButton;
             
             ActionPlayerButtonEvent.UpdateActionButton += UpdateButton;
-            ActionPlayerButtonEvent.SetViewArena += SetViewArena;
+            ActionPlayerButtonEvent.SetViewBattle += SetViewBattle;
         }
 
         public void Init()
@@ -34,7 +34,7 @@ namespace CyberNet.Core.UI
 
         private void ForceHideActionButton()
         {
-            var actionButton = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
+            var actionButton = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ActionButtonMono.CoreActionButtonAnimationsMono;
             actionButton.ForceHideActionButton();
         }
         
@@ -42,7 +42,7 @@ namespace CyberNet.Core.UI
         {
             var roundData = _dataWorld.OneData<RoundData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
-            var coreActionButton = ui.BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
+            var coreActionButton = ui.BoardGameUIMono.ActionButtonMono.CoreActionButtonAnimationsMono;
             
             if (roundData.playerOrAI != PlayerOrAI.Player && coreActionButton.IsEnableButton)//??? PauseInteractive???   || roundData.PauseInteractive
             {
@@ -79,45 +79,45 @@ namespace CyberNet.Core.UI
             var playAllCard = isOnlyCardScout && cardIsHand;
             var endRoundNoActive = isFreeCardInTradeRow || cardIsHand;
             
-            var coreHUDMono = ui.BoardGameUIMono.CoreHudUIMono;
+            var actionButtonMono = ui.BoardGameUIMono.ActionButtonMono;
             
             if (playAllCard)
             {
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.PlayAll;
                 
-                coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.PlayAll);
-                coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
-                coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.PlayAllPopup);
+                actionButtonMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.PlayAll);
+                actionButtonMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+                actionButtonMono.PopupActionButton.SetKeyPopup(boardGameRule.PlayAllPopup);
             }
             else
             {
                 actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.EndTurn;
-                coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.EndTurn);
-                coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
+                actionButtonMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.EndTurn);
+                actionButtonMono.PopupActionButton.SetKeyPopup(boardGameRule.EndRoundPopup);
 
                 if (endRoundNoActive)
                 {
-                    coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsNotReadyButtonClick();
+                    actionButtonMono.CoreActionButtonAnimationsMono.SetAnimationsNotReadyButtonClick();
                 }
                 else
                 {
-                    coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+                    actionButtonMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
                 }
             }
         }
 
-        private void SetViewArena()
+        private void SetViewBattle()
         {
             ref var actionPlayer = ref _dataWorld.OneData<ActionCardData>();
             var ui = _dataWorld.OneData<CoreGameUIData>();
             var boardGameRule = _dataWorld.OneData<BoardGameData>().BoardGameRule;
-            var coreHUDMono = ui.BoardGameUIMono.CoreHudUIMono;
+            var actionButtonMono = ui.BoardGameUIMono.ActionButtonMono;
 
             actionPlayer.ActionPlayerButtonType = ActionPlayerButtonType.Attack;
             
-            coreHUDMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.Attack);
-            coreHUDMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
-            coreHUDMono.PopupActionButton.SetKeyPopup(boardGameRule.AttackArenaPopup);
+            actionButtonMono.CoreActionButtonAnimationsMono.SetStateViewButton(ActionPlayerButtonType.Attack);
+            actionButtonMono.CoreActionButtonAnimationsMono.SetAnimationsReadyClick();
+            actionButtonMono.PopupActionButton.SetKeyPopup(boardGameRule.AttackArenaPopup);
         }
 
         private bool CheckOnlyCardScoutInHandPlayer()
@@ -147,7 +147,7 @@ namespace CyberNet.Core.UI
         private void HideButton()
         {
             var ui = _dataWorld.OneData<CoreGameUIData>();
-            ui.BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono.HideButtonPlayAnimations();
+            ui.BoardGameUIMono.ActionButtonMono.CoreActionButtonAnimationsMono.HideButtonPlayAnimations();
         }
 
         public void Destroy()
@@ -156,7 +156,7 @@ namespace CyberNet.Core.UI
             RoundAction.StartTurn -= UpdateButton;
             
             ActionPlayerButtonEvent.UpdateActionButton -= UpdateButton;
-            ActionPlayerButtonEvent.SetViewArena -= SetViewArena;
+            ActionPlayerButtonEvent.SetViewBattle -= SetViewBattle;
         }
     }
 }

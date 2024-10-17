@@ -1,6 +1,6 @@
 namespace CyberNet.Core
 {
-    public struct CardPlayAllComponent
+    public struct PlayAllTradeCardComponent
     {
         
     }

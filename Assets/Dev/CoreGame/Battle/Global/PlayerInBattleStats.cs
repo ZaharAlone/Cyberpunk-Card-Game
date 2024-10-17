@@ -5,10 +5,11 @@ using CyberNet.Global;
 namespace CyberNet.Core.Battle
 {
     [Serializable]
-    public struct PlayerInBattleStruct
+    public struct PlayerInBattleComponent
     {
         public int PlayerID;
         public PlayerOrAI PlayerControlEntity;
+        public bool IsAttacking;
 
         public PlayerStatsInBattle PowerPoint;
         public PlayerStatsInBattle KillPoint;
@@ -20,6 +21,5 @@ namespace CyberNet.Core.Battle
     {
         public int BaseValue;
         public int AbilityValue;
-        public int CardValue;
     }
 }

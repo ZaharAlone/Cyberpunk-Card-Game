@@ -21,8 +21,14 @@ namespace CyberNet.Core.Battle.TacticsMode
         {
             BattleAction.OpenTacticsScreen += OpenTacticsUI;
         }
-        private void OpenTacticsUI()
+        private void OpenTacticsUI(int playerID)
         {
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
+                .Where<PlayerComponent>(player => player.PlayerID == playerID)
+                .SelectFirstEntity();
+
+            playerEntity.AddComponent(new OpenBattleTacticsUIComponent());
+            
             ShowHideMapUI(false);
             SetViewAvatarPlayers();
             SetStatsPlayersInBattle();
@@ -32,14 +38,15 @@ namespace CyberNet.Core.Battle.TacticsMode
 
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
             uiTactics.ShowTacticsUI();
-
-            _dataWorld.NewEntity().AddComponent(new OpenBattleTacticsUIComponent());
         }
 
         private void CloseTacticsUI()
         {
             _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity().Destroy();
             ShowHideMapUI(true);
+
+            var openTacticsScreenEntity = _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity();
+            openTacticsScreenEntity.RemoveComponent<OpenBattleTacticsUIComponent>();
         }
         
         private void ShowHideMapUI(bool isShow)
@@ -52,6 +59,7 @@ namespace CyberNet.Core.Battle.TacticsMode
                 boardGameUI.CoreHudUIMono.ShowEnemyPassport();
                 boardGameUI.CoreHudUIMono.ShowButtons();
                 boardGameUI.TraderowMono.EnableTradeRow();
+                ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
             }
             else
             {
@@ -59,6 +67,7 @@ namespace CyberNet.Core.Battle.TacticsMode
                 boardGameUI.CoreHudUIMono.HideEnemyPassport();
                 boardGameUI.CoreHudUIMono.HideButtons();
                 boardGameUI.TraderowMono.DisableTradeRow();
+                ActionPlayerButtonEvent.SetViewBattle?.Invoke();
             }
             
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
@@ -81,56 +90,66 @@ namespace CyberNet.Core.Battle.TacticsMode
         private void SetViewAvatarPlayers()
         {
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
+            var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
 
-            var battleData = _dataWorld.OneData<BattleCurrentData>();
-            var avatarAttackingPlayer = GetPlayerAvatar(battleData.AttackingPlayer.PlayerID);
-            uiTactics.PlayerStatsContainer_Attack.SetAvatarPlayer(avatarAttackingPlayer);
-            
-            if (battleData.DefendingPlayer.PlayerControlEntity == PlayerOrAI.None)
+            foreach (var playerInBattleEntity in playerInBattleEntities)
             {
-                var neutralAvatar = _dataWorld.OneData<LeadersViewData>().NeutralLeaderAvatar;
-                uiTactics.PlayerStatsContainer_Defence.SetAvatarPlayer(neutralAvatar);
-            }
-            else
-            {
-                var avatarDefendingPlayer = GetPlayerAvatar(battleData.DefendingPlayer.PlayerID);
-                uiTactics.PlayerStatsContainer_Defence.SetAvatarPlayer(avatarDefendingPlayer);
+                var playerInBattleComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
+                var playerAvatar = GetPlayerAvatar(playerInBattleComponent.PlayerID);
+                
+                if (playerInBattleComponent.IsAttacking)
+                    uiTactics.PlayerStatsContainer_Attack.SetAvatarPlayer(playerAvatar);
+                else
+                    uiTactics.PlayerStatsContainer_Defence.SetAvatarPlayer(playerAvatar);
             }
         }
 
         private Sprite GetPlayerAvatar(int playerID)
         {
-            var avatarPlayer = _dataWorld.Select<PlayerComponent>()
-                .Where<PlayerComponent>(player => player.PlayerID == playerID)
-                .SelectFirst<PlayerViewComponent>().AvatarForBattle;
-            return avatarPlayer;
+            if (playerID == -1)
+            {
+                var neutralAvatar = _dataWorld.OneData<LeadersViewData>().NeutralLeaderAvatar;
+                return neutralAvatar;
+            }
+            else
+            {
+                var avatarPlayer = _dataWorld.Select<PlayerComponent>()
+                    .Where<PlayerComponent>(player => player.PlayerID == playerID)
+                    .SelectFirst<PlayerViewComponent>().AvatarForBattle;
+                return avatarPlayer;
+            }
         }
 
         private void SetStatsPlayersInBattle()
         {
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
-            var battleData = _dataWorld.OneData<BattleCurrentData>();
+            var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
 
-            SetStatsPlayer(battleData.AttackingPlayer, uiTactics.PlayerStatsContainer_Attack, false);
-            SetStatsPlayer(battleData.DefendingPlayer, uiTactics.PlayerStatsContainer_Defence, true);
+            foreach (var playerInBattleEntity in playerInBattleEntities)
+            {
+                var playerInBattleComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
+                SetStatsPlayer(playerInBattleComponent, uiTactics.PlayerStatsContainer_Attack);
+                SetStatsPlayer(playerInBattleComponent, uiTactics.PlayerStatsContainer_Defence);
+            }
         }
 
-        private void SetStatsPlayer(PlayerInBattleStruct playerStats, BattlePlayerStatsContainerUIMono uiContainer, bool isDefending)
+        private void SetStatsPlayer(PlayerInBattleComponent playerInBattleComponent, BattlePlayerStatsContainerUIMono uiContainer)
         {
-            var powerCount = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue + playerStats.PowerPoint.CardValue;
-            var killCount = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue + playerStats.KillPoint.CardValue;
-            var defenceCount = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue + playerStats.DefencePoint.CardValue;
-
-            if (isDefending)
+            if (!playerInBattleComponent.IsAttacking)
             {
-                var powerString = TransformDefendingValueStats(powerCount);
-                var killString = TransformDefendingValueStats(killCount);
-                var defenceString = TransformDefendingValueStats(defenceCount);
+                var powerString = TransformDefendingValueStats(playerInBattleComponent.PowerPoint.BaseValue);
+                var killString = TransformDefendingValueStats(playerInBattleComponent.KillPoint.BaseValue);
+                var defenceString = TransformDefendingValueStats(playerInBattleComponent.DefencePoint.BaseValue);
                 
                 uiContainer.SetStats(powerString, killString, defenceString);
             }
             else
             {
+                //TODO calculate card value
+                var powerCount = playerInBattleComponent.PowerPoint.BaseValue + playerInBattleComponent.PowerPoint.AbilityValue;
+                var killCount = playerInBattleComponent.KillPoint.BaseValue + playerInBattleComponent.KillPoint.AbilityValue;
+                var defenceCount = playerInBattleComponent.DefencePoint.BaseValue + playerInBattleComponent.DefencePoint.AbilityValue;
+                
                 var powerString = powerCount.ToString();
                 var killString = killCount.ToString();
                 var defenceString = defenceCount.ToString();
@@ -166,7 +185,8 @@ namespace CyberNet.Core.Battle.TacticsMode
                 indexCurrentSlotTactics++;
             }
 
-            _dataWorld.OneData<BattleCurrentData>().CurrentTacticsKey = battleTactics[0].Key;
+            ref var openTacticsScreenComponent = ref _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirst<OpenBattleTacticsUIComponent>();
+            openTacticsScreenComponent.CurrentSelectTacticsUI = battleTactics[0].Key;
         }
         
         public void Destroy()

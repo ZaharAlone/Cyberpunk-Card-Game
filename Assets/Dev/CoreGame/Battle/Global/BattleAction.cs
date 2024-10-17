@@ -1,4 +1,5 @@
 using System;
+using CyberNet.Core.Battle.TacticsMode;
 
 namespace CyberNet.Core.Battle
 {
@@ -7,8 +8,9 @@ namespace CyberNet.Core.Battle
         public static Action<string> EndMovePlayerToNewDistrict;
         public static Action FinishBattle;
         
-        public static Action OpenTacticsScreen;
+        public static Action<int> OpenTacticsScreen;
 
-        public static Action OnClickStartBattle;
+        public static Action<int> SelectTacticsAI;
+        public static Action SelectTacticsCardNeutralUnit;
     }
 }

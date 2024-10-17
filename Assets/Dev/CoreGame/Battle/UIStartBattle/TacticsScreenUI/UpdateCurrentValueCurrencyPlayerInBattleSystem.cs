@@ -17,16 +17,18 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
 
         public void PreInit()
         {
-            BattleTacticsUIAction.UpdateCurrencyPlayerInBattle += UpdateCurrencyPlayerInBattle;
+            //BattleTacticsUIAction.UpdateCurrencyPlayerInBattle += UpdateCurrencyPlayerInBattle;
         }
-        
+        /*
         private void UpdateCurrencyPlayerInBattle()
         {
-            if (_dataWorld.Select<CardSelectInTacticsScreenComponent>().Count() == 0)
-                return;
-            
-            ref var battleCurrentData = ref _dataWorld.OneData<BattleCurrentData>();
+            var playerOpenTacticsScreenEntity = _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity();
 
+            if (playerOpenTacticsScreenEntity.HasComponent<PlayerSelectCardTacticsScreenComponent>())
+            {
+                
+            }
+            
             var attackingPlayerStats = SetZeroCardStats(battleCurrentData.AttackingPlayer);
             attackingPlayerStats = CalculatePlayerTacticsCard(attackingPlayerStats);
             attackingPlayerStats = CalculateAbilityCard(attackingPlayerStats);
@@ -35,7 +37,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             SetStatsViewPlayer(attackingPlayerStats);
         }
 
-        private PlayerInBattleStruct SetZeroCardStats(PlayerInBattleStruct playerStats)
+        private PlayerInBattleComponent SetZeroCardStats(PlayerInBattleComponent playerStats)
         {
             playerStats.PowerPoint.CardValue = 0;
             playerStats.KillPoint.CardValue = 0;
@@ -43,10 +45,10 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             return playerStats;
         }
 
-        private PlayerInBattleStruct CalculatePlayerTacticsCard(PlayerInBattleStruct playerStats)
+        private PlayerInBattleComponent CalculatePlayerTacticsCard(PlayerInBattleComponent playerStats)
         {
             var cardComponent = _dataWorld.Select<CardSelectInTacticsScreenComponent>().SelectFirst<CardComponent>();
-            var currentTacticsIndex = SelectCurrentTacticsIndex();
+            var currentTacticsIndex = 1;//TODO вернуть SelectCurrentTacticsIndex();
             var battleTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
 
             var currentTactics = battleTactics[currentTacticsIndex];
@@ -56,7 +58,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             return playerStats;
         }
 
-        private PlayerInBattleStruct WriteStatsCardValue(PlayerInBattleStruct playerStats, BattleCharacteristics typeCharacteristics, int value)
+        private PlayerInBattleComponent WriteStatsCardValue(PlayerInBattleComponent playerStats, BattleCharacteristics typeCharacteristics, int value)
         {
             switch (typeCharacteristics)
             {
@@ -86,13 +88,13 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             return targetIndex;
         }
 
-        private PlayerInBattleStruct CalculateAbilityCard(PlayerInBattleStruct playerStats)
+        private PlayerInBattleComponent CalculateAbilityCard(PlayerInBattleComponent playerStats)
         {
             var cardComponent = _dataWorld.Select<CardSelectInTacticsScreenComponent>().SelectFirst<CardComponent>();
 
             if (cardComponent.Ability_1.AbilityType == AbilityType.None)
                 return playerStats;
-
+            
             switch (cardComponent.Ability_1.AbilityType)
             {
                 case AbilityType.PowerPoint:
@@ -109,13 +111,13 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             return playerStats;
         }
         
-        private void SetStatsViewPlayer(PlayerInBattleStruct playerStats)
+        private void SetStatsViewPlayer(PlayerInBattleComponent playerStats)
         {
             var attackingPlayerUIStats = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono.PlayerStatsContainer_Attack;
 
-            var powerCount = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue + playerStats.PowerPoint.CardValue;
-            var killCount = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue + playerStats.KillPoint.CardValue;
-            var defenceCount = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue + playerStats.DefencePoint.CardValue;
+            var powerCount = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue;
+            var killCount = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue;
+            var defenceCount = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue;
 
             var powerString = powerCount.ToString();
             var killString = killCount.ToString();
@@ -123,10 +125,10 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
                 
             attackingPlayerUIStats.SetStats(powerString, killString, defenceString);
         }
-
+*/
         public void Destroy()
         {
-            BattleTacticsUIAction.UpdateCurrencyPlayerInBattle -= UpdateCurrencyPlayerInBattle;
+  //          BattleTacticsUIAction.UpdateCurrencyPlayerInBattle -= UpdateCurrencyPlayerInBattle;
         }
     }
 }

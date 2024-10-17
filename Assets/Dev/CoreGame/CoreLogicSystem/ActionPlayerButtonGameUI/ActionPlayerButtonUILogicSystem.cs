@@ -92,15 +92,16 @@ namespace CyberNet.Core
                 }
                 
                 entity.AddComponent(new CardMoveToDiscardComponent());
-                entity.AddComponent(new CardPlayAllComponent());
+                entity.AddComponent(new PlayAllTradeCardComponent());
             }
             
+            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
         }
 
         private void ForceEndTurn()
         {
-            var actionButtonUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
+            var actionButtonUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ActionButtonMono.CoreActionButtonAnimationsMono;
             actionButtonUI.ForceHideButton();
             EndTurn();
         }

@@ -6,8 +6,8 @@ namespace CyberNet.Global
     {
         None = 0,
         Player = 1,
-        AIEasy = 2, //TODO: вернуть после выхода демки
-        //AIMedium = 3,
-        //AIHard = 4
+        AIEasy = 2,
+        AIMedium = 3,
+        AIHard = 4,
     }
 }

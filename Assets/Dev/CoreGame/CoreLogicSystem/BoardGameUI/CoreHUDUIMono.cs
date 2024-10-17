@@ -17,14 +17,6 @@ namespace  CyberNet.Core.UI
         [Required]
         private GameObject _playerVfxDownCard;
 
-        [Header("Action Button")]
-        [Required]
-        public GameObject ActionButtonGO;
-        [Required]
-        public CoreActionButtonAnimationsMono CoreActionButtonAnimationsMono;
-        [Required]
-        public CoreElementInfoPopupButtonMono PopupActionButton;
-
         [Header("Draw and Discard")]
         [Required]
         public RectTransform DownDiscard;
@@ -148,17 +140,15 @@ namespace  CyberNet.Core.UI
         {
             EnemyPassportContainer.SetActive(true);
         }
-
+        
         public void ShowButtons()
         {
-            ActionButtonGO.SetActive(true);
             DownDiscard.gameObject.SetActive(true);
             DownDeck.gameObject.SetActive(true);
         }
         
         public void HideButtons()
         {
-            ActionButtonGO.SetActive(false);
             DownDiscard.gameObject.SetActive(false);
             DownDeck.gameObject.SetActive(false);
         }

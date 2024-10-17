@@ -58,6 +58,9 @@ namespace CyberNet.Core
                 AvatarForBattle = imAvatarForBattle,
                 KeyCityVisual = selectLeaderData.KeyVisualCity
             });
+
+            if (positionInTurnQueue == 0)
+                entity.AddComponent(new PlayerCurrentDeviceControlComponent());
         }
     }
 }

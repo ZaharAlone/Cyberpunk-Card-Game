@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.Serialization;
 
 namespace CyberNet.Core.Battle.TacticsMode
 {
@@ -7,10 +6,5 @@ namespace CyberNet.Core.Battle.TacticsMode
     public struct BattleCurrentData
     {
         public string DistrictBattleGUID;
-        
-        public PlayerInBattleStruct AttackingPlayer;
-        public PlayerInBattleStruct DefendingPlayer;
-        
-        public string CurrentTacticsKey;
     }
 }

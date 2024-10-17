@@ -22,5 +22,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         public static Action<string> CheckIsSelectCardTactics;
         
         public static Action UpdateCurrencyPlayerInBattle;
+
+        public static Action OnClickStartBattle;
     }
 }

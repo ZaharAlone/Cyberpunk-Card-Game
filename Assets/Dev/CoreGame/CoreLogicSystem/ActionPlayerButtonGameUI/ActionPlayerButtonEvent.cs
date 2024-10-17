@@ -10,6 +10,6 @@ namespace CyberNet.Core.UI
         public static Action ActionEndTurnBot;
         
         public static Action UpdateActionButton;
-        public static Action SetViewArena;
+        public static Action SetViewBattle;
     }
 }

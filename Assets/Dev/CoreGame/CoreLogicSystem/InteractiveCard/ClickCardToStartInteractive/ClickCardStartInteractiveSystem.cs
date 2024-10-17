@@ -52,6 +52,10 @@ namespace CyberNet.Core.InteractiveCard
                 CoreElementInfoPopupAction.ClosePopupCard?.Invoke();
                 entity.AddComponent(new NeedToSelectAbilityCardComponent());
             }
+            else if (entity.HasComponent<CardTradeRowComponent>())
+            {
+                AddMoveCardComponent(entity);
+            }
         }
 
         private bool CheckPlayerDiscardCard()

@@ -81,6 +81,7 @@ namespace CyberNet.Core.InteractiveCard
 
                 AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
                 CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
+                AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
             }
             else
             {

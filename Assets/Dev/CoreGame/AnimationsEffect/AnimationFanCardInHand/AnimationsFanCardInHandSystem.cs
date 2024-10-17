@@ -41,10 +41,12 @@ namespace CyberNet.Core.UI
         {
             var cardInHandQuery = _dataWorld.Select<CardComponent>()
                 .With<CardTacticsComponent>()
+                .With<CardHandComponent>()
                 .Without<InteractiveMoveComponent>()
                 .Without<CardSelectInTacticsScreenComponent>()
                 .Without<CardMoveToTacticsScreenComponent>();
 
+            Debug.LogError("animations card in hand tactics screen");
             UpdateView(cardInHandQuery.GetEntities(), cardInHandQuery.Count());
         }
         

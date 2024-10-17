@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Animancer;
 using CyberNet.Core.Battle;
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.UI.ActionButtonAnimations;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Global.Sound;
@@ -267,7 +268,7 @@ namespace CyberNet.Core.UI.ActionButton
             await Task.Delay(330);
 
             if (_currentStateVisualActionButton == ActionPlayerButtonType.Attack)
-                BattleAction.OnClickStartBattle?.Invoke();
+                BattleTacticsUIAction.OnClickStartBattle?.Invoke();
             else
                 ActionPlayerButtonEvent.ClickActionButton?.Invoke();   
         }

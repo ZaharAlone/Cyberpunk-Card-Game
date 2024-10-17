@@ -34,6 +34,8 @@ namespace CyberNet.Core.Battle
             BattleAction.FinishBattle += FinishBattle;
         }
 
+        //Начало боя, сначала проверяем сколько фракций на территории, если больше 2х,
+        //выбираем с кем будем сражаться
         private void CheckCountEnemyInTargetDistrict(string targetDistrictGUID)
         {
             var listUniquePlayers = CalculateCountUniquePlayersInTargetDistrict(targetDistrictGUID);
@@ -43,13 +45,9 @@ namespace CyberNet.Core.Battle
             _targetDistrictGUID = targetDistrictGUID;
             
             if (listUniquePlayers.Count > 1)
-            {
                 SelectEnemyToBattle(listUniquePlayers);
-            }
             else
-            {
                 StartBattle(listUniquePlayers[0]);
-            }
         }
 
         private List<int> CalculateCountUniquePlayersInTargetDistrict(string targetDistrictGUID)
@@ -81,18 +79,31 @@ namespace CyberNet.Core.Battle
         private void StartBattle(int enemyID)
         {
             CreateBattleData(enemyID);
-            
-            var currentPlayerType = _dataWorld.OneData<RoundData>().playerOrAI;
 
-            if (currentPlayerType != PlayerOrAI.Player)
+            var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
+
+            foreach (var playerInBattleEntity in playerInBattleEntities)
             {
-                //TODO начинаем битву между ботами
-                AIBattleAction.CheckEnemyBattle?.Invoke();
+                var playerComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
+
+                if (playerComponent.PlayerControlEntity == PlayerOrAI.Player)
+                {
+                    var playerForCurrentDevice = playerInBattleEntity.HasComponent<PlayerCurrentDeviceControlComponent>();
+                    
+                    if (playerForCurrentDevice)
+                        BattleAction.OpenTacticsScreen?.Invoke(playerComponent.PlayerID);
+                }
+                else if (playerComponent.PlayerControlEntity == PlayerOrAI.None)
+                {
+                    BattleAction.SelectTacticsCardNeutralUnit?.Invoke();
+                }
+                else
+                {
+                    BattleAction.SelectTacticsAI?.Invoke(playerComponent.PlayerID);
+                }
             }
-            else
-            {
-                OpenTacticsScreen();
-            }
+            
+            //TODO Ждать пока все определяться с выбором тактики
         }
         
         private void CreateBattleData(int enemyID)
@@ -101,23 +112,22 @@ namespace CyberNet.Core.Battle
             var battleData = new BattleCurrentData();
 
             battleData.DistrictBattleGUID = _targetDistrictGUID;
-            
-            battleData.AttackingPlayer = CreatePlayerInBattle(currentPlayerID);
-
-            if (enemyID == neutral_unit_id)
-                battleData.DefendingPlayer = CreateNeutralPlayerInBattle();
-            else
-                battleData.DefendingPlayer = CreatePlayerInBattle(enemyID);
-
             _dataWorld.CreateOneData(battleData);
+            
+            CreatePlayerInBattleComponent(currentPlayerID, true);
+            
+            if (enemyID == neutral_unit_id)
+                CreateNeutralPlayerInBattle();
+            else
+                CreatePlayerInBattleComponent(enemyID, false);
         }
 
-        private PlayerInBattleStruct CreatePlayerInBattle(int playerID)
+        private void CreatePlayerInBattleComponent(int playerID, bool isAttacking)
         {
-            var playerComponent = _dataWorld.Select<PlayerComponent>()
+            var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .Where<PlayerComponent>(player => player.PlayerID == playerID)
-                .SelectFirstEntity()
-                .GetComponent<PlayerComponent>();
+                .SelectFirstEntity();
+            var playerComponent = playerEntity.GetComponent<PlayerComponent>();
             
             var countUnit = _dataWorld.Select<UnitMapComponent>()
                 .Where<UnitMapComponent>(unit => unit.GUIDDistrict == _targetDistrictGUID 
@@ -145,41 +155,39 @@ namespace CyberNet.Core.Battle
                     abilityDefencePoint += bonusDistrict.Value;
             }
             
-            var newPlayerInBattle = new PlayerInBattleStruct
+            var playerInBattleComponent = new PlayerInBattleComponent
             {
                 PlayerID = playerComponent.PlayerID,
                 PlayerControlEntity = playerComponent.playerOrAI,
+                IsAttacking = isAttacking,
                 PowerPoint = new PlayerStatsInBattle
                 {
                     BaseValue = countUnit,
                     AbilityValue = abilityPowerPoint,
-                    CardValue = 0,
                 },
                 KillPoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = abilityKillPoint,
-                    CardValue = 0,
                 },
                 DefencePoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = abilityDefencePoint,
-                    CardValue = 0,
                 },
             };
 
-            return newPlayerInBattle;
+            playerEntity.AddComponent(playerInBattleComponent);
         }
 
-        private PlayerInBattleStruct CreateNeutralPlayerInBattle()
+        private void CreateNeutralPlayerInBattle()
         {
             var countUnit = _dataWorld.Select<UnitMapComponent>()
                 .Where<UnitMapComponent>(unit => unit.GUIDDistrict == _targetDistrictGUID 
                     && unit.PowerSolidPlayerID == neutral_unit_id)
                 .Count();
 
-            var newPlayerInBattle = new PlayerInBattleStruct
+            var neutralPlayerInBattleComponent = new PlayerInBattleComponent
             {
                 PlayerID = neutral_unit_id,
                 PlayerControlEntity = PlayerOrAI.None,
@@ -187,33 +195,21 @@ namespace CyberNet.Core.Battle
                 {
                     BaseValue = countUnit,
                     AbilityValue = 0,
-                    CardValue = 0,
                 },
                 KillPoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = 0,
-                    CardValue = 0,
                 },
                 DefencePoint = new PlayerStatsInBattle
                 {
                     BaseValue = 0,
                     AbilityValue = 0,
-                    CardValue = 0,
-                }
+                },
             };
 
-            return newPlayerInBattle;
-        }
-
-        private void OpenTacticsScreen()
-        {
-            //ref var roundData = ref _dataWorld.OneData<RoundData>();
-            //roundData.CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
-            ref var arenaData = ref _dataWorld.OneData<ArenaData>();
-            arenaData.IsShowVisualBattle = true;
-            
-            BattleAction.OpenTacticsScreen?.Invoke();   
+            var neutralPlayerInBattleEntity = _dataWorld.NewEntity();
+            neutralPlayerInBattleEntity.AddComponent(neutralPlayerInBattleComponent);
         }
 
         private void FinishBattle()

@@ -23,14 +23,15 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
 
         private void NextLeftBattleTactics()
         {
-            var currentTacticsKey = _dataWorld.OneData<BattleCurrentData>().CurrentTacticsKey;
+            var openTacticsScreenComponent = _dataWorld.Select<OpenBattleTacticsUIComponent>()
+                .SelectFirst<OpenBattleTacticsUIComponent>();
             var battleTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
 
             var listTactics = new List<string>();
             foreach (var currentTactics in battleTactics)
                 listTactics.Add(currentTactics.Key);
             
-            var targetIndex = listTactics.IndexOf(currentTacticsKey);
+            var targetIndex = listTactics.IndexOf(openTacticsScreenComponent.CurrentSelectTacticsUI);
 
             var nextIndex = targetIndex - 1;
             if (nextIndex < 0)
@@ -42,14 +43,15 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
         
         private void NextRightBattleTactics()
         {
-            var currentTacticsKey = _dataWorld.OneData<BattleCurrentData>().CurrentTacticsKey;
+            var openTacticsScreenComponent = _dataWorld.Select<OpenBattleTacticsUIComponent>()
+                .SelectFirst<OpenBattleTacticsUIComponent>();
             var battleTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
 
             var listTactics = new List<string>();
             foreach (var currentTactics in battleTactics)
                 listTactics.Add(currentTactics.Key);
             
-            var targetIndex = listTactics.IndexOf(currentTacticsKey);
+            var targetIndex = listTactics.IndexOf(openTacticsScreenComponent.CurrentSelectTacticsUI);
 
             var nextIndex = targetIndex + 1;
             if (nextIndex > listTactics.Count - 1)
@@ -87,7 +89,11 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
                 }
             }
 
-            _dataWorld.OneData<BattleCurrentData>().CurrentTacticsKey = sortingTactics[0];
+            ref var openTacticsScreenComponent = ref _dataWorld.Select<OpenBattleTacticsUIComponent>()
+                .SelectFirst<OpenBattleTacticsUIComponent>();
+
+            openTacticsScreenComponent.CurrentSelectTacticsUI = sortingTactics[0];
+            
             BattleTacticsUIAction.UpdateCurrencyPlayerInBattle?.Invoke();
         }
 
