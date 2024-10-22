@@ -29,6 +29,7 @@ namespace CyberNet.Core.Battle
 
         private void SelectActionPlayers(PlayerInBattleComponent playerInBattle, bool isAttacking)
         {
+            /*
             var playerIsAI = BattleSupport.ControlEntityIsAI(playerInBattle.PlayerControlEntity);
             var playerIsNeutral = playerInBattle.PlayerControlEntity == PlayerOrAI.None;
             
@@ -40,9 +41,9 @@ namespace CyberNet.Core.Battle
             else if (playerIsNeutral)
             {
                 
-            }
+            }*/
         }
-
+/*
         private void ApplyAISelectTactics(PlayerInBattleComponent playerInBattle, SelectTacticsAndCardAIDTO selectTactics)
         {
             var targetCardEntity = _dataWorld.Select<CardComponent>()
@@ -58,7 +59,7 @@ namespace CyberNet.Core.Battle
         {
             
         }
-
+*/
         public void Destroy()
         {
             BattleTacticsUIAction.OnClickStartBattle -= StartBattle;

@@ -88,10 +88,12 @@ namespace EcsCore
                 LeadersView = leadersView.Result.Avatar,
                 NeutralLeaderAvatar = leadersView.Result.NeutralUnitAvatar,
             });
-            
+
+            var battleTacticsSOResult = battleTacticsSO.Result;
             world.CreateOneData(new BattleTacticsData {
-                BattleTactics = battleTacticsSO.Result.BattleTactics,
-                CardFoTacticsScreen = battleTacticsSO.Result.CardFoTacticsScreen,
+                BattleTactics = battleTacticsSOResult.BattleTactics,
+                CardFoTacticsScreen = battleTacticsSOResult.CardFoTacticsScreen,
+                KeyNeutralBattleCard = battleTacticsSOResult.KeyNeutralBattleCard,
             });
             
             world.CreateOneData(new SoundData { Sound = soundList.Result});

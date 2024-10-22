@@ -3,11 +3,7 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
-using CyberNet.Core.AI.Battle;
-using CyberNet.Core.Arena;
-using CyberNet.Core.Battle;
 using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
@@ -160,21 +156,9 @@ namespace CyberNet.Core.Battle
                 PlayerID = playerComponent.PlayerID,
                 PlayerControlEntity = playerComponent.playerOrAI,
                 IsAttacking = isAttacking,
-                PowerPoint = new PlayerStatsInBattle
-                {
-                    BaseValue = countUnit,
-                    AbilityValue = abilityPowerPoint,
-                },
-                KillPoint = new PlayerStatsInBattle
-                {
-                    BaseValue = 0,
-                    AbilityValue = abilityKillPoint,
-                },
-                DefencePoint = new PlayerStatsInBattle
-                {
-                    BaseValue = 0,
-                    AbilityValue = abilityDefencePoint,
-                },
+                PowerPoint = countUnit,
+                KillPoint = 0,
+                DefencePoint = 0,
             };
 
             playerEntity.AddComponent(playerInBattleComponent);
@@ -191,21 +175,9 @@ namespace CyberNet.Core.Battle
             {
                 PlayerID = neutral_unit_id,
                 PlayerControlEntity = PlayerOrAI.None,
-                PowerPoint = new PlayerStatsInBattle
-                {
-                    BaseValue = countUnit,
-                    AbilityValue = 0,
-                },
-                KillPoint = new PlayerStatsInBattle
-                {
-                    BaseValue = 0,
-                    AbilityValue = 0,
-                },
-                DefencePoint = new PlayerStatsInBattle
-                {
-                    BaseValue = 0,
-                    AbilityValue = 0,
-                },
+                PowerPoint = countUnit,
+                KillPoint = 0,
+                DefencePoint = 0,
             };
 
             var neutralPlayerInBattleEntity = _dataWorld.NewEntity();

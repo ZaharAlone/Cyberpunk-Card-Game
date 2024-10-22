@@ -11,5 +11,6 @@ namespace CyberNet.Core.Battle.TacticsMode
         public List<BattleTactics> BattleTactics;
 
         public InteractiveCardTacticsScreenMono CardFoTacticsScreen;
+        public string KeyNeutralBattleCard = "neutral_battle";
     }
 }

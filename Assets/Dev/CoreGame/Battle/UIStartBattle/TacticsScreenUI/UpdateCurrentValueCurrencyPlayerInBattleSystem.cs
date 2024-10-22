@@ -49,9 +49,9 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
         {
             var mapValue = new PowerKillDefenceDTO();
             
-            mapValue.PowerPoint = playerStats.PowerPoint.BaseValue + playerStats.PowerPoint.AbilityValue;
-            mapValue.KillPoint = playerStats.KillPoint.BaseValue + playerStats.KillPoint.AbilityValue;
-            mapValue.DefencePoint = playerStats.DefencePoint.BaseValue + playerStats.DefencePoint.AbilityValue;
+            mapValue.PowerPoint = playerStats.PowerPoint;
+            mapValue.KillPoint = playerStats.KillPoint;
+            mapValue.DefencePoint = playerStats.DefencePoint;
 
             return mapValue;
         }

@@ -139,9 +139,9 @@ namespace CyberNet.Core.Battle.TacticsMode
 
             if (playerInBattleComponent.IsAttacking)
             {
-                var powerCount = playerInBattleComponent.PowerPoint.BaseValue + playerInBattleComponent.PowerPoint.AbilityValue;
-                var killCount = playerInBattleComponent.KillPoint.BaseValue + playerInBattleComponent.KillPoint.AbilityValue;
-                var defenceCount = playerInBattleComponent.DefencePoint.BaseValue + playerInBattleComponent.DefencePoint.AbilityValue;
+                var powerCount = playerInBattleComponent.PowerPoint;
+                var killCount = playerInBattleComponent.KillPoint;
+                var defenceCount = playerInBattleComponent.DefencePoint;
                 
                 var powerString = powerCount.ToString();
                 var killString = killCount.ToString();
@@ -151,9 +151,9 @@ namespace CyberNet.Core.Battle.TacticsMode
             }
             else
             {
-                var powerString = TransformDefendingValueStats(playerInBattleComponent.PowerPoint.BaseValue);
-                var killString = TransformDefendingValueStats(playerInBattleComponent.KillPoint.BaseValue);
-                var defenceString = TransformDefendingValueStats(playerInBattleComponent.DefencePoint.BaseValue);
+                var powerString = TransformDefendingValueStats(playerInBattleComponent.PowerPoint);
+                var killString = TransformDefendingValueStats(playerInBattleComponent.KillPoint);
+                var defenceString = TransformDefendingValueStats(playerInBattleComponent.DefencePoint);
                 
                 uiTactics.PlayerStatsContainer_Defence.SetStats(powerString, killString, defenceString);
             }

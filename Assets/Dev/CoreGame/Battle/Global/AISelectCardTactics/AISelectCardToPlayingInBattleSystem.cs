@@ -22,145 +22,30 @@ namespace CyberNet.Core.Battle
         
         public void PreInit()
         {
-            //BattleAction.SelectTacticsAI += SelectAICardInBattle;
+            BattleAction.SelectTacticsAI += SelectAICardInBattle;
         }
-/*
-        private SelectTacticsAndCardAIDTO SelectAICardInBattle(bool isAttackingPlayer)
+
+        private void SelectAICardInBattle(int playerID)
         {
-            var currentPlayerData = GetPlayerData(isAttackingPlayer);
-            var enemyPlayerData = GetPlayerData(!isAttackingPlayer);
+            var playerInBattleEntity = _dataWorld.Select<PlayerInBattleComponent>()
+                .Where<PlayerInBattleComponent>(player => player.PlayerID == playerID)
+                .SelectFirstEntity();
+            var playerInBattleComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
             
-            var maxEnemyPower = CalculateEnemyMaxPower(enemyPlayerData);
+            var enemyPlayerID = _dataWorld.Select<PlayerInBattleComponent>()
+                .Where<PlayerInBattleComponent>(player => player.PlayerID != playerID)
+                .SelectFirst<PlayerInBattleComponent>().PlayerID;
             
-            var cardPlayerPotentialTactics = CalculatePlayerCardsPotential(currentPlayerData.PlayerID);
+            
+            var maxEnemyPower = BattleAction.CalculatePlayerMaxPower.Invoke(enemyPlayerID);
+            
+            var cardPlayerPotentialTactics = BattleAction.CalculatePlayerCardsPotential?.Invoke(playerID);
             var selectCardAndTactics = SelectCardAndTacticsMaxEfficiency(cardPlayerPotentialTactics, maxEnemyPower);
-            var selectTactics = new SelectTacticsAndCardAIDTO {
+            var selectTactics = new SelectTacticsAndCardComponent {
                 GUIDCard = selectCardAndTactics.GUID, BattleTactics = selectCardAndTactics.SelectTactics.Key,
             };
 
-            return selectTactics;
-        }
-
-        //Берем данные игрока из конфига
-        private PlayerInBattleComponent GetPlayerData(bool isGetAttackingPlayer)
-        {
-            var currentBattleData = _dataWorld.OneData<BattleCurrentData>();
-
-            if (isGetAttackingPlayer)
-                return currentBattleData.AttackingPlayer;
-            else
-                return currentBattleData.DefendingPlayer;
-        }
-
-        //Считаем максимальную силу противника, исходя из его карт, учитывая погрешность, т.к. мы не знаем какие сейчас
-        //карты на руке у игрока, + бот "не может помнить все", этим мы регулируем сложность боя
-        private int CalculateEnemyMaxPower(PlayerInBattleComponent playerInBattle)
-        {
-            var maxPower = 0;
-            var minPower = 100;
-
-            var cardPotentialTactics = CalculatePlayerCardsPotential(playerInBattle.PlayerID);
-
-            foreach (var cardPotential in cardPotentialTactics)
-            {
-                if (cardPotential.Power > maxPower)
-                    maxPower = cardPotential.Power;
-
-                if (cardPotential.Power < minPower)
-                    minPower = cardPotential.Power;
-            }
-
-            var chanceErrorCalculate = 0;
-            var botConfig = _dataWorld.OneData<BotConfigData>().BotConfigSO;
-
-            if (playerInBattle.PlayerControlEntity == PlayerOrAI.AIEasy)
-                chanceErrorCalculate = botConfig.MistakeInChoiceEasy;
-            else if (playerInBattle.PlayerControlEntity == PlayerOrAI.AIMedium)
-                chanceErrorCalculate = botConfig.MistakeInChoiceMedium;
-
-            var randomMaxErrorCalculate = Random.Range(-chanceErrorCalculate, chanceErrorCalculate);
-
-            maxPower += randomMaxErrorCalculate;
-
-            var actualMaxPower = maxPower + playerInBattle.PowerPoint.BaseValue;
-            var actualMinPower = minPower + playerInBattle.PowerPoint.BaseValue;
-
-            if (actualMaxPower < actualMinPower)
-                actualMaxPower = actualMinPower;
-            
-            return actualMaxPower;
-        }
-
-        //Составляем лист с потенциалом карт, чтобы на основе него в дальнейшем принимать решения
-        private List<CardSelectTacticsPotential> CalculatePlayerCardsPotential(int playerID)
-        {
-            var battleTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
-            var playerCardEntities = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.PlayerID == playerID)
-                .Without<CardDiscardComponent>()
-                .GetEntities();
-
-            var cardPotentialTactics = new List<CardSelectTacticsPotential>();
-            
-            foreach (var cardEntity in playerCardEntities)
-            {
-                var cardComponent = cardEntity.GetComponent<CardComponent>();
-
-                foreach (var selectTactics in battleTactics)
-                {
-                    var nextCardPotential = new CardSelectTacticsPotential {
-                        GUID = cardComponent.GUID, SelectTactics = selectTactics,
-                    };
-
-                    nextCardPotential = CalculatePowerPotential(nextCardPotential, cardComponent.ValueLeftPoint, selectTactics.LeftCharacteristics);
-                    nextCardPotential = CalculatePowerPotential(nextCardPotential, cardComponent.ValueRightPoint, selectTactics.RightCharacteristics);
-                    nextCardPotential = CalculateAbilityCard(cardComponent, nextCardPotential);
-                    
-                    cardPotentialTactics.Add(nextCardPotential);
-                }
-            }
-            
-            return cardPotentialTactics;
-        }
-
-        //Считаем "силу" левого и правого значения карты поочередно
-        private CardSelectTacticsPotential CalculatePowerPotential(CardSelectTacticsPotential tacticsPotential, int valueCard, BattleCharacteristics battleCharacteristics)
-        {
-            switch (battleCharacteristics)
-            {
-                case BattleCharacteristics.PowerPoint:
-                    tacticsPotential.Power += valueCard;
-                    break;
-                case BattleCharacteristics.KillPoint:
-                    tacticsPotential.Kill += valueCard;
-                    break;
-                case BattleCharacteristics.DefencePoint:
-                    tacticsPotential.Defence += valueCard;
-                    break;
-            }
-            return tacticsPotential;
-        }
-        
-        //Считаем силу абилки карты
-        private CardSelectTacticsPotential CalculateAbilityCard(CardComponent cardComponent, CardSelectTacticsPotential tacticsPotential)
-        {
-            if (cardComponent.Ability_1.AbilityType == AbilityType.None)
-                return tacticsPotential;
-
-            switch (cardComponent.Ability_1.AbilityType)
-            {
-                case AbilityType.PowerPoint:
-                    tacticsPotential.Power += cardComponent.Ability_1.Count;
-                    break;
-                case AbilityType.KillPoint:
-                    tacticsPotential.Kill += cardComponent.Ability_1.Count;
-                    break;
-                case AbilityType.DefencePoint:
-                    tacticsPotential.Defence += cardComponent.Ability_1.Count;
-                    break;
-            }
-
-            return tacticsPotential;
+            playerInBattleEntity.AddComponent(selectTactics);
         }
 
         private CardSelectTacticsPotential SelectCardAndTacticsMaxEfficiency(List<CardSelectTacticsPotential> cardPotentialTactics, int maxEnemyPower)
@@ -195,10 +80,10 @@ namespace CyberNet.Core.Battle
             
             return nextListCardPotential[0];
         }
-        */
+        
         public void Destroy()
-        {
-          //  BattleAction.SelectTacticsAI -= SelectAICardInBattle;
+        { 
+            BattleAction.SelectTacticsAI -= SelectAICardInBattle;
         }
     }
 }

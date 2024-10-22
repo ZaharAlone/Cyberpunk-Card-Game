@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
 using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
+using CyberNet.Core.Map;
+using CyberNet.Global;
 using UnityEngine;
-using System;
-using CyberNet.Core.Battle;
 
 namespace CyberNet.Core.Battle.TacticsMode
 {
@@ -13,6 +15,9 @@ namespace CyberNet.Core.Battle.TacticsMode
     {
         private DataWorld _dataWorld;
 
+        private const string kill_tactics_key = "KillKill";
+        private const int max_add_power_card_neutral_unit = 1;
+        
         public void PreInit()
         {
             BattleAction.SelectTacticsCardNeutralUnit += SelectTacticsCardNeutralUnit;
@@ -20,9 +25,92 @@ namespace CyberNet.Core.Battle.TacticsMode
         
         private void SelectTacticsCardNeutralUnit()
         {
+            var neutralPlayerEntity = _dataWorld.Select<PlayerInBattleComponent>()
+                .Where<PlayerInBattleComponent>(player => player.PlayerControlEntity == PlayerOrAI.None)
+                .SelectFirstEntity();
+
+            var neutralPlayerComponent = neutralPlayerEntity.GetComponent<PlayerInBattleComponent>();
+            var enemyPlayerID = _dataWorld.Select<PlayerInBattleComponent>()
+                .Where<PlayerInBattleComponent>(player => player.PlayerID != neutralPlayerComponent.PlayerID)
+                .SelectFirst<PlayerInBattleComponent>().PlayerID;
             
+            var isNeutralUnitsDistrict = CheckNeighboringDistrictWithNeutralUnits();
+            var currentDistrictBattle = _dataWorld.OneData<BattleCurrentData>().DistrictBattleGUID;
+            
+            var selectTacticsKey = "";
+            if (isNeutralUnitsDistrict)
+            {
+                var enemyMaxPower = BattleAction.CalculatePlayerMaxPower.Invoke(enemyPlayerID);
+                var countNeutralUnits = _dataWorld.Select<UnitMapComponent>()
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == currentDistrictBattle
+                        && unit.PlayerControl == PlayerControlEntity.NeutralUnits)
+                    .Count();
+
+                var listSuitableTactics = new List<string>();
+                // Есть ли шанс на победу нейтральных юнитов
+                if (enemyMaxPower <= countNeutralUnits + max_add_power_card_neutral_unit)
+                    listSuitableTactics = FilterSuitableTactics(BattleCharacteristics.PowerPoint);
+                else
+                    listSuitableTactics = FilterSuitableTactics(BattleCharacteristics.KillPoint);
+
+                var selectKeyIndex = Random.Range(0, listSuitableTactics.Count() - 1);
+                selectTacticsKey = listSuitableTactics[selectKeyIndex];
+            }
+            else
+            {
+                selectTacticsKey = kill_tactics_key;
+            }
+
+            var neutralCardKey = _dataWorld.OneData<BattleTacticsData>().KeyNeutralBattleCard;
+            var selectTactics = new SelectTacticsAndCardComponent {
+                KeyCard = neutralCardKey,
+                BattleTactics = selectTacticsKey,
+            };
+
+            neutralPlayerEntity.AddComponent(selectTactics);
         }
 
+        private bool CheckNeighboringDistrictWithNeutralUnits()
+        {
+            var currentDistrictBattle = _dataWorld.OneData<BattleCurrentData>().DistrictBattleGUID;
+            var districtComponent = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(district => district.GUID == currentDistrictBattle)
+                .SelectFirst<DistrictComponent>();
+
+            var isNeutralUnitsDistrict = false;
+
+            foreach (var districtConnectMono in districtComponent.DistrictMono.ZoneConnect)
+            {
+                var connectDistrictComponent = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(district => district.GUID == districtConnectMono.GUID)
+                    .SelectFirst<DistrictComponent>();
+
+                if (connectDistrictComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
+                {
+                    isNeutralUnitsDistrict = true;
+                    break;
+                }
+            }
+            
+            return isNeutralUnitsDistrict;
+        }
+
+        public List<string> FilterSuitableTactics(BattleCharacteristics targetCharacteristics)
+        {
+            var tacticsConfig = _dataWorld.OneData<BattleTacticsData>().BattleTactics;
+            var listSuitableTactics = new List<string>();
+
+            foreach (var battleTactics in tacticsConfig)
+            {
+                if (battleTactics.LeftCharacteristics == targetCharacteristics
+                    || battleTactics.RightCharacteristics == targetCharacteristics)
+                {
+                    listSuitableTactics.Add(battleTactics.Key);
+                }
+            }
+            return listSuitableTactics;
+        }
+        
         public void Destroy()
         {
             BattleAction.SelectTacticsCardNeutralUnit -= SelectTacticsCardNeutralUnit;

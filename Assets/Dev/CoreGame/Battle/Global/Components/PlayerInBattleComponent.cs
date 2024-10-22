@@ -11,15 +11,16 @@ namespace CyberNet.Core.Battle
         public PlayerOrAI PlayerControlEntity;
         public bool IsAttacking;
 
-        public PlayerStatsInBattle PowerPoint;
-        public PlayerStatsInBattle KillPoint;
-        public PlayerStatsInBattle DefencePoint;
+        public int PowerPoint;
+        public int KillPoint;
+        public int DefencePoint;
     }
 
+    /*
     [Serializable]
     public struct PlayerStatsInBattle
     {
         public int BaseValue;
         public int AbilityValue;
-    }
+    }*/
 }
