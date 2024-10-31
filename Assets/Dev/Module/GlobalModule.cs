@@ -16,6 +16,7 @@ using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Global.Sound;
 using CyberNet.Core.Map;
+using CyberNet.Global.BlackScreen;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Settings;
@@ -51,6 +52,7 @@ namespace EcsCore
             var supportLocalize = Load<SupportLocalizeSO>("SupportLocalizeSO", tasks);
             var bezierCurveConfigSO = Load<BezierCurveConfigSO>("BezierCurveConfigSO", tasks);
             var battleTacticsSO = Load<BattleTacticsSO>("BattleTacticsConfig", tasks);
+            var blackScreenUI = Load<GameObject>("BlackScreenUI", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -61,6 +63,7 @@ namespace EcsCore
             var metaUIGO = Object.Instantiate(metaUI.Result);
             var settingsUIGO = Object.Instantiate(settingsUI.Result);
             var popupUIGO = Object.Instantiate(popupUI.Result);
+            var blackScreenUIGO = Object.Instantiate(blackScreenUI.Result);
             Object.DontDestroyOnLoad(popupUIGO);
 
             world.CreateOneData(new GameCameraData { CameraGO = cameraObject });
@@ -101,6 +104,10 @@ namespace EcsCore
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
             world.CreateOneData(new BezierData { BezierCurveConfigSO = bezierCurveConfigSO.Result});
+            world.CreateOneData(new BlackScreenUIData {
+                BlackScreenUIMono = blackScreenUIGO.GetComponent<BlackScreenUIMono>()
+            });
+            
             _resource.Add(cameraObject);
 
             MF.World.InitModule<MetaModule>(true);

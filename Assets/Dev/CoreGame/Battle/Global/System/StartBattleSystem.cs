@@ -2,9 +2,10 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
+using CyberNet.Core.Battle.CutsceneArena;
 using CyberNet.Core.Battle.TacticsMode;
+using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
+using CyberNet.Core.UI;
 using CyberNet.Global;
 
 namespace CyberNet.Core.Battle
@@ -21,45 +22,54 @@ namespace CyberNet.Core.Battle
 
         private void StartBattle()
         {
-            var currentBattleData = _dataWorld.OneData<BattleCurrentData>();
+            var isPlayerIsCurrentDevice = _dataWorld.Select<PlayerInBattleComponent>()
+                .With<PlayerCurrentDeviceControlComponent>()
+                .Count() != 0;
+
+            MoveAllSelectCardToDiscard();
             
-            //SelectActionPlayers(currentBattleData.AttackingPlayer, true);
-            //SelectActionPlayers(currentBattleData.DefendingPlayer, false);
+            if (isPlayerIsCurrentDevice)
+                StartBattleCutscene();
+            else
+                StartBattleInMap();
         }
 
-        private void SelectActionPlayers(PlayerInBattleComponent playerInBattle, bool isAttacking)
+        private void MoveAllSelectCardToDiscard()
         {
-            /*
-            var playerIsAI = BattleSupport.ControlEntityIsAI(playerInBattle.PlayerControlEntity);
-            var playerIsNeutral = playerInBattle.PlayerControlEntity == PlayerOrAI.None;
-            
-            if (playerIsAI)
+            var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>()
+                .With<SelectTacticsAndCardComponent>().GetEntities();
+
+            foreach (var playerInBattleEntity in playerInBattleEntities)
             {
-                //var selectAITactics = BattleAction.SelectTacticsAI.Invoke(isAttacking);
-                //ApplyAISelectTactics(playerInBattle, selectAITactics);
+                var selectCardComponent = playerInBattleEntity.GetComponent<SelectTacticsAndCardComponent>();
+                if (!string.IsNullOrEmpty(selectCardComponent.GUIDCard))
+                {
+                    var targetCardEntity = _dataWorld.Select<CardComponent>()
+                        .Without<CardTacticsComponent>()
+                        .Where<CardComponent>(card => card.GUID == selectCardComponent.GUIDCard)
+                        .SelectFirstEntity();
+
+                    targetCardEntity.RemoveComponent<CardHandComponent>();
+                    //TODO дописать чтобы карты двигались в дискард без анимаций
+                    targetCardEntity.AddComponent(new CardMoveToDiscardComponent());
+                }
             }
-            else if (playerIsNeutral)
-            {
-                
-            }*/
+            
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
+            CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
         }
-/*
-        private void ApplyAISelectTactics(PlayerInBattleComponent playerInBattle, SelectTacticsAndCardAIDTO selectTactics)
+        
+        private void StartBattleCutscene()
         {
-            var targetCardEntity = _dataWorld.Select<CardComponent>()
-                .Where<CardComponent>(card => card.GUID == selectTactics.GUIDCard)
-                .SelectFirstEntity();
-
-            var targetCardComponent = targetCardEntity.GetComponent<CardComponent>();
-            
-            
+            BattleAction.CloseTacticsScreen?.Invoke();
+            BattleCutsceneAction.StartCutscene?.Invoke();
         }
-
-        private void PlayerApplySelectTactics()
+        
+        private void StartBattleInMap()
         {
             
         }
-*/
+        
         public void Destroy()
         {
             BattleTacticsUIAction.OnClickStartBattle -= StartBattle;

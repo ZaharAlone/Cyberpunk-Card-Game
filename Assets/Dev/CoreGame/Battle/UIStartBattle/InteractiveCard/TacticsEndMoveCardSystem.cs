@@ -60,14 +60,14 @@ namespace CyberNet.Core.InteractiveCard
                 }
 
                 entityCard.AddComponent(new CardMoveToTacticsScreenComponent());
-
+                
                 BattleTacticsUIAction.MoveCardToTacticsScreen?.Invoke();
             }
             
             CardAnimationsHandAction.AnimationsFanCardInTacticsScreen?.Invoke();
             _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
             
-            BattleTacticsUIAction.UpdateCurrencyPlayerInBattle?.Invoke();
+            BattleTacticsUIAction.UpdateCardAndTactics?.Invoke();
         }
         
         public void Destroy()

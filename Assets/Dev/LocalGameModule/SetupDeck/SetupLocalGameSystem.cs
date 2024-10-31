@@ -23,7 +23,7 @@ namespace CyberNet.Core
         //Инициализируем все карты
         private void SetupCard()
         {
-            var cardsConfig = _dataWorld.OneData<CardsConfig>();
+            var cardsConfig = _dataWorld.OneData<CardsConfigData>();
             ref var playerSelect = ref _dataWorld.OneData<SelectPlayerData>().SelectLeaders;
             var shopCard = new List<CardData>();
             var neutralShopCard = new List<CardData>();

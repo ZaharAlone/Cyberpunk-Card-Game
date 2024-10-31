@@ -76,7 +76,7 @@ namespace CyberNet.Core.InteractiveCard
             var cardComponent = entity.GetComponent<CardComponent>();
             var selectAbility = entity.GetComponent<CardAbilitySelectionCompletedComponent>().SelectAbility;
             
-            var configAbility = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            var configAbility = _dataWorld.OneData<CardsConfigData>().AbilityCard;
             var cardAbility = new AbilityCardContainer();
            
             if (selectAbility == SelectAbilityEnum.Ability_0)
@@ -129,7 +129,9 @@ namespace CyberNet.Core.InteractiveCard
                 .SelectFirstEntity();
 
             AddMoveCardComponent(cardEntity);
+
             BattleTacticsUIAction.CheckIsSelectCardTactics?.Invoke(guidCard);
+            BattleTacticsUIAction.UpdateCardAndTactics?.Invoke();
         }
         
         private void AddMoveCardComponent(Entity entity)

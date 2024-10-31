@@ -44,8 +44,6 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
                 .With<CardMoveToTacticsScreenComponent>()
                 .SelectFirstEntity();
             cardToMoveTacticsScreenEntity.RemoveComponent<CardMoveToTacticsScreenComponent>();
-            
-            _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BlockRaycastPanel.SetActive(false);
         }
 
         public void Destroy()

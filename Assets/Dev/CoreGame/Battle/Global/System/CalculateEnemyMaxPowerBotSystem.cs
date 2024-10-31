@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 namespace CyberNet.Core.Battle.TacticsMode
 {
     [EcsSystem(typeof(CoreModule))]
-    public class CalculateEnemyMaxPowerSystem : IPreInitSystem, IDestroySystem
+    public class CalculateEnemyMaxPowerBotSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
 

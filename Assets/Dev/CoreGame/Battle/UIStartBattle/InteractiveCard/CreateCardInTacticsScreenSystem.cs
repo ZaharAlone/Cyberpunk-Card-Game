@@ -17,6 +17,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
         public void PreInit()
         {
             BattleTacticsUIAction.CreateCardTactics += CreateCardTactics;
+            BattleTacticsUIAction.DestroyCardTactics += DestroyCardTactics;
         }
         
         private void CreateCardTactics()
@@ -59,9 +60,22 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
             CardAnimationsHandAction.AnimationsFanCardInTacticsScreen?.Invoke();
         }
 
+        private void DestroyCardTactics()
+        {
+            var cardTacticsEntities = _dataWorld.Select<CardTacticsComponent>().GetEntities();
+
+            foreach (var cardTacticEntity in cardTacticsEntities)
+            {
+                var cardComponent = cardTacticEntity.GetComponent<CardComponent>();
+                Object.Destroy(cardComponent.CardMono.gameObject);
+                cardTacticEntity.Destroy();
+            }
+        }
+        
         public void Destroy()
         {
             BattleTacticsUIAction.CreateCardTactics -= CreateCardTactics;
+            BattleTacticsUIAction.DestroyCardTactics -= DestroyCardTactics;
         }
     }
 }

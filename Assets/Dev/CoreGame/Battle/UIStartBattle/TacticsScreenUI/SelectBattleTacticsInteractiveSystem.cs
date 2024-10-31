@@ -94,7 +94,7 @@ namespace CyberNet.Core.Battle.TacticsMode.InteractiveCard
 
             openTacticsScreenComponent.CurrentSelectTacticsUI = sortingTactics[0];
             
-            BattleTacticsUIAction.UpdateCurrencyPlayerInBattle?.Invoke();
+            BattleTacticsUIAction.UpdateCardAndTactics?.Invoke();
         }
 
         private List<string> SortingTactics(string targetKeyTactics)

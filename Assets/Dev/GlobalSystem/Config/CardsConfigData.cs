@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace CyberNet
 {
     [Serializable]
-    public struct CardsConfig
+    public struct CardsConfigData
     {
         public Dictionary<string, CardConfigJson> Cards;
         public Dictionary<string, AbilityCardConfig> AbilityCard;

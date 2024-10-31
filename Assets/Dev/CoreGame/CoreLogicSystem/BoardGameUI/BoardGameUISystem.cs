@@ -76,7 +76,7 @@ namespace CyberNet.Core.UI
                 
                 if (playerComponent.playerOrAI == PlayerOrAI.Player)
                 {
-                    coreUIHud.EnableMainPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0);
+                    coreUIHud.SetEnableMainPlayerCurrentRound(playerComponent.PositionInTurnQueue == 0);
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace CyberNet.Core.UI
         private void ControlVFXCurrentPlayerArena(bool status)
         {
             var coreUIHud = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono;
-            coreUIHud.EnableMainPlayerCurrentRound(status);
+            coreUIHud.SetEnableMainPlayerCurrentRound(status);
         }
         
         public void Destroy()

@@ -44,6 +44,12 @@ namespace CyberNet.Core.Battle.TacticsMode
             _panel.SetActive(true);
             _background.SetActive(true);
         }
+        
+        public void HideTacticsUI()
+        {
+            _panel.SetActive(false);
+            _background.SetActive(false);
+        }
 
         public void OnClickNextLeftBattleTactics()
         {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CyberNet.Core.Arena
+namespace CyberNet.Core.Battle.CutsceneArena
 {
     public class UnitWeaponMono : MonoBehaviour
     {

@@ -20,6 +20,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         public void PreInit()
         {
             BattleAction.OpenTacticsScreen += OpenTacticsUI;
+            BattleAction.CloseTacticsScreen += CloseTacticsScreen;
         }
         
         private void OpenTacticsUI(int playerID)
@@ -31,7 +32,7 @@ namespace CyberNet.Core.Battle.TacticsMode
             var firstTactics = _dataWorld.OneData<BattleTacticsData>().BattleTactics[0];
             playerEntity.AddComponent(new OpenBattleTacticsUIComponent {CurrentSelectTacticsUI = firstTactics.Key});
             
-            ShowHideMapUI(false);
+            SetShowMapUI(false);
             SetViewAvatarPlayers();
             SetStatsPlayersInBattle();
             SetTacticsBarView();
@@ -42,16 +43,19 @@ namespace CyberNet.Core.Battle.TacticsMode
             uiTactics.ShowTacticsUI();
         }
 
-        private void CloseTacticsUI()
+        private void CloseTacticsScreen()
         {
-            _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity().Destroy();
-            ShowHideMapUI(true);
-
-            var openTacticsScreenEntity = _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity();
-            openTacticsScreenEntity.RemoveComponent<OpenBattleTacticsUIComponent>();
+            var openBattleTacticsUIEntity = _dataWorld.Select<OpenBattleTacticsUIComponent>().SelectFirstEntity();
+            openBattleTacticsUIEntity.RemoveComponent<OpenBattleTacticsUIComponent>();
+            
+            SetShowMapUI(true);
+            
+            var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
+            uiTactics.HideTacticsUI();
+            BattleTacticsUIAction.DestroyCardTactics?.Invoke();
         }
         
-        private void ShowHideMapUI(bool isShow)
+        private void SetShowMapUI(bool isShow)
         {
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
 
@@ -193,6 +197,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         public void Destroy()
         {
             BattleAction.OpenTacticsScreen -= OpenTacticsUI;
+            BattleAction.CloseTacticsScreen -= CloseTacticsScreen;
         }
     }
 }

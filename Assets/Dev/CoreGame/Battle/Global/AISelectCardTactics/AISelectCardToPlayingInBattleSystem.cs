@@ -2,14 +2,8 @@ using EcsCore;
 using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
-using UnityEngine;
-using System;
 using System.Collections.Generic;
-using CyberNet.Core.AbilityCard;
-using CyberNet.Core.AI;
 using CyberNet.Core.Battle.TacticsMode;
-using CyberNet.Global;
-using Random = UnityEngine.Random;
 
 namespace CyberNet.Core.Battle
 {
@@ -42,7 +36,7 @@ namespace CyberNet.Core.Battle
             var cardPlayerPotentialTactics = BattleAction.CalculatePlayerCardsPotential?.Invoke(playerID);
             var selectCardAndTactics = SelectCardAndTacticsMaxEfficiency(cardPlayerPotentialTactics, maxEnemyPower);
             var selectTactics = new SelectTacticsAndCardComponent {
-                GUIDCard = selectCardAndTactics.GUID, BattleTactics = selectCardAndTactics.SelectTactics.Key,
+                GUIDCard = selectCardAndTactics.GUID, BattleTacticsKey = selectCardAndTactics.SelectTactics.Key,
             };
 
             playerInBattleEntity.AddComponent(selectTactics);

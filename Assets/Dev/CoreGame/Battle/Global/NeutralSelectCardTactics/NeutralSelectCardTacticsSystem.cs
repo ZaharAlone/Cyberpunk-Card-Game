@@ -64,7 +64,7 @@ namespace CyberNet.Core.Battle.TacticsMode
             var neutralCardKey = _dataWorld.OneData<BattleTacticsData>().KeyNeutralBattleCard;
             var selectTactics = new SelectTacticsAndCardComponent {
                 KeyCard = neutralCardKey,
-                BattleTactics = selectTacticsKey,
+                BattleTacticsKey = selectTacticsKey,
             };
 
             neutralPlayerEntity.AddComponent(selectTactics);

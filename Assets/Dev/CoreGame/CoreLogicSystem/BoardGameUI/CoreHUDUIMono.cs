@@ -53,7 +53,7 @@ namespace  CyberNet.Core.UI
             PlayerDownView.IconsUnit.color = colorUnit;
         }
 
-        public void EnableMainPlayerCurrentRound(bool status)
+        public void SetEnableMainPlayerCurrentRound(bool status)
         {
             PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
             _playerVfxDownCard.SetActive(status);

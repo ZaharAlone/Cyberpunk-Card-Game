@@ -5,6 +5,7 @@ namespace CyberNet.Core.Battle.TacticsMode
     public static class BattleTacticsUIAction
     {
         public static Action CreateCardTactics;
+        public static Action DestroyCardTactics;
         
         public static Action<string> SelectBattleTactics;
 
@@ -22,6 +23,7 @@ namespace CyberNet.Core.Battle.TacticsMode
         public static Action<string> CheckIsSelectCardTactics;
         
         public static Action UpdateCurrencyPlayerInBattle;
+        public static Action UpdateCardAndTactics;
 
         public static Action OnClickStartBattle;
     }

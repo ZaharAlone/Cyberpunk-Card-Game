@@ -7,6 +7,6 @@ namespace CyberNet.Core.Battle.TacticsMode
     {
         public string GUIDCard;
         public string KeyCard;
-        public string BattleTactics;
+        public string BattleTacticsKey;
     }
 }
