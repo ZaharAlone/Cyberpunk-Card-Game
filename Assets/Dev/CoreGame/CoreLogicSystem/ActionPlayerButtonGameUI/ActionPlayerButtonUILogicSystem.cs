@@ -91,16 +91,17 @@ namespace CyberNet.Core
                     entity.RemoveComponent<CardComponentAnimations>();
                 }
                 
-                entity.AddComponent(new CardStartMoveToTableComponent());
-                entity.AddComponent(new CardPlayAllComponent());
+                entity.AddComponent(new CardMoveToDiscardComponent());
+                entity.AddComponent(new PlayAllTradeCardComponent());
             }
             
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();
+            AbilityCardAction.UpdateValueResourcePlayedCard?.Invoke();
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
         }
 
         private void ForceEndTurn()
         {
-            var actionButtonUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.CoreHudUIMono.CoreActionButtonAnimationsMono;
+            var actionButtonUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.ActionButtonMono.CoreActionButtonAnimationsMono;
             actionButtonUI.ForceHideButton();
             EndTurn();
         }
@@ -125,7 +126,6 @@ namespace CyberNet.Core
             foreach (var entity in cardInDeck)
             {
                 entity.RemoveComponent<CardAbilitySelectionCompletedComponent>();
-                entity.RemoveComponent<CardInTableComponent>();
                 entity.AddComponent(new CardMoveToDiscardComponent());
             }
 

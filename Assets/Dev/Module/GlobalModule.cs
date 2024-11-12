@@ -12,9 +12,11 @@ using CyberNet;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.AI;
+using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Global.Sound;
 using CyberNet.Core.Map;
+using CyberNet.Global.BlackScreen;
 using CyberNet.Global.Config;
 using CyberNet.Global.GameCamera;
 using CyberNet.Global.Settings;
@@ -49,6 +51,8 @@ namespace EcsCore
             var popupViewConfig = Load<PopupViewConfigSO>("PopupViewConfig", tasks);
             var supportLocalize = Load<SupportLocalizeSO>("SupportLocalizeSO", tasks);
             var bezierCurveConfigSO = Load<BezierCurveConfigSO>("BezierCurveConfigSO", tasks);
+            var battleTacticsSO = Load<BattleTacticsSO>("BattleTacticsConfig", tasks);
+            var blackScreenUI = Load<GameObject>("BlackScreenUI", tasks);
             tasks.Add(input);
 
             var alltask = Task.WhenAll(tasks.ToArray());
@@ -59,6 +63,7 @@ namespace EcsCore
             var metaUIGO = Object.Instantiate(metaUI.Result);
             var settingsUIGO = Object.Instantiate(settingsUI.Result);
             var popupUIGO = Object.Instantiate(popupUI.Result);
+            var blackScreenUIGO = Object.Instantiate(blackScreenUI.Result);
             Object.DontDestroyOnLoad(popupUIGO);
 
             world.CreateOneData(new GameCameraData { CameraGO = cameraObject });
@@ -68,10 +73,12 @@ namespace EcsCore
                 MetaUIMono = metaUIGO.GetComponent<MetaUIMono>(),
                 SettingsUIMono = settingsUIGO.GetComponent<SettingsUIMono>()
             });
+            
             world.CreateOneData(new PopupData {
                 PopupUIMono = popupUIGO.GetComponent<PopupUIMono>(),
                 PopupViewConfig = popupViewConfig.Result
             });
+            
             world.CreateOneData(new BoardGameData {
                 BoardGameConfig = boardGameConfig.Result,
                 BoardGameRule = boardGameRule.Result,
@@ -79,12 +86,28 @@ namespace EcsCore
                 CitySO = cityVisualSO.Result,
                 SupportLocalize = supportLocalize.Result
             });
-            world.CreateOneData(new LeadersViewData { LeadersView = leadersView.Result.Avatar });
+            
+            world.CreateOneData(new LeadersViewData {
+                LeadersView = leadersView.Result.Avatar,
+                NeutralLeaderAvatar = leadersView.Result.NeutralUnitAvatar,
+            });
+
+            var battleTacticsSOResult = battleTacticsSO.Result;
+            world.CreateOneData(new BattleTacticsData {
+                BattleTactics = battleTacticsSOResult.BattleTactics,
+                CardFoTacticsScreen = battleTacticsSOResult.CardFoTacticsScreen,
+                KeyNeutralBattleCard = battleTacticsSOResult.KeyNeutralBattleCard,
+            });
+            
             world.CreateOneData(new SoundData { Sound = soundList.Result});
             world.CreateOneData(new AbilityCardConfigData {AbilityCardConfig = abilityCardEffect.Result});
             world.CreateOneData(new DialogConfigData { DialogConfigSO = dialogConfig.Result});
             world.CreateOneData(new BotConfigData { BotConfigSO = botConfig.Result});
             world.CreateOneData(new BezierData { BezierCurveConfigSO = bezierCurveConfigSO.Result});
+            world.CreateOneData(new BlackScreenUIData {
+                BlackScreenUIMono = blackScreenUIGO.GetComponent<BlackScreenUIMono>()
+            });
+            
             _resource.Add(cameraObject);
 
             MF.World.InitModule<MetaModule>(true);

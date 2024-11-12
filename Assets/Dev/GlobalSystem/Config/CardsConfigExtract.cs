@@ -70,7 +70,7 @@ namespace CyberNet
             var cardConfig = JsonConvert.DeserializeObject<Dictionary<string, CardConfigJson>>(cardConfigJson);
             var abilityCardConfig = JsonConvert.DeserializeObject<Dictionary<string, AbilityCardConfig>>(boardGameData.BoardGameConfig.AbilityCardConfigJson.text);
             
-            _dataWorld.CreateOneData(new CardsConfig 
+            _dataWorld.CreateOneData(new CardsConfigData 
             {
                 Cards = cardConfig,
                 AbilityCard = abilityCardConfig,

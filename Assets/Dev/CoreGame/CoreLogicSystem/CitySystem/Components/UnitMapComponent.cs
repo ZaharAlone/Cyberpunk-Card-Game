@@ -5,8 +5,8 @@ namespace CyberNet.Core.Map
 {
     public struct UnitMapComponent
     {
-        //GUID башни где стоит юнит
-        public string GUIDTower;
+        //GUID района где стоит юнит
+        public string GUIDDistrict;
         //Индекс пойнта в башне
         public int IndexPoint;
         //GUID юнита

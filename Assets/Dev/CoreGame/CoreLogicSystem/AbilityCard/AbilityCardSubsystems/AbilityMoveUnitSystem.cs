@@ -1,11 +1,8 @@
-using CyberNet.Core.AbilityCard.UI;
-using CyberNet.Core.AI;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.InteractiveCard;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
-using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using CyberNet.Global.GameCamera;
@@ -48,17 +45,17 @@ namespace CyberNet.Core.AbilityCard
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
-            CityAction.SelectTower += SelectTower;
+            CityAction.SelectDistrict += SelectTower;
         }
 
         private void SelectTower(string towerGUID)
         {
             BezierCurveNavigationAction.OffBezierCurve?.Invoke();
-            CityAction.SelectTower -= SelectTower;
+            CityAction.SelectDistrict -= SelectTower;
             
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             ref var moveCardComponent = ref entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>();
-            moveCardComponent.SelectTowerGUID = towerGUID;
+            moveCardComponent.SelectDistrictGUID = towerGUID;
 
             entityMoveCard.AddComponent(new AbilityCardMoveUnitSelectTowerComponent());
             CityAction.UpdateCanInteractiveMap?.Invoke();
@@ -77,8 +74,8 @@ namespace CyberNet.Core.AbilityCard
                 .GetComponent<PlayerComponent>()
                 .PlayerID;
             
-            CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectTowerGUID);
-            CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectTowerGUID, currentPlayerID);
+            CityAction.ShowWherePlayerCanMoveFrom?.Invoke(canMoveUnitComponent.SelectDistrictGUID);
+            CityAction.ActivationsColliderUnitsInTower?.Invoke(canMoveUnitComponent.SelectDistrictGUID, currentPlayerID);
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 1, false);
             CityAction.SelectUnit += ClickOnUnit;
         }
@@ -114,7 +111,7 @@ namespace CyberNet.Core.AbilityCard
                 .Count();
 
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
-            var targetTowerGUID = entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>().SelectTowerGUID;
+            var targetTowerGUID = entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>().SelectDistrictGUID;
             
             if (countSelectUnit > 0)
             {
@@ -156,14 +153,14 @@ namespace CyberNet.Core.AbilityCard
                 var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono)
                 {
-                    if (towerMono.GUID == abilityCardMoveUnitComponent.SelectTowerGUID && towerMono.IsInteractiveTower)
+                    if (towerMono.GUID == abilityCardMoveUnitComponent.SelectDistrictGUID && towerMono.IsInteractiveTower)
                     {
                         isCurrentTowerSelect = true;
                         if (!abilityCardMoveUnitComponent.IsAimOn)
                         {
                             abilityCardMoveUnitComponent.IsAimOn = true;
                             CustomCursorAction.OnAimCursor?.Invoke();
-                            CityAction.SelectTower += SelectTowerToMove;
+                            CityAction.SelectDistrict += SelectDistrictToMove;
                         }
                     }
                 }
@@ -173,24 +170,24 @@ namespace CyberNet.Core.AbilityCard
             {
                 CustomCursorAction.OnBaseCursor?.Invoke();
                 abilityCardMoveUnitComponent.IsAimOn = false;
-                CityAction.SelectTower -= SelectTowerToMove;
+                CityAction.SelectDistrict -= SelectDistrictToMove;
             }
         }
 
-        private void SelectTowerToMove(string towerGUID)
+        private void SelectDistrictToMove(string districtGUID)
         {
             var entityMoveCard = _dataWorld.Select<AbilityCardMoveUnitComponent>().SelectFirstEntity();
             ref var abilityCardMoveUnitComponent = ref entityMoveCard.GetComponent<AbilityCardMoveUnitComponent>();
             
-            if (towerGUID != abilityCardMoveUnitComponent.SelectTowerGUID)
+            if (districtGUID != abilityCardMoveUnitComponent.SelectDistrictGUID)
                 return;
             
             CityAction.SelectUnit -= ClickOnUnit;
-            CityAction.SelectTower -= SelectTowerToMove;
-            ConfimMove();
+            CityAction.SelectDistrict -= SelectDistrictToMove;
+            ConfirmMove();
         }
 
-        private void ConfimMove()
+        private void ConfirmMove()
         {
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
             CityAction.DeactivationsColliderAllUnits?.Invoke();
@@ -210,6 +207,7 @@ namespace CyberNet.Core.AbilityCard
 
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
+            CustomCursorAction.OnBaseCursor?.Invoke();
         }
         
         private void CancelMoveUnit(string guidCard)
@@ -237,9 +235,9 @@ namespace CyberNet.Core.AbilityCard
                 entityCard.RemoveComponent<AbilityCardMoveUnitSelectTowerComponent>();
             
             CityAction.DeactivateAllTower?.Invoke();
-            CityAction.SelectTower -= SelectTower;
+            CityAction.SelectDistrict -= SelectTower;
             CityAction.SelectUnit -= ClickOnUnit;
-            CityAction.SelectTower -= SelectTowerToMove;
+            CityAction.SelectDistrict -= SelectDistrictToMove;
             CustomCursorAction.OnBaseCursor?.Invoke();
         }
 
@@ -247,7 +245,7 @@ namespace CyberNet.Core.AbilityCard
         {
             AbilityCardAction.MoveUnit -= MoveUnit;
             AbilityCardAction.CancelMoveUnit -= CancelMoveUnit;
-            CityAction.SelectTower -= SelectTower;
+            CityAction.SelectDistrict -= SelectTower;
         }
     }
 }

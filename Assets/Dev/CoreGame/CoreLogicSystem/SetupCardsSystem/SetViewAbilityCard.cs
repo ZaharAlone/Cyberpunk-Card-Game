@@ -7,7 +7,7 @@ namespace CyberNet.Core
 {
     public static class SetViewAbilityCard
     {
-        public static void SetView(Transform container, AbilityCardContainer ability, BoardGameData boardGameData, CardsConfig cardConfig, bool isOneAbility = false, bool abilityIsDifferentType = false)
+        public static void SetView(Transform container, AbilityCardContainer ability, BoardGameData boardGameData, CardsConfigData CardConfigData, bool isOneAbility = false, bool abilityIsDifferentType = false)
         {
             var boardGameConfig = boardGameData.BoardGameConfig;
             var viewCard = boardGameData.CardsViewConfig;
@@ -29,12 +29,12 @@ namespace CyberNet.Core
                 }
             }
 
-            SetAction(container, ability, boardGameConfig, viewCard, cardConfig, isOneAbility);
+            SetAction(container, ability, boardGameConfig, viewCard, CardConfigData, isOneAbility);
 
             container.gameObject.SetActive(true);
         }
 
-        private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsViewConfigSO viewCard, CardsConfig cardConfig, bool oneAbility = false)
+        private static void SetAction(Transform container, AbilityCardContainer ability, BoardGameConfig boardGameConfig, CardsViewConfigSO viewCard, CardsConfigData CardConfigData, bool oneAbility = false)
         {
             var abilityIsIcons = AbilityIsIconsView(ability.AbilityType);
             
@@ -49,7 +49,7 @@ namespace CyberNet.Core
             }
             else
             {
-                cardConfig.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
+                CardConfigData.AbilityCard.TryGetValue(ability.AbilityType.ToString(), out var abilityCardConfig);
                 var textCard = Object.Instantiate(viewCard.TextBaseAbility, container);
 
                 if (ability.Count > 1 && abilityCardConfig.abilityLocMany != null)

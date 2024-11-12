@@ -42,8 +42,12 @@ namespace CyberNet.Core
         public TextMeshProUGUI RightPointText;
         
         [Header("VFX")]
-        public GameObject VFXIsInteractiveCard;
-        public GameObject VFXFlashOutlineCard;
+        [SerializeField]
+        [Required]
+        private GameObject _vfxIsInteractiveCard;
+        [SerializeField]
+        [Required]
+        public GameObject _vfxCardInTargetZone;
 
         [Header("Discard Card")]
         [SerializeField]
@@ -73,19 +77,25 @@ namespace CyberNet.Core
             ImageDownBlockRect.sizeDelta = new Vector2(ImageDownBlockRect.sizeDelta.x, 120f);
             AbilityBlockRect.anchoredPosition = new Vector2(AbilityBlockRect.anchoredPosition.x, 120f);
         }
+
+        public void VFXCardReadyToInteractive()
+        {
+            _vfxIsInteractiveCard.SetActive(true);
+            _vfxCardInTargetZone.SetActive(false);
+        }
+
+        public void VFXDisable()
+        {
+            _vfxIsInteractiveCard.SetActive(false);
+            _vfxCardInTargetZone.SetActive(false);
+        }
         
-        public void SetStatusInteractiveVFX(bool status)
+        public void VFXCardInTargetZone()
         {
-            VFXIsInteractiveCard.SetActive(status);
+            _vfxIsInteractiveCard.SetActive(false);
+            _vfxCardInTargetZone.SetActive(true);
         }
-
-        public async void EnableVFXFlashOutlineCard()
-        {
-            VFXFlashOutlineCard.SetActive(true);
-            await Task.Delay(150);
-            VFXFlashOutlineCard.SetActive(false);
-        }
-
+        
         public void EnableDiscardCardEffect(bool status)
         {
             _discardCardEffectGO.SetActive(status);

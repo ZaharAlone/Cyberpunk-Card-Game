@@ -1,11 +1,14 @@
+using System.Collections.Generic;
 using CyberNet.Core.AbilityCard.DestroyCard;
 using UnityEngine;
 using CyberNet.Core.AbilityCard.UI;
+using CyberNet.Core.Battle;
 using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Dialog;
 using CyberNet.Core.WinLose;
 using CyberNet.Core.Traderow;
+using CyberNet.Core.UI.ActionButton;
 using CyberNet.Core.UI.CorePopup;
 using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Core.UI.TaskPlayerPopup;
@@ -20,6 +23,8 @@ namespace CyberNet.Core.UI
         public RectTransform UIRect;
         [Header("Core Game UI HUD")]
         public CoreHUDUIMono CoreHudUIMono;
+        [Required]
+        public ActionButtonMono ActionButtonMono;
 
         [Header("View Change Round")]
         public ChangeRoundUIMono ChangeRoundUI;
@@ -60,6 +65,10 @@ namespace CyberNet.Core.UI
         [Header("Battle Tactics")]
         [Required]
         public BattleTacticsModeUIMono BattleTacticsModeUIMono;
+
+        [Header("Win Lose Battle Popup")]
+        [Required]
+        public WinLoseBattleUIMono WinLoseBattleUIMono;
         
         public GameObject BlockRaycastPanel;
     }

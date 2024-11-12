@@ -45,7 +45,7 @@ namespace CyberNet.Tools.DebugGame
 
         public void SetListCardConfig()
         {
-            var cardConfig = _dataWorld.OneData<CardsConfig>().Cards;
+            var cardConfig = _dataWorld.OneData<CardsConfigData>().Cards;
             var keysList = new List<string>(cardConfig.Keys);
 
             var debugUI = _dataWorld.OneData<DebugData>().DebugUIMono;

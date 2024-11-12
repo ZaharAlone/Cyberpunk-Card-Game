@@ -4,8 +4,8 @@ namespace CyberNet.Core.Battle.TacticsMode
     [Serializable]
     public enum BattleCharacteristics
     {
-        Power,
-        Kill,
-        Defence,
+        PowerPoint,
+        KillPoint,
+        DefencePoint,
     }
 }

@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.UI;
+using UnityEngine;
 
 namespace CyberNet.Core
 {
@@ -17,29 +18,25 @@ namespace CyberNet.Core
             AbilityCardAction.AddTradePoint += CalculateAddResource;
         }
         
-        private void CalculateAddResource()
+        private void CalculateAddResource(string guidCard)
         {
-            var entities = _dataWorld.Select<AbilityCardAddResourceComponent>()
-                .GetEntities();
-
-            foreach (var entity in entities)
-                AddResource(entity);
-        }
-
-        private void AddResource(Entity entity)
-        {
-            ref var abilityAddResourceComponent = ref entity.GetComponent<AbilityCardAddResourceComponent>();
+            var cardEntity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .With<AbilityCardAddResourceComponent>()
+                .SelectFirstEntity();
+            
+            var abilityAddResourceComponent = cardEntity.GetComponent<AbilityCardAddResourceComponent>();
             ref var actionData = ref _dataWorld.OneData<ActionCardData>();
             
             actionData.TotalTrade += abilityAddResourceComponent.Count;
             
-            entity.RemoveComponent<AbilitySelectElementComponent>();
-            entity.RemoveComponent<AbilityCardAddResourceComponent>();
+            cardEntity.RemoveComponent<AbilitySelectElementComponent>();
+            cardEntity.RemoveComponent<AbilityCardAddResourceComponent>();
 
-            if (entity.HasComponent<CardPlayAllComponent>())
-                entity.RemoveComponent<CardPlayAllComponent>();
+            if (cardEntity.HasComponent<PlayAllTradeCardComponent>())
+                cardEntity.RemoveComponent<PlayAllTradeCardComponent>();
 
-            var isSomeMoreCardPlayAll = _dataWorld.Select<CardPlayAllComponent>().Count() > 0;
+            var isSomeMoreCardPlayAll = _dataWorld.Select<PlayAllTradeCardComponent>().Count() > 0;
             
             if (isSomeMoreCardPlayAll)
                 return;

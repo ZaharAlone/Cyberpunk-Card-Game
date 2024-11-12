@@ -8,5 +8,9 @@ namespace CyberNet.Core.AI
         [Header("Json")]
         public TextAsset BotAIConfigJson;
         public TextAsset BotNameConfig;
+
+        [Header("Config AI Complexity")]
+        public int MistakeInChoiceEasy = 4;
+        public int MistakeInChoiceMedium = 2;
     }
 }

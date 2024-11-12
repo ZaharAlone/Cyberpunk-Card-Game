@@ -7,7 +7,7 @@ namespace CyberNet.Core.Map
     {
         public static Vector3 SelectPosition(BoxCollider collider, Vector3 positions, List<Vector3> positionsOtherItem)
         {
-            // Переписать вьюху, когда юнитов становится больше 5, иконки заменяются на цифру
+            //TODO Переписать вьюху, когда юнитов становится больше 5, иконки заменяются на цифру
             
             var y = positions.y;
             var x = collider.size.x / 2;

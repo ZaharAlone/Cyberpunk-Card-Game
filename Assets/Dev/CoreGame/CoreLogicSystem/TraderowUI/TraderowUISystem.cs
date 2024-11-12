@@ -64,8 +64,8 @@ namespace CyberNet.Core.Traderow
 
         private void ShowTraderowAnimation()
         {
-            ref var uiTraderow = ref _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            var uiTraderow = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
+            var roundData = _dataWorld.OneData<RoundData>();
             
             if (roundData.PauseInteractive)
                 return;

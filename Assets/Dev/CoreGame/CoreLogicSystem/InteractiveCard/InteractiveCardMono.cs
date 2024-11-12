@@ -14,7 +14,7 @@ namespace CyberNet.Core.InteractiveCard
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            InteractiveActionCard.SelectCard?.Invoke(GUID);
+            InteractiveActionCard.SelectCardMap?.Invoke(GUID);
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -22,7 +22,7 @@ namespace CyberNet.Core.InteractiveCard
             if (_isMoveCard)
                 return;
             
-            InteractiveActionCard.DeselectCard?.Invoke(GUID);
+            InteractiveActionCard.DeselectCardMap?.Invoke(GUID);
         }
 
         public void OnPointerDown(PointerEventData eventData)

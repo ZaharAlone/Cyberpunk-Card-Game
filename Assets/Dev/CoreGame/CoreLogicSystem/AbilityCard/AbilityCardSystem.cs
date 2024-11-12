@@ -78,10 +78,9 @@ namespace CyberNet.Core.AbilityCard
                     break;
                 case AbilityType.Trade:
                     entity.AddComponent(new AbilityCardAddResourceComponent {
-                        AbilityType = abilityCardStruct.AbilityType,
                         Count = abilityCardStruct.Count
                     });
-                    AbilityCardAction.AddTradePoint?.Invoke();
+                    AbilityCardAction.AddTradePoint?.Invoke(guidCard);
                     break;
                 case AbilityType.DrawCard:
                     ActionDrawCard(abilityCardStruct.Count);
@@ -228,10 +227,10 @@ namespace CyberNet.Core.AbilityCard
             entityCard.RemoveComponent<InteractiveSelectCardComponent>();
             entityCard.RemoveComponent<CardComponentAnimations>();
             
-            entityCard.AddComponent(new CardStartMoveToTableComponent());
+            entityCard.AddComponent(new CardMoveToDiscardComponent());
             
             CardAnimationsHandAction.AnimationsFanCardInHand?.Invoke();
-            AnimationsMoveBoardCardAction.AnimationsMoveBoardCard?.Invoke();   
+            AnimationsMoveAtDiscardDeckAction.AnimationsMoveAtDiscardDeck?.Invoke();
             
             AbilityPopupUISystemAction.ClosePopup?.Invoke();
             AbilityInputButtonUIAction.HideInputUIButton?.Invoke();

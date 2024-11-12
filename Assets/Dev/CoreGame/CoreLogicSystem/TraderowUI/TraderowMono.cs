@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using CyberNet.Global.Sound;
 using DG.Tweening;
 using FMODUnity;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,8 +19,9 @@ namespace CyberNet.Core.Traderow
         [SerializeField]
         private EventReference _addEuroDollarSFX; 
         
-        [SerializeField]
-        private RectTransform _traderowContainer;
+        [Required]
+        public RectTransform TraderowContainer;
+        [Required]
         public RectTransform TraderowContainerForCard;
 
         private Sequence _sequence;
@@ -40,13 +42,12 @@ namespace CyberNet.Core.Traderow
 
         public void DisableTradeRow()
         {
-            Debug.LogError("Disable trade row");
-            _traderowContainer.gameObject.SetActive(false);
+            TraderowContainer.gameObject.SetActive(false);
         }
 
         public void EnableTradeRow()
         {
-            _traderowContainer.gameObject.SetActive(true);
+            TraderowContainer.gameObject.SetActive(true);
         }
         
         public void SetTradeValue(int tradeValue)
@@ -67,7 +68,7 @@ namespace CyberNet.Core.Traderow
 
         public void ShowFullTradeRowPanelAnimations()
         {
-            _sequence.Append(_traderowContainer
+            _sequence.Append(TraderowContainer
                 .DOAnchorPos(full_show_positions, _timeAnimations))
                 .OnComplete(()=> EndShowAnimations()); 
         }
@@ -79,17 +80,17 @@ namespace CyberNet.Core.Traderow
 
         public void TradeRowToMiniPanelAnimations()
         {
-            _sequence.Append(_traderowContainer.DOAnchorPos(show_mini_panel_positions, _timeAnimations));
+            _sequence.Append(TraderowContainer.DOAnchorPos(show_mini_panel_positions, _timeAnimations));
         }
 
         public void FullHideTradeRowAnimations()
         {
-            _sequence.Append(_traderowContainer.DOAnchorPos(full_hide_positions, _timeHidePanelAnimations));
+            _sequence.Append(TraderowContainer.DOAnchorPos(full_hide_positions, _timeHidePanelAnimations));
         }
 
         public void ForceFullHidePanel()
         {
-            _traderowContainer.anchoredPosition = full_hide_positions;
+            TraderowContainer.anchoredPosition = full_hide_positions;
         }
         
         public void OnPointerExit(PointerEventData eventData)

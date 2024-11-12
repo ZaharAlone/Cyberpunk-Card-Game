@@ -69,15 +69,6 @@ namespace EcsCore
             };
         }
 
-        /*
-        public override void OnDeactivate()
-        {
-            foreach (var item in _resource)
-                Object.Destroy(item);
-            
-            ModuleAction.DeactivateCoreModule?.Invoke();
-        }*/
-
         public override void OnDestroy()
         {
             foreach (var item in _resource)

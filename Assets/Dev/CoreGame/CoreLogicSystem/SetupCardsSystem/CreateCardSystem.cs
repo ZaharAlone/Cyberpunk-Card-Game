@@ -21,7 +21,7 @@ namespace CyberNet.Core
 
         private Entity CreateCard(CardData placeCard, Transform parent, bool isPlayerCard)
         {
-            var cardsConfig = _dataWorld.OneData<CardsConfig>();
+            var cardsConfig = _dataWorld.OneData<CardsConfigData>();
             var boardGameConfig = _dataWorld.OneData<BoardGameData>().BoardGameConfig;
             var cardMono = Object.Instantiate(boardGameConfig.CardGO, parent);
             var cardGO = cardMono.gameObject;
@@ -49,7 +49,7 @@ namespace CyberNet.Core
 
         private void SetViewCardNotInit(CardMono cardMono, string keyCard)
         {
-            var cardsConfig = _dataWorld.OneData<CardsConfig>();
+            var cardsConfig = _dataWorld.OneData<CardsConfigData>();
             cardsConfig.Cards.TryGetValue(keyCard, out var cardConfigJson);
             
             SetViewCard(cardMono, cardConfigJson, false);
@@ -58,7 +58,7 @@ namespace CyberNet.Core
         private void SetViewCard(CardMono card, CardConfigJson cardConfigJson, bool isBackCard)
         {
             var cardFace = card.CardFaceMono;
-            var cardConfig = _dataWorld.OneData<CardsConfig>();
+            var cardConfig = _dataWorld.OneData<CardsConfigData>();
             
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var cardsViewConfig = boardGameData.CardsViewConfig;

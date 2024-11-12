@@ -119,7 +119,7 @@ namespace CyberNet.Core
         private void OpenUISelectAbilityCard(CardComponent cardComponent)
         {
             var uiSelectAbility = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.SelectAbilityUIMono;
-            var cardsConfig = _dataWorld.OneData<CardsConfig>();
+            var cardsConfig = _dataWorld.OneData<CardsConfigData>();
 
             var boardGameData = _dataWorld.OneData<BoardGameData>();
             var cardsViewConfig = boardGameData.CardsViewConfig;

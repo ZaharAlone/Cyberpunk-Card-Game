@@ -36,7 +36,7 @@ namespace CyberNet.Core.AbilityCard
             if (playerComponent.playerOrAI != PlayerOrAI.Player)
                 return;
             
-            var abilityConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            var abilityConfig = _dataWorld.OneData<CardsConfigData>().AbilityCard;
             abilityConfig.TryGetValue(abilityType.ToString(), out var actionVisualConfig);
 
             if (indexDescr == 0)

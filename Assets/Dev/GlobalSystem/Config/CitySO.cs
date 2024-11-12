@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using CyberNet.Core.Arena;
+using CyberNet.Core.Battle.CutsceneArena;
 using I2.Loc;
 using UnityEngine.Serialization;
 

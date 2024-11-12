@@ -39,7 +39,8 @@ namespace CyberNet.Core
             var countTradePointBonusDistrict = 0;
 
             var districtEntities = _dataWorld.Select<DistrictComponent>()
-                .Where<DistrictComponent>(district => district.DistrictBelongPlayerID == idCurrentPlayer)
+                .Where<DistrictComponent>(district => district.DistrictBelongPlayerID == idCurrentPlayer
+                && district.PlayerControlEntity == PlayerControlEntity.PlayerControl)
                 .GetEntities();
 
             foreach (var districtEntity in districtEntities)

@@ -3,7 +3,7 @@ using CyberNet.Core.Map;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace CyberNet.Core.Arena
+namespace CyberNet.Core.Battle.CutsceneArena
 {
     public class UnitArenaMono : MonoBehaviour
     {

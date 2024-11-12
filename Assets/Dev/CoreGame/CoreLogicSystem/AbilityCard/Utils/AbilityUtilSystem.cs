@@ -41,7 +41,7 @@ namespace CyberNet.Core
         private bool CheckAbilityCard(AbilityType abilityType)
         {
             var currentRoundState = _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena;
-            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            var abilityCardConfig = _dataWorld.OneData<CardsConfigData>().AbilityCard;
             abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
             
             var isShow = false;
@@ -60,7 +60,7 @@ namespace CyberNet.Core
         
         private bool CheckAbilityIsPlayingOnMap(AbilityType abilityType)
         {
-            var abilityCardConfig = _dataWorld.OneData<CardsConfig>().AbilityCard;
+            var abilityCardConfig = _dataWorld.OneData<CardsConfigData>().AbilityCard;
             abilityCardConfig.TryGetValue(abilityType.ToString(), out var configCard);
 
             return configCard.VisualPlayingCard != VisualPlayingCardType.Battle;

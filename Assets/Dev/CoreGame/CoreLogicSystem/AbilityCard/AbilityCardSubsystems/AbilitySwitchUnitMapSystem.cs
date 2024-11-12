@@ -69,7 +69,7 @@ namespace CyberNet.Core.AbilityCard
             
             CityAction.ShowWhereZoneToPlayerID?.Invoke(-1);
             StartWorkAbility(guidCard);
-            CityAction.SelectTower += SwitchNeutralUnitMapSelectTower;
+            CityAction.SelectDistrict += SwitchNeutralUnitMapSelectTower;
         }
 
         private void StartWorkAbility(string guidCard)
@@ -87,7 +87,7 @@ namespace CyberNet.Core.AbilityCard
         private void SwitchNeutralUnitMapSelectTower(string towerGUID)
         {
             var unitEntity = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                     && unit.PowerSolidPlayerID == -1)
                 .SelectFirstEntity();
 
@@ -97,7 +97,7 @@ namespace CyberNet.Core.AbilityCard
 
             AbilityCardAction.AddTowerUnit?.Invoke(towerGUID);
             
-            CityAction.SelectTower -= SwitchNeutralUnitMapSelectTower;
+            CityAction.SelectDistrict -= SwitchNeutralUnitMapSelectTower;
             FinishWorkAbility();
         }
 
@@ -113,7 +113,7 @@ namespace CyberNet.Core.AbilityCard
             AbilityCardAction.SwitchEnemyUnitMap -= SwitchEnemyUnitMap;
             AbilityCardAction.SwitchNeutralUnitMap -= StartSwitchNeutralUnit;
             
-            CityAction.SelectTower -= SwitchNeutralUnitMapSelectTower;
+            CityAction.SelectDistrict -= SwitchNeutralUnitMapSelectTower;
         }
     }
 }

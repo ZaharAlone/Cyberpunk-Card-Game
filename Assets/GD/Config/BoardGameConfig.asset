@@ -16,7 +16,6 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 7f82c0f1fb78b3743a7975c0b7447ac4, type: 3}
     - {fileID: 21300000, guid: 8254cab71c190c44ab5879d1a47a1880, type: 3}
     - {fileID: 21300000, guid: f2e3f5e03d6527f4d9200a2abe4b5562, type: 3}
     - {fileID: 21300000, guid: bcb14e52b47126f47860695bb231d89d, type: 3}
@@ -39,13 +38,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: Attack
+      Data: Trade
     - Name: $v
       Entry: 10
       Data: 0
@@ -57,7 +56,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Trade
+      Data: KillPoint
     - Name: $v
       Entry: 10
       Data: 1
@@ -69,7 +68,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: KillPoint
+      Data: DefencePoint
     - Name: $v
       Entry: 10
       Data: 2
@@ -81,22 +80,10 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: DefencePoint
-    - Name: $v
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
       Data: PowerPoint
     - Name: $v
       Entry: 10
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -119,34 +106,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Attack
-    - Name: $v
-      Entry: 7
-      Data: UnityEngine.Color32, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 160
-    - Name: 
-      Entry: 3
-      Data: 14
-    - Name: 
-      Entry: 3
-      Data: 17
-    - Name: 
-      Entry: 3
-      Data: 255
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -361,8 +321,6 @@ MonoBehaviour:
   AbilityCardConfigJson: {fileID: 4900000, guid: d0298590b2e24d34aa5d35ddb5ca6a32,
     type: 3}
   LeaderConfigJson: {fileID: 4900000, guid: 38b4bb30bb0361849871c5a2765ef2ee, type: 3}
-  AbilityLeaderConfigJson: {fileID: 4900000, guid: 21aafbac168cef64dbff487dcbcd1565,
-    type: 3}
   SizeCardInDeck: {x: 0.25, y: 0.25, z: 0.25}
   SizeCardInTable: {x: 1, y: 1, z: 1}
   SizeCardInTraderow: {x: 0.9, y: 0.9, z: 1}
@@ -370,8 +328,7 @@ MonoBehaviour:
   SizeCardPlayerDown: {x: 0.75, y: 0.75, z: 0.75}
   NormalSize: {x: 1, y: 1, z: 1}
   SizeSelectCardHand: {x: 1.4, y: 1.4, z: 1.4}
-  SizeSelectCardTradeRow: {x: 1.6, y: 1.6, z: 1.6}
+  SizeSelectCardTradeRow: {x: 1.5, y: 1.5, z: 1.5}
   CursorConfigSO: {fileID: 11400000, guid: b89b4223b50f6984896069ce1882c33d, type: 2}
-  ArenaConfigSO: {fileID: 11400000, guid: 1e55a86209eb5e240885f8643995505c, type: 2}
   ColorsGameConfigSO: {fileID: 11400000, guid: 014ba5dd285ce3a42b30c38ea3a18254, type: 2}
   ViewEnemySO: {fileID: 11400000, guid: c24eab211e021ab45ac277f6e8fd9a16, type: 2}

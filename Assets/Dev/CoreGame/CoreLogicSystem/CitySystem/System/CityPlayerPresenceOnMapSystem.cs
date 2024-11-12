@@ -59,7 +59,7 @@ namespace CyberNet.Core.Map
                 var towerGUID = towerComponent.GUID;
 
                 var unitInTowerEntities = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID)
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID)
                     .GetEntities();
                 
                 var playersInTower = new List<int>();
@@ -91,7 +91,7 @@ namespace CyberNet.Core.Map
                 foreach (var playerID in playersInTower)
                 {
                     var countCurrentPlayerUnit = _dataWorld.Select<UnitMapComponent>()
-                        .Where<UnitMapComponent>(unit => unit.GUIDTower == towerGUID
+                        .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerGUID
                         && unit.PowerSolidPlayerID == playerID)
                         .Count();
 
@@ -138,14 +138,14 @@ namespace CyberNet.Core.Map
                 var isDouble = false;
                 foreach (var findGUID in isFindGUIDTower)
                 {
-                    if (findGUID == unitComponent.GUIDTower)
+                    if (findGUID == unitComponent.GUIDDistrict)
                         isDouble = true;
                 }
 
                 if (!isDouble)
                 {
-                    AddPresenceComponent(unitComponent.GUIDTower);
-                    isFindGUIDTower.Add(unitComponent.GUIDTower);
+                    AddPresenceComponent(unitComponent.GUIDDistrict);
+                    isFindGUIDTower.Add(unitComponent.GUIDDistrict);
                 }
             }
         }

@@ -4,7 +4,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using CyberNet.Core;
-using CyberNet.Core.Arena;
+using CyberNet.Core.Battle.CutsceneArena;
 using CyberNet.Core.Map;
 using CyberNet.Global;
 using CyberNet.Global.Config;

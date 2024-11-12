@@ -5,10 +5,7 @@ using CyberNet.Core.EnemyPassport;
 using CyberNet.Core.UI.ActionButton;
 using CyberNet.Core.UI.CorePopup;
 using Sirenix.OdinInspector;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace  CyberNet.Core.UI
 {
@@ -17,32 +14,36 @@ namespace  CyberNet.Core.UI
         [Header("Stats Players")]
         public PlayerTablet PlayerDownView;
         [SerializeField]
+        [Required]
         private GameObject _playerVfxDownCard;
 
-        [Header("Action Button")]
-        public CoreActionButtonAnimationsMono CoreActionButtonAnimationsMono;
-        public CoreElementInfoPopupButtonMono PopupActionButton;
-
-        [Header("Ability Button")]
-        public GameObject AbilityButton;
-        
         [Header("Draw and Discard")]
+        [Required]
         public RectTransform DownDiscard;
         [SerializeField]
+        [Required]
         private DeckButtonViewMono _discardDeckView;
+        [Required]
         public RectTransform DownDeck;
         [SerializeField]
+        [Required]
         private DeckButtonViewMono _drawDeckView;
-        public RectTransform PositionForUseCardPlayer;
 
         [Header("Enemy Passport")]
+        [Required]
         public GameObject EnemyPassportContainer;
+        [Required]
         public List<EnemyPassportFrameUIMono> EnemyPassports = new();
+        [Required]
         public PlayerEnemyTurnActionUIMono PlayerEnemyTurnActionUIMono;
 
         [Header("End Turn popup")]
         [Required]
         public EndTurnWarningPopupUIMono EndTurnWarningPopupUIMono;
+
+        [Header("Other")]
+        [Required]
+        public RectTransform ZoneHandCard;
         
         public void SetMainViewPassportNameAvatar(string name, Sprite avatar, Sprite iconsUnit, Color32 colorUnit)
         {
@@ -52,7 +53,7 @@ namespace  CyberNet.Core.UI
             PlayerDownView.IconsUnit.color = colorUnit;
         }
 
-        public void EnableMainPlayerCurrentRound(bool status)
+        public void SetEnableMainPlayerCurrentRound(bool status)
         {
             PlayerDownView.VFXEffect_current_turnPlayer.SetActive(status);
             _playerVfxDownCard.SetActive(status);
@@ -120,6 +121,16 @@ namespace  CyberNet.Core.UI
             }
         }
 
+        public void ShowCurrentPlayer()
+        {
+            PlayerDownView.PlayerPanel.SetActive(true);
+        }
+        
+        public void HideCurrentPlayer()
+        {
+            PlayerDownView.PlayerPanel.SetActive(false);
+        }
+
         public void HideEnemyPassport()
         {
             EnemyPassportContainer.SetActive(false);
@@ -128,6 +139,18 @@ namespace  CyberNet.Core.UI
         public void ShowEnemyPassport()
         {
             EnemyPassportContainer.SetActive(true);
+        }
+        
+        public void ShowButtons()
+        {
+            DownDiscard.gameObject.SetActive(true);
+            DownDeck.gameObject.SetActive(true);
+        }
+        
+        public void HideButtons()
+        {
+            DownDiscard.gameObject.SetActive(false);
+            DownDeck.gameObject.SetActive(false);
         }
     }
 }

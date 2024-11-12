@@ -2,7 +2,7 @@ using CyberNet.Core.Map;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace CyberNet.Core.Arena
+namespace CyberNet.Core.Battle.CutsceneArena
 {
     public struct ArenaUnitComponent
     {
