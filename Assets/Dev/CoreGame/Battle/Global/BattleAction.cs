@@ -22,5 +22,11 @@ namespace CyberNet.Core.Battle
         public static Action CalculateResultBattle;
 
         public static Func<PowerKillDefenceDTO, Entity, PowerKillDefenceDTO> CalculatePlayerStatsInBattle;
+
+        public static Action KillUnitInMapView;
+        public static Action EndAnimationsKillUnitsInMap;
+        public static Action ShowOtherPlayersBattleWinLoseInfo;
+
+        public static Func<int, bool> CheckBattleFriendlyUnitsPresenceNeighboringDistrict;
     }
 }

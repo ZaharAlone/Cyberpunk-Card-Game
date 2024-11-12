@@ -101,27 +101,26 @@ namespace CyberNet.Core.Battle.CutsceneArena
         {
             BattleAction.CalculateResultBattle?.Invoke();
             
-            ClearArenaEndBattle();
+            SwitchingVisualsArenaEndBattle();
             ControlViewGameUI(false);
+//            _dataWorld.DestroyModule<ArenaModule>();
             
-            CityAction.UpdatePresencePlayerInCity?.Invoke();   
-            _dataWorld.DestroyModule<ArenaModule>();
+            BattleAction.KillUnitInMapView?.Invoke();
         }
 
-        private void ClearArenaEndBattle()
+        private void SwitchingVisualsArenaEndBattle()
         {
             BlackScreenUIAction.AnimationsShowScreen?.Invoke();
             var arenaData = _dataWorld.OneData<ArenaData>();
             var cameraData = _dataWorld.OneData<GameCameraData>();
             var cityData = _dataWorld.OneData<CityData>();
 
-            ControlViewGameUI(false);
             arenaData.ArenaMono.DisableArena();
             arenaData.ArenaMono.DisableCamera();
             cameraData.CameraGO.SetActive(true);
             cityData.CityMono.OnCityLight();
 
-            //ClearArenaUnits();
+            //ClearArenaUnitsOnArena();
             
             ref var roundData = ref _dataWorld.OneData<RoundData>();
             roundData.PauseInteractive = false;
@@ -129,11 +128,10 @@ namespace CyberNet.Core.Battle.CutsceneArena
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             
             ActionPlayerButtonEvent.UpdateActionButton?.Invoke();
-            
             BlackScreenUIAction.AnimationsHideScreen?.Invoke();
         }
 
-        private void ClearArenaUnits()
+        private void ClearArenaUnitsOnArena()
         {
             var playerInArenaEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
             

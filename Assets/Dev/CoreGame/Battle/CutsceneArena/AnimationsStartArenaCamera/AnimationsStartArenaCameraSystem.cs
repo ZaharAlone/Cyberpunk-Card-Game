@@ -29,7 +29,7 @@ namespace CyberNet.Core.Arena
 
         private void StartAnimations(float time)
         {
-            ref var camera = ref _dataWorld.OneData<GameCameraData>();
+            var camera = _dataWorld.OneData<GameCameraData>();
             _valueFoVCamera = camera.CoreVirtualCamera.m_Lens.FieldOfView;
             
             var entity = _dataWorld.NewEntity();

@@ -46,7 +46,6 @@ namespace CyberNet.Core.UI
                 .Without<CardSelectInTacticsScreenComponent>()
                 .Without<CardMoveToTacticsScreenComponent>();
 
-            Debug.LogError("animations card in hand tactics screen");
             UpdateView(cardInHandQuery.GetEntities(), cardInHandQuery.Count());
         }
         

@@ -47,13 +47,13 @@ namespace CyberNet.Core.Map
             var parentUnitTower = targetTowerComponent.SquadZonesMono[targetSlotZone].transform;
             
             var allTargetPositions = new List<Vector3>();
-            var nextTargetPosition = SelectNextPositionsForUnit(allTargetPositions, selectDistrictForAttackGuid, targetSlotZone);
             
             foreach (var unitEntity in selectUnitEntities)
             {
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
                 ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
-                
+
+                var nextTargetPosition = SelectNextPositionsForUnit(allTargetPositions, selectDistrictForAttackGuid, targetSlotZone);
                 unitEntity.AddComponent(new MoveUnitToTargetComponent {
                     TargetPosition = nextTargetPosition,
                     TargetDistrictGUID = selectDistrictForAttackGuid,

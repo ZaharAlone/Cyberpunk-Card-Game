@@ -17,6 +17,7 @@ namespace CyberNet.Core.Battle.TacticsMode
 
         private const string kill_tactics_key = "KillKill";
         private const int max_add_power_card_neutral_unit = 1;
+        private const int neutral_player_id = -1;
         
         public void PreInit()
         {
@@ -34,7 +35,7 @@ namespace CyberNet.Core.Battle.TacticsMode
                 .Where<PlayerInBattleComponent>(player => player.PlayerID != neutralPlayerComponent.PlayerID)
                 .SelectFirst<PlayerInBattleComponent>().PlayerID;
             
-            var isNeutralUnitsDistrict = CheckNeighboringDistrictWithNeutralUnits();
+            var isNeutralUnitsDistrict = BattleAction.CheckBattleFriendlyUnitsPresenceNeighboringDistrict.Invoke(neutral_player_id);
             var currentDistrictBattle = _dataWorld.OneData<BattleCurrentData>().DistrictBattleGUID;
             
             var selectTacticsKey = "";
@@ -68,31 +69,6 @@ namespace CyberNet.Core.Battle.TacticsMode
             };
 
             neutralPlayerEntity.AddComponent(selectTactics);
-        }
-
-        private bool CheckNeighboringDistrictWithNeutralUnits()
-        {
-            var currentDistrictBattle = _dataWorld.OneData<BattleCurrentData>().DistrictBattleGUID;
-            var districtComponent = _dataWorld.Select<DistrictComponent>()
-                .Where<DistrictComponent>(district => district.GUID == currentDistrictBattle)
-                .SelectFirst<DistrictComponent>();
-
-            var isNeutralUnitsDistrict = false;
-
-            foreach (var districtConnectMono in districtComponent.DistrictMono.ZoneConnect)
-            {
-                var connectDistrictComponent = _dataWorld.Select<DistrictComponent>()
-                    .Where<DistrictComponent>(district => district.GUID == districtConnectMono.GUID)
-                    .SelectFirst<DistrictComponent>();
-
-                if (connectDistrictComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
-                {
-                    isNeutralUnitsDistrict = true;
-                    break;
-                }
-            }
-            
-            return isNeutralUnitsDistrict;
         }
 
         public List<string> FilterSuitableTactics(BattleCharacteristics targetCharacteristics)
