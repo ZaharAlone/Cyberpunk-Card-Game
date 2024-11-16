@@ -6,16 +6,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Battle;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using DG.Tweening;
 
-namespace CyberNet.Core.Map
+namespace CyberNet.Core.MapMoveUnit
 {
     [EcsSystem(typeof(CoreModule))]
-    public class MapMoveUnitsSystem : IPreInitSystem, IInitSystem, IDestroySystem
+    public class MapMoveUnitsAnimationsSystem : IPreInitSystem, IInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
@@ -31,9 +32,9 @@ namespace CyberNet.Core.Map
         
         private void StartMoveUnit()
         {
-            var selectDistrictForAttackGuid = _dataWorld.Select<AbilityCardMoveUnitComponent>()
+            var selectDistrictForAttackGuid = _dataWorld.Select<MoveUnitComponent>()
                 .SelectFirstEntity()
-                .GetComponent<AbilityCardMoveUnitComponent>()
+                .GetComponent<MoveUnitComponent>()
                 .SelectDistrictGUID;
 
             var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();

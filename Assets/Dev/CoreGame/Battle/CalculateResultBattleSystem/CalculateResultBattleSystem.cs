@@ -124,9 +124,14 @@ namespace CyberNet.Core.Battle.CutsceneArena
             var losingPlayerHasSomewhereToRetreat = BattleAction.CheckBattleFriendlyUnitsPresenceNeighboringDistrict.Invoke(playerInBattleComponent.PlayerID);
             if (!losingPlayerHasSomewhereToRetreat)
             {
+                Debug.Log("Игроку некуда отступать, все его юниты на территории умирают");
                 playerEntity.AddComponent(new NotZoneToRetreatLozingPlayerComponent());
                 if (!playerEntity.HasComponent<NumberOfDeathsUnitsInBattleComponent>())
                     playerEntity.AddComponent(new NumberOfDeathsUnitsInBattleComponent());
+            }
+            else
+            {
+                playerEntity.AddComponent(new SquadMustRetreatComponent());
             }
         }
         

@@ -1,4 +1,4 @@
-namespace CyberNet.Core.Map
+namespace CyberNet.Core.MapMoveUnit
 {
     public struct MoveUnitZoneData
     {

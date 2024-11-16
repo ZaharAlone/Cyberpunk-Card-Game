@@ -1,6 +1,6 @@
-namespace CyberNet.Core.AbilityCard
+namespace CyberNet.Core.MapMoveUnit
 {
-    public struct AbilityCardMoveUnitComponent
+    public struct MoveUnitComponent
     {
         public bool IsAimOn;
         public string SelectDistrictGUID;

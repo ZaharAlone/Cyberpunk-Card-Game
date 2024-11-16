@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
+using CyberNet.Core.MapMoveUnit;
 
 namespace CyberNet.Core.AI.Ability
 {
@@ -32,7 +33,7 @@ namespace CyberNet.Core.AI.Ability
             MoveUnit();
                         
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
-            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
+            entityCard.RemoveComponent<MoveUnitComponent>();
         }
         
         private void MoveUnit()
@@ -302,7 +303,7 @@ namespace CyberNet.Core.AI.Ability
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == _guidCard)
                 .SelectFirstEntity();
-            entityCard.AddComponent(new AbilityCardMoveUnitComponent {IsAimOn = true, SelectDistrictGUID = targetTowerComponent.GUID});
+            entityCard.AddComponent(new MoveUnitComponent {IsAimOn = true, SelectDistrictGUID = targetTowerComponent.GUID});
             
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }

@@ -37,8 +37,10 @@ namespace CyberNet.Core.Battle
             var listUniquePlayers = CalculateCountUniquePlayersInTargetDistrict(targetDistrictGUID);
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             listUniquePlayers.Remove(currentPlayerID);
-
+            
             _targetDistrictGUID = targetDistrictGUID;
+
+            _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
             
             if (listUniquePlayers.Count > 1)
                 SelectEnemyToBattle(listUniquePlayers);
@@ -186,7 +188,7 @@ namespace CyberNet.Core.Battle
 
         private void FinishBattle()
         {
-            
+            _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
         }
 
         public void Destroy()
