@@ -1,4 +1,5 @@
 using CyberNet.Core.Map;
+using CyberNet.Core.Map.InteractiveElement;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Core.UI.TaskPlayerPopup;
@@ -49,6 +50,7 @@ namespace CyberNet.Core.SelectFirstBase
             
             TaskPlayerPopupAction.OpenPopupSelectFirstBase?.Invoke();
             CityAction.ShowFirstBaseTower?.Invoke();
+            _dataWorld.NewEntity().AddComponent(new FollowClickDistrictComponent());
         }
         
         private void SelectedBase(string towerGUID)
@@ -88,6 +90,12 @@ namespace CyberNet.Core.SelectFirstBase
             
             towerEntity.RemoveComponent<FirstBasePlayerComponent>();
             playerEntity.RemoveComponent<PlayerNotInstallFirstBaseComponent>();
+
+            var isFollowTargetDistrict = _dataWorld.Select<FollowClickDistrictComponent>()
+                .TrySelectFirstEntity(out var followDistrictEntity);
+            
+            if (isFollowTargetDistrict)
+                followDistrictEntity.Destroy();
             
             var tradeRowUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.TraderowMono;
             tradeRowUI.TradeRowToMiniPanelAnimations();

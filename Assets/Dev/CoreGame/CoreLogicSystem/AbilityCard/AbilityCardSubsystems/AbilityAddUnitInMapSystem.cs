@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using CyberNet.Core.AI.Ability;
 using CyberNet.Core.BezierCurveNavigation;
 using CyberNet.Core.Map;
+using CyberNet.Core.Map.InteractiveElement;
 using CyberNet.Global;
 using UnityEngine;
 
@@ -29,11 +30,16 @@ namespace CyberNet.Core.AbilityCard
                 AbilityAIAction.AddUnitMap?.Invoke(guidCard);
                 return;
             }
-            
+
+            var cardEntity = _dataWorld.Select<CardComponent>()
+                .Where<CardComponent>(card => card.GUID == guidCard)
+                .SelectFirstEntity();
+            cardEntity.AddComponent(new FollowClickDistrictComponent());
+
             CityAction.ShowWhereZoneToPlayerID?.Invoke(roundData.CurrentPlayerID);
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.AddUnit, 0, false);
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
-            
+
             CityAction.SelectDistrict += AddUnitTower;
             AbilityCardAction.CancelAddUnitMap += CancelAddUnitMap;
         }
@@ -76,6 +82,7 @@ namespace CyberNet.Core.AbilityCard
 
             var cardComponent = entityCard.GetComponent<CardComponent>();
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
+            entityCard.RemoveComponent<FollowClickDistrictComponent>();
 
             AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
             CityAction.UpdateCanInteractiveMap?.Invoke();
@@ -112,6 +119,8 @@ namespace CyberNet.Core.AbilityCard
             }
             
             entityCard.RemoveComponent<AbilityCardAddUnitComponent>();
+            entityCard.RemoveComponent<FollowClickDistrictComponent>();
+            
             CityAction.SelectDistrict -= AddUnitTower;
         }
 

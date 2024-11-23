@@ -189,6 +189,19 @@ namespace CyberNet.Core.Battle
         private void FinishBattle()
         {
             _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
+
+            var playersInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
+            foreach (var playerInBattleEntity in playersInBattleEntities)
+            {
+                playerInBattleEntity.RemoveComponent<PlayerInBattleComponent>();
+                playerInBattleEntity.RemoveComponent<SelectTacticsAndCardComponent>();
+
+                if (playerInBattleEntity.HasComponent<PlayerLoseBattleComponent>())
+                    playerInBattleEntity.RemoveComponent<PlayerLoseBattleComponent>();
+
+                if (playerInBattleEntity.HasComponent<PlayerWinBattleComponent>())
+                    playerInBattleEntity.RemoveComponent<PlayerWinBattleComponent>();
+            }
         }
 
         public void Destroy()

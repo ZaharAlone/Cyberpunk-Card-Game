@@ -36,7 +36,7 @@ namespace CyberNet.Core.Map.InteractiveElement
                 return;
             
             var entityMoveCard = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
-            ref var abilityCardMoveUnitComponent = ref entityMoveCard.GetComponent<MoveUnitComponent>();
+            ref var moveUnitComponent = ref entityMoveCard.GetComponent<MoveUnitComponent>();
                 
             var inputData = _dataWorld.OneData<InputData>();
             var camera = _dataWorld.OneData<GameCameraData>();
@@ -48,24 +48,49 @@ namespace CyberNet.Core.Map.InteractiveElement
                 var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
                 if (towerMono)
                 {
-                    if (towerMono.GUID == abilityCardMoveUnitComponent.SelectDistrictGUID && towerMono.IsInteractiveTower)
+                    if (towerMono.GUID == moveUnitComponent.TargetToMoveDistrictGUID && towerMono.IsInteractiveTower)
                     {
                         isCurrentTowerSelect = true;
-                        if (!abilityCardMoveUnitComponent.IsAimOn)
+                        if (!moveUnitComponent.IsAimOn)
                         {
-                            abilityCardMoveUnitComponent.IsAimOn = true;
+                            moveUnitComponent.IsAimOn = true;
                             CustomCursorAction.OnAimCursor?.Invoke();
-                            CityAction.SelectDistrict += SelectDistrictToMove;
+                            EnableFollowClickDistrict();
                         }
                     }
                 }
             }
             
-            if (!isCurrentTowerSelect && abilityCardMoveUnitComponent.IsAimOn)
+            if (!isCurrentTowerSelect && moveUnitComponent.IsAimOn)
             {
                 CustomCursorAction.OnBaseCursor?.Invoke();
-                abilityCardMoveUnitComponent.IsAimOn = false;
-                CityAction.SelectDistrict -= SelectDistrictToMove;
+                moveUnitComponent.IsAimOn = false;
+                DisableFollowClickDistrict();
+            }
+        }
+        
+        private void EnableFollowClickDistrict()
+        {
+            var isFollowDistrict = _dataWorld.Select<MoveUnitComponent>()
+                .With<FollowClickDistrictComponent>()
+                .Count() > 0;
+            if (isFollowDistrict)
+                return;
+
+            var moveUnitEntity = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
+            moveUnitEntity.AddComponent(new FollowClickDistrictComponent());
+        }
+
+        private void DisableFollowClickDistrict()
+        {
+            var isFollowClickDistrictQuery = _dataWorld.Select<FollowClickDistrictComponent>();
+
+            if (isFollowClickDistrictQuery.Count() > 0)
+            {
+                foreach (var followClickEntity in isFollowClickDistrictQuery.GetEntities())
+                {
+                    followClickEntity.RemoveComponent<FollowClickDistrictComponent>();
+                }
             }
         }
     }

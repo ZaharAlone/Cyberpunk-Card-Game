@@ -27,11 +27,14 @@ namespace CyberNet.Core.Battle
         {
             var isKilledUnits = SelectAllUnitKilled();
             
-            Debug.LogError($"is killed units in battle: {isKilledUnits}");
+            Debug.Log($"Is killed units in battle: {isKilledUnits}");
             if (isKilledUnits)
                 ShowViewKilledUnit();
             else
+            {
                 BattleAction.EndAnimationsKillUnitsInMap?.Invoke();
+                BattleAction.FinishBattle?.Invoke();
+            }
         }
 
         private bool SelectAllUnitKilled()
@@ -103,6 +106,7 @@ namespace CyberNet.Core.Battle
             }
             
             BattleAction.EndAnimationsKillUnitsInMap?.Invoke();
+            BattleAction.FinishBattle?.Invoke();
         }
 
         public void Destroy()

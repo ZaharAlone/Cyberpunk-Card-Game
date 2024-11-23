@@ -28,25 +28,25 @@ namespace CyberNet.Core.AbilityCard
 
         private void MoveUnit(string guidCard)
         {
-            ref var roundData = ref _dataWorld.OneData<RoundData>();
+            var roundData = _dataWorld.OneData<RoundData>();
 
             if (roundData.playerOrAI != PlayerOrAI.Player)
-            {
                 AbilityAIAction.MoveUnit?.Invoke(guidCard);
-                return;
-            }
-
+            else
+                SetupPlayerSelectTower(guidCard);
+        }
+        
+        private void SetupPlayerSelectTower(string guidCard)
+        {
             _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
                 .SelectFirstEntity()
                 .AddComponent(new AbilityCardMoveUnitInProgressComponent());
+
+            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
+            _dataWorld.NewEntity().AddComponent(new MoveUnitComponent { PlayerID = currentPlayerID});
             
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 0, false);
-            PreSelectTower(guidCard);
-        }
-        
-        private void PreSelectTower(string guidCard)
-        {
             BezierCurveNavigationAction.StartBezierCurveCard?.Invoke(guidCard, BezierTargetEnum.Tower);
             CityAction.ShowWherePlayerCanMove?.Invoke();
 
@@ -62,7 +62,7 @@ namespace CyberNet.Core.AbilityCard
 
             var entityMoveCard = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
             ref var moveCardComponent = ref entityMoveCard.GetComponent<MoveUnitComponent>();
-            moveCardComponent.SelectDistrictGUID = towerGUID;
+            moveCardComponent.TargetToMoveDistrictGUID = towerGUID;
 
             entityMoveCard.AddComponent(new MoveUnitSelectTowerComponent());
             CityAction.UpdateCanInteractiveMap?.Invoke();
@@ -83,11 +83,12 @@ namespace CyberNet.Core.AbilityCard
             
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 1, false);
             var followDistrictConfig = new TargetDistrictAndPlayerIDDTO {
-                GUIDDistrict = canMoveUnitComponent.SelectDistrictGUID, TargetPlayerID = currentPlayerID
+                GUIDDistrict = canMoveUnitComponent.TargetToMoveDistrictGUID, TargetPlayerID = currentPlayerID
             };
             FollowSelectInteractiveMapAction.StartFollowSelectUnit?.Invoke(followDistrictConfig);
-
             FollowSelectInteractiveMapAction.UpdateSelectUnit += CheckUpdateReadinessUnitsForShipment;
+            
+            CityAction.SelectDistrict += SelectDistrictToMove;
         }
         
         //Проверяем могут ли быть отправлены отряды сейчас
@@ -97,7 +98,7 @@ namespace CyberNet.Core.AbilityCard
                 .Count();
 
             var entityMoveCard = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
-            var targetTowerGUID = entityMoveCard.GetComponent<MoveUnitComponent>().SelectDistrictGUID;
+            var targetTowerGUID = entityMoveCard.GetComponent<MoveUnitComponent>().TargetToMoveDistrictGUID;
             
             if (countSelectUnit > 0)
                 CityAction.EnableInteractiveTower?.Invoke(targetTowerGUID);
@@ -105,6 +106,43 @@ namespace CyberNet.Core.AbilityCard
                 CityAction.DisableInteractiveTower?.Invoke(targetTowerGUID);
         }
 
+        private void SelectDistrictToMove(string districtGUID)
+        {
+            var entityMoveCard = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
+            var abilityCardMoveUnitComponent = entityMoveCard.GetComponent<MoveUnitComponent>();
+            
+            if (abilityCardMoveUnitComponent.TargetToMoveDistrictGUID != districtGUID)
+                return;
+            
+            FollowSelectInteractiveMapAction.EndFollowSelectUnit?.Invoke();
+            FollowSelectInteractiveMapAction.UpdateSelectUnit -= CheckUpdateReadinessUnitsForShipment;
+            CityAction.SelectDistrict -= SelectDistrictToMove;
+            ConfirmMove();
+        }
+
+        private void ConfirmMove()
+        {
+            MapMoveUnitsAction.StartMoveUnits?.Invoke();
+            CityAction.DeactivationsColliderAllUnits?.Invoke();
+            EndPlayingCard();
+        }
+        
+        private void EndPlayingCard()
+        {
+            var entityCard = _dataWorld.Select<CardComponent>()
+                .With<AbilityCardMoveUnitInProgressComponent>()
+                .SelectFirstEntity();
+
+            var cardComponent = entityCard.GetComponent<CardComponent>();
+            entityCard.RemoveComponent<AbilityCardMoveUnitInProgressComponent>();
+            
+            AbilityCardAction.CompletePlayingAbilityCard?.Invoke(cardComponent.GUID);
+
+            CityAction.UpdateCanInteractiveMap?.Invoke();
+            CityAction.UpdatePresencePlayerInCity?.Invoke();
+            CustomCursorAction.OnBaseCursor?.Invoke();
+        }
+        
         private void CancelMoveUnit(string guidCard)
         {
             var entityCard = _dataWorld.Select<CardComponent>()
@@ -117,22 +155,30 @@ namespace CyberNet.Core.AbilityCard
             foreach (var unitEntity in selectUnitsMapEntities)
             {
                 var unitComponent = unitEntity.GetComponent<UnitMapComponent>();
+                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
-                unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();   
             }
-            
-            entityCard.RemoveComponent<MoveUnitComponent>();
-            
+
             if (entityCard.HasComponent<SelectTargetCardAbilityComponent>())
                 entityCard.RemoveComponent<SelectTargetCardAbilityComponent>();
             
-            if (entityCard.HasComponent<MoveUnitSelectTowerComponent>())
-                entityCard.RemoveComponent<MoveUnitSelectTowerComponent>();
+            if (entityCard.HasComponent<AbilityCardMoveUnitInProgressComponent>())
+                entityCard.RemoveComponent<AbilityCardMoveUnitInProgressComponent>();
             
+            var isMoveUnitEntity = _dataWorld.Select<MoveUnitComponent>().TrySelectFirstEntity(out var moveUnitEntity);
+            if (isMoveUnitEntity)
+                moveUnitEntity.Destroy();
+            
+            var isFollowSelectDistrictEntity = _dataWorld.Select<FollowClickDistrictComponent>()
+                .TrySelectFirstEntity(out var followSelectDistrictEntity);
+            if (isFollowSelectDistrictEntity)
+                followSelectDistrictEntity.RemoveComponent<FollowClickDistrictComponent>();
+                
             CityAction.DeactivateAllTower?.Invoke();
             CityAction.SelectDistrict -= SelectTower;
-            CityAction.SelectUnit -= ClickOnUnit;
             CityAction.SelectDistrict -= SelectDistrictToMove;
+            FollowSelectInteractiveMapAction.EndFollowSelectUnit?.Invoke();
+            FollowSelectInteractiveMapAction.UpdateSelectUnit -= CheckUpdateReadinessUnitsForShipment;
             CustomCursorAction.OnBaseCursor?.Invoke();
         }
 
