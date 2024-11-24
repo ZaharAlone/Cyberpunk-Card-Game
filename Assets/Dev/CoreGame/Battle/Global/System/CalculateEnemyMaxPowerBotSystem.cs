@@ -84,7 +84,9 @@ namespace CyberNet.Core.Battle.TacticsMode
                 foreach (var selectTactics in battleTactics)
                 {
                     var nextCardPotential = new CardSelectTacticsPotential {
-                        GUID = cardComponent.GUID, SelectTactics = selectTactics,
+                        GUID = cardComponent.GUID,
+                        Key = cardComponent.Key,
+                        SelectTactics = selectTactics,
                     };
 
                     nextCardPotential = CalculatePowerPotential(nextCardPotential, cardComponent.ValueLeftPoint, selectTactics.LeftCharacteristics);

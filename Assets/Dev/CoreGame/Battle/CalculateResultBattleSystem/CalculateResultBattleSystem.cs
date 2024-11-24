@@ -32,21 +32,32 @@ namespace CyberNet.Core.Battle.CutsceneArena
             var defendingPlayerStats = GetPowerPlayer(defendingPlayerEntity);
             
             //Считаем убитых
-            var numberOfDeathsAttackingPlayer = CalculateCountKillUnit(defendingPlayerStats, attackingPlayerStats);
-            var numberOfDeathsDefendingPlayer = CalculateCountKillUnit(attackingPlayerStats, defendingPlayerStats);
+            var countOfDeathsAttacking = defendingPlayerStats.KillPoint - attackingPlayerStats.DefencePoint;
+            var countOfDeathsDefending = attackingPlayerStats.KillPoint - defendingPlayerStats.DefencePoint;
 
-            Debug.Log($"Атакующий убивает у защитника {numberOfDeathsDefendingPlayer.CountUnitDeaths}");
-            Debug.Log($"Защищающийся убивает у атакующего {numberOfDeathsAttackingPlayer.CountUnitDeaths}");
-            
-            if (numberOfDeathsAttackingPlayer.CountUnitDeaths > 0)
-                attackingPlayerEntity.AddComponent(numberOfDeathsAttackingPlayer);
-            if (numberOfDeathsDefendingPlayer.CountUnitDeaths > 0)
-                defendingPlayerEntity.AddComponent(numberOfDeathsDefendingPlayer);
+            Debug.Log($"Атакующий убивает у защитника {countOfDeathsAttacking}");
+            Debug.Log($"Защищающийся убивает у атакующего {countOfDeathsDefending}");
 
+            if (countOfDeathsAttacking > 0)
+            {
+                attackingPlayerEntity.AddComponent(new NumberOfDeathsUnitsInBattleComponent
+                {
+                    CountUnitDeaths = countOfDeathsAttacking
+                });
+            }
+            if (countOfDeathsDefending > 0)
+            {
+                defendingPlayerEntity.AddComponent(new NumberOfDeathsUnitsInBattleComponent
+                {
+                    CountUnitDeaths = countOfDeathsDefending
+                });
+            }
             //Считаем выживших
-            var attackingCountLifeUnits = CountLifeUnitPlayers(attackingPlayerEntity, numberOfDeathsAttackingPlayer.CountUnitDeaths);
-            var defendingCountLifeUnits = CountLifeUnitPlayers(defendingPlayerEntity, numberOfDeathsDefendingPlayer.CountUnitDeaths);
+            var attackingCountLifeUnits = CountLifeUnitPlayers(attackingPlayerEntity, countOfDeathsAttacking);
+            var defendingCountLifeUnits = CountLifeUnitPlayers(defendingPlayerEntity, countOfDeathsDefending);
 
+            Debug.Log($"Кол-во выживших: атакующие {attackingCountLifeUnits} защищающиеся {defendingCountLifeUnits}");
+            
             //Определяем победителя если с одной стороны все погибли
             if (attackingCountLifeUnits > 0 && defendingCountLifeUnits <= 0)
             {
@@ -67,13 +78,13 @@ namespace CyberNet.Core.Battle.CutsceneArena
                 SetWinLosePlayer(attackingPlayerEntity, defendingPlayerEntity);
                 Debug.Log("Победил атакующий, по паверу");
 
-                CheckFriendlyNeighboringDistrict(defendingPlayerEntity);
+                SetSquadRetreat(defendingPlayerEntity);
             }
             else
             {
                 SetWinLosePlayer(defendingPlayerEntity, attackingPlayerEntity);
                 Debug.Log("Победил защищающийся, по паверу");
-                CheckFriendlyNeighboringDistrict(attackingPlayerEntity);
+                SetSquadRetreat(attackingPlayerEntity);
             }
         }
 
@@ -86,17 +97,7 @@ namespace CyberNet.Core.Battle.CutsceneArena
 
             return valuePowerInBattle;
         }
-
-        private NumberOfDeathsUnitsInBattleComponent CalculateCountKillUnit(PowerKillDefenceDTO attackingSideStats, PowerKillDefenceDTO defendingSideStats)
-        {
-            var countKillUnit = attackingSideStats.KillPoint - defendingSideStats.DefencePoint;
-
-            var numberOfDeathsUnitsInBattleComponent = new NumberOfDeathsUnitsInBattleComponent {
-                CountUnitDeaths = countKillUnit
-            };
-            return numberOfDeathsUnitsInBattleComponent;
-        }
-
+        
         private int CountLifeUnitPlayers(Entity playerEntity, int countKillUnit)
         {
             var playerInBattleComponent = playerEntity.GetComponent<PlayerInBattleComponent>();
@@ -117,10 +118,10 @@ namespace CyberNet.Core.Battle.CutsceneArena
             losingEntity.AddComponent(new PlayerLoseBattleComponent());
         }
 
-        private void CheckFriendlyNeighboringDistrict(Entity playerEntity)
+        private void SetSquadRetreat(Entity playerEntity)
         {
             var playerInBattleComponent = playerEntity.GetComponent<PlayerInBattleComponent>();
-
+            
             var losingPlayerHasSomewhereToRetreat = BattleAction.CheckBattleFriendlyUnitsPresenceNeighboringDistrict.Invoke(playerInBattleComponent.PlayerID);
             if (!losingPlayerHasSomewhereToRetreat)
             {
@@ -131,6 +132,7 @@ namespace CyberNet.Core.Battle.CutsceneArena
             }
             else
             {
+                Debug.Log("Добавляем игроку компонент отступления бойцов");
                 playerEntity.AddComponent(new SquadMustRetreatComponent());
             }
         }

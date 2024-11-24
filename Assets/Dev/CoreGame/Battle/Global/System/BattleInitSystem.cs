@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
+using CyberNet.Core.AI;
 using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
@@ -100,7 +101,15 @@ namespace CyberNet.Core.Battle
                     BattleAction.SelectTacticsAI?.Invoke(playerComponent.PlayerID);
                 }
             }
+
+            var notCurrentPlayerToDevice = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .With<PlayerCurrentDeviceControlComponent>()
+                .Count() == 0;
             
+            if (notCurrentPlayerToDevice)
+                BattleAction.StartBattleInMap?.Invoke();
+
             //TODO Ждать пока все определяться с выбором тактики
         }
         
@@ -188,6 +197,7 @@ namespace CyberNet.Core.Battle
 
         private void FinishBattle()
         {
+            Debug.LogError("Finish battle");
             _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
 
             var playersInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
@@ -202,6 +212,13 @@ namespace CyberNet.Core.Battle
                 if (playerInBattleEntity.HasComponent<PlayerWinBattleComponent>())
                     playerInBattleEntity.RemoveComponent<PlayerWinBattleComponent>();
             }
+
+            var playerComponent = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirst<PlayerComponent>();
+            
+            if (playerComponent.playerOrAI != PlayerOrAI.Player)
+                BotAIAction.ContinuePlayingCards?.Invoke();
         }
 
         public void Destroy()

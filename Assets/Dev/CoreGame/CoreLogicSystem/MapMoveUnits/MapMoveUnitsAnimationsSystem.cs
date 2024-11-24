@@ -167,7 +167,6 @@ namespace CyberNet.Core.MapMoveUnit
                     Time = timeMove,
                     Action = () => {
                         unitEntity.RemoveComponent<MoveUnitToTargetComponent>();
-                        unitEntity.AddComponent(new FinishMoveUnitToTargetComponent());
                         CheckFinishMoveUnit();
                     }
                 });
@@ -210,6 +209,7 @@ namespace CyberNet.Core.MapMoveUnit
         private void EndMoveWithoutBattle()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
+            BattleAction.EndMoveWithoutBattle?.Invoke();
             
             CustomCursorAction.OnBaseCursor?.Invoke();
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();

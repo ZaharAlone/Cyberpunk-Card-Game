@@ -237,7 +237,7 @@ namespace CyberNet.Core.AI
                 .SelectFirstEntity()
                 .GetComponent<PlayerViewComponent>()
                 .Name;
-            Debug.Log($"player {playerName}: {cardComponent.PlayerID} ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
+            Debug.Log($"player {playerName}: player id: targetPlayerID; card key {cardComponent.Key}; ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
             
             #endif
         }

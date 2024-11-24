@@ -24,19 +24,19 @@ namespace CyberNet.Core.Battle
             var playerInBattleEntity = _dataWorld.Select<PlayerInBattleComponent>()
                 .Where<PlayerInBattleComponent>(player => player.PlayerID == playerID)
                 .SelectFirstEntity();
-            var playerInBattleComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
             
             var enemyPlayerID = _dataWorld.Select<PlayerInBattleComponent>()
                 .Where<PlayerInBattleComponent>(player => player.PlayerID != playerID)
                 .SelectFirst<PlayerInBattleComponent>().PlayerID;
-            
             
             var maxEnemyPower = BattleAction.CalculatePlayerMaxPower.Invoke(enemyPlayerID);
             
             var cardPlayerPotentialTactics = BattleAction.CalculatePlayerCardsPotential?.Invoke(playerID);
             var selectCardAndTactics = SelectCardAndTacticsMaxEfficiency(cardPlayerPotentialTactics, maxEnemyPower);
             var selectTactics = new SelectTacticsAndCardComponent {
-                GUIDCard = selectCardAndTactics.GUID, BattleTacticsKey = selectCardAndTactics.SelectTactics.Key,
+                GUIDCard = selectCardAndTactics.GUID,
+                KeyCard = selectCardAndTactics.Key,
+                BattleTacticsKey = selectCardAndTactics.SelectTactics.Key,
             };
 
             playerInBattleEntity.AddComponent(selectTactics);

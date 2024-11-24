@@ -85,7 +85,7 @@ namespace CyberNet.Core.Battle
             ref var moveUnitComponent = ref playerEntity.GetComponent<MoveUnitComponent>();
             moveUnitComponent.TargetToMoveDistrictGUID = targetDistrictGUID;
             
-            BattleAction.EndMovePlayerToNewDistrict += EndMoveUnit;
+            BattleAction.EndMoveWithoutBattle += EndMoveUnit;
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }
 
@@ -137,13 +137,13 @@ namespace CyberNet.Core.Battle
             foreach (var unitEntity in aiUnitsInDistrictEntities)
                 unitEntity.AddComponent(new SelectUnitMapComponent());
             
-            BattleAction.EndMovePlayerToNewDistrict += EndMoveUnit;
+            BattleAction.EndMoveWithoutBattle += EndMoveUnit;
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }
 
-        private void EndMoveUnit(string _)
+        private void EndMoveUnit()
         {
-            BattleAction.EndMovePlayerToNewDistrict -= EndMoveUnit;
+            BattleAction.EndMoveWithoutBattle -= EndMoveUnit;
             var playerEntity = _dataWorld.Select<SquadMustRetreatComponent>()
                 .SelectFirstEntity();
             playerEntity.RemoveComponent<SquadMustRetreatComponent>();
@@ -151,7 +151,7 @@ namespace CyberNet.Core.Battle
 
         public void Destroy()
         {
-            BattleAction.EndMovePlayerToNewDistrict -= EndMoveUnit;
+            BattleAction.EndMoveWithoutBattle -= EndMoveUnit;
             BattleAction.EndAnimationsKillUnitsInMap -= CheckSquadRetreat;
         }
     }
