@@ -81,6 +81,7 @@ namespace CyberNet.Core.Battle
 
             var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
 
+            var isWaitPlayerSelectTactics = false;
             foreach (var playerInBattleEntity in playerInBattleEntities)
             {
                 var playerComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
@@ -88,9 +89,12 @@ namespace CyberNet.Core.Battle
                 if (playerComponent.PlayerControlEntity == PlayerOrAI.Player)
                 {
                     var playerForCurrentDevice = playerInBattleEntity.HasComponent<PlayerCurrentDeviceControlComponent>();
-                    
+
                     if (playerForCurrentDevice)
+                    {
                         BattleAction.OpenTacticsScreen?.Invoke(playerComponent.PlayerID);
+                        isWaitPlayerSelectTactics = true;
+                    }
                 }
                 else if (playerComponent.PlayerControlEntity == PlayerOrAI.None)
                 {
@@ -102,15 +106,10 @@ namespace CyberNet.Core.Battle
                 }
             }
 
-            var notCurrentPlayerToDevice = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .With<PlayerCurrentDeviceControlComponent>()
-                .Count() == 0;
-            
-            if (notCurrentPlayerToDevice)
+            if (!isWaitPlayerSelectTactics)
+            {
                 BattleAction.StartBattleInMap?.Invoke();
-
-            //TODO Ждать пока все определяться с выбором тактики
+            }
         }
         
         private void CreateBattleData(int enemyID)
@@ -197,7 +196,7 @@ namespace CyberNet.Core.Battle
 
         private void FinishBattle()
         {
-            Debug.LogError("Finish battle");
+            Debug.Log("Finish battle");
             _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
 
             var playersInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();

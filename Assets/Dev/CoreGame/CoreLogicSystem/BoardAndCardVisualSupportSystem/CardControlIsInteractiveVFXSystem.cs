@@ -127,12 +127,14 @@ namespace CyberNet.Core.UI
 
             foreach (var entity in entitiesCardInHand)
             {
-                ref var cardComponent = ref entity.GetComponent<CardComponent>();
+                var cardComponent = entity.GetComponent<CardComponent>();
                 var cardMono = cardComponent.CardMono;
                 var countAbilitiesAvailable = AbilityCardUtilsAction.CalculateHowManyAbilitiesAvailableForSelection.Invoke(cardComponent);
                 
                 if (countAbilitiesAvailable > 0 && isInstallFirstBase)
                 {
+                    if (entity.HasComponent<CardCanUseComponent>())
+                        continue;
                     cardMono.CardFaceMono.VFXCardReadyToInteractive();
                     entity.AddComponent(new CardCanUseComponent());
                 }

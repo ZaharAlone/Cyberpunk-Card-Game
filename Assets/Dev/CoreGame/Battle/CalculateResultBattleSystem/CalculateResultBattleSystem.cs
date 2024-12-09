@@ -58,6 +58,7 @@ namespace CyberNet.Core.Battle.CutsceneArena
 
             Debug.Log($"Кол-во выживших: атакующие {attackingCountLifeUnits} защищающиеся {defendingCountLifeUnits}");
             
+            //TODO не то чтобы правильно обрабатываем ситуацую когда все погибли
             //Определяем победителя если с одной стороны все погибли
             if (attackingCountLifeUnits > 0 && defendingCountLifeUnits <= 0)
             {
@@ -65,7 +66,7 @@ namespace CyberNet.Core.Battle.CutsceneArena
                 Debug.Log("Победил атакующий, т.к. убил всех защищающихся");
                 return;
             }
-            else if (attackingCountLifeUnits <= 0 && defendingCountLifeUnits > 0)
+            if (attackingCountLifeUnits <= 0 && defendingCountLifeUnits > 0)
             {
                 Debug.Log("Победил защищающийся, т.к. убил всех атакующих");
                 SetWinLosePlayer(defendingPlayerEntity, attackingPlayerEntity);
@@ -78,13 +79,15 @@ namespace CyberNet.Core.Battle.CutsceneArena
                 SetWinLosePlayer(attackingPlayerEntity, defendingPlayerEntity);
                 Debug.Log("Победил атакующий, по паверу");
 
-                SetSquadRetreat(defendingPlayerEntity);
+                if (defendingCountLifeUnits > 0)
+                    SetSquadRetreat(defendingPlayerEntity);
             }
             else
             {
                 SetWinLosePlayer(defendingPlayerEntity, attackingPlayerEntity);
                 Debug.Log("Победил защищающийся, по паверу");
-                SetSquadRetreat(attackingPlayerEntity);
+                if (attackingCountLifeUnits > 0)
+                    SetSquadRetreat(attackingPlayerEntity);
             }
         }
 

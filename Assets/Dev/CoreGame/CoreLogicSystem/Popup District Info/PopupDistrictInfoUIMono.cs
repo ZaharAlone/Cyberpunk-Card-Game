@@ -2,7 +2,6 @@ using I2.Loc;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CyberNet.Core.UI.PopupDistrictInfo

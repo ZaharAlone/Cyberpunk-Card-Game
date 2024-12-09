@@ -44,7 +44,13 @@ namespace CyberNet.Core.UI.TaskPlayerPopup
         {
             var boardGameUI = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono;
             boardGameUI.TaskPlayerPopupUIMono.CloseWindow();
-            boardGameUI.TraderowMono.TradeRowToMiniPanelAnimations();
+
+            var isCardForBuy = _dataWorld.Select<CardFreeToBuyComponent>().Count() > 0;
+            
+            if (isCardForBuy)
+                boardGameUI.TraderowMono.ShowFullTradeRowPanelAnimations();
+            else
+                boardGameUI.TraderowMono.TradeRowToMiniPanelAnimations();
         }
 
         public void Destroy()

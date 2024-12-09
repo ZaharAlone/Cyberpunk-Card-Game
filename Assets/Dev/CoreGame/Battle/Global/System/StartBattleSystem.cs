@@ -61,7 +61,7 @@ namespace CyberNet.Core.Battle
         
         private void StartBattleInMap()
         {
-            Debug.LogError("Start battle in map");
+            Debug.Log("Start battle in map");
             BattleAction.CalculateResultBattle?.Invoke();
             BattleAction.KillUnitInMapView?.Invoke();
 

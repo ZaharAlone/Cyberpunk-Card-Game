@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AI;
 using CyberNet.Core.Battle;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
@@ -41,6 +42,7 @@ namespace CyberNet.Core.MapMoveUnit
                 .GetComponent<DistrictComponent>();
             
             var targetSlotZone = SelectTargetZoneInTower(targetToMoveDistrictGUID, playerID);
+            Debug.Log($"target slot zone {targetSlotZone}");
             var parentUnitTower = targetDistrictComponent.SquadZonesMono[targetSlotZone].transform;
             var allTargetPositions = new List<Vector3>();
             
@@ -73,11 +75,15 @@ namespace CyberNet.Core.MapMoveUnit
                     && unit.PowerSolidPlayerID != playerID)
                 .Count() > 0;
             
+            var isUnitInTargetTower = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerForAttackGuid)
+                .Count() > 0;
+            
             var targetSlotZone = 0;
             
             if (isEnemyUnitInTargetTower)
                 targetSlotZone = GetEnemySlotInTargetZone(selectTowerForAttackGuid, playerID);
-            else
+            else if (isUnitInTargetTower)
                 targetSlotZone = GetFriendlySlotInTargetZone(selectTowerForAttackGuid, playerID);
             
             return targetSlotZone;
@@ -85,10 +91,11 @@ namespace CyberNet.Core.MapMoveUnit
 
         private int GetFriendlySlotInTargetZone(string districtGUID, int playerID)
         {
+            Debug.Log("Get friendly slot in target zone");
             var districtEntity = _dataWorld.Select<DistrictComponent>()
                 .Where<DistrictComponent>(tower => tower.GUID == districtGUID)
                 .SelectFirstEntity();
-            ref var districtComponent = ref districtEntity.GetComponent<DistrictComponent>();
+             var districtComponent = districtEntity.GetComponent<DistrictComponent>();
             
             var targetSquadZone = 0;
             foreach (var squadZone in districtComponent.SquadZonesMono)
@@ -110,6 +117,7 @@ namespace CyberNet.Core.MapMoveUnit
         
         private int GetEnemySlotInTargetZone(string districtGUID, int playerID)
         {
+            Debug.Log("Get enemy slot in target zone");
             var districtEntity = _dataWorld.Select<DistrictComponent>()
                 .Where<DistrictComponent>(district => district.GUID == districtGUID)
                 .SelectFirstEntity();
@@ -152,6 +160,7 @@ namespace CyberNet.Core.MapMoveUnit
         
         private void AnimationMoveToTarget()
         {
+            Debug.Log("animation move to target");
             var moveUnitToTargetEntities = _dataWorld.Select<MoveUnitToTargetComponent>().GetEntities();
 
             foreach (var unitEntity in moveUnitToTargetEntities)
@@ -183,12 +192,16 @@ namespace CyberNet.Core.MapMoveUnit
             
             if (allUnitFinishMove)
             {
-                if (CheckIsEnemyInTargetMoveZone())
+                var isEnemyTargetZone = CheckIsEnemyInTargetMoveZone();
+                if (isEnemyTargetZone)
                     BattleAction.EndMovePlayerToNewDistrict?.Invoke(moveUnitComponent.TargetToMoveDistrictGUID);
                 else
                     EndMoveWithoutBattle();
                 
+                Debug.Log($"End move unit, enemy in target zone {isEnemyTargetZone}");
                 moveUnitEntity.RemoveComponent<MoveUnitComponent>();
+                if (moveUnitEntity.HasComponent<MoveUnitSelectTowerComponent>())
+                    moveUnitEntity.RemoveComponent<MoveUnitSelectTowerComponent>();
             }
         }
 
@@ -215,6 +228,14 @@ namespace CyberNet.Core.MapMoveUnit
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
+
+            var currentPlayerType = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirst<PlayerComponent>()
+                .playerOrAI;
+            
+            if (currentPlayerType != PlayerOrAI.Player)
+                BotAIAction.ContinuePlayingCards?.Invoke();
         }
 
         public void Destroy()

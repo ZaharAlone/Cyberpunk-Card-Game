@@ -34,9 +34,17 @@ namespace CyberNet.Core.Map.InteractiveElement
             
             if (countSelectUnit == 0)
                 return;
+
+            var countMoveUnit = _dataWorld.Select<MoveUnitComponent>()
+                .Count();
+            if (countMoveUnit == 0)
+            {
+                Debug.LogError("Нет юнитов для перемещения, что то пошло не так");
+                return;
+            }
             
-            var entityMoveCard = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
-            ref var moveUnitComponent = ref entityMoveCard.GetComponent<MoveUnitComponent>();
+            var entityMoveUnit = _dataWorld.Select<MoveUnitComponent>().SelectFirstEntity();
+            ref var moveUnitComponent = ref entityMoveUnit.GetComponent<MoveUnitComponent>();
                 
             var inputData = _dataWorld.OneData<InputData>();
             var camera = _dataWorld.OneData<GameCameraData>();

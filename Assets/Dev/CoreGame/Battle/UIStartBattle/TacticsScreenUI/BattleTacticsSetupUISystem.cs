@@ -5,6 +5,7 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
+using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Global;
 
 namespace CyberNet.Core.Battle.TacticsMode
@@ -41,6 +42,7 @@ namespace CyberNet.Core.Battle.TacticsMode
 
             var uiTactics = _dataWorld.OneData<CoreGameUIData>().BoardGameUIMono.BattleTacticsModeUIMono;
             uiTactics.ShowTacticsUI();
+            PopupDistrictInfoAction.ClosePopup?.Invoke();
         }
 
         private void CloseTacticsScreen()
