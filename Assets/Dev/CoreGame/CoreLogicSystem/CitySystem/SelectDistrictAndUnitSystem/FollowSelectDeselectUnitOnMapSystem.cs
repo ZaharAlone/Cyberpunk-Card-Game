@@ -23,7 +23,7 @@ namespace CyberNet.Core.Map.InteractiveElement
         private void StartFollowSelectUnit(TargetDistrictAndPlayerIDDTO targetDistrictConfig)
         {
             CityAction.ShowWherePlayerCanMoveFrom?.Invoke(targetDistrictConfig.GUIDDistrict);
-            CityAction.ActivationsColliderUnitsInTower?.Invoke(targetDistrictConfig.GUIDDistrict, targetDistrictConfig.TargetPlayerID);
+            CityAction.ActivationsColliderUnitsInDistrict?.Invoke(targetDistrictConfig.GUIDDistrict, targetDistrictConfig.TargetPlayerID);
             CityAction.SelectUnit += ClickOnUnit;
 
             _dataWorld.NewEntity().AddComponent(new FollowClickUnitComponent());
@@ -59,6 +59,8 @@ namespace CyberNet.Core.Map.InteractiveElement
 
             foreach (var followUnitEntity in followUnitEntities)
                 followUnitEntity.Destroy();
+            
+            CityAction.SelectUnit -= ClickOnUnit;
         }
         
         public void Destroy()

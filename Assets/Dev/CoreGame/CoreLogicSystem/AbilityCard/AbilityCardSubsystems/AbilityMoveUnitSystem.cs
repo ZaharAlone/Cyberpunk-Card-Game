@@ -82,9 +82,11 @@ namespace CyberNet.Core.AbilityCard
                 .PlayerID;
             
             AbilityPopupUISystemAction.OpenPopupAbilityTargetInfo?.Invoke(AbilityType.UnitMove, 1, false);
+            
             var followDistrictConfig = new TargetDistrictAndPlayerIDDTO {
                 GUIDDistrict = canMoveUnitComponent.TargetToMoveDistrictGUID, TargetPlayerID = currentPlayerID
             };
+            
             FollowSelectInteractiveMapAction.StartFollowSelectUnit?.Invoke(followDistrictConfig);
             FollowSelectInteractiveMapAction.UpdateSelectUnit += CheckUpdateReadinessUnitsForShipment;
             

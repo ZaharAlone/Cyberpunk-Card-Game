@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using System.Collections.Generic;
 using CyberNet.Core.Player;
+using UnityEngine;
 
 namespace CyberNet.Core.Map
 {

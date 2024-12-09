@@ -20,8 +20,7 @@ namespace CyberNet.Core.Map
         public void PreInit()
         {
             CityAction.InitUnit += InitUnit;
-            CityAction.AttackSolidPoint += AttackSolidPoint;
-            CityAction.ActivationsColliderUnitsInTower += ActivationsColliderUnitsInTower;
+            CityAction.ActivationsColliderUnitsInDistrict += ActivationsColliderUnitsInDistrict;
             CityAction.DeactivationsColliderAllUnits += DeactivationsColliderAllUnits;
         }
 
@@ -70,44 +69,33 @@ namespace CyberNet.Core.Map
                 SoundAction.PlaySound?.Invoke(_dataWorld.OneData<SoundData>().Sound.AddUnitInMap);
         }
 
-        private void AttackSolidPoint(string guid, int indexPoint)
+        private void ActivationsColliderUnitsInDistrict(string guidDistrict, int playerID)
         {
-            var squadEntity = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(squad => squad.GUIDDistrict == guid && squad.IndexPoint == indexPoint)
+            var targetDistrict = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(district => district.GUID == guidDistrict)
                 .SelectFirstEntity();
+            var districtComponent = targetDistrict.GetComponent<DistrictComponent>();
+         
+            var selectDistrictForActivateUnits = new List<string>();
             
-            ref var squadComponent = ref squadEntity.GetComponent<UnitMapComponent>();
-            Object.Destroy(squadComponent.UnitIconsGO);
-            squadEntity.Destroy();
-        }
-
-        private void ActivationsColliderUnitsInTower(string guidTower, int playerID)
-        {
-            var selectTowersForActivateUnits = new List<string>();
-            
-            var targetTower = _dataWorld.Select<DistrictComponent>()
-                .Where<DistrictComponent>(tower => tower.GUID == guidTower)
-                .SelectFirstEntity();
-            var towerComponent = targetTower.GetComponent<DistrictComponent>();
-            
-            foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
+            foreach (var districtConnect in districtComponent.DistrictMono.ZoneConnect)
             {
                 var towerConnectEntity = _dataWorld.Select<DistrictComponent>()
-                    .Where<DistrictComponent>(tower => tower.GUID == towerConnect.GUID)
+                    .Where<DistrictComponent>(tower => tower.GUID == districtConnect.GUID)
                     .SelectFirstEntity();
 
-                var towerConnectComponent = towerConnectEntity.GetComponent<DistrictComponent>();
-                if (towerConnectComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
-                    && towerConnectComponent.DistrictBelongPlayerID == playerID)
-                {
-                    selectTowersForActivateUnits.Add(towerConnectComponent.GUID);
-                }
+                var districtConnectComponent = towerConnectEntity.GetComponent<DistrictComponent>();
+                var isDistrictPlayerControl = districtConnectComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl;
+                var districtBelongTargetPlayer = districtConnectComponent.DistrictBelongPlayerID == playerID;
+                
+                if (isDistrictPlayerControl && districtBelongTargetPlayer)
+                    selectDistrictForActivateUnits.Add(districtConnectComponent.GUID);
             }
 
-            foreach (var selectTowerGUID in selectTowersForActivateUnits)
+            foreach (var selectDistrictGUID in selectDistrictForActivateUnits)
             {
                 var squadEntities = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerGUID && unit.PowerSolidPlayerID == playerID)
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectDistrictGUID && unit.PowerSolidPlayerID == playerID)
                     .GetEntities();
 
                 foreach (var squadEntity in squadEntities)
@@ -132,8 +120,7 @@ namespace CyberNet.Core.Map
         public void Destroy()
         {
             CityAction.InitUnit -= InitUnit;
-            CityAction.AttackSolidPoint -= AttackSolidPoint;
-            CityAction.ActivationsColliderUnitsInTower -= ActivationsColliderUnitsInTower;
+            CityAction.ActivationsColliderUnitsInDistrict -= ActivationsColliderUnitsInDistrict;
             CityAction.DeactivationsColliderAllUnits -= DeactivationsColliderAllUnits;
 
             var unitEntities = _dataWorld.Select<UnitMapComponent>().GetEntities();

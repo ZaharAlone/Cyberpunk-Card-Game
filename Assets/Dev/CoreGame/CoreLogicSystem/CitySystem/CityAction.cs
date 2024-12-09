@@ -15,23 +15,20 @@ namespace CyberNet.Core.Map
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
         public static Action<string, int> ShowWhereThePlayerCanRetreat;
-        public static Action ViewAllAvailableTower;
         public static Action DeactivateAllTower;
         
         public static Action<int> ShowWhereZoneToPlayerID;
         public static Action<List<int>> ShowManyZonePlayerInMap;
 
         public static Action UpdatePresencePlayerInCity;
-        public static Action EnableNewPresencePlayerInCity;
         public static Action UpdateCanInteractiveMap;
 
         public static Action<InitUnitStruct> InitUnit;
-        public static Action<string, int> AttackSolidPoint;
         public static Action<string> SelectDistrict;
         public static Action<string> SelectUnit;
         
         // string = towerGUID, int = playerID
-        public static Action<string, int> ActivationsColliderUnitsInTower;
+        public static Action<string, int> ActivationsColliderUnitsInDistrict;
         public static Action DeactivationsColliderAllUnits;
 
         public static Action UpdateDistrictTradeBonus;
