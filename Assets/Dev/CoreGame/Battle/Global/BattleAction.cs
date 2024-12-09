@@ -7,7 +7,10 @@ namespace CyberNet.Core.Battle
 {
     public static class BattleAction
     {
+        public static Action StartBattleInMap;
+        
         public static Action<string> EndMovePlayerToNewDistrict;
+        public static Action EndMoveWithoutBattle;
         public static Action FinishBattle;
         
         public static Action<int> OpenTacticsScreen;

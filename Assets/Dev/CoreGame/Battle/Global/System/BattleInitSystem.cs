@@ -4,6 +4,7 @@ using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
+using CyberNet.Core.AI;
 using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
@@ -37,8 +38,10 @@ namespace CyberNet.Core.Battle
             var listUniquePlayers = CalculateCountUniquePlayersInTargetDistrict(targetDistrictGUID);
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             listUniquePlayers.Remove(currentPlayerID);
-
+            
             _targetDistrictGUID = targetDistrictGUID;
+
+            _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Arena;
             
             if (listUniquePlayers.Count > 1)
                 SelectEnemyToBattle(listUniquePlayers);
@@ -78,6 +81,7 @@ namespace CyberNet.Core.Battle
 
             var playerInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
 
+            var isWaitPlayerSelectTactics = false;
             foreach (var playerInBattleEntity in playerInBattleEntities)
             {
                 var playerComponent = playerInBattleEntity.GetComponent<PlayerInBattleComponent>();
@@ -85,9 +89,12 @@ namespace CyberNet.Core.Battle
                 if (playerComponent.PlayerControlEntity == PlayerOrAI.Player)
                 {
                     var playerForCurrentDevice = playerInBattleEntity.HasComponent<PlayerCurrentDeviceControlComponent>();
-                    
+
                     if (playerForCurrentDevice)
+                    {
                         BattleAction.OpenTacticsScreen?.Invoke(playerComponent.PlayerID);
+                        isWaitPlayerSelectTactics = true;
+                    }
                 }
                 else if (playerComponent.PlayerControlEntity == PlayerOrAI.None)
                 {
@@ -98,8 +105,11 @@ namespace CyberNet.Core.Battle
                     BattleAction.SelectTacticsAI?.Invoke(playerComponent.PlayerID);
                 }
             }
-            
-            //TODO Ждать пока все определяться с выбором тактики
+
+            if (!isWaitPlayerSelectTactics)
+            {
+                BattleAction.StartBattleInMap?.Invoke();
+            }
         }
         
         private void CreateBattleData(int enemyID)
@@ -186,7 +196,28 @@ namespace CyberNet.Core.Battle
 
         private void FinishBattle()
         {
+            Debug.Log("Finish battle");
+            _dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena = GameStateMapVSArena.Map;
+
+            var playersInBattleEntities = _dataWorld.Select<PlayerInBattleComponent>().GetEntities();
+            foreach (var playerInBattleEntity in playersInBattleEntities)
+            {
+                playerInBattleEntity.RemoveComponent<PlayerInBattleComponent>();
+                playerInBattleEntity.RemoveComponent<SelectTacticsAndCardComponent>();
+
+                if (playerInBattleEntity.HasComponent<PlayerLoseBattleComponent>())
+                    playerInBattleEntity.RemoveComponent<PlayerLoseBattleComponent>();
+
+                if (playerInBattleEntity.HasComponent<PlayerWinBattleComponent>())
+                    playerInBattleEntity.RemoveComponent<PlayerWinBattleComponent>();
+            }
+
+            var playerComponent = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirst<PlayerComponent>();
             
+            if (playerComponent.playerOrAI != PlayerOrAI.Player)
+                BotAIAction.ContinuePlayingCards?.Invoke();
         }
 
         public void Destroy()

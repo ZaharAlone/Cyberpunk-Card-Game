@@ -1,6 +1,6 @@
 using System;
 
-namespace CyberNet.Core.Map
+namespace CyberNet.Core.MapMoveUnit
 {
     public static class MapMoveUnitsAction
     {

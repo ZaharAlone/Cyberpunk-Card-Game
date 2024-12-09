@@ -5,17 +5,19 @@ using ModulesFramework.Systems;
 using UnityEngine;
 using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
+using CyberNet.Core.AI;
 using CyberNet.Core.Battle;
+using CyberNet.Core.Map;
 using CyberNet.Core.Player;
 using CyberNet.Core.UI;
 using CyberNet.Global;
 using CyberNet.Global.Cursor;
 using DG.Tweening;
 
-namespace CyberNet.Core.Map
+namespace CyberNet.Core.MapMoveUnit
 {
     [EcsSystem(typeof(CoreModule))]
-    public class MapMoveUnitsSystem : IPreInitSystem, IInitSystem, IDestroySystem
+    public class MapMoveUnitsAnimationsSystem : IPreInitSystem, IDestroySystem
     {
         private DataWorld _dataWorld;
         
@@ -24,28 +26,24 @@ namespace CyberNet.Core.Map
             MapMoveUnitsAction.StartMoveUnits += StartMoveUnit;
         }
         
-        public void Init()
-        {
-            _dataWorld.CreateOneData<MoveUnitZoneData>();
-        }
-        
         private void StartMoveUnit()
         {
-            var selectDistrictForAttackGuid = _dataWorld.Select<AbilityCardMoveUnitComponent>()
-                .SelectFirstEntity()
-                .GetComponent<AbilityCardMoveUnitComponent>()
-                .SelectDistrictGUID;
-
-            var selectUnitEntities = _dataWorld.Select<SelectUnitMapComponent>().GetEntities();
-            var targetTowerComponent = _dataWorld.Select<DistrictComponent>()
-                .Where<DistrictComponent>(tower => tower.GUID == selectDistrictForAttackGuid)
+            var moveUnitComponent = _dataWorld.Select<MoveUnitComponent>()
+                .SelectFirst<MoveUnitComponent>();
+            var targetToMoveDistrictGUID = moveUnitComponent.TargetToMoveDistrictGUID;
+            var playerID = moveUnitComponent.PlayerID;
+            
+            var selectUnitQuery = _dataWorld.Select<SelectUnitMapComponent>();
+            var selectUnitEntities = selectUnitQuery.GetEntities();
+            
+            var targetDistrictComponent = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(district => district.GUID == targetToMoveDistrictGUID)
                 .SelectFirstEntity()
                 .GetComponent<DistrictComponent>();
             
-            var targetSlotZone = SelectTargetZoneInTower(selectDistrictForAttackGuid);
-
-            var parentUnitTower = targetTowerComponent.SquadZonesMono[targetSlotZone].transform;
-            
+            var targetSlotZone = SelectTargetZoneInTower(targetToMoveDistrictGUID, playerID);
+            Debug.Log($"target slot zone {targetSlotZone}");
+            var parentUnitTower = targetDistrictComponent.SquadZonesMono[targetSlotZone].transform;
             var allTargetPositions = new List<Vector3>();
             
             foreach (var unitEntity in selectUnitEntities)
@@ -53,16 +51,14 @@ namespace CyberNet.Core.Map
                 unitEntity.RemoveComponent<SelectUnitMapComponent>();
                 ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
 
-                var nextTargetPosition = SelectNextPositionsForUnit(allTargetPositions, selectDistrictForAttackGuid, targetSlotZone);
+                var nextTargetPosition = SelectNextPositionsForUnit(allTargetPositions, targetToMoveDistrictGUID, targetSlotZone);
                 unitEntity.AddComponent(new MoveUnitToTargetComponent {
                     TargetPosition = nextTargetPosition,
-                    TargetDistrictGUID = selectDistrictForAttackGuid,
+                    TargetDistrictGUID = targetToMoveDistrictGUID,
                     TargetSlotID = targetSlotZone,
                 });
-
-                _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID = selectDistrictForAttackGuid;
-
-                unitComponent.GUIDDistrict = selectDistrictForAttackGuid;
+                
+                unitComponent.GUIDDistrict = targetToMoveDistrictGUID;
                 unitComponent.IndexPoint = targetSlotZone;
                 
                 unitComponent.IconsUnitInMapMono.OffSelectUnitEffect();
@@ -72,35 +68,34 @@ namespace CyberNet.Core.Map
             AnimationMoveToTarget();
         }
 
-        private int SelectTargetZoneInTower(string selectTowerForAttackGuid)
+        private int SelectTargetZoneInTower(string selectTowerForAttackGuid, int playerID)
         {
-            var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
-            
             var isEnemyUnitInTargetTower = _dataWorld.Select<UnitMapComponent>()
-                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerForAttackGuid && unit.PowerSolidPlayerID != currentPlayerID)
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerForAttackGuid
+                    && unit.PowerSolidPlayerID != playerID)
+                .Count() > 0;
+            
+            var isUnitInTargetTower = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == selectTowerForAttackGuid)
                 .Count() > 0;
             
             var targetSlotZone = 0;
             
             if (isEnemyUnitInTargetTower)
-                targetSlotZone = GetEnemySlotInTargetZone(selectTowerForAttackGuid);
-            else
-                targetSlotZone = GetFriendlySlotInTargetZone(selectTowerForAttackGuid);
+                targetSlotZone = GetEnemySlotInTargetZone(selectTowerForAttackGuid, playerID);
+            else if (isUnitInTargetTower)
+                targetSlotZone = GetFriendlySlotInTargetZone(selectTowerForAttackGuid, playerID);
             
             return targetSlotZone;
         }
 
-        private int GetFriendlySlotInTargetZone(string districtGUID)
+        private int GetFriendlySlotInTargetZone(string districtGUID, int playerID)
         {
-            var currentPlayerID = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity()
-                .GetComponent<PlayerComponent>().PlayerID;
-            
+            Debug.Log("Get friendly slot in target zone");
             var districtEntity = _dataWorld.Select<DistrictComponent>()
                 .Where<DistrictComponent>(tower => tower.GUID == districtGUID)
                 .SelectFirstEntity();
-            ref var districtComponent = ref districtEntity.GetComponent<DistrictComponent>();
+             var districtComponent = districtEntity.GetComponent<DistrictComponent>();
             
             var targetSquadZone = 0;
             foreach (var squadZone in districtComponent.SquadZonesMono)
@@ -108,7 +103,7 @@ namespace CyberNet.Core.Map
                 var isFriendlySlot = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDDistrict == districtGUID
                         && unit.IndexPoint == squadZone.Index
-                        && unit.PowerSolidPlayerID == currentPlayerID)
+                        && unit.PowerSolidPlayerID == playerID)
                     .Count() > 0;
 
                 if (isFriendlySlot)
@@ -120,13 +115,9 @@ namespace CyberNet.Core.Map
             return targetSquadZone;
         }
         
-        private int GetEnemySlotInTargetZone(string districtGUID)
+        private int GetEnemySlotInTargetZone(string districtGUID, int playerID)
         {
-            var currentPlayerID = _dataWorld.Select<PlayerComponent>()
-                .With<CurrentPlayerComponent>()
-                .SelectFirstEntity()
-                .GetComponent<PlayerComponent>().PlayerID;
-            
+            Debug.Log("Get enemy slot in target zone");
             var districtEntity = _dataWorld.Select<DistrictComponent>()
                 .Where<DistrictComponent>(district => district.GUID == districtGUID)
                 .SelectFirstEntity();
@@ -138,7 +129,7 @@ namespace CyberNet.Core.Map
                 var isCloseSlot = _dataWorld.Select<UnitMapComponent>()
                     .Where<UnitMapComponent>(unit => unit.GUIDDistrict == districtGUID
                         && unit.IndexPoint == squadZone.Index
-                        && unit.PowerSolidPlayerID != currentPlayerID)
+                        && unit.PowerSolidPlayerID != playerID)
                     .Count() > 0;
 
                 if (isCloseSlot)
@@ -169,6 +160,7 @@ namespace CyberNet.Core.Map
         
         private void AnimationMoveToTarget()
         {
+            Debug.Log("animation move to target");
             var moveUnitToTargetEntities = _dataWorld.Select<MoveUnitToTargetComponent>().GetEntities();
 
             foreach (var unitEntity in moveUnitToTargetEntities)
@@ -179,69 +171,76 @@ namespace CyberNet.Core.Map
                 var timeMove = 1;
                 var sequence = DOTween.Sequence();
                 sequence.Append(unitComponent.UnitIconsGO.transform.DOMove(unitMoveComponent.TargetPosition, timeMove));
-
-                var targetDistrictGUID = unitMoveComponent.TargetDistrictGUID;
                 
                 _dataWorld.NewEntity().AddComponent(new TimeComponent {
                     Time = timeMove,
                     Action = () => {
                         unitEntity.RemoveComponent<MoveUnitToTargetComponent>();
-                        CheckFinishMoveUnit(targetDistrictGUID);
+                        CheckFinishMoveUnit();
                     }
                 });
             }
         }
         
-        private void CheckFinishMoveUnit(string targetDistrictGUID)
+        private void CheckFinishMoveUnit()
         {
-            var isMoveUnit = _dataWorld.Select<MoveUnitToTargetComponent>().Count() > 0;
+            var moveUnitEntity = _dataWorld.Select<MoveUnitComponent>()
+                .SelectFirstEntity();
+            var moveUnitComponent = moveUnitEntity.GetComponent<MoveUnitComponent>();
             
-            if (!isMoveUnit)
+            var allUnitFinishMove = _dataWorld.Select<MoveUnitToTargetComponent>().Count() == 0;
+            
+            if (allUnitFinishMove)
             {
-                if (CheckIsEnemyInTargetMoveZone())
-                    BattleAction.EndMovePlayerToNewDistrict?.Invoke(targetDistrictGUID);
+                var isEnemyTargetZone = CheckIsEnemyInTargetMoveZone();
+                if (isEnemyTargetZone)
+                    BattleAction.EndMovePlayerToNewDistrict?.Invoke(moveUnitComponent.TargetToMoveDistrictGUID);
                 else
                     EndMoveWithoutBattle();
+                
+                Debug.Log($"End move unit, enemy in target zone {isEnemyTargetZone}");
+                moveUnitEntity.RemoveComponent<MoveUnitComponent>();
+                if (moveUnitEntity.HasComponent<MoveUnitSelectTowerComponent>())
+                    moveUnitEntity.RemoveComponent<MoveUnitSelectTowerComponent>();
             }
         }
 
         private bool CheckIsEnemyInTargetMoveZone()
         {
-            var isEnemy = false;
+            var moveUnitComponent = _dataWorld.Select<MoveUnitComponent>()
+                .SelectFirst<MoveUnitComponent>();
 
-            var lastTargetTowerGUID = _dataWorld.OneData<MoveUnitZoneData>().LastTargetTowerGUID;
-            if (lastTargetTowerGUID != "")
-            {
-                var currentPlayerID = _dataWorld.Select<PlayerComponent>()
-                    .With<CurrentPlayerComponent>()
-                    .SelectFirst<PlayerComponent>().PlayerID;
-                
-                var isEnemyUnit = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == lastTargetTowerGUID
-                    && unit.PowerSolidPlayerID != currentPlayerID)
-                    .Count();
+            var countEnemyUnit = _dataWorld.Select<UnitMapComponent>()
+                .Where<UnitMapComponent>(unit => unit.GUIDDistrict == moveUnitComponent.TargetToMoveDistrictGUID
+                    && unit.PowerSolidPlayerID != moveUnitComponent.PlayerID)
+                .Count();
 
-                isEnemy = isEnemyUnit > 0;
-            }
-
+            var isEnemy = countEnemyUnit > 0;
             return isEnemy;
         }
 
         private void EndMoveWithoutBattle()
         {
             _dataWorld.OneData<RoundData>().PauseInteractive = false;
+            BattleAction.EndMoveWithoutBattle?.Invoke();
             
             CustomCursorAction.OnBaseCursor?.Invoke();
             VFXCardInteractiveAction.UpdateVFXCard?.Invoke();
             CityAction.UpdateCanInteractiveMap?.Invoke();
             CityAction.UpdatePresencePlayerInCity?.Invoke();
+
+            var currentPlayerType = _dataWorld.Select<PlayerComponent>()
+                .With<CurrentPlayerComponent>()
+                .SelectFirst<PlayerComponent>()
+                .playerOrAI;
+            
+            if (currentPlayerType != PlayerOrAI.Player)
+                BotAIAction.ContinuePlayingCards?.Invoke();
         }
 
         public void Destroy()
         {
             MapMoveUnitsAction.StartMoveUnits -= StartMoveUnit;
-            
-            _dataWorld.RemoveOneData<MoveUnitZoneData>();
         }
     }
 }

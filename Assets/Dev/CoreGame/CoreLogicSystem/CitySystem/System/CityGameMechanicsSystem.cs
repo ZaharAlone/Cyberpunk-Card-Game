@@ -17,6 +17,7 @@ namespace CyberNet.Core.Map
             CityAction.UpdateCanInteractiveMap += UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove += ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom += ShowWherePlayerCanMoveFrom;
+            CityAction.ShowWhereThePlayerCanRetreat += ShowWhereThePlayerCanRetreat;
             CityAction.ShowWhereZoneToPlayerID += ShowWhereZoneNeutralUnit;
             CityAction.ShowManyZonePlayerInMap += ShowManyZonePlayerInMap;
 
@@ -118,6 +119,36 @@ namespace CyberNet.Core.Map
                 }
             }
         }
+        
+        /// <summary>
+        /// Активирует зоны в которые игрок может отступить
+        /// Т.е. задаем стартовый район, и активируем соседние где есть присутствие
+        /// </summary>
+        private void ShowWhereThePlayerCanRetreat(string GUIDTower, int playerID)
+        {
+            DeactivateAllTower();
+            
+            var towerEntity = _dataWorld.Select<DistrictComponent>()
+                .Where<DistrictComponent>(tower => tower.GUID == GUIDTower)
+                .SelectFirstEntity();
+
+            var towerComponent = towerEntity.GetComponent<DistrictComponent>();
+            
+            foreach (var towerConnect in towerComponent.DistrictMono.ZoneConnect)
+            {
+                var towerConnectEntity = _dataWorld.Select<DistrictComponent>()
+                    .Where<DistrictComponent>(tower => tower.GUID == towerConnect.GUID)
+                    .SelectFirstEntity();
+
+                var towerConnectComponent = towerConnectEntity.GetComponent<DistrictComponent>();
+                if (towerConnectComponent.PlayerControlEntity == PlayerControlEntity.PlayerControl
+                    && towerConnectComponent.DistrictBelongPlayerID == playerID)
+                {
+                    towerConnectComponent.DistrictMono.OpenInteractiveZoneVisualEffect();
+                    towerConnectComponent.DistrictMono.OnInteractiveTower();
+                }
+            }
+        }
 
         private void DeactivateAllTower()
         {
@@ -188,6 +219,7 @@ namespace CyberNet.Core.Map
             CityAction.UpdateCanInteractiveMap -= UpdateCanInteractiveMap;
             CityAction.ShowWherePlayerCanMove -= ShowWherePlayerCanMove;
             CityAction.ShowWherePlayerCanMoveFrom -= ShowWherePlayerCanMoveFrom;
+            CityAction.ShowWhereThePlayerCanRetreat -= ShowWhereThePlayerCanRetreat;
             CityAction.ShowWhereZoneToPlayerID -= ShowWhereZoneNeutralUnit;
             CityAction.ShowManyZonePlayerInMap -= ShowManyZonePlayerInMap;
             

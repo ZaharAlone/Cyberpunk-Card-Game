@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Player;
 using CyberNet.Core.SelectFirstBase;
-using CyberNet.Core.UI.PopupDistrictInfo;
 using CyberNet.Global;
 using CyberNet.Global.GameCamera;
 using EcsCore;
@@ -11,9 +8,8 @@ using ModulesFramework.Attributes;
 using ModulesFramework.Data;
 using ModulesFramework.Systems;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace CyberNet.Core.Map
+namespace CyberNet.Core.Map.InteractiveElement
 {
     [EcsSystem(typeof(CoreModule))]
     public class CityPlayerControlSystem : IRunSystem
@@ -23,15 +19,20 @@ namespace CyberNet.Core.Map
         public void Run()
         {
             if (_dataWorld.OneData<InputData>().Click)
-                CheckClick();
-            
-            if (_dataWorld.OneData<RoundData>().CurrentGameStateMapVSArena == GameStateMapVSArena.Map)
-                ReadMouseInput();    
+            {
+                var isFollowSelectDistrict = _dataWorld.Select<FollowClickDistrictComponent>().Count() > 0;
+                var isFollowSelectUnits = _dataWorld.Select<FollowClickUnitComponent>().Count() > 0;
+                
+                if (isFollowSelectDistrict)
+                    CheckClickDistrict();
+                if (isFollowSelectUnits)
+                    CheckClickUnit();
+            }
         }
         
-        public void CheckClick()
+        private void CheckClickDistrict()
         {
-            RoundData roundData = _dataWorld.OneData<RoundData>();
+            var roundData = _dataWorld.OneData<RoundData>();
             if (roundData.playerOrAI != PlayerOrAI.Player)
                 return;
 
@@ -45,44 +46,41 @@ namespace CyberNet.Core.Map
                 if (towerMono)
                 {
                     if (towerMono.IsInteractiveTower)
-                    {
                         ClickTower(towerMono);
-                        return;   
-                    }
-                }
-
-                var unitPoint = hit.collider.gameObject.GetComponent<IconsContainerUnitInMapMono>();
-                if (unitPoint)
-                {
-                    ClickSolidPoint(unitPoint, roundData.CurrentPlayerID);
                 }
             }
         }
-
+        
         private void ClickTower(DistrictMono DistrictMono)
         {
             var playerEntity = _dataWorld.Select<PlayerComponent>()
                 .With<CurrentPlayerComponent>()
                 .SelectFirstEntity();
-
-            var activeAbilityCard = CheckAbilityCard();
             
             if (playerEntity.HasComponent<PlayerNotInstallFirstBaseComponent>())
-            {
                 SelectFirstBaseAction.SelectBase?.Invoke(DistrictMono.GUID);
-            }
-            else if (activeAbilityCard)
-            {
+            else
                 CityAction.SelectDistrict?.Invoke(DistrictMono.GUID);
+        }
+
+        private void CheckClickUnit()
+        {
+            var roundData = _dataWorld.OneData<RoundData>();
+            if (roundData.playerOrAI != PlayerOrAI.Player)
+                return;
+
+            var inputData = _dataWorld.OneData<InputData>();
+            var camera = _dataWorld.OneData<GameCameraData>();
+            var ray = camera.MainCamera.ScreenPointToRay(inputData.MousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
+            {
+                var unitPoint = hit.collider.gameObject.GetComponent<IconsContainerUnitInMapMono>();
+                if (unitPoint)
+                    ClickSolidPoint(unitPoint, roundData.CurrentPlayerID);
             }
         }
-
-        private bool CheckAbilityCard()
-        {
-            var isElementAbilityAction = _dataWorld.Select<AbilitySelectElementComponent>().Count();
-            return isElementAbilityAction > 0;
-        }
-
+        
         private void ClickSolidPoint(IconsContainerUnitInMapMono unitPoint, int currentPlayerID)
         {
             var unitGuid = unitPoint.GetGUID();
@@ -95,41 +93,7 @@ namespace CyberNet.Core.Map
             {
                 ref var unitComponent = ref unitEntity.GetComponent<UnitMapComponent>();
                 if (unitComponent.PowerSolidPlayerID == currentPlayerID)
-                {
                     CityAction.SelectUnit?.Invoke(unitGuid);
-                }
-            }
-        }
-        
-        private void ReadMouseInput()
-        {
-            var inputData = _dataWorld.OneData<InputData>();
-            var camera = _dataWorld.OneData<GameCameraData>();
-            var ray = camera.MainCamera.ScreenPointToRay(inputData.MousePosition);
-
-            var isRaycastDistrict = false;
-            
-            var pointerData = new PointerEventData(EventSystem.current)
-            {
-                position = inputData.MousePosition
-            };
-
-            var results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointerData, results);
-            
-            if (Physics.Raycast(ray, out RaycastHit hit, 1500f))
-            {
-                var towerMono = hit.collider.gameObject.GetComponent<DistrictMono>();
-                if (towerMono && results.Count == 0)
-                {
-                    isRaycastDistrict = true;
-                    PopupDistrictInfoAction.OpenPopup?.Invoke(towerMono.GUID);
-                }
-            }
-            
-            if (!isRaycastDistrict)
-            {
-                PopupDistrictInfoAction.ClosePopup?.Invoke();
             }
         }
     }

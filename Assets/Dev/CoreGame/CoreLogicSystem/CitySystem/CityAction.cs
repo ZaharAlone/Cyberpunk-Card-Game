@@ -14,6 +14,7 @@ namespace CyberNet.Core.Map
         public static Action UpdateTowerControlView;
         public static Action ShowWherePlayerCanMove;
         public static Action<string> ShowWherePlayerCanMoveFrom;
+        public static Action<string, int> ShowWhereThePlayerCanRetreat;
         public static Action ViewAllAvailableTower;
         public static Action DeactivateAllTower;
         

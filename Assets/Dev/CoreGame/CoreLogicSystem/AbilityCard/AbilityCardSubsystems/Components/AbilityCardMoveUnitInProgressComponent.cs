@@ -1,6 +1,6 @@
 namespace CyberNet.Core.AbilityCard
 {
-    public struct AbilityCardMoveUnitSelectTowerComponent
+    public struct AbilityCardMoveUnitInProgressComponent
     {
         
     }

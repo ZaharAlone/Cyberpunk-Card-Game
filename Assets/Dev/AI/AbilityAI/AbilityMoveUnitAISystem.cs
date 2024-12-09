@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using CyberNet.Core.AbilityCard;
 using CyberNet.Core.Map;
 using CyberNet.Core.Player;
+using CyberNet.Core.MapMoveUnit;
+using ModulesFrameworkUnity.EntitiesTags;
 
 namespace CyberNet.Core.AI.Ability
 {
@@ -24,6 +26,7 @@ namespace CyberNet.Core.AI.Ability
 
         private void AbilityMoveUnit(string guidCard)
         {
+            Debug.Log("Ability move card");
             _guidCard = guidCard;
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == guidCard)
@@ -32,7 +35,6 @@ namespace CyberNet.Core.AI.Ability
             MoveUnit();
                         
             entityCard.RemoveComponent<AbilitySelectElementComponent>();
-            entityCard.RemoveComponent<AbilityCardMoveUnitComponent>();
         }
         
         private void MoveUnit()
@@ -40,11 +42,11 @@ namespace CyberNet.Core.AI.Ability
             var potentialAttack = CalculatePotentialMoveUnitAttack();
             if (potentialAttack.Value > 0)
             {
-                AttackTower(potentialAttack);
+                AttackDistrict(potentialAttack.Item);
                 return;
             }
 
-            Debug.LogError("Not Attack enemy");
+            Debug.Log("Not Attack enemy");
             var potentialMoveMyTower = CalculatePotentialMoveUnitOnItsTerritory();
             
             if (potentialMoveMyTower.Value != 0)
@@ -53,7 +55,7 @@ namespace CyberNet.Core.AI.Ability
             }
             else
             {
-                Debug.LogError("Некоректное применение абилки перемещение юнитов, применить абилку не является целесообразным");
+                Debug.Log("Некоректное применение абилки перемещение юнитов, применить абилку не является целесообразным");
             }
         }
 
@@ -220,21 +222,21 @@ namespace CyberNet.Core.AI.Ability
             }
         }
 
-        private void AttackTower(ItemValue targetTower)
+        private void AttackDistrict(string guidTargetDistrict)
         {
             var towerEntity = _dataWorld.Select<DistrictComponent>()
-                .Where<DistrictComponent>(tower => tower.GUID == targetTower.Item)
+                .Where<DistrictComponent>(district => district.GUID == guidTargetDistrict)
                 .SelectFirstEntity();
-            var targetTowerComponent = towerEntity.GetComponent<DistrictComponent>();
+            var targetDistrictComponent = towerEntity.GetComponent<DistrictComponent>();
             var currentPlayerID = _dataWorld.OneData<RoundData>().CurrentPlayerID;
             var needCountUnit = 0;
 
-            if (targetTowerComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
+            if (targetDistrictComponent.PlayerControlEntity == PlayerControlEntity.NeutralUnits)
                 needCountUnit = 2;
             else
             {
                 var countEnemyUnit = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == targetTowerComponent.GUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == targetDistrictComponent.GUID
                         && unit.PowerSolidPlayerID != currentPlayerID)
                     .Count();
 
@@ -255,10 +257,10 @@ namespace CyberNet.Core.AI.Ability
             
             // Выбираем каких сколько юнитов и с каких зон отправим в бой
             // Считает неверно
-            foreach (var towerConnect in targetTowerComponent.DistrictMono.ZoneConnect)
+            foreach (var districtConnect in targetDistrictComponent.DistrictMono.ZoneConnect)
             {
                 var countPlayerUnitInZone = _dataWorld.Select<UnitMapComponent>()
-                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == towerConnect.GUID
+                    .Where<UnitMapComponent>(unit => unit.GUIDDistrict == districtConnect.GUID
                         && unit.PowerSolidPlayerID == currentPlayerID)
                     .Count();
                 
@@ -268,13 +270,13 @@ namespace CyberNet.Core.AI.Ability
                     if (needUnit < 0)
                     {
                         var countUnit = countPlayerUnitInZone - 2 - Mathf.Abs(needUnit);
-                        unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
+                        unitsForAttacks.Add(new ItemValue {Item = districtConnect.GUID, Value = countUnit});
                         sumCountAddUnit += countUnit;
                     }
                     else
                     {
                         var countUnit = countPlayerUnitInZone - 2;
-                        unitsForAttacks.Add(new ItemValue {Item = towerConnect.GUID, Value = countUnit});
+                        unitsForAttacks.Add(new ItemValue {Item = districtConnect.GUID, Value = countUnit});
                         sumCountAddUnit += countUnit;
                     }
                     
@@ -302,7 +304,14 @@ namespace CyberNet.Core.AI.Ability
             var entityCard = _dataWorld.Select<CardComponent>()
                 .Where<CardComponent>(card => card.GUID == _guidCard)
                 .SelectFirstEntity();
-            entityCard.AddComponent(new AbilityCardMoveUnitComponent {IsAimOn = true, SelectDistrictGUID = targetTowerComponent.GUID});
+            entityCard.AddComponent(new MoveUnitComponent
+            {
+                IsAimOn = true,
+                PlayerID = currentPlayerID,
+                TargetToMoveDistrictGUID = targetDistrictComponent.GUID
+            });
+            
+            Debug.Log("Create MoveUnitComponent");
             
             MapMoveUnitsAction.StartMoveUnits?.Invoke();
         }

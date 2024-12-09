@@ -7,6 +7,7 @@ using CyberNet.Core.Battle.TacticsMode;
 using CyberNet.Core.Battle.TacticsMode.InteractiveCard;
 using CyberNet.Core.UI;
 using CyberNet.Global;
+using UnityEngine;
 
 namespace CyberNet.Core.Battle
 {
@@ -18,20 +19,13 @@ namespace CyberNet.Core.Battle
         public void PreInit()
         {
             BattleTacticsUIAction.OnClickStartBattle += StartBattle;
+            BattleAction.StartBattleInMap += StartBattleInMap;
         }
 
         private void StartBattle()
         {
-            var isPlayerIsCurrentDevice = _dataWorld.Select<PlayerInBattleComponent>()
-                .With<PlayerCurrentDeviceControlComponent>()
-                .Count() != 0;
-
             MoveAllSelectCardToDiscard();
-            
-            if (isPlayerIsCurrentDevice)
-                StartBattleCutscene();
-            else
-                StartBattleInMap();
+            StartBattleCutscene();
         }
 
         private void MoveAllSelectCardToDiscard()
@@ -67,7 +61,10 @@ namespace CyberNet.Core.Battle
         
         private void StartBattleInMap()
         {
-            
+            Debug.Log("Start battle in map");
+            BattleAction.CalculateResultBattle?.Invoke();
+            BattleAction.KillUnitInMapView?.Invoke();
+
         }
         
         public void Destroy()

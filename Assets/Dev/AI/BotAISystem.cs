@@ -117,6 +117,9 @@ namespace CyberNet.Core.AI
                 timeEntity.AddComponent(new TimeComponent {
                     Time = timeWaitActionBot, Action = () => EndPlayingCards()
                 });
+                
+                Debug.Log($"end playing card ai, player id {currentPlayerID}");
+
                 return;
             }
             
@@ -130,13 +133,17 @@ namespace CyberNet.Core.AI
 
             // Если абилка - передвижение юнита, значит прерываем цикл разыгрывания карт и ждем окончания битвы.
             if (selectAbilityType == AbilityType.UnitMove)
+            {
                 BotAIAction.ContinuePlayingCards += PlayCard;
+                Debug.Log($"wait ai playing move unit, player id {currentPlayerID}");
+            }
             else
             {
                 var timeEntity = _dataWorld.NewEntity();
                 timeEntity.AddComponent(new TimeComponent {
                     Time = timeWaitPlayingCard, Action = () => PlayCard()
                 });
+                Debug.Log($"wait ai playing next card, player id {currentPlayerID}");
             }
         }
         
@@ -237,7 +244,7 @@ namespace CyberNet.Core.AI
                 .SelectFirstEntity()
                 .GetComponent<PlayerViewComponent>()
                 .Name;
-            Debug.Log($"player {playerName}: {cardComponent.PlayerID} ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
+            Debug.Log($"player {playerName}: player id: targetPlayerID; card key {cardComponent.Key}; ability 1: value {valueAbility_0}, ability {cardComponent.Ability_0.AbilityType}; ability 2: value {valueAbility_1}, ability {cardComponent.Ability_1.AbilityType};");
             
             #endif
         }
